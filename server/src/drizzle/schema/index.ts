@@ -2,10 +2,10 @@ import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm'
 
 const common = {
-  createTime: text()
+  createTime: text('create_time')
     .default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'utc'))`)
     .notNull(),
-  updateTime: text()
+  updateTime: text('update_time')
     .default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'utc'))`)
     .$onUpdate(() => new Date().toISOString())
     .notNull()

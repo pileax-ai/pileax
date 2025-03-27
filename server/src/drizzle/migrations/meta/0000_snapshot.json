@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a8b4d5df-71e5-4304-9dc3-2dc4c588035b",
+  "id": "e50ff128-7a89-4c97-b154-ebdccb945088",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "note": {
@@ -52,16 +52,16 @@
           "autoincrement": false,
           "default": "''"
         },
-        "createTime": {
-          "name": "createTime",
+        "create_time": {
+          "name": "create_time",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": "(strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'utc'))"
         },
-        "updateTime": {
-          "name": "updateTime",
+        "update_time": {
+          "name": "update_time",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
