@@ -7,7 +7,7 @@ class NoteController {
   public save: RequestHandler = async (req: Request, res: Response) => {
     const data = req.body;
     const id = data.id;
-    let doc;
+    let doc: unknown;
     try {
       await noteService.get(id);
       doc = await noteService.update(data);

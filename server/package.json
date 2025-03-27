@@ -13,7 +13,7 @@
 		"start:embed": "tsx watch --clear-screen=false src/embed.ts",
 		"start:prod": "dotenv -e .env.production -- node dist/index.js",
 		"lint": "biome lint",
-		"lint:fix": "biome lint --fix",
+		"lint:fix": "biome lint --write",
 		"format": "biome format --write",
 		"test": "vitest run",
 		"test:cov": "vitest run --coverage",

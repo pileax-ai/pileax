@@ -2,7 +2,7 @@
  * Embedded in Electron/Tauri
  */
 import express from 'express'
-import { AddressInfo } from 'net'
+import type { AddressInfo } from 'node:net'
 import getPort from 'get-port'
 import cors from 'cors'
 import { registerApi } from '@/api'

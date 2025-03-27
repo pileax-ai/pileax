@@ -2,7 +2,7 @@ export class HttpException extends Error {
   constructor(
     public readonly statusCode: number,
     public readonly message: string,
-    public readonly details?: Record<string, any>
+    public readonly details?: Record<string, unknown>
   ) {
     super(message)
     Object.setPrototypeOf(this, HttpException.prototype)

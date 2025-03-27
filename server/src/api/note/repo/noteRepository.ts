@@ -46,8 +46,8 @@ export class NoteRepository {
 
   async query(query: NoteQuery) {
     const filters = [];
-    const condition: Record<string, any> = query.condition || {};
-    if (condition.title) filters.push(eq(note.title, condition.title))
+    const condition: Record<string, unknown> = query.condition || {};
+    if (condition.title) filters.push(eq(note.title, condition.title as any))
 
     return db.select().from(note)
       .where(and(...filters))

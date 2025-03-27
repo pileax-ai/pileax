@@ -1,4 +1,4 @@
-import { BetterSQLite3Database, drizzle } from 'drizzle-orm/better-sqlite3';
+import { type BetterSQLite3Database, drizzle } from 'drizzle-orm/better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import Database from 'better-sqlite3';
 import { env } from '@/common/utils/envConfig';
@@ -10,10 +10,10 @@ class DatabaseClient {
   private constructor() {}
 
   static getInstance() {
-    if (!this.instance) {
-      this.instance = this.initialize();
+    if (!DatabaseClient.instance) {
+      DatabaseClient.instance = DatabaseClient.initialize();
     }
-    return this.instance;
+    return DatabaseClient.instance;
   }
 
   private static initialize() {

@@ -10,7 +10,8 @@
 	"scripts": {
     "lint": "yarn lint-frontend",
     "lint-fix": "yarn lint-frontend --fix",
-    "lint-frontend": "cd frontend && yarn lint",
+    "lint:frontend": "cd frontend && yarn lint",
+    "lint:server": "cd server && yarn lint",
 		"dev": "cd frontend && yarn dev",
 		"dev:electron": "cd frontend && yarn dev:electron",
 		"dev:tauri": "cd frontend && yarn dev:tauri",

@@ -9,10 +9,18 @@ yarn global add tsx dotenv-cli
 
 ## Scripts
 
-### Prisma
+### lint
+
+### Build
+
+#### Web
 ```shell
-# migrate
-yarn prisma:migrate
+build
+```
+
+#### Desktop
+```shell
+yarn build:desktop
 ```
 
 ## Others
