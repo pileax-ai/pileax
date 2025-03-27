@@ -1,0 +1,32 @@
+// Global css
+// --------------------------------------------------
+.pi {
+  &-result {
+    &-title {
+      font-size: 1.6rem;
+    }
+    &-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  &-pagination {
+    .q-btn {
+      width: 32px;
+      height: 32px;
+      font-weight: normal;
+      background: var(--q-accent);
+    }
+
+    .size-dropdown {
+      width: unset;
+      min-height: unset;
+      margin: 0 10px;
+      padding: 4px 6px 4px 12px;
+
+      .q-btn-dropdown__arrow {
+        margin-left: 0;
+      }
+    }
+  }
+}

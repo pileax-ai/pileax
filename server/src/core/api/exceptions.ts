@@ -1,0 +1,19 @@
+export class HttpException extends Error {
+  constructor(
+    public readonly statusCode: number,
+    public readonly message: string,
+    public readonly details?: Record<string, any>
+  ) {
+    super(message)
+    Object.setPrototypeOf(this, HttpException.prototype)
+  }
+}
+
+export class NotFoundException extends HttpException {
+  constructor(resource: string, id: string) {
+    super(404, `${resource} with ID [${id}] not found`, {
+      resource,
+      id
+    })
+  }
+}

@@ -1,0 +1,91 @@
+
+import { useReaderStoreWithOut } from 'stores/reader';
+import { computed } from 'vue';
+
+export default function () {
+  const store = useReaderStoreWithOut();
+
+  const consoleMenus = computed(() => {
+    return store.getConsoleMenus;
+  });
+
+  const activity = computed(() => {
+    return store.getActivity;
+  });
+
+  const leftDrawer = computed(() => {
+    return store.leftDrawer;
+  });
+
+  const leftDrawerShow = computed(() => {
+    return store.leftDrawer.show;
+  });
+
+  const leftDrawerHoverShow = computed(() => {
+    return store.leftDrawer.hoverShow;
+  });
+
+  const rightDrawer = computed(() => {
+    return store.rightDrawer;
+  });
+
+  const rightDrawerShow = computed(() => {
+    return store.rightDrawer.show;
+  });
+
+  const rightDrawerHoverShow = computed(() => {
+    return store.rightDrawer.hoverShow;
+  });
+
+  const queryTimer = computed(() => {
+    return store.queryTimer;
+  });
+
+  function toggleLeftDrawer() {
+    store.toggleLeftDrawer();
+  }
+
+  function setActivity(value: string) {
+    store.setLeftDrawerItem({key: 'activity', value: value});
+  }
+
+  function setLeftDrawerHoverShow(value: boolean) {
+    store.setLeftDrawerItem({key: 'hoverShow', value: value});
+  }
+
+  function toggleRightDrawer() {
+    store.toggleRightDrawer();
+  }
+
+  function setRightDrawerHoverShow(value: boolean) {
+    store.setRightDrawerItem({key: 'hoverShow', value: value});
+  }
+
+  function setRightDrawerSplit(value: boolean) {
+    store.setRightDrawerItem({key: 'split', value: value});
+  }
+
+  function setQueryTimer(time: number) {
+    store.setQueryTimer(time);
+  }
+
+  return {
+    consoleMenus,
+    activity,
+    leftDrawer,
+    leftDrawerShow,
+    leftDrawerHoverShow,
+    rightDrawerShow,
+    rightDrawerHoverShow,
+    rightDrawer,
+    queryTimer,
+
+    toggleLeftDrawer,
+    setLeftDrawerHoverShow,
+    setActivity,
+    toggleRightDrawer,
+    setRightDrawerHoverShow,
+    setRightDrawerSplit,
+    setQueryTimer,
+  };
+}

@@ -1,0 +1,27 @@
+<template>
+  <setting-card class="general-tab">
+    <o-common-card small>
+      <section class="col-12">
+        <q-list no-border link>
+          <o-common-item size="4rem"
+                         :label="$t('language')"
+                         sublabel="Change the language used in user interface">
+            <div>
+              <locale-hover-btn class="text-tips bg-accent" show-label />
+            </div>
+          </o-common-item>
+        </q-list>
+      </section>
+    </o-common-card>
+  </setting-card>
+</template>
+
+<script setup lang="ts">
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
+import SettingCard from './setting-card.vue';
+</script>
+
+<style lang="scss">
+.general-tab {
+}
+</style>

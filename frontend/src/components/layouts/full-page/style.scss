@@ -1,0 +1,46 @@
+/**
+ *  Styles
+ */
+$dheight:  80px;
+$mheight:  60px;
+.full-page-layout {
+  .q-header {
+    height: $dheight;
+  }
+
+  .base-toolbar {
+    position: fixed;
+    height: $dheight;
+  }
+
+  .top-navi {
+    position: fixed;
+    background: transparent!important;
+    z-index: 100;
+  }
+}
+
+.mobile {
+  .layout-common {
+    .q-header {
+      height: $mheight !important;
+
+      .q-toolbar {
+        height: $mheight !important;
+      }
+    }
+  }
+
+  .o-toolbar-extra {
+    padding-right: 6px;
+    .q-btn {
+      height: 36px !important;
+      padding: 0px 12px !important;
+      margin: 0px;
+
+      .q-icon {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}

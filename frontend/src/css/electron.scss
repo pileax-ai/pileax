@@ -1,0 +1,30 @@
+// Electron css
+// --------------------------------------------------
+.drag-region {
+  -webkit-app-region: drag;
+}
+
+.no-drag-region {
+  -webkit-app-region: no-drag !important;
+}
+
+.electron {
+  .navi-tabbar {
+    .navi-left.show {
+      padding-left: 75px;
+      padding-right: 8px;
+    }
+  }
+
+  .o-reader-page {
+    header.drawer-closed {
+      padding-left: 65px;
+    }
+  }
+
+  &.full-screen-page {
+    .o-console-section .console-header .console-toolbar {
+      padding-left: 75px !important;
+    }
+  }
+}

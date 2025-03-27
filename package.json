@@ -1,0 +1,29 @@
+{
+	"name": "pileax-ai",
+	"description": "PileaX AI",
+	"author": {
+		"name": "PileaX",
+		"email": "pileaxai@gmail.com"
+	},
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+    "lint": "yarn lint-frontend",
+    "lint-fix": "yarn lint-frontend --fix",
+    "lint-frontend": "cd frontend && yarn lint",
+		"dev": "cd frontend && yarn dev",
+		"dev:electron": "cd frontend && yarn dev:electron",
+		"dev:tauri": "cd frontend && yarn dev:tauri",
+    "dev:server": "cd server && yarn start:dev",
+		"build": "yarn build:frontend",
+		"build:frontend": "cd frontend && yarn build",
+		"build:electron": "cd frontend && yarn build:electron",
+		"build:tauri": "cd frontend && yarn build:tauri",
+		"build:server": "cd server && yarn build",
+    "build:desktop": "yarn build:server && yarn build:electron"
+  },
+	"engines": {
+		"node": ">=20.9.0",
+    "yarn": ">= 1.21.1"
+	}
+}

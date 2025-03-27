@@ -1,0 +1,6 @@
+dist/
+frontend/dist
+frontend/src/js
+packages/*/dist
+packages/*/types
+node_modules/

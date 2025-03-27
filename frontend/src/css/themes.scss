@@ -1,0 +1,92 @@
+// Theme
+//
+// @see https://forum.quasar-framework.org/topic/1756/full-solution-to-dynamic-color-scheme-extras
+// --------------------------------------------------------------------------------------------------------------------
+$dark_separator_color: #222222;
+
+// --------------------------------------------------------------------------------
+// Light mode
+// --------------------------------------------------------------------------------
+.bg-tips {
+  background: rgba(#666, 0.1);
+}
+
+.text-tips {
+  color: #666;
+}
+
+.text-readable {
+  color: #5f6368;
+}
+
+.bg-deep {
+  background: #eceff1;
+}
+
+// --------------------------------------------------------------------------------
+// Dark mode
+// --------------------------------------------------------------------------------
+body.body--dark {
+  color: rgba(white, 0.85);
+
+  .bg-tips {
+    background: rgba(#B3BDD2, 0.1);
+  }
+  .text-tips {
+    color: rgba(#B3BDD2, 0.6);
+  }
+  .text-readable {
+    color: #9aa0a6;
+  }
+
+  .bg-deep {
+    background: #141824;
+  }
+
+  .q-list--dark, .q-item--dark {
+    color: rgba(white, 0.85);
+  }
+
+  // Form
+  .q-field--outlined .q-field__control:before {
+    border-color: rgba(white, 0.2);
+  }
+  .q-field--outlined:hover .q-field__control:before {
+    border-color: rgba(white, 0.5);
+  }
+
+  .q-separator--dark {
+    background: rgba($dark_separator_color, 0.8); // accent
+  }
+
+  .q-table--dark {
+    tr, th, td, .q-table__bottom {
+      border-color: rgba($dark_separator_color, 0.8) !important;
+    }
+  }
+
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 6px !important;
+  border-radius: 6px;
+  background: rgba(#272A3E, 0.2);
+}
+
+body.body--dark::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 0 0 6px 0;
+  background: #324057!important;
+}
+
+body.body--dark::-webkit-scrollbar-thumb
+{
+  border-radius: 6px;
+  -webkit-box-shadow: rgba(0,0,0,.3);
+  background-color: rgba(#B3BDD2, 0.3);
+}
+

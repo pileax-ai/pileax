@@ -1,0 +1,162 @@
+<template>
+  <q-item class="o-common-item"
+          :class="{'dense': dense, 'round': round}"
+          :to="to"
+          :clickable="clickable"
+          v-close-popup="closable" exact>
+    <q-item-section avatar v-if="emoji || icon">
+      <template v-if="emoji">
+        <q-avatar>
+          {{emoji}}
+        </q-avatar>
+      </template>
+      <template v-else>
+        <q-avatar v-if="icon.indexOf('icon')===0">
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="`#${icon}`"></use>
+          </svg>
+        </q-avatar>
+        <q-avatar :size="size" :icon="icon" :textColor="color" class="themed" v-else />
+      </template>
+    </q-item-section>
+    <q-item-section>
+      <q-item-label class="row items-center">
+        <span v-html="label"></span>
+        <slot name="label"></slot>
+        <q-icon name="help" class="q-ml-xs" v-if="help">
+          <o-tooltip position="top">{{ help }}</o-tooltip>
+        </q-icon>
+      </q-item-label>
+      <q-item-label caption v-if="sublabel">{{sublabel}}</q-item-label>
+    </q-item-section>
+    <q-item-section side v-if="sideIcon">
+      <q-avatar :size="size" :icon="sideIcon" />
+    </q-item-section>
+    <q-item-section class="side-label" side v-if="sideLabel || rightSide">
+      <q-item-label>{{sideLabel}}</q-item-label>
+      <q-item-label caption v-if="sideSublabel">{{sideSublabel}}</q-item-label>
+      <slot name="side"></slot>
+    </q-item-section>
+
+    <slot></slot>
+  </q-item>
+</template>
+
+<script setup lang="ts">
+
+import {computed} from 'vue';
+
+const props = defineProps({
+  clickable: {
+    type: Boolean,
+    default: false
+  },
+  closable: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
+    type: Boolean,
+    default: false
+  },
+  round: {
+    type: Boolean,
+    default: false
+  },
+  id: {
+    type: String,
+    default: ''
+  },
+  to: {
+    type: String,
+    default: ''
+  },
+  size: {
+    type: String,
+    default: '3rem'
+  },
+  color: {
+    type: String,
+    default: ''
+  },
+  icon: {
+    type: String,
+    default: ''
+  },
+  emoji: {
+    type: String,
+    default: ''
+  },
+  label: {
+    type: String,
+    default: 'Label'
+  },
+  sublabel: {
+    type: String,
+    default: ''
+  },
+  help: {
+    type: String,
+    default: ''
+  },
+  sideIcon: {
+    type: String,
+    default: ''
+  },
+  sideLabel: {
+    type: String,
+    default: ''
+  },
+  sideSublabel: {
+    type: String,
+    default: ''
+  },
+  rightSide: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const textColor = computed(() => {
+  return props.color + '-10'
+});
+</script>
+
+<style lang="scss">
+.o-common-item {
+  padding: 0;
+  .q-item__section--avatar {
+    min-width: unset;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+ .q-item__section--side {
+   font-size: 0.8rem;
+   padding-right: 0px;
+ }
+
+  &.padding {
+    padding: 0 1rem;
+  }
+
+  &.active {
+    background: var(--q-accent);
+  }
+
+  &.round {
+    border-radius: 4px;
+  }
+}
+
+.o-common-item.dense {
+  min-height: unset;
+
+  .q-avatar {
+    font-size: 2.4rem !important;
+  }
+}
+</style>

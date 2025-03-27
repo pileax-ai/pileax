@@ -1,0 +1,30 @@
+/**
+ *  Styles
+ */
+
+.layout-reader {
+  .q-page-container {
+    overflow: hidden !important;
+  }
+
+  .drawer-handler {
+    position: fixed;
+    z-index: 10;
+    width: 60px;
+    top: 60px;
+    bottom: 60px;
+    //background: red;
+  }
+
+  // toolbar
+  .o-toolbar-btn {
+    width: 28px;
+    height: 28px;
+    padding: unset;
+    min-height: unset;
+    border-radius: 4px;
+    .q-icon {
+      font-size: 20px;
+    }
+  }
+}

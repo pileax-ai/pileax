@@ -1,0 +1,187 @@
+<template>
+  <q-dialog ref="modal"
+            :seamless="seamless"
+            @show="$emit('show')"
+            @hide="onHide"
+            position="standard"
+            :class="`o-settings-dialog`">
+    <q-layout view="lhh LpR lff" container :style="style"
+              class="bg-secondary">
+      <q-splitter v-model="splitterModel"
+                  :limits="[180, 300]"
+                  unit="px"
+                  class="fit">
+        <template v-slot:before>
+          <nav class="bg-accent navi">
+            <q-tabs v-model="currentTab"
+                    unix="px"
+                    vertical inline-label
+                    align="right"
+                    active-color="primary"
+                    class="text-info">
+              <template v-for="(item, index) of tabs" :key="index">
+                <div class="text-tips group" v-if="item.group">
+                  {{item.group}}
+                </div>
+                <q-tab class="o-navi-tab"
+                       :name="index"
+                       :icon="item.icon"
+                       :label="item.label" />
+              </template>
+            </q-tabs>
+          </nav>
+        </template>
+
+        <template v-slot:after>
+          <q-header class="bg-secondary text-info">
+            <q-toolbar>
+              <q-toolbar-title class="text-bold">
+                {{tab.label}}
+              </q-toolbar-title>
+              <q-space />
+              <section>
+                <q-btn
+                       icon="close"
+                       class="text-tips close-btn"
+                       flat round dense
+                       v-close-popup />
+              </section>
+            </q-toolbar>
+            <q-separator class="bg-accent" />
+          </q-header>
+          <q-page-container>
+            <q-page class="bg-secondary">
+              <q-scroll-area class="o-scroll-wrapper">
+                <q-tab-panels v-model="currentTab" class="fit col-12" vertical keep-alive>
+                  <template v-for="(item, index) of tabs" :key="index">
+                    <q-tab-panel :name="index">
+                      <component :is="item.component" />
+                    </q-tab-panel>
+                  </template>
+                </q-tab-panels>
+              </q-scroll-area>
+            </q-page>
+          </q-page-container>
+        </template>
+      </q-splitter>
+    </q-layout>
+  </q-dialog>
+</template>
+
+<script setup lang="ts">
+import {computed, onMounted, ref, watch} from 'vue';
+import useDialog from 'core/hooks/useDialog';
+import useCommon from 'core/hooks/useCommon';
+
+import GeneralTab from 'core/components/settings/tab/general-tab.vue';
+import AppearanceTab from 'core/components/settings/tab/appearance-tab.vue';
+import AboutTab from 'core/components/settings/tab/about-tab.vue';
+
+const { dialog, onHide } = useDialog();
+const { t } = useCommon();
+
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false
+  },
+  seamless: {
+    type: Boolean,
+    default: false
+  },
+  scrollable: {
+    type: Boolean,
+    default: false
+  },
+});
+const emit = defineEmits(['show']);
+
+const modal = ref();
+const splitterModel = ref(240);
+const currentTab = ref(0);
+const style = computed(() => {
+  return {
+    height: '80vh',
+    maxHeight: '640px',
+    width: '80vw',
+    maxWidth: '1100px',
+  }
+})
+
+const tabs = computed(() => {
+  return [
+    { label: '通用', value: 'general', icon: 'settings', group: '设置', component: GeneralTab },
+    { label: '显示', value: 'appearance', icon: 'palette', component: AppearanceTab },
+    { label: t('about'), value: 'about', icon: 'info', group: t('about'), component: AboutTab },
+  ];
+});
+
+const tab = computed(() => {
+  return tabs.value[currentTab.value];
+})
+
+const type = computed(() => dialog.value.type);
+
+watch(() => type.value, (newValue) => {
+  console.log('ssss', type);
+  if (newValue === 'settings') {
+    modal.value.show();
+  } else {
+    modal.value.hide();
+  }
+})
+
+onMounted(() => {
+  if (type.value === 'settings') {
+    modal.value.show();
+  }
+})
+</script>
+
+<style lang="scss">
+.o-settings-dialog {
+  .q-splitter__before {
+    height: 100%;
+  }
+
+  .q-splitter__separator {
+    background-color: transparent !important;
+  }
+
+  nav {
+    height: 640px;
+    padding: 1rem 0;
+    .group {
+      padding: 0 18px;
+      margin-top: 16px;
+      opacity: 0.5;
+    }
+    .q-tab {
+      padding: 0 8px 0 16px;
+      min-height: 40px;
+
+      &__label {
+        font-weight: 400;
+      }
+
+      &.q-tab--active .q-tab__indicator {
+        top: 10px !important;
+        height: 20px !important;
+      }
+    }
+  }
+
+  .q-toolbar {
+    min-height: 52px;
+
+    .q-toolbar__title {
+      font-size: 1.2rem;
+    }
+
+    .q-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+}
+</style>

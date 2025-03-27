@@ -1,0 +1,779 @@
+// App global css
+// --------------------------------------------------
+// @import '~quasar-variables'
+
+html {
+  font-size: 14px;
+  overflow: hidden!important;
+}
+
+body {
+  &.body--gray {
+    filter: grayscale(1);
+    overflow: hidden;
+  }
+  &.body--weak {
+    filter: invert(80%);
+    overflow: hidden;
+  }
+}
+
+a {
+  color: var(--q-info);
+  text-decoration: none;
+  word-break: break-all;
+}
+a:hover {
+  color: var(--q-primary);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.q-touch {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.q-btn.o-link {
+  padding: 0;
+  min-height: unset;
+}
+
+.q-btn, .q-btn:focus, a, a:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+.q-btn, .q-tab {
+  text-transform: unset;
+}
+
+// --------------------------------------------------------------------------------
+// Page
+// --------------------------------------------------------------------------------
+.o-banner {
+  .name {
+    font-size: 3.5rem;
+    font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  }
+
+  .slogan {
+    font-size: 2rem;
+    font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  }
+
+  h3 {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 2rem;
+  }
+
+  .iconfont {
+    font-size: 2rem;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Form
+// --------------------------------------------------------------------------------
+.main-title {
+  font-family: Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-size: 2.2rem;
+  font-weight: normal;
+  height: 48px;
+  //padding: 0 24px;
+}
+
+// --------------------------------------------------------------------------------
+// List
+// --------------------------------------------------------------------------------
+.o-navi-listssss {
+
+  .q-item {
+    padding: 16px 16px;
+    font-size: 1rem;
+    min-height: 24px;
+
+    .q-item-section + .q-item-section {
+      margin-left: 0px;
+    }
+
+    .q-item__section--side {
+      //padding-right: 16px;
+    }
+    .q-item__section--side > .q-avatar {
+      font-size: 30px;
+    }
+    .q-item__section--main ~ .q-item__section--side {
+      padding-left: 0;
+    }
+
+    .q-item__section--avatar {
+      min-width: unset;
+    }
+  }
+
+  .q-item.q-link:hover {
+    text-decoration: none;
+  }
+
+  .q-item.stripped:nth-child(even) {
+    background: rgba(50,64,87,0.1);
+  }
+
+  .q-collapsible-sub-item {
+    padding: 0;
+
+    .q-item {
+      padding-left: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .q-item-side {
+    min-width: 24px;
+
+    .q-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  .header {
+    padding: 4px 8px;
+    min-height: $hheight;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Button
+// --------------------------------------------------------------------------------
+.o-action-btn {
+  min-height: 40px;
+  min-width: 120px;
+  border-radius: 20px;
+}
+
+.q-btn {
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.primary {
+    color: var(--q-primary);
+    border: solid 1px var(--q-primary);
+    &:before {
+      background: var(--q-primary);
+      opacity: 0.08;
+    }
+    &:hover {
+      color: white;
+      background: var(--q-primary);
+    }
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Scroll
+// --------------------------------------------------------------------------------
+/* side navi */
+.o-scrollarea-sidenavi {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.o-scrollarea-sidenavi.with-header {
+  top: 90px;
+}
+
+.o-scrollarea-page, .o-page-container, .o-scroll-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Fonts */
+@font-face {
+  font-family: 'Segoe UI';
+  src: url("/fonts/segoe-ui/latest.eot"),
+  url("/fonts/segoe-ui/latest.eot") format("embedded-opentype");
+  src: local("Segoe UI Light"),
+  url("/fonts/segoe-ui/latest.woff2") format("woff2"),
+  url("/fonts/segoe-ui/latest.woff") format("woff"),
+  url("/fonts/segoe-ui/latest.ttf") format("truetype"),
+  url("/fonts/segoe-ui/latest.svg") format("svg");
+  font-weight: 200;
+}
+
+.o-search {
+  .q-field__control {
+    box-shadow: unset !important;
+  }
+
+  .iconfont {
+    font-size: 1.5rem;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Quasar
+// --------------------------------------------------------------------------------
+.o-menu {
+  min-width: 160px !important;
+  max-height: 80vh !important;
+
+  .q-list {
+    padding: 8px 8px;
+    .q-item {
+      padding: 8px 10px;
+      min-height: unset;
+      border-radius: 4px;
+
+      &:not(:first-child) {
+        margin-top: 2px;
+      }
+    }
+    .q-separator {
+      margin: 8px -8px;
+    }
+  }
+
+  .q-item {
+    min-height: unset;
+    padding: 4px 8px;
+
+    .q-item__section--main {
+      padding-left: 8px;
+    }
+  }
+
+  .q-avatar {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Form
+// --------------------------------------------------------------------------------
+.o-form {
+  padding: 0;
+
+  .label {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .action {
+    min-width: 120px;
+  }
+  .action:not(:first-child) {
+    margin-left: 1rem;
+  }
+
+  .q-field {
+    margin-bottom: 28px;
+
+    &--readonly {
+      margin-bottom: 14px;
+    }
+
+    .q-field__label {
+      font-size: 1rem;
+    }
+    .q-field__prefix {
+      color: #666;
+      margin-right: 8px;
+    }
+    .q-field__suffix {
+      color: #666;
+    }
+    .q-field__bottom {
+      padding: 4px 12px 0;
+    }
+  }
+  .q-field--with-bottom {
+    padding-bottom: 0;
+  }
+
+  .q-field--standout.q-field--focused .q-field__control {
+    background: transparent !important;
+
+    input, .q-field__suffix {
+      color: #000;
+    }
+    .q-field__marginal, .q-field__native {
+      color: #000;
+    }
+  }
+
+  .q-field--readonly {
+    .q-field__prefix {
+      padding: 0 8px 0 0;
+      min-width: 100px;
+      text-align: left !important;
+      justify-content: flex-start !important;
+    }
+    .q-field__native {
+      padding: 0;
+      min-height: unset;
+    }
+    .q-field__control {
+      height: 32px;
+      min-height: unset;
+      padding: 0;
+      background: transparent !important;
+
+      &:before {
+        border: none !important;
+      }
+      &:hover {
+        cursor: pointer;
+        background: rgba(0,0,0,0.05) !important;
+      }
+    }
+    .q-field__append {
+      height: 30px;
+      min-height: unset;
+    }
+    .q-field__suffix {
+      line-height: unset;
+    }
+    .q-field__bottom, .q-select__dropdown-icon {
+      display: none;
+    }
+
+    &.q-textarea {
+      .q-field__control {
+        height: unset;
+      }
+    }
+  }
+  .q-select .q-field__input {
+    min-width: 20px !important;
+  }
+
+  .o-view-item .q-item__section--avatar {
+    min-width: 100px !important;
+  }
+
+  .q-editor {
+    margin-bottom: 28px;
+  }
+
+  &.dense {
+    padding: 0;
+  }
+
+  [class*='banner'] {
+    margin-bottom: 8px;
+  }
+  [class*='banner']:last-child {
+    margin-bottom: 20px;
+  }
+
+  .o-table {
+    .q-field {
+      margin-bottom: 0;
+    }
+  }
+
+  .o-input-select-left {
+    .q-field__control {
+      padding-left: 0;
+      .q-field__control {
+        padding-left: 12px;
+        border-radius: 3px 0 0 3px;
+        &:before, &:after {
+          border-radius: 3px 0 0 3px;
+        }
+      }
+    }
+  }
+
+  .o-input-select-right {
+    .q-field__control {
+      padding-right: 0;
+      .q-field__control {
+        padding-right: 12px;
+        border-radius: 0 3px 3px 0;
+        &:before, &:after {
+          border-radius: 0 3px 3px 0;
+        }
+      }
+    }
+  }
+
+  .q-expansion-item {
+    .header-item {
+      padding: 8px;
+      border-radius: 4px;
+    }
+    .q-expansion-item__content {
+      padding-left: 40px;
+    }
+  }
+}
+
+.o-address-edit {
+  min-width: 400px !important;
+}
+
+.o-popup-edit {
+  min-width: 400px !important;
+}
+
+// --------------------------------------------------------------------------------
+// Tab
+// --------------------------------------------------------------------------------
+.o-route-tabs {
+  .q-tab {
+    border-radius: 4px 4px 0 0;
+    min-height: 40px;
+    margin-right: 4px;
+  }
+  .q-tab--active:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--q-primary);
+    opacity: 0.1;
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Table
+// --------------------------------------------------------------------------------
+.o-table {
+  .q-btn--dense.label {
+    //height: 20px;
+    min-height: unset !important;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+
+  tr:has(.is-active) {
+    background: var(--q-accent);
+  }
+
+  td {
+    .title {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .q-btn {
+      .q-icon {
+        font-size: 1.2rem;
+      }
+
+      &:not(:first-child) {
+        margin-left: 4px;
+      }
+    }
+
+    img {
+      display: block;
+    }
+
+    .q-expansion-item {
+      .q-item {
+        padding: 2px 0;
+
+        .q-item__section--avatar {
+          min-width: unset;
+        }
+      }
+    }
+  }
+
+  .q-card {
+    img {
+      //height: 200px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .title {
+      font-size: 2rem;
+    }
+
+    .intro {
+      height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ellipsis {
+    max-width: 200px;
+  }
+
+  .q-avatar {
+    .q-img {
+      width: 100%;
+      height: 100%;
+    }
+    img {
+      object-fit: cover;
+    }
+  }
+
+  .o-badge {
+    margin: 2px 0;
+  }
+
+  .responsive {
+    width: 160px;
+    img {
+      border-radius: 4px;
+      object-fit: cover;
+    }
+  }
+
+  &.vxe-table {
+    color: unset!important;
+    .q-icon {
+      font-size: 1.2rem;
+    }
+    .vxe-tree--node-btn {
+      color: unset!important;
+    }
+    .vxe-table--header-wrapper {
+      color: var(--q-info);
+      background: transparent!important;
+    }
+    .vxe-body--column, .vxe-header--column {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)) !important;
+    }
+    .vxe-table--header-border-line, .vxe-table--border-line {
+      border: none!important;
+    }
+    table {
+      background: transparent!important;
+      th, td {
+        font-size: 12px !important;
+        .vxe-cell {
+          padding: 0 16px;
+        }
+      }
+      th {
+        font-weight: 600;
+      }
+      td {
+        padding: 7px 0 !important;
+      }
+
+      tr {
+        &:hover {
+          background: var(--q-accent);
+        }
+      }
+
+      tbody td {
+        height: 48px;
+      }
+    }
+  }
+}
+
+.o-tab-container {
+  .card-header {
+    padding: 0 !important;
+
+    .q-tab {
+      height: 56px;
+    }
+  }
+
+  .q-tab-panel {
+    padding: 0;
+  }
+}
+
+.o-navi-tab {
+  justify-content: start!important;
+
+  &.q-tab--active:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--q-primary);
+    opacity: 0.08;
+  }
+}
+
+.o-notify-done {
+  min-width: 80px;
+  min-height: 80px;
+  background: rgba(#000, 0.75) !important;
+
+  .q-notification__content {
+    justify-content: center;
+    .q-icon {
+      font-size: 32px;
+    }
+  }
+}
+
+.o-tag {
+  font-size: 14px;
+  border-radius: 24px;
+  min-height: 30px;
+}
+
+.o-links {
+  .q-btn--round {
+    min-width: 3rem !important;
+    margin-right: 8px;
+  }
+  .q-btn--round:last-child {
+    margin-right: 0;
+  }
+}
+// --------------------------------------------------------------------------------
+// media
+// --------------------------------------------------------------------------------
+.o-wide {
+  max-width: 1080px !important;
+}
+@media (min-width: 1440px) {
+  .q-header .q-tab__content {
+    min-width: unset;
+  }
+
+  .o-wide {
+    max-width: 1440px !important;
+  }
+}
+
+model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+}
+
+kbd {
+  font-family: Consolas, "Lucida Console", monospace;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0px 4px;
+  //box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  margin: 2px;
+  font-size: small;
+  vertical-align: text-bottom;
+  background: #eee;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  //font-variant: small-caps;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+// --------------------------------------------------------------------------------
+// Animations
+// --------------------------------------------------------------------------------
+.ripple:after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  padding-top: 100%;
+  background: transparent;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  animation: ripple 1s infinite;
+}
+@keyframes ripple {
+  from {
+    transform:translate(-50%,-50%) scale(0);
+    /*background: rgba(0,0,0,.25);*/
+    //background: rgba(255,255,255,.4);
+    background: rgba(33,150,243,1);
+  }
+  to {
+    transform:translate(-50%,-50%) scale(1);
+    background: transparent;
+  }
+}
+
+.o-rotating-once {
+  transition: transform 1s ease-in-out;
+}
+.o-rotating-once:hover {
+  transform: rotateZ(720deg);
+}
+
+.o-rotating
+{
+  -webkit-animation: rotating 1s linear infinite;
+  -moz-animation: rotating 1s linear infinite;
+  -ms-animation: rotating 1s linear infinite;
+  -o-animation: rotating 1s linear infinite;
+  animation: rotating 1s linear infinite;
+}
+
+@keyframes rotating
+{
+  from
+  {
+    transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+  to
+  {
+    transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotating
+{
+  from
+  {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+  to
+  {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Iconfont
+// --------------------------------------------------------------------------------
+@font-face {
+  font-family: 'iconfont';  /* Project id 2532704 */
+  src: url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.woff2?t=1620381310945') format('woff2'),
+  url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.woff?t=1620381310945') format('woff'),
+  url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.ttf?t=1620381310945') format('truetype'),
+  url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.svg?t=1620381310945#iconfont') format('svg');
+}

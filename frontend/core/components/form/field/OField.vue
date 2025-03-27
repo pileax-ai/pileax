@@ -1,0 +1,91 @@
+<template>
+  <div class="col-12 o-field" :class="{ 'dense': dense }">
+    <div class="row col-12 justify-start items-center" v-if="isMobile">
+      <div class="row col-12 main-label">
+        <span class="text-red" v-if="required">*</span>
+        <span>{{label}}</span>
+      </div>
+      <div class="col-12 side">
+        <slot></slot>
+      </div>
+    </div>
+    <div class="row col-12 justify-start items-center" v-else>
+      <div class="col-3 main-label">
+        <span class="text-red" v-if="required">*</span>
+        <span>{{label}}:</span>
+      </div>
+      <div class="col side">
+        <slot></slot>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { isMobile } from 'core/hooks/useCommon';
+
+defineProps({
+  label: {
+    type: String,
+    default: ''
+  },
+  subLabel: {
+    type: String,
+    default: ''
+  },
+  required: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
+    type: Boolean,
+    default: false
+  },
+  side: {
+    type: Boolean,
+    default: false
+  },
+  contentClass: {
+    type: String,
+    default: 'q-py-sm'
+  },
+  errorMessage: {
+    type: String,
+    default: ''
+  },
+});
+</script>
+
+<style lang="scss">
+.o-field {
+  margin-top: 16px;
+  margin-bottom: 28px;
+
+  .q-field {
+    margin-bottom: 0;
+  }
+
+  .main-label {
+    //width: 100px;
+    font-size: 1rem;
+    text-align: right;
+    padding-right: 8px;
+  }
+
+  .sub-label {
+    font-size: 0.8rem;
+  }
+
+  .no-padding-right {
+    .q-field__control {
+      padding-right: 0;
+    }
+  }
+
+  &.dense {
+    .side {
+      font-size: 0.8rem;
+    }
+  }
+}
+</style>
