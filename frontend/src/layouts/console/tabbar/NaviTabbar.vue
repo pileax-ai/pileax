@@ -160,7 +160,8 @@ $tab-height: 40px;
     }
 
     .q-tab {
-      min-width: 28px;
+      flex: unset!important;
+      min-width: 10vw;
       max-width: 240px;
       min-height: unset;
       height: $tab-height;
@@ -201,6 +202,7 @@ $tab-height: 40px;
       .label {
         padding-right: 10px;
         max-width: 160px;
+        text-align: left;
       }
 
       &:hover {
@@ -444,6 +446,9 @@ $tab-height: 40px;
 @media (max-width: 768px) {
   .navi-tabbar .tabs {
     .q-tab {
+      min-width: unset;
+      padding: 0 16px;
+
       .q-tab__content {
         min-width: unset;
       }
