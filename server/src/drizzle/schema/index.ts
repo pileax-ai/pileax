@@ -1,9 +1,14 @@
 import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm'
 
-const base = {
-  createTime: text().default(sql`(CURRENT_TIMESTAMP)`),
-  updateTime: text().default(sql`(CURRENT_TIMESTAMP)`),
+const common = {
+  createTime: text()
+    .default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'utc'))`)
+    .notNull(),
+  updateTime: text()
+    .default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'utc'))`)
+    .$onUpdate(() => new Date().toISOString())
+    .notNull()
 }
 
 export const note = sqliteTable('note', {
@@ -13,5 +18,5 @@ export const note = sqliteTable('note', {
   content: text('content').notNull(),
   icon: text('icon').default(''),
   cover: text('cover').default(''),
-  ...base
+  ...common
 });

@@ -128,7 +128,7 @@ async function createNote() {
 function postLoadNote(note: Note) {
   parent.value = note.parent;
   setCurrentNote(note);
-  setContent(note.content, true);
+  setContent(note.content);
 }
 
 function setContent (content: string, emitUpdate = false) {
@@ -137,13 +137,13 @@ function setContent (content: string, emitUpdate = false) {
 }
 
 function onScroll() {
-  const event = Event;
+  const event: Event | undefined = undefined;
   tocRef.value?.onScroll(event)
 }
 
 function onUpdate({ json, html }: { json: any; html: string }) {
   // console.log('update', json)
-  // console.log('update', html);
+  console.log('update', html);
   noteJson.value = json;
   noteHtml.value = html;
   updateNote();
