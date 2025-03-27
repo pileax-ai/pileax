@@ -1,12 +1,13 @@
 <template>
   <q-page class="page-note">
-    <header class="note-header bg-amber-1">
-      ABC
+    <header class="row items-center justify-between note-header text-readable">
+      <note-breadcrumbs :id="id" />
+      <note-actions />
     </header>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
       <header class="row justify-center note-meta">
-        <section class="col-12 cover">
+        <section class="col-12 cover" v-if="false">
           Cover
         </section>
         <section class="note-meta-wrapper">
@@ -38,13 +39,15 @@ import { useRoute } from 'vue-router';
 import { computed, onActivated, onMounted, ref } from 'vue';
 import { debounce } from 'quasar';
 
-import { BasicFeaturesArticle } from 'src/api/mock/data/article';
 import useNote from 'src/hooks/useNote';
 import { Note } from 'src/types/note';
 import OEmojiMenu from 'components/input/OEmojiMenu.vue';
+import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue';
+import NoteActions from 'components/note/NoteActions.vue';
 
 const route = useRoute();
 const {
+  notes,
   currentNote,
   noteService,
   setCurrentNote,
@@ -133,7 +136,8 @@ function setContent (content: string, emitUpdate = false) {
   editor.value?.commands.focus('start');
 }
 
-function onScroll(event: Event) {
+function onScroll() {
+  const event = Event;
   tocRef.value?.onScroll(event)
 }
 
@@ -191,11 +195,12 @@ onMounted(() => {
 <style lang="scss">
 .page-note {
   .note-header {
-    height: 40px;
+    height: 50px;
+    padding: 0 10px;
   }
 
   .o-scroll-wrapper {
-    top: 40px;
+    top: 50px;
 
     .note-meta-wrapper {
       width: 100%;

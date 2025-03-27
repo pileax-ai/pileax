@@ -9,7 +9,6 @@ import { router } from 'src/router';
 export default function () {
   const naviStore = useNaviStore();
   const noteStore = useNoteStore();
-  const notes = ref<Note[]>([]);
   const recentNotes = ref<Note[]>([]);
 
   const noteService = computed(() => {
@@ -18,6 +17,10 @@ export default function () {
 
   const currentNote = computed(() => {
     return noteStore.currentNote;
+  });
+
+  const notes = computed(() => {
+    return noteStore.notes;
   });
 
   const currentNoteId = computed(() => {
@@ -41,7 +44,8 @@ export default function () {
   }
 
   async function getAllNotes() {
-    notes.value = await noteService.value.getNotes({});
+    const notes = await noteService.value.getNotes({});
+    noteStore.setNotes(notes);
   }
 
   function refreshAllNotes() {

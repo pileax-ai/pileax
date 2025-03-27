@@ -7,6 +7,7 @@ import { NoteService, LocalNoteService, RemoteNoteService } from 'src/service/no
 export const useNoteStore = defineStore('note', {
   state: () => ({
     currentNote: {} as Note,
+    notes: [] as Note[],
     service: new RemoteNoteService() as NoteService,
   }),
   getters: {
@@ -15,6 +16,9 @@ export const useNoteStore = defineStore('note', {
   actions: {
     setCurrentNote(note: Note) {
       this.currentNote = note;
+    },
+    setNotes(notes: Note[]) {
+      this.notes = notes;
     },
     async getNotes(params: Indexable) {
       return await this.service.getNotes(params);
