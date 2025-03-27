@@ -10,6 +10,7 @@
       <header class="row-auto col-12 search-header">
         <q-input v-model="term"
                  @update:model-value="onSearch"
+                 placeholder="Search"
                  autofocus
                  standout borderless>
           <template v-slot:prepend>
@@ -178,7 +179,7 @@ onUnmounted(() => {
 .note-search-dialog {
   .search-card {
     margin-top: 60px;
-    border-radius: 3px !important;
+    border-radius: 8px !important;
 
     .dialog-content {
       padding: 0;

@@ -13,8 +13,8 @@ export type NoteQuery = z.infer<typeof NoteQuerySchema>;
 export const NoteSchema = z.object({
 	id: z.string(),
 	parent: z.string().optional(),
-	title: z.string(),
-	content: z.string(),
+	title: z.string().optional(),
+	content: z.string().optional(),
 	icon: z.string().optional(),
 	cover: z.string().optional(),
 });

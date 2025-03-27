@@ -1,9 +1,28 @@
 <template>
   <q-page class="page-note">
-    <header class="note-header">
+    <header class="note-header bg-amber-1">
+      ABC
     </header>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
+      <header class="row justify-center note-meta">
+        <section class="col-12 cover">
+          Cover
+        </section>
+        <section class="note-meta-wrapper">
+          <div class="icon" v-if="currentNote.icon">
+            <span>
+              {{ currentNote.icon }}
+            </span>
+            <o-emoji-menu @select="setIcon" v-close-popup />
+          </div>
+        </section>
+        <section class="text-readable note-meta-wrapper">
+          <q-btn icon="sentiment_satisfied_alt" label="Add Icon" flat
+                 @click="addIcon" v-if="!currentNote.icon" />
+          <q-btn icon="image" label="Add Cover" flat />
+        </section>
+      </header>
       <YiiEditor ref="yiiEditor" v-bind="options" @update="onUpdate" />
     </q-scroll-area>
 
@@ -21,10 +40,17 @@ import { debounce } from 'quasar';
 
 import { BasicFeaturesArticle } from 'src/api/mock/data/article';
 import useNote from 'src/hooks/useNote';
-import {Note} from 'src/types/note';
+import { Note } from 'src/types/note';
+import OEmojiMenu from 'components/input/OEmojiMenu.vue';
 
 const route = useRoute();
-const { currentNote, noteService, setCurrentNote } = useNote();
+const {
+  currentNote,
+  noteService,
+  setCurrentNote,
+  addIcon,
+  setIcon,
+} = useNote();
 
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>();
 const tocRef = ref<InstanceType<typeof ODocToc>>()
@@ -170,11 +196,35 @@ onMounted(() => {
 
   .o-scroll-wrapper {
     top: 40px;
-  }
 
-  .editor-content.page {
-    width: 100%;
-    max-width: 1000px;
+    .note-meta-wrapper {
+      width: 100%;
+      max-width: 800px;
+
+      .icon {
+        width: 80px;
+        height: 80px;
+        font-size: 80px;
+        line-height: 1;
+
+        &:hover {
+          background: var(--q-accent);
+          border-radius: 4px;
+          cursor: pointer;
+        }
+      }
+      .q-btn {
+        padding: 0 8px;
+
+        .on-left {
+          margin-right: 0;
+        }
+      }
+    }
+    .editor-content.page {
+      width: 100%;
+      max-width: 1000px;
+    }
   }
 
 

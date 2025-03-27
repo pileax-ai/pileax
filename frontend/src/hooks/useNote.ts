@@ -54,8 +54,8 @@ export default function () {
   }
 
   async function getRecentNotes() {
-    const result = await noteService.value.queryNote({}) as Indexable;
-    recentNotes.value = result.list;
+    const result = await noteService.value.queryNote({}) as Note[];
+    recentNotes.value = result;
   }
 
   function addNote(parent = '') {
@@ -88,6 +88,28 @@ export default function () {
 
     // Remove from database
     noteService.value.deleteNote(note.id);
+  }
+
+  async function saveNote(data: Indexable) {
+    const note = await noteService.value.saveNote(data);
+    setCurrentNote(note);
+  }
+
+  function addIcon() {
+    const icons = ['✍', '🏞', '🎵', '📹', '🎨', '👨‍👨‍👦', '🚴‍️', '🐶', '🐬', '🌾', '🍀', '🌴', '🍋', '🌏', '🚅', '🔥', '🥏', '💵', '🛠', '📖', '📗'];
+    const index = Math.floor(Math.random() * icons.length);
+    const icon = icons[index];
+    saveNote({
+      id: currentNote.value.id,
+      icon: icon
+    });
+  }
+
+  function setIcon(option: Indexable) {
+    saveNote({
+      id: currentNote.value.id,
+      icon: option.emoji
+    });
   }
 
   function buildNoteTree(items: Note[], id = '') {
@@ -134,5 +156,8 @@ export default function () {
     addNote,
     openNote,
     deleteNote,
+    saveNote,
+    addIcon,
+    setIcon,
   };
 }
