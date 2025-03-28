@@ -59,7 +59,7 @@
       </q-btn>
     </nav>
 
-    <footer class="row items-center justify-center absolute-bottom-left">
+    <footer class="row items-center justify-center bottom-toolbar-container">
       <span class="text-tips">
         {{ progress.location?.current }} / {{ progress.location?.total }}
       </span>
@@ -220,6 +220,12 @@ onActivated(() => {
     right: 60px;
     top: 48px;
     bottom: 48px;
+  }
+
+  .bottom-toolbar-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
   }
 }
 </style>

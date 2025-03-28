@@ -92,9 +92,10 @@ onMounted(() => {
 
 <style lang="scss">
 .bottom-toolbar {
-  position: absolute;
+  position: fixed;
   left: 60px;
   right: 60px;
+  bottom: 0;
   height: 40px;
   padding: 0;
 
