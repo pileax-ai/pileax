@@ -1,5 +1,4 @@
 import type { Note } from 'src/types/note';
-import { LocalNoteService } from 'src/service/local/note';
 import { RemoteNoteService } from 'src/service/remote/note';
 
 /**
@@ -16,6 +15,5 @@ export interface NoteService {
 }
 
 export {
-  LocalNoteService,
   RemoteNoteService
 }

@@ -18,7 +18,7 @@ import DrawerNavi from 'core/page/DrawerNavi.vue'
 import OBookAnnotationItem from 'src/components/book/OBookAnnotationItem.vue'
 import {computed, onBeforeMount, ref, watch} from 'vue';
 import useBook from 'src/hooks/useBook';
-import { findBookAnnotation } from 'src/service/book_annotation';
+import { findBookAnnotation } from 'src/service/book-annotation';
 
 const { bookId, annotationTimer } = useBook();
 const list = ref([]);

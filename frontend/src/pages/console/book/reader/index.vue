@@ -94,7 +94,7 @@ import { openBook, getBook } from 'src/service/book';
 import {
   renderAnnotations,
   findBookAnnotation
-} from 'src/service/book_annotation';
+} from 'src/service/book-annotation';
 
 const route = useRoute();
 const { progress, setBook, setBookId } = useBook();
