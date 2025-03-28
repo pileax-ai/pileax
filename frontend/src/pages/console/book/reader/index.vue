@@ -37,7 +37,7 @@
   </o-reader-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRoute } from 'vue-router';
 import PopupMenu from './PopupMenu.vue';
 import ShareDialog from './ShareDialog.vue';
@@ -59,13 +59,12 @@ const route = useRoute();
 const { setBook, setBookId } = useBook();
 
 const bookRef = ref(null);
-const id = ref('');
 const showShareDialog = ref(false);
 
-async function open() {
-  const item = await getBook(id.value);
+async function openWithBook(bookId: string) {
+  const item: Indexable = await getBook(bookId);
   if (item) {
-    setBookId(parseInt(id.value));
+    setBookId(parseInt(bookId));
     setBook(item);
 
     const filePath = `${item.path}/${item.fileName}`;
@@ -73,13 +72,13 @@ async function open() {
     await openBook(bookRef.value, filePath, cfi);
 
     setTimeout(() => {
-      prepareAnnotations();
+      prepareAnnotations(bookId);
     }, 300);
   }
 }
 
-async function prepareAnnotations() {
-  const annotations = await findBookAnnotation(id.value);
+async function prepareAnnotations(bookId: string) {
+  const annotations = await findBookAnnotation(bookId);
   renderAnnotations(annotations);
 }
 
@@ -88,8 +87,8 @@ function onShare(show = true) {
 }
 
 onActivated(() => {
-  id.value = route.query.id || '1';
-  open();
+  const id: string = String(route.query.id ?? '');
+  openWithBook(id);
 })
 </script>
 

@@ -270,7 +270,7 @@ const queryBook = async (title = '') => {
   });
 }
 
-const getBook = async (id: string) => {
+const getBook = async (id: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     bookService.getBook(id).then((res: any) => {
       resolve(res);

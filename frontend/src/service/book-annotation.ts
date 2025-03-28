@@ -33,7 +33,7 @@ const renderAnnotations = (annotations: []) => {
  * @param bookId Book id
  * @return List
  */
-const findBookAnnotation = async (bookId: number) => {
+const findBookAnnotation = async (bookId: string) => {
   const query = {
     bookId: bookId
   };
