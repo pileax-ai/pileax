@@ -9,7 +9,7 @@ import useDialog from 'core/hooks/useDialog'
 import useReader from 'src/hooks/useReader'
 import useBook from 'src/hooks/useBook'
 import { bookService } from 'src/service/remote/book'
-import { BookOperation } from 'src/types/book'
+import { BookOperation, ReadingMode } from 'src/types/reading'
 
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
@@ -21,6 +21,7 @@ const {
   setSelection,
   setToc,
   setOperation,
+  readingMode,
 } = useBook();
 
 // ---------------------------------------------------------
@@ -79,7 +80,11 @@ const onKeydown = (data: Indexable) => {
 const onRelocated = (data: Indexable) => {
   if (operation.value === BookOperation.Manual) {
     setProgress(data);
-    saveBookProgress(data);
+
+    // Only save reading progress in Read mode.
+    if (readingMode.value === ReadingMode.Read) {
+      saveBookProgress(data);
+    }
   } else if (operation.value === BookOperation.Load) {
     setProgress(data);
   }
@@ -152,6 +157,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
         filePath: filePath
       };
 
+      console.log('openBook', cfi)
       window.ebook.open(bookElement, data, cfi, importing);
       setManual(BookOperation.Load);
       resolve(data);

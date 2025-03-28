@@ -180,7 +180,7 @@ function onAdd() {
 }
 
 function openBook(item: any) {
-  window.electronAPI.openNewWindow(item.id, `/reader/view?id=${item.id}`);
+  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
 }
 
 function doQuery() {

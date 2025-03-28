@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
-import { BookOperation, BookTocItem } from 'src/types/book';
+import { BookOperation, BookTocItem, ReadingMode } from 'src/types/reading'
 
 export const useBookStore = defineStore('book', {
   state: () => ({
@@ -16,6 +16,7 @@ export const useBookStore = defineStore('book', {
     annotationId: 0,
     annotationTimer: 0,
     operation: BookOperation.Preview,
+    readingMode: ReadingMode.Read,
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -60,9 +61,13 @@ export const useBookStore = defineStore('book', {
     setOperation(value: BookOperation) {
       this.operation = value;
     },
+    setReadingMode(value: ReadingMode) {
+      this.readingMode = value;
+    },
   },
   persist: {
-    key: `${CODE}.book`
+    key: `${CODE}.book`,
+    storage: sessionStorage,
   }
 });
 

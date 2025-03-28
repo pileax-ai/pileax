@@ -38,37 +38,66 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import PopupMenu from './PopupMenu.vue';
-import ShareDialog from './ShareDialog.vue';
-import ReaderHeader from './ReaderHeader.vue';
-import ReaderFooter from './ReaderFooter.vue';
-import OReaderPage from 'core/page/template/OReaderPage.vue';
-import ReaderSide from 'src/components/reader/ReaderSide.vue';
+import { useRoute } from 'vue-router'
+import PopupMenu from './PopupMenu.vue'
+import ShareDialog from './ShareDialog.vue'
+import ReaderHeader from './ReaderHeader.vue'
+import ReaderFooter from './ReaderFooter.vue'
+import OReaderPage from 'core/page/template/OReaderPage.vue'
+import ReaderSide from 'src/components/reader/ReaderSide.vue'
 
-import 'js/reader.js';
-import { onActivated, ref } from 'vue';
-import useBook from 'src/hooks/useBook';
-import { prevPage, nextPage, openBook, getBook } from 'src/service/book';
-import {
-  renderAnnotations,
-  findBookAnnotation
-} from 'src/service/book-annotation';
+import 'js/reader.js'
+import { onActivated, ref } from 'vue'
+import useBook from 'src/hooks/useBook'
+import { getBook, nextPage, openBook, prevPage } from 'src/service/book'
+import { bookAnnotationService } from 'src/service/remote/book-annotation'
+import { findBookAnnotation, renderAnnotations } from 'src/service/book-annotation'
+import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute();
-const { setBook, setBookId } = useBook();
+const { store, setBook, setBookId } = useBook();
 
 const bookRef = ref(null);
 const showShareDialog = ref(false);
 
-async function openWithBook(bookId: string) {
-  const item: Indexable = await getBook(bookId);
-  if (item) {
-    setBookId(parseInt(bookId));
-    setBook(item);
+function prepareOpen() {
+  const name = route.name;
+  const id: string = String(route.query.id ?? '');
+  console.log('prepareOpen', name, id);
+  switch (name) {
+    case 'reader-book':
+      openWithBook(id);
+      break;
+    case 'reader-annotation':
+      openWithAnnotation(id);
+      break;
+    default:
+      console.warn('Not supported');
+      break;
+  }
+}
 
-    const filePath = `${item.path}/${item.fileName}`;
-    const cfi = item.readingPosition ?? '';
+async function openWithBook(bookId: string) {
+  store.setReadingMode(ReadingMode.Read);
+  await open(bookId);
+}
+
+async function openWithAnnotation(annotationId: string) {
+  const annotation = await bookAnnotationService.get(annotationId);
+  const bookId = annotation.bookId;
+  const cfi = annotation.value;
+  store.setReadingMode(ReadingMode.Preview);
+  await open(bookId, cfi);
+}
+
+async function open(bookId: string, initialCfi = '') {
+  const book: Indexable = await getBook(bookId);
+  if (book) {
+    setBookId(parseInt(bookId));
+    setBook(book);
+
+    const filePath = `${book.path}/${book.fileName}`;
+    const cfi = initialCfi || book.readingPosition || '';
     await openBook(bookRef.value, filePath, cfi);
 
     setTimeout(() => {
@@ -87,8 +116,7 @@ function onShare(show = true) {
 }
 
 onActivated(() => {
-  const id: string = String(route.query.id ?? '');
-  openWithBook(id);
+  prepareOpen();
 })
 </script>
 

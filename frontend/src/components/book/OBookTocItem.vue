@@ -41,7 +41,7 @@ import {computed, PropType, defineAsyncComponent, watch} from 'vue';
 
 import ONaviItem from 'src/components/book/ONaviItem.vue';
 import useBook from 'src/hooks/useBook';
-import {BookTocItem} from 'src/types/book';
+import {BookTocItem} from 'src/types/reading';
 
 const props = defineProps({
   root: { type: Boolean, default: false },

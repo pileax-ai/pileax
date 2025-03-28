@@ -4,7 +4,7 @@
  * @version 1.0
  */
 import 'src/js/reader.js';
-import { bookAnnotationService } from 'src/service/remote/book-annotation'
+import { bookAnnotationService } from 'src/service/remote/book-annotation';
 
 // ---------------------------------------------------------
 // Reader

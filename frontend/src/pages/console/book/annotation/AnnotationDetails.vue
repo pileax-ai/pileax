@@ -40,11 +40,14 @@
       </q-card-section>
 
       <q-card-section class="row col-12 justify-center">
-        <q-btn icon="menu_book"
-               label="开始阅读"
-               class="bg-primary text-white action"
+        <q-btn icon="visibility"
+               label="开始预览"
+               class="bg-cyan text-white action"
                flat
                @click="openBook" />
+        <div class="col-12 text-center text-tips caption q-mt-md">
+          预览模式下，不会保存阅读进度.
+        </div>
       </q-card-section>
     </q-card>
   </section>
@@ -112,7 +115,7 @@ function onAction (action :any) {
 
 function openBook() {
   const item = props.data;
-  window.electronAPI.openNewWindow(item.id, `/reader/view?id=${item.id}`);
+  window.electronAPI.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
 }
 
 async function onRemoveBook() {

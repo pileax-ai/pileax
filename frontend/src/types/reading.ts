@@ -1,12 +1,3 @@
-export interface MenuItemMeta {
-  icon?: string,
-  iconClass?: string,
-  tag?: string,
-  separator?: boolean,
-  hidden?: boolean,
-  collapse?: boolean,
-}
-
 export interface BookTocItem {
   id: number;
   label: string;
@@ -19,4 +10,9 @@ export enum BookOperation {
   Load = 'load',
   Preview = 'preview',
   None = 'none',
+}
+
+export enum ReadingMode {
+  Read = 'read',
+  Preview = 'preview',
 }

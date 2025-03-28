@@ -21,7 +21,7 @@
 import { PropType } from 'vue';
 
 import useBook from 'src/hooks/useBook';
-import { BookTocItem } from 'src/types/book';
+import { BookTocItem } from 'src/types/reading';
 
 const props = defineProps({
   item: {

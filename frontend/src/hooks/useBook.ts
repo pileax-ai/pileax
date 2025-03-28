@@ -1,7 +1,7 @@
 
 import { useBookStoreWithOut } from 'stores/book';
 import { computed } from 'vue';
-import { BookOperation, BookTocItem } from 'src/types/book'
+import { BookOperation, BookTocItem } from 'src/types/reading'
 
 export default function () {
   const store = useBookStoreWithOut();
@@ -32,6 +32,9 @@ export default function () {
   });
   const operation = computed(() => {
     return store.operation;
+  });
+  const readingMode = computed(() => {
+    return store.readingMode;
   });
 
   function setBook(value: any) {
@@ -86,6 +89,7 @@ export default function () {
     keyword,
     annotationTimer,
     operation,
+    readingMode,
 
     setBook,
     setBookId,

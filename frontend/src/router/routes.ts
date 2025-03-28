@@ -110,9 +110,14 @@ const routes: RouteRecordRaw[] = [
     component: ReaderLayout,
     children: [
       {
-        path: 'view',
+        path: 'book',
         component: () => import('pages/console/book/reader/index.vue'),
-        name: 'reader-view',
+        name: 'reader-book',
+      },
+      {
+        path: 'annotation',
+        component: () => import('pages/console/book/reader/index.vue'),
+        name: 'reader-annotation',
       },
     ]
   },
