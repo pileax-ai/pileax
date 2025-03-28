@@ -6,11 +6,14 @@ import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import {
   NoteSchema,
   NoteBodySchema,
-  NoteGetSchema,
-  NoteEmptySchema,
-  NoteQuerySchema,
-  NoteQueryBodySchema
 } from '@/api/note/model/noteModel';
+import {
+  EmptySchema,
+  StringIdSchema,
+  QuerySchema,
+  QueryBodySchema
+} from '@/core/api/commonModel';
+
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
 import { noteController } from '../controller/noteController';
 
@@ -29,7 +32,7 @@ noteRegistry.registerPath({
   request: { body: NoteBodySchema },
   responses: createApiResponse(NoteSchema, 'Success'),
 });
-apiRouter.post('/note', validateBody(NoteSchema), noteController.save);
+apiRouter.post('/note', validateBody(NoteSchema.partial()), noteController.save);
 
 /**
  * getAll
@@ -49,10 +52,10 @@ noteRegistry.registerPath({
 	method: 'get',
 	path: `${apiBase}/note`,
 	tags: ['Note'],
-	request: { query: NoteGetSchema.shape.query },
+	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(NoteSchema, 'Success'),
 });
-apiRouter.get('/note', validateRequest(NoteGetSchema), noteController.get);
+apiRouter.get('/note', validateRequest(StringIdSchema), noteController.get);
 
 /**
  * delete
@@ -61,10 +64,10 @@ noteRegistry.registerPath({
   method: 'delete',
   path: `${apiBase}/note`,
   tags: ['Note'],
-  request: { query: NoteGetSchema.shape.query },
-  responses: createApiResponse(NoteEmptySchema, 'Success'),
+  request: { query: StringIdSchema.shape.query },
+  responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.get('/note', validateRequest(NoteGetSchema), noteController.delete);
+apiRouter.delete('/note', validateRequest(StringIdSchema), noteController.delete);
 
 /**
  * query
@@ -73,7 +76,7 @@ noteRegistry.registerPath({
   method: 'post',
   path: `${apiBase}/note/query`,
   tags: ['Note'],
-  request: { body: NoteQueryBodySchema },
+  request: { body: QueryBodySchema },
   responses: createApiResponse(z.array(NoteSchema), 'Success'),
 });
-apiRouter.post('/note/query', validateRequest(NoteQuerySchema), noteController.query);
+apiRouter.post('/note/query', validateRequest(QuerySchema), noteController.query);

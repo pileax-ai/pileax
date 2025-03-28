@@ -1,4 +1,5 @@
-import type { Note, NoteUpdate, NoteQuery } from "@/api/note/model/noteModel";
+import type { Note, NoteUpdate } from "@/api/note/model/noteModel";
+import type { Query } from "@/core/api/commonModel";
 
 import { db } from '@/drizzle'
 import { note } from '@/drizzle/schema'
@@ -44,7 +45,7 @@ export class NoteRepository {
     return db.select().from(note).all();
   }
 
-  async query(query: NoteQuery) {
+  async query(query: Query) {
     const filters = [];
     const condition: Record<string, unknown> = query.condition || {};
     if (condition.title) filters.push(eq(note.title, condition.title as any))

@@ -29,7 +29,7 @@ export class RemoteNoteService implements NoteService {
    *
    * @param criteria
    */
-  async queryNote(criteria: Indexable) {
+  async queryNote(criteria: Indexable): Promise<any> {
     const body = {
       pageIndex: 1,
       pageSize: 20,

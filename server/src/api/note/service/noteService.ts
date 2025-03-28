@@ -1,5 +1,6 @@
 import { NotFoundException } from '@/core/api/exceptions';
-import type { Note, NoteQuery } from '@/api/note/model/noteModel';
+import type { Note } from '@/api/note/model/noteModel';
+import type { Query } from "@/core/api/commonModel";
 import { NoteRepository } from '@/api/note/repo/noteRepository';
 
 export class NoteService {
@@ -33,7 +34,7 @@ export class NoteService {
     return this.repo.getAll()
   }
 
-  async query(data: NoteQuery) {
+  async query(data: Query) {
     return this.repo.query(data)
   }
 }

@@ -87,6 +87,7 @@
 <script setup lang="ts">
 import {computed, onActivated, ref, watch} from 'vue';
 import { importBooks, queryBook } from 'src/service/book';
+import { bookService } from 'src/service/remote/book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
@@ -98,7 +99,7 @@ const { queryTimer } = useReader();
 const { view, query } = useQuery();
 
 const data = ref({});
-const condition = ref({});
+const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');
@@ -183,9 +184,10 @@ function openBook(item: any) {
 }
 
 function doQuery() {
-  queryBook(condition.value.title).then(res => {
-    console.log('res', res);
-    rows.value = res.list;
+  bookService.queryBook({
+    title: condition.value.title
+  }).then(res => {
+    rows.value = res;
   });
 }
 

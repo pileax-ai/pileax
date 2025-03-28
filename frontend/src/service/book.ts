@@ -8,10 +8,16 @@ import { notifyWarning } from 'core/utils/control';
 import useDialog from 'core/hooks/useDialog';
 import useReader from 'src/hooks/useReader';
 import useBook from 'src/hooks/useBook';
+import { bookService } from 'src/service/remote/book';
 
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
-const { bookId, setProgress, setSelection, setToc } = useBook();
+const {
+  bookId,
+  setProgress,
+  setSelection,
+  setToc
+} = useBook();
 
 // --------------------------------------------------------------------------------
 // Reader
@@ -104,24 +110,20 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
 
 const savingBook = async (metadata: any) => {
   console.log('savingBook', metadata);
-  // Check duplication
-  const existBook = await window.electronAPI.dbExecute('Book', 'findByUuid', metadata.sha1);
-  console.log('existBook', existBook);
-  if (existBook) {
+  bookService.getBookByUuid(metadata.sha1).then(res => {
     notifyWarning('书已存在');
-    return;
-  }
+  }).catch(err => {
+    // Save book files
+    const { sha1, filePath, cover } = metadata;
+    window.electronAPI.saveBookFiles({ sha1, filePath, cover }).then((res: any) => {
+      const book = buildBook(metadata, res);
+      console.log('saveBookFile', book);
 
-  // Save book files
-  const { sha1, filePath, cover } = metadata;
-  window.electronAPI.saveBookFiles({ sha1, filePath, cover }).then((res: any) => {
-    const book = buildBook(metadata, res);
-    console.log('saveBookFile', book);
-
-    // Save to database
-    saveBook(book);
-  }).catch((err: any) => {
-    console.error('保存文件失败', err);
+      // Save to database
+      saveBook(book);
+    }).catch((err: any) => {
+      console.error('保存文件失败', err);
+    })
   })
 }
 
@@ -136,9 +138,12 @@ const saveBookProgress = (progress: any) => {
   saveBook(params);
 }
 
+/**
+ * Save book to database
+ * @param book Book
+ */
 const saveBook = async (book: any) => {
-  window.electronAPI.dbExecute('Book', 'save', book).then((res: any) => {
-    console.log('saveBook to DB', res);
+  bookService.saveBook(book).then((res: any) => {
     setQueryTimer(Date.now());
   }).catch((err: any) => {
     console.error('保存数据库失败', err);
@@ -213,7 +218,7 @@ const queryBook = async (title = '') => {
 
 const getBook = async (id: string) => {
   return new Promise((resolve, reject) => {
-    window.electronAPI.dbExecute('Book', 'findById', id).then((res: any) => {
+    bookService.getBook(id).then((res: any) => {
       resolve(res);
     }).catch((err: any) => {
       reject(err);
@@ -223,7 +228,7 @@ const getBook = async (id: string) => {
 
 const removeBook = async (id: string) => {
   return new Promise((resolve, reject) => {
-    window.electronAPI.dbExecute('Book', 'removeBookAndFiles', id).then((res: any) => {
+    bookService.deleteBook(id).then((res: any) => {
       resolve(res);
     }).catch((err: any) => {
       reject(err);
