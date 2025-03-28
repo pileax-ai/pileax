@@ -31,15 +31,11 @@ export class RemoteBookService {
   /**
    * Pagination query
    *
-   * @param criteria
+   * @param query
    */
-  async queryBook(criteria: Indexable): Promise<any> {
-    const body = {
-      pageIndex: 1,
-      pageSize: 20,
-      condition: criteria
-    };
-    return POST({ name: 'book', path: '/query', body: body });
+  async queryBook(query: Indexable): Promise<any> {
+
+    return POST({ name: 'book', path: '/query', body: query });
   }
 }
 

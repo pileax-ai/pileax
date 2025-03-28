@@ -6,6 +6,7 @@
     <template #header-left>
       <div class="query-item no-drag-region">
         <q-input v-model="condition.title"
+                 class="pi-field"
                  placeholder="搜索"
                  debounce="800"
                  standout dense clearable
@@ -23,25 +24,7 @@
                      tooltip="添加"
                      :loading="loading"
                      @click="onAdd" />
-      <q-btn icon="more_horiz" flat round>
-        <q-menu class="o-menu">
-          <q-list :style="{minWidth: '200px'}">
-            <template v-for="(action, index) in actions" :key="`action-${index}`">
-              <template v-if="true">
-                <q-separator class="bg-accent" v-if="action.separator" />
-                <o-common-item v-bind="action"
-                               class="text-tips"
-                               :class="{ 'active': action.selected }"
-                               @click="onAction(action)"
-                               clickable
-                               closable
-                               right-side>
-                </o-common-item>
-              </template>
-            </template>
-          </q-list>
-        </q-menu>
-      </q-btn>
+      <book-filter-btn @view="onView" @sort="onSort" />
     </template>
 
     <template v-if="rows.length">
@@ -65,7 +48,8 @@
       </section>
     </template>
     <template v-else>
-      <section class="row col-12 justify-center no-records">
+      <o-no-data message="没有记录" image v-if="condition.title" />
+      <section class="row col-12 justify-center no-records" v-else>
         <span class="text-readable">书库中还没有记录，快来添加吧</span>
 
         <div class="row col-12 justify-center action">
@@ -91,6 +75,7 @@ import { bookService } from 'src/service/remote/book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
+import BookFilterBtn from './BookFilterBtn.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
@@ -103,52 +88,16 @@ const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');
-const sortBy = ref('recent');
+const orderBy = ref<Indexable>({});
 
-const actions = computed(() => {
-  return [
-    {
-      label: 'Grid',
-      value: 'grid',
-      icon: 'grid_view',
-      selected: bookView.value === 'grid',
-    },
-    {
-      label: 'List',
-      value: 'list',
-      icon: 'list',
-      selected: bookView.value === 'list',
-    },
-    {
-      label: 'Recent',
-      value: 'recent',
-      icon: 'schedule',
-      selected: sortBy.value === 'recent',
-      separator: true
-    },
-    {
-      label: 'Title',
-      value: 'title',
-      icon: 'sort_by_alpha',
-      selected: sortBy.value === 'title',
-    },
-  ];
-});
+function onView(value: string) {
+  bookView.value = value;
+}
 
-
-function onAction (action :any) {
-  switch (action.value) {
-    case 'grid':
-    case 'list':
-      bookView.value = action.value;
-      break;
-    case 'recent':
-    case 'title':
-      sortBy.value = action.value;
-      break;
-    default:
-      break;
-  }
+function onSort(value: Indexable) {
+  console.log('sort', value);
+  orderBy.value = value;
+  doQuery();
 }
 
 function onDetails(item: any) {
@@ -184,9 +133,16 @@ function openBook(item: any) {
 }
 
 function doQuery() {
-  bookService.queryBook({
-    title: condition.value.title
-  }).then(res => {
+  const query = {
+    pageIndex: 1,
+    pageSize: 20,
+    condition: {
+      title: condition.value.title
+    },
+    orderBy: orderBy.value
+  };
+
+  bookService.queryBook(query).then(res => {
     rows.value = res;
   });
 }

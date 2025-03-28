@@ -5,6 +5,7 @@
     <template #header-left>
       <div class="query-item no-drag-region">
         <q-input v-model="condition.note"
+                 class="pi-field"
                  placeholder="搜索"
                  debounce="800"
                  standout dense clearable
@@ -58,7 +59,7 @@ const { view, query } = useQuery();
 
 const data = ref({});
 const coverUrl = ref('');
-const condition = ref({});
+const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');

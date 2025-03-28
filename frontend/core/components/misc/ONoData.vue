@@ -1,7 +1,7 @@
 <template>
   <div class="o-no-data">
     <img src="/images/ui/page/no-data.svg" v-if="image" />
-    <div class="q-pt-lg">{{ message }}</div>
+    <div class="q-pt-lg text-tips">{{ message }}</div>
   </div>
 </template>
 

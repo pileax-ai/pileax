@@ -30,3 +30,79 @@
     }
   }
 }
+
+// Field
+// -----------------
+.pi-field {
+  &.q-field--standout.q-field--focused, &.q-field--highlighted {
+    .q-field__control {
+      background: rgba(#000, 0.05) !important;
+      box-shadow: unset !important;
+      box-sizing: border-box !important;
+
+      input, .q-field__suffix {
+        color: var(--q-info);
+      }
+      .q-field__marginal, .q-field__native {
+        color: var(--q-info);
+      }
+
+    }
+  }
+
+  .q-field__control {
+    &:hover {
+      background-color: transparent!important;
+    }
+  }
+}
+
+// Menu
+// -----------------
+.pi-menu {
+  min-width: 160px !important;
+  max-height: 80vh !important;
+
+  .q-list {
+    padding: 8px 8px;
+    .q-item {
+      padding: 8px 10px;
+      min-height: unset;
+      border-radius: 4px;
+
+      &:not(:first-child) {
+        margin-top: 2px;
+      }
+    }
+    .q-separator {
+      margin: 8px -8px;
+    }
+  }
+
+  .q-item {
+    min-height: unset;
+    padding: 4px 8px;
+
+    &__section--main {
+      padding-left: 8px;
+    }
+
+    .side-label {
+      .q-icon {
+        font-size: 1rem;
+        visibility: hidden;
+      }
+    }
+
+    &.active {
+      .q-icon {
+        visibility: visible;
+      }
+    }
+  }
+
+  .q-avatar {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+}

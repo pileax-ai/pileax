@@ -1,7 +1,7 @@
 <template>
   <header class="row items-center justify-between header reader-header"
           :class="{'drawer-closed': !leftDrawerShow}">
-    <section class="row items-center text-readable">
+    <section class="row col-auto items-center text-readable">
       <div class="menu q-pl-sm no-drag-region" v-if="!leftDrawerShow">
         <o-hover-btn icon="menu"
                      hover-icon="mdi-backburger rotate-180"
@@ -22,7 +22,11 @@
           {{ progress.tocItem?.label }}
         </span>
     </section>
-    <section class="row text-readable">
+
+    <div class="col spacer drag-region">
+    </div>
+
+    <section class="row col-auto text-readable">
       <section class="row hover-shows top-toolbar toolbar-hover-shows">
         <q-btn icon="search" class="o-toolbar-btn" flat />
         <q-btn icon="volume_up" class="o-toolbar-btn" flat>
@@ -73,6 +77,10 @@ function onLeftDrawerLeave() {
   position: absolute;
   top: 0;
   left: 0;
+
+  .spacer {
+    height: 40px;
+  }
 
   .top-toolbar {
     padding-right: 24px;

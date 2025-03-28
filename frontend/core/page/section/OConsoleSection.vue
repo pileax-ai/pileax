@@ -65,7 +65,7 @@
             </section>
           </q-card-section>
         </q-card>
-        <q-separator class="bg-accent" />
+        <q-separator class="bg-accent" v-if="false" />
       </template>
 
       <section class="extension" :class="{'only': extensionOnly}">
