@@ -123,7 +123,6 @@ class Reader {
   #originalContent;
 
   constructor() {
-    console.log('constructor');
     this.#footnoteHandler.addEventListener('before-render', (e) => {
       const { view } = e.detail;
       this.setView(view);
@@ -275,6 +274,10 @@ class Reader {
     const k = event.key
     if (k === 'ArrowLeft' || k === 'h') this.view.goLeft()
     else if(k === 'ArrowRight' || k === 'l') this.view.goRight()
+    postMessage('onKeydown', {
+      key: k,
+      event: event
+    });
   }
   #onLoad({ detail: { doc, index } }) {
     this.#doc = doc;
@@ -392,7 +395,7 @@ const onAnnotationClick = (annotation, pos) => {
 
 const initFootDialog = () => {
   const footnoteDialog = document.getElementById('footnote-dialog');
-  console.log('footnoteDialog', footnoteDialog);
+  // console.log('footnoteDialog', footnoteDialog);
 
   footnoteDialog.addEventListener('close', () => {
     postMessage('onFootnoteClose', null);
@@ -478,6 +481,7 @@ const changeStyle = (newStyle) => {
 // Ebook API
 // --------------------------------------------------------------------------------
 const goToHref = (href) => reader.view.goTo(href);
+const goToPercent = (percent) => reader.view.goToFraction(percent);
 const addAnnotation = (annotation) =>
   reader.addAnnotation(annotation);
 const removeAnnotation = (cfi) =>
@@ -492,6 +496,7 @@ window.ebook = {
   nextPage: () => reader.view.next(),
   prevPage: () => reader.view.prev(),
   goToHref: goToHref,
+  goToPercent: goToPercent,
   addAnnotation: addAnnotation,
   removeAnnotation: removeAnnotation,
   renderAnnotations: renderAnnotations,

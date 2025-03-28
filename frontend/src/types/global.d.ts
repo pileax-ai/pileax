@@ -21,6 +21,7 @@ declare global {
       nextPage: () => void;
       prevPage: () => void;
       goToHref: (href: string) => void;
+      goToPercent: (percent: number) => void;
       addAnnotation: (annotation: any) => void;
       removeAnnotation: (cfi: string) => void;
       renderAnnotations: (annotations: []) => void;

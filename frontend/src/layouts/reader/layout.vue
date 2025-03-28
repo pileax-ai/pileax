@@ -67,7 +67,7 @@ function onLeftDrawerLeave() {
 }
 
 function onRightDrawerEnter() {
-  setRightDrawerHoverShow(true);
+  // setRightDrawerHoverShow(true);
 }
 
 function onRightDrawerLeave(event: MouseEvent) {

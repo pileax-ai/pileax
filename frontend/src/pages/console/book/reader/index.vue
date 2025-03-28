@@ -90,14 +90,14 @@ import 'js/reader.js';
 import { onActivated, ref } from 'vue';
 import useBook from 'src/hooks/useBook';
 import useReader from 'src/hooks/useReader';
-import { openBook, getBook } from 'src/service/book';
+import { prevPage, nextPage, openBook, getBook } from 'src/service/book';
 import {
   renderAnnotations,
   findBookAnnotation
 } from 'src/service/book-annotation';
 
 const route = useRoute();
-const { progress, setBook, setBookId } = useBook();
+const { store, progress, setBook, setBookId } = useBook();
 const {
   leftDrawerShow,
   rightDrawerShow,
@@ -131,14 +131,6 @@ async function prepareAnnotations() {
   const annotations = await findBookAnnotation(id.value);
   console.log('annotations', annotations);
   renderAnnotations(annotations);
-}
-
-function prevPage() {
-  window.ebook.prevPage();
-}
-
-function nextPage() {
-  window.ebook.nextPage();
 }
 
 function onShare(show = true) {
@@ -178,7 +170,7 @@ onActivated(() => {
       visibility: hidden;
     }
 
-    &:hover {
+    &:hover, &:focus-within {
       .toolbar-hover-show {
         visibility: visible;
         opacity: 1;

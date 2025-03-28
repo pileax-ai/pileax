@@ -3,25 +3,29 @@
  *
  * @version 1.0
  */
-import 'src/js/reader.js';
-import { notifyWarning } from 'core/utils/control';
-import useDialog from 'core/hooks/useDialog';
-import useReader from 'src/hooks/useReader';
-import useBook from 'src/hooks/useBook';
-import { bookService } from 'src/service/remote/book';
+import 'src/js/reader.js'
+import { notifyWarning } from 'core/utils/control'
+import useDialog from 'core/hooks/useDialog'
+import useReader from 'src/hooks/useReader'
+import useBook from 'src/hooks/useBook'
+import { bookService } from 'src/service/remote/book'
+import { BookOperation } from 'src/types/book'
 
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
 const {
+  store,
   bookId,
+  operation,
   setProgress,
   setSelection,
-  setToc
+  setToc,
+  setOperation,
 } = useBook();
 
-// --------------------------------------------------------------------------------
-// Reader
-// --------------------------------------------------------------------------------
+// ---------------------------------------------------------
+// From Reader
+// ---------------------------------------------------------
 /**
  * Reader postMessage
  * @param name
@@ -39,6 +43,9 @@ export const postMessage = (name :string, data :any) => {
     case 'onClickView':
       setSelection({});
       break;
+    case 'onKeydown':
+      onKeydown(data);
+      break;
     case 'onImageClick':
       openDialog({
         type: 'image-viewer',
@@ -49,8 +56,7 @@ export const postMessage = (name :string, data :any) => {
       savingBook(data);
       break;
     case 'onRelocated':
-      setProgress(data);
-      saveBookProgress(data);
+      onRelocated(data);
       break;
     case 'onSetToc':
       setToc(data);
@@ -63,8 +69,55 @@ export const postMessage = (name :string, data :any) => {
   }
 }
 
+const onKeydown = (data: Indexable) => {
+  const keys = ['ArrowLeft', 'ArrowRight', 'h', 'l'];
+  if (keys.indexOf(data.key) >= 0) {
+    setManual();
+  }
+}
+
+const onRelocated = (data: Indexable) => {
+  if (operation.value === BookOperation.Manual) {
+    setProgress(data);
+    saveBookProgress(data);
+  } else if (operation.value === BookOperation.Load) {
+    setProgress(data);
+  }
+  store.setTempProgress(data);
+  setManual(BookOperation.None)
+}
+
+// ---------------------------------------------------------
+// To Reader
+// ---------------------------------------------------------
 const changeStyle = (newStyle: Indexable) => {
   window.ebook.changeStyle(newStyle);
+}
+
+const goToHref = (href: string, manual = false) => {
+  if (manual) {
+    setManual();
+  }
+  window.ebook.goToHref(href);
+}
+
+const goToPercent = (percent: number) => {
+  window.ebook.goToPercent(percent);
+}
+
+const prevPage = () => {
+  setManual();
+  window.ebook.prevPage();
+}
+
+const nextPage = () => {
+  setManual();
+  window.ebook.nextPage();
+}
+
+const setManual = (operation = BookOperation.Manual) => {
+  // console.log('operation', operation)
+  setOperation(operation);
 }
 
 // --------------------------------------------------------------------------------
@@ -100,6 +153,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
       };
 
       window.ebook.open(bookElement, data, cfi, importing);
+      setManual(BookOperation.Load);
       resolve(data);
     }).catch((err: any) => {
       console.error('打开文件失败：', err);
@@ -237,7 +291,12 @@ const removeBook = async (id: string) => {
 }
 
 export {
+  goToHref,
+  goToPercent,
+  prevPage,
+  nextPage,
   changeStyle,
+  setManual,
 
   importBooks,
   getBook,

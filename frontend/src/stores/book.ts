@@ -1,19 +1,21 @@
 import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
-import { BookTocItem } from 'src/types/book';
+import { BookOperation, BookTocItem } from 'src/types/book';
 
 export const useBookStore = defineStore('book', {
   state: () => ({
     bookId: 0,
-    book: {},
+    book: {} as Indexable,
     toc: [] as BookTocItem[],
     tocItem: {} as BookTocItem,
-    progress: {},
-    selection: {},
+    progress: {} as Indexable,
+    tempProgress: {} as Indexable,
+    selection: {} as Indexable,
     keyword: '',
     annotationId: 0,
     annotationTimer: 0,
+    operation: BookOperation.Preview,
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -37,6 +39,12 @@ export const useBookStore = defineStore('book', {
         this.setTocItem(progress.tocItem);
       }
     },
+    setTempProgress(progress: any) {
+      this.tempProgress = progress;
+      if (progress.tocItem) {
+        this.setTocItem(progress.tocItem);
+      }
+    },
     setSelection(selection: any) {
       this.selection = selection;
     },
@@ -48,6 +56,9 @@ export const useBookStore = defineStore('book', {
     },
     setAnnotationId(value: number) {
       this.annotationId = value;
+    },
+    setOperation(value: BookOperation) {
+      this.operation = value;
     },
   },
   persist: {
