@@ -12,7 +12,7 @@
          @mouseenter="onLeftDrawerEnter"
          v-if="!leftDrawerShow">
     </div>
-    <div class="drawer-handler  absolute-right"
+    <div class="drawer-handler absolute-right"
          @mouseenter="onRightDrawerEnter"
          v-if="!rightDrawerShow">
     </div>
@@ -67,7 +67,7 @@ function onLeftDrawerLeave() {
 }
 
 function onRightDrawerEnter() {
-  // setRightDrawerHoverShow(true);
+  setRightDrawerHoverShow(true);
 }
 
 function onRightDrawerLeave(event: MouseEvent) {

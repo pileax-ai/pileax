@@ -21,7 +21,15 @@ export const useReaderStore = defineStore('reader', {
     } as Indexable,
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
-    queryTimer: 0
+    queryTimer: 0,
+    service: {
+      main: [] as Indexable[],
+      secondary: [] as Indexable[]
+    } as Indexable,
+    aiAgent: {
+      main: [] as Indexable[],
+      secondary: [] as Indexable[]
+    } as Indexable,
   }),
   getters: {
     getActivity: (state) => state.leftDrawer.activity,

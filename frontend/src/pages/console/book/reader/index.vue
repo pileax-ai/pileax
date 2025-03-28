@@ -45,7 +45,7 @@
              class="text-readable bg-tips"
              flat
              @click="prevPage">
-        <o-tooltip message="上一页" />
+        <o-tooltip message="上一页" autohide />
       </q-btn>
     </nav>
     <section ref="bookRef" class="foliate-view">
@@ -55,7 +55,7 @@
              class="text-readable bg-tips"
              flat
              @click="nextPage">
-        <o-tooltip message="下一页" />
+        <o-tooltip message="下一页" autohide />
       </q-btn>
     </nav>
 
@@ -104,6 +104,7 @@ const {
   leftDrawerHoverShow,
   toggleLeftDrawer,
   toggleRightDrawer,
+  toggleShowRightDrawer,
   setLeftDrawerHoverShow
 } = useReader();
 

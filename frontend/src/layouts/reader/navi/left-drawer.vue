@@ -31,7 +31,7 @@ import useReader from 'src/hooks/useReader';
 
 const emit = defineEmits(['leave']);
 
-const { leftDrawerShow, leftDrawerHoverShow } = useReader();
+const { leftDrawer, leftDrawerShow, leftDrawerHoverShow, setLeftDrawerWidth } = useReader();
 const width = ref(READER_DRAWER_DEFAULT_SIZE);
 const drawerOpen = ref(true);
 const overlay = ref(false);
@@ -51,10 +51,12 @@ watch(() => leftDrawerHoverShow.value, (newValue) => {
 function onResize(value: number) {
   console.log('width', value);
   width.value = value;
+  setLeftDrawerWidth(value);
 }
 
 onBeforeMount(() => {
   drawerOpen.value = leftDrawerShow.value;
+  width.value = leftDrawer.value.width;
 })
 
 </script>
@@ -82,8 +84,9 @@ onBeforeMount(() => {
   .tab-navi {
     border-radius: 0 6px 6px 0;
     box-shadow: rgba(15, 15, 15, .05) 0 0 0 1px,
-      rgba(15, 15, 15, .1) 0 3px 6px,
-      rgba(15, 15, 15, .2) 0 9px 24px;
+      rgba(15, 15, 15, .01) 0 3px 6px,
+      rgba(15, 15, 15, .02) 0 9px 24px;
+    background: var(--q-secondary) !important;
   }
 }
 

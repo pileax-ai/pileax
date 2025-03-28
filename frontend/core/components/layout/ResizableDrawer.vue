@@ -37,7 +37,7 @@ const props = defineProps({
     default: 600
   },
   side: {
-    type: String,
+    type: String as () => 'left' | 'right',
     default: 'left'
   },
 });

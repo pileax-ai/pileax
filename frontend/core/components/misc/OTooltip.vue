@@ -1,7 +1,7 @@
 <template>
-  <q-tooltip class="o-tooltip text-white" :class="`bg-${color}`"
+  <q-tooltip ref="tooltipRef" class="o-tooltip text-white" :class="`bg-${color}`"
              :anchor="anchor"
-             :self="self">
+             :self="self" @show="onShow">
     {{message}}
     <slot></slot>
 
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   message: {
@@ -34,7 +34,17 @@ const props = defineProps({
     type: String,
     default: 'primary'
   },
+  autohide: {
+    type: Boolean,
+    default: false
+  },
+  hideTimeout: {
+    type: Number,
+    default: 1000
+  },
 });
+
+const tooltipRef = ref(null)
 
 const anchor = computed(() => {
   if (props.position === 'top' || props.position === 'bottom') {
@@ -58,6 +68,14 @@ const self = computed(() => {
       return '';
   }
 })
+
+function onShow() {
+  if (props.autohide) {
+    setTimeout(() => {
+      tooltipRef.value?.hide();
+    }, props.hideTimeout)
+  }
+}
 </script>
 
 <style lang="scss">

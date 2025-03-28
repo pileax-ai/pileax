@@ -12,7 +12,8 @@
     z-index: 10;
     width: 60px;
     top: 60px;
-    bottom: 60px;
+    bottom: calc(50vh + 50px);
+    border-radius: 4px;
     //background: red;
   }
 

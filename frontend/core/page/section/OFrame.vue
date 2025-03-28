@@ -46,7 +46,6 @@ function onLoad() {
     box-sizing: border-box;
     overflow: hidden;
     border: 0;
-    background-color: var(--q-accent);
   }
 }
 </style>

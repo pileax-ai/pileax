@@ -53,8 +53,21 @@ export default function () {
     store.setLeftDrawerItem({key: 'hoverShow', value: value});
   }
 
+  function setLeftDrawerWidth(value: number) {
+    store.setLeftDrawerItem({key: 'width', value: value});
+  }
+
   function toggleRightDrawer() {
     store.toggleRightDrawer();
+  }
+
+  function toggleShowRightDrawer() {
+    setRightDrawerHoverShow(true);
+    // if (!rightDrawerShow.value) {
+    //   setRightDrawerHoverShow(true);
+    // } else {
+    //   store.toggleRightDrawer();
+    // }
   }
 
   function setRightDrawerHoverShow(value: boolean) {
@@ -63,6 +76,10 @@ export default function () {
 
   function setRightDrawerSplit(value: boolean) {
     store.setRightDrawerItem({key: 'split', value: value});
+  }
+
+  function setRightDrawerWidth(value: number) {
+    store.setRightDrawerItem({key: 'width', value: value});
   }
 
   function setQueryTimer(time: number) {
@@ -82,10 +99,13 @@ export default function () {
 
     toggleLeftDrawer,
     setLeftDrawerHoverShow,
+    setLeftDrawerWidth,
     setActivity,
     toggleRightDrawer,
+    toggleShowRightDrawer,
     setRightDrawerHoverShow,
     setRightDrawerSplit,
+    setRightDrawerWidth,
     setQueryTimer,
   };
 }
