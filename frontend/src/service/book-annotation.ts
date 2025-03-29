@@ -40,11 +40,8 @@ const findBookAnnotation = async (bookId: string) => {
   return bookAnnotationService.getAll(query);
 }
 
-const joinQueryAnnotation = async (note = '') => {
-  const condition = {
-    note: note
-  };
-  return bookAnnotationService.queryBook(condition);
+const joinQueryAnnotation = async (query: Indexable) => {
+  return bookAnnotationService.queryBook(query);
 }
 
 

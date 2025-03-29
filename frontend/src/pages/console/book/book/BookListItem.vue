@@ -15,13 +15,17 @@
       </q-item-label>
     </q-item-section>
     <q-item-section side>
-      <q-btn label="详情" flat @click.stop="emit('details')" />
+      <div class="time">
+        {{ timeMulti(data.updateTime).fromNow }}
+      </div>
+      <q-btn label="详情" class="bg-tips details" flat @click.stop="emit('details')" />
     </q-item-section>
   </q-item>
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onBeforeMount, onMounted, ref, watch} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
+import { timeMulti } from 'core/utils/format';
 
 const props = defineProps({
   data: {
@@ -69,6 +73,12 @@ onMounted(() => {
     margin-top: 8px;
   }
 
+  &:hover {
+    .details {
+      visibility: visible;
+    }
+  }
+
   .q-item__section--avatar {
     min-width: 90px;
   }
@@ -80,7 +90,7 @@ onMounted(() => {
     .title {
       font-size: 1.2rem;
       font-weight: 600;
-      max-width: 50%;
+      //max-width: 50%;
       overflow: hidden;
       text-overflow: ellipsis;
       margin-bottom: 1rem;
@@ -89,6 +99,18 @@ onMounted(() => {
     .q-item__label--caption {
       font-size: 1rem;
     }
+  }
+
+  .time {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .details {
+    visibility: hidden;
   }
 }
 </style>

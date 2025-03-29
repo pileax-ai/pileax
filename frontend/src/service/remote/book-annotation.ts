@@ -43,15 +43,11 @@ export class RemoteBookAnnotationService {
 
   /**
    * Query, left join with book
-   * @param condition
+   * @param query
    */
-  async queryBook(condition: Indexable): Promise<any> {
-    const body = {
-      pageIndex: 1,
-      pageSize: 20,
-      condition: condition
-    };
-    return POST({ name: 'bookAnnotation', path: '/query/book', body: body });
+  async queryBook(query: Indexable): Promise<any> {
+
+    return POST({ name: 'bookAnnotation', path: '/query/book', body: query });
   }
 }
 

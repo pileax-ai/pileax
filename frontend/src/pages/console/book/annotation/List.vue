@@ -19,6 +19,7 @@
 
     <!--Actions-->
     <template #actions>
+      <annotation-filter-btn @sort="onSort" />
     </template>
 
     <template v-if="rows.length">
@@ -48,11 +49,13 @@
 <script setup lang="ts">
 import {computed, onActivated, ref, watch} from 'vue';
 import { joinQueryAnnotation } from 'src/service/book-annotation';
+import AnnotationFilterBtn from './AnnotationFilterBtn.vue';
 import AnnotationListItem from './AnnotationListItem.vue';
 import AnnotationDetails from './AnnotationDetails.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
+import BookFilterBtn from 'pages/console/book/book/BookFilterBtn.vue'
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();
@@ -61,17 +64,25 @@ const data = ref({});
 const coverUrl = ref('');
 const condition = ref<Indexable>({});
 const rows = ref([]);
-const loading = ref(false);
-const bookView = ref('grid');
-const sortBy = ref('recent');
+const orderBy = ref<Indexable>({
+  updateTime: 'desc'
+});
 
-
-function openBook(item: any) {
-  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+function onSort(value: Indexable) {
+  orderBy.value = value;
+  doQuery();
 }
 
 function doQuery() {
-  joinQueryAnnotation(condition.value.note).then(res => {
+  const query = {
+    pageIndex: 1,
+    pageSize: 20,
+    condition: {
+      'note|like': condition.value.note
+    },
+    orderBy: orderBy.value
+  };
+  joinQueryAnnotation(query).then(res => {
     console.log('res', res);
     rows.value = res;
   });
@@ -90,10 +101,6 @@ function onDetails(item: any, cover: string) {
 function onClose() {
   query.value.closeSide();
 }
-
-watch(() => queryTimer.value, (newValue) => {
-  doQuery();
-})
 
 onActivated(() => {
   initData();

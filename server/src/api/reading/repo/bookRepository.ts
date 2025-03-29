@@ -1,9 +1,10 @@
 import type { Book, BookUpdate } from "@/api/reading/model/bookModel";
 import type { Query } from "@/core/api/commonModel";
+import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { book } from '@/drizzle/schema'
-import { and, asc, desc, eq, like, sql } from 'drizzle-orm'
+import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
 
 export class BookRepository {
 
@@ -39,28 +40,8 @@ export class BookRepository {
   }
 
   async query(query: Query) {
-    const filters = [];
-    const condition: Record<string, unknown> = query.condition || {};
-    if (condition.title && typeof condition.title === 'string') {
-      filters.push(
-        like(sql`LOWER(${book.title})`,
-  `%${condition.title.toLowerCase()}%`)
-      )
-    }
-
-    const orderBy = query.orderBy as Indexable;
-    const orderFields = ['updateTime', 'title'];
-    let orders = [];
-    if (orderBy.updateTime) {
-      orders.push(orderBy.updateTime === 'desc'
-        ? desc(book.updateTime)
-        : asc(book.updateTime));
-    }
-    if (orderBy.title) {
-      orders.push(orderBy.title === 'desc'
-        ? desc(book.title)
-        : asc(book.title));
-    }
+    const filters = buildFilters(book, ['title'], query.condition);
+    const orders = buildOrders(book, ['title', 'updateTime'], query.orderBy);
 
     return db.select().from(book)
       .where(and(...filters))

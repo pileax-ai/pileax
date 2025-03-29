@@ -5,6 +5,7 @@ import { db } from '@/drizzle'
 import { book, bookAnnotation } from '@/drizzle/schema'
 import { and, Column, desc, eq, getTableColumns } from 'drizzle-orm'
 import { bookAnnotationController } from '@/api/reading/controller/bookAnnotationController'
+import { buildFilters, buildOrders } from '@/core/utils/drizzle'
 
 export class BookAnnotationRepository {
 
@@ -47,30 +48,19 @@ export class BookAnnotationRepository {
   }
 
   async query(query: Query) {
-    const filters = [];
-    const condition: Record<string, unknown> = query.condition || {};
-    if (condition.bookId) filters.push(eq(bookAnnotation.bookId, condition.bookId as number))
+    const filters = buildFilters(bookAnnotation, ['note'], query.condition);
+    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.orderBy);
 
     return db.select().from(bookAnnotation)
       .where(and(...filters))
       .limit(query.pageSize)
       .offset((query.pageIndex - 1) * query.pageSize)
-      .orderBy(desc(bookAnnotation.updateTime));
-  }
-
-  getTableColumns(table: any) {
-    return Object.entries(table).reduce((acc, [key, value]) => {
-      if (value instanceof Column) { // 判断是否为字段类型
-        acc[key] = value;
-      }
-      return acc;
-    }, {} as Record<string, Column>);
+      .orderBy(...orders);
   }
 
   async queryBook(query: Query) {
-    const filters = [];
-    const condition: Record<string, unknown> = query.condition || {};
-    if (condition.bookId) filters.push(eq(bookAnnotation.bookId, condition.bookId as number))
+    const filters = buildFilters(bookAnnotation, ['note'], query.condition);
+    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.orderBy);
 
     return db.select({
       ...getTableColumns(bookAnnotation),
@@ -83,6 +73,6 @@ export class BookAnnotationRepository {
       .where(and(...filters))
       .limit(query.pageSize)
       .offset((query.pageIndex - 1) * query.pageSize)
-      .orderBy(desc(bookAnnotation.updateTime));
+      .orderBy(...orders);
   }
 }

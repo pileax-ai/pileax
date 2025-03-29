@@ -35,6 +35,8 @@
         <o-view-item label="作者" :value="data.author" align="right" lines="2" />
         <o-view-item label="出版社" :value="data.publisher" align="right" v-if="data.publisher" />
         <o-view-item label="格式" :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
+        <o-view-item label="添加时间" :value="timeMulti(data.createTime).timestamp" align="right" />
+        <o-view-item label="最后阅读时间" :value="timeMulti(data.updateTime).timestamp" align="right" />
 
         <section class="description" v-if="data.description">
           <span class="text-readable">简介</span>
@@ -59,6 +61,7 @@
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
 import { removeBook } from 'src/service/book';
+import { timeMulti } from 'core/utils/format';
 
 const props = defineProps({
   data: {

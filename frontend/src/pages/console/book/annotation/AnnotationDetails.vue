@@ -30,7 +30,7 @@
       <q-card-section class="meta">
         <header class="title text-readable">{{data.bookTitle}}</header>
         <o-view-item label="章节" :value="data.chapter" align="right" lines="2" />
-        <o-view-item label="时间" :value="data.createTime" align="right" />
+        <o-view-item label="时间" :value="timeMulti(data.createTime).timestamp" align="right" />
 
         <section class="note">
           <q-scroll-area>
@@ -57,6 +57,7 @@
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
 import { removeBook } from 'src/service/book';
+import { timeMulti } from 'core/utils/format';
 
 const props = defineProps({
   data: {

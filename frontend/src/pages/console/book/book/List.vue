@@ -88,7 +88,9 @@ const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');
-const orderBy = ref<Indexable>({});
+const orderBy = ref<Indexable>({
+  updateTime: 'desc'
+});
 
 function onView(value: string) {
   bookView.value = value;
@@ -137,7 +139,7 @@ function doQuery() {
     pageIndex: 1,
     pageSize: 20,
     condition: {
-      title: condition.value.title
+      'title|like': condition.value.title
     },
     orderBy: orderBy.value
   };

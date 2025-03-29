@@ -22,12 +22,23 @@
       <q-item-label lines="6">
         {{data.note}}
       </q-item-label>
+      <q-item-label caption>
+        <div class="row q-pt-md relative-position">
+          <div>
+            {{ timeMulti(data.updateTime).fromNow }}
+            <o-tooltip>
+              {{ timeMulti(data.updateTime).timestamp }}
+            </o-tooltip>
+          </div>
+        </div>
+      </q-item-label>
     </q-item-section>
   </q-item>
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onBeforeMount, onMounted, ref, watch} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
+import { timeMulti } from 'core/utils/format';
 
 const props = defineProps({
   data: {
