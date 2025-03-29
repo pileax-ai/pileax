@@ -8,8 +8,8 @@
       <q-menu ref="menu"
               anchor="bottom right"
               self="top right"
-              :offset="[0, 8]"
-              class="o-note-action-menu">
+              :offset="[0, 4]"
+              class="o-note-action-menu pi-menu">
         <q-list :style="{minWidth: '240px'}">
           <template v-for="(action, index) in actions" :key="`action-${index}`">
             <q-separator class="bg-accent" v-if="action.separator" />

@@ -213,12 +213,6 @@ $tab-height: 40px;
           right: 0;
           width: unset;
           justify-content: end;
-          background: linear-gradient(
-              to right,
-              rgba(255, 255, 255, 0) 50%,
-              var(--q-secondary) 70%
-          );
-          //background: red;
         }
         .q-btn {
           visibility: visible;
@@ -276,10 +270,10 @@ $tab-height: 40px;
     &:after {
       content: "";
       position: absolute;
-      top: 10px;
+      top: 0;
       width: 1px;
-      height: calc(100% - 20px);
-      background: var(--q-secondary);
+      height: 100%;
+      background: var(--q-dark);
       z-index: 0;
     }
     &:after {
@@ -287,10 +281,14 @@ $tab-height: 40px;
     }
 
     &:hover {
-      background: var(--q-secondary);
+      background: var(--q-dark);
       z-index: 2;
       &:before, &:after {
-        background: var(--q-secondary);
+        //background: var(--q-secondary);
+      }
+
+      .suffix {
+        background: transparent;
       }
     }
     div.q-focus-helper {

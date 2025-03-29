@@ -1,6 +1,6 @@
 <template>
   <q-btn icon="more_horiz" flat round>
-    <q-menu class="pi-menu">
+    <q-menu class="pi-menu" :offset="[0, 4]">
       <q-list :style="{minWidth: '200px'}">
         <template v-for="(action, index) in actions" :key="`action-${index}`">
           <template v-if="true">
