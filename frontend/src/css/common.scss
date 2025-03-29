@@ -73,6 +73,10 @@
       &:not(:first-child) {
         margin-top: 2px;
       }
+
+      .side-label {
+        padding-right: 8px;
+      }
     }
     .q-separator {
       margin: 8px -8px;
@@ -104,5 +108,19 @@
   .q-avatar {
     width: 2rem !important;
     height: 2rem !important;
+  }
+
+  &.dense {
+    .q-list {
+      .q-item {
+        padding: 2px 0;
+        &__section--main {
+          padding-left: 4px;
+        }
+        .side-label {
+          padding-right: 4px;
+        }
+      }
+    }
   }
 }

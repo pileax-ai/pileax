@@ -9,14 +9,44 @@
               anchor="bottom right"
               self="top right"
               :offset="[0, 4]"
-              class="o-note-action-menu pi-menu">
+              transition-show="jump-down"
+              class="o-note-action-menu pi-menu dense">
+        <header class="row col-12 justify-around">
+          <q-btn class="col-4" :class="{ 'active': font === 'default' }"
+                 stack flat @click="onFont('default')">
+            <div>Ag</div>
+            <div class="text-tips font">Default</div>
+          </q-btn>
+          <q-btn class="col-4" :class="{ 'active': font === 'serif' }"
+                 stack flat @click="onFont('serif')">
+            <div class="serif">Ag</div>
+            <div class="text-tips font">Serif</div>
+          </q-btn>
+          <q-btn class="col-4" :class="{ 'active': font === 'mono' }"
+                 stack flat @click="onFont('mono')">
+            <div class="mono">Ag</div>
+            <div class="text-tips font">Mono</div>
+          </q-btn>
+        </header>
         <q-list :style="{minWidth: '240px'}">
           <template v-for="(action, index) in actions" :key="`action-${index}`">
             <q-separator class="bg-accent" v-if="action.separator" />
             <o-common-item v-bind="action"
                            class="text-tips"
-                           @click="onAction(action)"
-                           clickable closable />
+                           @click="onAction(action, '')"
+                           closable>
+              <template #side>
+                <q-toggle v-model="enableSmallText"
+                          @update:model-value="onAction(action, $event)"
+                          v-if="action.value === 'smallText'" />
+                <q-toggle v-model="enableFullWidth"
+                          @update:model-value="onAction(action, $event)"
+                          v-if="action.value === 'fullWidth'" />
+                <q-toggle v-model="enableToc"
+                          @update:model-value="onAction(action, $event)"
+                          v-if="action.value === 'toc'" />
+              </template>
+            </o-common-item>
           </template>
         </q-list>
       </q-menu>
@@ -27,24 +57,33 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import useNote from 'src/hooks/useNote';
-import { Note } from 'src/types/note'
 import { timeMulti } from 'core/utils/format';
-import { MenuItem } from 'core/types/menu'
-import { refresh } from 'core/hooks/useRouter'
+import { refresh } from 'core/hooks/useRouter';
+
+const emit = defineEmits(['action']);
 
 const { notes, currentNote } = useNote();
+const font = ref('default');
+const enableSmallText = ref(false);
+const enableFullWidth = ref(false);
+const enableToc = ref(true);
 
 const actions = computed(() => {
   return [
-    { label: 'Reload', value: 'reload', icon: 'refresh' },
-    // { label: 'Pin', value: 'pin', icon: 'push_pin' },
-    { label: 'Close', value: 'close', icon: 'close', separator: true },
-    { label: 'Close Other Tabs', value: 'closeOther', icon: 'playlist_remove' },
-    { label: 'Close Tabs to the Right', value: 'closeToRight', icon: 'keyboard_tab' },
+    { label: 'Small text', value: 'smallText', icon: 'text_decrease', rightSide: true },
+    { label: 'Full width', value: 'fullWidth', icon: 'open_in_full', iconClass: 'rotate-45', rightSide: true },
+    { label: 'Table of contents', value: 'toc', icon: 'toc', rightSide: true },
+    { label: 'Duplicate', value: 'duplicate', icon: 'copy_all', sideLabel: '⌘D', clickable: true, separator: true },
+    { label: 'Move to', value: 'move', icon: 'keyboard_return', iconClass: 'rotate-180', clickable: true, sideLabel: '⌘⇧P' },
+    { label: 'Delete', value: 'delete', icon: 'delete_outline', clickable: true },
+    { label: 'Import', value: 'delete', icon: 'vertical_align_top', sideLabel: '⌘⇧', clickable: true, separator: true },
+    { label: 'Export', value: 'delete', icon: 'vertical_align_bottom', clickable: true },
+    { label: 'Open in new tab', value: 'delete', icon: 'open_in_new', sideLabel: '⌘⇧', clickable: true, separator: true },
+    { label: 'Open in new window', value: 'delete', icon: 'open_in_browser', clickable: true },
   ];
 });
 
-function onAction (action: Indexable) {
+function onAction (action: Indexable, value: any) {
   switch (action.value) {
     case 'close':
       break;
@@ -55,7 +94,15 @@ function onAction (action: Indexable) {
     case 'reload':
       refresh();
       break;
+    case 'fullWidth':
+    case 'toc':
+      emit('action', { ...action, actionValue: value })
+      break;
   }
+}
+
+function onFont(value: string) {
+  font.value = value;
 }
 </script>
 
@@ -68,6 +115,34 @@ function onAction (action: Indexable) {
     min-width: 32px;
     border-radius: 2px;
     margin-left: 8px;
+  }
+}
+
+.o-note-action-menu {
+  header {
+    padding: 8px 8px 0 8px;
+    .q-btn {
+      border-radius: 4px;
+      font-size: 1.6rem;
+
+      &.active {
+        color: var(--q-primary);
+      }
+
+      .serif {
+        font-family: serif;
+      }
+
+      .mono {
+        font-family: monospace;
+      }
+
+      .font {
+        font-size: 0.8rem;
+        font-weight: normal;
+        line-height: 1;
+      }
+    }
   }
 }
 </style>

@@ -16,7 +16,7 @@
             <use :xlink:href="`#${icon}`"></use>
           </svg>
         </q-avatar>
-        <q-avatar :size="size" :icon="icon" :textColor="color" class="themed" v-else />
+        <q-avatar :size="size" :icon="icon" :textColor="color" class="themed" :class="iconClass" v-else />
       </template>
     </q-item-section>
     <q-item-section>
@@ -80,6 +80,10 @@ const props = defineProps({
     default: ''
   },
   icon: {
+    type: String,
+    default: ''
+  },
+  iconClass: {
     type: String,
     default: ''
   },

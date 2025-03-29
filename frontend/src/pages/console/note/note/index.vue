@@ -2,7 +2,7 @@
   <q-page class="page-note">
     <header class="row items-center justify-between note-header text-readable">
       <note-breadcrumbs :id="id" />
-      <note-actions />
+      <note-actions @action="onAction" />
     </header>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
@@ -27,7 +27,7 @@
       <YiiEditor ref="yiiEditor" v-bind="options" @update="onUpdate" />
     </q-scroll-area>
 
-    <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" />
+    <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
   </q-page>
 </template>
 
@@ -64,6 +64,8 @@ const noteJson = ref<Indexable>({});
 const aiOption = ref<AiOption>({
   provider: 'deepseek',
 });
+const pageView = ref('page');
+const showToc = ref(true);
 
 const options = computed(() => {
   return {
@@ -72,7 +74,7 @@ const options = computed(() => {
     showMainMenu: false,
     showBubbleMenu: true,
     showSideMenu: true,
-    pageView: 'page',
+    pageView: pageView.value,
     mainMenu: [
     ],
     extensions: [
@@ -104,6 +106,19 @@ const updateNoteNext = debounce( () => {
 
 function initEditor() {
   //
+}
+
+function onAction(action: Indexable) {
+  switch (action.value) {
+    case 'fullWidth':
+      pageView.value = action.actionValue ? 'full' : 'page';
+      break;
+    case 'toc':
+      showToc.value = action.actionValue;
+      break;
+    default:
+      break;
+  }
 }
 
 async function loadNote() {

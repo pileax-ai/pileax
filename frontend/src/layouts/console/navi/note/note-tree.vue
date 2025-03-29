@@ -68,14 +68,14 @@
                    @click.stop="addNote(prop.node.key)" />
             <q-btn icon="more_horiz" class="action" flat
                    @click.stop="() => {}">
-              <o-context-menu anchor="top left" self="top left"
-                              :offset="[0, -8]"
+              <o-context-menu anchor="top end" self="top start"
+                              :offset="[-50, 6]"
                               :list="noteMenu"
                               @command="onCommand($event, prop.node.data as Indexable)">
                 <template #list>
                   <q-separator class="bg-accent" />
                   <o-common-item icon="schedule" class="text-tips"
-                                 :label="timeMulti(prop.node.data.updateTime).fromNow" />
+                                 :label="timeMulti(prop.node.data.updateTime).timestamp" />
                 </template>
               </o-context-menu>
             </q-btn>
@@ -118,8 +118,12 @@ const noteTree = computed(() => {
 })
 const noteMenu = computed(() => {
   return [
-    { label: 'Duplicate', value: 'duplicate', icon: 'copy_all' },
-    { label: 'Delete', value: 'delete', icon: 'delete' },
+    { label: 'Add to favorite', value: 'duplicate', icon: 'star_outline' },
+    { label: 'Duplicate', value: 'duplicate', icon: 'copy_all', sideLabel: '⌘D', separator: true },
+    { label: 'Move to', value: 'move', icon: 'keyboard_return', iconClass: 'rotate-180', sideLabel: '⌘⇧P' },
+    { label: 'Delete', value: 'delete', icon: 'delete_outline' },
+    { label: 'Open in new tab', value: 'delete', icon: 'open_in_new', sideLabel: '⌘⇧', separator: true },
+    { label: 'Open in new window', value: 'delete', icon: 'open_in_browser' },
   ]
 })
 
