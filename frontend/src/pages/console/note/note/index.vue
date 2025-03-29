@@ -66,6 +66,7 @@ const aiOption = ref<AiOption>({
 });
 const pageView = ref('page');
 const showToc = ref(true);
+const loading = ref(false);
 
 const options = computed(() => {
   return {
@@ -141,9 +142,10 @@ async function createNote() {
 }
 
 function postLoadNote(note: Note) {
+  loading.value = true;
   parent.value = note.parent;
   setCurrentNote(note);
-  setContent(note.content);
+  setContent(note.content, true);
 }
 
 function setContent (content: string, emitUpdate = false) {
@@ -161,7 +163,12 @@ function onUpdate({ json, html }: { json: any; html: string }) {
   console.log('update', html);
   noteJson.value = json;
   noteHtml.value = html;
-  updateNote();
+
+  if (loading.value) {
+    loading.value = false;
+  } else {
+    updateNote();
+  }
 }
 
 async function updateNote() {
