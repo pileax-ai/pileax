@@ -6,7 +6,7 @@
     </header>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
-      <header class="row justify-center note-meta">
+      <header class="row justify-center note-meta" :class="pageView">
         <section class="col-12 cover" v-if="false">
           Cover
         </section>
@@ -224,30 +224,38 @@ onMounted(() => {
   .o-scroll-wrapper {
     top: 50px;
 
-    .note-meta-wrapper {
-      width: 100%;
-      max-width: 800px;
-
-      .icon {
-        width: 80px;
-        height: 80px;
-        font-size: 80px;
-        line-height: 1;
-
-        &:hover {
-          background: var(--q-accent);
-          border-radius: 4px;
-          cursor: pointer;
+    .note-meta {
+      padding: 0 100px;
+      &.page {
+        .note-meta-wrapper {
+          max-width: 800px;
         }
       }
-      .q-btn {
-        padding: 0 8px;
+      .note-meta-wrapper {
+        width: 100%;
 
-        .on-left {
-          margin-right: 0;
+        .icon {
+          width: 80px;
+          height: 80px;
+          font-size: 80px;
+          line-height: 1.1;
+
+          &:hover {
+            background: var(--q-accent);
+            border-radius: 4px;
+            cursor: pointer;
+          }
+        }
+        .q-btn {
+          padding: 0 8px;
+
+          .on-left {
+            margin-right: 0;
+          }
         }
       }
     }
+
     .editor-content.page {
       width: 100%;
       max-width: 1000px;
