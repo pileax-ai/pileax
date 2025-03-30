@@ -23,13 +23,18 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 import OChatInput from 'components/chat/OChatInput.vue';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
+import { router } from 'src/router';
 
+const route = useRoute();
 
 function onSend(data: Indexable) {
   console.log('send', data)
+
+  router.push({ name: 'chat-chat', params: { id: 'uuid' } })
 }
 </script>
 

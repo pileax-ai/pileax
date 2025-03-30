@@ -28,6 +28,9 @@
       </template>
     </section>
 
+    <footer class="row footer" v-if="footer">
+      <slot name="footer"></slot>
+    </footer>
   </q-page>
 </template>
 
@@ -38,6 +41,10 @@ import Content403 from 'core/page/content/Content403.vue';
 
 const props = defineProps({
   header: {
+    type: Boolean,
+    default: false
+  },
+  footer: {
     type: Boolean,
     default: false
   },
@@ -52,7 +59,7 @@ const props = defineProps({
   contentClass: {
     type: String,
     default: 'bg-secondary'
-  }
+  },
 });
 
 const pageStatus = computed(() => {

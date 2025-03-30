@@ -19,6 +19,13 @@ export const defaultConsoleMenus: MenuItem[] = [
         meta: {icon: 'add_comment'}
       },
       {
+        id: 'chat-chat',
+        name: 'Chat Session',
+        path: '/a/chat/uuid',
+        action: 1,
+        meta: {icon: 'forum'}
+      },
+      {
         id: 'welcome',
         name: 'welcome',
         path: '/welcome',
