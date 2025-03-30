@@ -12,6 +12,13 @@ export const defaultConsoleMenus: MenuItem[] = [
     meta: {icon: 'forum'},
     children: [
       {
+        id: 'start',
+        name: 'chat',
+        path: '/chat',
+        action: 1,
+        meta: {icon: 'add_comment'}
+      },
+      {
         id: 'welcome',
         name: 'welcome',
         path: '/welcome',

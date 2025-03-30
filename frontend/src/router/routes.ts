@@ -51,6 +51,17 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: '/chat',
+    component: ConsoleLayout,
+    children: [
+      {
+        path: '',
+        component: () => import('pages/console/chat/start/index.vue'),
+        name: 'chat-start'
+      },
+    ]
+  },
+  {
     path: '/page',
     component: ConsoleLayout,
     children: [

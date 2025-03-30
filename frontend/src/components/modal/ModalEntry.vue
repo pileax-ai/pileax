@@ -1,6 +1,7 @@
 <template>
   <section>
     <note-search-dialog v-if="type === 'note-search'" />
+    <ai-provider-search-dialog v-if="type === 'ai-provider-search'" />
     <tips-dialog v-if="type === 'tips'" />
     <o-settings-dialog v-if="type === 'settings'" />
   </section>
@@ -11,6 +12,7 @@ import {computed, watch} from 'vue';
 import { useComponentStore } from 'stores/component';
 
 import OSettingsDialog from 'core/components/settings/OSettingsDialog.vue';
+import AiProviderSearchDialog from './AiProviderSearchDialog.vue';
 import NoteSearchDialog from './NoteSearchDialog.vue';
 import TipsDialog from './TipsDialog.vue';
 

@@ -1,15 +1,20 @@
 <template>
   <q-tooltip ref="tooltipRef" class="o-tooltip text-white" :class="`bg-${color}`"
              :anchor="anchor"
-             :self="self" @show="onShow">
-    {{message}}
-    <slot></slot>
+             :self="self"
+             :transition-show="transitionShow"
+             :transition-hide="transitionHide"
+             @show="onShow">
+    <div class="message">
+      {{message}}
+      <slot></slot>
+    </div>
 
     <template v-if="caption">
-      <br/>
-      <span class="caption">
+      <div class="caption">
         {{caption}}
-      </span>
+      </div>
+      <slot name="caption"></slot>
     </template>
   </q-tooltip>
 </template>
@@ -42,6 +47,10 @@ const props = defineProps({
     type: Number,
     default: 1000
   },
+  transition: {
+    type: Boolean,
+    default: false
+  },
 });
 
 const tooltipRef = ref(null)
@@ -69,6 +78,38 @@ const self = computed(() => {
   }
 })
 
+const transitionShow = computed(() => {
+  let value = props.position
+  switch (props.position) {
+    case 'bottom':
+      value = 'down';
+      break;
+    case 'top':
+      value = 'up';
+      break;
+  }
+  return props.transition ? `jump-${value}` : undefined;
+})
+
+const transitionHide = computed(() => {
+  let value = props.position
+  switch (props.position) {
+    case 'bottom':
+      value = 'up';
+      break;
+    case 'top':
+      value = 'down';
+      break;
+    case 'left':
+      value = 'right';
+      break;
+    case 'right':
+      value = 'left';
+      break;
+  }
+  return props.transition ?  `jump-${value}` : undefined;
+})
+
 function onShow() {
   if (props.autohide) {
     setTimeout(() => {
@@ -79,4 +120,15 @@ function onShow() {
 </script>
 
 <style lang="scss">
+.o-tooltip {
+  font-size: 1rem;
+
+  .title {
+    font-size: 1.1rem;
+  }
+  .caption {
+    font-size: 0.9rem;
+    opacity: 0.5;
+  }
+}
 </style>
