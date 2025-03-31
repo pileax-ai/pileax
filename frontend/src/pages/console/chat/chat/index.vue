@@ -99,7 +99,7 @@ func main() {
   .o-page-container {
     top: 64px;
     bottom: 140px;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 1rem 0 1rem;
   }
 
   .chat-list {
@@ -113,6 +113,7 @@ func main() {
     bottom: 0;
     left: 0;
     right: 0;
+    padding: 0 1rem;
 
     .warning {
       font-size: 0.8rem;

@@ -235,7 +235,7 @@ onMounted(() => {
         .line {
           margin-top: 4px;
           width: 50%;
-          height: calc(100% - 60px);
+          height: calc(100% - 62px);
           border-radius: 0 0 0 8px;
           border-left: solid 2px var(--q-dark);
           border-bottom: solid 2px var(--q-dark);
