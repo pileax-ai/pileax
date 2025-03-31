@@ -41,6 +41,7 @@
       <q-avatar>
         <img :src="avatar" />
       </q-avatar>
+      <div class="line"></div>
     </q-item-section>
 
     <!-- Column 1 -->
@@ -218,16 +219,36 @@ onMounted(() => {
   }
 
   &.system {
+    .q-item__section--avatar {
+      align-items: end;
+      .line {
+        border: solid 2px transparent;
+      }
+    }
+
     .message-wrapper {
       margin: 4px 0;
       outline: solid 2px transparent;
     }
-    &:hover .message-wrapper {
-      margin: 4px -10px;
-      padding: 0 10px;
-      border-radius: 6px;
-      outline: solid 2px var(--q-dark);
-      transition: outline 0.5s ease-in-out;
+    &:hover {
+      .q-item__section--avatar {
+        .line {
+          margin-top: 4px;
+          width: 50%;
+          height: calc(100% - 60px);
+          border-radius: 0 0 0 8px;
+          border-left: solid 2px var(--q-dark);
+          border-bottom: solid 2px var(--q-dark);
+          transition: border 1s ease-in-out;
+        }
+      }
+      .message-wrapper {
+        margin: 4px -10px;
+        padding: 0 10px;
+        border-radius: 6px;
+        //outline: solid 2px var(--q-dark);
+        //transition: outline 0.5s ease-in-out;
+      }
     }
   }
 
