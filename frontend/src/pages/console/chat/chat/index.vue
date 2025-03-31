@@ -1,5 +1,5 @@
 <template>
-  <o-common-page class="page-chat" header footer scrollable>
+  <o-common-page ref="pageRef" class="page-chat" header footer scrollable>
     <template #header>
       <o-ai-provider-select-btn />
     </template>
@@ -8,7 +8,8 @@
       <section class="chat-list">
         <template v-for="(item, index) in messages" :key="index">
           <o-chat-message v-bind="item"
-                          :align-right="item.role==='user'">
+                          :align-right="item.role==='user'"
+                          :class="{ 'latest': index === messages.length-1 }">
           </o-chat-message>
         </template>
       </section>
@@ -25,11 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, nextTick } from 'vue';
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 import OChatInput from 'components/chat/OChatInput.vue';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
+
+const pageRef = ref(null);
 
 const messages = ref([
   {
@@ -57,7 +60,7 @@ const messages = ref([
   },
 ])
 
-function onSend(data: Indexable) {
+async function onSend(data: Indexable) {
   console.log('send', data)
   messages.value.push({
     role: 'user',
@@ -76,6 +79,10 @@ func main() {
     fmt.Println("Hello, world!")
 }`
   })
+
+  await nextTick();
+  // Scroll to bottom
+  pageRef.value?.scrollToBottom();
 }
 </script>
 

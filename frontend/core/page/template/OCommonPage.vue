@@ -11,7 +11,7 @@
     </header>
 
     <!--Content-->
-    <q-scroll-area ref="contentScroll"
+    <q-scroll-area ref="scrollRef"
                    class="o-page-container"
                    :class="contentClass"
                    v-if="scrollable">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 import Content403 from 'core/page/content/Content403.vue';
 
@@ -62,9 +62,21 @@ const props = defineProps({
   },
 });
 
+const scrollRef = ref(null);
 const pageStatus = computed(() => {
   return 200
 });
+
+function scrollToBottom() {
+  const scrollTarget = scrollRef.value.getScrollTarget();
+  const duration = 500;
+  const scrollHeight = scrollTarget.scrollHeight + 300;
+  scrollRef.value.setScrollPosition('vertical', scrollHeight, duration);
+}
+
+defineExpose({
+  scrollToBottom: scrollToBottom
+})
 </script>
 
 <style lang="scss">

@@ -11,7 +11,7 @@
       <div class="row items-end">
         <q-btn icon="emoji_objects" label="深度思考"
                :class="`text-${think ? 'white' : 'readable'}
-                            bg-${think ? 'blue' : 'dark'} think`"
+                            bg-${think ? 'primary' : 'dark'} think`"
                @click="onToggleThink"
                flat dense rounded>
           <o-tooltip position="left" transition>
@@ -27,7 +27,7 @@
           </o-tooltip>
         </q-btn>
         <q-btn icon="stop"
-               class="bg-blue text-white"
+               class="bg-primary text-white"
                flat round
                v-if="loading">
           <o-tooltip position="top" transition>
@@ -36,7 +36,7 @@
         </q-btn>
         <q-btn icon="arrow_upward"
                :disable="!input"
-               :class="`bg-${input ? 'blue' : 'dark'} text-${input ? 'white' : 'tips'}`"
+               :class="`bg-${input ? 'primary' : 'dark'} text-${input ? 'white' : 'tips'}`"
                flat round
                @click="onSend" v-else>
           <o-tooltip position="top" transition>

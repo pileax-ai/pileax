@@ -1,18 +1,33 @@
 <template>
-  <q-item class="o-chat-message sent" v-if="role==='user'">
+  <q-item class="o-chat-message user" v-if="role==='user'">
     <q-item-section avatar>
       <q-avatar>
         <img :src="avatar" v-if="!alignRight" />
       </q-avatar>
     </q-item-section>
     <q-item-section :align="alignRight ? 'right' : 'left'">
-      <div class="message">
-        <q-input v-model="userMessage" autogrow borderless />
-      </div>
-      <div class="actions">
-        <q-btn icon="content_copy" flat />
-        <q-btn icon="edit" flat />
-      </div>
+      <template v-if="editable">
+        <div class="message editable">
+          <q-input v-model="userMessage" autofocus autogrow borderless />
+        </div>
+        <div class="actions editable">
+          <q-btn icon="close" class="bg-dark text-readable" flat @click="editable=false">
+            <o-tooltip position="bottom">取消</o-tooltip>
+          </q-btn>
+          <q-btn icon="arrow_upward" class="bg-primary text-white" flat @click="onSend">
+            <o-tooltip position="bottom">发送</o-tooltip>
+          </q-btn>
+        </div>
+      </template>
+      <template v-else>
+        <div class="message readonly">
+          {{message}}
+        </div>
+        <div class="actions">
+          <q-btn icon="content_copy" flat />
+          <q-btn icon="edit" flat @click="onEdit" />
+        </div>
+      </template>
     </q-item-section>
     <q-item-section avatar>
       <q-avatar>
@@ -21,7 +36,7 @@
     </q-item-section>
   </q-item>
 
-  <q-item class="o-chat-message" v-else>
+  <q-item class="o-chat-message system" v-else>
     <q-item-section avatar>
       <q-avatar>
         <img :src="avatar" />
@@ -35,17 +50,20 @@
         <div class="think row items-center text-readable" v-if="think">
           <q-icon name="emoji_objects" size="1.4rem" /> 已深度思考
         </div>
-        <div class="message">
-          <o-chat-message-view :message="message" />
-          <slot></slot>
-        </div>
 
-        <div class="actions">
-          <q-btn icon="content_copy" flat />
-          <q-btn icon="autorenew" flat />
-          <q-btn icon="mdi-thumb-up-outline" flat />
-          <q-btn icon="mdi-thumb-down-outline" flat />
-          <q-btn icon="add" flat />
+        <div class="message-wrapper">
+          <div class="message">
+            <o-chat-message-view :message="message" />
+            <slot></slot>
+          </div>
+
+          <div class="actions">
+            <q-btn icon="content_copy" flat />
+            <q-btn icon="autorenew" flat />
+            <q-btn icon="mdi-thumb-up-outline" flat />
+            <q-btn icon="mdi-thumb-down-outline" flat />
+            <q-btn icon="add" flat />
+          </div>
         </div>
       </template>
     </q-item-section>
@@ -68,8 +86,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
-
-const userMessage = ref('')
 
 const props = defineProps({
   avatar: {
@@ -98,10 +114,26 @@ const props = defineProps({
   },
   streaming: {
     type: Boolean,
-    default: true
+    default: false
   },
 })
 const emit = defineEmits(['send']);
+
+const editable = ref(false);
+const userMessage = ref('');
+
+function onEdit() {
+  editable.value = true;
+}
+
+function onSend() {
+  editable.value = false;
+  emit('send', {
+    role: 'user',
+    message: userMessage,
+    think: props.think
+  })
+}
 
 onMounted(() => {
   userMessage.value = props.role === 'user' ? props.message : props.message;
@@ -121,6 +153,7 @@ onMounted(() => {
 
     .message {
       max-width: 100%;
+      min-height: 42px;
       justify-content: start;
     }
 
@@ -129,6 +162,7 @@ onMounted(() => {
       background: var(--q-dark);
       border-radius: 6px;
       padding: 10px 10px 10px 6px;
+      min-height: 42px;
     }
 
     &--avatar {
@@ -136,13 +170,17 @@ onMounted(() => {
     }
 
     .actions {
-      margin-top: 2px;
+      margin-top: 4px;
       visibility: hidden;
+      &.editable {
+        visibility: visible;
+      }
 
       .q-btn {
         width: 32px;
         height: 32px;
         min-height: unset;
+        margin-left: 4px;
 
         .q-icon {
           font-size: 18px;
@@ -151,21 +189,48 @@ onMounted(() => {
     }
   }
 
-  &.sent {
-    margin-top: 2px;
+  &.user {
     .message {
-      width: max-content;
-      max-width: 100%;
+      width: 100%;
       background: var(--q-dark);
       border-radius: 6px;
-      padding: 10px 6px;
+      padding: 10px 10px;
 
-      .q-field, .q-inner, .q-field__control, textarea {
-        width: auto !important; /* 移除固定宽度 */
-        min-width: unset !important;
+      &.editable {
+        width: 100%;
+        outline: solid 2px var(--q-primary);
+
+        .q-field__control {
+          min-height: unset;
+        }
+
+        .q-field__native {
+          padding: 0;
+          min-height: unset;
+        }
+      }
+
+      &.readonly {
+        width: max-content;
+        white-space: pre-line;
       }
     }
   }
+
+  &.system {
+    .message-wrapper {
+      margin: 4px 0;
+      outline: solid 2px transparent;
+    }
+    &:hover .message-wrapper {
+      margin: 4px -10px;
+      padding: 0 10px;
+      border-radius: 6px;
+      outline: solid 2px var(--q-dark);
+      transition: outline 0.5s ease-in-out;
+    }
+  }
+
   &:hover {
     .actions {
       visibility: visible;
