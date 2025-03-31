@@ -7,8 +7,7 @@
     </q-item-section>
     <q-item-section :align="alignRight ? 'right' : 'left'">
       <div class="message">
-        <div v-html="message" />
-        <slot></slot>
+        <q-input v-model="userMessage" autogrow borderless />
       </div>
       <div class="actions">
         <q-btn icon="content_copy" flat />
@@ -31,21 +30,24 @@
 
     <!-- Column 1 -->
     <q-item-section>
-      <div class="think row items-center text-readable" v-if="think">
-        <q-icon name="emoji_objects" size="1.4rem" /> 已深度思考
-      </div>
-      <div class="message">
-        <div v-html="message" />
-        <slot></slot>
-      </div>
+      <q-spinner-dots size="2rem" v-if="streaming" />
+      <template v-else>
+        <div class="think row items-center text-readable" v-if="think">
+          <q-icon name="emoji_objects" size="1.4rem" /> 已深度思考
+        </div>
+        <div class="message">
+          <o-chat-message-view :message="message" />
+          <slot></slot>
+        </div>
 
-      <div class="actions">
-        <q-btn icon="content_copy" flat />
-        <q-btn icon="autorenew" flat />
-        <q-btn icon="mdi-thumb-up-outline" flat />
-        <q-btn icon="mdi-thumb-down-outline" flat />
-        <q-btn icon="add" flat />
-      </div>
+        <div class="actions">
+          <q-btn icon="content_copy" flat />
+          <q-btn icon="autorenew" flat />
+          <q-btn icon="mdi-thumb-up-outline" flat />
+          <q-btn icon="mdi-thumb-down-outline" flat />
+          <q-btn icon="add" flat />
+        </div>
+      </template>
     </q-item-section>
 
     <!-- Column 2 -->
@@ -64,7 +66,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import OChatMessageView from 'components/chat/OChatMessageView.vue';
+
+const userMessage = ref('')
 
 const props = defineProps({
   avatar: {
@@ -91,9 +96,16 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  streaming: {
+    type: Boolean,
+    default: true
+  },
 })
 const emit = defineEmits(['send']);
 
+onMounted(() => {
+  userMessage.value = props.role === 'user' ? props.message : props.message;
+})
 </script>
 
 <style lang="scss">
@@ -101,13 +113,13 @@ const emit = defineEmits(['send']);
   padding: 0;
 
   .q-item__section {
+    min-width: 0;
     &[align="right"] {
       align-items: end;
       text-align: left;
     }
 
     .message {
-      width: max-content;
       max-width: 100%;
       justify-content: start;
     }
@@ -142,9 +154,16 @@ const emit = defineEmits(['send']);
   &.sent {
     margin-top: 2px;
     .message {
+      width: max-content;
+      max-width: 100%;
       background: var(--q-dark);
       border-radius: 6px;
       padding: 10px 6px;
+
+      .q-field, .q-inner, .q-field__control, textarea {
+        width: auto !important; /* 移除固定宽度 */
+        min-width: unset !important;
+      }
     }
   }
   &:hover {

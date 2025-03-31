@@ -17,7 +17,7 @@
     <template #footer>
       <o-chat-input @send="onSend" />
 
-      <div class="row col-12 justify-center q-py-sm text-tips warning">
+      <div class="row col-12 justify-center q-py-sm bg-secondary text-tips warning">
         内容由 AI 生成，请仔细甄别
       </div>
     </template>
@@ -38,7 +38,7 @@ const messages = ref([
   },
   {
     role: 'system',
-    message: 'Youth is not a time of life; it is a state of mind; it is not a matter of rosy cheeks, red lips and supple knees; it is a matter of the will, a quality of the imagination, a vigor of the emotions; it is the freshness of the deep springs of life.',
+    message: 'Youth\n\n Youth is not a time of life; it is a state of mind; it is not a matter of rosy cheeks, red lips and supple knees; it is a matter of the will, a quality of the imagination, a vigor of the emotions; it is the freshness of the deep springs of life.',
     think: true
   },
   {
@@ -63,6 +63,19 @@ function onSend(data: Indexable) {
     role: 'user',
     message: data.message
   })
+  messages.value.push({
+    role: 'system',
+    message: `### Go
+
+\`\`\`go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, world!")
+}`
+  })
 }
 </script>
 
@@ -77,7 +90,9 @@ function onSend(data: Indexable) {
   }
 
   .o-page-container {
-    padding: 64px 1rem 100px 1rem;
+    top: 64px;
+    bottom: 140px;
+    padding: 0 1rem 1rem 1rem;
   }
 
   .chat-list {
@@ -94,7 +109,7 @@ function onSend(data: Indexable) {
 
     .warning {
       font-size: 0.8rem;
-      opacity: 0.75;
+      //opacity: 0.75;
     }
   }
 }
