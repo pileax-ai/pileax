@@ -1,5 +1,6 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 
+import { aiChatRegistry } from '@/api/ai/api/chat.api';
 import { bookRegistry } from '@/api/reading/api/bookApi';
 import { bookAnnotationRegistry } from '@/api/reading/api/bookAnnotationApi';
 import { noteRegistry } from '@/api/note/api/noteApi';
@@ -8,6 +9,7 @@ import { userRegistry } from "@/api/user/api/userApi";
 
 export function generateOpenAPIDocument() {
 	const registry = new OpenAPIRegistry([
+    aiChatRegistry,
     bookRegistry,
     bookAnnotationRegistry,
     noteRegistry,

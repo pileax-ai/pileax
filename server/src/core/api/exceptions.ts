@@ -17,3 +17,12 @@ export class NotFoundException extends HttpException {
     })
   }
 }
+
+export class ServerException extends HttpException {
+  constructor(resource: string, message: string) {
+    super(500, 'Internal Server Error.', {
+      resource,
+      message
+    })
+  }
+}
