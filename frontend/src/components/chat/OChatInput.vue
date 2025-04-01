@@ -10,8 +10,8 @@
     <div class="row justify-between">
       <div class="row items-end">
         <q-btn icon="emoji_objects" label="深度思考"
-               :class="`text-${think ? 'white' : 'readable'}
-                            bg-${think ? 'primary' : 'dark'} think`"
+               :class="`text-${reasoning ? 'white' : 'readable'}
+                            bg-${reasoning ? 'primary' : 'dark'} reasoning`"
                @click="onToggleThink"
                flat dense rounded>
           <o-tooltip position="left" transition>
@@ -61,10 +61,10 @@ const props = defineProps({
 const emit = defineEmits(['send']);
 
 const input = ref('');
-const think = ref(false);
+const reasoning = ref(false);
 
 function onToggleThink() {
-  think.value = !think.value;
+  reasoning.value = !reasoning.value;
 }
 
 /**
@@ -89,7 +89,7 @@ function onSend() {
   console.log('send', input.value);
   emit('send', {
     message: message,
-    think: think.value
+    reasoning: reasoning.value
   });
   reset();
 }
@@ -122,7 +122,7 @@ function reset() {
     min-width: 36px;
     min-height: 36px;
 
-    &.think {
+    &.reasoning {
       margin: 0;
       padding: 4px 12px 4px 8px;
       min-height: unset;

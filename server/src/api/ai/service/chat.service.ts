@@ -4,6 +4,8 @@ import type { Query } from "@/core/api/commonModel";
 import { BookRepository } from '@/api/reading/repo/bookRepository';
 import { getLLM } from '@/ai/helpers/llmHelper';
 import { logger } from '@/common';
+import { ChatMessage } from '@/types/chat'
+import { ChatCompletion } from '@/api/ai/model/chat.model'
 
 export class ChatService {
 	private repo: BookRepository;
@@ -48,11 +50,22 @@ export class ChatService {
     return this.repo.query(data)
   }
 
-  async chatCompletion() {
+  async chatCompletion(data: ChatCompletion) {
     try {
       const llm = await getLLM('deepseek', 'deepseek-chat');
-      const stream = await llm.streamChatCompletion(null, {});
-      return stream;
+      const messages: ChatMessage[] = [
+        {
+          role: 'system',
+          content: 'You are an assistant. Please answer in [LANGUAGE].',
+        },
+        {
+          role: 'user',
+          content: '对《周易》一书进行总结',
+        },
+      ];
+      return await llm.createChatCompletion(messages, {
+        stream: data.stream
+      });
     } catch (err: any) {
       logger.error(err);
       throw new ServerException('ChatCompletion', err.message);

@@ -9,7 +9,10 @@ export type ChatCompletion = z.infer<typeof ChatCompletionSchema>;
 export const ChatCompletionSchema = z.object({
 	id: z.number().optional(),
 	sessionId: z.string(),
+	model: z.string(),
 	message: z.string(),
+	stream: z.boolean().default(true),
+  reasoning: z.boolean().default(false),
 });
 
 export const ChatCompletionBodySchema = {

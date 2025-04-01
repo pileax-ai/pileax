@@ -1,20 +1,21 @@
+import OpenAI from 'openai';
 import { logger } from '@/common';
 import { BaseLLMProvider } from '@/ai/llm/base-llm-provider'
+import { ChatMessage } from '@/types/chat'
 
 export class DeepSeekLLM implements BaseLLMProvider{
   private sdk: any;
   private model: string;
 
   constructor(embedder = null, modelPreference = null) {
-    this.initSdk().catch(console.error);
+    this.initSdk();
     this.model = modelPreference || process.env.DEEPSEEK_MODEL_PREF
       || 'deepseek-chat';
-    logger.info('Initialized DeepSeek with model:', this.model);
+    logger.info(`Initialized DeepSeek with model: ${this.model}`);
   }
 
-  private async initSdk() {
-    const OpenAI = await import('openai');
-    this.sdk = new OpenAI.default({
+  private initSdk() {
+    this.sdk = new OpenAI({
       apiKey: process.env.DEEPSEEK_API_KEY,
       baseURL: 'https://api.deepseek.com/v1',
     })
@@ -33,14 +34,15 @@ export class DeepSeekLLM implements BaseLLMProvider{
     return [prompt, ...chatHistory, { role: "user", content: userPrompt }];
   }
 
-  async streamChatCompletion(messages = null, {
-    temperature = 0.7
+  async createChatCompletion(messages: ChatMessage[], {
+    temperature = 0.7,
+    stream = true
   }) {
     const request = this.sdk.chat.completions.create({
       model: this.model,
       messages,
       temperature: temperature,
-      stream: true,
+      stream: stream,
     })
     return request;
   }

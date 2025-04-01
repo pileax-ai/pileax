@@ -1,3 +1,4 @@
+import { ChatMessage } from '@/types/chat';
 
 /**
  * BaseLLMProvider
@@ -5,5 +6,5 @@
  * @version 1.0
  */
 export interface BaseLLMProvider {
-  streamChatCompletion(messages: null | undefined, options: Indexable): Promise<unknown>;
+  createChatCompletion(messages: ChatMessage[], options: Indexable): Promise<unknown>;
 }
