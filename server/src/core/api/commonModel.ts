@@ -34,7 +34,7 @@ export const QueryBodySchema = {
   description: 'Query',
   content: {
     'application/json': {
-      schema: QuerySchema.openapi('query')
+      schema: QuerySchema.openapi('Query')
     }
   }
 }

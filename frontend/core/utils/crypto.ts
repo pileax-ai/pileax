@@ -33,6 +33,5 @@ export const Base64HmacSha1 = (message: string, privateKey: string) => {
 }
 
 export const UUID = () => {
-  // return crypto.randomUUID().replaceAll('-', '');
-  return uuidv4().replaceAll('-', '');
+  return uuidv4();
 }

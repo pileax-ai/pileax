@@ -24,7 +24,7 @@
           {{message}}
         </div>
         <div class="actions">
-          <q-btn icon="content_copy" flat />
+          <o-copy-btn :value="message" flat />
           <q-btn icon="edit" flat @click="onEdit" />
         </div>
       </template>
@@ -36,7 +36,7 @@
     </q-item-section>
   </q-item>
 
-  <q-item class="o-chat-message system" v-else>
+  <q-item class="o-chat-message assistant" v-else>
     <q-item-section avatar>
       <q-avatar>
         <img :src="avatar" />
@@ -46,7 +46,7 @@
 
     <!-- Column 1 -->
     <q-item-section>
-      <q-spinner-dots size="2rem" v-if="streaming" />
+      <q-spinner-dots size="2rem" v-if="streaming && !message" />
       <template v-else>
         <div class="think row items-center text-readable" v-if="think">
           <q-icon name="emoji_objects" size="1.4rem" /> 已深度思考
@@ -58,12 +58,15 @@
             <slot></slot>
           </div>
 
-          <div class="actions">
-            <q-btn icon="content_copy" flat />
-            <q-btn icon="autorenew" flat />
-            <q-btn icon="mdi-thumb-up-outline" flat />
-            <q-btn icon="mdi-thumb-down-outline" flat />
-            <q-btn icon="add" flat />
+          <div class="actions" >
+            <q-spinner-dots size="2rem" v-if="streaming " />
+            <template v-else>
+              <o-copy-btn :value="message" flat />
+              <q-btn icon="autorenew" flat />
+              <q-btn icon="mdi-thumb-up-outline" flat />
+              <q-btn icon="mdi-thumb-down-outline" flat />
+              <q-btn icon="add" flat />
+            </template>
           </div>
         </div>
       </template>
@@ -74,12 +77,6 @@
       <div class="message">
         <slot name="alternative"></slot>
       </div>
-    </q-item-section>
-
-    <q-item-section avatar>
-      <q-avatar>
-        <img :src="avatar" v-if="false" />
-      </q-avatar>
     </q-item-section>
   </q-item>
 </template>
@@ -218,7 +215,7 @@ onMounted(() => {
     }
   }
 
-  &.system {
+  &.assistant {
     .q-item__section--avatar {
       align-items: end;
       .line {

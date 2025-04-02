@@ -23,7 +23,7 @@ export const NoteBodySchema = {
   description: 'Save Note',
   content: {
     'application/json': {
-      schema: NoteSchema.openapi('note')
+      schema: NoteSchema.openapi('NoteBody')
     }
   }
 }

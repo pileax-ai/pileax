@@ -40,12 +40,15 @@ function onSend(data: Indexable) {
 
 <style lang="scss">
 .page-chat-start {
+  padding: 0 1rem;
+
   header.header {
     position: absolute;
     top: 0;
     left: 0;
     padding: 1rem;
   }
+
 
   .start-panel {
     width: 100%;

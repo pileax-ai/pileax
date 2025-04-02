@@ -1,17 +1,54 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { chatService } from '@/api/ai/service/chat.service';
+import { chatService as service } from '@/api/ai/service/chat.service';
 import { sendOk } from '@/core/api/httpHandlers';
 import { ServerException } from '@/core/api/exceptions'
 import { ChatCompletion } from '@/api/ai/model/chat.model'
+import { logger } from '@/common'
 
 class ChatController {
+  public save: RequestHandler = async (req: Request, res: Response) => {
+    const data = req.body;
+    const id = data.id;
+    let doc: unknown;
+    try {
+      await service.get(id);
+      doc = await service.update(data);
+    } catch (err) {
+      doc = await service.create(data);
+    }
+    sendOk(res, doc);
+  };
+
+  public get: RequestHandler = async (req: Request, res: Response) => {
+    const id = req.query.id as string;
+    const doc = await service.get(id);
+    sendOk(res, doc);
+  };
+
+  public findAll: RequestHandler = async (req: Request, res: Response) => {
+    const id = req.query.id as string;
+    const doc = await service.findAll(id);
+    sendOk(res, doc);
+  };
+
+  public delete: RequestHandler = async (req: Request, res: Response) => {
+    const id = req.query.id as string;
+    await service.delete(id);
+    sendOk(res, { });
+  };
+
+  public query: RequestHandler = async (req: Request, res: Response) => {
+    const result = await service.query(req.body);
+    sendOk(res, result);
+  };
+
   public chatCompletion: RequestHandler = async (req: Request, res: Response) => {
     const data = req.body as ChatCompletion;
     try {
       if (data.stream) {
         // Get stream
-        const stream = await chatService.chatCompletion(data);
+        const stream = await service.chatCompletion(data);
 
         // Set SSE headers
         res.setHeader('Content-Type', 'text/event-stream');
@@ -20,24 +57,30 @@ class ChatController {
         res.flushHeaders();
 
         // Send content chunk
-        let fullContent = '';
+        let response = '';
         for await (const chunk of stream) {
           const content = chunk.choices[0]?.delta?.content || '';
-          fullContent += content;
+          response += content;
           res.write(`data: ${JSON.stringify({ content })}\n\n`);
         }
 
         // Save message to database
-        const message = {
-          role: 'assistant',
-          content: fullContent
+        const { id, sessionId, message, model } = data;
+        const chat = {
+          ...{ id, sessionId, message, model },
+          response: response,
+          provider: 'deepseek',
+          result: 1,
+          like: 0,
+          status: 1
         }
+        await service.create(chat);
 
         // Send done
         res.write('data: [DONE]\n\n');
         res.end();
       } else {
-        const result = await chatService.chatCompletion(data);
+        const result = await service.chatCompletion(data);
         const choice = result.choices[0] || {};
 
         // Save message to database
@@ -47,6 +90,7 @@ class ChatController {
         sendOk(res, choice);
       }
     } catch (err: any) {
+      console.error(err);
       throw new ServerException('ChatCompletion', err.message);
     }
   };

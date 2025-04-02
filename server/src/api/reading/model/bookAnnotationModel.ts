@@ -22,7 +22,7 @@ export const BookAnnotationBodySchema = {
   description: 'Save BookAnnotation',
   content: {
     'application/json': {
-      schema: BookAnnotationSchema.openapi('bookAnnotation')
+      schema: BookAnnotationSchema.openapi('BookAnnotationBody')
     }
   }
 }

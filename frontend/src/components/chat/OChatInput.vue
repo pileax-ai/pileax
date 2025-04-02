@@ -29,6 +29,7 @@
         <q-btn icon="stop"
                class="bg-primary text-white"
                flat round
+               @click="onStop"
                v-if="loading">
           <o-tooltip position="top" transition>
             停止生成
@@ -58,7 +59,7 @@ const props = defineProps({
     default: false
   },
 })
-const emit = defineEmits(['send']);
+const emit = defineEmits(['send', 'stop']);
 
 const input = ref('');
 const reasoning = ref(false);
@@ -92,6 +93,10 @@ function onSend() {
     reasoning: reasoning.value
   });
   reset();
+}
+
+function onStop() {
+  emit('stop');
 }
 
 function reset() {

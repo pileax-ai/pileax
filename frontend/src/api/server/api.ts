@@ -17,6 +17,8 @@ const urls: Indexable = {
   authLogin: '/auth/login',
   book: '/book',
   bookAnnotation: '/book/annotation',
+  chat: '/chat',
+  chatSession: '/chat/session',
   clientVersion: '/client/version',
   note: '/note',
   platformConfig: '/platform/config',

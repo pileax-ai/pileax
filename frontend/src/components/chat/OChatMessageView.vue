@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { YiiEditor } from '@yiitap/vue';
 import '@yiitap/vue/dist/vue.css';
 import MarkdownIt from 'markdown-it';
@@ -50,6 +50,10 @@ function setContent () {
   const content = md.render(props.message);
   editor.value?.commands.setContent(content, true);
 }
+
+watch(() => props.message, (newValue) => {
+  setContent();
+})
 
 onMounted(() => {
   setContent()

@@ -30,7 +30,7 @@ export const BookBodySchema = {
   description: 'Save Book',
   content: {
     'application/json': {
-      schema: BookSchema.openapi('book')
+      schema: BookSchema.openapi('BookBody')
     }
   }
 }

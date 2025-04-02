@@ -56,3 +56,26 @@ export const bookAnnotation = sqliteTable('book_annotation', {
   chapter: text().default(''),
   ...timestamps
 });
+
+export const chatSession = sqliteTable('chat_session', {
+  id: text().primaryKey().unique(),
+  userId: integer('user_id').default(0),
+  title: text().default(''),
+  name: text().notNull(),
+  status: integer().default(0),
+  ...timestamps
+});
+
+export const chat = sqliteTable('chat', {
+  id: text().primaryKey().unique(),
+  userId: integer('user_id').default(0),
+  sessionId: text('session_id').notNull(),
+  message: text().notNull(),
+  response: text().notNull(),
+  provider: text().notNull(),
+  model: text().default(''),
+  result: integer().default(0),
+  like: integer().default(0),
+  status: integer().default(1),
+  ...timestamps
+});

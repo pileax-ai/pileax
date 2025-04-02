@@ -14,6 +14,7 @@
     <q-scroll-area ref="scrollRef"
                    class="o-page-container"
                    :class="contentClass"
+                   @scroll="onScroll"
                    v-if="scrollable">
       <Content403 v-if="pageStatus === 403" />
       <template v-else>
@@ -38,6 +39,7 @@
 import { computed, ref } from 'vue';
 
 import Content403 from 'core/page/content/Content403.vue';
+import { QScrollArea } from 'quasar'
 
 const props = defineProps({
   header: {
@@ -62,16 +64,19 @@ const props = defineProps({
   },
 });
 
-const scrollRef = ref(null);
+const scrollRef = ref<InstanceType<typeof QScrollArea>>();
 const pageStatus = computed(() => {
   return 200
 });
 
-function scrollToBottom() {
-  const scrollTarget = scrollRef.value.getScrollTarget();
-  const duration = 500;
-  const scrollHeight = scrollTarget.scrollHeight + 300;
-  scrollRef.value.setScrollPosition('vertical', scrollHeight, duration);
+function onScroll(info: any) {
+  console.log('scroll', info)
+}
+
+function scrollToBottom(duration = 0) {
+  const scrollTarget = scrollRef.value?.getScrollTarget();
+  const scrollHeight = scrollTarget?.scrollHeight || 0;
+  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
 }
 
 defineExpose({
