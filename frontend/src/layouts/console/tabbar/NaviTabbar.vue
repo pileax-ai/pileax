@@ -44,12 +44,11 @@
             </q-tooltip>
 
             <q-menu touch-position context-menu
-                    class="navi-tabbar-menu">
+                    class="pi-context-menu">
               <q-list :style="{minWidth: '200px'}">
                 <template v-for="(action, index) in actions" :key="`action-${index}`">
                   <q-separator class="bg-accent" v-if="action.separator" />
                   <o-common-item v-bind="action"
-                                 class="text-tips"
                                  @click="onAction(action, item)"
                                  clickable closable />
                 </template>
@@ -94,16 +93,20 @@ const showDrawerToggle = computed(() => {
 
 const actions = computed(() => {
   return [
-    { label: 'Reload', value: 'reload', icon: 'refresh' },
-    // { label: 'Pin', value: 'pin', icon: 'push_pin' },
+    { label: 'Refresh Tab', value: 'refresh', icon: 'refresh' },
+    { label: 'Pin Tab', value: 'pin', icon: 'mdi-pin-outline', separator: true },
+    { label: 'Duplicate Tab', value: 'duplicate', icon: 'copy_all' },
+    { label: 'Move Tab to New Window', value: 'newWindow', icon: 'open_in_browser' },
     { label: 'Close', value: 'close', icon: 'close', separator: true },
     { label: 'Close Other Tabs', value: 'closeOther', icon: 'playlist_remove' },
+    { label: 'Close Tabs to the Left', value: 'closeToLeft', icon: 'keyboard_tab', iconClass: 'rotate-180' },
     { label: 'Close Tabs to the Right', value: 'closeToRight', icon: 'keyboard_tab' },
   ];
 });
 
 const tabBar = computed(() => appStore.setting.tabBar);
 const openedMenus = computed(() => naviStore.openedMenus);
+const tabs = computed(() => naviStore.tabs);
 const moreIcon = computed(() => {
   return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less';
 });
@@ -401,14 +404,6 @@ $tab-height: 40px;
 
   .more {
     margin-top: -10px;
-  }
-}
-
-.navi-tabbar-menu {
-  .q-item {
-    min-height: unset !important;
-    padding: 0;
-    border-radius: 0;
   }
 }
 

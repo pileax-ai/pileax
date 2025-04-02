@@ -30,7 +30,7 @@ export default function () {
   function setCurrentNote(note: Note | null) {
     if (!note) return;
     noteStore.setCurrentNote(note);
-    naviStore.setCurrentMenu({
+    const menu = {
       id: note.id,
       name: note.title,
       path: `/note/${note.id}`,
@@ -40,7 +40,9 @@ export default function () {
         icon: note.icon,
         iconClass: 'emoji'
       }
-    } as MenuItem);
+    } as MenuItem;
+    naviStore.setCurrentMenu(menu);
+    // naviStore.openTab(menu);
   }
 
   async function getAllNotes() {

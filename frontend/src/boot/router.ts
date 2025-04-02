@@ -20,6 +20,7 @@ export default boot(({ router, store }) => {
     const timeout = appStore.setting.pageTransition.enable ? 200 : 0;
     setTimeout(() => {
       naviStore.updateMenu(to);
+      // naviStore.updateTab(to);
     }, timeout);
   });
 })

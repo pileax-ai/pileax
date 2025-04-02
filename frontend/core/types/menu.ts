@@ -22,4 +22,5 @@ export interface MenuItem {
   type?: number,
   isShow?: number,
   favorite?: number,
+  pin?: boolean,
 }
