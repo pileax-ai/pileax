@@ -7,7 +7,7 @@ export class DeepSeekLLM implements BaseLLMProvider{
   private sdk: any;
   private model: string;
 
-  constructor(embedder = null, modelPreference = null) {
+  constructor(embedder = null, modelPreference = '') {
     this.initSdk();
     this.model = modelPreference || process.env.DEEPSEEK_MODEL_PREF
       || 'deepseek-chat';

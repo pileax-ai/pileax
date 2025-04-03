@@ -3,51 +3,42 @@ import { isCancel } from 'axios';
 import { api as request } from 'src/boot/axios';
 
 interface StreamEvent {
+  type: string;
   content: string;
   finish_reason?: string;
 }
 
 interface UseStreamReturn {
-  response: Ref<string>;
+  reasoningContent: Ref<string>;
+  content: Ref<string>;
   isLoading: Ref<boolean>;
   error: Ref<Error | null>;
   startStream: (
     url: string,
     payload: any,
-    onProgress?: (text: string) => void,
-    onDone?: (text: string) => void,
+    onProgress?: (reasoningContent: string, content: string) => void,
+    onDone?: (reasoningContent: string, content: string) => void,
   ) => Promise<void>;
   cancelStream: () => void;
 }
 
 export default function(): UseStreamReturn {
-  const response = ref('');
+  const reasoningContent = ref('');
+  const content = ref('');
   const isLoading = ref(false);
   const error = ref<Error | null>(null);
   const controller = ref<AbortController | null>(null);
 
-  const processStreamData = (data: string): string | null => {
-    try {
-      if (data.includes('[DONE]')) return null;
-
-      const jsonStr = data.replace('data: ', '').trim();
-      const event = JSON.parse(jsonStr) as StreamEvent;
-      return event.content || null;
-    } catch (e) {
-      console.warn('Failed to parse stream chunk:', e);
-      return null;
-    }
-  };
-
   const startStream = async (
     url: string,
     payload: any,
-    onProgress?: (text: string) => void,
-    onDone?: (text: string) => void,
+    onProgress?: (reasoningContent: string, content: string) => void,
+    onDone?: (reasoningContent: string, content: string) => void,
   ) => {
     isLoading.value = true;
     error.value = null;
-    response.value = '';
+    reasoningContent.value = '';
+    content.value = '';
     controller.value = new AbortController();
 
     try {
@@ -70,7 +61,8 @@ export default function(): UseStreamReturn {
             ?.split('\n\n')
             .filter((line: string) => line.startsWith('data: '));
 
-          let content = '';
+          let text = '';
+          let reasoningText = '';
           let done = false;
           lines?.forEach((line: string) => {
             try {
@@ -81,15 +73,20 @@ export default function(): UseStreamReturn {
 
               const jsonStr = line.replace('data: ', '').trim();
               const event = JSON.parse(jsonStr) as StreamEvent;
-              content += event.content;
+              if (event.type === 'reasoning') {
+                reasoningText += event.content;
+              } else {
+                text += event.content;
+              }
             } catch (e) {
               console.warn('Parse error:', e);
             }
           });
-          response.value = content;
-          onProgress?.(response.value);
+          content.value = text;
+          reasoningContent.value = reasoningText;
+          onProgress?.(reasoningContent.value, content.value);
           if (done) {
-            onDone?.(content);
+            onDone?.(reasoningContent.value, content.value);
           }
         }
       });
@@ -107,7 +104,8 @@ export default function(): UseStreamReturn {
   };
 
   return {
-    response,
+    reasoningContent,
+    content,
     isLoading,
     error,
     startStream,

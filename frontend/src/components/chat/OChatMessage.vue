@@ -46,26 +46,30 @@
 
     <!-- Column 1 -->
     <q-item-section>
-      <q-spinner-dots size="2rem" v-if="streaming && !message" />
+      <q-spinner-dots size="2rem" v-if="streaming && !message && !reasoningMessage" />
       <template v-else>
-        <div class="think row items-center text-readable" v-if="think">
-          <q-icon name="emoji_objects" size="1.4rem" /> 已深度思考
-        </div>
-
         <div class="message-wrapper">
+          <q-expansion-item icon="emoji_objects"
+                            label="已深度思考"
+                            header-class="text-readable"
+                            default-opened
+                            v-if="reasoningMessage">
+            <o-chat-message-view :message="reasoningMessage" />
+          </q-expansion-item>
+
+
           <div class="message">
             <o-chat-message-view :message="message" />
-            <slot></slot>
           </div>
 
           <div class="actions" >
-            <q-spinner-dots size="2rem" v-if="streaming " />
+            <q-spinner-dots size="2rem" v-if="streaming" />
             <template v-else>
-              <o-copy-btn :value="message" flat />
+              <o-copy-btn :value="message" flat notify />
               <q-btn icon="autorenew" flat />
               <q-btn icon="mdi-thumb-up-outline" flat />
               <q-btn icon="mdi-thumb-down-outline" flat />
-              <q-btn icon="add" flat />
+              <q-btn icon="post_add" flat />
             </template>
           </div>
         </div>
@@ -94,6 +98,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  reasoningMessage: {
+    type: String,
+    default: ''
+  },
   role: {
     type: String,
     default: ''
@@ -106,7 +114,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  think: {
+  reasoning: {
     type: Boolean,
     default: false
   },
@@ -127,9 +135,8 @@ function onEdit() {
 function onSend() {
   editable.value = false;
   emit('send', {
-    role: 'user',
     message: userMessage,
-    think: props.think
+    reasoning: props.reasoning
   })
 }
 
@@ -153,14 +160,6 @@ onMounted(() => {
       max-width: 100%;
       min-height: 42px;
       justify-content: start;
-    }
-
-    .think {
-      width: max-content;
-      background: var(--q-dark);
-      border-radius: 6px;
-      padding: 10px 10px 10px 6px;
-      min-height: 42px;
     }
 
     &--avatar {
@@ -226,6 +225,31 @@ onMounted(() => {
     .message-wrapper {
       margin: 4px 0;
       outline: solid 2px transparent;
+
+      .q-item {
+        width: 240px;
+        min-height: 42px;
+        padding: 8px 8px;
+        background: var(--q-dark);
+        border-radius: 6px;
+
+        .q-item__section--side {
+          padding-right: 0;
+          .q-icon {
+            font-size: 20px;
+            margin-top: 3px;
+          }
+        }
+      }
+
+      .q-expansion-item__content {
+        padding: 0 0 0 1rem;
+        border-left: solid 1px var(--q-dark);
+
+        .yiitap * {
+          color: var(--yii-tips-color) !important;
+        }
+      }
     }
     &:hover {
       .q-item__section--avatar {

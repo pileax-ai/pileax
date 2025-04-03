@@ -5,9 +5,12 @@
                  :content-class="start ? 'justify-center' : ''"
                  header
                  :footer="!start"
-                 :scrollable="!start">
+                 :scrollable="!start" @scroll="onScroll">
     <template #header>
       <o-ai-provider-select-btn />
+    </template>
+    <template #right>
+      <q-btn icon="settings" flat />
     </template>
 
     <section class="row justify-center start-panel" v-if="start">
@@ -25,9 +28,12 @@
       <section class="chat-list">
         <template v-for="(item, index) in chats" :key="index">
           <o-chat-message :message="item.message"
+                          :id="item.id"
                           role="user"
                           align-right />
-          <o-chat-message :message="item.response"
+          <o-chat-message :message="item.content"
+                          :reasoning-message="item.reasoningContent"
+                          :reasoning="item.reasoning"
                           role="assistant" />
         </template>
 
@@ -35,12 +41,31 @@
           <o-chat-message :message="message"
                           role="user"
                           align-right />
-          <o-chat-message :message="response"
+          <o-chat-message :message="content"
+                          :reasoning-message="reasoningContent"
                           role="assistant"
                           :streaming="isLoading" />
         </template>
       </section>
     </section>
+    <section class="row col-12 justify-center q-pb-lg new-chat" v-show="chats.length">
+      <q-btn icon="add_comment" label="开启新对话"
+             icon-class="rotate-90"
+             class="bg-primary text-white"
+             flat
+             @click="onNewChat" v-intersection="onIntersection">
+      </q-btn>
+    </section>
+
+    <transition name="fade">
+      <section class="row col-12 justify-center q-pb-lg scroll-bottom" v-if="chats.length && showScrollBtn">
+        <div class="row col-12 justify-end btn-wrapper">
+          <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500)" />
+        </div>
+      </section>
+    </transition>
+
+    <o-chat-toc ref="tocRef" :chats="chats" />
 
     <template #footer>
       <o-chat-input :loading="isLoading"
@@ -61,6 +86,7 @@ import OCommonPage from 'core/page/template/OCommonPage.vue';
 import OChatInput from 'components/chat/OChatInput.vue';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
+import OChatToc from 'components/chat/OChatToc.vue';
 
 import { router } from 'src/router';
 import { chatService } from 'src/service/remote/chat';
@@ -82,8 +108,11 @@ const { isLoading, startStream, cancelStream } = useStream();
 const pageRef = ref<InstanceType<typeof OCommonPage>>();
 const start = ref(true);
 const message = ref('');
-const response = ref('');
+const content = ref('');
+const reasoningContent = ref('');
 const chats = ref<Indexable[]>([]);
+const showScrollBtn = ref(false);
+const tocRef = ref<InstanceType<typeof OChatToc>>();
 
 function init() {
   start.value = route.name === 'chat-start';
@@ -108,7 +137,8 @@ function getAllChats() {
 
 async function onSend(data: ChatInput, reset = false) {
   message.value = data.message;
-  response.value = '';
+  content.value = '';
+  reasoningContent.value = '';
   scrollToBottom();
 
   if (reset) {
@@ -148,38 +178,54 @@ async function createSession(data: Indexable) {
   })
 }
 
-async function chatCompletion(data: Indexable) {
+async function chatCompletion(data: ChatInput) {
   chatStore.setCurrentChat(undefined);
   const payload = {
     ...data,
     id: UUID(),
     sessionId: sessionId.value,
     stream: true,
-    model: 'deepseek-chat'
+    model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
 
   await startStream('/chat/completions', payload, onProgress, onDone);
 }
 
-async function onProgress(text: string) {
-  response.value = text;
+async function onProgress(reasoningText: string, text: string) {
+  content.value = text;
+  reasoningContent.value = reasoningText;
   scrollToBottom();
 }
 
-async function onDone(text: string) {
+async function onDone(reasoningText: string, text: string) {
   chats.value.push({
     message: message.value,
-    response: text
+    reasoningContent: reasoningText,
+    content: text,
   })
-  response.value = '';
+  content.value = '';
+  reasoningContent.value = '';
   scrollToBottom();
 }
 
-async function scrollToBottom() {
+function onNewChat() {
+  router.replace({name: 'chat-start'});
+}
+
+async function scrollToBottom(duration = 0) {
   await nextTick();
   setTimeout(() => {
-    pageRef.value?.scrollToBottom();
+    pageRef.value?.scrollToBottom(duration);
   }, 0)
+}
+
+function onScroll() {
+  tocRef.value?.onScroll();
+}
+
+function onIntersection(entry: Indexable) {
+  console.log('intersection', entry);
+  showScrollBtn.value = !entry.isIntersecting;
 }
 
 onActivated(() => {
@@ -199,17 +245,22 @@ onActivated(() => {
     left: 0;
     padding: 1rem;
     z-index: 1;
+    background: linear-gradient(to right,
+      var(--q-secondary) 15%,
+      transparent 50%,
+      var(--q-secondary) 85%);
   }
 
   .o-page-container {
-    top: 64px;
+    top: 0;
     bottom: 140px;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 1rem 0 1rem;
   }
 
   .chat-list {
     width: 100%;
     max-width: 800px;
+    padding: 64px 0 1rem 0;
   }
 
   footer.footer {
@@ -255,6 +306,29 @@ onActivated(() => {
     footer {
       height: 200px;
     }
+  }
+
+  .new-chat {
+    .q-btn {
+      border-radius: 10px;
+    }
+  }
+
+  .scroll-bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    .btn-wrapper {
+      width: 100%;
+      max-width: 800px;
+    }
+  }
+
+  .o-chat-toc {
+    position: fixed;
+    top: 64px;
+    right: 1rem;
   }
 }
 </style>

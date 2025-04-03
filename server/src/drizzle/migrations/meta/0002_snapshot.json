@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "25df07c2-f2b0-421c-a4e1-ab2c340790d2",
+  "id": "dc722ba3-4d87-44e5-8df8-a84a32a6572b",
   "prevId": "d7ae901a-845b-4565-97c8-b2f2fee0a136",
   "tables": {
     "book": {
@@ -272,12 +272,28 @@
           "notNull": true,
           "autoincrement": false
         },
-        "response": {
-          "name": "response",
+        "content": {
+          "name": "content",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "reasoning": {
+          "name": "reasoning",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
+        },
+        "reasoning_content": {
+          "name": "reasoning_content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "''"
         },
         "provider": {
           "name": "provider",

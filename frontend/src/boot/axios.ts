@@ -17,7 +17,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 const api = axios.create({
   baseURL: process.env.API_BASE_URL,
-  timeout: 60000
+  timeout: 100000
 });
 
 // Request interceptors

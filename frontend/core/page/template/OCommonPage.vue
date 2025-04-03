@@ -1,11 +1,11 @@
 <template>
   <q-page class="o-common-page full-width">
-    <header class="row col-12 justify-between items-center header" v-if="header">
+    <header class="row col-12 justify-between items-center full-width header" v-if="header">
       <div class="row justify-between items-center title">
         <span v-if="title">{{title}}</span>
         <slot name="header"></slot>
       </div>
-      <div class="q-px-sm right">
+      <div class="right">
         <slot name="right"></slot>
       </div>
     </header>
@@ -63,6 +63,7 @@ const props = defineProps({
     default: 'bg-secondary'
   },
 });
+const emit = defineEmits(['scroll']);
 
 const scrollRef = ref<InstanceType<typeof QScrollArea>>();
 const pageStatus = computed(() => {
@@ -71,6 +72,7 @@ const pageStatus = computed(() => {
 
 function onScroll(info: any) {
   // console.log('scroll', info)
+  emit('scroll')
 }
 
 function scrollToBottom(duration = 0) {

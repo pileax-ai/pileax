@@ -1,5 +1,5 @@
 import { sqliteTable, integer, real, text } from 'drizzle-orm/sqlite-core';
-import { sql } from 'drizzle-orm'
+import { sql } from 'drizzle-orm';
 
 const id = {
   id: integer({ mode: 'number' })
@@ -71,7 +71,9 @@ export const chat = sqliteTable('chat', {
   userId: integer('user_id').default(0),
   sessionId: text('session_id').notNull(),
   message: text().notNull(),
-  response: text().notNull(),
+  content: text().notNull(),
+  reasoning: integer().default(0),
+  reasoningContent: text('reasoning_content').default(''),
   provider: text().notNull(),
   model: text().default(''),
   result: integer().default(0),

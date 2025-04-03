@@ -44,7 +44,8 @@ export class ChatService {
 
   async chatCompletion(data: ChatCompletion) {
     try {
-      const llm = await getLLM('deepseek', 'deepseek-chat');
+      const model = data.model || 'deepseek-chat';
+      const llm = await getLLM('deepseek', model);
       const messages: ChatMessage[] = [
         {
           role: 'system',

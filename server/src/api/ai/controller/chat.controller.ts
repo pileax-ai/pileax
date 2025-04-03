@@ -57,18 +57,27 @@ class ChatController {
         res.flushHeaders();
 
         // Send content chunk
+        let reasoningResponse = '';
         let response = '';
         for await (const chunk of stream) {
+          const reasoningContent = chunk.choices[0]?.delta?.reasoning_content || '';
           const content = chunk.choices[0]?.delta?.content || '';
+          const type = reasoningContent ? 'reasoning' : 'content';
+          reasoningResponse += reasoningContent;
           response += content;
-          res.write(`data: ${JSON.stringify({ content })}\n\n`);
+          res.write(`data: ${JSON.stringify({
+            type: type,
+            content: reasoningContent || content
+          })}\n\n`);
         }
 
         // Save message to database
         const { id, sessionId, message, model } = data;
         const chat = {
           ...{ id, sessionId, message, model },
-          response: response,
+          content: response,
+          reasoning: data.reasoning ? 1 : 0,
+          reasoningContent: reasoningResponse,
           provider: 'deepseek',
           result: 1,
           like: 0,
