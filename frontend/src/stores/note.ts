@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
 import { Note } from 'src/types/note';
-import { NoteService, LocalNoteService, RemoteNoteService } from 'src/service/note';
+import { NoteService, RemoteNoteService } from 'src/service/note';
 
 export const useNoteStore = defineStore('note', {
   state: () => ({

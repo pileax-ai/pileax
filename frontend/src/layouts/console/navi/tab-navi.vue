@@ -229,6 +229,22 @@ onBeforeMount(() => {
       height: calc(100% - 66px)!important;
     }
 
+    .q-list {
+      padding: 8px;
+
+      .q-item {
+        border-radius: 4px;
+
+        &:before {
+          border-radius: 4px;
+        }
+
+        &:after {
+          //background: none;
+        }
+      }
+    }
+
     .header-item {
       display: none;
     }

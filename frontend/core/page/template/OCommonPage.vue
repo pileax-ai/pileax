@@ -70,7 +70,7 @@ const pageStatus = computed(() => {
 });
 
 function onScroll(info: any) {
-  console.log('scroll', info)
+  // console.log('scroll', info)
 }
 
 function scrollToBottom(duration = 0) {

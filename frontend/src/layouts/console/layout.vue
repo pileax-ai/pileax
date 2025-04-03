@@ -81,6 +81,10 @@ function onRouteChanged() {
     case 'note':
       activity = 'note';
       break;
+    case 'chat':
+    case 'chat-session':
+      activity = 'chat';
+      break;
     default:
       activity = reduceActivity(path);
       break;

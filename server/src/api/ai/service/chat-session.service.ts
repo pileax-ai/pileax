@@ -11,6 +11,7 @@ export class ChatSessionService {
 	}
 
   async create(data: ChatSession) {
+    data.status = 1;
     return await this.repo.create(data);
   }
 

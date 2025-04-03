@@ -1,7 +1,7 @@
 <template>
   <o-common-page ref="pageRef"
                  class="page-chat"
-                 :class="{ 'row justify-center items-center': start }"
+                 :class="{ 'row justify-center items-center start': start }"
                  :content-class="start ? 'justify-center' : ''"
                  header
                  :footer="!start"
@@ -67,38 +67,57 @@ import { chatService } from 'src/service/remote/chat';
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { UUID } from 'core/utils/crypto';
 import useStream from 'src/hooks/useStream';
+import useChatSession from 'src/hooks/useChatSession';
+import { ChatInput } from 'src/types/chat'
 
 const route = useRoute();
+const {
+  sessionId,
+  currentChat,
+  chatStore,
+  getSession,
+} = useChatSession();
 const { isLoading, startStream, cancelStream } = useStream();
 
 const pageRef = ref<InstanceType<typeof OCommonPage>>();
 const start = ref(true);
-const id = ref('');
 const message = ref('');
 const response = ref('');
 const chats = ref<Indexable[]>([]);
 
 function init() {
   start.value = route.name === 'chat-start';
-  id.value = (route.params.id || '') as string;
-  if (id.value) {
+  sessionId.value = (route.params.id || '') as string;
+  if (sessionId.value) {
+    getSession();
     getAllChats();
+
+    // Resend after replace router
+    if (currentChat.value) {
+      onSend(currentChat.value, true);
+    }
   }
 }
 
 function getAllChats() {
-  chatService.getAll({id: id.value}).then(res => {
+  chatService.getAll({id: sessionId.value}).then(res => {
     chats.value = res as Indexable[];
     scrollToBottom();
   })
 }
 
-async function onSend(data: Indexable) {
+async function onSend(data: ChatInput, reset = false) {
   message.value = data.message;
   response.value = '';
   scrollToBottom();
 
-  if (id.value) {
+  if (reset) {
+    chatStore.setCurrentChat(undefined);
+  } else {
+    chatStore.setCurrentChat(data);
+  }
+
+  if (sessionId.value) {
     chatCompletion(data);
   }
   else {
@@ -118,19 +137,23 @@ async function createSession(data: Indexable) {
     title: message,
     name: message
   }).then(res => {
-    id.value = res.id;
+    sessionId.value = res.id;
     start.value = false;
-    router.replace({name: 'chat-session', params: {id: id.value}});
 
-    chatCompletion(data);
+    // update session list
+    chatStore.setSessionTimer(Date.now());
+
+    // replace router
+    router.replace({name: 'chat-session', params: {id: sessionId.value}});
   })
 }
 
 async function chatCompletion(data: Indexable) {
+  chatStore.setCurrentChat(undefined);
   const payload = {
     ...data,
     id: UUID(),
-    sessionId: id.value,
+    sessionId: sessionId.value,
     stream: true,
     model: 'deepseek-chat'
   }
@@ -153,7 +176,6 @@ async function onDone(text: string) {
 }
 
 async function scrollToBottom() {
-  // Scroll to bottom
   await nextTick();
   setTimeout(() => {
     pageRef.value?.scrollToBottom();
@@ -167,6 +189,10 @@ onActivated(() => {
 
 <style lang="scss">
 .page-chat {
+  &.start {
+    padding: 0 1rem;
+  }
+
   header.header {
     position: absolute;
     top: 0;

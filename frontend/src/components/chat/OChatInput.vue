@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { ChatInput } from 'src/types/chat';
 
 const props = defineProps({
   loading: {
@@ -91,7 +92,7 @@ function onSend() {
   emit('send', {
     message: message,
     reasoning: reasoning.value
-  });
+  } as ChatInput);
   reset();
 }
 

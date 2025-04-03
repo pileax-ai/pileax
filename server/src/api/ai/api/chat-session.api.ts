@@ -6,7 +6,7 @@ import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import { ChatSessionSchema, ChatSessionBodySchema } from '@/api/ai/model/chat-session.model';
 import {
   EmptySchema,
-  IdSchema,
+  StringIdSchema,
   QuerySchema,
   QueryBodySchema
 } from '@/core/api/commonModel';
@@ -39,10 +39,10 @@ registry.registerPath({
 	method: 'get',
   path: `${apiPathBase}`,
 	tags: ['ChatSession'],
-	request: { query: IdSchema.shape.query },
+	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(ChatSessionSchema, 'Success'),
 });
-apiRouter.get(`${pathBase}`, validateRequest(IdSchema), controller.get);
+apiRouter.get(`${pathBase}`, validateRequest(StringIdSchema), controller.get);
 
 
 /**
@@ -52,10 +52,10 @@ registry.registerPath({
   method: 'delete',
   path: `${apiPathBase}`,
   tags: ['ChatSession'],
-  request: { query: IdSchema.shape.query },
+  request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete(`${pathBase}`, validateRequest(IdSchema), controller.delete);
+apiRouter.delete(`${pathBase}`, validateRequest(StringIdSchema), controller.delete);
 
 /**
  * query
