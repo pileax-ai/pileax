@@ -6,7 +6,7 @@ import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import {
   ChatCompletionSchema,
   ChatCompletionBodySchema,
-  ChatCompletionResponseSchema, ChatSchema,
+  ChatCompletionResponseSchema, ChatSchema, ChatBodySchema,
 } from '@/api/ai/model/chat.model'
 import {
   EmptySchema,
@@ -23,6 +23,18 @@ const pathBase = `/chat`
 const apiPathBase = `${apiBase}${pathBase}`
 
 registry.register('Chat', ChatSchema);
+
+/**
+ * save
+ */
+registry.registerPath({
+  method: 'post',
+  path: `${apiPathBase}`,
+  tags: ['Chat'],
+  request: { body: ChatBodySchema },
+  responses: createApiResponse(ChatSchema, 'Success'),
+});
+apiRouter.post(`${pathBase}`, validateBody(ChatSchema.partial()), controller.save);
 
 /**
  * get

@@ -1,6 +1,7 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
 import { commonValidations } from '@/core/api/commonValidation'
+import { ChatSessionSchema } from '@/api/ai/model/chat-session.model'
 
 extendZodWithOpenApi(z);
 
@@ -22,6 +23,15 @@ export const ChatSchema = z.object({
   like: z.number().optional().default(0),
   status: z.number().optional().default(0),
 });
+
+export const ChatBodySchema = {
+  description: 'Save Chat',
+  content: {
+    'application/json': {
+      schema: ChatSchema.openapi('ChatBody')
+    }
+  }
+}
 
 export const ChatUpdateSchema = ChatSchema.partial();
 

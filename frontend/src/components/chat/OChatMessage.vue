@@ -1,5 +1,5 @@
 <template>
-  <q-item class="o-chat-message user" v-if="role==='user'">
+  <q-item class="o-chat-message user" :id="chat.id">
     <q-item-section avatar>
       <q-avatar>
         <img :src="avatar" v-if="!alignRight" />
@@ -21,11 +21,15 @@
       </template>
       <template v-else>
         <div class="message readonly">
-          {{message}}
+          {{ chat.message }}
         </div>
         <div class="actions">
-          <o-copy-btn :value="message" flat />
-          <q-btn icon="edit" flat @click="onEdit" />
+          <o-copy-btn :value="chat.message" flat>
+            <o-tooltip position="bottom">复制</o-tooltip>
+          </o-copy-btn>
+          <q-btn icon="edit" flat @click="onEdit">
+            <o-tooltip position="bottom">编辑</o-tooltip>
+          </q-btn>
         </div>
       </template>
     </q-item-section>
@@ -36,7 +40,7 @@
     </q-item-section>
   </q-item>
 
-  <q-item class="o-chat-message assistant" v-else>
+  <q-item class="o-chat-message assistant">
     <q-item-section avatar>
       <q-avatar>
         <img :src="avatar" />
@@ -46,30 +50,42 @@
 
     <!-- Column 1 -->
     <q-item-section>
-      <q-spinner-dots size="2rem" v-if="streaming && !message && !reasoningMessage" />
+      <q-spinner-dots size="2rem"
+                      v-if="streaming && !chat.content && !chat.reasoningContent" />
       <template v-else>
         <div class="message-wrapper">
           <q-expansion-item icon="emoji_objects"
                             label="已深度思考"
                             header-class="text-readable"
                             default-opened
-                            v-if="reasoningMessage">
-            <o-chat-message-view :message="reasoningMessage" />
+                            v-if="chat.reasoningContent">
+            <o-chat-message-view :message="chat.reasoningContent" />
           </q-expansion-item>
 
 
           <div class="message">
-            <o-chat-message-view :message="message" />
+            <o-chat-message-view :message="chat.content" />
           </div>
 
           <div class="actions" >
             <q-spinner-dots size="2rem" v-if="streaming" />
             <template v-else>
-              <o-copy-btn :value="message" flat notify />
-              <q-btn icon="autorenew" flat />
-              <q-btn icon="mdi-thumb-up-outline" flat />
-              <q-btn icon="mdi-thumb-down-outline" flat />
-              <q-btn icon="post_add" flat />
+              <o-copy-btn :value="chat.content" flat notify>
+                <o-tooltip position="bottom">复制</o-tooltip>
+              </o-copy-btn>
+              <q-btn icon="autorenew" flat>
+                <o-tooltip position="bottom">重新生产</o-tooltip>
+              </q-btn>
+              <q-btn :icon="chat.like===1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                     flat @click="onLike(1)">
+                <o-tooltip position="bottom">喜欢</o-tooltip>
+              </q-btn>
+              <q-btn :icon="chat.like===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'" flat @click="onLike(-1)">
+                <o-tooltip position="bottom">不喜欢</o-tooltip>
+              </q-btn>
+              <q-btn icon="post_add" flat>
+                <o-tooltip position="bottom">创建笔记</o-tooltip>
+              </q-btn>
             </template>
           </div>
         </div>
@@ -86,25 +102,22 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, PropType, ref } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
+import { chatService } from 'src/service/remote/chat';
 
 const props = defineProps({
   avatar: {
     type: String,
     default: 'https://cdn.quasar.dev/img/avatar3.jpg'
   },
-  message: {
-    type: String,
-    default: ''
+  chat: {
+    type: Object as PropType<Indexable>,
+    default: () => {}
   },
-  reasoningMessage: {
-    type: String,
-    default: ''
-  },
-  role: {
-    type: String,
-    default: ''
+  streaming: {
+    type: Boolean,
+    default: false
   },
   alignRight: {
     type: Boolean,
@@ -114,16 +127,8 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  reasoning: {
-    type: Boolean,
-    default: false
-  },
-  streaming: {
-    type: Boolean,
-    default: false
-  },
 })
-const emit = defineEmits(['send']);
+const emit = defineEmits(['like', 'send']);
 
 const editable = ref(false);
 const userMessage = ref('');
@@ -136,12 +141,21 @@ function onSend() {
   editable.value = false;
   emit('send', {
     message: userMessage,
-    reasoning: props.reasoning
+    reasoning: props.chat.reasoning
+  })
+}
+
+function onLike(like: number) {
+  chatService.save({
+    id: props.chat.id,
+    like: like
+  }).then(res => {
+    emit('like', res);
   })
 }
 
 onMounted(() => {
-  userMessage.value = props.role === 'user' ? props.message : props.message;
+  userMessage.value = props.chat.message;
 })
 </script>
 

@@ -27,23 +27,13 @@
     <section class="row col-12 justify-center" v-else>
       <section class="chat-list">
         <template v-for="(item, index) in chats" :key="index">
-          <o-chat-message :message="item.message"
-                          :id="item.id"
-                          role="user"
-                          align-right />
-          <o-chat-message :message="item.content"
-                          :reasoning-message="item.reasoningContent"
-                          :reasoning="item.reasoning"
-                          role="assistant" />
+          <o-chat-message :chat="item"
+                          align-right @like="onLike($event, index)" />
         </template>
 
         <template v-if="isLoading">
-          <o-chat-message :message="message"
-                          role="user"
-                          align-right />
-          <o-chat-message :message="content"
-                          :reasoning-message="reasoningContent"
-                          role="assistant"
+          <o-chat-message :chat="newChat"
+                          align-right
                           :streaming="isLoading" />
         </template>
       </section>
@@ -107,10 +97,8 @@ const { isLoading, startStream, cancelStream } = useStream();
 
 const pageRef = ref<InstanceType<typeof OCommonPage>>();
 const start = ref(true);
-const message = ref('');
-const content = ref('');
-const reasoningContent = ref('');
 const chats = ref<Indexable[]>([]);
+const newChat = ref<Indexable>({})
 const showScrollBtn = ref(false);
 const tocRef = ref<InstanceType<typeof OChatToc>>();
 
@@ -136,9 +124,7 @@ function getAllChats() {
 }
 
 async function onSend(data: ChatInput, reset = false) {
-  message.value = data.message;
-  content.value = '';
-  reasoningContent.value = '';
+  newChat.value = data;
   scrollToBottom();
 
   if (reset) {
@@ -187,25 +173,27 @@ async function chatCompletion(data: ChatInput) {
     stream: true,
     model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
+  newChat.value = payload;
 
   await startStream('/chat/completions', payload, onProgress, onDone);
 }
 
 async function onProgress(reasoningText: string, text: string) {
-  content.value = text;
-  reasoningContent.value = reasoningText;
+  newChat.value.content = text;
+  newChat.value.reasoningContent = reasoningText;
   scrollToBottom();
 }
 
 async function onDone(reasoningText: string, text: string) {
-  chats.value.push({
-    message: message.value,
-    reasoningContent: reasoningText,
-    content: text,
-  })
-  content.value = '';
-  reasoningContent.value = '';
+  newChat.value.content = text;
+  newChat.value.reasoningContent = reasoningText;
+  chats.value.push({...newChat.value})
+  newChat.value = {};
   scrollToBottom();
+}
+
+function onLike(item: Indexable, index: number) {
+  chats.value.splice(index, 1, item);
 }
 
 function onNewChat() {
@@ -224,7 +212,6 @@ function onScroll() {
 }
 
 function onIntersection(entry: Indexable) {
-  console.log('intersection', entry);
   showScrollBtn.value = !entry.isIntersecting;
 }
 

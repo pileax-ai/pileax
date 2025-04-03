@@ -44,7 +44,7 @@ import OHoverMenu from 'core/components/menu/OHoverMenu.vue';
 
 const props = defineProps({
   chats: {
-    type: Array as  PropType<Indexable[]>,
+    type: Array as PropType<Indexable[]>,
     required: true
   }
 });
@@ -107,7 +107,7 @@ defineExpose({
 
 .o-chat-toc-menu {
   .main-view {
-    padding: 1rem;
+    padding: 8px;
   }
   .toc__list {
     list-style: none;
@@ -120,7 +120,7 @@ defineExpose({
   .toc__item {
     max-width: 180px;
     font-size: 0.9rem;
-    padding: 2px 0;
+    padding: 2px 4px;
     .heading {
       color: var(--q-info) !important;
 
@@ -136,6 +136,9 @@ defineExpose({
     }
     &--1 {
       font-weight: 800;
+      background: var(--q-dark);
+      border-radius: 4px;
+      //outline: solid 2px var(--q-dark);
     }
   }
 }

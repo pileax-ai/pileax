@@ -21,7 +21,7 @@ const apiPathBase = `${apiBase}${pathBase}`
 registry.register('ChatSession', ChatSessionSchema);
 
 /**
- * Save
+ * save
  */
 registry.registerPath({
   method: 'post',
