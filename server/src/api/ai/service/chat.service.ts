@@ -44,18 +44,25 @@ export class ChatService {
 
   async chatCompletion(data: ChatCompletion) {
     try {
-      const model = data.model || 'deepseek-chat';
-      const llm = await getLLM('deepseek', model);
+      const chats = await this.findAll(data.sessionId);
+      const history = chats.flatMap((chat) => [
+        { role: 'user', content: chat.message },
+        { role: 'assistant', content: chat.content },
+      ]);
       const messages: ChatMessage[] = [
         {
           role: 'system',
           content: 'You are an assistant. Please answer in [LANGUAGE].',
         },
+        ...history,
         {
           role: 'user',
           content: data.message,
         },
       ];
+
+      const model = data.model || 'deepseek-chat';
+      const llm = await getLLM('deepseek', model);
       return await llm.createChatCompletion(messages, {
         stream: data.stream
       });

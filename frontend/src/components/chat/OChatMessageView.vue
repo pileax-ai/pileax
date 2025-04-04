@@ -66,5 +66,13 @@ onMounted(() => {
     padding: 0 !important;
     width: 100%;
   }
+
+  table {
+    width: unset;
+    th, td {
+      border-left: none;
+      border-right: none;
+    }
+  }
 }
 </style>

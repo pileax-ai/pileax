@@ -71,6 +71,7 @@ const loading = ref(false);
 const options = computed(() => {
   return {
     aiOption: aiOption.value,
+    title: true,
     content: '',
     showMainMenu: false,
     showBubbleMenu: true,
