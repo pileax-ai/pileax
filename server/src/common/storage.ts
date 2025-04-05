@@ -75,7 +75,7 @@ export class MulterUtil {
           : cb(new Error(`Invalid file type: ${file.mimetype}`));
       },
       limits: {
-        fileSize: 100 * 1024 * 1024, // 100MB
+        fileSize: 500 * 1024 * 1024, // 500MB
         files: options.maxCount || 10
       }
     });
@@ -117,7 +117,7 @@ export class MulterUtil {
       },
       limits: {
         fieldSize: 10 * 1024 * 1024,
-        fileSize: 100 * 1024 * 1024, // 100MB
+        fileSize: 500 * 1024 * 1024, // 500MB
         files: options.maxCount || 10
       }
     });

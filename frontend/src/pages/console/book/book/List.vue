@@ -20,10 +20,13 @@
 
     <!--Actions-->
     <template #actions>
+
+      <o-file-uploader-btn accept=".epub" :loading="loading" leading
+                       @ready="onAddReady" />
       <o-refresh-btn icon="add"
                      tooltip="添加"
                      :loading="loading"
-                     @click="onAdd" />
+                     @click="onAdd" v-if="false" />
       <book-filter-btn @view="onView" @sort="onSort" />
     </template>
 
@@ -79,6 +82,7 @@ import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
 import OFileUploader from 'core/components/fIle/OFileUploader.vue';
+import OFileUploaderBtn from 'core/components/fIle/OFileUploaderBtn.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
@@ -119,6 +123,7 @@ async function onAddReady(file: File, icon: string) {
   console.log('file', file, icon)
   loading.value = true;
   await uploadBook(file);
+  loading.value = false;
 }
 
 function onAdd() {

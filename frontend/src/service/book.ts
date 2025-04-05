@@ -170,8 +170,6 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
   });
 }
 
-
-
 /**
  * Open book
  *
@@ -236,6 +234,7 @@ const savingBookRemote = async (metadata: any) => {
     // Save book files and metadata
     bookService.uploadBook(metadata.file, coverFile, book).then(res => {
       console.log('upload', res);
+      setQueryTimer(Date.now());
     })
   })
 }

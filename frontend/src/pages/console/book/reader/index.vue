@@ -34,6 +34,10 @@
     <popup-menu @share="onShare" />
     <share-dialog :show="showShareDialog"
                   @close="onShare(false)" />
+
+    <q-inner-loading :showing="loading">
+      <q-spinner-ios class="text-info" size="48px" />
+    </q-inner-loading>
   </o-reader-page>
 </template>
 
@@ -59,11 +63,11 @@ const { store, setBook, setBookId } = useBook();
 
 const bookRef = ref(null);
 const showShareDialog = ref(false);
+const loading = ref(false);
 
 function prepareOpen() {
   const name = route.name;
   const id: string = String(route.query.id ?? '');
-  console.log('prepareOpen', name, id);
   switch (name) {
     case 'reader-book':
       openWithBook(id);
@@ -98,7 +102,10 @@ async function open(bookId: string, initialCfi = '') {
 
     const filePath = `${book.path}/${book.fileName}`;
     const cfi = initialCfi || book.readingPosition || '';
+
+    loading.value = true;
     await openBookRemote(bookRef.value, filePath, cfi);
+    loading.value = false;
 
     setTimeout(() => {
       prepareAnnotations(bookId);
