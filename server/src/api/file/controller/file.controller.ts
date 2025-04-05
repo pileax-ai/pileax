@@ -3,12 +3,13 @@ import type { Request, RequestHandler, Response } from 'express';
 import { MulterUtil } from '@/common/storage'
 import { sendOk, sendFailed } from '@/core/api/httpHandlers';
 import { ServerException } from '@/core/api/exceptions'
+import { env } from '@/common/utils/envConfig'
 
 class FileController {
   public upload: RequestHandler = async (req: Request, res: Response, next) => {
     try {
       const type = req.query.type as string;
-      const uploader = MulterUtil.getUploader({
+      const uploader = MulterUtil.singleUploader({
         type: type,
         fileName: req.query.fileName as string,
         subDir: type === 'file' ? '' : type
@@ -19,10 +20,11 @@ class FileController {
         }
 
         if (req.file) {
+          console.log('file', req.file);
           return sendOk(res, {
             originalName: req.file.originalname,
             fileName: req.file.filename,
-            path: req.file.path,
+            path: req.file.path.replace(env.PUBLIC_ROOT, ''),
             size: req.file.size,
             mimetype: req.file.mimetype
           });

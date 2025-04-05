@@ -55,9 +55,7 @@
         <div class="row col-12 justify-center action">
           <q-btn icon="add" label="添加图书"
                  class="bg-primary text-white"
-                 flat @click="onAdd" v-if="false" />
-          <o-file-uploader accept=".epub" :loading="loading" leading
-                           @ready="onAddReady" />
+                 flat @click="onAdd" />
         </div>
       </section>
     </template>
@@ -72,13 +70,12 @@
 
 <script setup lang="ts">
 import {computed, onActivated, ref, watch} from 'vue';
-import { importBooks, uploadBook, queryBook } from 'src/service/book';
+import { importBooks, queryBook } from 'src/service/book';
 import { bookService } from 'src/service/remote/book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
-import OFileUploader from 'core/components/fIle/OFileUploader.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
@@ -113,12 +110,6 @@ function onDetails(item: any) {
 function onClose() {
   query.value.closeSide();
   doQuery();
-}
-
-async function onAddReady(file: File, icon: string) {
-  console.log('file', file, icon)
-  loading.value = true;
-  await uploadBook(file);
 }
 
 function onAdd() {

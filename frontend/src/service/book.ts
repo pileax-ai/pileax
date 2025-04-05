@@ -10,6 +10,7 @@ import useReader from 'src/hooks/useReader'
 import useBook from 'src/hooks/useBook'
 import { bookService } from 'src/service/remote/book'
 import { BookOperation, ReadingMode } from 'src/types/reading'
+import { base64ToFile, getFileSHA1 } from 'src/utils/book'
 
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
@@ -54,7 +55,7 @@ export const postMessage = (name :string, data :any) => {
       });
       break;
     case 'onMetadata':
-      savingBook(data);
+      onMetadata(data);
       break;
     case 'onRelocated':
       onRelocated(data);
@@ -152,6 +153,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
       const fileName = filePath.split('/').pop() ?? '';
       const file = new File([res.buffer], fileName);
       const data = {
+        saving: 'local',
         file: file,
         sha1: res.sha1,
         filePath: filePath
@@ -166,6 +168,39 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
       reject(err);
     })
   });
+}
+
+const uploadBook = async (file: File) => {
+  const data = {
+    saving: 'remote',
+    file: file,
+    sha1: await getFileSHA1(file),
+    filePath: ''
+  }
+  window.ebook.open(document.body, data, '', true);
+}
+
+const onMetadata = async (metadata: any) => {
+  if (metadata.saving === 'remote') {
+    await savingBookRemote(metadata);
+  } else {
+    await savingBook(metadata);
+  }
+}
+
+const savingBookRemote = async (metadata: any) => {
+  console.log('savingBookRemote', metadata);
+  bookService.getBookByUuid(metadata.sha1).then(res => {
+    notifyWarning('书已存在');
+  }).catch(err => {
+    // Save book files
+    const { sha1, filePath, cover } = metadata;
+    const coverFile = base64ToFile(cover, 'cover');
+    const book = buildBook(metadata, {
+      fileName: metadata.file.name
+    });
+    console.log('savingBookRemote2', book, metadata, coverFile);
+  })
 }
 
 const savingBook = async (metadata: any) => {
@@ -307,6 +342,7 @@ export {
   importBooks,
   getBook,
   openBook,
+  uploadBook,
   savingBook,
   saveBook,
   queryBook,
