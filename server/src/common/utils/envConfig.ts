@@ -12,5 +12,6 @@ export const env = cleanEnv(process.env, {
 	COMMON_RATE_LIMIT_MAX_REQUESTS: num({ devDefault: testOnly(1000) }),
 	COMMON_RATE_LIMIT_WINDOW_MS: num({ devDefault: testOnly(1000) }),
   DATABASE_URL: str({ devDefault: testOnly('src/storage/metadata.db') }),
+  PUBLIC_ROOT: str({ devDefault: testOnly('.') }),
   SERVER_ROOT: str({ devDefault: testOnly('.') }),
 });

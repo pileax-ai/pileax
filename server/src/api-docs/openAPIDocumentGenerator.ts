@@ -1,19 +1,21 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 
-import { chatRegistry } from '@/api/ai/api/chat.api';
-import { chatSessionRegistry } from '@/api/ai/api/chat-session.api';
 import { bookRegistry } from '@/api/reading/api/bookApi';
 import { bookAnnotationRegistry } from '@/api/reading/api/bookAnnotationApi';
+import { chatRegistry } from '@/api/ai/api/chat.api';
+import { chatSessionRegistry } from '@/api/ai/api/chat-session.api';
+import { fileRegistry } from '@/api/file/api/file.api';
 import { noteRegistry } from '@/api/note/api/noteApi';
 import { systemRegistry } from '@/api/system/api/systemApi';
 import { userRegistry } from "@/api/user/api/userApi";
 
 export function generateOpenAPIDocument() {
 	const registry = new OpenAPIRegistry([
-    chatRegistry,
-    chatSessionRegistry,
     bookRegistry,
     bookAnnotationRegistry,
+    chatRegistry,
+    chatSessionRegistry,
+    fileRegistry,
     noteRegistry,
 		systemRegistry,
 		userRegistry,

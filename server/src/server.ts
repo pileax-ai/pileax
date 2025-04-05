@@ -14,6 +14,7 @@ import { corsOptions } from "@/common/utils/corsConfig";
 
 
 import { db } from '@/drizzle';
+import path from 'path'
 
 const app: Express = express();
 
@@ -35,10 +36,13 @@ app.use(requestLogger);
 app.use(apiBase, apiRouter);
 registerApi();
 
-app.set('db', db);
-
 // Swagger UI
 app.use(openAPIRouter);
+
+// Serving static files
+app.use('/files', express.static(env.PUBLIC_ROOT));
+
+app.set('db', db);
 
 // Error handlers
 app.use(errorHandler());
