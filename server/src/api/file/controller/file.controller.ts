@@ -38,6 +38,39 @@ class FileController {
     }
   };
 
+  public uploadMultiple: RequestHandler = async (req: Request, res: Response, next) => {
+    try {
+      const type = req.query.type as string;
+      const uploader = MulterUtil.multiUploader({
+        type: type,
+        fileName: req.query.fileName as string,
+        subDir: type === 'file' ? '' : type
+      });
+      uploader.array('files')(req, res, async (err: any) => {
+        if (err) {
+          return sendFailed(res, err.message);
+        }
+
+        if (req.files && req.files.length) {
+          console.log('files', req.files);
+          return sendOk(res, (req.files as Express.Multer.File[]).map(file => {
+            return {
+              originalName: file.originalname,
+              fileName: file.filename,
+              path: file.path.replace(env.PUBLIC_ROOT, ''),
+              size: file.size,
+              mimetype: file.mimetype
+            };
+          }));
+        } else {
+          return sendFailed(res, 'No file');
+        }
+      })
+    } catch (err) {
+      console.error(err);
+      throw new ServerException('File Upload', 'File upload failed');
+    }
+  };
 }
 
 export const fileController = new FileController();

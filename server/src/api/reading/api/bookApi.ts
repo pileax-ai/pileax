@@ -12,6 +12,8 @@ import {
 } from '@/core/api/commonModel';
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
 import { bookController } from '../controller/bookController';
+import { FileMetaSchema, FileUploadSchema } from '@/api/file/model/file.model'
+import { registry } from '@/api/file/api/file.api'
 
 export const bookRegistry = new OpenAPIRegistry();
 export const bookApi = () => {}
@@ -89,3 +91,47 @@ bookRegistry.registerPath({
   responses: createApiResponse(z.array(BookSchema), 'Success'),
 });
 apiRouter.post('/book/query', validateRequest(QuerySchema), bookController.query);
+
+/**
+ * upload book
+ */
+registry.registerPath({
+  method: 'post',
+  path: `${apiBase}/book/upload`,
+  tags: ['Book'],
+  summary: 'Upload book and cover',
+  request: {
+    query: UuidSchema.shape.query,
+    body: {
+      content: {
+        'multipart/form-data': {
+          schema: {
+            type: 'object',
+            properties: {
+              files: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  format: 'binary',
+                },
+                description: 'Files to be uploaded',
+              },
+              book: {
+                type: 'string',
+                description: 'JSON string of book metadata (BookSchema)',
+                example: JSON.stringify({
+                  uuid: 'uuid',
+                  title: 'Example Book',
+                  path: ''
+                }),
+              }
+            },
+            required: ['files', 'book']
+          }
+        }
+      }
+    }
+  },
+  responses: createApiResponse(FileMetaSchema, 'Success'),
+});
+apiRouter.post(`/book/upload`, validateRequest(UuidSchema), bookController.upload);

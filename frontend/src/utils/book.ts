@@ -28,3 +28,15 @@ export const base64ToFile = (base64: string, name: string): File => {
 
   return new File([u8arr], filename, { type: mime });
 }
+
+export const getCoverUrl = (book: Indexable) => {
+  return `${process.env.BASE_URL}/files/book/${book.path}/${book.coverName}`;
+}
+
+export const getBookUrl = (book: Indexable) => {
+  return `${process.env.BASE_URL}/files/book/${book.path}/${book.fileName}`;
+}
+
+export const getBookUrlByPath = (filePath: string) => {
+  return `${process.env.BASE_URL}/files/book/${filePath}`;
+}

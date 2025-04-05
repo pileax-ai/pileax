@@ -140,7 +140,11 @@ function onAdd() {
 }
 
 function openBook(item: any) {
-  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  if (process.env.MODE === 'electron') {
+    window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  } else {
+    window.open(`/reader/book?id=${item.id}`, '_blank');
+  }
 }
 
 function doQuery() {

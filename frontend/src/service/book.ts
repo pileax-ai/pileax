@@ -10,7 +10,7 @@ import useReader from 'src/hooks/useReader'
 import useBook from 'src/hooks/useBook'
 import { bookService } from 'src/service/remote/book'
 import { BookOperation, ReadingMode } from 'src/types/reading'
-import { base64ToFile, getFileSHA1 } from 'src/utils/book'
+import { base64ToFile, getBookUrlByPath, getFileSHA1 } from 'src/utils/book'
 
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
@@ -170,6 +170,41 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
   });
 }
 
+
+
+/**
+ * Open book
+ *
+ * @param bookElement
+ * @param filePath
+ * @param cfi
+ * @param importing
+ */
+const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
+  const bookUrl = getBookUrlByPath(filePath);
+  return new Promise((resolve, reject) => {
+    fetch(bookUrl)
+      .then((res: any) => res.blob())
+      .then((blob) => {
+
+      const file = new File([blob], new URL(bookUrl, window.location.origin).pathname);
+      const data = {
+        saving: 'local',
+        file: file,
+        filePath: filePath
+      };
+
+      console.log('openBook', cfi)
+      window.ebook.open(bookElement, data, cfi, false);
+      setManual(BookOperation.Load);
+      resolve(data);
+    }).catch((err: any) => {
+      console.error('打开文件失败：', err);
+      reject(err);
+    })
+  });
+}
+
 const uploadBook = async (file: File) => {
   const data = {
     saving: 'remote',
@@ -193,13 +228,15 @@ const savingBookRemote = async (metadata: any) => {
   bookService.getBookByUuid(metadata.sha1).then(res => {
     notifyWarning('书已存在');
   }).catch(err => {
-    // Save book files
-    const { sha1, filePath, cover } = metadata;
-    const coverFile = base64ToFile(cover, 'cover');
+    const coverFile = base64ToFile(metadata.cover, 'cover');
     const book = buildBook(metadata, {
+      path: metadata.sha1,
       fileName: metadata.file.name
     });
-    console.log('savingBookRemote2', book, metadata, coverFile);
+    // Save book files and metadata
+    bookService.uploadBook(metadata.file, coverFile, book).then(res => {
+      console.log('upload', res);
+    })
   })
 }
 
@@ -342,6 +379,7 @@ export {
   importBooks,
   getBook,
   openBook,
+  openBookRemote,
   uploadBook,
   savingBook,
   saveBook,

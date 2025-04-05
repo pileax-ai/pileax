@@ -15,7 +15,6 @@ import {
 } from '@/core/api/commonModel';
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
 import { fileController as controller } from '../controller/file.controller';
-import { upload } from '@/common/storage'
 
 export const api = () => {}
 export const registry = new OpenAPIRegistry();
@@ -56,6 +55,40 @@ registry.registerPath({
 });
 apiRouter.post(`${pathBase}/upload`, controller.upload);
 
+/**
+ * upload multiple
+ */
+registry.registerPath({
+  method: 'post',
+  path: `${apiPathBase}/upload/multiple`,
+  tags: ['File'],
+  summary: 'Upload multiple files',
+  request: {
+    query: FileUploadSchema,
+    body: {
+      content: {
+        'multipart/form-data': {
+          schema: {
+            type: 'object',
+            properties: {
+              files: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  format: 'binary',
+                },
+                description: 'Files to be uploaded',
+              }
+            },
+            required: ['files']
+          }
+        }
+      }
+    }
+  },
+  responses: createApiResponse(FileMetaSchema, 'Success'),
+});
+apiRouter.post(`${pathBase}/upload/multiple`, controller.uploadMultiple);
 
 export {
   api as fileApi,

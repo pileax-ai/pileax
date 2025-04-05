@@ -83,7 +83,7 @@ export const getRequest = (data: RequestOptions) => {
   })
 }
 
-export const postRequest = (data:RequestOptions) => {
+export const postRequest = (data: RequestOptions) => {
   const url = getUrl(data)
   const body = data.body
 
@@ -91,7 +91,8 @@ export const postRequest = (data:RequestOptions) => {
     url: url,
     method: 'post',
     params: data.query || {},
-    data: body
+    data: body,
+    headers: data.headers
   })
 }
 

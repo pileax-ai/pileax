@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
 import { timeMulti } from 'core/utils/format';
+import { getCoverUrl } from 'src/utils/book'
 
 const props = defineProps({
   data: {
@@ -56,11 +57,12 @@ const coverPath = computed(() => {
 })
 
 function getCover() {
-  window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-    coverUrl.value = res.url;
-  }).catch((err: any) => {
-    console.error('打开文件失败：', err);
-  })
+  // window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
+  //   coverUrl.value = res.url;
+  // }).catch((err: any) => {
+  //   console.error('打开文件失败：', err);
+  // })
+  coverUrl.value = getCoverUrl(props.data);
 }
 
 watch(() => coverPath.value, (newValue) => {

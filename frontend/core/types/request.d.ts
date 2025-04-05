@@ -2,7 +2,8 @@ export interface RequestOptions {
   name: string;
   path?: string;
   query?: any,
-  body?: any
+  body?: any,
+  headers?: any
 }
 
 export interface PageResult {
