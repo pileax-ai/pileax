@@ -20,8 +20,7 @@
 
     <!--Actions-->
     <template #actions>
-
-      <o-file-uploader-btn accept=".epub" :loading="loading" leading
+      <o-file-uploader-btn :accept="bookAccept" :loading="loading" leading
                        @ready="onAddReady" />
       <o-refresh-btn icon="add"
                      tooltip="添加"
@@ -59,7 +58,7 @@
           <q-btn icon="add" label="添加图书"
                  class="bg-primary text-white"
                  flat @click="onAdd" v-if="false" />
-          <o-file-uploader accept=".epub" :loading="loading" leading
+          <o-file-uploader :accept="bookAccept" :loading="loading" leading
                            @ready="onAddReady" />
         </div>
       </section>
@@ -95,6 +94,7 @@ const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');
+const bookAccept = ref('.epub,.mobi,.azw3');
 const orderBy = ref<Indexable>({
   updateTime: 'desc'
 });

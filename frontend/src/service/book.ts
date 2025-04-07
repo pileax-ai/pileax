@@ -227,6 +227,7 @@ const savingBookRemote = async (metadata: any) => {
     notifyWarning('书已存在');
   }).catch(err => {
     const coverFile = base64ToFile(metadata.cover, 'cover');
+    console.log('cover', coverFile)
     const book = buildBook(metadata, {
       path: metadata.sha1,
       fileName: metadata.file.name

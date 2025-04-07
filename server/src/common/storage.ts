@@ -20,6 +20,7 @@ const FileAllowedTypes: Indexable = {
   ],
   image: [
     'image',
+    'application/octet-stream',
   ],
   book: [
     'ebook',

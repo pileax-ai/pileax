@@ -15,6 +15,7 @@ export const base64ToFile = (base64: string, name: string): File => {
   if (arr.length < 2) throw new Error('Invalid base64 string');
 
   const mimeMatch = arr[0]?.match(/:(.*?);/);
+  console.log('mimeMatch', mimeMatch)
   const mime = mimeMatch?.[1] ?? 'application/octet-stream';
 
   const extension = mime.split('/')[1] || 'png'; // image/png -> png
