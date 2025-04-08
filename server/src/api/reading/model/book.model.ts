@@ -9,7 +9,8 @@ export type BookUpdate = z.infer<typeof BookUpdateSchema>;
 
 // POST /book
 export const BookSchema = z.object({
-	id: z.number().optional(),
+	id: z.string(),
+  userId: z.string().optional(),
 	uuid: z.string(),
 	title: z.string(),
 	path: z.string(),

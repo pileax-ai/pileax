@@ -1,27 +1,27 @@
 import { NotFoundException } from '@/core/api/exceptions';
-import type { Note } from '@/api/note/model/noteModel';
+import type { FileMeta } from '@/api/file/model/file.model';
 import type { Query } from "@/core/api/commonModel";
-import { NoteRepository } from '@/api/note/repo/noteRepository';
+import { FileMetaRepository } from '@/api/file/repo/file.repository';
 
-export class NoteService {
-	private repo: NoteRepository;
+export class FileMetaService {
+	private repo: FileMetaRepository;
 
-	constructor(repository: NoteRepository = new NoteRepository()) {
+	constructor(repository: FileMetaRepository = new FileMetaRepository()) {
 		this.repo = repository;
 	}
 
-  async create(data: Note) {
+  async create(data: FileMeta) {
     return await this.repo.create(data);
   }
 
-  async update(data: Note) {
+  async update(data: FileMeta) {
     return await this.repo.update(data);
   }
 
 	async get(id: string) {
 		const doc = await this.repo.findById(id);
     if (!doc) {
-      throw new NotFoundException('Note', id);
+      throw new NotFoundException('FileMeta', id.toString());
     }
     return doc;
 	}
@@ -30,13 +30,9 @@ export class NoteService {
     await this.repo.delete(id);
   }
 
-  async getAll() {
-    return this.repo.getAll()
-  }
-
   async query(data: Query) {
     return this.repo.query(data)
   }
 }
 
-export const noteService = new NoteService();
+export const fileMetaService = new FileMetaService();

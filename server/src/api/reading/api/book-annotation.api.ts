@@ -3,15 +3,15 @@ import { z } from 'zod';
 
 import { apiBase, apiRouter } from '@/common/router';
 import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
-import { BookAnnotationSchema, BookAnnotationBodySchema, } from '@/api/reading/model/bookAnnotationModel';
+import { BookAnnotationSchema, BookAnnotationBodySchema, } from '@/api/reading/model/book-annotation.model';
 import {
   EmptySchema,
-  IdSchema,
   QuerySchema,
-  QueryBodySchema
+  QueryBodySchema,
+  StringIdSchema,
 } from '@/core/api/commonModel';
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
-import { bookAnnotationController } from '../controller/bookAnnotationController';
+import { bookAnnotationController } from '../controller/book-annotation.controller';
 
 export const bookAnnotationRegistry = new OpenAPIRegistry();
 export const bookAnnotationApi = () => {}
@@ -49,10 +49,10 @@ bookAnnotationRegistry.registerPath({
 	method: 'get',
 	path: `${apiBase}/book/annotation`,
 	tags: ['BookAnnotation'],
-	request: { query: IdSchema.shape.query },
+	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(BookAnnotationSchema, 'Success'),
 });
-apiRouter.get('/book/annotation', validateRequest(IdSchema), bookAnnotationController.get);
+apiRouter.get('/book/annotation', validateRequest(StringIdSchema), bookAnnotationController.get);
 
 /**
  * delete
@@ -61,10 +61,10 @@ bookAnnotationRegistry.registerPath({
   method: 'delete',
   path: `${apiBase}/book/annotation`,
   tags: ['BookAnnotation'],
-  request: { query: IdSchema.shape.query },
+  request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete('/book/annotation', validateRequest(IdSchema), bookAnnotationController.delete);
+apiRouter.delete('/book/annotation', validateRequest(StringIdSchema), bookAnnotationController.delete);
 
 /**
  * query

@@ -1,7 +1,7 @@
 import { NotFoundException } from '@/core/api/exceptions';
-import type { BookAnnotation } from '@/api/reading/model/bookAnnotationModel';
+import type { BookAnnotation } from '@/api/reading/model/book-annotation.model';
 import type { Query } from "@/core/api/commonModel";
-import { BookAnnotationRepository } from '@/api/reading/repo/bookAnnotationRepository';
+import { BookAnnotationRepository } from '@/api/reading/repo/book-annotation.repository';
 
 export class BookAnnotationService {
 	private repo: BookAnnotationRepository;
@@ -18,7 +18,7 @@ export class BookAnnotationService {
     return await this.repo.update(data);
   }
 
-	async get(id: number) {
+	async get(id: string) {
 		const doc = await this.repo.findById(id);
     if (!doc) {
       throw new NotFoundException('BookAnnotation', id.toString());
@@ -26,7 +26,7 @@ export class BookAnnotationService {
     return doc;
 	}
 
-  async delete(id: number) {
+  async delete(id: string) {
     await this.repo.delete(id);
   }
 

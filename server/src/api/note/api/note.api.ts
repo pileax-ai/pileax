@@ -6,7 +6,7 @@ import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import {
   NoteSchema,
   NoteBodySchema,
-} from '@/api/note/model/noteModel';
+} from '@/api/note/model/note.model';
 import {
   EmptySchema,
   StringIdSchema,
@@ -15,7 +15,7 @@ import {
 } from '@/core/api/commonModel';
 
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
-import { noteController } from '../controller/noteController';
+import { noteController } from '../controller/note.controller';
 
 export const noteRegistry = new OpenAPIRegistry();
 export const noteApi = () => {}

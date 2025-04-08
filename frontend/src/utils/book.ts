@@ -31,13 +31,13 @@ export const base64ToFile = (base64: string, name: string): File => {
 }
 
 export const getCoverUrl = (book: Indexable) => {
-  return `${process.env.BASE_URL}/files/book/${book.path}/${book.coverName}`;
+  return `${process.env.APP_BASE_URL}/files/book/${book.path}/${book.coverName}`;
 }
 
 export const getBookUrl = (book: Indexable) => {
-  return `${process.env.BASE_URL}/files/book/${book.path}/${book.fileName}`;
+  return `${process.env.APP_BASE_URL}/files/book/${book.path}/${book.fileName}`;
 }
 
 export const getBookUrlByPath = (filePath: string) => {
-  return `${process.env.BASE_URL}/files/book/${filePath}`;
+  return `${process.env.APP_BASE_URL}/files/book/${filePath}`;
 }

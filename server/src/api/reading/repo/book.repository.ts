@@ -1,19 +1,20 @@
-import type { Book, BookUpdate } from "@/api/reading/model/bookModel";
+import type { Book, BookUpdate } from "@/api/reading/model/book.model";
 import type { Query } from "@/core/api/commonModel";
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { book } from '@/drizzle/schema'
 import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
+import { randomUUID } from 'node:crypto'
 
 export class BookRepository {
 
   async create(data: Book) {
-    delete data.id;
+    data.id = data.id || randomUUID();
     return db.insert(book).values(data).returning().get();
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     return db.select().from(book).where(eq(book.id, id)).get();
   }
 
@@ -22,7 +23,7 @@ export class BookRepository {
   }
 
   async update(data: BookUpdate) {
-    const id = data.id || 0;
+    const id = data.id || '';
     await db.update(book).set(data).where(eq(book.id, id));
     return this.findById(id)
   }
@@ -31,7 +32,7 @@ export class BookRepository {
    * Delete book and its children
    * @param id
    */
-  async delete(id: number) {
+  async delete(id: string) {
     return db.delete(book).where(eq(book.id, id));
   }
 

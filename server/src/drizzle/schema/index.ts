@@ -1,9 +1,13 @@
 import { sqliteTable, integer, real, text } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
-const id = {
+const autoId = {
   id: integer({ mode: 'number' })
     .primaryKey({ autoIncrement: true })
+}
+
+const uniqueId = {
+  id: text().primaryKey().unique()
 }
 
 const timestamps = {
@@ -16,18 +20,35 @@ const timestamps = {
     .notNull()
 }
 
+export const user = sqliteTable('user', {
+  ...uniqueId,
+  diallingCode: text('dialling_code').default(''),
+  phone: text().default(''),
+  name: text().notNull(),
+  bio: text().default(''),
+  avatar: text().default(''),
+  cover: text().default(''),
+  password: text(),
+  remarks: text().default(''),
+  status: integer().default(1),
+  ...timestamps
+});
+
 export const note = sqliteTable('note', {
-  id: text().primaryKey().unique(),
+  ...uniqueId,
+  userId: text('user_id').default(''),
   parent: text().default(''),
   title: text().notNull(),
   content: text().notNull(),
   icon: text().default(''),
   cover: text().default(''),
+  chatId: text('chat_id').default(''),
   ...timestamps
 });
 
 export const book = sqliteTable('book', {
-  ...id,
+  ...uniqueId,
+  userId: text('user_id').default(''),
   uuid: text().unique().notNull(),
   title: text().notNull(),
   path: text().notNull(),
@@ -46,8 +67,9 @@ export const book = sqliteTable('book', {
 });
 
 export const bookAnnotation = sqliteTable('book_annotation', {
-  ...id,
-  bookId: integer('book_id').notNull(),
+  ...uniqueId,
+  userId: text('user_id').default(''),
+  bookId: text('book_id').notNull(),
   type: text().notNull(),
   value: text().notNull(),
   note: text().default(''),
@@ -58,8 +80,8 @@ export const bookAnnotation = sqliteTable('book_annotation', {
 });
 
 export const chatSession = sqliteTable('chat_session', {
-  id: text().primaryKey().unique(),
-  userId: integer('user_id').default(0),
+  ...uniqueId,
+  userId: text('user_id').default(''),
   title: text().default(''),
   name: text().notNull(),
   status: integer().default(0),
@@ -67,8 +89,8 @@ export const chatSession = sqliteTable('chat_session', {
 });
 
 export const chat = sqliteTable('chat', {
-  id: text().primaryKey().unique(),
-  userId: integer('user_id').default(0),
+  ...uniqueId,
+  userId: text('user_id').default(''),
   sessionId: text('session_id').notNull(),
   message: text().notNull(),
   content: text().notNull(),
@@ -78,6 +100,22 @@ export const chat = sqliteTable('chat', {
   model: text().default(''),
   result: integer().default(0),
   like: integer().default(0),
+  noteId: text('note_id').default(''),
+  status: integer().default(1),
+  ...timestamps
+});
+
+export const fileMeta = sqliteTable('file_meta', {
+  ...uniqueId,
+  userId: text('user_id').default(''),
+  mimetype: text().default(''),
+  size: integer().default(0),
+  originalName: text('original_name').default(''),
+  fileName: text('file_name').default(''),
+  url: text().default(''),
+  path: text().default(''),
+  refId: text('ref_id').default(''),
+  refType: text('ref_type').default(''),
   status: integer().default(1),
   ...timestamps
 });

@@ -9,7 +9,7 @@ export type ChatSessionUpdate = z.infer<typeof ChatSessionUpdateSchema>;
 
 export const ChatSessionSchema = z.object({
   id: z.string(),
-  userId: z.number().optional(),
+  userId: z.string().optional(),
 	title: z.string().optional(),
 	name: z.string(),
   status: z.number().optional(),

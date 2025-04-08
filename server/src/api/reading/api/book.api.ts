@@ -3,15 +3,15 @@ import { z } from 'zod';
 
 import { apiBase, apiRouter } from '@/common/router';
 import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
-import { BookSchema, BookBodySchema, UuidSchema } from '@/api/reading/model/bookModel';
+import { BookSchema, BookBodySchema, UuidSchema } from '@/api/reading/model/book.model';
 import {
   EmptySchema,
-  IdSchema,
   QuerySchema,
-  QueryBodySchema
-} from '@/core/api/commonModel';
+  QueryBodySchema,
+  StringIdSchema,
+} from '@/core/api/commonModel'
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
-import { bookController } from '../controller/bookController';
+import { bookController } from '../controller/book.controller';
 import { FileMetaSchema, FileUploadSchema } from '@/api/file/model/file.model'
 import { registry } from '@/api/file/api/file.api'
 
@@ -50,10 +50,10 @@ bookRegistry.registerPath({
 	method: 'get',
 	path: `${apiBase}/book`,
 	tags: ['Book'],
-	request: { query: IdSchema.shape.query },
+	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(BookSchema, 'Success'),
 });
-apiRouter.get('/book', validateRequest(IdSchema), bookController.get);
+apiRouter.get('/book', validateRequest(StringIdSchema), bookController.get);
 
 /**
  * get by uuid
@@ -75,10 +75,10 @@ bookRegistry.registerPath({
   method: 'delete',
   path: `${apiBase}/book`,
   tags: ['Book'],
-  request: { query: IdSchema.shape.query },
+  request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete('/book', validateRequest(IdSchema), bookController.delete);
+apiRouter.delete('/book', validateRequest(StringIdSchema), bookController.delete);
 
 /**
  * query

@@ -11,7 +11,7 @@ export type ChatCompletion = z.infer<typeof ChatCompletionSchema>;
 
 export const ChatSchema = z.object({
   id: z.string(),
-  userId: z.number().optional(),
+  userId: z.string().optional(),
   sessionId: z.string(),
   message: z.string(),
   content: z.string(),
@@ -21,6 +21,7 @@ export const ChatSchema = z.object({
   model: z.string(),
   result: z.number().optional().default(0),
   like: z.number().optional().default(0),
+  noteId: z.string().optional(),
   status: z.number().optional().default(0),
 });
 

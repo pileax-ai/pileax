@@ -1,6 +1,6 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { noteService } from '@/api/note/service/noteService';
+import { noteService } from '@/api/note/service/note.service';
 import { sendOk } from '@/core/api/httpHandlers';
 
 class NoteController {

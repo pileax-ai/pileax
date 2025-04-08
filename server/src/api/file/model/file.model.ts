@@ -1,11 +1,10 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
-import { commonValidations } from '@/core/api/commonValidation'
-import { ChatSessionSchema } from '@/api/ai/model/chat-session.model'
 
 extendZodWithOpenApi(z);
 
 export type FileMeta = z.infer<typeof FileMetaSchema>;
+export type FileMetaUpdate = z.infer<typeof FileMetaUpdateSchema>;
 
 export const FileUploadSchema = z.object({
   fileName: z.string().optional(),
@@ -13,6 +12,17 @@ export const FileUploadSchema = z.object({
 });
 
 export const FileMetaSchema = z.object({
-  filename: z.string(),
-  url: z.string(),
+  id: z.string(),
+  userId: z.string().optional(),
+  mimetype: z.string(),
+  size: z.number().optional(),
+  originalName: z.string(),
+  fileName: z.string().optional(),
+  url: z.string().optional(),
+  path: z.string(),
+  refId: z.string().optional(),
+  refType: z.string().optional(),
+  status: z.number().optional(),
 });
+
+export const FileMetaUpdateSchema = FileMetaSchema.partial();

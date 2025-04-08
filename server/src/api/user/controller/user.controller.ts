@@ -1,6 +1,6 @@
 import type { Request, RequestHandler, Response } from "express";
 
-import { userService } from "@/api/user/service/userService";
+import { userService } from "@/api/user/service/user.service";
 import { handleServiceResponse } from "@/core/api/httpHandlers";
 
 class UserController {

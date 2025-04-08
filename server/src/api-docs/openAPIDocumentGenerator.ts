@@ -1,13 +1,13 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 
-import { bookRegistry } from '@/api/reading/api/bookApi';
-import { bookAnnotationRegistry } from '@/api/reading/api/bookAnnotationApi';
+import { bookRegistry } from '@/api/reading/api/book.api';
+import { bookAnnotationRegistry } from '@/api/reading/api/book-annotation.api';
 import { chatRegistry } from '@/api/ai/api/chat.api';
 import { chatSessionRegistry } from '@/api/ai/api/chat-session.api';
 import { fileRegistry } from '@/api/file/api/file.api';
-import { noteRegistry } from '@/api/note/api/noteApi';
+import { noteRegistry } from '@/api/note/api/note.api';
 import { systemRegistry } from '@/api/system/api/systemApi';
-import { userRegistry } from "@/api/user/api/userApi";
+import { userRegistry } from "@/api/user/api/user.api";
 
 export function generateOpenAPIDocument() {
 	const registry = new OpenAPIRegistry([
@@ -22,7 +22,7 @@ export function generateOpenAPIDocument() {
 	]);
 	const generator = new OpenApiGeneratorV3(registry.definitions);
 
-	return generator.generateDocument({
+	const document = generator.generateDocument({
 		openapi: "3.0.0",
 		info: {
 			version: "1.0.0",
@@ -33,4 +33,22 @@ export function generateOpenAPIDocument() {
 			url: "/swagger.json",
 		},
 	});
+
+  document.components = {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      }
+    }
+  };
+
+  document.security = [
+    {
+      bearerAuth: [],
+    }
+  ];
+
+  return document;
 }

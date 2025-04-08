@@ -1,13 +1,15 @@
-import type { Note, NoteUpdate } from "@/api/note/model/noteModel";
+import type { Note, NoteUpdate } from "@/api/note/model/note.model";
 import type { Query } from "@/core/api/commonModel";
 
 import { db } from '@/drizzle'
 import { note } from '@/drizzle/schema'
 import { and, desc, eq } from 'drizzle-orm'
+import { randomUUID } from 'node:crypto'
 
 export class NoteRepository {
 
   async create(data: Note) {
+    data.id = data.id || randomUUID();
     return db.insert(note).values(data).returning().get();
   }
 

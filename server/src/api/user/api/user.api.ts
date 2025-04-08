@@ -3,9 +3,9 @@ import { z } from "zod";
 
 import { apiBase, apiRouter } from "@/common/router";
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
-import { GetUserSchema, UserSchema } from "@/api/user/model/userModel";
+import { GetUserSchema, UserSchema } from "@/api/user/model/user.model";
 import { validateRequest } from "@/core/api/httpHandlers";
-import { userController } from "../controller/userController";
+import { userController } from "../controller/user.controller";
 
 export const userRegistry = new OpenAPIRegistry();
 export const userApi = () => {}

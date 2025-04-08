@@ -12,11 +12,13 @@ export type NoteQuery = z.infer<typeof NoteQuerySchema>;
 // POST /note
 export const NoteSchema = z.object({
 	id: z.string(),
+  userId: z.string().optional(),
 	parent: z.string().optional(),
 	title: z.string(),
 	content: z.string(),
 	icon: z.string().optional(),
 	cover: z.string().optional(),
+  chatId: z.string().optional(),
 });
 
 export const NoteBodySchema = {

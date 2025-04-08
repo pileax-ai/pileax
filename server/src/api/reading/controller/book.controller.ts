@@ -1,11 +1,11 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { bookService } from '@/api/reading/service/bookService';
+import { bookService } from '@/api/reading/service/book.service';
 import { sendFailed, sendOk } from '@/core/api/httpHandlers'
 import { MulterUtil } from '@/common/storage'
 import { env } from '@/common/utils/envConfig'
 import { ServerException } from '@/core/api/exceptions'
-import { BookSchema } from '@/api/reading/model/bookModel'
+import { BookSchema } from '@/api/reading/model/book.model'
 
 class BookController {
   public save: RequestHandler = async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ class BookController {
   };
 
 	public get: RequestHandler = async (req: Request, res: Response) => {
-		const id = parseInt(req.query.id as string);
+		const id = req.query.id as string;
 		const doc = await bookService.get(id);
     sendOk(res, doc);
 	};
@@ -34,7 +34,7 @@ class BookController {
   };
 
   public delete: RequestHandler = async (req: Request, res: Response) => {
-    const id = parseInt(req.query.id as string);
+    const id = req.query.id as string;
     await bookService.delete(id);
     sendOk(res, { });
   };

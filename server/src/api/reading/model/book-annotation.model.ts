@@ -8,8 +8,9 @@ export type BookAnnotationUpdate = z.infer<typeof BookAnnotationUpdateSchema>;
 
 // POST /book
 export const BookAnnotationSchema = z.object({
-	id: z.number().optional(),
-	bookId: z.number(),
+  id: z.string(),
+  userId: z.string().optional(),
+	bookId: z.string(),
 	type: z.string(),
 	value: z.string(),
 	note: z.string(),

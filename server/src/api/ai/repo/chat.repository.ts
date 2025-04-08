@@ -5,10 +5,12 @@ import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 import { db } from '@/drizzle'
 import { chat } from '@/drizzle/schema'
 import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
+import { randomUUID } from 'node:crypto'
 
 export class ChatRepository {
 
   async create(data: Chat) {
+    data.id = data.id || randomUUID();
     return db.insert(chat).values(data).returning().get();
   }
 

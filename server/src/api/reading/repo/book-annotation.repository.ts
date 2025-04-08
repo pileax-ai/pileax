@@ -1,20 +1,21 @@
-import type { BookAnnotation, BookAnnotationUpdate } from "@/api/reading/model/bookAnnotationModel";
+import type { BookAnnotation, BookAnnotationUpdate } from "@/api/reading/model/book-annotation.model";
 import type { Query } from "@/core/api/commonModel";
 
 import { db } from '@/drizzle'
 import { book, bookAnnotation } from '@/drizzle/schema'
 import { and, Column, desc, eq, getTableColumns } from 'drizzle-orm'
-import { bookAnnotationController } from '@/api/reading/controller/bookAnnotationController'
+import { bookAnnotationController } from '@/api/reading/controller/book-annotation.controller'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle'
+import { randomUUID } from 'node:crypto'
 
 export class BookAnnotationRepository {
 
   async create(data: BookAnnotation) {
-    delete data.id;
+    data.id = data.id || randomUUID();
     return db.insert(bookAnnotation).values(data).returning().get();
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     return db.select().from(bookAnnotation).where(eq(bookAnnotation.id, id)).get();
   }
 
@@ -23,7 +24,7 @@ export class BookAnnotationRepository {
   }
 
   async update(data: BookAnnotationUpdate) {
-    const id = data.id || 0;
+    const id = data.id || '';
     await db.update(bookAnnotation).set(data).where(eq(bookAnnotation.id, id));
     return this.findById(id)
   }
@@ -32,14 +33,14 @@ export class BookAnnotationRepository {
    * Delete bookAnnotation and its children
    * @param id
    */
-  async delete(id: number) {
+  async delete(id: string) {
     return db.delete(bookAnnotation).where(eq(bookAnnotation.id, id));
   }
 
   async getAll(query: Record<string, string>) {
     const filters = [];
     if (query?.bookId) {
-      filters.push(eq(bookAnnotation.bookId, parseInt(query.bookId)));
+      filters.push(eq(bookAnnotation.bookId, query.bookId));
     }
 
     return db.select().from(bookAnnotation)

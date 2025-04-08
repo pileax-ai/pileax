@@ -1,6 +1,6 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { bookAnnotationService } from '@/api/reading/service/bookAnnotationService';
+import { bookAnnotationService } from '@/api/reading/service/book-annotation.service';
 import { sendOk } from '@/core/api/httpHandlers';
 
 class BookAnnotationController {
@@ -18,13 +18,13 @@ class BookAnnotationController {
   };
 
 	public get: RequestHandler = async (req: Request, res: Response) => {
-		const id = parseInt(req.query.id as string);
+		const id = req.query.id as string;
 		const doc = await bookAnnotationService.get(id);
     sendOk(res, doc);
 	};
 
   public delete: RequestHandler = async (req: Request, res: Response) => {
-    const id = parseInt(req.query.id as string);
+    const id = req.query.id as string;
     await bookAnnotationService.delete(id);
     sendOk(res, { });
   };
