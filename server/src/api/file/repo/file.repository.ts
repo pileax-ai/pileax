@@ -4,13 +4,14 @@ import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { fileMeta } from '@/drizzle/schema'
-import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 
 export class FileMetaRepository {
 
   async create(data: FileMeta) {
     data.id = data.id || randomUUID();
+    data.status = 1;
     return db.insert(fileMeta).values(data).returning().get();
   }
 
@@ -28,8 +29,12 @@ export class FileMetaRepository {
     return db.delete(fileMeta).where(eq(fileMeta.id, id));
   }
 
+  async getAll(userId: string) {
+    return db.select().from(fileMeta).where(eq(fileMeta.userId, userId)).all();
+  }
+
   async query(query: Query) {
-    const filters = buildFilters(fileMeta, ['userId', 'mimetype', 'fileName'], query.condition);
+    const filters = buildFilters(fileMeta, ['mimetype', 'fileName', 'userId'], query.condition);
     const orders = buildOrders(fileMeta, ['mimetype', 'updateTime'], query.orderBy);
 
     return db.select().from(fileMeta)

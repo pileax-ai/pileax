@@ -15,6 +15,9 @@ import {
 } from '@/core/api/commonModel';
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
 import { fileController as controller } from '../controller/file.controller';
+import { noteRegistry } from '@/api/note/api/note.api'
+import { noteController } from '@/api/note/controller/note.controller'
+import { NoteSchema } from '@/api/note/model/note.model'
 
 export const api = () => {}
 export const registry = new OpenAPIRegistry();
@@ -22,6 +25,42 @@ const pathBase = `/file`
 const apiPathBase = `${apiBase}${pathBase}`
 
 registry.register('File', FileMetaSchema);
+
+/**
+ * get
+ */
+noteRegistry.registerPath({
+  method: 'get',
+  path: `${apiPathBase}`,
+  tags: ['File'],
+  request: { query: StringIdSchema.shape.query },
+  responses: createApiResponse(FileMetaSchema, 'Success'),
+});
+apiRouter.get(`${pathBase}`, validateRequest(StringIdSchema), controller.get);
+
+/**
+ * delete
+ */
+noteRegistry.registerPath({
+  method: 'delete',
+  path: `${apiPathBase}`,
+  tags: ['File'],
+  request: { query: StringIdSchema.shape.query },
+  responses: createApiResponse(EmptySchema, 'Success'),
+});
+apiRouter.delete(`${pathBase}`, validateRequest(StringIdSchema), controller.delete);
+
+/**
+ * query
+ */
+noteRegistry.registerPath({
+  method: 'post',
+  path: `${apiPathBase}/query`,
+  tags: ['File'],
+  request: { body: QueryBodySchema },
+  responses: createApiResponse(z.array(FileMetaSchema), 'Success'),
+});
+apiRouter.post(`${pathBase}/query`, validateRequest(QuerySchema), controller.query);
 
 /**
  * upload

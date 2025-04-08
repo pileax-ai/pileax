@@ -2,9 +2,10 @@ import type { Note, NoteUpdate } from "@/api/note/model/note.model";
 import type { Query } from "@/core/api/commonModel";
 
 import { db } from '@/drizzle'
-import { note } from '@/drizzle/schema'
+import { fileMeta, note } from '@/drizzle/schema'
 import { and, desc, eq } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
+import { buildFilters, buildOrders } from '@/core/utils/drizzle'
 
 export class NoteRepository {
 
@@ -15,10 +16,6 @@ export class NoteRepository {
 
   async findById(id: string) {
     return db.select().from(note).where(eq(note.id, id)).get();
-  }
-
-  async find(where: any) {
-    return db.select().from(note).all();
   }
 
   async update(data: NoteUpdate) {
@@ -43,19 +40,19 @@ export class NoteRepository {
     // })
   }
 
-  async getAll() {
-    return db.select().from(note).all();
+  async getAll(userId: string) {
+    return db.select().from(note).where(eq(note.userId, userId)).all();
   }
 
   async query(query: Query) {
-    const filters = [];
-    const condition: Record<string, unknown> = query.condition || {};
-    if (condition.title) filters.push(eq(note.title, condition.title as any))
+    const filters = buildFilters(fileMeta, ['parent', 'title', 'userId'], query.condition);
+    const orders = buildOrders(fileMeta, ['title', 'updateTime'], query.orderBy);
 
-    return db.select().from(note)
+    return db.select()
+      .from(note)
       .where(and(...filters))
       .limit(query.pageSize)
       .offset((query.pageIndex - 1) * query.pageSize)
-      .orderBy(desc(note.updateTime));
+      .orderBy(...orders);
   }
 }

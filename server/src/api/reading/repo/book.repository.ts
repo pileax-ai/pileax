@@ -4,7 +4,7 @@ import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { book } from '@/drizzle/schema'
-import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 
 export class BookRepository {
@@ -28,20 +28,16 @@ export class BookRepository {
     return this.findById(id)
   }
 
-  /**
-   * Delete book and its children
-   * @param id
-   */
   async delete(id: string) {
     return db.delete(book).where(eq(book.id, id));
   }
 
-  async getAll() {
-    return db.select().from(book).all();
+  async getAll(userId: string) {
+    return db.select().from(book).where(eq(book.userId, userId)).all();
   }
 
   async query(query: Query) {
-    const filters = buildFilters(book, ['title'], query.condition);
+    const filters = buildFilters(book, ['title', 'userId'], query.condition);
     const orders = buildOrders(book, ['title', 'updateTime'], query.orderBy);
 
     return db.select().from(book)

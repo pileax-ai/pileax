@@ -2,40 +2,16 @@ import type { Request, RequestHandler, Response } from 'express';
 
 import { MulterUtil } from '@/common/storage'
 import { sendOk, sendFailed } from '@/core/api/httpHandlers';
-import { ServerException } from '@/core/api/exceptions'
-import { env } from '@/common/utils/envConfig'
-import { fileMetaService as service } from '@/api/file/service/file.service'
+import { ServerException } from '@/core/api/exceptions';
+import { env } from '@/common/utils/envConfig';
+import { fileMetaService as service } from '@/api/file/service/file.service';
+import { BaseController } from '@/core/api/base.controller';
+import { FileMeta } from '@/api/file/model/file.model';
 
-class FileController {
-  public save: RequestHandler = async (req: Request, res: Response) => {
-    const data = req.body;
-    const id = data.id;
-    let doc: unknown;
-    try {
-      await service.get(id);
-      doc = await service.update(data);
-    } catch (err) {
-      doc = await service.create(data);
-    }
-    sendOk(res, doc);
-  };
-
-  public get: RequestHandler = async (req: Request, res: Response) => {
-    const id = req.query.id as string;
-    const doc = await service.get(id);
-    sendOk(res, doc);
-  };
-
-  public delete: RequestHandler = async (req: Request, res: Response) => {
-    const id = req.query.id as string;
-    await service.delete(id);
-    sendOk(res, { });
-  };
-
-  public query: RequestHandler = async (req: Request, res: Response) => {
-    const result = await service.query(req.body);
-    sendOk(res, result);
-  };
+class FileController extends BaseController<FileMeta>{
+  constructor() {
+    super(service);
+  }
 
   public upload: RequestHandler = async (req: Request, res: Response, next) => {
     try {
@@ -51,14 +27,16 @@ class FileController {
         }
 
         if (req.file) {
-          console.log('file', req.file);
-          return sendOk(res, {
+          const result = await service.save({
+            id: '',
+            userId: req.headers['x-user-id'] as string,
             originalName: req.file.originalname,
             fileName: req.file.filename,
             path: req.file.path.replace(env.PUBLIC_ROOT, ''),
             size: req.file.size,
             mimetype: req.file.mimetype
           });
+          return sendOk(res, result);
         } else {
           return sendFailed(res, 'No file');
         }
@@ -83,16 +61,20 @@ class FileController {
         }
 
         if (req.files && req.files.length) {
-          console.log('files', req.files);
-          return sendOk(res, (req.files as Express.Multer.File[]).map(file => {
-            return {
-              originalName: file.originalname,
-              fileName: file.filename,
-              path: file.path.replace(env.PUBLIC_ROOT, ''),
-              size: file.size,
-              mimetype: file.mimetype
-            };
-          }));
+          const result = await Promise.all(
+            (req.files as Express.Multer.File[]).map(async (file) => {
+              return await service.save({
+                id: '',
+                userId: req.headers['x-user-id'] as string,
+                originalName: file.originalname,
+                fileName: file.filename,
+                path: file.path.replace(env.PUBLIC_ROOT, ''),
+                size: file.size,
+                mimetype: file.mimetype
+              });
+            })
+          );
+          return sendOk(res, result);
         } else {
           return sendFailed(res, 'No file');
         }

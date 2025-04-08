@@ -83,7 +83,6 @@ function doQuery() {
     orderBy: orderBy.value
   };
   joinQueryAnnotation(query).then(res => {
-    console.log('res', res);
     rows.value = res;
   });
 }

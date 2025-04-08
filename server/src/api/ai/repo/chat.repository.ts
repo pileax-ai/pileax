@@ -2,15 +2,16 @@ import type { Chat, ChatUpdate } from "@/api/ai/model/chat.model";
 import type { Query } from "@/core/api/commonModel";
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
-import { db } from '@/drizzle'
-import { chat } from '@/drizzle/schema'
-import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
-import { randomUUID } from 'node:crypto'
+import { db } from '@/drizzle';
+import { chat } from '@/drizzle/schema';
+import { and, asc, eq } from 'drizzle-orm';
+import { randomUUID } from 'node:crypto';
 
 export class ChatRepository {
 
   async create(data: Chat) {
     data.id = data.id || randomUUID();
+    data.status = 1;
     return db.insert(chat).values(data).returning().get();
   }
 
@@ -28,14 +29,18 @@ export class ChatRepository {
     return db.delete(chat).where(eq(chat.id, id));
   }
 
-  async findAll(sessionId: string) {
+  async getAll(userId: string) {
+    return db.select().from(chat).where(eq(chat.userId, userId)).all();
+  }
+
+  async findBySession(sessionId: string) {
     return db.select().from(chat)
       .where(eq(chat.sessionId, sessionId))
       .orderBy(asc(chat.createTime));
   }
 
   async query(query: Query) {
-    const filters = buildFilters(chat, ['sessionId'], query.condition);
+    const filters = buildFilters(chat, ['sessionId', 'userId'], query.condition);
     const orders = buildOrders(chat, ['createTime', 'updateTime'], query.orderBy);
 
     return db.select().from(chat)

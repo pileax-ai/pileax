@@ -97,7 +97,7 @@ async function openWithAnnotation(annotationId: string) {
 async function open(bookId: string, initialCfi = '') {
   const book: Indexable = await getBook(bookId);
   if (book) {
-    setBookId(parseInt(bookId));
+    setBookId(bookId);
     setBook(book);
 
     const filePath = `${book.path}/${book.fileName}`;

@@ -13,91 +13,92 @@ import {
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
 import { bookController } from '../controller/book.controller';
 import { FileMetaSchema, FileUploadSchema } from '@/api/file/model/file.model'
-import { registry } from '@/api/file/api/file.api'
 
-export const bookRegistry = new OpenAPIRegistry();
-export const bookApi = () => {}
+export const api = () => {};
+export const registry = new OpenAPIRegistry();
+const pathBase = `/book`;
+const apiPathBase = `${apiBase}${pathBase}`;
 
-bookRegistry.register('Book', BookSchema);
+registry.register('Book', BookSchema);
 
 /**
  * Save
  */
-bookRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/book`,
+  path: `${apiPathBase}`,
   tags: ['Book'],
   request: { body: BookBodySchema },
   responses: createApiResponse(BookSchema, 'Success'),
 });
-apiRouter.post('/book', validateBody(BookSchema.partial()), bookController.save);
+apiRouter.post(`${pathBase}`, validateBody(BookSchema.partial()), bookController.save);
 
 /**
  * getAll
  */
-bookRegistry.registerPath({
+registry.registerPath({
   method: 'get',
-  path: `${apiBase}/book/all`,
+  path: `${apiPathBase}/all`,
   tags: ['Book'],
   responses: createApiResponse(z.array(BookSchema), 'Success'),
 });
-apiRouter.get('/book/all', bookController.getAll);
+apiRouter.get(`${pathBase}/all`, bookController.getAll);
 
 /**
  * get
  */
-bookRegistry.registerPath({
+registry.registerPath({
 	method: 'get',
-	path: `${apiBase}/book`,
+  path: `${apiPathBase}`,
 	tags: ['Book'],
 	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(BookSchema, 'Success'),
 });
-apiRouter.get('/book', validateRequest(StringIdSchema), bookController.get);
+apiRouter.get(`${pathBase}`, validateRequest(StringIdSchema), bookController.get);
 
 /**
  * get by uuid
  */
-bookRegistry.registerPath({
+registry.registerPath({
   method: 'get',
-  path: `${apiBase}/book/uuid`,
+  path: `${apiPathBase}/uuid`,
   tags: ['Book'],
   description: 'Get book by UUID',
   request: { query: UuidSchema.shape.query },
   responses: createApiResponse(BookSchema, 'Success'),
 });
-apiRouter.get('/book/uuid', validateRequest(UuidSchema), bookController.getByUuid);
+apiRouter.get(`${pathBase}/uuid`, validateRequest(UuidSchema), bookController.getByUuid);
 
 /**
  * delete
  */
-bookRegistry.registerPath({
+registry.registerPath({
   method: 'delete',
-  path: `${apiBase}/book`,
+  path: `${apiPathBase}`,
   tags: ['Book'],
   request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete('/book', validateRequest(StringIdSchema), bookController.delete);
+apiRouter.delete(`${pathBase}`, validateRequest(StringIdSchema), bookController.delete);
 
 /**
  * query
  */
-bookRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/book/query`,
+  path: `${apiPathBase}/query`,
   tags: ['Book'],
   request: { body: QueryBodySchema },
   responses: createApiResponse(z.array(BookSchema), 'Success'),
 });
-apiRouter.post('/book/query', validateRequest(QuerySchema), bookController.query);
+apiRouter.post(`${pathBase}/query`, validateRequest(QuerySchema), bookController.query);
 
 /**
  * upload book
  */
 registry.registerPath({
   method: 'post',
-  path: `${apiBase}/book/upload`,
+  path: `${apiPathBase}/upload`,
   tags: ['Book'],
   summary: 'Upload book and cover',
   request: {
@@ -134,4 +135,9 @@ registry.registerPath({
   },
   responses: createApiResponse(FileMetaSchema, 'Success'),
 });
-apiRouter.post(`/book/upload`, validateRequest(UuidSchema), bookController.upload);
+apiRouter.post(`${pathBase}/upload`, validateRequest(UuidSchema), bookController.upload);
+
+export {
+  api as bookApi,
+  registry as bookRegistry
+}

@@ -41,7 +41,7 @@ export default function () {
     store.setBook(value);
   }
 
-  function setBookId(value: number) {
+  function setBookId(value: string) {
     store.setBookId(value);
   }
 

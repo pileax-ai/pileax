@@ -4,13 +4,14 @@ import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { chatSession } from '@/drizzle/schema'
-import { and, AnyColumn, asc, desc, eq, like, sql } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 
 export class ChatSessionRepository {
 
   async create(data: ChatSession) {
     data.id = data.id || randomUUID();
+    data.status = 1;
     return db.insert(chatSession).values(data).returning().get();
   }
 
@@ -28,12 +29,12 @@ export class ChatSessionRepository {
     return db.delete(chatSession).where(eq(chatSession.id, id));
   }
 
-  async getAll() {
-    return db.select().from(chatSession).all();
+  async getAll(userId: string) {
+    return db.select().from(chatSession).where(eq(chatSession.userId, userId)).all();
   }
 
   async query(query: Query) {
-    const filters = buildFilters(chatSession, ['title'], query.condition);
+    const filters = buildFilters(chatSession, ['title', 'userId'], query.condition);
     const orders = buildOrders(chatSession, ['title', 'updateTime'], query.orderBy);
 
     return db.select().from(chatSession)

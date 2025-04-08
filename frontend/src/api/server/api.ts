@@ -14,7 +14,7 @@ const urls: Indexable = {
   authSignin: '/auth/signin',
 
   account: '/admin/user',
-  authLogin: '/auth/login',
+  auth: '/auth',
   book: '/book',
   bookAnnotation: '/book/annotation',
   chat: '/chat',

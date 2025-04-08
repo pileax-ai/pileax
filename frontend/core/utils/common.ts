@@ -14,7 +14,7 @@ export const getCommonHeaders = () => {
   return {
     'Authorization': accountInfo.token,
     'x-api-version': 'v1',
-    'x-project': packageInfo.code,
+    'x-project': packageInfo.productName,
     'x-locale': getItem('locale') || 'en',
     'x-api-key': 'apiKey', // ToDo
     'x-signed-query': 'signedQuery', // ToDo

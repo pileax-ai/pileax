@@ -15,8 +15,8 @@ import { chatSessionController as controller } from '../controller/chat-session.
 
 const api = () => {};
 const registry = new OpenAPIRegistry();
-const pathBase = `/chat/session`
-const apiPathBase = `${apiBase}${pathBase}`
+const pathBase = `/chat/session`;
+const apiPathBase = `${apiBase}${pathBase}`;
 
 registry.register('ChatSession', ChatSessionSchema);
 
@@ -30,7 +30,8 @@ registry.registerPath({
   request: { body: ChatSessionBodySchema },
   responses: createApiResponse(ChatSessionSchema, 'Success'),
 });
-apiRouter.post(`${pathBase}`, validateBody(ChatSessionSchema.partial()), controller.save);
+apiRouter.post(`${pathBase}`,
+  validateBody(ChatSessionSchema.partial()), controller.save);
 
 /**
  * get
@@ -42,7 +43,8 @@ registry.registerPath({
 	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(ChatSessionSchema, 'Success'),
 });
-apiRouter.get(`${pathBase}`, validateRequest(StringIdSchema), controller.get);
+apiRouter.get(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.get);
 
 
 /**
@@ -55,7 +57,8 @@ registry.registerPath({
   request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete(`${pathBase}`, validateRequest(StringIdSchema), controller.delete);
+apiRouter.delete(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.delete);
 
 /**
  * query
@@ -67,7 +70,8 @@ registry.registerPath({
   request: { body: QueryBodySchema },
   responses: createApiResponse(z.array(ChatSessionSchema), 'Success'),
 });
-apiRouter.post(`${pathBase}/query`, validateRequest(QuerySchema), controller.query);
+apiRouter.post(`${pathBase}/query`,
+  validateRequest(QuerySchema), controller.query);
 
 export {
   api as chatSessionApi,

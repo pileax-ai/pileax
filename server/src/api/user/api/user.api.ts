@@ -1,32 +1,78 @@
-import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
-import { z } from "zod";
+import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import { z } from 'zod';
 
-import { apiBase, apiRouter } from "@/common/router";
-import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
-import { GetUserSchema, UserSchema } from "@/api/user/model/user.model";
-import { validateRequest } from "@/core/api/httpHandlers";
-import { userController } from "../controller/user.controller";
+import { apiBase, apiRouter } from '@/common/router';
+import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
+import { UserSchema, UserBodySchema } from '@/api/user/model/user.model';
+import {
+  EmptySchema,
+  StringIdSchema,
+  QuerySchema,
+  QueryBodySchema
+} from '@/core/api/commonModel';
+import { validateRequest, validateBody } from '@/core/api/httpHandlers';
+import { userController as controller } from '../controller/user.controller';
 
-export const userRegistry = new OpenAPIRegistry();
-export const userApi = () => {}
+const api = () => {};
+const registry = new OpenAPIRegistry();
+const pathBase = `/user`
+const apiPathBase = `${apiBase}${pathBase}`
 
-userRegistry.register("User", UserSchema);
+registry.register('User', UserSchema);
 
-userRegistry.registerPath({
-	method: "get",
-	path: `${apiBase}/user/users`,
-	tags: ["User"],
-	responses: createApiResponse(z.array(UserSchema), "Success"),
+/**
+ * save
+ */
+registry.registerPath({
+  method: 'post',
+  path: `${apiPathBase}`,
+  tags: ['User'],
+  request: { body: UserBodySchema },
+  responses: createApiResponse(UserSchema, 'Success'),
 });
+apiRouter.post(`${pathBase}`,
+  validateBody(UserSchema.partial()), controller.save);
 
-apiRouter.get("/user/users", userController.getUsers);
-
-userRegistry.registerPath({
-	method: "get",
-	path: `${apiBase}/user/{id}`,
-	tags: ["User"],
-	request: { params: GetUserSchema.shape.params },
-	responses: createApiResponse(UserSchema, "Success"),
+/**
+ * get
+ */
+registry.registerPath({
+  method: 'get',
+  path: `${apiPathBase}`,
+  tags: ['User'],
+  request: { query: StringIdSchema.shape.query },
+  responses: createApiResponse(UserSchema, 'Success'),
 });
+apiRouter.get(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.get);
 
-apiRouter.get("/user/:id", validateRequest(GetUserSchema), userController.getUser);
+/**
+ * delete
+ */
+registry.registerPath({
+  method: 'delete',
+  path: `${apiPathBase}`,
+  tags: ['User'],
+  request: { query: StringIdSchema.shape.query },
+  responses: createApiResponse(EmptySchema, 'Success'),
+});
+apiRouter.delete(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.delete);
+
+/**
+ * query
+ */
+registry.registerPath({
+  method: 'post',
+  path: `${apiPathBase}/query`,
+  tags: ['User'],
+  request: { body: QueryBodySchema },
+  responses: createApiResponse(z.array(UserSchema), 'Success'),
+});
+apiRouter.post(`${pathBase}/query`,
+  validateRequest(QuerySchema), controller.query);
+
+export {
+  api as userApi,
+  registry as userRegistry
+}

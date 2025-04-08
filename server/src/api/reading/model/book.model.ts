@@ -7,9 +7,8 @@ extendZodWithOpenApi(z);
 export type Book = z.infer<typeof BookSchema>;
 export type BookUpdate = z.infer<typeof BookUpdateSchema>;
 
-// POST /book
 export const BookSchema = z.object({
-	id: z.string(),
+	id: z.string().default(''),
   userId: z.string().optional(),
 	uuid: z.string(),
 	title: z.string(),

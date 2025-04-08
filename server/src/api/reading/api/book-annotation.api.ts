@@ -11,85 +11,96 @@ import {
   StringIdSchema,
 } from '@/core/api/commonModel';
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
-import { bookAnnotationController } from '../controller/book-annotation.controller';
+import { bookAnnotationController as controller } from '../controller/book-annotation.controller';
 
-export const bookAnnotationRegistry = new OpenAPIRegistry();
-export const bookAnnotationApi = () => {}
+export const api = () => {};
+export const registry = new OpenAPIRegistry();
+const pathBase = `/book/annotation`;
+const apiPathBase = `${apiBase}${pathBase}`;
 
-bookAnnotationRegistry.register('BookAnnotation', BookAnnotationSchema);
+registry.register('BookAnnotation', BookAnnotationSchema);
 
 /**
  * Save
  */
-bookAnnotationRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/book/annotation`,
+  path: `${apiPathBase}`,
   tags: ['BookAnnotation'],
   request: { body: BookAnnotationBodySchema },
   responses: createApiResponse(BookAnnotationSchema, 'Success'),
 });
-apiRouter.post('/book/annotation', validateBody(BookAnnotationSchema.partial()), bookAnnotationController.save);
+apiRouter.post(`${pathBase}`,
+  validateBody(BookAnnotationSchema.partial()), controller.save);
 
 /**
  * getAll
  */
-bookAnnotationRegistry.registerPath({
+registry.registerPath({
   method: 'get',
-  path: `${apiBase}/book/annotation/all`,
+  path: `${apiPathBase}/all`,
   tags: ['BookAnnotation'],
   request: { query: BookAnnotationSchema.partial() },
   responses: createApiResponse(z.array(BookAnnotationSchema), 'Success'),
 });
-apiRouter.get('/book/annotation/all', validateRequest(BookAnnotationSchema.partial()), bookAnnotationController.getAll);
+apiRouter.get(`${pathBase}/all`,
+  validateRequest(BookAnnotationSchema.partial()), controller.queryAll);
 
 /**
  * get
  */
-bookAnnotationRegistry.registerPath({
+registry.registerPath({
 	method: 'get',
-	path: `${apiBase}/book/annotation`,
+  path: `${apiPathBase}`,
 	tags: ['BookAnnotation'],
 	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(BookAnnotationSchema, 'Success'),
 });
-apiRouter.get('/book/annotation', validateRequest(StringIdSchema), bookAnnotationController.get);
+apiRouter.get(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.get);
 
 /**
  * delete
  */
-bookAnnotationRegistry.registerPath({
+registry.registerPath({
   method: 'delete',
-  path: `${apiBase}/book/annotation`,
+  path: `${apiPathBase}`,
   tags: ['BookAnnotation'],
   request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete('/book/annotation', validateRequest(StringIdSchema), bookAnnotationController.delete);
+apiRouter.delete(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.delete);
 
 /**
  * query
  */
-bookAnnotationRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/book/annotation/query`,
+  path: `${apiPathBase}/query`,
   tags: ['BookAnnotation'],
   request: { body: QueryBodySchema },
   responses: createApiResponse(z.array(BookAnnotationSchema), 'Success'),
 });
-apiRouter.post('/book/annotation/query',
+apiRouter.post(`${pathBase}/query`,
   validateRequest(QuerySchema),
-  bookAnnotationController.query);
+  controller.query);
 
 /**
  * query
  */
-bookAnnotationRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/book/annotation/query/book`,
+  path: `${apiPathBase}/query/book`,
   tags: ['BookAnnotation'],
   request: { body: QueryBodySchema },
   responses: createApiResponse(z.array(BookAnnotationSchema), 'Success'),
 });
-apiRouter.post('/book/annotation/query/book',
+apiRouter.post(`${pathBase}/query/book`,
   validateRequest(QuerySchema),
-  bookAnnotationController.queryBook);
+  controller.queryBook);
+
+export {
+  api as bookAnnotationApi,
+  registry as bookAnnotationRegistry
+}

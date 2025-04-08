@@ -2,45 +2,19 @@ import type { Request, RequestHandler, Response } from 'express';
 
 import { chatService as service } from '@/api/ai/service/chat.service';
 import { sendOk } from '@/core/api/httpHandlers';
-import { ServerException } from '@/core/api/exceptions'
-import { ChatCompletion } from '@/api/ai/model/chat.model'
-import { logger } from '@/common'
+import { ServerException } from '@/core/api/exceptions';
+import { Chat, ChatCompletion } from '@/api/ai/model/chat.model'
+import { BaseController } from '@/core/api/base.controller'
 
-class ChatController {
-  public save: RequestHandler = async (req: Request, res: Response) => {
-    const data = req.body;
-    const id = data.id;
-    let doc: unknown;
-    try {
-      await service.get(id);
-      doc = await service.update(data);
-    } catch (err) {
-      doc = await service.create(data);
-    }
-    sendOk(res, doc);
-  };
+class ChatController extends BaseController<Chat>{
+  constructor() {
+    super(service);
+  }
 
-  public get: RequestHandler = async (req: Request, res: Response) => {
+  public findBySession: RequestHandler = async (req: Request, res: Response) => {
     const id = req.query.id as string;
-    const doc = await service.get(id);
+    const doc = await service.findBySession(id);
     sendOk(res, doc);
-  };
-
-  public findAll: RequestHandler = async (req: Request, res: Response) => {
-    const id = req.query.id as string;
-    const doc = await service.findAll(id);
-    sendOk(res, doc);
-  };
-
-  public delete: RequestHandler = async (req: Request, res: Response) => {
-    const id = req.query.id as string;
-    await service.delete(id);
-    sendOk(res, { });
-  };
-
-  public query: RequestHandler = async (req: Request, res: Response) => {
-    const result = await service.query(req.body);
-    sendOk(res, result);
   };
 
   public chatCompletion: RequestHandler = async (req: Request, res: Response) => {

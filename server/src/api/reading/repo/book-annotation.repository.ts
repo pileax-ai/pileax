@@ -2,9 +2,8 @@ import type { BookAnnotation, BookAnnotationUpdate } from "@/api/reading/model/b
 import type { Query } from "@/core/api/commonModel";
 
 import { db } from '@/drizzle'
-import { book, bookAnnotation } from '@/drizzle/schema'
+import { book, bookAnnotation, note } from '@/drizzle/schema'
 import { and, Column, desc, eq, getTableColumns } from 'drizzle-orm'
-import { bookAnnotationController } from '@/api/reading/controller/book-annotation.controller'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle'
 import { randomUUID } from 'node:crypto'
 
@@ -29,15 +28,15 @@ export class BookAnnotationRepository {
     return this.findById(id)
   }
 
-  /**
-   * Delete bookAnnotation and its children
-   * @param id
-   */
   async delete(id: string) {
     return db.delete(bookAnnotation).where(eq(bookAnnotation.id, id));
   }
 
-  async getAll(query: Record<string, string>) {
+  async getAll(userId: string) {
+    return db.select().from(note).where(eq(note.userId, userId)).all();
+  }
+
+  async queryAll(query: Record<string, string>) {
     const filters = [];
     if (query?.bookId) {
       filters.push(eq(bookAnnotation.bookId, query.bookId));
@@ -49,7 +48,7 @@ export class BookAnnotationRepository {
   }
 
   async query(query: Query) {
-    const filters = buildFilters(bookAnnotation, ['note'], query.condition);
+    const filters = buildFilters(bookAnnotation, ['note', 'bookId', 'type', 'userId'], query.condition);
     const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.orderBy);
 
     return db.select().from(bookAnnotation)
@@ -60,7 +59,7 @@ export class BookAnnotationRepository {
   }
 
   async queryBook(query: Query) {
-    const filters = buildFilters(bookAnnotation, ['note'], query.condition);
+    const filters = buildFilters(bookAnnotation, ['note', 'bookId', 'type', 'userId'], query.condition);
     const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.orderBy);
 
     return db.select({

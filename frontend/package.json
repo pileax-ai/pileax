@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "PileaX AI",
   "productName": "PileaX",
+  "code": "pileax",
   "author": "pileax <ipileax@gmail.com>",
   "type": "module",
   "private": true,

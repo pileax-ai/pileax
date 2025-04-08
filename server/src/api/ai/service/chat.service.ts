@@ -1,50 +1,25 @@
-import { NotFoundException, ServerException } from '@/core/api/exceptions';
+import { ServerException } from '@/core/api/exceptions';
 import type { Chat } from '@/api/ai/model/chat.model';
-import type { Query } from "@/core/api/commonModel";
 import { ChatRepository } from '@/api/ai/repo/chat.repository';
 import { getLLM } from '@/ai/helpers/llmHelper';
 import { logger } from '@/common';
-import { ChatMessage } from '@/types/chat'
-import { ChatCompletion } from '@/api/ai/model/chat.model'
+import { ChatMessage } from '@/types/chat';
+import { ChatCompletion } from '@/api/ai/model/chat.model';
+import { BaseService } from '@/core/api/base.service';
 
-export class ChatService {
-	private repo: ChatRepository;
+export class ChatService extends BaseService<Chat, ChatRepository>{
 
-	constructor(repository: ChatRepository = new ChatRepository()) {
-		this.repo = repository;
+	constructor() {
+		super(new ChatRepository());
 	}
 
-  async create(data: Chat) {
-    return await this.repo.create(data);
-  }
-
-  async update(data: Chat) {
-    return await this.repo.update(data);
-  }
-
-	async get(id: string) {
-		const doc = await this.repo.findById(id);
-    if (!doc) {
-      throw new NotFoundException('Chat', id.toString());
-    }
-    return doc;
-	}
-
-  async findAll(sessionId: string) {
-    return await this.repo.findAll(sessionId);
-  }
-
-  async delete(id: string) {
-    await this.repo.delete(id);
-  }
-
-  async query(data: Query) {
-    return this.repo.query(data)
+  async findBySession(sessionId: string) {
+    return await this.repo.findBySession(sessionId);
   }
 
   async chatCompletion(data: ChatCompletion) {
     try {
-      const chats = await this.findAll(data.sessionId);
+      const chats = await this.findBySession(data.sessionId);
       const history = chats.flatMap((chat) => [
         { role: 'user', content: chat.message },
         { role: 'assistant', content: chat.content },

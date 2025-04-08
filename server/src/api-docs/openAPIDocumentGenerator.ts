@@ -1,16 +1,18 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 
+import { authRegistry } from '@/api/user/api/auth.api';
 import { bookRegistry } from '@/api/reading/api/book.api';
 import { bookAnnotationRegistry } from '@/api/reading/api/book-annotation.api';
 import { chatRegistry } from '@/api/ai/api/chat.api';
 import { chatSessionRegistry } from '@/api/ai/api/chat-session.api';
 import { fileRegistry } from '@/api/file/api/file.api';
 import { noteRegistry } from '@/api/note/api/note.api';
-import { systemRegistry } from '@/api/system/api/systemApi';
+import { systemRegistry } from '@/api/system/api/system.api';
 import { userRegistry } from "@/api/user/api/user.api";
 
 export function generateOpenAPIDocument() {
 	const registry = new OpenAPIRegistry([
+    authRegistry,
     bookRegistry,
     bookAnnotationRegistry,
     chatRegistry,
@@ -35,6 +37,7 @@ export function generateOpenAPIDocument() {
 	});
 
   document.components = {
+    ...document.components,
     securitySchemes: {
       bearerAuth: {
         type: 'http',

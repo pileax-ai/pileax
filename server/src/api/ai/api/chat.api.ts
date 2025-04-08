@@ -17,10 +17,10 @@ import {
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
 import { chatController as controller } from '../controller/chat.controller';
 
-export const api = () => {}
+export const api = () => {};
 export const registry = new OpenAPIRegistry();
-const pathBase = `/chat`
-const apiPathBase = `${apiBase}${pathBase}`
+const pathBase = `/chat`;
+const apiPathBase = `${apiBase}${pathBase}`;
 
 registry.register('Chat', ChatSchema);
 
@@ -58,7 +58,7 @@ registry.registerPath({
   responses: createApiResponse(z.array(ChatSchema), 'Success'),
 });
 apiRouter.get(`${pathBase}/all`,
-  validateRequest(StringIdSchema), controller.findAll);
+  validateRequest(StringIdSchema), controller.findBySession);
 
 /**
  * delete

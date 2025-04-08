@@ -10,7 +10,8 @@ const whiteList = [
   /^\/api\/docs(\/.*)?$/,
   /^\/files(\/.*)?$/,
   '/swagger.json',
-  '/auth/login',
+  '/auth/signup',
+  '/api/v1/auth/signin',
   '/system/health-check',
 ];
 
@@ -24,12 +25,12 @@ export const jwtVerifier = jwtMiddleware({
 
 export const attachUserId: RequestHandler = (req: any, res: Response,
                              next: NextFunction) => {
-  console.log('abcHHHHH')
   try {
+    // console.log('auth', req.auth);
     if (req.auth && req.auth.userId) {
       // Add custom header X-User-ID
       req.headers['x-user-id'] = req.auth.userId.toString();
-      req.userId = req.auth.userId.toString();
+      // req.userId = req.auth.userId.toString();
     }
     next();
   } catch (err) {

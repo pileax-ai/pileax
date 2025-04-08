@@ -15,68 +15,79 @@ import {
 } from '@/core/api/commonModel';
 
 import { validateRequest, validateBody } from '@/core/api/httpHandlers';
-import { noteController } from '../controller/note.controller';
+import { noteController as controller } from '../controller/note.controller';
 
-export const noteRegistry = new OpenAPIRegistry();
-export const noteApi = () => {}
+export const api = () => {}
+export const registry = new OpenAPIRegistry();
+const pathBase = `/note`;
+const apiPathBase = `${apiBase}${pathBase}`;
 
-noteRegistry.register('Note', NoteSchema);
+registry.register('Note', NoteSchema);
 
 /**
  * Save
  */
-noteRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/note`,
+  path: `${apiPathBase}`,
   tags: ['Note'],
   request: { body: NoteBodySchema },
   responses: createApiResponse(NoteSchema, 'Success'),
 });
-apiRouter.post('/note', validateBody(NoteSchema.partial()), noteController.save);
+apiRouter.post(`${pathBase}`,
+  validateBody(NoteSchema.partial()), controller.save);
 
 /**
  * getAll
  */
-noteRegistry.registerPath({
+registry.registerPath({
   method: 'get',
-  path: `${apiBase}/note/all`,
+  path: `${apiPathBase}/all`,
   tags: ['Note'],
   responses: createApiResponse(z.array(NoteSchema), 'Success'),
 });
-apiRouter.get('/note/all', noteController.getAll);
+apiRouter.get(`${pathBase}/all`, controller.getAll);
 
 /**
  * get
  */
-noteRegistry.registerPath({
+registry.registerPath({
 	method: 'get',
-	path: `${apiBase}/note`,
+  path: `${apiPathBase}`,
 	tags: ['Note'],
 	request: { query: StringIdSchema.shape.query },
 	responses: createApiResponse(NoteSchema, 'Success'),
 });
-apiRouter.get('/note', validateRequest(StringIdSchema), noteController.get);
+apiRouter.get(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.get);
 
 /**
  * delete
  */
-noteRegistry.registerPath({
+registry.registerPath({
   method: 'delete',
-  path: `${apiBase}/note`,
+  path: `${apiPathBase}`,
   tags: ['Note'],
   request: { query: StringIdSchema.shape.query },
   responses: createApiResponse(EmptySchema, 'Success'),
 });
-apiRouter.delete('/note', validateRequest(StringIdSchema), noteController.delete);
+apiRouter.delete(`${pathBase}`,
+  validateRequest(StringIdSchema), controller.delete);
 
 /**
  * query
  */
-noteRegistry.registerPath({
+registry.registerPath({
   method: 'post',
-  path: `${apiBase}/note/query`,
+  path: `${apiPathBase}/query`,
   tags: ['Note'],
   request: { body: QueryBodySchema },
   responses: createApiResponse(z.array(NoteSchema), 'Success'),
 });
-apiRouter.post('/note/query', validateRequest(QuerySchema), noteController.query);
+apiRouter.post(`${pathBase}/query`,
+  validateRequest(QuerySchema), controller.query);
+
+export {
+  api as noteApi,
+  registry as noteRegistry
+}

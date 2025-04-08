@@ -1,30 +1,46 @@
-import type { User } from "@/api/user/model/user.model";
+import type { User, UserUpdate } from "@/api/user/model/user.model";
+import type { Query } from "@/core/api/commonModel";
+import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
-export const users: User[] = [
-	{
-		id: 1,
-		name: "Alice",
-		email: "alice@example.com",
-		age: 42,
-		createdAt: new Date(),
-		updatedAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days later
-	},
-	{
-		id: 2,
-		name: "Robert",
-		email: "Robert@example.com",
-		age: 21,
-		createdAt: new Date(),
-		updatedAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days later
-	},
-];
+import { db } from '@/drizzle'
+import { note, user } from '@/drizzle/schema'
+import { and, eq } from 'drizzle-orm'
+import { randomUUID } from 'node:crypto'
 
 export class UserRepository {
-	async findAllAsync(): Promise<User[]> {
-		return users;
-	}
 
-	async findByIdAsync(id: number): Promise<User | null> {
-		return users.find((user) => user.id === id) || null;
-	}
+  async create(data: User) {
+    data.id = data.id || randomUUID();
+    data.status = 1;
+    return db.insert(user).values(data).returning().get();
+  }
+
+  async findById(id: string) {
+    return db.select().from(user).where(eq(user.id, id)).get();
+  }
+
+  async update(data: UserUpdate) {
+    const id = data.id || '';
+    await db.update(user).set(data).where(eq(user.id, id));
+    return this.findById(id)
+  }
+
+  async delete(id: string) {
+    return db.delete(user).where(eq(user.id, id));
+  }
+
+  async getAll(userId: string) {
+    return db.select().from(user).all();
+  }
+
+  async query(query: Query) {
+    const filters = buildFilters(user, ['name', 'phone', 'status'], query.condition);
+    const orders = buildOrders(user, ['name', 'status', 'updateTime'], query.orderBy);
+
+    return db.select().from(user)
+      .where(and(...filters))
+      .limit(query.pageSize)
+      .offset((query.pageIndex - 1) * query.pageSize)
+      .orderBy(...orders);
+  }
 }

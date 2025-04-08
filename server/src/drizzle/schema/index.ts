@@ -21,9 +21,10 @@ const timestamps = {
 }
 
 export const user = sqliteTable('user', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   diallingCode: text('dialling_code').default(''),
   phone: text().default(''),
+  email: text().default(''),
   name: text().notNull(),
   bio: text().default(''),
   avatar: text().default(''),
@@ -35,7 +36,7 @@ export const user = sqliteTable('user', {
 });
 
 export const note = sqliteTable('note', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
   parent: text().default(''),
   title: text().notNull(),
@@ -47,7 +48,7 @@ export const note = sqliteTable('note', {
 });
 
 export const book = sqliteTable('book', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
   uuid: text().unique().notNull(),
   title: text().notNull(),
@@ -67,7 +68,7 @@ export const book = sqliteTable('book', {
 });
 
 export const bookAnnotation = sqliteTable('book_annotation', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
   bookId: text('book_id').notNull(),
   type: text().notNull(),
@@ -80,7 +81,7 @@ export const bookAnnotation = sqliteTable('book_annotation', {
 });
 
 export const chatSession = sqliteTable('chat_session', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
   title: text().default(''),
   name: text().notNull(),
@@ -89,7 +90,7 @@ export const chatSession = sqliteTable('chat_session', {
 });
 
 export const chat = sqliteTable('chat', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
   sessionId: text('session_id').notNull(),
   message: text().notNull(),
@@ -106,7 +107,7 @@ export const chat = sqliteTable('chat', {
 });
 
 export const fileMeta = sqliteTable('file_meta', {
-  ...uniqueId,
+  id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
   mimetype: text().default(''),
   size: integer().default(0),

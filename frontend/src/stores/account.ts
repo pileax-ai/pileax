@@ -20,25 +20,31 @@ export const useAccountStore = defineStore('account', {
       const accountInfo = getCookieItemObject('account') as Indexable;
       this.account = accountInfo?.account || {};
     },
+    async autoLogin() {
+      await this.login({
+        phone: 'phone',
+        password: 'password'
+      });
+    },
     async login(params: LoginParams) {
       try {
         const query = {
           ...params,
           password: encryptPassword(params.password)
         };
-        const res = await POST({name: 'authSignin', query: query}) as Indexable;
-        return this.afterLogin(res.data);
+        const res = await POST({name: 'auth', path: '/signin', query: query}) as Indexable;
+        return this.afterLogin(res);
       } catch (err) {
         return Promise.reject(err);
       }
     },
     afterLogin(result: Indexable, redirect = '/welcome') {
       saveCookieItemObject('account', result);
-      this.account = result.user;
+      this.account = result.account;
       if (redirect) {
         this.router.push(redirect);
       }
-      return result.user;
+      return result.account;
     },
     logout() {
       this.account = {};

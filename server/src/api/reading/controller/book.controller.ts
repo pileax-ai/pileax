@@ -1,52 +1,24 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { bookService } from '@/api/reading/service/book.service';
+import { fileMetaService } from '@/api/file/service/file.service';
+import { bookService as service } from '@/api/reading/service/book.service';
 import { sendFailed, sendOk } from '@/core/api/httpHandlers'
 import { MulterUtil } from '@/common/storage'
 import { env } from '@/common/utils/envConfig'
 import { ServerException } from '@/core/api/exceptions'
-import { BookSchema } from '@/api/reading/model/book.model'
+import { Book, BookSchema } from '@/api/reading/model/book.model'
+import { BaseController } from '@/core/api/base.controller'
+import { randomUUID } from 'node:crypto'
 
-class BookController {
-  public save: RequestHandler = async (req: Request, res: Response) => {
-    const data = req.body;
-    const id = data.id;
-    let doc: unknown;
-    try {
-      await bookService.get(id);
-      doc = await bookService.update(data);
-    } catch (err) {
-      doc = await bookService.create(data);
-    }
-    sendOk(res, doc);
-  };
-
-	public get: RequestHandler = async (req: Request, res: Response) => {
-		const id = req.query.id as string;
-		const doc = await bookService.get(id);
-    sendOk(res, doc);
-	};
+class BookController extends BaseController<Book>{
+  constructor() {
+    super(service);
+  }
 
   public getByUuid: RequestHandler = async (req: Request, res: Response) => {
     const uuid = req.query.uuid as string;
-    const doc = await bookService.getByUuid(uuid);
+    const doc = await service.getByUuid(uuid);
     sendOk(res, doc);
-  };
-
-  public delete: RequestHandler = async (req: Request, res: Response) => {
-    const id = req.query.id as string;
-    await bookService.delete(id);
-    sendOk(res, { });
-  };
-
-  public getAll: RequestHandler = async (req: Request, res: Response) => {
-    const result = await bookService.getAll();
-    sendOk(res, result);
-  };
-
-  public query: RequestHandler = async (req: Request, res: Response) => {
-    const result = await bookService.query(req.body);
-    sendOk(res, result);
   };
 
   public upload: RequestHandler = async (req: Request, res: Response, next) => {
@@ -63,31 +35,39 @@ class BookController {
           return sendFailed(res, err.message);
         }
         if (req.files && req.files.length) {
-          console.log('book', req.body.book);
+          // console.log('book', req.body.book);
+          const bookId = randomUUID();
           const book = BookSchema.parse(
             JSON.parse(req.body.book)
           );
+          book.id = bookId;
+          book.userId = req.headers['x-user-id'] as string;
           book.path = uuid;
-          const files = (req.files as Express.Multer.File[]).map(file => {
-            if (file.filename.indexOf('book') === 0) {
-              book.fileName = file.filename;
-            } else {
-              book.coverName = file.filename;
-            }
+          const files = await Promise.all(
+            (req.files as Express.Multer.File[]).map(async (file) => {
+              if (file.filename.indexOf('book') === 0) {
+                book.fileName = file.filename;
+              } else {
+                book.coverName = file.filename;
+              }
 
-            return {
-              originalName: file.originalname,
-              fileName: file.filename,
-              path: file.path.replace(env.PUBLIC_ROOT, ''),
-              size: file.size,
-              mimetype: file.mimetype
-            };
-          });
-          console.log('book', book);
-          console.log('files', req.files);
-          // save file meta
+              // save file meta
+              return await fileMetaService.save({
+                id: '',
+                userId: req.headers['x-user-id'] as string,
+                originalName: file.originalname,
+                fileName: file.filename,
+                path: file.path.replace(env.PUBLIC_ROOT, ''),
+                size: file.size,
+                mimetype: file.mimetype,
+                refType: 'book',
+                refId: bookId
+              });
+            })
+          );
+
           // save book
-          const result = await bookService.create(book);
+          const result = await service.create(book);
           return sendOk(res, result);
         } else {
           return sendFailed(res, 'No file');

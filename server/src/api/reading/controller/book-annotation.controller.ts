@@ -1,47 +1,23 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { bookAnnotationService } from '@/api/reading/service/book-annotation.service';
+import { bookAnnotationService as service } from '@/api/reading/service/book-annotation.service';
 import { sendOk } from '@/core/api/httpHandlers';
+import { BaseController } from '@/core/api/base.controller'
+import { BookAnnotation } from '@/api/reading/model/book-annotation.model'
 
-class BookAnnotationController {
-  public save: RequestHandler = async (req: Request, res: Response) => {
-    const data = req.body;
-    const id = data.id;
-    let doc: unknown;
-    try {
-      await bookAnnotationService.get(id);
-      doc = await bookAnnotationService.update(data);
-    } catch (err) {
-      doc = await bookAnnotationService.create(data);
-    }
-    sendOk(res, doc);
-  };
+class BookAnnotationController extends BaseController<BookAnnotation> {
+  constructor() {
+    super(service);
+  }
 
-	public get: RequestHandler = async (req: Request, res: Response) => {
-		const id = req.query.id as string;
-		const doc = await bookAnnotationService.get(id);
-    sendOk(res, doc);
-	};
-
-  public delete: RequestHandler = async (req: Request, res: Response) => {
-    const id = req.query.id as string;
-    await bookAnnotationService.delete(id);
-    sendOk(res, { });
-  };
-
-  public getAll: RequestHandler = async (req: Request, res: Response) => {
+  public queryAll: RequestHandler = async (req: Request, res: Response) => {
     const query = req.query as Record<string, string>;
-    const result = await bookAnnotationService.getAll(query);
-    sendOk(res, result);
-  };
-
-  public query: RequestHandler = async (req: Request, res: Response) => {
-    const result = await bookAnnotationService.query(req.body);
+    const result = await service.queryAll(query);
     sendOk(res, result);
   };
 
   public queryBook: RequestHandler = async (req: Request, res: Response) => {
-    const result = await bookAnnotationService.queryBook(req.body);
+    const result = await service.queryBook(req.body);
     sendOk(res, result);
   };
 }
