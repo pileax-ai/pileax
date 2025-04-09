@@ -3,7 +3,11 @@ import {CODE} from 'core/app';
 import { POST } from 'src/hooks/useRequest';
 import { encryptPassword } from 'src/utils/auth';
 import { LoginParams, LoginResultModel } from 'src/api/models/account';
-import {getCookieItemObject, removeAllCookies, saveCookieItemObject, saveItem} from 'core/utils/storage';
+import {
+  getItemObject,
+  removeAllCookies,
+  saveItemObject,
+} from 'core/utils/storage'
 import { useNaviStore } from 'stores/navi';
 
 
@@ -17,8 +21,8 @@ export const useAccountStore = defineStore('account', {
   },
   actions: {
     loadAccount() {
-      const accountInfo = getCookieItemObject('account') as Indexable;
-      this.account = accountInfo?.account || {};
+      const accountInfo = getItemObject('account') as Indexable;
+      this.account = accountInfo.account?.account || {};
     },
     async autoLogin() {
       await this.login({
@@ -39,7 +43,8 @@ export const useAccountStore = defineStore('account', {
       }
     },
     afterLogin(result: Indexable, redirect = '/welcome') {
-      saveCookieItemObject('account', result);
+      console.log('abc', result)
+      saveItemObject('user', result);
       this.account = result.account;
       if (redirect) {
         this.router.push(redirect);

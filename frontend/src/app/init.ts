@@ -30,8 +30,10 @@ const initApi = async () => {
   try {
     if (process.env.MODE === 'electron') {
       const serverInfo = await electronIpc.getServerInfo();
-      const baseURL = serverInfo.baseURL || process.env.API_BASE_URL;
-      apiStore.setBaseURL(baseURL || process.env.API_BASE_URL || '');
+      const apiBase = serverInfo.apiBase || process.env.API_BASE_URL;
+      const appBase = serverInfo.appBase || process.env.APP_BASE_URL;
+      apiStore.setApiBase(apiBase);
+      apiStore.setAppBase(appBase);
     }
     await initAccount();
   } catch (err) {

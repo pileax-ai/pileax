@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
 import { timeMulti } from 'core/utils/format';
-import { getCoverUrl } from 'src/utils/book'
+import useApi from 'src/hooks/useApi';
 
 const props = defineProps({
   data: {
@@ -51,6 +51,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['details']);
 
+const { getCoverUrl } = useApi();
 const coverUrl = ref('');
 const coverPath = computed(() => {
   return `${props.data.path}/${props.data.coverName}`;

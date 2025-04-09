@@ -45,8 +45,8 @@
 import {computed, onMounted, ref, watch} from 'vue';
 import html2canvas from 'html2canvas';
 import useBook from 'src/hooks/useBook';
-import { getCoverUrl } from 'src/utils/book'
-import { notifyDone } from 'core/utils/control'
+import useApi from 'src/hooks/useApi';
+import { notifyDone } from 'core/utils/control';
 
 const props = defineProps({
   show: {
@@ -56,6 +56,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['ok', 'close', 'show']);
 
+const { getCoverUrl } = useApi();
 const { book, progress, selection } = useBook();
 const modal = ref();
 const captureRef = ref(null);
@@ -93,7 +94,7 @@ async function onDownload() {
 function download(base64Image: any) {
   const link = document.createElement('a');
   link.href = base64Image;
-  link.download = `${Math.floor(Date.now() / 1000)}.png`;
+  link.download = `share.${Math.floor(Date.now() / 1000)}.png`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

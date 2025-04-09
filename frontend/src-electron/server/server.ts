@@ -4,7 +4,7 @@ import log from 'electron-log';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import os from 'os';
-import { appDbPath } from '../utils/path';
+import { appDbPath, appPublicRootPath } from '../utils/path'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const platform = process.platform || os.platform();
@@ -18,6 +18,7 @@ async function startServer() {
     const isProduction = process.env.NODE_ENV === 'production';
     const port = await getPort({ port: 3000 });
     const dbPath = appDbPath();
+    const publicPath = appPublicRootPath();
     let serverPath: string;
     let serverEntry: string;
 
@@ -35,6 +36,7 @@ async function startServer() {
           NODE_ENV: 'production',
           DATABASE_URL: dbPath,
           SERVER_ROOT: serverPath,
+          PUBLIC_ROOT: publicPath,
         },
         cwd: serverPath,
         stdio: 'pipe',
@@ -59,6 +61,7 @@ async function startServer() {
           NODE_ENV: 'development',
           DATABASE_URL: dbPath,
           SERVER_ROOT: serverPath,
+          PUBLIC_ROOT: publicPath,
         },
         cwd: serverPath,
         stdio: 'pipe',
@@ -90,7 +93,8 @@ async function startServer() {
 
     const serverInfo = {
       port: port,
-      baseURL: `http://localhost:${port}/api/v1`,
+      appBase: `http://localhost:${port}`,
+      apiBase: `http://localhost:${port}/api/v1`,
       apiDocs: `http://localhost:${port}/api/docs`,
     };
     log.info('✅ Start server...', serverInfo);

@@ -3,15 +3,17 @@
  *
  * @version 1.0
  */
-import 'src/js/reader.js'
-import { notifyWarning } from 'core/utils/control'
-import useDialog from 'core/hooks/useDialog'
-import useReader from 'src/hooks/useReader'
-import useBook from 'src/hooks/useBook'
-import { bookService } from 'src/service/remote/book'
-import { BookOperation, ReadingMode } from 'src/types/reading'
-import { base64ToFile, getBookUrlByPath, getFileSHA1 } from 'src/utils/book'
+import 'src/js/reader.js';
+import { notifyWarning } from 'core/utils/control';
+import useDialog from 'core/hooks/useDialog';
+import useApi from 'src/hooks/useApi';
+import useReader from 'src/hooks/useReader';
+import useBook from 'src/hooks/useBook';
+import { bookService } from 'src/service/remote/book';
+import { BookOperation, ReadingMode } from 'src/types/reading';
+import { base64ToFile, getFileSHA1 } from 'src/utils/book';
 
+const { getBookByPath } = useApi();
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
 const {
@@ -179,7 +181,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
  * @param importing
  */
 const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
-  const bookUrl = getBookUrlByPath(filePath);
+  const bookUrl = getBookByPath(filePath);
   return new Promise((resolve, reject) => {
     fetch(bookUrl)
       .then((res: any) => res.blob())

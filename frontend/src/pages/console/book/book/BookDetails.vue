@@ -62,7 +62,7 @@ import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
 import { removeBook } from 'src/service/book';
 import { timeMulti } from 'core/utils/format';
-import { getCoverUrl } from 'src/utils/book';
+import useApi from 'src/hooks/useApi';
 
 const props = defineProps({
   data: {
@@ -75,6 +75,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const $q = useQuasar();
+const { getCoverUrl } = useApi();
 const coverUrl = ref('');
 const coverPath = computed(() => {
   return `${props.data.path}/${props.data.coverName}`;

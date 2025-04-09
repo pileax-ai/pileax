@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
-import { getCoverUrl } from 'src/utils/book';
+import useApi from 'src/hooks/useApi';
 
 const props = defineProps({
   data: {
@@ -24,6 +24,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['details']);
 
+const { getCoverUrl } = useApi();
 const coverUrl = computed(() => {
   return getCoverUrl(props.data);
 })
