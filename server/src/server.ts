@@ -6,16 +6,14 @@ import helmet from "helmet";
 import { registerApi } from '@/api'
 import { openAPIRouter } from "@/api-docs/openAPIRouter";
 import { apiBase, apiRouter, logger } from "@/common";
+import { configLoader } from "@/common/middleware/configLoader";
 import { jwtVerifier, attachUserId } from "@/common/middleware/jwtVerifier";
 import errorHandler from "@/common/middleware/errorHandler";
 import rateLimiter from "@/common/middleware/rateLimiter";
 import requestLogger from "@/common/middleware/requestLogger";
-import { env } from "@/common/utils/envConfig";
+import { env } from '@/common/utils/envConfig';
 import { corsOptions } from "@/common/utils/corsConfig";
-
-
 import { db } from '@/drizzle';
-import path from 'path'
 
 const app: Express = express();
 
@@ -47,7 +45,9 @@ app.use(openAPIRouter);
 // Serving static files
 app.use('/files', express.static(env.PUBLIC_ROOT));
 
+// Set database
 app.set('db', db);
+configLoader();
 
 
 // Error handlers

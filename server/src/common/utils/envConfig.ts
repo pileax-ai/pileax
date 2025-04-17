@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import { cleanEnv, host, num, port, str, testOnly } from "envalid";
+import * as process from 'node:process';
+
 const environment = process.env.NODE_ENV || 'development';
 // dotenv.config({ path: `.env.${environment}` });
 dotenv.config();
@@ -15,3 +17,12 @@ export const env = cleanEnv(process.env, {
   PUBLIC_ROOT: str({ devDefault: testOnly('.') }),
   SERVER_ROOT: str({ devDefault: testOnly('.') }),
 });
+
+export const getEnvVariable = (key: string, value: any) => {
+  return process.env[key];
+}
+
+export const setEnvVariable = (key: string, value: any) => {
+  console.log('setEnvVariable', key, value);
+  process.env[key] = value;
+}

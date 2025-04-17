@@ -1,7 +1,9 @@
 import { Platform, Dialog, copyToClipboard } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { notifySuccess } from 'core/utils/control';
+import { useComponentStoreWithOut } from 'stores/component';
 
+export const isMobile = Platform.is.mobile;
 export const getArrayItem = (array :Indexable[], value :string, field = '') => {
   field = field || 'value';
   for (const item of array) {
@@ -14,6 +16,7 @@ export const getArrayItem = (array :Indexable[], value :string, field = '') => {
 
 export default function () {
   const { t } = useI18n();
+  const componentStore = useComponentStoreWithOut();
 
   const copy = (text :string, notify = false) => {
     copyToClipboard(text).then(() => {
@@ -23,11 +26,22 @@ export default function () {
     })
   }
 
-  const dialog = Dialog.create;
+  const confirm = (message: string, callback: () => void) => {
+    componentStore.setDialog({
+      type: 'tips',
+      icon: 'error',
+      title: t('tips'),
+      message: message,
+      showOk: true,
+      onOk: callback
+    });
+  }
 
+  const dialog = Dialog.create;
 
   return {
     t,
+    confirm,
     copy,
     dialog,
     getArrayItem

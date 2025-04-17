@@ -4,6 +4,7 @@
 import { defineConfig } from '#q-app/wrappers';
 import { fileURLToPath } from 'node:url';
 import path from 'path';
+import { viteConfig } from 'core/vite';
 
 export default defineConfig((ctx) => {
   return {
@@ -75,6 +76,7 @@ export default defineConfig((ctx) => {
       // polyfillModulePreload: true,
       // distDir
       envFolder: 'env',
+      rawDefine: viteConfig(ctx).rawDefine,
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},

@@ -6,7 +6,7 @@
       <div class="col-auto sidebar-toggles no-drag-region">
         <q-btn class="text-info square" flat round
                @click="openDialog({type: 'settings'})">
-          <o-icon name="icon-setting-line" size="1.5rem" />
+          <o-icon name="settings" size="1.2rem" class="text-tips" />
         </q-btn>
         <q-btn icon="mdi-backburger" class="text-tips" flat round
                @click="toggleLeftDrawer">

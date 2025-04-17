@@ -7,16 +7,18 @@
                  :footer="!start"
                  :scrollable="!start" @scroll="onScroll">
     <template #header>
-      <o-ai-provider-select-btn />
+      ABC
     </template>
     <template #right>
-      <q-btn icon="settings" flat />
+      <div class="row text-tips actions">
+        <q-btn icon="more_horiz" flat />
+      </div>
     </template>
 
     <section class="row justify-center start-panel" v-if="start">
       <header>
         <div class="row justify-center items-center welcome">
-          <img src="/logo.png" alt="Logo" />
+          <img :src="$public('/logo.png')" alt="Logo" />
           我是PileaX，很高兴遇见你!
         </div>
         <div class="message text-readable">我是你的AI助手，请把你的任务交给我吧~</div>
@@ -82,11 +84,13 @@ import { router } from 'src/router';
 import { chatService } from 'src/service/remote/chat';
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { UUID } from 'core/utils/crypto';
+import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
 import useChatSession from 'src/hooks/useChatSession';
 import { ChatInput } from 'src/types/chat'
 
 const route = useRoute();
+const { aiStore, llm } = useAi();
 const {
   sessionId,
   currentChat,
@@ -171,6 +175,7 @@ async function chatCompletion(data: ChatInput) {
     id: UUID(),
     sessionId: sessionId.value,
     stream: true,
+    provider: llm.value,
     model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
   newChat.value = payload;
@@ -230,12 +235,22 @@ onActivated(() => {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 1rem;
+    height: 50px;
+    padding: 0 10px;
     z-index: 1;
     background: linear-gradient(to right,
       var(--q-secondary) 15%,
       transparent 50%,
       var(--q-secondary) 85%);
+
+    .q-btn {
+      width: 32px !important;
+      height: 32px !important;
+      min-height: 32px;
+      min-width: 32px;
+      border-radius: 2px;
+      margin-left: 8px;
+    }
   }
 
   .o-page-container {

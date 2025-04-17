@@ -62,7 +62,7 @@
 
       <section class="query-wrap">
         <q-card flat class="query-condition-card desktop-only" v-if="showQueryAction">
-          <q-card-section class="row justify-between items-center relative-position">
+          <q-card-section class="row justify-between items-center relative-position condition">
             <section class="row col q-col-gutter-sm">
               <slot name="condition"></slot>
             </section>
@@ -233,6 +233,10 @@ onMounted(() => {
   .query-condition-card {
     border-radius: 2px 2px 0 0;
     //background: red;
+
+    .condition {
+      padding: 1rem 0;
+    }
 
     .q-field--standout.q-field--focused .q-field__control {
       background: rgba(#000, 0.05) !important;

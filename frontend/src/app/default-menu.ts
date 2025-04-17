@@ -13,7 +13,14 @@ export const defaultConsoleMenus: MenuItem[] = [
     children: [
       {
         id: 'start',
-        name: 'chat',
+        name: 'quickstart',
+        path: '/',
+        action: 1,
+        meta: {icon: 'home'}
+      },
+      {
+        id: 'chat',
+        name: 'newChat',
         path: '/chat',
         action: 1,
         meta: {icon: 'add_comment'}
@@ -74,7 +81,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-system',
+    id: 'group-ai',
     name: 'AI',
     path: '',
     action: 1,
@@ -94,12 +101,51 @@ export const defaultConsoleMenus: MenuItem[] = [
         path: '/stock/trade/strategy/list',
         meta: {icon: 'assignment'}
       },
+    ]
+  },
+  {
+    id: 'group-system',
+    name: 'system',
+    path: '',
+    action: 1,
+    meta: {icon: 'tune'},
+    children: [
       {
-        id: 'stock-transaction-record-list',
-        name: '交易记录',
+        id: 'ai-config',
+        name: 'AI配置',
         action: 1,
-        path: '/stock/transaction/record/list',
-        meta: {icon: 'view_headline'}
+        path: '',
+        meta: {icon: 'tune'},
+        children: [
+          {
+            id: 'ai-config-llm',
+            name: '大模型',
+            action: 1,
+            path: '/system/config/llm',
+            meta: {icon: 'mdi-creation'}
+          },
+          {
+            id: 'ai-config/embed',
+            name: '内嵌模型',
+            action: 1,
+            path: '/system/config/embed',
+            meta: {icon: 'assignment'}
+          },
+          {
+            id: 'ai-config-vector',
+            name: '向量数据库',
+            action: 1,
+            path: '/system/config/vector',
+            meta: {icon: 'assignment'}
+          },
+        ]
+      },
+      {
+        id: 'system-about',
+        name: 'about',
+        action: 1,
+        path: '/system/about',
+        meta: {icon: 'info'}
       },
     ]
   },

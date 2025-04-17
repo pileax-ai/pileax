@@ -51,6 +51,12 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: '/ai',
+    component: ConsoleLayout,
+    children: [
+    ]
+  },
+  {
     path: '/chat',
     component: ConsoleLayout,
     children: [
@@ -87,6 +93,11 @@ const routes: RouteRecordRaw[] = [
     path: '/system',
     component: ConsoleLayout,
     children: [
+      {
+        path: 'config/llm',
+        component: () => import('pages/console/system/config/llm/List.vue'),
+        name: 'ai-config-llm'
+      },
       {
         path: 'about',
         component: () => import('pages/console/system/about/About.vue'),

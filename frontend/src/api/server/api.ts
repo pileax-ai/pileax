@@ -14,6 +14,7 @@ const urls: Indexable = {
   authSignin: '/auth/signin',
 
   account: '/admin/user',
+  aiProvider: '/ai/provider',
   auth: '/auth',
   book: '/book',
   bookAnnotation: '/book/annotation',
@@ -38,6 +39,7 @@ const urls: Indexable = {
   userQueryDetails: '/user/query/details',
   userSigninRecord: '/user/signin/record',
   userUsage: '/user/usage',
+  systemConfig: '/system/config',
   systemMenu: '/system/menu',
   systemHealthCheck: '/system/health-check',
   systemMenuQueryApp: '/system/menu/query/app',

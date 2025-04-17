@@ -36,4 +36,10 @@ export default boot(async ({ app }) => {
   }
 
   app.use(VXETable);
+
+  app.config.globalProperties.$public = (path: string) => {
+    return process.env.MODE === 'electron'
+      ? path.startsWith('/') ? path.slice(1) : path
+      : path
+  }
 });

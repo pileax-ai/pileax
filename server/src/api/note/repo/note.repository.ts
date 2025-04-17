@@ -45,8 +45,8 @@ export class NoteRepository {
   }
 
   async query(query: Query) {
-    const filters = buildFilters(fileMeta, ['parent', 'title', 'userId'], query.condition);
-    const orders = buildOrders(fileMeta, ['title', 'updateTime'], query.orderBy);
+    const filters = buildFilters(note, ['parent', 'title', 'userId'], query.condition);
+    const orders = buildOrders(note, ['title', 'updateTime'], query.orderBy);
 
     return db.select()
       .from(note)

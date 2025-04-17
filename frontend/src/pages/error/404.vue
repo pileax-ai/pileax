@@ -2,7 +2,7 @@
   <o-single-page class="bg-accent page-error-404" content-class="bg-accent">
     <section class="row col-12 justify-center">
       <div class="col-12 text-center image">
-        <img src="/images/ui/page/404.svg" />
+        <img :src="$public('/images/ui/page/404.svg')" alt="404" />
       </div>
       <section class="pi-result">
         <div class="text-center pi-result-title">404</div>

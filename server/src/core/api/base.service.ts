@@ -45,7 +45,7 @@ export class BaseService<T extends { id?: string }, R extends {
   }
 
   async getAll(userId: string) {
-    return this.repo.getAll(userId)
+    return this.repo.getAll(userId);
   }
 
   async query(data: Query) {

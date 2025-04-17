@@ -21,8 +21,6 @@
     "postinstall": "quasar prepare"
   },
   "dependencies": {
-    "@chenfengyuan/vue-countdown": "^2.0.0",
-    "@chenfengyuan/vue-qrcode": "^2.0.0",
     "@electron/remote": "^2.1.2",
     "@quasar/extras": "^1.16.4",
     "@tiptap/core": "^2.11.5",
@@ -34,7 +32,6 @@
     "@vueuse/core": "^12.7.0",
     "@yiitap/util-emoji": "^0.4.0",
     "@yiitap/vue": "^0.4.0",
-    "ali-oss": "^6.18.1",
     "axios": "^1.2.1",
     "better-sqlite3": "^11.8.1",
     "bignumber.js": "^9.1.2",
@@ -47,7 +44,6 @@
     "html2canvas": "^1.4.1",
     "jwt-decode": "^4.0.0",
     "markdown-it": "^14.1.0",
-    "mockjs": "^1.1.0",
     "openai": "^4.88.0",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",

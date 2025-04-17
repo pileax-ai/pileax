@@ -39,8 +39,9 @@ export const ChatUpdateSchema = ChatSchema.partial();
 export const ChatCompletionSchema = z.object({
 	id: z.string(),
 	sessionId: z.string(),
+  message: z.string(),
+	provider: z.string().optional().default('deepseek'),
 	model: z.string(),
-	message: z.string(),
 	stream: z.boolean().default(true),
   reasoning: z.boolean().default(false),
 });

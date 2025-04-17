@@ -43,21 +43,20 @@ export const MenuActions = [
   { label: 'App内打开', value: 2, icon: 'article', color: 'green' },
   { label: '系统浏览器打开', value: 3, icon: 'article', color: 'cyan' },
 ];
+
 export const Status = [
   { label: '禁用', value: -1, color: 'red' },
   { label: '未启用', value: 0, color: 'amber' },
   { label: '启用', value: 1, color: 'green' },
 ];
+
 export const HttpMethods = [
   { label: 'GET', value: 'GET', icon: 'article', color: 'blue' },
   { label: 'POST', value: 'POST', icon: 'article', color: 'green' },
   { label: 'PUT', value: 'PUT', icon: 'article', color: 'orange' },
   { label: 'DELETE', value: 'DELETE', icon: 'article', color: 'red' },
 ];
-export const HttpStatus = [
-  { label: '成功', value: 200, icon: 'article', color: 'green' },
-  { label: '异常', value: 500, icon: 'article', color: 'orange' },
-];
+
 export const FileTypes = [
   { label: '图片', value: 'image', icon: 'article', color: 'blue' },
   { label: '音频', value: 'audio', icon: 'article', color: 'green' },
@@ -71,16 +70,6 @@ export const PayTypes = [
   { label: 'PayPal', value: 'paypal', icon: 'article', color: 'blue' },
 ];
 
-export const AnnouncementTypes = [
-  { label: '系统公告', value: 1, icon: 'article', color: 'blue' },
-  { label: '平台公告', value: 2, icon: 'article', color: 'indigo' },
-  { label: '交易提醒', value: 3, icon: 'article', color: 'green' },
-  { label: '平台空投', value: 4, icon: 'article', color: 'cyan' },
-  { label: '运营公告', value: 5, icon: 'article', color: 'cyan' },
-  { label: '活动公告', value: 6, icon: 'article', color: 'cyan' },
-  { label: '上新公告', value: 7, icon: 'article', color: 'cyan' },
-  { label: '合成公告', value: 8, icon: 'article', color: 'cyan' },
-];
 
 export const RoleTypes = [
   { label: '内置', value: 1, color: 'cyan' },
@@ -99,11 +88,6 @@ export const ShowStatus :OptionValue[] = [
   { label: '显示', value: 1, color: 'blue' },
 ];
 
-export const AppChannels :OptionValue[] = [
-  { label: '官方', value: 'official', icon: 'article', color: 'blue' },
-  { label: 'Google Play', value: 'google', icon: 'article', color: 'indigo' },
-  { label: 'AppStore', value: 'appstore', icon: 'article', color: 'indigo' },
-];
 
 export const ActiveStatus :OptionValue[] = [
   { label: '否', value: 0, color: 'grey' },
@@ -115,16 +99,6 @@ export const PlatformConfigTypes :OptionValue[] = [
   { label: 'App', value: 10, icon: 'article', color: 'indigo' },
 ];
 
-export const PlatformMediaTypes :OptionValue[] = [
-  { label: '平台默认', value: 1, icon: 'article', color: 'blue' },
-  { label: '权益', value: 2, icon: 'music_note', color: 'cyan' },
-];
-
-export const StockExchanges :OptionValue[] = [
-  { label: '上交所', value: 'SH', icon: 'article', color: 'blue' },
-  { label: '深交所', value: 'SZ', icon: 'music_note', color: 'cyan' },
-  { label: '北交所', value: 'BJ', icon: 'music_note', color: 'cyan' },
-];
 
 export const IndustryStandards :OptionValue[] = [
   { label: '国民经济行业分类', value: 'GB', icon: 'public', color: 'blue', tips: '国标' },
@@ -138,38 +112,9 @@ export const TableViews = [
   { label: '卡片', value: 'grid', color: 'amber', icon: 'grid_view' },
 ];
 
-export const TgbReplyStatus = [
-  { label: '禁用', value: 0, color: 'amber' },
-  { label: '正常', value: 1, color: 'blue' },
-  { label: '内容不完整', value: 2, color: 'amber' },
-  { label: '引用内容不完整', value: 3, color: 'grey' },
+export const ConnectionStatus = [
+  { label: '不可用', value: -1, color: 'red', icon: 'close' },
+  { label: '准备', value: 0, color: 'grey', icon: 'blur_on' },
+  { label: '可用', value: 1, color: 'green', icon: 'check' },
 ];
 
-export const UserTypes = [
-  { label: '普通', value: 1, icon: 'article', color: 'blue' },
-  { label: '运营', value: 2, icon: 'article', color: 'green' },
-  { label: '管理', value: 9, icon: 'article', color: 'purple' },
-];
-
-export const TgbUserTypes = [
-  { label: '普通', value: 'normal', color: 'blue' },
-  { label: 'KOL', value: 'kol', color: 'purple' },
-];
-
-export const TransactionTypes = [
-  { label: '买入', value: 1, color: 'red' },
-  { label: '卖出', value: 2, color: 'green' },
-];
-
-export const TransactionResults = [
-  { label: '成功', value: 0, color: 'red' },
-  { label: '失败', value: 1, color: 'green' },
-  { label: '待定', value: 9, color: 'blue' },
-];
-
-export const MarketSentiments = [
-  { label: '贪婪', value: 1, color: 'red' },
-  { label: '乐观', value: 2, color: 'green' },
-  { label: '悲观', value: 10, color: 'green' },
-  { label: '恐慌', value: 19, color: 'green' },
-];

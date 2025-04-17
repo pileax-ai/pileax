@@ -1,27 +1,72 @@
 <template>
-  <q-btn icon="mdi-creation"
-         icon-right="mdi-chevron-down"
-         label="AI Provider"
+  <q-btn icon-right="mdi-chevron-down"
          class="bg-accent o-ai-provider-select-btn"
          flat>
-    <q-menu :offset="[0, 4]">
-      <o-ai-provider-search />
+    <div class="row">
+      <q-icon name="public" class="q-mr-sm" v-if="provider.title" />
+      <q-icon name="mdi-creation" class="q-mr-sm" v-else />
+      {{ provider.title || 'AI Provider' }}
+    </div>
+    <q-space />
+    <q-menu v-model="menu"
+            :anchor="anchor"
+            :self="self"
+            :offset="offset">
+      <o-ai-provider-search @select="onSelect" />
     </q-menu>
   </q-btn>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import useDialog from 'core/hooks/useDialog';
+import { onMounted, PropType, ref } from 'vue'
 import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
+import useAi from 'src/hooks/useAi';
 
-const { openDialog } = useDialog();
+const props = defineProps({
+  persist: {
+    type: Boolean,
+    default: false
+  },
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: 'bottom left'
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: 'top left'
+  },
+  offset: {
+    type: Array as PropType<number[]>,
+    default: () => {
+      return [0, 4];
+    }
+  },
+});
+const emit = defineEmits(['select']);
+const { aiStore, llm } = useAi();
 
-function onClick() {
-  openDialog({
-    type: 'ai-provider-search'
-  });
+const menu = ref(false);
+const provider = ref<Indexable>({});
+
+function init() {
+  if (props.persist) {
+    //
+  }
 }
+
+function onSelect(value: Indexable) {
+  provider.value = value;
+  menu.value = false;
+  if (props.persist) {
+    aiStore.setLlmMeta(value);
+  }
+
+  emit('select', value);
+}
+
+onMounted(() => {
+  init();
+})
 </script>
 
 <style lang="scss">

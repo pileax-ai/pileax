@@ -1,4 +1,4 @@
-import { sqliteTable, integer, real, text } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, integer, real, text, uniqueIndex, index } from 'drizzle-orm/sqlite-core'
 import { sql } from 'drizzle-orm';
 
 const autoId = {
@@ -19,6 +19,25 @@ const timestamps = {
     .$onUpdate(() => new Date().toISOString())
     .notNull()
 }
+
+export const config = sqliteTable(
+  'config',
+  {
+    id: text().primaryKey().unique(),
+    name: text().default(''),
+    type: text().default(''),
+    datatype: text().default(''),
+    key: text().notNull(),
+    value: text().default(''),
+    owner: text().default(''),
+    scope: text().default('system'),
+    ...timestamps
+  },
+  (t) => ({
+    keyOwnerUnique: uniqueIndex('config_key_owner_unique').on(t.key, t.owner),
+    scopeIdx: index('config_scope_idx').on(t.scope),
+  })
+);
 
 export const user = sqliteTable('user', {
   id: text().primaryKey().unique(),

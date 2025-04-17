@@ -8,7 +8,7 @@ const unexpectedRequest: RequestHandler = (_req, res) => {
 };
 
 const addErrorToRequestLog: ErrorRequestHandler = (err, _req, res, next) => {
-  // console.error('Error Handler', err);
+  console.error('Error Handler', err);
   if (err instanceof HttpException || err instanceof UnauthorizedError) {
     res.status(err.status).json({
       success: false,
@@ -17,8 +17,14 @@ const addErrorToRequestLog: ErrorRequestHandler = (err, _req, res, next) => {
       data: {}
     });
   } else {
-    res.locals.err = err;
-    next(err);
+    res.status(500).json({
+      success: false,
+      code: err.status,
+      message: err.message,
+      data: {}
+    });
+    // res.locals.err = err;
+    // next(err);
   }
 };
 

@@ -41,7 +41,7 @@ import { debounce } from 'quasar';
 
 import useNote from 'src/hooks/useNote';
 import { Note } from 'src/types/note';
-import OEmojiMenu from 'components/input/OEmojiMenu.vue';
+import OEmojiMenu from 'components/form/OEmojiMenu.vue';
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue';
 import NoteActions from 'components/note/NoteActions.vue';
 

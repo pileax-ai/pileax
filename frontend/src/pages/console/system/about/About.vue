@@ -49,5 +49,11 @@ const appInfo = __APP_INFO__;
       display: none;
     }
   }
+
+  .console-content {
+    .q-card {
+      background: var(--q-accent) !important;
+    }
+  }
 }
 </style>

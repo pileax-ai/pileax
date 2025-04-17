@@ -5,7 +5,7 @@
  * @version 1.0
  */
 import { BigNumber } from 'bignumber.js';
-import dayjs, { ManipulateType } from 'dayjs'
+import dayjs, { ManipulateType } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import zhCn from 'dayjs/locale/zh-cn';
 dayjs.extend(relativeTime);
