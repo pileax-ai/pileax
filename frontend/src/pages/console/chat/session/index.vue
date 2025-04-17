@@ -7,12 +7,9 @@
                  :footer="!start"
                  :scrollable="!start" @scroll="onScroll">
     <template #header>
-      ABC
     </template>
     <template #right>
-      <div class="row text-tips actions">
-        <q-btn icon="more_horiz" flat />
-      </div>
+      <chat-actions :session="session" />
     </template>
 
     <section class="row justify-center start-panel" v-if="start">
@@ -76,9 +73,9 @@ import { computed, ref, onMounted, nextTick, onActivated } from 'vue';
 import { useRoute } from 'vue-router';
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 import OChatInput from 'components/chat/OChatInput.vue';
-import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
 import OChatToc from 'components/chat/OChatToc.vue';
+import ChatActions from 'components/chat/ChatActions.vue';
 
 import { router } from 'src/router';
 import { chatService } from 'src/service/remote/chat';
@@ -90,8 +87,9 @@ import useChatSession from 'src/hooks/useChatSession';
 import { ChatInput } from 'src/types/chat'
 
 const route = useRoute();
-const { aiStore, llm } = useAi();
+const { provider } = useAi();
 const {
+  session,
   sessionId,
   currentChat,
   chatStore,
@@ -175,12 +173,13 @@ async function chatCompletion(data: ChatInput) {
     id: UUID(),
     sessionId: sessionId.value,
     stream: true,
-    provider: llm.value,
-    model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
+    provider: provider.value.name,
+    // model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
   newChat.value = payload;
 
-  await startStream('/chat/completions', payload, onProgress, onDone);
+  await startStream('/chat/completions', payload,
+    onProgress, onDone, onErrorDone);
 }
 
 async function onProgress(reasoningText: string, text: string) {
@@ -192,6 +191,13 @@ async function onProgress(reasoningText: string, text: string) {
 async function onDone(reasoningText: string, text: string) {
   newChat.value.content = text;
   newChat.value.reasoningContent = reasoningText;
+  chats.value.push({...newChat.value})
+  newChat.value = {};
+  scrollToBottom();
+}
+
+async function onErrorDone(chat: Indexable) {
+  newChat.value = chat;
   chats.value.push({...newChat.value})
   newChat.value = {};
   scrollToBottom();

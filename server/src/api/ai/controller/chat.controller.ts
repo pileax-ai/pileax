@@ -2,9 +2,10 @@ import type { Request, RequestHandler, Response } from 'express';
 
 import { chatService as service } from '@/api/ai/service/chat.service';
 import { sendOk } from '@/core/api/httpHandlers';
-import { ServerException } from '@/core/api/exceptions';
+import { HttpException, ServerException } from '@/core/api/exceptions'
 import { Chat, ChatCompletion } from '@/api/ai/model/chat.model'
 import { BaseController } from '@/core/api/base.controller'
+import { ChatUtil } from '@/common/utils/chatUtil'
 
 class ChatController extends BaseController<Chat>{
   constructor() {
@@ -18,41 +19,43 @@ class ChatController extends BaseController<Chat>{
   };
 
   public chatCompletion: RequestHandler = async (req: Request, res: Response) => {
+    const userId = req.headers['x-user-id'] as string;
     const data = req.body as ChatCompletion;
+    const { id, sessionId, message, provider, model} = data;
     try {
       if (data.stream) {
         // Get stream
         const stream = await service.chatCompletion(data);
 
-        // Set SSE headers
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Connection', 'keep-alive');
-        res.flushHeaders();
-
-        // Send content chunk
-        let reasoningResponse = '';
-        let response = '';
-        for await (const chunk of stream) {
-          const reasoningContent = chunk.choices[0]?.delta?.reasoning_content || '';
-          const content = chunk.choices[0]?.delta?.content || '';
-          const type = reasoningContent ? 'reasoning' : 'content';
-          reasoningResponse += reasoningContent;
-          response += content;
-          res.write(`data: ${JSON.stringify({
-            type: type,
-            content: reasoningContent || content
-          })}\n\n`);
-        }
+        // // Set SSE headers
+        // res.setHeader('Content-Type', 'text/event-stream');
+        // res.setHeader('Cache-Control', 'no-cache');
+        // res.setHeader('Connection', 'keep-alive');
+        // res.flushHeaders();
+        //
+        // // Send content chunk
+        // let reasoningResponse = '';
+        // let response = '';
+        // for await (const chunk of stream) {
+        //   const reasoningContent = chunk.choices[0]?.delta?.reasoning_content || '';
+        //   const content = chunk.choices[0]?.delta?.content || '';
+        //   const type = reasoningContent ? 'reasoning' : 'content';
+        //   reasoningResponse += reasoningContent;
+        //   response += content;
+        //   res.write(`data: ${JSON.stringify({
+        //     type: type,
+        //     content: reasoningContent || content
+        //   })}\n\n`);
+        // }
+        const { model, reasoningResponse, response } =
+          await ChatUtil.stream(provider, res, stream);
 
         // Save message to database
-        const { id, sessionId, message, model } = data;
         const chat = {
-          ...{ id, sessionId, message, model },
+          ...{ id, userId, sessionId, message, provider, model },
           content: response,
           reasoning: data.reasoning ? 1 : 0,
           reasoningContent: reasoningResponse,
-          provider: 'deepseek',
           result: 1,
           like: 0,
           status: 1
@@ -73,8 +76,23 @@ class ChatController extends BaseController<Chat>{
         sendOk(res, choice);
       }
     } catch (err: any) {
-      console.error(err);
-      throw new ServerException('ChatCompletion', err.message);
+      if (err instanceof HttpException) {
+        // Save message to database
+        const chat = {
+          ...{ id, userId, sessionId, message, provider, model },
+          content: err.message,
+          reasoning: data.reasoning ? 1 : 0,
+          reasoningContent: '',
+          result: -1,
+          like: 0,
+          status: 1
+        }
+        const result = await service.create(chat);
+        sendOk(res, result);
+      } else {
+        console.error(err);
+        throw new ServerException('ChatCompletion', err.message);
+      }
     }
   };
 }

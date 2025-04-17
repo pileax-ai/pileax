@@ -37,7 +37,7 @@ export class ChatService extends BaseService<Chat, ChatRepository>{
       ];
 
       const provider = data.provider || 'deepseek';
-      const model = data.model || 'deepseek-chat';
+      const model = data.model || '';
       const llm = await getLLM(provider, model);
       return await llm.createChatCompletion(messages, {
         stream: data.stream

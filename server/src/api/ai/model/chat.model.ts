@@ -18,7 +18,7 @@ export const ChatSchema = z.object({
   reasoning: z.number().default(0),
   reasoningContent: z.string().optional(),
   provider: z.string(),
-  model: z.string(),
+  model: z.string().optional(),
   result: z.number().optional().default(0),
   like: z.number().optional().default(0),
   noteId: z.string().optional(),
@@ -41,7 +41,7 @@ export const ChatCompletionSchema = z.object({
 	sessionId: z.string(),
   message: z.string(),
 	provider: z.string().optional().default('deepseek'),
-	model: z.string(),
+	model: z.string().optional(),
 	stream: z.boolean().default(true),
   reasoning: z.boolean().default(false),
 });

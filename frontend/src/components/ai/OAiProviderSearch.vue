@@ -42,7 +42,7 @@
                 </q-item-label>
               </q-item-section>
               <q-item-section class="time" side>
-                <q-icon name="check" size="1rem" />
+                <q-icon name="check_circle" size="1rem" color="primary" v-if="item.name===provider.name" />
               </q-item-section>
             </q-item>
           </template>
@@ -64,11 +64,19 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from 'vue';
-import { GET } from 'src/hooks/useRequest'
+import { onMounted, onUnmounted, PropType, ref } from 'vue';
+import { GET } from 'src/hooks/useRequest';
+import useAi from 'src/hooks/useAi';
 
+const props = defineProps({
+  enabledOnly: {
+    type: Boolean,
+    default: false
+  },
+});
 const emit = defineEmits(['select']);
 
+const { provider } = useAi();
 const term = ref('');
 const selected = ref(0);
 const providers = ref<Indexable[]>([]);
@@ -150,8 +158,12 @@ function onSelected (item: Indexable) {
 
 function init() {
   GET({name: 'aiProvider', path: '/all'}).then(res => {
-    providers.value = res as [];
-    results.value = res as [];
+    let list = (res as Indexable).list;
+    if (props.enabledOnly) {
+      list = list.filter((e: Indexable) => e.enabled);
+    }
+    providers.value = list;
+    results.value = list;
   })
 }
 
@@ -196,6 +208,10 @@ onUnmounted(() => {
 
         .time {
           font-size: 0.9rem;
+        }
+
+        &:not(:first-child) {
+          margin-top: 4px;
         }
       }
     }

@@ -5,12 +5,12 @@ import { computed } from 'vue'
 export default function() {
   const aiStore = useAiStore();
 
-  const llm = computed(() => {
-    return aiStore.llm;
+  const provider = computed(() => {
+    return aiStore.provider;
   });
 
   return {
     aiStore,
-    llm,
+    provider,
   }
 }

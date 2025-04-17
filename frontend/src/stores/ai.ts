@@ -3,16 +3,11 @@ import { CODE } from 'core/app';
 
 export const useAiStore = defineStore('ai', {
   state: () => ({
-    llm: 'deepseek',
-    llmMeta: {} as Indexable,
+    provider: {} as Indexable,
   }),
   actions: {
-    setLlm(value: string) {
-      this.llm = value;
-    },
-    setLlmMeta(value: Indexable) {
-      this.llm = value.name;
-      this.llmMeta = value;
+    setProvider(value: Indexable) {
+      this.provider = value;
     },
   },
   persist: {

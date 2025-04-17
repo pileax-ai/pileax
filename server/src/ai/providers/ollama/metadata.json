@@ -7,26 +7,16 @@
   "huggingface": "https://huggingface.co/ollama",
   "config": [
     {
-      "name": "apiKey",
-      "type": "password",
-      "key": "OLLAMA_API_KEY",
+      "name": "baseURL",
+      "type": "text",
+      "key": "OLLAMA_BASE_URL",
       "value": "",
       "values": []
     },
     {
-      "name": "model",
-      "type": "select",
-      "key": "OLLAMA_MODEL",
-      "value": "",
-      "values": [
-        "deepseek-chat",
-        "deepseek-reasoner"
-      ]
-    },
-    {
-      "name": "baseURL",
-      "type": "test",
-      "key": "OLLAMA_BASE_URL",
+      "name": "apiKey",
+      "type": "password",
+      "key": "OLLAMA_API_KEY",
       "value": "",
       "values": []
     }

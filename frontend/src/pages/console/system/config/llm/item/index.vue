@@ -14,36 +14,36 @@
 
     <section class="q-pt-md">
       <template v-for="(item, index) in config" :key="index">
-        <div class="col-6">
-          <q-select v-model="item.value"
-                    :prefix="item.name"
-                    class="pi-field"
-                    :options="item.values"
-                    standout clearable
-                    v-if="item.type==='select'" />
-          <q-input v-model="item.value"
-                   :type="showPwd ? 'text': item.type"
-                   :prefix="item.name"
-                   class="pi-field"
-                   standout clearable
-                   v-else>
-            <template v-slot:append>
-              <q-icon
-                :name="showPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="showPwd = !showPwd"
-                v-if="item.type==='password'"
-              />
-            </template>
-          </q-input>
-        </div>
+        <q-select v-model="item.value"
+                  :prefix="item.name"
+                  class="pi-field"
+                  :options="item.values"
+                  standout clearable
+                  v-if="item.type==='select'" />
+        <q-input v-model="item.value"
+                 :type="showPwd ? 'text': item.type"
+                 :prefix="item.name"
+                 class="pi-field"
+                 standout clearable
+                 v-else>
+          <template v-slot:append>
+            <q-icon
+              :name="showPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="showPwd = !showPwd"
+              v-if="item.type==='password'"
+            />
+          </template>
+        </q-input>
       </template>
+
+      <ollama v-model="extendConfig" :data="configData" v-if="data.name==='ollama'" />
     </section>
 
     <section class="row col-12 justify-between connection" v-if="testable">
       <q-btn label="测试连通性" class="bg-cyan text-white" flat
              :loading="testing"
-             @click="onTest" />
+             @click="getModels" />
       <div>
         <o-badge v-bind="getArrayItem(ConnectionStatus, `${connectionStatus}`)" />
       </div>
@@ -57,6 +57,7 @@ import { onMounted, PropType, ref } from 'vue'
 
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
 import OViewItem from 'core/components/list/OViewItem.vue';
+import Ollama from './ollama.vue';
 import { configService } from 'src/service/remote/config';
 import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
@@ -76,6 +77,9 @@ const props = defineProps({
 const emit = defineEmits(['success']);
 
 const config = ref<Indexable[]>([]);
+const extendConfig = ref<Indexable[]>([]);
+const configData = ref<Indexable[]>([]);
+const models = ref<Indexable[]>([]);
 const showPwd = ref(false);
 const loading = ref(false);
 const testable = ref(false);
@@ -97,6 +101,7 @@ function getConfig() {
   configService.query(query).then((res: Indexable[]) => {
     if (res.length === 0) return;
     testable.value = true;
+    configData.value = res;
     for (const item of config.value) {
       const foundConfig = res.find(e => e.key === item.key);
       if (foundConfig) {
@@ -108,7 +113,10 @@ function getConfig() {
 
 function onSubmit () {
   loading.value = true;
-  const data = config.value.map((item: Indexable) => {
+  const data = [
+    ...config.value,
+    ...extendConfig.value
+  ].map((item: Indexable) => {
     const newItem = {
       ...item,
       owner: props.data.name,
@@ -126,10 +134,11 @@ function onSubmit () {
   })
 }
 
-function onTest() {
+function getModels() {
   const query = { provider: props.data.name };
   testing.value = true;
   GET({ name: 'aiProvider', path: '/models', query: query }).then(res => {
+    models.value = res as Indexable[];
     connectionStatus.value = 1;
     testing.value = false;
   }).catch(err => {

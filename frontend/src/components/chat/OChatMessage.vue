@@ -64,7 +64,8 @@
 
 
           <div class="message">
-            <o-chat-message-view :message="chat.content" />
+            <o-chat-message-view :message="chat.content"
+                                 :class="{'error': chat.result===-1}" />
           </div>
 
           <div class="actions" >

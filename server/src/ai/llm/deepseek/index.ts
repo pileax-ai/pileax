@@ -9,7 +9,7 @@ export class DeepSeekLLM implements BaseLLMProvider{
 
   constructor(embedder = null, modelPreference = '') {
     this.initSdk();
-    this.model = modelPreference || process.env.DEEPSEEK_MODEL_PREF
+    this.model = modelPreference || process.env.DEEPSEEK_MODEL
       || 'deepseek-chat';
     logger.info(`Initialized DeepSeek with model: ${this.model}`);
   }

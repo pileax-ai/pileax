@@ -74,5 +74,11 @@ onMounted(() => {
       border-right: none;
     }
   }
+
+  &.error {
+    .ProseMirror p {
+      color: red!important;
+    }
+  }
 }
 </style>

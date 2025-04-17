@@ -8,7 +8,15 @@ export class ProviderService {
     try {
       const llm = await getLLM(provider, '');
       const result = await llm.getModels();
-      return result.data;
+      switch (provider) {
+        case 'deepseek':
+        case 'openai':
+          return result.data;
+        case 'ollama':
+          return result.models;
+        default:
+          throw new ServerException('ListModel', 'Provider not supported');
+      }
     } catch (err: any) {
       logger.error(err);
       throw new ServerException('ListModel', err.message);

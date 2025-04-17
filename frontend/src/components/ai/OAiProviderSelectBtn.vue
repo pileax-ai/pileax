@@ -12,7 +12,7 @@
             :anchor="anchor"
             :self="self"
             :offset="offset">
-      <o-ai-provider-search @select="onSelect" />
+      <o-ai-provider-search @select="onSelect" :enabled-only="enabledOnly" />
     </q-menu>
   </q-btn>
 </template>
@@ -23,6 +23,10 @@ import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
 import useAi from 'src/hooks/useAi';
 
 const props = defineProps({
+  enabledOnly: {
+    type: Boolean,
+    default: false
+  },
   persist: {
     type: Boolean,
     default: false
@@ -43,29 +47,21 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['select']);
-const { aiStore, llm } = useAi();
+const { aiStore, provider } = useAi();
 
 const menu = ref(false);
-const provider = ref<Indexable>({});
-
-function init() {
-  if (props.persist) {
-    //
-  }
-}
 
 function onSelect(value: Indexable) {
-  provider.value = value;
   menu.value = false;
   if (props.persist) {
-    aiStore.setLlmMeta(value);
+    aiStore.setProvider(value);
   }
 
   emit('select', value);
 }
 
 onMounted(() => {
-  init();
+  //
 })
 </script>
 

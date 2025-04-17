@@ -102,7 +102,7 @@ import useCommon from 'core/hooks/useCommon';
 import useQuery from 'src/hooks/useQuery';
 import { aiProviderService } from 'src/service/remote/ai-provider';
 
-import Item from './Item.vue';
+import Item from './item/index.vue';
 import ProviderCard from './ProviderCard.vue';
 import { notifyDone } from 'core/utils/control'
 
@@ -115,7 +115,6 @@ const {
   tableRef,
   tableView,
   view,
-  componentStore,
   initQuery,
 } = useQuery();
 

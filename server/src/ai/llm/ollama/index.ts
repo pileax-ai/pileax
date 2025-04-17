@@ -1,24 +1,33 @@
 import OpenAI from 'openai';
+import { Ollama } from 'ollama';
 import { logger } from '@/common';
 import { BaseLLMProvider } from '@/ai/llm/base-llm-provider'
 import { ChatMessage } from '@/types/chat'
 
-export class DeepSeekLLM implements BaseLLMProvider{
+export class OllamaLLM implements BaseLLMProvider{
   private sdk: any;
   private model: string;
 
   constructor(embedder = null, modelPreference = '') {
     this.initSdk();
-    this.model = modelPreference || process.env.DEEPSEEK_MODEL_PREF
+    this.model = modelPreference || process.env.OLLAMA_MODEL
       || 'deepseek-chat';
-    logger.info(`Initialized DeepSeek with model: ${this.model}`);
+    logger.info(`Initialized Ollama with model: ${this.model}`);
   }
 
   private initSdk() {
-    logger.info(`Initialized DeepSeek with key: ${process.env.DEEPSEEK_API_KEY}`);
-    this.sdk = new OpenAI({
-      apiKey: process.env.DEEPSEEK_API_KEY,
-      baseURL: 'https://api.deepseek.com/v1',
+    logger.info(`Initialized Ollama with key: ${process.env.OLLAMA_API_KEY}`);
+
+    const apiKey = process.env.OLLAMA_API_KEY;
+    const basePath = process.env.OLLAMA_BASE_PATH;
+
+    const headers = apiKey
+      ? { Authorization: `Bearer ${apiKey}` }
+      : {};
+
+    this.sdk = new Ollama({
+      host: basePath,
+      headers: headers as Indexable
     })
   }
 
@@ -39,7 +48,7 @@ export class DeepSeekLLM implements BaseLLMProvider{
     temperature = 0.7,
     stream = true
   }) {
-    const request = this.sdk.chat.completions.create({
+    const request = this.sdk.chat({
       model: this.model,
       messages,
       temperature: temperature,
@@ -49,6 +58,6 @@ export class DeepSeekLLM implements BaseLLMProvider{
   }
 
   async getModels() {
-    return this.sdk.models.list();
+    return this.sdk.list();
   }
 }

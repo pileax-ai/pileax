@@ -18,6 +18,7 @@ interface UseStreamReturn {
     payload: any,
     onProgress?: (reasoningContent: string, content: string) => void,
     onDone?: (reasoningContent: string, content: string) => void,
+    onErrorDone?: (chat: Indexable) => void,
   ) => Promise<void>;
   cancelStream: () => void;
 }
@@ -34,6 +35,7 @@ export default function(): UseStreamReturn {
     payload: any,
     onProgress?: (reasoningContent: string, content: string) => void,
     onDone?: (reasoningContent: string, content: string) => void,
+    onErrorDone?: (chat: Indexable) => void,
   ) => {
     isLoading.value = true;
     error.value = null;
@@ -90,6 +92,13 @@ export default function(): UseStreamReturn {
           }
         }
       });
+
+      // may error
+      const data = JSON.parse(res.data);
+      const chat = data.data;
+      if (chat.result === -1) {
+        onErrorDone?.(chat);
+      }
     } catch (err) {
       if (!isCancel(err)) {
         error.value = err as Error;

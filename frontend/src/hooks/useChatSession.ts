@@ -45,6 +45,7 @@ export default function () {
 
   return {
     chatStore,
+    session,
     sessionId,
     sessionTimer,
     currentChat,

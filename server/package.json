@@ -37,6 +37,7 @@
 		"https-proxy-agent": "^7.0.6",
 		"jsonwebtoken": "^9.0.2",
 		"multer": "^1.4.5-lts.2",
+		"ollama": "^0.5.15",
 		"openai": "^4.90.0",
 		"pino": "9.6.0",
 		"pino-http": "10.4.0",

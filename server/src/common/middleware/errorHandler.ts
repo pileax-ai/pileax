@@ -8,7 +8,7 @@ const unexpectedRequest: RequestHandler = (_req, res) => {
 };
 
 const addErrorToRequestLog: ErrorRequestHandler = (err, _req, res, next) => {
-  console.error('Error Handler', err);
+  console.error('Error Handler ===>', err);
   if (err instanceof HttpException || err instanceof UnauthorizedError) {
     res.status(err.status).json({
       success: false,

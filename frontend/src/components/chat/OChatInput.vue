@@ -9,6 +9,7 @@
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
+        {{provider.name}}
         <q-btn icon="emoji_objects" label="深度思考"
                :class="`text-${reasoning ? 'white' : 'readable'}
                             bg-${reasoning ? 'primary' : 'dark'} reasoning`"
@@ -53,6 +54,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ChatInput } from 'src/types/chat';
+import useAi from 'src/hooks/useAi';
 
 const props = defineProps({
   loading: {
@@ -62,6 +64,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['send', 'stop']);
 
+const { provider } = useAi();
 const input = ref('');
 const reasoning = ref(false);
 
@@ -88,7 +91,6 @@ function onSend() {
   const message = input.value ? input.value.trim() : '';
   if (message === '') return;
 
-  console.log('send', input.value);
   emit('send', {
     message: message,
     reasoning: reasoning.value

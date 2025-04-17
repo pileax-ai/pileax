@@ -33,7 +33,7 @@ defineProps({
     .o-common-item {
       min-height: 56px;
       .q-avatar {
-        width: 28px !important;
+        width: 48px !important;
         height: 48px !important;
       }
       .side-label .q-item__label {

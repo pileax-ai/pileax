@@ -10,7 +10,7 @@ export class OpenAILLM implements BaseLLMProvider{
 
   constructor(embedder = null, modelPreference = '') {
     this.initSdk();
-    this.model = modelPreference || process.env.OPENAI_MODEL_PREF
+    this.model = modelPreference || process.env.OPENAI_MODEL
       || 'deepseek-chat';
     logger.info(`Initialized OpenAI with model: ${this.model}`);
   }
