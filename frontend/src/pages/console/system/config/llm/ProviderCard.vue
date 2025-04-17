@@ -3,8 +3,8 @@
     <q-card-section class="header">
       <q-item>
         <q-item-section avatar>
-          <q-avatar size="32px">
-            <q-img :src="data.userAvatar || $public('/logo.png')" spinner-size="1rem" />
+          <q-avatar>
+            <o-svg-icon :name="data.name" size="2.4rem" />
           </q-avatar>
         </q-item-section>
         <q-item-section>
@@ -13,9 +13,10 @@
           </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <section class="row">
-            <q-btn icon="public" round flat />
-            <q-btn icon="public" round flat />
+          <section class="row text-tips">
+            <o-link :link="data.github">
+              <o-svg-icon name="github" size="1.6rem" />
+            </o-link>
           </section>
         </q-item-section>
       </q-item>

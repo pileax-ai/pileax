@@ -9,13 +9,20 @@
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
-        {{provider.name}}
-        <q-btn icon="emoji_objects" label="深度思考"
-               :class="`text-${reasoning ? 'white' : 'readable'}
+        <q-avatar color="dark" size="32px" class="q-mr-xs" round>
+          <o-svg-icon :name="provider.name" size="1.6rem" />
+          <o-tooltip position="left" transition>
+            {{provider.title}}
+          </o-tooltip>
+        </q-avatar>
+
+        <q-btn :class="`text-${reasoning ? 'white' : 'readable'}
                             bg-${reasoning ? 'primary' : 'dark'} reasoning`"
                @click="onToggleThink"
                flat dense rounded>
-          <o-tooltip position="left" transition>
+          <o-svg-icon name="reasoning" size="1.4rem" />
+          <span class="q-ml-xs">深度思考</span>
+          <o-tooltip position="right" transition>
             先思考后回答，解决推理问题
           </o-tooltip>
         </q-btn>

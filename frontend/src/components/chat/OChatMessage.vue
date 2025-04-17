@@ -42,8 +42,8 @@
 
   <q-item class="o-chat-message assistant">
     <q-item-section avatar>
-      <q-avatar>
-        <img :src="avatar" />
+      <q-avatar color="accent">
+        <o-svg-icon :name="chat.provider" size="2rem" />
       </q-avatar>
       <div class="line"></div>
     </q-item-section>
@@ -53,12 +53,20 @@
       <q-spinner-dots size="2rem"
                       v-if="streaming && !chat.content && !chat.reasoningContent" />
       <template v-else>
-        <div class="message-wrapper">
-          <q-expansion-item icon="emoji_objects"
-                            label="已深度思考"
-                            header-class="text-readable"
+        <div class="message-wrapper" :class="{'reasoning': chat.reasoningContent}">
+          <q-expansion-item header-class="text-readable"
                             default-opened
                             v-if="chat.reasoningContent">
+            <template #header>
+              <q-item-section avatar>
+                <q-avatar size="24px">
+                  <o-svg-icon name="reasoning" size="1.4rem" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                已深度思考
+              </q-item-section>
+            </template>
             <o-chat-message-view :message="chat.reasoningContent" />
           </q-expansion-item>
 
@@ -241,6 +249,10 @@ onMounted(() => {
       margin: 4px 0;
       outline: solid 2px transparent;
 
+      &.reasoning {
+        margin: 0;
+      }
+
       .q-item {
         width: 240px;
         min-height: 42px;
@@ -264,6 +276,10 @@ onMounted(() => {
         .yiitap * {
           color: var(--yii-tips-color) !important;
         }
+
+        .yiitap p {
+          font-size: 14px;
+        }
       }
     }
     &:hover {
@@ -284,6 +300,10 @@ onMounted(() => {
         border-radius: 6px;
         //outline: solid 2px var(--q-dark);
         //transition: outline 0.5s ease-in-out;
+
+        &.reasoning {
+          margin: 0 -10px;
+        }
       }
     }
   }

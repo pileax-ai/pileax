@@ -5,8 +5,15 @@
                       enable-actions>
 
     <template v-if="data.name">
-      <o-view-item label="名称" :value="data.title" />
-      <o-view-item label="网址" :value="data.home" :link="data.home" />
+      <section class="row">
+        <div class="col">
+          <o-view-item label="名称" :value="data.title" />
+          <o-view-item label="网址" :value="data.home" :link="data.home" />
+        </div>
+        <div class="row col-auto items-center">
+          <o-svg-icon :name="data.name" size="5rem" />
+        </div>
+      </section>
       <o-view-item label="简介" :value="data.description" />
     </template>
 

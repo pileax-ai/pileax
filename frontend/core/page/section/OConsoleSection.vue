@@ -84,7 +84,7 @@ import {computed, onActivated, onMounted, ref, watch} from 'vue';
 import { useRoute } from 'vue-router';
 
 import OCommonSection from './OCommonSection.vue';
-import OIcon from 'core/components/misc/OIcon.vue';
+import OIcon from 'core/components/icon/OIcon.vue';
 
 import { toggleClass } from 'core/utils/misc';
 import { MenuItem } from 'core/types/menu';

@@ -3,7 +3,7 @@
          class="bg-accent o-ai-provider-select-btn"
          flat>
     <div class="row">
-      <q-icon name="public" class="q-mr-sm" v-if="provider.title" />
+      <o-svg-icon :name="provider.name" size="1.8rem" class="q-mr-sm" v-if="provider.title" />
       <q-icon name="mdi-creation" class="q-mr-sm" v-else />
       {{ provider.title || 'AI Provider' }}
     </div>

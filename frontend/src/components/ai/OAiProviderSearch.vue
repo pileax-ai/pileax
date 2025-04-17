@@ -31,7 +31,7 @@
             <q-item :class="{'bg-dark': index === selected}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
-                <q-icon name="public" size="1.2rem" />
+                <o-svg-icon :name="item.name" size="3rem" />
               </q-item-section>
               <q-item-section class="text-bold">
                 <q-item-label>
@@ -217,7 +217,7 @@ onUnmounted(() => {
     }
 
     .q-item__section--avatar {
-      min-width: 32px;
+      //min-width: 32px;
       padding-right: 0!important;
     }
   }
