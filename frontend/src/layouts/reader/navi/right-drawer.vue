@@ -12,6 +12,7 @@
     @resize="onResize">
     <section class="col-12 fit bg-accent side-bar">
       <q-splitter v-model="splitterPercent"
+                  :limits="[0, 80]"
                   horizontal
                   reverse>
         <template #before>

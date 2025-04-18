@@ -51,6 +51,8 @@
         </q-list>
       </q-menu>
     </q-btn>
+    <q-btn icon="vertical_split" flat
+           @click="emit('action', { value: 'split' })" />
   </section>
 </template>
 
