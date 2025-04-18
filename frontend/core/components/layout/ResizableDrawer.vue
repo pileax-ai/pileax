@@ -62,8 +62,10 @@ function onMouseMove(e :any) {
     startWidth.value = width.value;
     startX.value = e.position.left;
     isResizing.value = true;
+    document.documentElement.style.cursor = 'col-resize';
   } else if (e.isFinal) {
     isResizing.value = false;
+    document.documentElement.style.cursor = '';
   } else {
     const deltaX = props.side === 'left'
       ? e.position.left - startX.value
@@ -100,6 +102,7 @@ onBeforeMount(() => {
     background: transparent;
     z-index: 3;
     cursor: col-resize;
+    user-select: none;
     width: 1px;
 
     &.left {
@@ -125,6 +128,7 @@ onBeforeMount(() => {
     top: 0;
     bottom: 0;
     cursor: col-resize;
+    user-select: none;
     z-index: 1000;
     background: transparent;
   }

@@ -50,6 +50,14 @@
           <slot name="content"></slot>
         </section>
       </q-page-container>
+
+      <div class="dialog-resizer"
+           :class="`${isResizing ? 'is-resizing' : '' }`" v-if="view==='normal'">
+        <div
+          class="resize-handle"
+          v-touch-pan.horizontal.prevent.mouse.preserveCursor="onMouseMove">
+        </div>
+      </div>
     </q-layout>
   </q-dialog>
 </template>
@@ -100,33 +108,69 @@ const props = defineProps({
       return { }
     }
   },
-  actionVisible: {
-    type: Boolean,
-    default: false
-  },
-  confirmLabel: {
-    type: String,
-    default: ''
-  },
   scrollable: {
     type: Boolean,
     default: false
   },
+  side: {
+    type: String as () => 'left' | 'right',
+    default: 'right'
+  },
 });
-const emit = defineEmits(['confirm', 'close', 'show']);
+const emit = defineEmits(['confirm', 'close', 'show', 'resize']);
 
 const modal = ref();
-const value = ref(true);
 const positionAlt = ref('right');
 const view = ref('normal');
 const printing = ref(false);
 
-function onConfirm() {
-  emit('confirm', value.value);
+const width = ref(0);
+const minWidth = ref(0);
+const maxWidth = ref(0);
+const isResizing = ref(false);
+const startX = ref(0);
+const startWidth = ref(0);
+
+function onMouseMove(e :any) {
+  if (e.isFirst) {
+    startWidth.value = width.value;
+    startX.value = e.position.left;
+    isResizing.value = true;
+    document.documentElement.style.cursor = 'col-resize';
+  } else if (e.isFinal) {
+    isResizing.value = false;
+    document.documentElement.style.cursor = '';
+  } else {
+    const deltaX = props.side === 'left'
+      ? e.position.left - startX.value
+      : startX.value - e.position.left;
+    const newWidth = startWidth.value + deltaX;
+    width.value = Math.max(minWidth.value, Math.min(maxWidth.value, newWidth));
+    // console.log('width', newWidth, width.value);
+    emit('resize', width.value);
+  }
 }
 
-function onBeforeShow () {
+function onBeforeShow() {
   positionAlt.value = props.position;
+  const defaultWidth = toPixel(props.contentStyle.width);
+  minWidth.value = toPixel(props.contentStyle.minWidth) || defaultWidth;
+  maxWidth.value = toPixel(props.contentStyle.maxWidth) || 2 * defaultWidth;
+  width.value = Math.max(defaultWidth, minWidth.value);
+  width.value = Math.min(width.value, maxWidth.value);
+
+  // console.log('style', props.contentStyle, width.value, minWidth.value, maxWidth.value);
+}
+
+function toPixel(value: string) {
+  let v = (value || '0').replace('px', '');
+  if (v.includes('vw')) {
+    const viewportWidth = window.innerWidth;
+    v = v.replace('vw', '');
+    return (parseInt(v) / 100) * viewportWidth;
+  } else {
+    return parseInt(v);
+  }
 }
 
 async function onPrint()  {
@@ -160,7 +204,9 @@ const viewIcon = computed(() => {
 });
 
 const styles = computed(() => {
-  return view.value === 'normal' ? props.contentStyle : { width: '100vw' };
+  return view.value === 'normal'
+    ? { width: `${width.value}px` }
+    : { width: '100vw' };
 });
 
 watch(
@@ -231,6 +277,45 @@ onMounted(() => {
     }
     .console-content {
       padding: 0;
+    }
+  }
+
+  .dialog-resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 1001;
+    cursor: col-resize;
+    user-select: none;
+    width: 4px;
+
+    &.left {
+      right: 0;
+    }
+
+    &.right {
+      left: 0;
+    }
+
+    &:hover {
+      //background: var(--q-primary);
+    }
+
+    &.is-resizing {
+      //background: var(--q-primary);
+    }
+
+    .resize-handle {
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 0;
+      bottom: 0;
+      cursor: col-resize;
+      user-select: none;
+      z-index: 1000;
+      background: transparent;
     }
   }
 }

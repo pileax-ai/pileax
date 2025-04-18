@@ -1,7 +1,8 @@
 <template>
   <o-console-page class="book-list"
-                title=" "
-                icon="book" disable-meta
+                  title=" "
+                  icon="book"
+                  disable-meta
                   v-bind="query">
     <template #header-left>
       <div class="query-item no-drag-region">

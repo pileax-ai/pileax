@@ -107,7 +107,7 @@ export default function () {
       action: true,
       style: {
         width: width,
-        minWidth: '600px'
+        minWidth: '400px'
       }
     }
   }
