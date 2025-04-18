@@ -12,6 +12,10 @@ export default function () {
     return accountStore.account.id !== undefined;
   });
 
+  function setAccount(value: Indexable) {
+    accountStore.setAccount(value);
+  }
+
   function logout(api :string) {
     accountStore.logout();
   }
@@ -21,5 +25,6 @@ export default function () {
     isLogin,
 
     logout,
+    setAccount,
   };
 }

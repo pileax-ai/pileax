@@ -16,13 +16,15 @@ export const useAccountStore = defineStore('account', {
     account: {} as Indexable,
   }),
   getters: {
-    getAccount: (state) => state.account,
     isLogin: (state) => state.account?.id
   },
   actions: {
     loadAccount() {
       const accountInfo = getItemObject('account') as Indexable;
       this.account = accountInfo.account?.account || {};
+    },
+    setAccount(value: Indexable) {
+      this.account = value;
     },
     async autoLogin() {
       await this.login({

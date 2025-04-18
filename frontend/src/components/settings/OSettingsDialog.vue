@@ -36,7 +36,7 @@
           <q-header class="bg-secondary text-info">
             <q-toolbar>
               <q-toolbar-title class="text-bold">
-                {{tab.label}}
+                {{tab?.label}}
               </q-toolbar-title>
               <q-space />
               <section>
@@ -73,10 +73,11 @@ import {computed, onMounted, ref, watch} from 'vue';
 import useDialog from 'core/hooks/useDialog';
 import useCommon from 'core/hooks/useCommon';
 
-import GeneralTab from 'src/components/settings/tab/general-tab.vue';
-import AppearanceTab from 'src/components/settings/tab/appearance-tab.vue';
 import AboutTab from 'src/components/settings/tab/about-tab.vue';
 import AiTab from 'components/settings/tab/ai-tab.vue';
+import AppearanceTab from 'src/components/settings/tab/appearance-tab.vue';
+import GeneralTab from 'src/components/settings/tab/general-tab.vue';
+import ProfileTab from 'src/components/settings/tab/profile-tab.vue';
 
 const { dialog, onHide } = useDialog();
 const { t } = useCommon();
@@ -111,14 +112,10 @@ const style = computed(() => {
 
 const tabs = computed(() => {
   return [
-    // { label: '内嵌模型', value: 'llm', icon: 'scatter_plot', component: AboutTab },
-    // { label: '向量数据库', value: 'llm', icon: 'rotate_right', component: AboutTab },
-    // { label: '文本处理', value: 'llm', icon: 'vertical_split', component: AboutTab },
-    // { label: '语音模型', value: 'llm', icon: 'volume_up', component: AboutTab },
-    // { label: '转录模型', value: 'llm', icon: 'autorenew', component: AboutTab },
+    { label: '个人资料', value: 'profile', icon: 'person', group: '账户', component: ProfileTab },
     { label: '通用', value: 'general', icon: 'settings', group: '设置', component: GeneralTab },
-    { label: '显示', value: 'appearance', icon: 'palette', component: AppearanceTab },
-    { label: 'AI', value: 'ai', icon: 'mdi-creation', group: 'AI', component: AiTab },
+    { label: '外观', value: 'appearance', icon: 'palette', component: AppearanceTab },
+    { label: 'AI模型', value: 'ai', icon: 'mdi-creation', group: 'AI', component: AiTab },
     { label: t('about'), value: 'about', icon: 'info', group: t('about'), component: AboutTab },
     { label: '隐私政策', value: 'about', icon: 'policy', component: AboutTab },
   ];
@@ -158,23 +155,35 @@ onMounted(() => {
 
   nav {
     height: 720px;
-    padding: 1rem 0;
+    padding: 16px 10px;
     .group {
-      padding: 0 18px;
-      margin-top: 16px;
+      padding: 0 12px;
       opacity: 0.5;
+      &:not(:first-child) {
+        margin-top: 16px;
+      }
     }
     .q-tab {
-      padding: 0 8px 0 16px;
-      min-height: 40px;
+      padding: 0 8px;
+      margin-bottom: 2px;
+      min-height: 36px;
+      border-radius: 4px;
 
       &__label {
         font-weight: 400;
       }
 
+      &.q-tab--active {
+
+        &:before {
+          border-radius: 4px;
+        }
+      }
+
       &.q-tab--active .q-tab__indicator {
         top: 10px !important;
         height: 20px !important;
+        display: none;
       }
     }
   }
@@ -184,6 +193,7 @@ onMounted(() => {
 
     .q-toolbar__title {
       font-size: 1.2rem;
+      padding-left: 16px;
     }
 
     .q-icon {

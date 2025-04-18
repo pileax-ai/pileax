@@ -3,8 +3,8 @@
     <o-common-card small>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item icon="mdi-creation" label="大模型"
-                         sublabel="设置默认的大模型" size="4rem" class="text-bold">
+          <o-common-item icon="mdi-creation" label="AI提供商"
+                         sublabel="设置默认的AI大模型提供商" size="4rem" class="text-bold">
             <div class="row items-center">
               <o-ai-provider-select-btn anchor="bottom right"
                                         self="top right"
@@ -29,7 +29,6 @@ import { ref } from 'vue';
 import OAiProviderSelectBtn from 'src/components/ai/OAiProviderSelectBtn.vue';
 import SettingCard from './setting-card.vue';
 
-const provider = ref('');
 const metadata = ref<Indexable>({});
 
 function onSelectProvider(value: Indexable) {
