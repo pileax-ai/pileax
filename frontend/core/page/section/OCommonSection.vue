@@ -11,19 +11,13 @@
 
     <!--Side Dialog-->
     <section>
-      <o-side-dialog :title="side.title"
-                     :icon="side.icon"
-                     :show="side.show"
-                     :contentStyle="side.style"
-                     :actionVisible="side.action"
-                     :printable="side.printable"
+      <o-side-dialog v-bind="side"
                      :full-screen="sideFullScreen"
                      :seamless="false"
                      scrollable
                      @show="onSideShow"
                      @close="onSideClose"
-                     @confirm="onSideConfirm"
-                     content-class="o-common-side-dialog">
+                     @confirm="onSideConfirm">
         <template #content>
           <slot name="side-panel"></slot>
         </template>

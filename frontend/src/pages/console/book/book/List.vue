@@ -169,6 +169,7 @@ function doQuery() {
 }
 
 function initData() {
+  // query.value.side.contentClass = '';
   doQuery();
 }
 

@@ -27,9 +27,9 @@ export default function () {
     show: false,
     title: '',
     icon: '',
-    action: true,
     position: 'right',
-    style: {width: '30vw', minWidth: '600px'}
+    style: {width: '30vw', minWidth: '600px'},
+    contentClass: 'card'
   });
   const loading = ref(false);
   const id = ref('');
@@ -98,19 +98,10 @@ export default function () {
 
   function onDetails(idAlt: string, width = '30vw', viewAlt = 'details', icon = '', title = '') {
     id.value = idAlt;
-    view.value = viewAlt;
-    side.value = {
-      ...side.value,
-      show: true,
-      icon: icon || (idAlt ? 'edit' : 'add'),
-      title: title || itemTitle.value || t('details'),
-      action: true,
-      style: {
-        width: width,
-        minWidth: '400px'
-      }
-    }
+    icon = icon || (idAlt ? 'edit' : 'add');
+    openSide(width, viewAlt, icon, title);
   }
+
   function openSide(width = '30vw', viewAlt = 'details', icon = '', title = '') {
     view.value = viewAlt;
     side.value = {
@@ -118,11 +109,10 @@ export default function () {
       show: true,
       icon: icon,
       title: title || itemTitle.value || t('details'),
-      action: true,
       style: {
         width: width,
         minWidth: '300px'
-      }
+      },
     }
   }
 
@@ -157,13 +147,6 @@ export default function () {
   function isVisibleColumn (name: string) {
     return visibleColumns.value.indexOf(name) >= 0;
   }
-
-  watch(() => paging.value.page, (newValue) => {
-    setTimeout(() => {
-      // console.log('page', tableRef.value)
-      // tableRef.value?.scrollTo(10);
-    }, 1000)
-  })
 
   const table = ref({
     rows,

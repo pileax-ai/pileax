@@ -7,7 +7,7 @@
             @hide="$emit('close')"
             :position="fullScreen ? 'standard' : positionAlt"
             :class="`o-side-dialog ${contentClass} ${view}`">
-    <q-card :style="styles" class="bg-white dialog-card" v-if="positionAlt==='standard'">
+    <q-card :style="contentStyle" class="bg-white dialog-card" v-if="positionAlt==='standard'">
       <q-card-section class="bg-deep text-info header no-drag-region" v-if="!printing">
         <q-toolbar>
           <q-toolbar-title class="text-bold">
@@ -25,7 +25,7 @@
         <slot name="content"></slot>
       </q-card-section>
     </q-card>
-    <q-layout view="lhh LpR lff" container :style="styles" class="bg-secondary" v-else>
+    <q-layout view="lhh LpR lff" container :style="contentStyle" class="bg-secondary" v-else>
       <q-header class="bg-accent text-info header no-drag-region" v-if="!printing">
         <q-toolbar>
           <q-toolbar-title class="text-bold">
@@ -100,9 +100,9 @@ const props = defineProps({
   },
   contentClass: {
     type: String,
-    default: ''
+    default: 'card'
   },
-  contentStyle: {
+  style: {
     type: Object,
     default: function () {
       return { }
@@ -153,13 +153,13 @@ function onMouseMove(e :any) {
 
 function onBeforeShow() {
   positionAlt.value = props.position;
-  const defaultWidth = toPixel(props.contentStyle.width);
-  minWidth.value = toPixel(props.contentStyle.minWidth) || defaultWidth;
-  maxWidth.value = toPixel(props.contentStyle.maxWidth) || 2 * defaultWidth;
+  const defaultWidth = toPixel(props.style.width);
+  minWidth.value = toPixel(props.style.minWidth) || defaultWidth;
+  maxWidth.value = toPixel(props.style.maxWidth) || 2 * defaultWidth;
   width.value = Math.max(defaultWidth, minWidth.value);
   width.value = Math.min(width.value, maxWidth.value);
 
-  // console.log('style', props.contentStyle, width.value, minWidth.value, maxWidth.value);
+  // console.log('style', props.style, width.value, minWidth.value, maxWidth.value);
 }
 
 function toPixel(value: string) {
@@ -203,7 +203,7 @@ const viewIcon = computed(() => {
   return view.value === 'normal' ? 'fullscreen' : 'fullscreen_exit';
 });
 
-const styles = computed(() => {
+const contentStyle = computed(() => {
   return view.value === 'normal'
     ? { width: `${width.value}px` }
     : { width: '100vw' };
@@ -316,6 +316,20 @@ onMounted(() => {
       user-select: none;
       z-index: 1000;
       background: transparent;
+    }
+  }
+
+  &.card {
+    .q-dialog__backdrop {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .q-dialog__inner {
+      margin: 10px;
+
+      .q-layout-container {
+        border-radius: 6px !important;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+      }
     }
   }
 }
