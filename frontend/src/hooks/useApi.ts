@@ -21,11 +21,16 @@ export default function() {
     return `${appBase.value}/files/book/${book.path}/${book.coverName}`;
   }
 
+  function getFileUrl(path: string) {
+    return `${appBase.value}/files/${path}`;
+  }
+
   return {
     appBase,
 
     getBookUrl,
     getBookByPath,
-    getCoverUrl
+    getCoverUrl,
+    getFileUrl,
   }
 }

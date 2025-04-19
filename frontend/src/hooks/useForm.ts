@@ -5,7 +5,7 @@ import { BaseValidation } from '@vuelidate/core';
 
 export default function () {
   const apiName = ref('');
-  const form = ref({} as Indexable);
+  const form = ref<Indexable>({});
   const loading = ref(false);
   const vuelidate :Ref<BaseValidation> = ref(null);
 

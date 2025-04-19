@@ -4,7 +4,7 @@ import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { fileMeta } from '@/drizzle/schema'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 
 export class FileMetaRepository {
@@ -37,11 +37,21 @@ export class FileMetaRepository {
     const filters = buildFilters(fileMeta, ['mimetype', 'fileName', 'userId'], query.condition);
     const orders = buildOrders(fileMeta, ['mimetype', 'updateTime'], query.orderBy);
 
-    return db.select().from(fileMeta)
+    const list = await db.select().from(fileMeta)
       .where(and(...filters))
       .limit(query.pageSize)
       .offset((query.pageIndex - 1) * query.pageSize)
       .orderBy(...orders);
+    const [{ count }] = await db.select({ count: sql<number>`count(*)` })
+      .from(fileMeta)
+      .where(and(...filters));
+
+    return {
+      list,
+      total: count,
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    }
   }
 
 }

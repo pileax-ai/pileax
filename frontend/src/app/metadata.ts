@@ -118,3 +118,8 @@ export const ConnectionStatus = [
   { label: '可用', value: 1, color: 'green', icon: 'check' },
 ];
 
+export const RefTypes = [
+  { label: '未知', value: '', color: 'grey', icon: 'description' },
+  { label: '图书', value: 'book', color: 'blue', icon: 'book' },
+];
+

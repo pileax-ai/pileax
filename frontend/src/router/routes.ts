@@ -99,6 +99,11 @@ const routes: RouteRecordRaw[] = [
         name: 'ai-config-llm'
       },
       {
+        path: 'files',
+        component: () => import('pages/console/system/content/file/List.vue'),
+        name: 'system-file'
+      },
+      {
         path: 'about',
         component: () => import('pages/console/system/about/About.vue'),
         name: 'system-about'

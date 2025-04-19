@@ -21,6 +21,7 @@ const urls: Indexable = {
   chat: '/chat',
   chatSession: '/chat/session',
   clientVersion: '/client/version',
+  file: '/file',
   note: '/note',
   platformConfig: '/platform/config',
   platformDict: '/platform/dict',
