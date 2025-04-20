@@ -9,7 +9,7 @@
             </template>
             <template #right>
             </template>
-            <section class="col-12 q-pa-md" :class="contentClass">
+            <section class="col-12" :class="contentClass">
               <slot></slot>
             </section>
           </o-common-card>
@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onMounted, ref, watch} from 'vue';
-
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 
 const props = defineProps({
@@ -45,7 +43,7 @@ const props = defineProps({
   },
   contentClass: {
     type: String,
-    default: ''
+    default: 'q-pa-md'
   },
   enableActions: {
     type: Boolean,

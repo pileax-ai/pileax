@@ -7,8 +7,10 @@
             @hide="$emit('close')"
             :position="fullScreen ? 'standard' : positionAlt"
             :class="`o-side-dialog ${contentClass} ${view}`">
-    <q-card :style="contentStyle" class="bg-white dialog-card" v-if="positionAlt==='standard'">
-      <q-card-section class="bg-deep text-info header no-drag-region" v-if="!printing">
+    <q-card :style="contentStyle"
+            class="bg-white dialog-card"
+            v-if="positionAlt==='standard'">
+      <q-card-section class="bg-deep no-padding no-drag-region header" v-if="!printing">
         <q-toolbar>
           <q-toolbar-title class="text-bold">
             <q-icon :name="icon" v-if="icon" />
@@ -21,7 +23,7 @@
         </q-toolbar>
       </q-card-section>
 
-      <q-card-section class="full-width">
+      <q-card-section class="no-padding full-width">
         <slot name="content"></slot>
       </q-card-section>
     </q-card>
@@ -183,7 +185,7 @@ async function onPrint()  {
 }
 
 function onToggleView () {
-  view.value = (view.value === 'normal') ? 'fullscreen' : 'normal';
+  view.value = (view.value === 'normal') ? 'full-screen' : 'normal';
 }
 
 function onTogglePosition () {
@@ -192,7 +194,7 @@ function onTogglePosition () {
 }
 
 const maximized = computed(() => {
-  return positionAlt.value === 'right' || view.value === 'fullscreen';
+  return positionAlt.value === 'right' || view.value === 'full-screen';
 });
 
 const positionIcon = computed(() => {
@@ -213,7 +215,7 @@ watch(
   () => props.show,
   (newValue) => {
     if (newValue) {
-      view.value = props.fullScreen ? 'fullscreen' : 'normal';
+      view.value = props.fullScreen ? 'full-screen' : 'normal';
       modal.value.show();
     } else {
       modal.value.hide();
@@ -232,10 +234,7 @@ onMounted(() => {
 .o-side-dialog {
   .q-dialog__inner--standard {
     .dialog-card {
-      .q-card__section {
-        padding: 0;
-      }
-
+      border-radius: 6px;
       .q-page {
         min-height: unset !important;
       }
@@ -249,6 +248,7 @@ onMounted(() => {
 
   .q-toolbar {
     min-height: 40px;
+    padding: 0 8px;
 
     .q-toolbar__title {
       font-size: 1rem;
@@ -298,14 +298,6 @@ onMounted(() => {
       left: 0;
     }
 
-    &:hover {
-      //background: var(--q-primary);
-    }
-
-    &.is-resizing {
-      //background: var(--q-primary);
-    }
-
     .resize-handle {
       position: absolute;
       left: -6px;
@@ -330,6 +322,12 @@ onMounted(() => {
         border-radius: 6px !important;
         box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
       }
+    }
+  }
+
+  &.full-screen {
+    .q-dialog__inner {
+      margin: 0 !important;
     }
   }
 }

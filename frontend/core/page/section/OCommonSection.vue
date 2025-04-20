@@ -12,7 +12,6 @@
     <!--Side Dialog-->
     <section>
       <o-side-dialog v-bind="side"
-                     :full-screen="sideFullScreen"
                      :seamless="false"
                      scrollable
                      @show="onSideShow"
