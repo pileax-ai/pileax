@@ -20,7 +20,7 @@
       </template>
     </q-item-section>
     <q-item-section>
-      <q-item-label class="row items-center">
+      <q-item-label class="row items-center ellipsis" lines="1">
         <span v-html="label"></span>
         <slot name="label"></slot>
         <q-icon name="help" class="q-ml-xs" v-if="help">

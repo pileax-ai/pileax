@@ -8,8 +8,6 @@ import {
   removeAllCookies,
   saveItemObject,
 } from 'core/utils/storage'
-import { useNaviStore } from 'stores/navi';
-
 
 export const useAccountStore = defineStore('account', {
   state: () => ({

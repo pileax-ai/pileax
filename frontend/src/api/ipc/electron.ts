@@ -18,6 +18,10 @@ class ElectronIpc {
       })
     });
   }
+
+  public openNewWindow(id: string, url: string) {
+    window.electronAPI.openNewWindow(id, url);
+  }
 }
 
 export const electronIpc = new ElectronIpc();

@@ -19,9 +19,9 @@
               ref="tabs" align="left"
               indicator-color="transparent"
               narrow-indicator
-              class="text-info bg-accent tabs">
+              class="text-info bg-accent no-drag-region tabs">
         <template v-for="(item, index) in tabs" :key="index">
-          <q-tab :name="index" :ripple="false" class="no-drag-region">
+          <q-tab :name="index" :ripple="false">
             <section class="row items-center item">
               <div class="col-auto row justify-center items-center prefix">
                 <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
@@ -34,7 +34,7 @@
               </div>
               <div class="row justify-center items-center suffix">
                 <q-btn icon="close" flat round
-                       @click.stop.prevent="onClose(item)" />
+                       @click.stop.prevent="onClose(index)" />
                 <div class="icon" v-if="false">
                   <q-icon name="circle" class="text-primary" size="0.6rem" />
                 </div>
@@ -48,17 +48,17 @@
             <q-menu touch-position context-menu
                     class="pi-context-menu">
               <q-list :style="{minWidth: '200px'}">
-                <template v-for="(action, index) in actions" :key="`action-${index}`">
+                <template v-for="(action, i) in actions" :key="`action-${i}`">
                   <q-separator class="bg-accent" v-if="action.separator" />
                   <o-common-item v-bind="action"
-                                 @click="onAction(action, item)"
+                                 @click="onAction(action, index)"
                                  clickable closable />
                 </template>
               </q-list>
             </q-menu>
           </q-tab>
         </template>
-        <q-btn icon="add" color="info" class="tab-add"
+        <q-btn icon="add" color="info" size="0.8rem" class="tab-add"
                flat round
                @click="onAdd">
           <o-tooltip>New tab</o-tooltip>
@@ -75,18 +75,19 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi';
+import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
 import { refresh } from 'core/hooks/useRouter';
+import { electronIpc } from 'src/api/ipc/electron';
 import { NoteDefaultIcon } from 'core/constants/constant';
-import {MenuItem} from 'core/types/menu';
 import useNavi from 'src/hooks/useNavi';
 
 import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue';
+import { UUID } from 'core/utils/crypto'
 
 const appStore = useAppStore();
-const naviStore = useNaviStore();
+const tabStore = useTabStore();
 const {
   leftDrawerShow,
   toggleLeftDrawer,
@@ -112,9 +113,8 @@ const actions = computed(() => {
 });
 
 const tabBar = computed(() => appStore.setting.tabBar);
-const openedMenus = computed(() => naviStore.openedMenus);
-const tabs = computed(() => naviStore.tabs);
-const tabIndex = computed(() => naviStore.tabIndex);
+const tabs = computed(() => tabStore.tabs);
+const tabIndex = computed(() => tabStore.tabIndex);
 const moreIcon = computed(() => {
   return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less';
 });
@@ -123,28 +123,46 @@ const pageLoading = computed(() => {
 });
 
 async function onAdd() {
-  naviStore.addNewTab();
+  tabStore.addNewTab();
 }
 
 function onTabChanged(index: number) {
   console.log('tab', index);
-  naviStore.openTab(index);
+  tabStore.openTab(index);
 }
 
-async function onClose (item: MenuItem) {
-  naviStore.closeOpenedMenu(item);
+function onClose(index: number) {
+  tabStore.closeTab(index);
 }
 
-function onAction (action: Indexable, item: MenuItem) {
+function onNewWindow(index: number) {
+  const tab = tabs.value.at(index);
+  if (tab) {
+    console.log('newWindow', tab);
+    electronIpc.openNewWindow(UUID(), tab.path);
+  }
+}
+
+function onAction (action: Indexable, index: number) {
+  console.log('action', action.value, index);
   switch (action.value) {
     case 'close':
-      naviStore.closeOpenedMenu(item);
+      tabStore.closeTab(index);
       break;
     case 'closeOther':
-      naviStore.closeOtherOpenedMenu(item);
+      tabStore.closeOtherTabs(index);
+      break;
+    case 'closeToLeft':
+      tabStore.closeLeftTabs(index);
       break;
     case 'closeToRight':
-      naviStore.closeRightOpenedMenu(item);
+      tabStore.closeRightTabs(index);
+      break;
+    case 'duplicate':
+      tabStore.duplicateTab(index);
+      break;
+    case 'newWindow':
+      onNewWindow(index);
       break;
     case 'reload':
       refresh();
@@ -327,106 +345,6 @@ $tab-height: 40px;
       background: var(--q-secondary);
       background: var(--q-secondary);
     }
-  }
-}
-
-.navi-tabbar.card {
-  .q-tab {
-    margin: 5px 2px;
-    border-radius: 4px;
-    &:before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    &:hover {
-      background: var(--q-secondary);
-      z-index: 2;
-      &:before, &:after {
-        border-radius: 6px;
-        background: var(--q-secondary);
-      }
-    }
-    div.q-focus-helper {
-      visibility: hidden;
-    }
-  }
-
-  .q-tab--active {
-    &:before, &:after {
-      border-radius: 6px;
-      background: var(--q-secondary);
-      background: var(--q-secondary);
-    }
-  }
-}
-
-.navi-tabbar.modern {
-  padding-top: 10px;
-  .q-tab {
-    min-width: 100px;
-    margin-right: -1px;
-    border-radius: 10px 10px 0 0;
-    border: none;
-    z-index: 0;
-
-    &:after {
-      content: "";
-      position: absolute;
-      top: 10px;
-      width: 1px;
-      height: calc(100% - 20px);
-      background: var(--q-secondary);
-      z-index: 0;
-    }
-    &:after {
-      right: 0;
-    }
-
-    &:hover {
-      background: var(--q-secondary);
-      z-index: 2;
-      &:before, &:after {
-        background: var(--q-secondary);
-      }
-    }
-    div.q-focus-helper {
-      visibility: hidden;
-    }
-  }
-
-  .q-tab--active {
-    background: var(--q-secondary);
-    z-index: 1;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
-    &:before, &:after {
-      content: "";
-      width: 10px;
-      height: 10px;
-      position: absolute;
-      bottom: 0;
-      top: unset;
-      right: unset;
-      left: unset;
-      z-index: 1;
-    }
-    &:before {
-      left: -10px;
-    }
-    &:after {
-      right: -10px;
-      transform: scaleX(-1);
-    }
-    &:before, &:after {
-      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><path d='M 0 10 L 10 10 L 10 0 Q 10 10 0 10 Z' fill='%23ffffff'></path></svg>") !important;
-    }
-  }
-
-  .more {
-    margin-top: -10px;
   }
 }
 

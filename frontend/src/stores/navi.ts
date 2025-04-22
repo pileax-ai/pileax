@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
+import { RouteLocationNormalized } from 'vue-router';
 import { CODE } from 'core/app';
 import { MenuItem } from 'core/types/menu';
 import { GET } from 'src/hooks/useRequest';
 import { flattenMenu, nestMenu } from 'core/hooks/useMenu';
 import { defaultConsoleMenus } from 'src/app/default-menu';
-import { RouteLocationNormalized } from 'vue-router';
-import { UUID } from 'core/utils/crypto';
+import { useTabStore } from 'stores/tab';
 
 export const useNaviStore = defineStore('navi', {
   state: () => ({
@@ -27,9 +27,7 @@ export const useNaviStore = defineStore('navi', {
     openedMenus: [] as MenuItem[],
     starMenus: [] as MenuItem[],
     currentMenu: {} as MenuItem,
-    tabs: [] as MenuItem[],
-    tabIndex: -1,
-    currentTab: {} as MenuItem,
+    tabStore: useTabStore(),
   }),
   getters: {
     getActivity: (state) => state.leftDrawer.activity,
@@ -64,13 +62,6 @@ export const useNaviStore = defineStore('navi', {
         this.menus = [];
       }
     },
-    async initMenu0() {
-      try {
-        this.menus = await this.fetchMenu();
-      } catch (err) {
-        this.menus = [];
-      }
-    },
     fetchMenu(): Promise<MenuItem[]> {
       return new Promise((resolve, reject) => {
         GET({name: 'systemMenuQueryApp'}).then(res => {
@@ -81,7 +72,7 @@ export const useNaviStore = defineStore('navi', {
       });
     },
     updateMenu(route: RouteLocationNormalized) {
-      console.log('updateMenu', route);
+      // console.log('updateMenu', route);
       const path = route.path;
       const menu = this.menus.find(e => e.path === path);
       if (menu) {
@@ -94,7 +85,7 @@ export const useNaviStore = defineStore('navi', {
       if (menu.path) {
         this.addOpenedMenu(menu);
       }
-      this.updateTab(menu);
+      this.tabStore.updateTab(menu);
     },
     addOpenedMenu(menu: MenuItem) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path);
@@ -153,106 +144,9 @@ export const useNaviStore = defineStore('navi', {
     clearStarMenus() {
       this.starMenus = [];
     },
-    getTabIndex(tab: MenuItem) {
-      return this.tabs.findIndex((e: MenuItem) => e.id === tab.id);
-    },
-    updateTab(tab: MenuItem) {
-      this.currentTab = tab;
-      if (this.tabIndex < 0) {
-        this.tabs.push(tab);
-        this.tabIndex = 0;
-      } else {
-        this.tabs.splice(this.tabIndex, 1, tab);
-      }
-    },
-    addNewTab() {
-      this.tabs.push({
-        name: 'welcome',
-        path: '/welcome'
-      });
-      this.tabIndex = this.tabs.length - 1;
-      this.router.push('/welcome');
-    },
-    openTab(index: number) {
-      const tab = this.tabs.at(index);
-      if (tab) {
-        this.tabIndex = index;
-        this.router.push(tab.path);
-      }
-    },
-    openTab0(tab: MenuItem, push = true) {
-      if (!this.currentTab.id) {
-        this.currentTab = this.addTab(tab);
-      } else {
-        if (!tab.id) {
-          tab.id = UUID();
-        }
-        const index = this.getTabIndex(this.currentTab);
-        if (index >= 0) {
-          this.tabs.splice(index, 1, tab);
-          this.currentTab = tab;
-        } else {
-          this.currentTab = this.addTab(tab);
-        }
-      }
-      if (push) {
-        this.router.push(tab.path);
-      }
-    },
-    addTab(tab: MenuItem) {
-      if (!tab.id) {
-        tab.id = UUID();
-        this.tabs.push(tab);
-      } else {
-        const index = this.getTabIndex(tab);
-        if (index < 0) {
-          this.tabs.push(tab);
-        }
-      }
-      return tab;
-    },
-    togglePinTab(tab: MenuItem) {
-      tab.pin = !tab.pin;
-    },
-    closeTab(tab: MenuItem) {
-      const index = this.tabs.findIndex((e: MenuItem) => e.id === tab.id);
-      if (index >= 0) {
-        this.tabs.splice(index, 1);
-      }
-    },
-    closeOtherTabs(tab: MenuItem) {
-      const index = this.tabs.findIndex((e: MenuItem) => e.id === tab.id);
-      if (index >= 0) {
-        this.tabs = [tab];
-        this.openTab(tab);
-      }
-    },
-    closeRightTabs(tab: MenuItem) {
-      const index = this.getTabIndex(tab);
-      const length = this.openedMenus.length;
-      if (index >= 0 && length > (index + 1)) {
-        const menus = this.tabs;
-        menus.splice(index + 1, length - index - 1)
-        this.tabs = menus;
-        this.openTab(tab);
-      }
-    },
-    closeLeftTabs(tab: MenuItem) {
-      const index = this.getTabIndex(tab);
-      const length = this.openedMenus.length;
-      if (index > 0) {
-        const menus = this.tabs;
-        menus.splice(0, index - 1)
-        this.tabs = menus;
-        this.openTab(tab);
-      }
-    },
   },
   persist: {
-    key: `${CODE}.navi`
+    key: `${CODE}.navi`,
+    storage: sessionStorage,
   }
 });
-
-// export const useNaviStoreWithOut = () => {
-//   return useNaviStore(store);
-// }
