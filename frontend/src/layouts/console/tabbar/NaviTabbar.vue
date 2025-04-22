@@ -13,13 +13,15 @@
         <o-tooltip :message="$t('expand')" position="right" />
       </o-hover-btn>
     </div>
-    <div class="col">
-      <q-tabs ref="tabs" align="left"
+    <div class="row col">
+      <q-tabs :model-value="tabIndex"
+              @update:model-value="onTabChanged"
+              ref="tabs" align="left"
               indicator-color="transparent"
               narrow-indicator
               class="text-info bg-accent tabs">
-        <template v-for="(item, index) in openedMenus" :key="index">
-          <q-route-tab :to="item.path" :ripple="false" class="no-drag-region">
+        <template v-for="(item, index) in tabs" :key="index">
+          <q-tab :name="index" :ripple="false" class="no-drag-region">
             <section class="row items-center item">
               <div class="col-auto row justify-center items-center prefix">
                 <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
@@ -54,8 +56,13 @@
                 </template>
               </q-list>
             </q-menu>
-          </q-route-tab>
+          </q-tab>
         </template>
+        <q-btn icon="add" color="info" class="tab-add"
+               flat round
+               @click="onAdd">
+          <o-tooltip>New tab</o-tooltip>
+        </q-btn>
       </q-tabs>
     </div>
     <div class="row col-auto items-center justify-center more no-drag-region">
@@ -107,12 +114,22 @@ const actions = computed(() => {
 const tabBar = computed(() => appStore.setting.tabBar);
 const openedMenus = computed(() => naviStore.openedMenus);
 const tabs = computed(() => naviStore.tabs);
+const tabIndex = computed(() => naviStore.tabIndex);
 const moreIcon = computed(() => {
   return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less';
 });
 const pageLoading = computed(() => {
   return appStore.setting.pageLoading.loading;
 });
+
+async function onAdd() {
+  naviStore.addNewTab();
+}
+
+function onTabChanged(index: number) {
+  console.log('tab', index);
+  naviStore.openTab(index);
+}
 
 async function onClose (item: MenuItem) {
   naviStore.closeOpenedMenu(item);
@@ -242,6 +259,12 @@ $tab-height: 40px;
           visibility: visible;
         }
       }
+    }
+
+    .tab-add {
+      min-width: 32px;
+      min-height: 32px;
+      margin: 4px;
     }
   }
 

@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia';
-import { store } from 'stores/index';
 import { CODE } from 'core/app';
 import { MenuItem } from 'core/types/menu';
 import { GET } from 'src/hooks/useRequest';
 import { flattenMenu, nestMenu } from 'core/hooks/useMenu';
 import { defaultConsoleMenus } from 'src/app/default-menu';
 import { RouteLocationNormalized } from 'vue-router';
-import { UUID } from 'core/utils/crypto'
+import { UUID } from 'core/utils/crypto';
 
 export const useNaviStore = defineStore('navi', {
   state: () => ({
@@ -29,6 +28,7 @@ export const useNaviStore = defineStore('navi', {
     starMenus: [] as MenuItem[],
     currentMenu: {} as MenuItem,
     tabs: [] as MenuItem[],
+    tabIndex: -1,
     currentTab: {} as MenuItem,
   }),
   getters: {
@@ -81,7 +81,7 @@ export const useNaviStore = defineStore('navi', {
       });
     },
     updateMenu(route: RouteLocationNormalized) {
-      // console.log('updateMenu', route);
+      console.log('updateMenu', route);
       const path = route.path;
       const menu = this.menus.find(e => e.path === path);
       if (menu) {
@@ -94,6 +94,7 @@ export const useNaviStore = defineStore('navi', {
       if (menu.path) {
         this.addOpenedMenu(menu);
       }
+      this.updateTab(menu);
     },
     addOpenedMenu(menu: MenuItem) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path);
@@ -155,14 +156,31 @@ export const useNaviStore = defineStore('navi', {
     getTabIndex(tab: MenuItem) {
       return this.tabs.findIndex((e: MenuItem) => e.id === tab.id);
     },
-    updateTab(route: RouteLocationNormalized) {
-      const path = route.path;
-      const menu = this.menus.find(e => e.path === path);
-      if (menu) {
-        this.openTab(menu, false);
+    updateTab(tab: MenuItem) {
+      this.currentTab = tab;
+      if (this.tabIndex < 0) {
+        this.tabs.push(tab);
+        this.tabIndex = 0;
+      } else {
+        this.tabs.splice(this.tabIndex, 1, tab);
       }
     },
-    openTab(tab: MenuItem, push = true) {
+    addNewTab() {
+      this.tabs.push({
+        name: 'welcome',
+        path: '/welcome'
+      });
+      this.tabIndex = this.tabs.length - 1;
+      this.router.push('/welcome');
+    },
+    openTab(index: number) {
+      const tab = this.tabs.at(index);
+      if (tab) {
+        this.tabIndex = index;
+        this.router.push(tab.path);
+      }
+    },
+    openTab0(tab: MenuItem, push = true) {
       if (!this.currentTab.id) {
         this.currentTab = this.addTab(tab);
       } else {
