@@ -1,31 +1,62 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
 import { commonValidations } from '@/core/api/commonValidation'
+import { ChatSessionSchema } from '@/api/ai/model/chat-session.model'
 
 extendZodWithOpenApi(z);
 
+export type Chat = z.infer<typeof ChatSchema>;
+export type ChatUpdate = z.infer<typeof ChatUpdateSchema>;
 export type ChatCompletion = z.infer<typeof ChatCompletionSchema>;
 
+export const ChatSchema = z.object({
+  id: z.string(),
+  userId: z.string().optional(),
+  sessionId: z.string(),
+  message: z.string(),
+  content: z.string(),
+  reasoning: z.number().default(0),
+  reasoningContent: z.string().optional(),
+  provider: z.string(),
+  model: z.string().optional(),
+  result: z.number().optional().default(0),
+  like: z.number().optional().default(0),
+  noteId: z.string().optional(),
+  status: z.number().optional().default(0),
+});
+
+export const ChatBodySchema = {
+  description: 'Save Chat',
+  content: {
+    'application/json': {
+      schema: ChatSchema.openapi('ChatBody')
+    }
+  }
+}
+
+export const ChatUpdateSchema = ChatSchema.partial();
+
 export const ChatCompletionSchema = z.object({
-	id: z.number().optional(),
+	id: z.string(),
 	sessionId: z.string(),
-	model: z.string(),
-	message: z.string(),
+  message: z.string(),
+	provider: z.string().optional().default('deepseek'),
+	model: z.string().optional(),
 	stream: z.boolean().default(true),
   reasoning: z.boolean().default(false),
 });
 
 export const ChatCompletionBodySchema = {
-  description: 'Save Book',
+  description: 'Chat Completion',
   content: {
     'application/json': {
-      schema: ChatCompletionSchema.openapi('chat')
+      schema: ChatCompletionSchema.openapi('ChatCompletionBody')
     }
   }
 }
 
 export const ChatCompletionResponseSchema = z.object({
-  id: z.number().optional(),
+  id: z.string(),
   sessionId: z.string(),
   message: z.string(),
 });

@@ -6,15 +6,15 @@
  */
 import { Platform, Cookies } from 'quasar'
 import packageInfo from '../../package.json'
-import { getCookieItemObject, getItem } from 'core/utils/storage'
+import { getItem, getItemObject } from 'core/utils/storage'
 
 export const getCommonHeaders = () => {
   const platform = Platform.is;
-  const accountInfo = getCookieItemObject('account') as Indexable;
+  const accountInfo = getItemObject('user') as Indexable;
   return {
     'Authorization': accountInfo.token,
     'x-api-version': 'v1',
-    'x-project': packageInfo.code,
+    'x-project': packageInfo.productName,
     'x-locale': getItem('locale') || 'en',
     'x-api-key': 'apiKey', // ToDo
     'x-signed-query': 'signedQuery', // ToDo

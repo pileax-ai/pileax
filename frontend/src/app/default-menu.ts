@@ -13,31 +13,17 @@ export const defaultConsoleMenus: MenuItem[] = [
     children: [
       {
         id: 'start',
-        name: 'chat',
+        name: 'quickstart',
+        path: '/',
+        action: 1,
+        meta: {icon: 'home'}
+      },
+      {
+        id: 'chat',
+        name: 'newChat',
         path: '/chat',
         action: 1,
         meta: {icon: 'add_comment'}
-      },
-      {
-        id: 'chat-chat',
-        name: 'Chat Session',
-        path: '/a/chat/uuid',
-        action: 1,
-        meta: {icon: 'forum'}
-      },
-      {
-        id: 'welcome',
-        name: 'welcome',
-        path: '/welcome',
-        action: 1,
-        meta: {icon: 'accessibility'}
-      },
-      {
-        id: 'dashboard',
-        name: 'dashboard',
-        path: '/dashboard',
-        action: 1,
-        meta: {icon: 'mdi-gauge'}
       },
     ]
   },
@@ -74,32 +60,80 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-system',
-    name: 'AI',
+    id: 'group-knowledge',
+    name: 'knowledge',
     path: '',
     action: 1,
     meta: {icon: 'mdi-creation'},
     children: [
       {
-        id: 'stock-account-list',
-        name: 'AI智能体',
+        id: 'knowledge-start',
+        name: '知识库',
         action: 1,
-        path: '/stock/account/list',
+        path: '/knowledge',
         meta: {icon: 'mdi-creation'}
       },
+    ]
+  },
+  {
+    id: 'group-system',
+    name: 'system',
+    path: '',
+    action: 1,
+    meta: {icon: 'tune'},
+    children: [
       {
-        id: 'stock-trade-strategy-list',
-        name: '自定义',
+        id: 'config',
+        name: '配置',
         action: 1,
-        path: '/stock/trade/strategy/list',
-        meta: {icon: 'assignment'}
+        path: '',
+        meta: {icon: 'tune'},
+        children: [
+          {
+            id: 'ai-providers',
+            name: 'AI提供商',
+            action: 1,
+            path: '/system/config/providers',
+            meta: {icon: 'mdi-creation'}
+          },
+          {
+            id: 'ai-agents',
+            name: 'AI智能体',
+            action: 1,
+            path: '/system/config/agents',
+            meta: {icon: 'assignment'}
+          },
+          {
+            id: 'vector-database',
+            name: '向量数据库',
+            action: 1,
+            path: '/system/config/vector-databases',
+            meta: {icon: 'assignment'}
+          },
+        ]
       },
       {
-        id: 'stock-transaction-record-list',
-        name: '交易记录',
+        id: 'content',
+        name: '内容',
         action: 1,
-        path: '/stock/transaction/record/list',
-        meta: {icon: 'view_headline'}
+        path: '',
+        meta: {icon: 'web_stories'},
+        children: [
+          {
+            id: 'system-files',
+            name: '文件',
+            action: 1,
+            path: '/system/files',
+            meta: {icon: 'article'}
+          },
+        ]
+      },
+      {
+        id: 'system-about',
+        name: 'about',
+        action: 1,
+        path: '/system/about',
+        meta: {icon: 'info'}
       },
     ]
   },

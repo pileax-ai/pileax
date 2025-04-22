@@ -3,6 +3,7 @@
     <o-tooltip v-if="tooltip">
       {{tooltip}}
     </o-tooltip>
+    <slot></slot>
   </q-btn>
 </template>
 

@@ -10,7 +10,7 @@
           <q-icon name="search" />
         </template>
         <template v-slot:append>
-          <section class="q-px-sm">
+          <section class="q-px-sm" v-if="false">
             <kbd class="bg-accent text-info">⌘</kbd>
             <kbd class="bg-accent text-info">P</kbd>
           </section>
@@ -21,7 +21,7 @@
         Results
       </q-item-label>
       <q-item-label class="text-readable" v-else>
-        Recent Notes
+        All
       </q-item-label>
     </header>
     <section class="row col-12 search-results" :style="{height: `${48 * results.length}px`}">
@@ -31,13 +31,18 @@
             <q-item :class="{'bg-dark': index === selected}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
-                <q-icon :name="item.icon || '✍'" size="1.2rem" />
+                <o-svg-icon :name="item.name" size="3rem" />
               </q-item-section>
               <q-item-section class="text-bold">
-                {{item.title}}
+                <q-item-label>
+                  {{item.title}}
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  {{ item.description }}
+                </q-item-label>
               </q-item-section>
               <q-item-section class="time" side>
-                {{ timeMulti(item.updateTime).fromNow }}
+                <q-icon name="check_circle" size="1rem" color="primary" v-if="item.name===provider.name" />
               </q-item-section>
             </q-item>
           </template>
@@ -59,24 +64,23 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from 'vue';
-import useDialog from 'core/hooks/useDialog';
-import useNote from 'src/hooks/useNote';
-import { timeMulti } from 'core/utils/format';
+import { onMounted, onUnmounted, PropType, ref } from 'vue';
+import { GET } from 'src/hooks/useRequest';
+import useAi from 'src/hooks/useAi';
 
-const { dialog, onHide, onOk } = useDialog();
-const {
-  notes,
-  recentNotes,
-  openNote,
-  getAllNotes,
-  getRecentNotes,
-} = useNote();
+const props = defineProps({
+  enabledOnly: {
+    type: Boolean,
+    default: false
+  },
+});
+const emit = defineEmits(['select']);
 
+const { provider } = useAi();
 const term = ref('');
 const selected = ref(0);
+const providers = ref<Indexable[]>([]);
 const results = ref<Indexable[]>([]);
-const options = ref<Indexable[]>([]);
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -98,7 +102,7 @@ function titleSearchFilter (term: string) {
 
 function contentSearchFilter (term: string) {
   return (item: Indexable) => {
-    let content = item.content || ''
+    let content = item.content || item.description || ''
     let value = content.toLowerCase()
     let index = value.indexOf(term.toLowerCase())
 
@@ -110,9 +114,9 @@ function contentSearchFilter (term: string) {
   }
 }
 
-function searchNote (val: string) {
-  let a = notes.value.filter(titleSearchFilter(val));
-  let b = notes.value.filter(contentSearchFilter(val));
+function search (val: string) {
+  let a = providers.value.filter(titleSearchFilter(val));
+  let b = providers.value.filter(contentSearchFilter(val));
   let c = a.concat(b);
   return c.filter((item, index) => {
     return c.indexOf(item) === index;
@@ -120,7 +124,7 @@ function searchNote (val: string) {
 }
 
 function onSearch (val: string | number | null) {
-  results.value = val ? searchNote(val as string) : recentNotes.value;
+  results.value = val ? search(val as string) : providers.value;
 }
 
 function onKeyup (e: KeyboardEvent) {
@@ -133,7 +137,7 @@ function onKeyup (e: KeyboardEvent) {
         selected.value -= 1;
         break;
       case 'Enter':
-        onSelected(results.value[selected.value]);
+        onSelected(results.value[selected.value] || {});
         break;
       default:
     }
@@ -149,14 +153,22 @@ function onKeyup (e: KeyboardEvent) {
 }
 
 function onSelected (item: Indexable) {
-  openNote(item);
-  onHide();
+  emit('select', item);
+}
+
+function init() {
+  GET({name: 'aiProvider', path: '/all'}).then(res => {
+    let list = (res as Indexable).list;
+    if (props.enabledOnly) {
+      list = list.filter((e: Indexable) => e.enabled);
+    }
+    providers.value = list;
+    results.value = list;
+  })
 }
 
 onMounted( async () => {
-  getAllNotes();
-  await getRecentNotes();
-  results.value = recentNotes.value;
+  init();
 
   window.addEventListener('keyup', onKeyup);
 })
@@ -168,10 +180,14 @@ onUnmounted(() => {
 
 <style lang="scss">
 .o-ai-provider-search {
+  min-width: 480px;
 
   .search-header {
     .q-item__label {
       padding: 10px 10px;
+    }
+    .q-field__inner {
+      padding-left: 6px;
     }
   }
   .search-results {
@@ -193,11 +209,15 @@ onUnmounted(() => {
         .time {
           font-size: 0.9rem;
         }
+
+        &:not(:first-child) {
+          margin-top: 4px;
+        }
       }
     }
 
     .q-item__section--avatar {
-      min-width: 32px;
+      //min-width: 32px;
       padding-right: 0!important;
     }
   }

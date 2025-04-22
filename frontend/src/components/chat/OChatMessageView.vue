@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { YiiEditor } from '@yiitap/vue';
 import '@yiitap/vue/dist/vue.css';
 import MarkdownIt from 'markdown-it';
@@ -51,6 +51,10 @@ function setContent () {
   editor.value?.commands.setContent(content, true);
 }
 
+watch(() => props.message, (newValue) => {
+  setContent();
+})
+
 onMounted(() => {
   setContent()
 })
@@ -61,6 +65,20 @@ onMounted(() => {
   .editor-content {
     padding: 0 !important;
     width: 100%;
+  }
+
+  table {
+    width: unset;
+    th, td {
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  &.error {
+    .ProseMirror p {
+      color: red!important;
+    }
   }
 }
 </style>

@@ -23,7 +23,7 @@
             <section class="row items-center item">
               <div class="col-auto row justify-center items-center prefix">
                 <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
-                <template v-else-if="item.meta?.type==='note'">
+                <template v-else-if="item.meta?.icon">
                   <span>{{ item.meta.icon || NoteDefaultIcon }}</span>
                 </template>
               </div>

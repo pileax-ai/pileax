@@ -62,6 +62,7 @@ import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
 import { removeBook } from 'src/service/book';
 import { timeMulti } from 'core/utils/format';
+import useApi from 'src/hooks/useApi';
 
 const props = defineProps({
   data: {
@@ -74,6 +75,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const $q = useQuasar();
+const { getCoverUrl } = useApi();
 const coverUrl = ref('');
 const coverPath = computed(() => {
   return `${props.data.path}/${props.data.coverName}`;
@@ -119,17 +121,23 @@ function onAction (action :any) {
 }
 
 function init() {
-  window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-    coverUrl.value = res.url;
-  }).catch((err: any) => {
-    console.error('打开文件失败：', err);
-  })
+  // window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
+  //   coverUrl.value = res.url;
+  // }).catch((err: any) => {
+  //   console.error('打开文件失败：', err);
+  // })
+  coverUrl.value = getCoverUrl(props.data);
 }
 
 function openBook() {
   const item = props.data;
-  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  if (process.env.MODE === 'electron') {
+    window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  } else {
+    window.open(`/reader/book?id=${item.id}`, '_blank');
+  }
 }
+
 
 async function onRemoveBook() {
   $q.dialog({

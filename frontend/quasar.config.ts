@@ -4,6 +4,8 @@
 import { defineConfig } from '#q-app/wrappers';
 import { fileURLToPath } from 'node:url';
 import path from 'path';
+import { viteConfig } from 'core/vite';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng';
 
 export default defineConfig((ctx) => {
   return {
@@ -75,6 +77,7 @@ export default defineConfig((ctx) => {
       // polyfillModulePreload: true,
       // distDir
       envFolder: 'env',
+      rawDefine: viteConfig(ctx).rawDefine,
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
@@ -100,7 +103,10 @@ export default defineConfig((ctx) => {
             lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
             useFlatConfig: true
           }
-        }, { server: false }]
+        }, { server: false }],
+        createSvgIconsPlugin({
+          iconDirs: [ fileURLToPath(new URL('./public/icons', import.meta.url)) ],
+        }),
       ],
       alias: {
         'core': path.resolve(__dirname, 'core'),

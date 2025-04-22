@@ -2,7 +2,7 @@
   <o-console-page class="page-about"
                   content-class="row col-12 justify-center"
                   expandable
-                  extend-header>
+                  extend-header enable-fullscreen>
     <template #header-extension>
       <span class="text-tips q-px-sm">
         {{$t('app.description')}}
@@ -47,6 +47,12 @@ const appInfo = __APP_INFO__;
   .o-query-section {
     .header-extension {
       display: none;
+    }
+  }
+
+  .console-content {
+    .q-card {
+      background: var(--q-accent) !important;
     }
   }
 }

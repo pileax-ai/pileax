@@ -1,7 +1,12 @@
 {
+  "newChat": "新建对话",
   "chat": "对话",
   "note": "笔记",
   "reading": "阅读",
+  "today": "今天",
+  "yesterday": "昨天",
+  "last7Days": "7天内",
+  "last30Days": "30天内",
   "app.description": "PileaX Admin 是一个开箱即用的开源管理后台框架，基于 Vue3.0、Vite、Pinia、TypeScript 和 Quasar 等最新前端技术。",
   "app.name": "PileaX",
   "app.slogan": "掌握投资先机，共享财富成长"

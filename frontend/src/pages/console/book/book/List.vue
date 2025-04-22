@@ -1,8 +1,10 @@
 <template>
   <o-console-page class="book-list"
-                title=" "
-                icon="book" disable-meta
-                  v-bind="query">
+                  title=" "
+                  icon="book"
+                  v-bind="query"
+                  disable-meta
+                  enable-fullscreen>
     <template #header-left>
       <div class="query-item no-drag-region">
         <q-input v-model="condition.title"
@@ -20,10 +22,12 @@
 
     <!--Actions-->
     <template #actions>
+      <o-file-uploader-btn :accept="bookAccept" :loading="loading" leading
+                       @ready="onAddReady" />
       <o-refresh-btn icon="add"
                      tooltip="添加"
                      :loading="loading"
-                     @click="onAdd" />
+                     @click="onAdd" v-if="false" />
       <book-filter-btn @view="onView" @sort="onSort" />
     </template>
 
@@ -55,7 +59,9 @@
         <div class="row col-12 justify-center action">
           <q-btn icon="add" label="添加图书"
                  class="bg-primary text-white"
-                 flat @click="onAdd" />
+                 flat @click="onAdd" v-if="false" />
+          <o-file-uploader :accept="bookAccept" :loading="loading" leading
+                           @ready="onAddReady" />
         </div>
       </section>
     </template>
@@ -70,12 +76,14 @@
 
 <script setup lang="ts">
 import {computed, onActivated, ref, watch} from 'vue';
-import { importBooks, queryBook } from 'src/service/book';
+import { importBooks, uploadBook, queryBook } from 'src/service/book';
 import { bookService } from 'src/service/remote/book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
+import OFileUploader from 'core/components/fIle/OFileUploader.vue';
+import OFileUploaderBtn from 'core/components/fIle/OFileUploaderBtn.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
@@ -88,6 +96,7 @@ const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');
+const bookAccept = ref('.epub,.mobi,.azw3');
 const orderBy = ref<Indexable>({
   updateTime: 'desc'
 });
@@ -112,6 +121,13 @@ function onClose() {
   doQuery();
 }
 
+async function onAddReady(file: File, icon: string) {
+  console.log('file', file, icon)
+  loading.value = true;
+  await uploadBook(file);
+  loading.value = false;
+}
+
 function onAdd() {
   loading.value = true;
   window.electronAPI.showDialog({
@@ -131,7 +147,11 @@ function onAdd() {
 }
 
 function openBook(item: any) {
-  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  if (process.env.MODE === 'electron') {
+    window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  } else {
+    window.open(`/reader/book?id=${item.id}`, '_blank');
+  }
 }
 
 function doQuery() {
@@ -150,6 +170,7 @@ function doQuery() {
 }
 
 function initData() {
+  // query.value.side.contentClass = '';
   doQuery();
 }
 

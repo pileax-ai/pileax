@@ -1,0 +1,24 @@
+{
+  "name": "ollama",
+  "title": "Ollama",
+  "description": "Run LLMs locally on your own machine",
+  "home": "https://ollama.com",
+  "github": "https://github.com/ollama/ollama",
+  "huggingface": "https://huggingface.co/ollama",
+  "config": [
+    {
+      "name": "baseURL",
+      "type": "text",
+      "key": "OLLAMA_BASE_URL",
+      "value": "",
+      "values": []
+    },
+    {
+      "name": "apiKey",
+      "type": "password",
+      "key": "OLLAMA_API_KEY",
+      "value": "",
+      "values": []
+    }
+  ]
+}

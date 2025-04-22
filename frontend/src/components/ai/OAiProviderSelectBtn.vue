@@ -1,27 +1,82 @@
 <template>
-  <q-btn icon="mdi-creation"
-         icon-right="mdi-chevron-down"
-         label="AI Provider"
-         class="bg-accent o-ai-provider-select-btn"
+  <q-btn class="o-ai-provider-select-btn"
+         :icon-right="iconRight"
          flat>
-    <q-menu :offset="[0, 4]">
-      <o-ai-provider-search />
+    <template v-if="single">
+      <o-svg-icon :name="provider.name" size="1.8rem" v-if="provider.title" />
+      <q-icon name="mdi-creation" v-else />
+      <slot></slot>
+    </template>
+    <template v-else>
+      <div class="row">
+        <o-svg-icon :name="provider.name" size="1.8rem" class="q-mr-sm" v-if="provider.title" />
+        <q-icon name="mdi-creation" class="q-mr-sm" v-else />
+        {{ provider.title || 'AI Provider' }}
+      </div>
+      <q-space />
+    </template>
+    <q-menu v-model="menu"
+            :anchor="anchor"
+            :self="self"
+            :offset="offset">
+      <o-ai-provider-search @select="onSelect" :enabled-only="enabledOnly" />
     </q-menu>
   </q-btn>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import useDialog from 'core/hooks/useDialog';
+import { computed, onMounted, PropType, ref } from 'vue'
 import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
+import useAi from 'src/hooks/useAi';
 
-const { openDialog } = useDialog();
+const props = defineProps({
+  single: {
+    type: Boolean,
+    default: false
+  },
+  enabledOnly: {
+    type: Boolean,
+    default: false
+  },
+  persist: {
+    type: Boolean,
+    default: false
+  },
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: 'bottom left'
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: 'top left'
+  },
+  offset: {
+    type: Array as PropType<number[]>,
+    default: () => {
+      return [0, 4];
+    }
+  },
+});
+const emit = defineEmits(['select']);
+const { aiStore, provider } = useAi();
 
-function onClick() {
-  openDialog({
-    type: 'ai-provider-search'
-  });
+const menu = ref(false);
+const iconRight = computed(() => {
+  return props.single ? 'none' : 'mdi-chevron-down';
+})
+
+function onSelect(value: Indexable) {
+  menu.value = false;
+  if (props.persist) {
+    aiStore.setProvider(value);
+  }
+
+  emit('select', value);
 }
+
+onMounted(() => {
+  //
+})
 </script>
 
 <style lang="scss">

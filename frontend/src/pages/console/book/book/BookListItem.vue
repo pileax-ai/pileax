@@ -1,7 +1,7 @@
 <template>
   <q-item class="book-list-item bg-accent" clickable>
     <q-item-section avatar>
-      <q-img :src="coverUrl" :ratio="3/4" spinner-size="20px" />
+      <q-img :src="coverPath" :ratio="3/4" spinner-size="20px" />
     </q-item-section>
     <q-item-section class="meta">
       <q-item-label class="title" lines="1">
@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
 import { timeMulti } from 'core/utils/format';
+import useApi from 'src/hooks/useApi';
 
 const props = defineProps({
   data: {
@@ -37,10 +38,11 @@ const props = defineProps({
 });
 const emit = defineEmits(['details']);
 
+const { getCoverUrl } = useApi();
 const coverUrl = ref('');
 
 const coverPath = computed(() => {
-  return `${props.data.path}/${props.data.coverName}`;
+  return getCoverUrl(props.data);;
 })
 
 function getCover() {
@@ -52,11 +54,11 @@ function getCover() {
 }
 
 watch(() => coverPath.value, (newValue) => {
-  getCover();
+  // getCover();
 })
 
 onMounted(() => {
-  getCover();
+  // getCover();
 })
 
 </script>

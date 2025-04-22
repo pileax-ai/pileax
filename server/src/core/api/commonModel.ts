@@ -24,7 +24,10 @@ export const QuerySchema = z.object({
   pageIndex: z.number().default(1),
   pageSize: z.number().default(20),
   condition: z.object({
-  }).default({}),
+    userId: z.string().optional()
+  }).default({
+    userId: ''
+  }),
   orderBy: z.object({
   }).default({ updateTime: 'desc' })
 });
@@ -34,7 +37,7 @@ export const QueryBodySchema = {
   description: 'Query',
   content: {
     'application/json': {
-      schema: QuerySchema.openapi('query')
+      schema: QuerySchema.openapi('Query')
     }
   }
 }

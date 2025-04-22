@@ -7,14 +7,15 @@ export class DeepSeekLLM implements BaseLLMProvider{
   private sdk: any;
   private model: string;
 
-  constructor(embedder = null, modelPreference = null) {
+  constructor(embedder = null, modelPreference = '') {
     this.initSdk();
-    this.model = modelPreference || process.env.DEEPSEEK_MODEL_PREF
+    this.model = modelPreference || process.env.DEEPSEEK_MODEL
       || 'deepseek-chat';
     logger.info(`Initialized DeepSeek with model: ${this.model}`);
   }
 
   private initSdk() {
+    logger.info(`Initialized DeepSeek with key: ${process.env.DEEPSEEK_API_KEY}`);
     this.sdk = new OpenAI({
       apiKey: process.env.DEEPSEEK_API_KEY,
       baseURL: 'https://api.deepseek.com/v1',
@@ -45,5 +46,9 @@ export class DeepSeekLLM implements BaseLLMProvider{
       stream: stream,
     })
     return request;
+  }
+
+  async getModels() {
+    return this.sdk.models.list();
   }
 }

@@ -8,10 +8,10 @@ export default function () {
   const apiName = ref('');
   const apiPath = ref('');
   const itemTitle = ref('');
-  const condition = ref({});
-  const rows = ref([]);
-  const columns = ref([]);
-  const visibleColumns = ref([]);
+  const condition = ref<Indexable>({});
+  const rows = ref<Indexable[]>([]);
+  const columns = ref<Indexable[]>([]);
+  const visibleColumns = ref<string[]>([]);
   const dense = ref(false);
   const tableRef = ref(null);
   const tableView = ref('table');
@@ -26,14 +26,16 @@ export default function () {
   const side = ref({
     show: false,
     title: '',
+    icon: '',
     position: 'right',
-    style: {width: '30vw', minWidth: '600px'}
+    style: {width: '30vw', minWidth: '600px'},
+    contentClass: 'card'
   });
   const loading = ref(false);
   const id = ref('');
   const view = ref('details');
 
-  const { t, dialog } = useCommon();
+  const { t, confirm, dialog } = useCommon();
   const componentStore = useComponentStoreWithOut();
 
   function initQuery({api = '', path = '/query', columnList = [], title = ''}) {
@@ -41,7 +43,7 @@ export default function () {
     apiPath.value = path;
     itemTitle.value = title;
     columns.value = columnList;
-    visibleColumns.value = columnList.map(item => item.field);
+    visibleColumns.value = columnList.map((item: Indexable) => item.field);
     onQuery();
   }
 
@@ -53,7 +55,7 @@ export default function () {
       paging.value.rowsPerPage = pagination.rowsPerPage;
     }
 
-    const sort = {};
+    const sort: Indexable = {};
     if (pagination.sortBy) {
       paging.value.sortBy = pagination.sortBy;
       paging.value.descending = pagination.descending;
@@ -75,12 +77,12 @@ export default function () {
     onRequest({pagination: paging.value});
   }
 
-  function onRequest({pagination, filter}) {
+  function onRequest({pagination, filter}: any) {
     loading.value = true;
     const queryBody = prepareQuery(pagination, filter);
     POST({name: apiName.value, path: apiPath.value, body: queryBody}).then(res => {
-      const data = res.data;
-      rows.value = data.list.map(e => {
+      const data = res as Indexable;
+      rows.value = (data.list as Indexable[]).map(e => {
         return {...e, hasChild: true}; // Used for TreeTable lazy load
       });
       paging.value.rowsNumber = data.total;
@@ -90,25 +92,16 @@ export default function () {
     });
   }
 
-  function onDense(value) {
+  function onDense(value: boolean) {
     dense.value = value;
   }
 
   function onDetails(idAlt: string, width = '30vw', viewAlt = 'details', icon = '', title = '') {
     id.value = idAlt;
-    view.value = viewAlt;
-    side.value = {
-      ...side.value,
-      show: true,
-      icon: icon || (idAlt ? 'edit' : 'add'),
-      title: title || itemTitle.value || t('details'),
-      action: true,
-      style: {
-        width: width,
-        minWidth: '600px'
-      }
-    }
+    icon = icon || (idAlt ? 'edit' : 'add');
+    openSide(width, viewAlt, icon, title);
   }
+
   function openSide(width = '30vw', viewAlt = 'details', icon = '', title = '') {
     view.value = viewAlt;
     side.value = {
@@ -116,40 +109,26 @@ export default function () {
       show: true,
       icon: icon,
       title: title || itemTitle.value || t('details'),
-      action: true,
       style: {
         width: width,
         minWidth: '300px'
-      }
+      },
     }
   }
 
-  function closeSide (notify = true) {
-    side.value.show = false;
+  function closeSide (notify = true, showSide = false) {
+    side.value.show = showSide;
+    onQuery();
     if (notify) notifyDone();
   }
 
   function onDelete(api: string, id: string, label = '', notify = true) {
-    // dialog({
-    //   title: 'Tips',
-    //   message: `确认删除该数据项？[${label}]`,
-    //   ok: 'Confirm',
-    //   cancel: 'Cancel'
-    // }).onOk(() => {
-    //   doDelete(name, id, notify);
-    // });
     if (label) {
       label = ` [<span class="text-orange text-bold">${label}</span>] `;
     }
-    componentStore.setDialog({
-      type: 'tips',
-      icon: 'error',
-      title: t('tips'),
-      message: `确认删除该数据项？${label}`,
-      showOk: true,
-      onOk: () => {
-        doDelete(api, id, notify);
-      }
+
+    confirm(`确认删除该数据项？${label}`, () => {
+      doDelete(api, id, notify);
     });
   }
 
@@ -168,13 +147,6 @@ export default function () {
   function isVisibleColumn (name: string) {
     return visibleColumns.value.indexOf(name) >= 0;
   }
-
-  watch(() => paging.value.page, (newValue) => {
-    setTimeout(() => {
-      // console.log('page', tableRef.value)
-      // tableRef.value?.scrollTo(10);
-    }, 1000)
-  })
 
   const table = ref({
     rows,
@@ -205,6 +177,7 @@ export default function () {
     view,
     side,
     condition,
+    componentStore,
 
     query,
     table,

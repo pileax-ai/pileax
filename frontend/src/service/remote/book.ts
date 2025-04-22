@@ -34,8 +34,23 @@ export class RemoteBookService {
    * @param query
    */
   async queryBook(query: Indexable): Promise<any> {
-
     return POST({ name: 'book', path: '/query', body: query });
+  }
+
+  async uploadBook(file: File, cover: File, book: Indexable) {
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('files', cover);
+    formData.append('book', JSON.stringify(book));
+    return POST({
+      name: 'book',
+      path: '/upload',
+      query: { uuid: book.uuid },
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
   }
 }
 

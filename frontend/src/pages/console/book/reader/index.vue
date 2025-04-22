@@ -34,6 +34,10 @@
     <popup-menu @share="onShare" />
     <share-dialog :show="showShareDialog"
                   @close="onShare(false)" />
+
+    <q-inner-loading :showing="loading">
+      <q-spinner-ios class="text-info" size="48px" />
+    </q-inner-loading>
   </o-reader-page>
 </template>
 
@@ -43,13 +47,13 @@ import PopupMenu from './PopupMenu.vue'
 import ShareDialog from './ShareDialog.vue'
 import ReaderHeader from './ReaderHeader.vue'
 import ReaderFooter from './ReaderFooter.vue'
-import OReaderPage from 'core/page/template/OReaderPage.vue'
-import ReaderSide from 'src/components/reader/ReaderSide.vue'
+import OReaderPage from 'components/page/OReaderPage.vue'
+import ReaderSide from 'components/reader/ReaderSide.vue'
 
 import 'js/reader.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
-import { getBook, nextPage, openBook, prevPage } from 'src/service/book'
+import { getBook, nextPage, openBookRemote, prevPage } from 'src/service/book'
 import { bookAnnotationService } from 'src/service/remote/book-annotation'
 import { findBookAnnotation, renderAnnotations } from 'src/service/book-annotation'
 import { ReadingMode } from 'src/types/reading'
@@ -59,11 +63,11 @@ const { store, setBook, setBookId } = useBook();
 
 const bookRef = ref(null);
 const showShareDialog = ref(false);
+const loading = ref(false);
 
 function prepareOpen() {
   const name = route.name;
   const id: string = String(route.query.id ?? '');
-  console.log('prepareOpen', name, id);
   switch (name) {
     case 'reader-book':
       openWithBook(id);
@@ -93,12 +97,15 @@ async function openWithAnnotation(annotationId: string) {
 async function open(bookId: string, initialCfi = '') {
   const book: Indexable = await getBook(bookId);
   if (book) {
-    setBookId(parseInt(bookId));
+    setBookId(bookId);
     setBook(book);
 
     const filePath = `${book.path}/${book.fileName}`;
     const cfi = initialCfi || book.readingPosition || '';
-    await openBook(bookRef.value, filePath, cfi);
+
+    loading.value = true;
+    await openBookRemote(bookRef.value, filePath, cfi);
+    loading.value = false;
 
     setTimeout(() => {
       prepareAnnotations(bookId);

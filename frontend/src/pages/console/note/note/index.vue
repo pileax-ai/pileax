@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-note">
+  <o-note-page ref="notePage" class="page-note">
     <header class="row items-center justify-between note-header text-readable">
       <note-breadcrumbs :id="id" />
       <note-actions @action="onAction" />
@@ -28,7 +28,7 @@
     </q-scroll-area>
 
     <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
-  </q-page>
+  </o-note-page>
 </template>
 
 <script setup lang="ts">
@@ -41,9 +41,10 @@ import { debounce } from 'quasar';
 
 import useNote from 'src/hooks/useNote';
 import { Note } from 'src/types/note';
-import OEmojiMenu from 'components/input/OEmojiMenu.vue';
+import OEmojiMenu from 'components/form/OEmojiMenu.vue';
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue';
 import NoteActions from 'components/note/NoteActions.vue';
+import ONotePage from 'components/page/ONotePage.vue';
 
 const route = useRoute();
 const {
@@ -55,6 +56,7 @@ const {
   setIcon,
 } = useNote();
 
+const notePage = ref<InstanceType<typeof ONotePage>>();
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>();
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const id = ref('');
@@ -71,6 +73,7 @@ const loading = ref(false);
 const options = computed(() => {
   return {
     aiOption: aiOption.value,
+    title: true,
     content: '',
     showMainMenu: false,
     showBubbleMenu: true,
@@ -113,6 +116,9 @@ function onAction(action: Indexable) {
   switch (action.value) {
     case 'fullWidth':
       pageView.value = action.actionValue ? 'full' : 'page';
+      break;
+    case 'split':
+      notePage.value?.toggleSide();
       break;
     case 'toc':
       showToc.value = action.actionValue;

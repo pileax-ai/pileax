@@ -31,6 +31,14 @@ import OCommonPage from 'core/page/template/OCommonPage.vue';
 import OConsoleSection from '../section/OConsoleSection.vue';
 
 const props = defineProps({
+  icon: {
+    type: String,
+    default: ''
+  },
+  title: {
+    type: String,
+    default: ''
+  },
   extendHeader: {
     type: Boolean,
     default: false
@@ -43,19 +51,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  collapse: {
-    type: Boolean,
-    default: false
-  },
-  icon: {
-    type: String,
-    default: ''
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  expandable: {
+  enableFullscreen: {
     type: Boolean,
     default: false
   },

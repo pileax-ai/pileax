@@ -1,68 +1,44 @@
-import { NotFoundException, ServerException } from '@/core/api/exceptions';
-import type { Book } from '@/api/reading/model/bookModel';
-import type { Query } from "@/core/api/commonModel";
-import { BookRepository } from '@/api/reading/repo/bookRepository';
+import { ServerException } from '@/core/api/exceptions';
+import type { Chat } from '@/api/ai/model/chat.model';
+import { ChatRepository } from '@/api/ai/repo/chat.repository';
 import { getLLM } from '@/ai/helpers/llmHelper';
 import { logger } from '@/common';
-import { ChatMessage } from '@/types/chat'
-import { ChatCompletion } from '@/api/ai/model/chat.model'
+import { ChatMessage } from '@/types/chat';
+import { ChatCompletion } from '@/api/ai/model/chat.model';
+import { BaseService } from '@/core/api/base.service';
 
-export class ChatService {
-	private repo: BookRepository;
+export class ChatService extends BaseService<Chat, ChatRepository>{
 
-	constructor(repository: BookRepository = new BookRepository()) {
-		this.repo = repository;
+	constructor() {
+		super(new ChatRepository());
 	}
 
-  async create(data: Book) {
-    return await this.repo.create(data);
-  }
-
-  async update(data: Book) {
-    return await this.repo.update(data);
-  }
-
-	async get(id: number) {
-		const doc = await this.repo.findById(id);
-    if (!doc) {
-      throw new NotFoundException('Book', id.toString());
-    }
-    return doc;
-	}
-
-  async getByUuid(uuid: string) {
-    const doc = await this.repo.findByUuid(uuid);
-    if (!doc) {
-      throw new NotFoundException('Book', uuid);
-    }
-    return doc;
-  }
-
-  async delete(id: number) {
-    await this.repo.delete(id);
-  }
-
-  async getAll() {
-    return this.repo.getAll()
-  }
-
-  async query(data: Query) {
-    return this.repo.query(data)
+  async findBySession(sessionId: string) {
+    return await this.repo.findBySession(sessionId);
   }
 
   async chatCompletion(data: ChatCompletion) {
     try {
-      const llm = await getLLM('deepseek', 'deepseek-chat');
+      const chats = await this.findBySession(data.sessionId);
+      const history = chats.flatMap((chat) => [
+        { role: 'user', content: chat.message },
+        { role: 'assistant', content: chat.content },
+      ]);
       const messages: ChatMessage[] = [
         {
           role: 'system',
           content: 'You are an assistant. Please answer in [LANGUAGE].',
         },
+        ...history,
         {
           role: 'user',
-          content: '对《周易》一书进行总结',
+          content: data.message,
         },
       ];
+
+      const provider = data.provider || 'deepseek';
+      const model = data.model || '';
+      const llm = await getLLM(provider, model);
       return await llm.createChatCompletion(messages, {
         stream: data.stream
       });

@@ -4,12 +4,16 @@ import { api } from 'boot/axios';
 
 export const useApiStore = defineStore('api', {
   state: () => ({
-    baseURL: process.env.API_BASE_URL,
+    appBase: process.env.APP_BASE_URL,
+    apiBase: process.env.API_BASE_URL,
     timeout: (process.env.API_TIMEOUT || 60000) as number,
   }),
   actions: {
-    setBaseURL(url: string) {
-      this.baseURL = url;
+    setAppBase(url: string) {
+      this.appBase = url;
+    },
+    setApiBase(url: string) {
+      this.apiBase = url;
       api.defaults.baseURL = url;
     },
     setTimeout(timeout: number) {

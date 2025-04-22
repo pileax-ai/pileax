@@ -5,15 +5,29 @@
  * @version 1.0
  */
 import { BigNumber } from 'bignumber.js';
-import dayjs, { ManipulateType } from 'dayjs'
+import dayjs, { ManipulateType } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import zhCn from 'dayjs/locale/zh-cn';
 dayjs.extend(relativeTime);
 dayjs.locale(zhCn);
 
-// ================================================================================
+// =========================================================
+// File
+// =========================================================
+export function formatFileSize(bytes: number, decimals = 2): string {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  const size = bytes / Math.pow(k, i);
+  return `${parseFloat(size.toFixed(decimals))} ${sizes[i]}`;
+}
+
+// =========================================================
 // Number
-// ================================================================================
+// =========================================================
 export function formatNumber(value: number, {
   decision = 2,
   unit = '',
@@ -40,9 +54,9 @@ export function formatNumber(value: number, {
 
 }
 
-// ================================================================================
+// =========================================================
 // Time
-// ================================================================================
+// =========================================================
 export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
   return {
     fromNow: dayjs(time).fromNow(),

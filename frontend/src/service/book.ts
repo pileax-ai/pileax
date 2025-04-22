@@ -3,14 +3,17 @@
  *
  * @version 1.0
  */
-import 'src/js/reader.js'
-import { notifyWarning } from 'core/utils/control'
-import useDialog from 'core/hooks/useDialog'
-import useReader from 'src/hooks/useReader'
-import useBook from 'src/hooks/useBook'
-import { bookService } from 'src/service/remote/book'
-import { BookOperation, ReadingMode } from 'src/types/reading'
+import 'src/js/reader.js';
+import { notifyWarning } from 'core/utils/control';
+import useDialog from 'core/hooks/useDialog';
+import useApi from 'src/hooks/useApi';
+import useReader from 'src/hooks/useReader';
+import useBook from 'src/hooks/useBook';
+import { bookService } from 'src/service/remote/book';
+import { BookOperation, ReadingMode } from 'src/types/reading';
+import { base64ToFile, getFileSHA1 } from 'src/utils/book';
 
+const { getBookByPath } = useApi();
 const { openDialog } = useDialog();
 const { setQueryTimer } = useReader();
 const {
@@ -54,7 +57,7 @@ export const postMessage = (name :string, data :any) => {
       });
       break;
     case 'onMetadata':
-      savingBook(data);
+      onMetadata(data);
       break;
     case 'onRelocated':
       onRelocated(data);
@@ -152,6 +155,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
       const fileName = filePath.split('/').pop() ?? '';
       const file = new File([res.buffer], fileName);
       const data = {
+        saving: 'local',
         file: file,
         sha1: res.sha1,
         filePath: filePath
@@ -166,6 +170,76 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
       reject(err);
     })
   });
+}
+
+/**
+ * Open book
+ *
+ * @param bookElement
+ * @param filePath
+ * @param cfi
+ * @param importing
+ */
+const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
+  const bookUrl = getBookByPath(filePath);
+  return new Promise((resolve, reject) => {
+    fetch(bookUrl)
+      .then((res: any) => res.blob())
+      .then((blob) => {
+
+      const file = new File([blob], new URL(bookUrl, window.location.origin).pathname);
+      const data = {
+        saving: 'local',
+        file: file,
+        filePath: filePath
+      };
+
+      console.log('openBook', cfi)
+      window.ebook.open(bookElement, data, cfi, false);
+      setManual(BookOperation.Load);
+      resolve(data);
+    }).catch((err: any) => {
+      console.error('打开文件失败：', err);
+      reject(err);
+    })
+  });
+}
+
+const uploadBook = async (file: File) => {
+  const data = {
+    saving: 'remote',
+    file: file,
+    sha1: await getFileSHA1(file),
+    filePath: ''
+  }
+  window.ebook.open(document.body, data, '', true);
+}
+
+const onMetadata = async (metadata: any) => {
+  if (metadata.saving === 'remote') {
+    await savingBookRemote(metadata);
+  } else {
+    await savingBook(metadata);
+  }
+}
+
+const savingBookRemote = async (metadata: any) => {
+  console.log('savingBookRemote', metadata);
+  bookService.getBookByUuid(metadata.sha1).then(res => {
+    notifyWarning('书已存在');
+  }).catch(err => {
+    const coverFile = base64ToFile(metadata.cover, 'cover');
+    console.log('cover', coverFile)
+    const book = buildBook(metadata, {
+      path: metadata.sha1,
+      fileName: metadata.file.name
+    });
+    // Save book files and metadata
+    bookService.uploadBook(metadata.file, coverFile, book).then(res => {
+      console.log('upload', res);
+      setQueryTimer(Date.now());
+    })
+  })
 }
 
 const savingBook = async (metadata: any) => {
@@ -307,6 +381,8 @@ export {
   importBooks,
   getBook,
   openBook,
+  openBookRemote,
+  uploadBook,
   savingBook,
   saveBook,
   queryBook,

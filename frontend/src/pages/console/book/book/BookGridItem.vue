@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
+import useApi from 'src/hooks/useApi';
 
 const props = defineProps({
   data: {
@@ -23,30 +24,17 @@ const props = defineProps({
 });
 const emit = defineEmits(['details']);
 
-const coverUrl = ref('');
-
-const coverPath = computed(() => {
-  return `${props.data.path}/${props.data.coverName}`;
+const { getCoverUrl } = useApi();
+const coverUrl = computed(() => {
+  return getCoverUrl(props.data);
 })
-
-function getCover() {
-  window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-    coverUrl.value = res.url;
-  }).catch((err: any) => {
-    console.error('打开文件失败：', err);
-  })
-}
 
 function onDetails() {
   emit('details');
 }
 
-watch(() => coverPath.value, (newValue) => {
-  getCover();
-})
-
 onMounted(() => {
-  getCover();
+  // getCover();
 })
 
 </script>

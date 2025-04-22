@@ -5,7 +5,7 @@
                     :side-full-screen="sideFullScreen">
     <!--Header-->
     <header class="bg-secondary console-header">
-      <section class="row justify-between text-info console-toolbar">
+      <section class="row col-12 justify-between text-info console-toolbar">
         <div class="row items-center">
           <div class="row items-center" v-if="!disableMeta">
             <o-icon :name="icon || (menu.icon ? menu.icon : 'apps')" size="2rem" />
@@ -37,19 +37,12 @@
             <q-btn :icon="fullScreen ? 'mdi-arrow-collapse-all' : 'mdi-arrow-expand-all'"
                    class="btn-fullscreen desktop-only"
                    flat round
-                   @click="toggleFullScreen" />
-            <q-btn :icon="expand ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-                   class="btn-collapse"
-                   flat round
-                   @click="toggleExpand"
-                   v-if="expandable">
-              <o-tooltip :message="expand ? $t('collapse') : $t('expand')" />
-            </q-btn>
+                   @click="toggleFullScreen" v-if="enableFullscreen" />
             <slot name="query-table-actions-end"></slot>
           </template>
         </div>
       </section>
-      <section class="header-extension" v-if="extendHeader">
+      <section class="col-12 header-extension" v-if="extendHeader">
         <slot name="header-extension"></slot>
       </section>
     </header>
@@ -73,6 +66,11 @@
       </section>
     </section>
 
+    <!--Header-->
+    <footer>
+      <slot name="footer"></slot>
+    </footer>
+
     <template #side-panel>
       <slot name="side-panel"></slot>
     </template>
@@ -84,7 +82,7 @@ import {computed, onActivated, onMounted, ref, watch} from 'vue';
 import { useRoute } from 'vue-router';
 
 import OCommonSection from './OCommonSection.vue';
-import OIcon from 'core/components/misc/OIcon.vue';
+import OIcon from 'core/components/icon/OIcon.vue';
 
 import { toggleClass } from 'core/utils/misc';
 import { MenuItem } from 'core/types/menu';
@@ -93,15 +91,19 @@ import { openPath } from 'core/hooks/useRouter';
 import { useNaviStore } from 'stores/navi';
 
 const props = defineProps({
+  icon: {
+    type: String,
+    default: ''
+  },
+  title: {
+    type: String,
+    default: ''
+  },
   extendHeader: {
     type: Boolean,
     default: false
   },
   extensionOnly: {
-    type: Boolean,
-    default: false
-  },
-  collapse: {
     type: Boolean,
     default: false
   },
@@ -113,15 +115,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  icon: {
-    type: String,
-    default: ''
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  expandable: {
+  enableFullscreen: {
     type: Boolean,
     default: false
   },
@@ -324,14 +318,6 @@ onActivated(() => {
         }
       }
       border-bottom: solid 1px var(--q-accent);
-
-      .btn-fullscreen {
-        //display: none;
-      }
-
-      .btn-star {
-        display: none;
-      }
     }
 
     .console-content {
@@ -344,7 +330,7 @@ onActivated(() => {
   .o-console-section {
     .console-header .console-toolbar {
       background: var(--q-accent);
-      padding: 0 21px 0 21px;
+      padding: 0 21px 0 21px !important;
       position: fixed;
       left: 0;
       right: 0;
@@ -352,7 +338,12 @@ onActivated(() => {
 
       .q-btn {
         border-radius: 0;
+        min-height: 3em;
       }
+    }
+
+    .header-extension {
+      padding: 0;
     }
 
     .console-content {

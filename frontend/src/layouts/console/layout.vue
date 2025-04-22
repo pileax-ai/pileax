@@ -78,6 +78,13 @@ function onRouteChanged() {
   let activity = '';
   const { name, path } = route;
   switch (name) {
+    case 'chat':
+    case 'chat-session':
+      activity = 'chat';
+      break;
+    case 'knowledge':
+      activity = 'knowledge';
+      break;
     case 'note':
       activity = 'note';
       break;

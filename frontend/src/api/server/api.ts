@@ -11,35 +11,17 @@ import { RequestOptions } from 'core/types/request';
  * API Url Registration
  */
 const urls: Indexable = {
-  authSignin: '/auth/signin',
-
-  account: '/admin/user',
-  authLogin: '/auth/login',
+  aiProvider: '/ai/provider',
+  auth: '/auth',
   book: '/book',
   bookAnnotation: '/book/annotation',
-  clientVersion: '/client/version',
+  chat: '/chat',
+  chatSession: '/chat/session',
+  file: '/file',
   note: '/note',
-  platformConfig: '/platform/config',
-  platformDict: '/platform/dict',
-  platformDictItem: '/platform/dict/item',
-  platformDictItemSelect: '/platform/dict/item/select',
-  platformFileMeta: '/platform/file/meta',
-  platformHelp: '/platform/help',
-  prompt: '/prompt',
-  promptCategory: '/prompt/category',
-  role: '/role',
-  roleMenu: '/role/menu',
-  roleMenuQueryByRole: '/role/menu/query/byrole',
-  slide: '/platform/slide',
-  statistics: '/system/statistics',
+  knowledge: '/knowledge',
   user: '/user',
-  userQueryDetails: '/user/query/details',
-  userSigninRecord: '/user/signin/record',
-  userUsage: '/user/usage',
-  systemMenu: '/system/menu',
   systemHealthCheck: '/system/health-check',
-  systemMenuQueryApp: '/system/menu/query/app',
-  systemOperationLog: '/system/operation/log',
 };
 
 // 排序
@@ -81,7 +63,7 @@ export const getRequest = (data: RequestOptions) => {
   })
 }
 
-export const postRequest = (data:RequestOptions) => {
+export const postRequest = (data: RequestOptions) => {
   const url = getUrl(data)
   const body = data.body
 
@@ -89,7 +71,8 @@ export const postRequest = (data:RequestOptions) => {
     url: url,
     method: 'post',
     params: data.query || {},
-    data: body
+    data: body,
+    headers: data.headers
   })
 }
 

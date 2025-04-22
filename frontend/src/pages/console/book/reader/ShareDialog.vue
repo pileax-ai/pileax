@@ -45,7 +45,8 @@
 import {computed, onMounted, ref, watch} from 'vue';
 import html2canvas from 'html2canvas';
 import useBook from 'src/hooks/useBook';
-import {importBooks} from 'src/service/book';
+import useApi from 'src/hooks/useApi';
+import { notifyDone } from 'core/utils/control';
 
 const props = defineProps({
   show: {
@@ -55,6 +56,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['ok', 'close', 'show']);
 
+const { getCoverUrl } = useApi();
 const { book, progress, selection } = useBook();
 const modal = ref();
 const captureRef = ref(null);
@@ -75,11 +77,32 @@ async function onDownload() {
   const canvas = await html2canvas(captureElement, {
     scale: 3,
     backgroundColor: 'transparent',
-    useCORS: true
+    useCORS: true,
+    logging: false
   });
   const base64Image = canvas.toDataURL('image/png');
 
   // Save to disk
+  if (process.env.MODE === 'electron') {
+    saveToDisk(base64Image);
+  } else {
+    download(base64Image);
+  }
+  modal.value.hide();
+}
+
+function download(base64Image: any) {
+  const link = document.createElement('a');
+  link.href = base64Image;
+  link.download = `share.${Math.floor(Date.now() / 1000)}.png`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  loading.value = false;
+  notifyDone();
+}
+
+function saveToDisk(base64Image: any) {
   window.electronAPI.showDialog({
     properties: ['openDirectory']
   }).then(async (result: any) => {
@@ -95,25 +118,13 @@ async function onDownload() {
   });
 }
 
-async function onDownload0() {
-  window.electronAPI.showDialog({
-    properties: ['openDirectory']
-  }).then(async (result: any) => {
-    if (!result.canceled && result.filePaths.length > 0) {
-      console.log('path', result.filePaths[0]);
-    }
-    loading.value = false;
-  }).catch((err: any) => {
-    loading.value = false;
-  });
-}
-
 function init() {
-  window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-    coverUrl.value = res.url;
-  }).catch((err: any) => {
-    console.error('打开文件失败：', err);
-  })
+  // window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
+  //   coverUrl.value = res.url;
+  // }).catch((err: any) => {
+  //   console.error('打开文件失败：', err);
+  // })
+  coverUrl.value = getCoverUrl(book.value);
 }
 
 watch(() => props.show, (newValue) => {

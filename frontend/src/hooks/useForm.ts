@@ -5,15 +5,15 @@ import { BaseValidation } from '@vuelidate/core';
 
 export default function () {
   const apiName = ref('');
-  const form = ref({} as Indexable);
+  const form = ref<Indexable>({});
   const loading = ref(false);
-  const vuelidate :Ref<BaseValidation> = ref(null);
+  const vuelidate: Ref<BaseValidation | null> = ref(null);
 
-  function initForm(api :string) {
+  function initForm(api: string) {
     apiName.value = api;
   }
 
-  function validate(v$ :any) {
+  function validate(v$: any) {
     vuelidate.value = v$.value;
     v$.value.$touch();
     if (v$.value.$error) {
@@ -22,7 +22,8 @@ export default function () {
       return true;
     }
   }
-  function submit (body :Indexable, callback:() => any) {
+
+  function submit (body: Indexable, callback:() => any) {
     loading.value = true;
     if (body.id) {
       PUT({name: apiName.value, body: body}).then(data => {
@@ -39,7 +40,7 @@ export default function () {
     }
   }
 
-  function postSubmit (data :Indexable, callback:() => any) {
+  function postSubmit (data: Indexable, callback: (value: any) => any) {
     loading.value = false;
     form.value.id = data.id;
     vuelidate.value?.$reset();

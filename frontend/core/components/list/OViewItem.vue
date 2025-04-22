@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import OIcon from 'core/components/misc/OIcon.vue';
+import OIcon from 'core/components/icon/OIcon.vue';
 import OCopyBtn from 'core/components/button/OCopyBtn.vue';
 
 const props = defineProps({

@@ -11,15 +11,21 @@
                                show-item-icon separator />
       </q-list>
       <note-tree :max-width="maxWidth" v-show="activity === 'note'" />
+      <chat-session-list :max-width="maxWidth" v-show="activity === 'chat'" />
+      <knowledge-list :max-width="maxWidth" v-show="activity === 'knowledge'" />
     </template>
   </drawer-navi>
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeMount } from 'vue';
+
 import DrawerNavi from 'core/page/DrawerNavi.vue'
 import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue'
 import NoteTree from './note/note-tree.vue';
-import {computed, onBeforeMount} from 'vue';
+import ChatSessionList from './chat/chat-session-list.vue';
+import KnowledgeList from './knowledge/knowledge-list.vue';
+
 import useNavi from 'src/hooks/useNavi';
 
 const props = defineProps({
@@ -43,6 +49,10 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .navi-list {
+  .group {
+    padding: 8px 10px;
+  }
+
   .header-item.root {
     height: 40px !important;
     min-height: unset;

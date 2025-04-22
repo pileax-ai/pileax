@@ -333,7 +333,7 @@ a:hover {
     .q-field__control {
       height: 32px;
       min-height: unset;
-      padding: 0;
+      padding: 0 8px;
       background: transparent !important;
 
       &:before {
@@ -433,6 +433,10 @@ a:hover {
 
 .o-popup-edit {
   min-width: 400px !important;
+}
+
+.q-tooltip {
+  max-width: 400px;
 }
 
 // --------------------------------------------------------------------------------

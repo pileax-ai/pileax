@@ -40,3 +40,12 @@ export const appDbPath = () => {
 export const appBookRootPath = () => {
   return path.join(appStoragePath(), 'books');
 }
+
+/**
+ * App public root path
+ *
+ * APP_ROOT/storage/files
+ */
+export const appPublicRootPath = () => {
+  return path.join(appStoragePath(), 'files');
+}

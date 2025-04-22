@@ -29,7 +29,7 @@
       <o-common-item :icon="item.icon"
                      :label="menuLabel(item.name)"
                      :to="item.path"
-                     :emoji="item.meta?.type==='note' ? item.meta?.icon || NoteDefaultIcon : ''"
+                     :emoji="['note', 'chat-session'].includes(item.meta?.type) ? item.meta?.icon || NoteDefaultIcon : ''"
                      class="text-tips"
                      clickable closable right-side>
         <template #side>

@@ -120,10 +120,6 @@ const props = defineProps({
     default: false
   }
 });
-
-const textColor = computed(() => {
-  return props.color + '-10'
-});
 </script>
 
 <style lang="scss">

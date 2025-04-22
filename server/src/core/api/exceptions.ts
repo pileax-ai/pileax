@@ -1,6 +1,6 @@
 export class HttpException extends Error {
   constructor(
-    public readonly statusCode: number,
+    public readonly status: number,
     public readonly message: string,
     public readonly details?: Record<string, unknown>
   ) {
@@ -19,8 +19,8 @@ export class NotFoundException extends HttpException {
 }
 
 export class ServerException extends HttpException {
-  constructor(resource: string, message: string) {
-    super(500, 'Internal Server Error.', {
+  constructor(resource: string, message = '') {
+    super(500, message || 'Internal Server Error.', {
       resource,
       message
     })

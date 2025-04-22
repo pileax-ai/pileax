@@ -29,7 +29,7 @@ export default {
     loading: false
   },
   pageTransition: {
-    enable: true,
+    enable: false,
     name: 'fade'
   }
 }

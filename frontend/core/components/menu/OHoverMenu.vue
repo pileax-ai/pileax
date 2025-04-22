@@ -25,9 +25,18 @@ import { debounce } from 'quasar';
 import {computed, onMounted, PropType, ref, watch} from 'vue';
 
 const props = defineProps({
-  nohover: { type: Boolean, default: false },
-  anchor: {type: undefined, default: 'bottom right'},
-  self: { type: String, default: 'top right' },
+  nohover: {
+    type: Boolean,
+    default: false
+  },
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: 'bottom right'
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: 'top right'
+  },
   offset: {
     type: Array as PropType<number[]>,
     default: () => {

@@ -13,6 +13,11 @@ export const sendOk = (response: Response, data: unknown) => {
   return response.status(serviceResponse.code).send(serviceResponse);
 };
 
+export const sendFailed = (response: Response, message: string, code = 400) => {
+  const serviceResponse = ServiceResponse.failure(message, {}, code);
+  return response.status(serviceResponse.code).send(serviceResponse);
+};
+
 export const validateRequest = (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => {
 	try {
 		schema.parse({ body: req.body, query: req.query, params: req.params });

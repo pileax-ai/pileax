@@ -116,7 +116,11 @@ function onAction (action :any) {
 
 function openBook() {
   const item = props.data;
-  window.electronAPI.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
+  if (process.env.MODE === 'electron') {
+    window.electronAPI.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
+  } else {
+    window.open(`/reader/annotation?id=${item.id}`, '_blank');
+  }
 }
 
 async function onRemoveBook() {

@@ -11,7 +11,7 @@
 import {computed, watch} from 'vue';
 import { useComponentStore } from 'stores/component';
 
-import OSettingsDialog from 'core/components/settings/OSettingsDialog.vue';
+import OSettingsDialog from 'src/components/settings/OSettingsDialog.vue';
 import AiProviderSearchDialog from './AiProviderSearchDialog.vue';
 import NoteSearchDialog from './NoteSearchDialog.vue';
 import TipsDialog from './TipsDialog.vue';

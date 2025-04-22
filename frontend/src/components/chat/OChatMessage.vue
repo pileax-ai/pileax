@@ -1,5 +1,5 @@
 <template>
-  <q-item class="o-chat-message user" v-if="role==='user'">
+  <q-item class="o-chat-message user" :id="chat.id">
     <q-item-section avatar>
       <q-avatar>
         <img :src="avatar" v-if="!alignRight" />
@@ -21,11 +21,15 @@
       </template>
       <template v-else>
         <div class="message readonly">
-          {{message}}
+          {{ chat.message }}
         </div>
         <div class="actions">
-          <q-btn icon="content_copy" flat />
-          <q-btn icon="edit" flat @click="onEdit" />
+          <o-copy-btn :value="chat.message" flat>
+            <o-tooltip position="bottom">复制</o-tooltip>
+          </o-copy-btn>
+          <q-btn icon="edit" flat @click="onEdit">
+            <o-tooltip position="bottom">编辑</o-tooltip>
+          </q-btn>
         </div>
       </template>
     </q-item-section>
@@ -36,34 +40,62 @@
     </q-item-section>
   </q-item>
 
-  <q-item class="o-chat-message system" v-else>
+  <q-item class="o-chat-message assistant">
     <q-item-section avatar>
-      <q-avatar>
-        <img :src="avatar" />
+      <q-avatar color="accent">
+        <o-svg-icon :name="chat.provider" size="2rem" />
       </q-avatar>
       <div class="line"></div>
     </q-item-section>
 
     <!-- Column 1 -->
     <q-item-section>
-      <q-spinner-dots size="2rem" v-if="streaming" />
+      <q-spinner-dots size="2rem"
+                      v-if="streaming && !chat.content && !chat.reasoningContent" />
       <template v-else>
-        <div class="think row items-center text-readable" v-if="think">
-          <q-icon name="emoji_objects" size="1.4rem" /> 已深度思考
-        </div>
+        <div class="message-wrapper" :class="{'reasoning': chat.reasoningContent}">
+          <q-expansion-item header-class="text-readable"
+                            default-opened
+                            v-if="chat.reasoningContent">
+            <template #header>
+              <q-item-section avatar>
+                <q-avatar size="24px">
+                  <o-svg-icon name="reasoning" size="1.4rem" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                已深度思考
+              </q-item-section>
+            </template>
+            <o-chat-message-view :message="chat.reasoningContent" />
+          </q-expansion-item>
 
-        <div class="message-wrapper">
+
           <div class="message">
-            <o-chat-message-view :message="message" />
-            <slot></slot>
+            <o-chat-message-view :message="chat.content"
+                                 :class="{'error': chat.result===-1}" />
           </div>
 
-          <div class="actions">
-            <q-btn icon="content_copy" flat />
-            <q-btn icon="autorenew" flat />
-            <q-btn icon="mdi-thumb-up-outline" flat />
-            <q-btn icon="mdi-thumb-down-outline" flat />
-            <q-btn icon="add" flat />
+          <div class="actions" >
+            <q-spinner-dots size="2rem" v-if="streaming" />
+            <template v-else>
+              <o-copy-btn :value="chat.content" flat notify>
+                <o-tooltip position="bottom">复制</o-tooltip>
+              </o-copy-btn>
+              <q-btn icon="autorenew" flat>
+                <o-tooltip position="bottom">重新生产</o-tooltip>
+              </q-btn>
+              <q-btn :icon="chat.like===1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                     flat @click="onLike(1)">
+                <o-tooltip position="bottom">喜欢</o-tooltip>
+              </q-btn>
+              <q-btn :icon="chat.like===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'" flat @click="onLike(-1)">
+                <o-tooltip position="bottom">不喜欢</o-tooltip>
+              </q-btn>
+              <q-btn icon="post_add" flat>
+                <o-tooltip position="bottom">创建笔记</o-tooltip>
+              </q-btn>
+            </template>
           </div>
         </div>
       </template>
@@ -75,31 +107,26 @@
         <slot name="alternative"></slot>
       </div>
     </q-item-section>
-
-    <q-item-section avatar>
-      <q-avatar>
-        <img :src="avatar" v-if="false" />
-      </q-avatar>
-    </q-item-section>
   </q-item>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, PropType, ref } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
+import { chatService } from 'src/service/remote/chat';
 
 const props = defineProps({
   avatar: {
     type: String,
     default: 'https://cdn.quasar.dev/img/avatar3.jpg'
   },
-  message: {
-    type: String,
-    default: ''
+  chat: {
+    type: Object as PropType<Indexable>,
+    default: () => {}
   },
-  role: {
-    type: String,
-    default: ''
+  streaming: {
+    type: Boolean,
+    default: false
   },
   alignRight: {
     type: Boolean,
@@ -109,16 +136,8 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  think: {
-    type: Boolean,
-    default: false
-  },
-  streaming: {
-    type: Boolean,
-    default: false
-  },
 })
-const emit = defineEmits(['send']);
+const emit = defineEmits(['like', 'send']);
 
 const editable = ref(false);
 const userMessage = ref('');
@@ -130,14 +149,22 @@ function onEdit() {
 function onSend() {
   editable.value = false;
   emit('send', {
-    role: 'user',
     message: userMessage,
-    think: props.think
+    reasoning: props.chat.reasoning
+  })
+}
+
+function onLike(like: number) {
+  chatService.save({
+    id: props.chat.id,
+    like: like
+  }).then(res => {
+    emit('like', res);
   })
 }
 
 onMounted(() => {
-  userMessage.value = props.role === 'user' ? props.message : props.message;
+  userMessage.value = props.chat.message;
 })
 </script>
 
@@ -156,14 +183,6 @@ onMounted(() => {
       max-width: 100%;
       min-height: 42px;
       justify-content: start;
-    }
-
-    .think {
-      width: max-content;
-      background: var(--q-dark);
-      border-radius: 6px;
-      padding: 10px 10px 10px 6px;
-      min-height: 42px;
     }
 
     &--avatar {
@@ -218,7 +237,7 @@ onMounted(() => {
     }
   }
 
-  &.system {
+  &.assistant {
     .q-item__section--avatar {
       align-items: end;
       .line {
@@ -229,6 +248,39 @@ onMounted(() => {
     .message-wrapper {
       margin: 4px 0;
       outline: solid 2px transparent;
+
+      &.reasoning {
+        margin: 0;
+      }
+
+      .q-item {
+        width: 240px;
+        min-height: 42px;
+        padding: 8px 8px;
+        background: var(--q-dark);
+        border-radius: 6px;
+
+        .q-item__section--side {
+          padding-right: 0;
+          .q-icon {
+            font-size: 20px;
+            margin-top: 3px;
+          }
+        }
+      }
+
+      .q-expansion-item__content {
+        padding: 0 0 0 1rem;
+        border-left: solid 1px var(--q-dark);
+
+        .yiitap * {
+          color: var(--yii-tips-color) !important;
+        }
+
+        .yiitap p {
+          font-size: 14px;
+        }
+      }
     }
     &:hover {
       .q-item__section--avatar {
@@ -248,6 +300,10 @@ onMounted(() => {
         border-radius: 6px;
         //outline: solid 2px var(--q-dark);
         //transition: outline 0.5s ease-in-out;
+
+        &.reasoning {
+          margin: 0 -10px;
+        }
       }
     }
   }
