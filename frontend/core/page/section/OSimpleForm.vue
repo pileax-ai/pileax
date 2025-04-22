@@ -5,13 +5,13 @@
               @submit="onSubmit"
               @reset="onReset">
         <section class="col-12">
-          <o-common-card>
+          <o-common-card header>
             <template #header>
               <div>{{ title }}</div>
             </template>
             <template #right>
             </template>
-            <section class="col-12 q-pa-md">
+            <section class="col-12">
               <slot></slot>
             </section>
           </o-common-card>
@@ -38,7 +38,7 @@ defineProps({
   },
   title: {
     type: String,
-    default: '基本信息'
+    default: ''
   },
   enableActions: {
     type: Boolean,

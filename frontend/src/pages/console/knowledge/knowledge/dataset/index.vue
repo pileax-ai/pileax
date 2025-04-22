@@ -1,10 +1,15 @@
 <template>
   <o-query-section class="dataset-tab"
-                   icon="store"
-                   title="Dateset"
+                   icon="dataset"
+                   title="Dataset"
                    v-bind="query"
                    sticky-first
-                   sticky-last>
+                   sticky-last extend-header>
+    <template #header-extension>
+      <div class="q-pb-sm text-tips">
+        Please wait for your files to finish parsing before starting an AI-powered chat.
+      </div>
+    </template>
 
     <!--Actions-->
     <template #query-start>
@@ -53,7 +58,7 @@
         </template>
         <template #body-cell-actions="props">
           <q-td :props="props">
-            <q-btn icon="donut_large" color="blue"
+            <q-btn icon="handyman" color="blue"
                    @click="$router.push({name: 'store-investment-configs', query: {productId: productId, productStoreId: props.row.id, type: '0'}})"
                    flat dense>
               <o-tooltip message="分成比例"/>

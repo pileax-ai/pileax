@@ -6,7 +6,7 @@
                   extend-header
                   enable-fullscreen>
     <template #header-extension>
-      <section>
+      <section class="knowledge-tabs">
         <q-btn-toggle
           v-model="currentTab"
           color="dark"
@@ -84,7 +84,7 @@ onActivated(() => {
     .console-toolbar {
       padding: 16px 21px 0 21px !important;
     }
-    .header-extension {
+    .header-extension .knowledge-tabs {
       position: absolute;
       top: 0;
       left: 100px;

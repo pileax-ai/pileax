@@ -5,7 +5,7 @@
                     :side-full-screen="sideFullScreen">
     <!--Header-->
     <header class="bg-secondary console-header">
-      <section class="row justify-between text-info console-toolbar">
+      <section class="row col-12 justify-between text-info console-toolbar">
         <div class="row items-center">
           <div class="row items-center" v-if="!disableMeta">
             <o-icon :name="icon || (menu.icon ? menu.icon : 'apps')" size="2rem" />
@@ -42,7 +42,7 @@
           </template>
         </div>
       </section>
-      <section class="header-extension" v-if="extendHeader">
+      <section class="col-12 header-extension" v-if="extendHeader">
         <slot name="header-extension"></slot>
       </section>
     </header>
@@ -318,14 +318,6 @@ onActivated(() => {
         }
       }
       border-bottom: solid 1px var(--q-accent);
-
-      .btn-fullscreen {
-        //display: none;
-      }
-
-      .btn-star {
-        display: none;
-      }
     }
 
     .console-content {

@@ -65,7 +65,6 @@ defineProps({
 
   .main-label {
     font-size: 1rem;
-    font-weight: bold;
     text-align: left;
     padding-right: 8px;
   }

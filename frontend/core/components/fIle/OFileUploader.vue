@@ -151,7 +151,7 @@ function updateFiles (file: File) {
   position: relative;
 
   .file-uploader {
-    min-width: 400px;
+    //min-width: 400px;
     min-height: 160px;
   }
 
