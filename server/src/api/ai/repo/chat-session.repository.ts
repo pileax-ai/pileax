@@ -34,7 +34,7 @@ export class ChatSessionRepository {
   }
 
   async query(query: Query) {
-    const filters = buildFilters(chatSession, ['title', 'userId'], query.condition);
+    const filters = buildFilters(chatSession, ['refId', 'refType', 'title', 'userId'], query.condition);
     const orders = buildOrders(chatSession, ['title', 'updateTime'], query.orderBy);
 
     return db.select().from(chatSession)

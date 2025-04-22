@@ -21,7 +21,7 @@ export const FileMetaSchema = z.object({
   url: z.string().optional(),
   path: z.string(),
   refId: z.string().optional(),
-  refType: z.string().optional(),
+  refType: z.string().optional().default('general'),
   status: z.number().optional(),
 });
 

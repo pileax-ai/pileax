@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "369047cd-e979-4f9b-b158-fbec7bf925d9",
+  "id": "99aa73f6-e05d-46e0-a50a-2b1cea38b984",
   "prevId": "746a4d7e-fb31-4645-a6a5-eae747cf786e",
   "tables": {
     "book": {
@@ -437,6 +437,22 @@
           "notNull": true,
           "autoincrement": false
         },
+        "ref_id": {
+          "name": "ref_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "''"
+        },
+        "ref_type": {
+          "name": "ref_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'general'"
+        },
         "status": {
           "name": "status",
           "type": "integer",
@@ -667,7 +683,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": "''"
+          "default": "'general'"
         },
         "status": {
           "name": "status",
@@ -845,13 +861,21 @@
           "autoincrement": false,
           "default": "''"
         },
-        "chat_id": {
-          "name": "chat_id",
+        "ref_id": {
+          "name": "ref_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
           "default": "''"
+        },
+        "ref_type": {
+          "name": "ref_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'general'"
         },
         "create_time": {
           "name": "create_time",
@@ -1009,7 +1033,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"note\".\"chat_id\"": "\"note\".\"ref_id\""
+    }
   },
   "internal": {
     "indexes": {}

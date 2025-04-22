@@ -1,0 +1,165 @@
+<template>
+  <section class="chat-sessions" :style="`max-width: ${maxWidth}px`">
+    <q-list>
+      <template v-for="(group, groupName) in groupedSession" :key="groupName">
+        <template v-if="groupName === 'byMonth'">
+          <template v-for="(subGroup, subGroupName) in group" :key="subGroupName">
+            <q-item-label class="text-tips group">{{ subGroupName }}</q-item-label>
+            <template v-for="(item, index) in subGroup as ChatSession[]" :key="index">
+              <q-item class="o-navi-item"
+                      :class="{'active': activeId === item.id}"
+                      clickable v-close-popup
+                      @click="openSession(item)">
+                <q-item-section>
+                  <q-item-label>
+                    {{ item.title }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </template>
+        </template>
+        <template v-else>
+          <template v-if="(group as ChatSession[]).length">
+            <q-item-label class="text-tips group">{{ $t(groupName) }}</q-item-label>
+            <template v-for="(item, index) in group as ChatSession[]" :key="index">
+              <q-item class="o-navi-item"
+                      :class="{'active': activeId === item.id}"
+                      clickable v-close-popup
+                      @click="openSession(item)">
+                <q-item-section>
+                  <q-item-label lines="1">
+                    {{ item.title }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </template>
+        </template>
+      </template>
+    </q-list>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { computed, onBeforeMount, ref } from 'vue';
+import { chatSessionService } from 'src/service/remote/chat-session';
+import { ChatSession } from 'src/types/chat';
+
+type GroupedSessions = {
+  today: ChatSession[];
+  yesterday: ChatSession[];
+  last7Days: ChatSession[];
+  last30Days: ChatSession[];
+  byMonth: Record<string, ChatSession[]>;
+};
+
+const props = defineProps({
+  refType: {
+    type: String,
+    default: 'general'
+  },
+  refId: {
+    type: String,
+    default: ''
+  },
+  maxWidth: {
+    type: Number,
+    default: 300
+  },
+  activeId: {
+    type: String,
+    default: ''
+  },
+});
+const emit = defineEmits(['open']);
+
+const sessions = ref<ChatSession[]>([]);
+const groupedSession = computed(() => {
+  return groupSessionsByTime(sessions.value);
+})
+
+async function refresh() {
+  const query = {
+    pageIndex: 1,
+    pageSize: 100,
+    condition: {
+      refType: props.refType,
+      refId: props.refId
+    },
+    orderBy: {
+      updateTime: 'desc'
+    }
+  }
+  chatSessionService.query(query).then(res => {
+    sessions.value = res;
+  })
+}
+
+function openSession(item: ChatSession) {
+  emit('open', item);
+}
+
+function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
+  const now = new Date();
+  const todayStart = new Date(now.setHours(0, 0, 0, 0));
+  const yesterdayStart = new Date(new Date().setDate(now.getDate() - 1));
+  const sevenDaysAgo = new Date(new Date().setDate(now.getDate() - 7));
+  const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
+
+  const result: GroupedSessions = {
+    today: [],
+    yesterday: [],
+    last7Days: [],
+    last30Days: [],
+    byMonth: {},
+  };
+
+  sessions.forEach((session) => {
+    const sessionDate = new Date(session.createTime);
+
+    // Day group
+    if (sessionDate >= todayStart) {
+      result.today.push(session);
+    } else if (sessionDate >= yesterdayStart) {
+      result.yesterday.push(session);
+    }  else if (sessionDate >= sevenDaysAgo) {
+      result.last7Days.push(session);
+    } else if (sessionDate >= thirtyDaysAgo) {
+      result.last30Days.push(session);
+    } else {
+      const monthKey = `${sessionDate.getFullYear()}-${String(sessionDate.getMonth() + 1).padStart(2, '0')}`;
+
+      // Month group
+      if (!result.byMonth[monthKey]) {
+        result.byMonth[monthKey] = [];
+      }
+      result.byMonth[monthKey].push(session);
+    }
+  });
+
+  // Deduplicate
+  result.last7Days = result.last7Days.filter(
+    (session) => !result.today.includes(session)
+  );
+  result.last30Days = result.last30Days.filter(
+    (session) => !result.today.includes(session) && !result.last7Days.includes(session)
+  );
+
+  return result;
+}
+
+onBeforeMount(() => {
+  refresh();
+})
+
+defineExpose({
+  refresh: refresh
+})
+</script>
+
+<style lang="scss">
+.chat-sessions {
+
+}
+</style>

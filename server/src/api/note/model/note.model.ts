@@ -14,7 +14,8 @@ export const NoteSchema = z.object({
 	content: z.string(),
 	icon: z.string().optional(),
 	cover: z.string().optional(),
-  chatId: z.string().optional(),
+  refId: z.string().optional(),
+  refType: z.string().optional().default('general'),
 });
 
 export const NoteBodySchema = {

@@ -73,6 +73,8 @@ export const chatSession = sqliteTable('chat_session', {
   userId: text('user_id').default(''),
   title: text().default(''),
   name: text().notNull(),
+  refId: text('ref_id').default(''), // reference Id
+  refType: text('ref_type').default('general'), // general, note, knowledge
   status: integer().default(0),
   ...timestamps
 });
@@ -105,8 +107,8 @@ export const fileMeta = sqliteTable('file_meta', {
   fileName: text('file_name').default(''),
   url: text().default(''),
   path: text().default(''),
-  refId: text('ref_id').default(''),
-  refType: text('ref_type').default(''),
+  refId: text('ref_id').default(''), // reference Id
+  refType: text('ref_type').default('general'),
   status: integer().default(1),
   ...timestamps
 });
@@ -129,7 +131,8 @@ export const note = sqliteTable('note', {
   content: text().notNull(),
   icon: text().default(''),
   cover: text().default(''),
-  chatId: text('chat_id').default(''),
+  refId: text('ref_id').default(''), // reference Id
+  refType: text('ref_type').default('general'), // general, chat, book, etc.
   ...timestamps
 });
 

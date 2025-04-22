@@ -1,11 +1,15 @@
 <template>
   <o-common-card class="chat-input-card" accent>
+    <div class="tag" v-if="tag">
+      <o-chip color="blue" dense>基于知识库</o-chip>
+    </div>
     <q-input ref="inputRef"
              v-model="input"
              placeholder="发送消息"
              borderless
              autofocus
              autogrow
+             :dense="dense"
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
@@ -27,7 +31,7 @@
         </q-btn>
       </div>
       <div>
-        <q-btn icon="add" class="bg-dark" flat round>
+        <q-btn icon="add" class="bg-dark" flat round v-if="enableUpload">
           <o-tooltip position="top" transition>
             <div class="title">上传文件</div>
             <div class="caption">最多10个，每个50M，支持各类文档和图片</div>
@@ -65,6 +69,18 @@ import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 
 const props = defineProps({
   loading: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
+    type: Boolean,
+    default: false
+  },
+  tag: {
+    type: String,
+    default: ''
+  },
+  enableUpload: {
     type: Boolean,
     default: false
   },
@@ -117,10 +133,14 @@ function reset() {
 <style lang="scss">
 .chat-input-card {
   margin: 0;
-  padding: 10px;
+  //padding: 10px;
   border-radius: 16px;
   width: 100%;
   max-width: 800px;
+
+  .card-content {
+    padding: 10px;
+  }
 
   .q-field {
     .q-field__native {
@@ -158,6 +178,12 @@ function reset() {
         opacity: 0.1;
       }
     }
+  }
+
+  .tag {
+    position: absolute;
+    right: 12px;
+    top: 4px;
   }
 }
 </style>

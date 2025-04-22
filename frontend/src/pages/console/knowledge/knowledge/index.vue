@@ -1,7 +1,8 @@
 <template>
-  <o-console-page ref="notePage"
+  <o-console-page ref="knowledgePage"
                   icon="mdi-database"
                   class="page-knowledge tabs"
+                  disable-meta
                   extend-header
                   enable-fullscreen>
     <template #header-extension>
@@ -24,7 +25,9 @@
                   keep-alive>
       <template v-for="(item, index) in tabs" :key="index">
         <q-tab-panel :name="item.value">
-          <component :is="item.component" />
+          <component :is="item.component"
+                     :knowledge-id="knowledgeId"
+                     :knowledge="knowledge" />
         </q-tab-panel>
       </template>
     </q-tab-panels>
@@ -40,7 +43,7 @@ import { knowledgeService } from 'src/service/remote/knowledge'
 
 const route = useRoute();
 const { knowledgeId, knowledge, setCurrentKnowledge } = useKnowledge();
-const currentTab = ref('dataset');
+const currentTab = ref('chat');
 
 import ChatTab from './chat/index.vue'
 import ConfigTab from './config/index.vue'
@@ -113,9 +116,6 @@ onActivated(() => {
   }
 
   .q-tab-panel {
-    .console-header {
-      display: none;
-    }
     .console-content {
       padding: 0 21px;
     }

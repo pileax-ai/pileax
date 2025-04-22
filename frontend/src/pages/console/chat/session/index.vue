@@ -20,7 +20,7 @@
         </div>
         <div class="message text-readable">我是你的AI助手，请把你的任务交给我吧~</div>
       </header>
-      <o-chat-input @send="onSend" />
+      <o-chat-input @send="onSend" enable-upload />
       <footer></footer>
     </section>
     <section class="row col-12 justify-center" v-else>
@@ -58,6 +58,7 @@
 
     <template #footer>
       <o-chat-input :loading="isLoading"
+                    enable-upload
                     @send="onSend"
                     @stop="onStop" />
 

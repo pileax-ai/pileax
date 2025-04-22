@@ -30,7 +30,7 @@
     </q-page-container>
 
     <q-footer class="bg-secondary text-info">
-      <o-chat-input />
+      <o-chat-input dense />
     </q-footer>
   </q-layout>
 </template>

@@ -2,7 +2,7 @@
   <o-hover-menu class="o-chat-toc"
                 menu-class="o-chat-toc-menu"
                 anchor="top end"
-                self="top right">
+                self="top right" min-width="240px">
     <template #trigger>
       <div class="mini-view">
         <ul class="toc__list">
@@ -118,7 +118,7 @@ defineExpose({
     margin-block-end: 0 !important;
   }
   .toc__item {
-    max-width: 180px;
+    max-width: 300px;
     font-size: 0.9rem;
     padding: 2px 4px;
     .heading {

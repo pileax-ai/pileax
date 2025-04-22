@@ -66,6 +66,11 @@
       </section>
     </section>
 
+    <!--Header-->
+    <footer>
+      <slot name="footer"></slot>
+    </footer>
+
     <template #side-panel>
       <slot name="side-panel"></slot>
     </template>

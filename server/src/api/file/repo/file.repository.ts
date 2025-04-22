@@ -34,7 +34,7 @@ export class FileMetaRepository {
   }
 
   async query(query: Query) {
-    const filters = buildFilters(fileMeta, ['mimetype', 'fileName', 'userId'], query.condition);
+    const filters = buildFilters(fileMeta, ['refId', 'refType', 'mimetype', 'fileName', 'userId'], query.condition);
     const orders = buildOrders(fileMeta, ['mimetype', 'updateTime'], query.orderBy);
 
     const list = await db.select().from(fileMeta)
