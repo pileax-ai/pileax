@@ -5,6 +5,7 @@ import { bookAnnotationApi } from '@/api/reading/api/book-annotation.api';
 import { chatApi } from '@/api/ai/api/chat.api';
 import { chatSessionApi } from '@/api/ai/api/chat-session.api';
 import { fileApi } from '@/api/file/api/file.api';
+import { knowledgeApi } from '@/api/knowledge/api/knowledge.api';
 import { noteApi } from '@/api/note/api/note.api';
 import { providerApi } from '@/api/ai/api/provider.api';
 import { systemApi } from '@/api/system/api/system.api';
@@ -18,6 +19,7 @@ export const registerApi = () => {
   chatApi();
   chatSessionApi();
   fileApi();
+  knowledgeApi();
   noteApi();
   providerApi();
   systemApi();

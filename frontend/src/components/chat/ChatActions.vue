@@ -14,7 +14,7 @@
         <section class="row col-12 justify-around text-readable select">
           <o-ai-provider-select-btn anchor="bottom right"
                                     self="top right"
-                                    class="col-12"
+                                    class="col-12 bg-accent"
                                     persist
                                     enabled-only />
         </section>

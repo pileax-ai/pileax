@@ -8,6 +8,7 @@
             <div class="row items-center">
               <o-ai-provider-select-btn anchor="bottom right"
                                         self="top right"
+                                        class="bg-accent"
                                         @select="onSelectProvider"
                                         persist
                                         enabled-only />

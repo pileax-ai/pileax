@@ -37,14 +37,7 @@
             <q-btn :icon="fullScreen ? 'mdi-arrow-collapse-all' : 'mdi-arrow-expand-all'"
                    class="btn-fullscreen desktop-only"
                    flat round
-                   @click="toggleFullScreen" />
-            <q-btn :icon="expand ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-                   class="btn-collapse"
-                   flat round
-                   @click="toggleExpand"
-                   v-if="expandable">
-              <o-tooltip :message="expand ? $t('collapse') : $t('expand')" />
-            </q-btn>
+                   @click="toggleFullScreen" v-if="enableFullscreen" />
             <slot name="query-table-actions-end"></slot>
           </template>
         </div>
@@ -93,15 +86,19 @@ import { openPath } from 'core/hooks/useRouter';
 import { useNaviStore } from 'stores/navi';
 
 const props = defineProps({
+  icon: {
+    type: String,
+    default: ''
+  },
+  title: {
+    type: String,
+    default: ''
+  },
   extendHeader: {
     type: Boolean,
     default: false
   },
   extensionOnly: {
-    type: Boolean,
-    default: false
-  },
-  collapse: {
     type: Boolean,
     default: false
   },
@@ -113,15 +110,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  icon: {
-    type: String,
-    default: ''
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  expandable: {
+  enableFullscreen: {
     type: Boolean,
     default: false
   },
@@ -344,7 +333,7 @@ onActivated(() => {
   .o-console-section {
     .console-header .console-toolbar {
       background: var(--q-accent);
-      padding: 0 21px 0 21px;
+      padding: 0 21px 0 21px !important;
       position: fixed;
       left: 0;
       right: 0;
@@ -352,7 +341,12 @@ onActivated(() => {
 
       .q-btn {
         border-radius: 0;
+        min-height: 3em;
       }
+    }
+
+    .header-extension {
+      padding: 0;
     }
 
     .console-content {

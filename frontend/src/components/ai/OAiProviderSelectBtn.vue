@@ -1,13 +1,20 @@
 <template>
-  <q-btn icon-right="mdi-chevron-down"
-         class="bg-accent o-ai-provider-select-btn"
+  <q-btn class="o-ai-provider-select-btn"
+         :icon-right="iconRight"
          flat>
-    <div class="row">
-      <o-svg-icon :name="provider.name" size="1.8rem" class="q-mr-sm" v-if="provider.title" />
-      <q-icon name="mdi-creation" class="q-mr-sm" v-else />
-      {{ provider.title || 'AI Provider' }}
-    </div>
-    <q-space />
+    <template v-if="single">
+      <o-svg-icon :name="provider.name" size="1.8rem" v-if="provider.title" />
+      <q-icon name="mdi-creation" v-else />
+      <slot></slot>
+    </template>
+    <template v-else>
+      <div class="row">
+        <o-svg-icon :name="provider.name" size="1.8rem" class="q-mr-sm" v-if="provider.title" />
+        <q-icon name="mdi-creation" class="q-mr-sm" v-else />
+        {{ provider.title || 'AI Provider' }}
+      </div>
+      <q-space />
+    </template>
     <q-menu v-model="menu"
             :anchor="anchor"
             :self="self"
@@ -18,11 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue'
+import { computed, onMounted, PropType, ref } from 'vue'
 import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
 import useAi from 'src/hooks/useAi';
 
 const props = defineProps({
+  single: {
+    type: Boolean,
+    default: false
+  },
   enabledOnly: {
     type: Boolean,
     default: false
@@ -50,6 +61,9 @@ const emit = defineEmits(['select']);
 const { aiStore, provider } = useAi();
 
 const menu = ref(false);
+const iconRight = computed(() => {
+  return props.single ? 'none' : 'mdi-chevron-down';
+})
 
 function onSelect(value: Indexable) {
   menu.value = false;

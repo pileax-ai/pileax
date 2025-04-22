@@ -1,7 +1,8 @@
 <template>
   <o-console-page class="book-annotation-list"
+                  v-bind="query"
                   disable-meta
-                  v-bind="query">
+                  enable-fullscreen>
     <template #header-left>
       <div class="query-item no-drag-region">
         <q-input v-model="condition.note"

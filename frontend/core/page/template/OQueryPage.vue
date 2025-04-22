@@ -30,8 +30,12 @@
         <slot name="actions-end"></slot>
       </template>
 
-      <template #condition>
-        <slot name="condition"></slot>
+      <template #query-start>
+        <slot name="query-start"></slot>
+      </template>
+
+      <template #query-end>
+        <slot name="query-end"></slot>
       </template>
 
       <template #results>
@@ -112,6 +116,10 @@ const props = defineProps({
     default: ''
   },
   disableActions: {
+    type: Boolean,
+    default: false
+  },
+  enableFullscreen: {
     type: Boolean,
     default: false
   },

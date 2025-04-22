@@ -6,6 +6,7 @@ import { bookAnnotationRegistry } from '@/api/reading/api/book-annotation.api';
 import { chatRegistry } from '@/api/ai/api/chat.api';
 import { chatSessionRegistry } from '@/api/ai/api/chat-session.api';
 import { fileRegistry } from '@/api/file/api/file.api';
+import { knowledgeRegistry } from '@/api/knowledge/api/knowledge.api';
 import { noteRegistry } from '@/api/note/api/note.api';
 import { providerRegistry } from '@/api/ai/api/provider.api';
 import { systemRegistry } from '@/api/system/api/system.api';
@@ -21,6 +22,7 @@ export function generateOpenAPIDocument() {
     chatSessionRegistry,
     fileRegistry,
     noteRegistry,
+    knowledgeRegistry,
     providerRegistry,
 		systemRegistry,
 		systemConfigRegistry,

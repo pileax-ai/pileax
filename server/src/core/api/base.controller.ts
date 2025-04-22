@@ -1,7 +1,6 @@
 import type { Request, RequestHandler, Response } from 'express';
 import type { BaseService } from './base.service'; // 你刚写的服务基类
 import { sendOk } from '@/core/api/httpHandlers';
-import { noteService as service } from '@/api/note/service/note.service'
 import { Query } from '@/core/api/commonModel'
 
 export class BaseController<T extends { id?: string }> {
@@ -32,7 +31,7 @@ export class BaseController<T extends { id?: string }> {
 
   public getAll: RequestHandler = async (req: Request, res: Response) => {
     const userId = req.headers['x-user-id'] as string;
-    const result = await service.getAll(userId);
+    const result = await this.service.getAll(userId);
     sendOk(res, result);
   };
 

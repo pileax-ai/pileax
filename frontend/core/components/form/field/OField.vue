@@ -1,7 +1,16 @@
 <template>
   <div class="col-12 o-field" :class="{ 'dense': dense }">
-    <div class="row col-12 justify-start items-center" v-if="isMobile">
-      <div class="row col-12 main-label">
+    <div class="row col-12 justify-start items-center" v-if="side">
+      <div class="row col-3 main-label">
+        <span class="text-red" v-if="required">*</span>
+        <span>{{label}}</span>
+      </div>
+      <div class="col side">
+        <slot></slot>
+      </div>
+    </div>
+    <div class="row col-12 justify-start items-center" v-else>
+      <div class="col-12 main-label">
         <span class="text-red" v-if="required">*</span>
         <span>{{label}}</span>
       </div>
@@ -9,21 +18,10 @@
         <slot></slot>
       </div>
     </div>
-    <div class="row col-12 justify-start items-center" v-else>
-      <div class="col-3 main-label">
-        <span class="text-red" v-if="required">*</span>
-        <span>{{label}}:</span>
-      </div>
-      <div class="col side">
-        <slot></slot>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { isMobile } from 'core/hooks/useCommon';
-
 defineProps({
   label: {
     type: String,
@@ -66,9 +64,9 @@ defineProps({
   }
 
   .main-label {
-    //width: 100px;
     font-size: 1rem;
-    text-align: right;
+    font-weight: bold;
+    text-align: left;
     padding-right: 8px;
   }
 

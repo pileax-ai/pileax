@@ -51,12 +51,6 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: '/ai',
-    component: ConsoleLayout,
-    children: [
-    ]
-  },
-  {
     path: '/chat',
     component: ConsoleLayout,
     children: [
@@ -69,44 +63,6 @@ const routes: RouteRecordRaw[] = [
         path: '/a/chat/:id',
         component: () => import('pages/console/chat/session/index.vue'),
         name: 'chat-session'
-      },
-    ]
-  },
-  {
-    path: '/page',
-    component: ConsoleLayout,
-    children: [
-      {
-        path: '/exception/404',
-        component: () => import('pages/error/404.vue'),
-        name: 'exception-404'
-      },
-      {
-        path: '/iframe/docs',
-        component: IframePage,
-        name: 'iframe-docs',
-        meta: {isIframe: true}
-      },
-    ]
-  },
-  {
-    path: '/system',
-    component: ConsoleLayout,
-    children: [
-      {
-        path: 'config/llm',
-        component: () => import('pages/console/system/config/llm/List.vue'),
-        name: 'ai-config-llm'
-      },
-      {
-        path: 'files',
-        component: () => import('pages/console/system/content/file/List.vue'),
-        name: 'system-file'
-      },
-      {
-        path: 'about',
-        component: () => import('pages/console/system/about/About.vue'),
-        name: 'system-about'
       },
     ]
   },
@@ -150,6 +106,60 @@ const routes: RouteRecordRaw[] = [
         path: 'annotation',
         component: () => import('pages/console/book/reader/index.vue'),
         name: 'reader-annotation',
+      },
+    ]
+  },
+  {
+    path: '/knowledge',
+    component: ConsoleLayout,
+    children: [
+      {
+        path: '',
+        component: () => import('pages/console/knowledge/start/List.vue'),
+        name: 'knowledge-start'
+      },
+      {
+        path: ':id',
+        component: () => import('pages/console/knowledge/knowledge/index.vue'),
+        name: 'knowledge'
+      },
+    ]
+  },
+  {
+    path: '/system',
+    component: ConsoleLayout,
+    children: [
+      {
+        path: 'config/providers',
+        component: () => import('pages/console/system/config/provider/List.vue'),
+        name: 'config-ai-providers'
+      },
+      {
+        path: 'files',
+        component: () => import('pages/console/system/content/file/List.vue'),
+        name: 'system-file'
+      },
+      {
+        path: 'about',
+        component: () => import('pages/console/system/about/About.vue'),
+        name: 'system-about'
+      },
+    ]
+  },
+  {
+    path: '/page',
+    component: ConsoleLayout,
+    children: [
+      {
+        path: '/exception/404',
+        component: () => import('pages/error/404.vue'),
+        name: 'exception-404'
+      },
+      {
+        path: '/iframe/docs',
+        component: IframePage,
+        name: 'iframe-docs',
+        meta: {isIframe: true}
       },
     ]
   },

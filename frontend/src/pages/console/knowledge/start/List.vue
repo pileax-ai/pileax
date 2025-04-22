@@ -1,13 +1,21 @@
 <template>
-  <o-query-page class="system-files"
+  <o-query-page class="knowledges"
                 v-bind="query"
                 @dense="query.onDense"
                 @query="query.onQuery"
                 @reset="query.onReset"
                 enable-fullscreen>
+    <!--Actions-->
+    <template #actions-start>
+      <q-btn icon="add"
+             label="知识库"
+             class="bg-primary text-white q-mr-sm"
+             @click="query.onDetails('')"
+             flat rounded />
+    </template>
 
     <!--Condition-->
-    <template #condition>
+    <template #query-start>
       <div class="col-lg-2 col-md-3 col-sm-4 query-item">
         <q-input v-model="condition.name"
                  placeholder="名称"
@@ -20,30 +28,8 @@
         </q-input>
       </div>
     </template>
-
-    <!--Actions-->
-    <template #actions-start>
-      <q-btn-toggle
-        v-model="tableView"
-        color="accent"
-        text-color="readable"
-        toggle-color="cyan"
-        toggle-text-color="white"
-        rounded
-        unelevated
-        dense
-        size="12px"
-        :options="TableViews.map(e => {
-          return {value: e.value, icon: e.icon}
-        })"
-      />
-
-      <div class="q-mx-sm">
-        <q-separator class="bg-accent" vertical />
-      </div>
-    </template>
-
-    <template #actions>
+    <template #query-end>
+      end
     </template>
 
     <!--Results-->
@@ -53,42 +39,11 @@
                v-model:pagination="table.paging"
                :grid="tableView==='grid'"
                @request="query.onRequest" @update:pagination="onPagination">
-        <!-- List -->
-        <template #body-cell-path="props">
-          <q-td :props="props">
-            <div class="row items-center">
-              <div class="responsive">
-                <q-responsive :ratio="16/9">
-                  <q-img :src="getFileUrl(props.value)" spinner-size="1rem" />
-                </q-responsive>
-              </div>
-            </div>
-          </q-td>
-        </template>
-        <template #body-cell-refType="props">
-          <q-td :props="props">
-            <o-badge v-bind="getArrayItem(RefTypes, props.value)" />
-          </q-td>
-        </template>
-        <template #body-cell-status="props">
-          <q-td :props="props">
-            <o-badge v-bind="getArrayItem(Status, props.value)" />
-          </q-td>
-        </template>
-        <template #body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn color="primary" icon="info" @click="query.onDetails(props.row.id)" flat dense>
-              <o-tooltip :message="$t('details')" />
-            </q-btn>
-          </q-td>
-        </template>
-
         <!-- Grid -->
         <template v-slot:item="props">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row-item">
             <item-card :data="props.row"
-                        @edit="onEdit(props.row)"
-                        @disable="onDisable(props.row)" />
+                        @edit="onEdit(props.row)" />
           </div>
         </template>
       </q-table>
@@ -97,7 +52,7 @@
     <!--Side Panel-->
     <template #side-panel>
       <Item :id="`${id}`"
-            @success="query.closeSide(true, true)"
+            @success="query.closeSide"
             v-if="view==='details'" />
     </template>
 
@@ -131,7 +86,7 @@ const {
   initQuery,
 } = useQuery();
 
-const apiName = 'file';
+const apiName = 'knowledge';
 const data = ref<Indexable>({});
 const columns = computed(() => {
   return [
@@ -151,12 +106,12 @@ function onPagination(pagination: Indexable) {
 }
 
 function init() {
-  // tableView.value = 'grid';
+  tableView.value = 'grid';
   initQuery({
     api: apiName,
     path: '/query',
     columnList: columns.value as Indexable[],
-    title: 'File'
+    title: '知识库'
   });
 }
 
@@ -172,20 +127,13 @@ function onDisable(value: Indexable) {
   })
 }
 
-function disable(value: Indexable) {
-  aiProviderService.disable(value.name).then(res => {
-    notifyDone();
-    query.value.onQuery();
-  })
-}
-
 onActivated(() => {
   init();
 })
 </script>
 
 <style lang="scss">
-.system-files {
+.knowledges {
   .console-content {
     padding: 0 21px 21px 21px !important;
   }

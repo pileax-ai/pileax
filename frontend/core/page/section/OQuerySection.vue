@@ -19,24 +19,8 @@
 
       <template #query-table-actions>
         <template v-if="!disableActions">
-          <q-btn icon="mdi-arrow-expand-vertical" flat>
-            <q-menu class="o-menu">
-              <div :style="{minWidth: '200px'}">
-                <q-list no-border link inset-delimiter>
-                  <o-common-item label="默认"
-                                 :icon="denseTable?'radio_button_unchecked':'radio_button_checked'"
-                                 @click="setDense(false)"
-                                 clickable closable />
-                  <o-common-item label="紧凑"
-                                 :icon="denseTable?'radio_button_checked':'radio_button_unchecked'"
-                                 @click="setDense(true)"
-                                 clickable closable />
-                </q-list>
-              </div>
-            </q-menu>
-          </q-btn>
-          <q-btn icon="refresh" flat @click="onQuery" />
-          <q-btn icon="settings" flat>
+          <q-btn icon="refresh" flat round @click="onQuery" />
+          <q-btn icon="settings" flat v-if="false">
             <q-menu class="o-menu">
               <div :style="{minWidth: '200px'}">
                 <q-list no-border link inset-delimiter>
@@ -63,12 +47,11 @@
       <section class="query-wrap">
         <q-card flat class="query-condition-card desktop-only" v-if="showQueryAction">
           <q-card-section class="row justify-between items-center relative-position condition">
-            <section class="row col q-col-gutter-sm">
-              <slot name="condition"></slot>
+            <section class="row col">
+              <slot name="query-start"></slot>
             </section>
             <section class="row col-auto">
-              <q-btn icon="search" label="查询" class="bg-primary text-white query-btn" @click="onQuery" flat />
-              <q-btn icon="refresh" label="重置" color="primary" class="q-ml-sm reset-btn" @click="onReset" outline />
+              <slot name="query-end"></slot>
             </section>
           </q-card-section>
         </q-card>
@@ -156,6 +139,10 @@ const props = defineProps({
     default: ''
   },
   disableActions: {
+    type: Boolean,
+    default: false
+  },
+  enableFullscreen: {
     type: Boolean,
     default: false
   },

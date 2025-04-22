@@ -9,13 +9,12 @@
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
-        <q-avatar color="dark" size="32px" class="q-mr-xs" round>
-          <o-svg-icon :name="provider.name" size="1.6rem" />
+        <o-ai-provider-select-btn class="bg-dark"
+                                  round single persist enabled-only>
           <o-tooltip position="left" transition>
             {{provider.title}}
           </o-tooltip>
-        </q-avatar>
-
+        </o-ai-provider-select-btn>
         <q-btn :class="`text-${reasoning ? 'white' : 'readable'}
                             bg-${reasoning ? 'primary' : 'dark'} reasoning`"
                @click="onToggleThink"
@@ -62,6 +61,7 @@
 import { ref } from 'vue';
 import { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
+import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 
 const props = defineProps({
   loading: {
@@ -133,17 +133,29 @@ function reset() {
   }
 
   .q-btn {
-    margin-left: 4px;
     min-width: 36px;
     min-height: 36px;
 
+    &:not(:first-child) {
+      margin-left: 4px;
+    }
+
     &.reasoning {
-      margin: 0;
-      padding: 4px 12px 4px 8px;
-      min-height: unset;
+      padding: 0 16px 0 12px;
+      min-height: 36px;
 
       .q-icon {
         margin-right: 2px;
+      }
+    }
+
+    &.bg-primary {
+      color: var(--q-primary) !important;
+      background: transparent!important;
+
+      &:before {
+        background: var(--q-primary) !important;
+        opacity: 0.1;
       }
     }
   }

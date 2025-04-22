@@ -25,27 +25,6 @@ export const defaultConsoleMenus: MenuItem[] = [
         action: 1,
         meta: {icon: 'add_comment'}
       },
-      // {
-      //   id: 'chat-chat',
-      //   name: 'Chat Session',
-      //   path: '/a/chat/uuid',
-      //   action: 1,
-      //   meta: {icon: 'forum'}
-      // },
-      // {
-      //   id: 'welcome',
-      //   name: 'welcome',
-      //   path: '/welcome',
-      //   action: 1,
-      //   meta: {icon: 'accessibility'}
-      // },
-      // {
-      //   id: 'dashboard',
-      //   name: 'dashboard',
-      //   path: '/dashboard',
-      //   action: 1,
-      //   meta: {icon: 'mdi-gauge'}
-      // },
     ]
   },
   {
@@ -81,25 +60,18 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-ai',
-    name: 'AI',
+    id: 'group-knowledge',
+    name: 'knowledge',
     path: '',
     action: 1,
     meta: {icon: 'mdi-creation'},
     children: [
       {
-        id: 'stock-account-list',
-        name: 'AI智能体',
+        id: 'knowledge-start',
+        name: '知识库',
         action: 1,
-        path: '/stock/account/list',
+        path: '/knowledge',
         meta: {icon: 'mdi-creation'}
-      },
-      {
-        id: 'stock-trade-strategy-list',
-        name: '自定义',
-        action: 1,
-        path: '/stock/trade/strategy/list',
-        meta: {icon: 'assignment'}
       },
     ]
   },
@@ -111,31 +83,31 @@ export const defaultConsoleMenus: MenuItem[] = [
     meta: {icon: 'tune'},
     children: [
       {
-        id: 'ai-config',
-        name: 'AI配置',
+        id: 'config',
+        name: '配置',
         action: 1,
         path: '',
         meta: {icon: 'tune'},
         children: [
           {
-            id: 'ai-config-llm',
-            name: '大模型',
+            id: 'ai-providers',
+            name: 'AI提供商',
             action: 1,
-            path: '/system/config/llm',
+            path: '/system/config/providers',
             meta: {icon: 'mdi-creation'}
           },
           {
-            id: 'ai-config/embed',
-            name: '内嵌模型',
+            id: 'ai-agents',
+            name: 'AI智能体',
             action: 1,
-            path: '/system/config/embed',
+            path: '/system/config/agents',
             meta: {icon: 'assignment'}
           },
           {
-            id: 'ai-config-vector',
+            id: 'vector-database',
             name: '向量数据库',
             action: 1,
-            path: '/system/config/vector',
+            path: '/system/config/vector-databases',
             meta: {icon: 'assignment'}
           },
         ]

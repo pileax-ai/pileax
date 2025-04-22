@@ -1,15 +1,9 @@
 import { sqliteTable, integer, real, text, uniqueIndex, index } from 'drizzle-orm/sqlite-core'
 import { sql } from 'drizzle-orm';
 
-const autoId = {
-  id: integer({ mode: 'number' })
-    .primaryKey({ autoIncrement: true })
-}
-
-const uniqueId = {
-  id: text().primaryKey().unique()
-}
-
+// ------------------------------------------------------------
+// Common
+// ------------------------------------------------------------
 const timestamps = {
   createTime: text('create_time')
     .default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now', 'utc'))`)
@@ -20,51 +14,9 @@ const timestamps = {
     .notNull()
 }
 
-export const config = sqliteTable(
-  'config',
-  {
-    id: text().primaryKey().unique(),
-    name: text().default(''),
-    type: text().default(''),
-    datatype: text().default(''),
-    key: text().notNull(),
-    value: text().default(''),
-    owner: text().default(''),
-    scope: text().default('system'),
-    ...timestamps
-  },
-  (t) => ({
-    keyOwnerUnique: uniqueIndex('config_key_owner_unique').on(t.key, t.owner),
-    scopeIdx: index('config_scope_idx').on(t.scope),
-  })
-);
-
-export const user = sqliteTable('user', {
-  id: text().primaryKey().unique(),
-  diallingCode: text('dialling_code').default(''),
-  phone: text().default(''),
-  email: text().default(''),
-  name: text().notNull(),
-  bio: text().default(''),
-  avatar: text().default(''),
-  cover: text().default(''),
-  password: text(),
-  remarks: text().default(''),
-  status: integer().default(1),
-  ...timestamps
-});
-
-export const note = sqliteTable('note', {
-  id: text().primaryKey().unique(),
-  userId: text('user_id').default(''),
-  parent: text().default(''),
-  title: text().notNull(),
-  content: text().notNull(),
-  icon: text().default(''),
-  cover: text().default(''),
-  chatId: text('chat_id').default(''),
-  ...timestamps
-});
+// ------------------------------------------------------------
+// Tables
+// ------------------------------------------------------------
 
 export const book = sqliteTable('book', {
   id: text().primaryKey().unique(),
@@ -99,15 +51,6 @@ export const bookAnnotation = sqliteTable('book_annotation', {
   ...timestamps
 });
 
-export const chatSession = sqliteTable('chat_session', {
-  id: text().primaryKey().unique(),
-  userId: text('user_id').default(''),
-  title: text().default(''),
-  name: text().notNull(),
-  status: integer().default(0),
-  ...timestamps
-});
-
 export const chat = sqliteTable('chat', {
   id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
@@ -125,6 +68,34 @@ export const chat = sqliteTable('chat', {
   ...timestamps
 });
 
+export const chatSession = sqliteTable('chat_session', {
+  id: text().primaryKey().unique(),
+  userId: text('user_id').default(''),
+  title: text().default(''),
+  name: text().notNull(),
+  status: integer().default(0),
+  ...timestamps
+});
+
+export const config = sqliteTable(
+  'config',
+  {
+    id: text().primaryKey().unique(),
+    name: text().default(''),
+    type: text().default(''),
+    datatype: text().default(''),
+    key: text().notNull(),
+    value: text().default(''),
+    owner: text().default(''),
+    scope: text().default('system'),
+    ...timestamps
+  },
+  (t) => ({
+    keyOwnerUnique: uniqueIndex('config_key_owner_unique').on(t.key, t.owner),
+    scopeIdx: index('config_scope_idx').on(t.scope),
+  })
+);
+
 export const fileMeta = sqliteTable('file_meta', {
   id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
@@ -136,6 +107,43 @@ export const fileMeta = sqliteTable('file_meta', {
   path: text().default(''),
   refId: text('ref_id').default(''),
   refType: text('ref_type').default(''),
+  status: integer().default(1),
+  ...timestamps
+});
+
+export const knowledge = sqliteTable('knowledge', {
+  id: text().primaryKey().unique(),
+  userId: text('user_id').default(''),
+  name: text().default(''),
+  description: text().default(''),
+  logo: text().default(''),
+  status: integer().default(1),
+  ...timestamps
+});
+
+export const note = sqliteTable('note', {
+  id: text().primaryKey().unique(),
+  userId: text('user_id').default(''),
+  parent: text().default(''),
+  title: text().notNull(),
+  content: text().notNull(),
+  icon: text().default(''),
+  cover: text().default(''),
+  chatId: text('chat_id').default(''),
+  ...timestamps
+});
+
+export const user = sqliteTable('user', {
+  id: text().primaryKey().unique(),
+  diallingCode: text('dialling_code').default(''),
+  phone: text().default(''),
+  email: text().default(''),
+  name: text().notNull(),
+  bio: text().default(''),
+  avatar: text().default(''),
+  cover: text().default(''),
+  password: text(),
+  remarks: text().default(''),
   status: integer().default(1),
   ...timestamps
 });

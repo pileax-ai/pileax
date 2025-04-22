@@ -11,40 +11,17 @@ import { RequestOptions } from 'core/types/request';
  * API Url Registration
  */
 const urls: Indexable = {
-  authSignin: '/auth/signin',
-
-  account: '/admin/user',
   aiProvider: '/ai/provider',
   auth: '/auth',
   book: '/book',
   bookAnnotation: '/book/annotation',
   chat: '/chat',
   chatSession: '/chat/session',
-  clientVersion: '/client/version',
   file: '/file',
   note: '/note',
-  platformConfig: '/platform/config',
-  platformDict: '/platform/dict',
-  platformDictItem: '/platform/dict/item',
-  platformDictItemSelect: '/platform/dict/item/select',
-  platformFileMeta: '/platform/file/meta',
-  platformHelp: '/platform/help',
-  prompt: '/prompt',
-  promptCategory: '/prompt/category',
-  role: '/role',
-  roleMenu: '/role/menu',
-  roleMenuQueryByRole: '/role/menu/query/byrole',
-  slide: '/platform/slide',
-  statistics: '/system/statistics',
+  knowledge: '/knowledge',
   user: '/user',
-  userQueryDetails: '/user/query/details',
-  userSigninRecord: '/user/signin/record',
-  userUsage: '/user/usage',
-  systemConfig: '/system/config',
-  systemMenu: '/system/menu',
   systemHealthCheck: '/system/health-check',
-  systemMenuQueryApp: '/system/menu/query/app',
-  systemOperationLog: '/system/operation/log',
 };
 
 // 排序

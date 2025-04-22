@@ -3,7 +3,8 @@
                 v-bind="query"
                 @dense="query.onDense"
                 @query="query.onQuery"
-                @reset="query.onReset">
+                @reset="query.onReset"
+                enable-fullscreen>
 
     <!--Condition-->
     <template #condition>
@@ -37,7 +38,7 @@
         })"
       />
 
-      <div class="q-ml-sm">
+      <div class="q-mx-sm">
         <q-separator class="bg-accent" vertical />
       </div>
     </template>
@@ -196,7 +197,7 @@ onActivated(() => {
   }
 
   .query-table-actions {
-    display: none;
+    //display: none;
   }
 
 }
