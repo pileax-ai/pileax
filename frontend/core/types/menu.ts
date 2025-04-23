@@ -8,7 +8,7 @@ export interface MenuItemMeta {
   collapse?: boolean,
 }
 export interface MenuItem {
-  id?: string;
+  id: string;
   parentId?: string;
   parentKey?: string;
   name: string;
@@ -22,5 +22,5 @@ export interface MenuItem {
   type?: number,
   isShow?: number,
   favorite?: number,
-  pin?: boolean,
+  pinned?: boolean,
 }

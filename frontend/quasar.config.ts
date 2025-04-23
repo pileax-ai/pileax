@@ -4,7 +4,7 @@
 import { defineConfig } from '#q-app/wrappers';
 import { fileURLToPath } from 'node:url';
 import path from 'path';
-import { viteConfig } from 'core/vite';
+import { viteConfig } from './core/vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng';
 
 export default defineConfig((ctx) => {

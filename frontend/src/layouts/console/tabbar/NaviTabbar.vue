@@ -14,14 +14,14 @@
       </o-hover-btn>
     </div>
     <div class="row col">
-      <q-tabs :model-value="tabIndex"
+      <q-tabs :model-value="tab.id"
               @update:model-value="onTabChanged"
               ref="tabs" align="left"
               indicator-color="transparent"
               narrow-indicator
               class="text-info bg-accent no-drag-region tabs">
         <template v-for="(item, index) in tabs" :key="index">
-          <q-tab :name="index" :ripple="false">
+          <q-tab :name="item.id" :ripple="false" :class="{'pinned': item.pinned}">
             <section class="row items-center item">
               <div class="col-auto row justify-center items-center prefix">
                 <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
@@ -34,7 +34,7 @@
               </div>
               <div class="row justify-center items-center suffix">
                 <q-btn icon="close" flat round
-                       @click.stop.prevent="onClose(index)" />
+                       @click.stop.prevent="onClose(item)" />
                 <div class="icon" v-if="false">
                   <q-icon name="circle" class="text-primary" size="0.6rem" />
                 </div>
@@ -51,7 +51,7 @@
                 <template v-for="(action, i) in actions" :key="`action-${i}`">
                   <q-separator class="bg-accent" v-if="action.separator" />
                   <o-common-item v-bind="action"
-                                 @click="onAction(action, index)"
+                                 @click="onAction(action, item)"
                                  clickable closable />
                 </template>
               </q-list>
@@ -74,6 +74,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAppStore } from 'stores/app';
 import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
@@ -85,7 +86,9 @@ import useNavi from 'src/hooks/useNavi';
 import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue';
 import { UUID } from 'core/utils/crypto'
+import { MenuItem } from 'core/types/menu'
 
+const route = useRoute();
 const appStore = useAppStore();
 const tabStore = useTabStore();
 const {
@@ -113,8 +116,11 @@ const actions = computed(() => {
 });
 
 const tabBar = computed(() => appStore.setting.tabBar);
-const tabs = computed(() => tabStore.tabs);
-const tabIndex = computed(() => tabStore.tabIndex);
+const tabs = computed(() => {
+  return tabStore.pinnedTabs.concat(tabStore.unpinnedTabs);
+});
+const tab = computed(() => tabStore.tab);
+
 const moreIcon = computed(() => {
   return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less';
 });
@@ -126,45 +132,45 @@ async function onAdd() {
   tabStore.addNewTab();
 }
 
-function onTabChanged(index: number) {
-  console.log('tab', index);
-  tabStore.openTab(index);
+function onTabChanged(id: string) {
+  console.log('tab', id);
+  tabStore.openTab(id, route.path);
 }
 
-function onClose(index: number) {
-  tabStore.closeTab(index);
+function onClose(item: MenuItem) {
+  tabStore.closeTab(item.id);
 }
 
-function onNewWindow(index: number) {
-  const tab = tabs.value.at(index);
-  if (tab) {
-    console.log('newWindow', tab);
-    electronIpc.openNewWindow(UUID(), tab.path);
-  }
+function onNewWindow(item: MenuItem) {
+  console.log('newWindow', tab);
+  electronIpc.openNewWindow(item.id, item.path);
 }
 
-function onAction (action: Indexable, index: number) {
-  console.log('action', action.value, index);
+function onAction (action: Indexable, item: MenuItem) {
+  console.log('action', action.value, item.id);
   switch (action.value) {
     case 'close':
-      tabStore.closeTab(index);
+      tabStore.closeTab(item.id);
       break;
     case 'closeOther':
-      tabStore.closeOtherTabs(index);
+      tabStore.closeOtherTabs(item.id);
       break;
     case 'closeToLeft':
-      tabStore.closeLeftTabs(index);
+      tabStore.closeLeftTabs(item.id);
       break;
     case 'closeToRight':
-      tabStore.closeRightTabs(index);
+      tabStore.closeRightTabs(item.id);
       break;
     case 'duplicate':
-      tabStore.duplicateTab(index);
+      tabStore.duplicateTab(item.id);
       break;
     case 'newWindow':
-      onNewWindow(index);
+      onNewWindow(item);
       break;
-    case 'reload':
+    case 'pin':
+      tabStore.togglePinTab(item.id);
+      break;
+    case 'refresh':
       refresh();
       break;
   }
@@ -267,6 +273,17 @@ $tab-height: 40px;
 
         .item {
           width: 100%;
+        }
+      }
+
+      &.pinned {
+        min-width: unset;
+        padding: 0 16px;
+        .q-tab__content {
+          min-width: unset;
+        }
+        .label, .suffix {
+          display: none;
         }
       }
     }

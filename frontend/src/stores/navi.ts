@@ -7,6 +7,7 @@ import { flattenMenu, nestMenu } from 'core/hooks/useMenu';
 import { defaultConsoleMenus } from 'src/app/default-menu';
 import { useTabStore } from 'stores/tab';
 
+
 export const useNaviStore = defineStore('navi', {
   state: () => ({
     leftDrawer: {
@@ -27,7 +28,6 @@ export const useNaviStore = defineStore('navi', {
     openedMenus: [] as MenuItem[],
     starMenus: [] as MenuItem[],
     currentMenu: {} as MenuItem,
-    tabStore: useTabStore(),
   }),
   getters: {
     getActivity: (state) => state.leftDrawer.activity,
@@ -80,12 +80,14 @@ export const useNaviStore = defineStore('navi', {
       }
     },
     setCurrentMenu(menu: MenuItem) {
-      // console.log('currentMenu', menu);
-      this.currentMenu = menu;
+      console.log('currentMenu', menu);
+      const newMenu = {} as MenuItem;
+      this.currentMenu = newMenu;
       if (menu.path) {
         this.addOpenedMenu(menu);
       }
-      this.tabStore.updateTab(menu);
+      const tabStore = useTabStore();
+      tabStore.updateTab(menu);
     },
     addOpenedMenu(menu: MenuItem) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path);
