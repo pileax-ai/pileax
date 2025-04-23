@@ -99,11 +99,20 @@ export const useTabStore = defineStore('tab', {
         }
       }
     },
+    canCloseOther(id: string) {
+      const keepTabs = this.tabs.filter(t => t.id === id || t.pinned);
+      return keepTabs.length < this.tabs.length;
+    },
     closeOtherTabs(id: string) {
       this.tabs = this.tabs.filter(t => t.id === id || t.pinned);
       if (id !== this.tab.id) {
         this.openTab(id, this.tab.path);
       }
+    },
+    canCloseRight(id: string) {
+      const index = this.findIndex(id);
+      const keepTabs = this.tabs.filter((t, i) => i <= index || t.pinned);
+      return keepTabs.length < this.tabs.length;
     },
     closeRightTabs(id: string) {
       const index = this.findIndex(id);
@@ -114,6 +123,11 @@ export const useTabStore = defineStore('tab', {
           this.openTab(id, this.tab.path);
         }
       }
+    },
+    canCloseLeft(id: string) {
+      const index = this.findIndex(id);
+      const keepTabs = this.tabs.filter((t, i) => i >= index || t.pinned);
+      return keepTabs.length < this.tabs.length;
     },
     closeLeftTabs(id: string) {
       const index = this.findIndex(id);

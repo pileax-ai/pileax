@@ -12,7 +12,7 @@
     <q-input v-model="term"
              placeholder="Search Tab"
              class="search"
-             borderless autofocus>
+             borderless dense autofocus>
       <template #prepend>
         <q-icon name="search" />
       </template>
@@ -25,20 +25,22 @@
       </template>
     </q-input>
     <q-separator class="bg-accent" />
-    <template v-for="(item, index) in filterMenus" :key="index">
-      <o-common-item :icon="item.icon"
-                     :label="menuLabel(item.name)"
-                     :to="item.path"
-                     :emoji="['note', 'chat-session'].includes(item.meta?.type) ? item.meta?.icon || NoteDefaultIcon : ''"
-                     class="text-tips"
-                     clickable closable right-side>
-        <template #side>
-          <q-btn icon="close" size="0.6rem" class="close"
-                 flat round
-                 @click.stop.prevent="closeOpenedMenu(item)" />
-        </template>
-      </o-common-item>
-    </template>
+    <q-list class="q-py-sm">
+      <template v-for="(item, index) in filterMenus" :key="index">
+        <o-common-item :icon="item.icon"
+                       :label="menuLabel(item.name)"
+                       :to="item.path"
+                       :emoji="['note', 'chat-session'].includes(item.meta?.type) ? item.meta?.icon || NoteDefaultIcon : ''"
+                       class="text-tips"
+                       clickable closable right-side>
+          <template #side>
+            <q-btn icon="close" size="0.6rem" class="close"
+                   flat round
+                   @click.stop.prevent="closeOpenedMenu(item)" />
+          </template>
+        </o-common-item>
+      </template>
+    </q-list>
   </o-hover-menu-btn>
 </template>
 

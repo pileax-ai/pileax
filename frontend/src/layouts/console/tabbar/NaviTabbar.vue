@@ -1,5 +1,5 @@
 <template>
-  <section class="row col-12 navi-tabbar drag-region"
+  <section class="row col-12 navi-tabbar square drag-region"
            :style="`--tab-min-width: ${tabWidth}px`">
     <div class="row col-auto items-center justify-center text-readable navi-left no-drag-region"
          :class="{'show': showDrawerToggle}">
@@ -19,12 +19,12 @@
               align="left"
               indicator-color="transparent"
               narrow-indicator
-              class="text-info bg-accent no-drag-region tabs">
+              class="text-info bg-accent tabs">
         <template v-for="(item, index) in tabs" :key="index">
           <q-tab :name="item.id"
                  :ripple="false"
                  :class="{'pinned': item.pinned, 'minimized': minimized}">
-            <section class="row items-center item">
+            <section class="row items-center item no-drag-region">
               <div class="col-auto row justify-center items-center prefix">
                 <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
                 <template v-else-if="item.meta?.icon">
@@ -52,15 +52,15 @@
               <q-list :style="{minWidth: '200px'}">
                 <template v-for="(action, i) in actions" :key="`action-${i}`">
                   <q-separator class="bg-accent" v-if="action.separator" />
-                  <o-common-item v-bind="action"
-                                 @click="onAction(action, item)"
-                                 clickable closable />
+                  <o-common-item v-bind="itemAction(action, item)"
+                                 @click="onAction(action, item)" />
                 </template>
               </q-list>
             </q-menu>
           </q-tab>
         </template>
-        <q-btn icon="add" color="info" size="0.8rem" class="tab-add"
+        <q-btn icon="add" color="info" size="0.8rem"
+               class="tab-add no-drag-region"
                flat round
                @click="onAdd">
           <o-tooltip>New tab</o-tooltip>
@@ -69,7 +69,7 @@
     </div>
     <div class="row col-auto items-center justify-center more no-drag-region">
       <q-spinner-ios class="text-readable" size="20px" v-if="pageLoading" />
-      <opened-tabs-hover-btn icon="expand_more" class="text-readable" v-else />
+      <opened-tabs-hover-btn icon="expand_more" class="bg-dark text-readable" v-else />
     </div>
   </section>
 </template>
@@ -117,6 +117,15 @@ const showDrawerToggle = computed(() => {
   return !leftDrawerShow.value;
 });
 
+const tabs = computed(() => {
+  return tabStore.pinnedTabs.concat(tabStore.unpinnedTabs);
+});
+const tab = computed(() => tabStore.tab);
+
+const pageLoading = computed(() => {
+  return appStore.setting.pageLoading.loading;
+});
+
 const actions = computed(() => {
   return [
     { label: 'Refresh Tab', value: 'refresh', icon: 'refresh' },
@@ -130,14 +139,32 @@ const actions = computed(() => {
   ];
 });
 
-const tabs = computed(() => {
-  return tabStore.pinnedTabs.concat(tabStore.unpinnedTabs);
-});
-const tab = computed(() => tabStore.tab);
-
-const pageLoading = computed(() => {
-  return appStore.setting.pageLoading.loading;
-});
+function itemAction(action: Indexable, item: MenuItem) {
+  action.clickable = true;
+  action.closable = true;
+  let disabled = false;
+  switch (action.value) {
+    case 'pin':
+      action.label = item.pinned ? 'Unpin Tab' : 'Pin Tab';
+      action.icon = item.pinned ? 'mdi-pin-off-outline' : 'mdi-pin-outline';
+      break;
+    case 'closeOther':
+      disabled = !tabStore.canCloseOther(item.id);
+      break;
+    case 'closeToRight':
+      disabled = !tabStore.canCloseRight(item.id);
+      break;
+    case 'closeToLeft':
+      disabled = !tabStore.canCloseLeft(item.id);
+      break;
+  }
+  if (disabled) {
+    action.clickable = false;
+    action.closable = false;
+    action.disabled = 'disabled';
+  }
+  return action;
+}
 
 async function onAdd() {
   tabStore.addNewTab();
@@ -152,7 +179,11 @@ function onClose(item: MenuItem) {
 }
 
 function onNewWindow(item: MenuItem) {
-  electronIpc.openNewWindow(item.id, item.path);
+  if (process.env.MODE === 'electron') {
+    electronIpc.openNewWindow(item.id, item.path);
+  } else {
+    window.open(item.path, '_blank', 'noopener');
+  }
 }
 
 function onAction (action: Indexable, item: MenuItem) {
@@ -314,8 +345,10 @@ $tab-height: 40px;
   .more {
     width: 40px;
     .q-btn {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
+      min-height: unset;
+      border-radius: 8px;
     }
     .q-icon {
       font-size: 20px;
@@ -352,9 +385,6 @@ $tab-height: 40px;
     &:hover {
       background: var(--q-dark);
       z-index: 2;
-      &:before, &:after {
-        //background: var(--q-secondary);
-      }
 
       .suffix {
         background: transparent;
@@ -369,35 +399,6 @@ $tab-height: 40px;
     &:before, &:after {
       background: var(--q-secondary);
       background: var(--q-secondary);
-    }
-  }
-}
-
-.navi-tabbar-more-menu {
-  max-width: 300px !important;
-  .q-item {
-    border-radius: 0!important;
-    .side-label {
-      padding-right: 8px;
-    }
-    .close {
-      visibility: hidden;
-    }
-
-    &:hover {
-      .close {
-        visibility: visible;
-      }
-    }
-  }
-}
-
-.body--dark {
-  .navi-tabbar.modern {
-    .q-tab--active {
-      &:before, &:after {
-        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><path d='M 0 10 L 10 10 L 10 0 Q 10 10 0 10 Z' fill='%23272A3E'></path></svg>") !important;
-      }
     }
   }
 }
