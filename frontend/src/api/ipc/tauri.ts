@@ -1,6 +1,6 @@
 import { IpcService } from 'src/api/ipc/index'
 
-export class ElectronIpc implements IpcService {
+export class TauriIpc implements IpcService {
   public async getServerInfo(): Promise<Indexable> {
     return new Promise((resolve, reject) => {
       window.electronAPI?.getServerInfo().then((res: any) => {
@@ -15,5 +15,3 @@ export class ElectronIpc implements IpcService {
     return window.electronAPI.openNewWindow(id, url);
   }
 }
-
-export const electronIpc = new ElectronIpc();

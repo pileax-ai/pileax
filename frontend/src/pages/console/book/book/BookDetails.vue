@@ -63,6 +63,7 @@ import { computed, onMounted, ref } from 'vue';
 import { removeBook } from 'src/service/book';
 import { timeMulti } from 'core/utils/format';
 import useApi from 'src/hooks/useApi';
+import { ipcService } from 'src/api/ipc';
 
 const props = defineProps({
   data: {
@@ -131,11 +132,7 @@ function init() {
 
 function openBook() {
   const item = props.data;
-  if (process.env.MODE === 'electron') {
-    window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
-  } else {
-    window.open(`/reader/book?id=${item.id}`, '_blank');
-  }
+  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`);
 }
 
 

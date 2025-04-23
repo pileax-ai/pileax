@@ -58,6 +58,7 @@ import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
 import { removeBook } from 'src/service/book';
 import { timeMulti } from 'core/utils/format';
+import { ipcService } from 'src/api/ipc';
 
 const props = defineProps({
   data: {
@@ -116,11 +117,7 @@ function onAction (action :any) {
 
 function openBook() {
   const item = props.data;
-  if (process.env.MODE === 'electron') {
-    window.electronAPI.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
-  } else {
-    window.open(`/reader/annotation?id=${item.id}`, '_blank');
-  }
+  ipcService.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
 }
 
 async function onRemoveBook() {

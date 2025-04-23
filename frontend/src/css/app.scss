@@ -16,6 +16,10 @@ body {
     filter: invert(80%);
     overflow: hidden;
   }
+
+  &.q-body--prevent-scroll {
+    overflow: hidden;
+  }
 }
 
 a {

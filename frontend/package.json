@@ -16,7 +16,7 @@
     "dev:electron": "quasar dev -m electron",
     "dev:tauri": "cd src-tauri && cargo run",
     "build": "quasar build",
-    "build:electron": "quasar build -m electron",
+    "build:electron": "node_modules/.bin/electron-rebuild && quasar build -m electron",
     "build:tauri": "cd src-tauri && yarn tauri build",
     "postinstall": "quasar prepare"
   },

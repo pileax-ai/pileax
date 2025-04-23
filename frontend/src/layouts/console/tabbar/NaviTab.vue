@@ -45,7 +45,7 @@ import { useRoute } from 'vue-router';
 import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
 import { refresh } from 'core/hooks/useRouter';
-import { electronIpc } from 'src/api/ipc/electron';
+import { ipcService } from 'src/api/ipc';
 import { NoteDefaultIcon } from 'core/constants/constant';
 import { MenuItem } from 'core/types/menu';
 
@@ -107,11 +107,7 @@ function onClose(item: MenuItem) {
 }
 
 function onNewWindow(item: MenuItem) {
-  if (process.env.MODE === 'electron') {
-    electronIpc.openNewWindow(item.id, item.path);
-  } else {
-    window.open(item.path, '_blank', 'noopener');
-  }
+  ipcService.openNewWindow(item.id, item.path);
 }
 
 function onAction (action: Indexable, item: MenuItem) {

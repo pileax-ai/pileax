@@ -87,6 +87,7 @@ import OFileUploaderBtn from 'core/components/fIle/OFileUploaderBtn.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
+import { ipcService } from 'src/api/ipc';
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();
@@ -147,11 +148,7 @@ function onAdd() {
 }
 
 function openBook(item: any) {
-  if (process.env.MODE === 'electron') {
-    window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
-  } else {
-    window.open(`/reader/book?id=${item.id}`, '_blank');
-  }
+  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`);
 }
 
 function doQuery() {
