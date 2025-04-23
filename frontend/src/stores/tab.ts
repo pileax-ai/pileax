@@ -17,6 +17,9 @@ export const useTabStore = defineStore('tab', {
     findIndex(id: string) {
       return this.tabs.findIndex(t => t.id === id);
     },
+    updateTabs(tabs: MenuItem[]) {
+      this.tabs = tabs;
+    },
     updateTab(menu: MenuItem) {
       const tab = { ...menu };
       if (this.tab.id) {

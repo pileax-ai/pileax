@@ -20,9 +20,27 @@
               indicator-color="transparent"
               narrow-indicator
               class="text-info bg-accent tabs">
-        <template v-for="(item, index) in tabs" :key="index">
-          <navi-tab :item="item" :minimized="minimized" />
-        </template>
+        <draggable :list="pinnedTabs"
+                   item-key="id"
+                   class="row"
+                   ghost-class="ghost"
+                   @end="onTabsSorted">
+          <template #item="{ element }">
+            <navi-tab :item="element" :minimized="minimized" />
+          </template>
+        </draggable>
+        <draggable :list="unpinnedTabs"
+                   item-key="id"
+                   class="row"
+                   ghost-class="ghost"
+                   @end="onTabsSorted">
+          <template #item="{ element }">
+            <navi-tab :item="element" :minimized="minimized" />
+          </template>
+        </draggable>
+<!--        <template v-for="(item, index) in tabs" :key="index">-->
+<!--          <navi-tab :item="item" :minimized="minimized" />-->
+<!--        </template>-->
         <q-btn icon="add" color="info" size="0.8rem"
                class="tab-add no-drag-region"
                flat round
@@ -39,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router';
 import { useElementSize } from '@vueuse/core';
 import { useAppStore } from 'stores/app';
@@ -51,6 +69,7 @@ import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue';
 import NaviTab from './NaviTab.vue';
 import { MenuItem } from 'core/types/menu';
+import draggable from 'vuedraggable';
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -64,6 +83,13 @@ const {
 
 const tabbarRef = useTemplateRef<HTMLElement>('tabbarRef');
 const { width } = useElementSize(tabbarRef);
+const pinnedTabs = ref<MenuItem[]>([]);
+const unpinnedTabs = ref<MenuItem[]>([]);
+
+watchEffect(() => {
+  pinnedTabs.value = tabStore.pinnedTabs;
+  unpinnedTabs.value = tabStore.unpinnedTabs;
+})
 
 const tabMinWidth = computed(() => {
   return Math.min(width.value / tabs.value.length, 160);
@@ -87,6 +113,11 @@ const tab = computed(() => tabStore.tab);
 const pageLoading = computed(() => {
   return appStore.setting.pageLoading.loading;
 });
+
+function onTabsSorted(event: any) {
+  const newTabs = [...pinnedTabs.value, ...unpinnedTabs.value];
+  tabStore.updateTabs(newTabs);
+}
 
 async function onAdd() {
   tabStore.addNewTab();
@@ -279,7 +310,14 @@ $tab-height: 40px;
   .q-tab--active {
     &:before, &:after {
       background: var(--q-secondary);
-      background: var(--q-secondary);
+    }
+  }
+
+  .ghost, .ghost.q-tab--active {
+    opacity: 0.5;
+    &:before, &:after {
+      opacity: 0.5;
+      background: var(--q-primary);
     }
   }
 }
