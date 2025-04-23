@@ -1,6 +1,6 @@
 <template>
   <section class="row col-12 navi-tabbar drag-region"
-           :class="`${tabBar.style}`">
+           :style="`--tab-min-width: ${tabWidth}px`">
     <div class="row col-auto items-center justify-center text-readable navi-left no-drag-region"
          :class="{'show': showDrawerToggle}">
       <o-hover-btn icon="menu"
@@ -13,15 +13,17 @@
         <o-tooltip :message="$t('expand')" position="right" />
       </o-hover-btn>
     </div>
-    <div class="row col">
+    <div class="col" ref="tabbarRef">
       <q-tabs :model-value="tab.id"
               @update:model-value="onTabChanged"
-              ref="tabs" align="left"
+              align="left"
               indicator-color="transparent"
               narrow-indicator
               class="text-info bg-accent no-drag-region tabs">
         <template v-for="(item, index) in tabs" :key="index">
-          <q-tab :name="item.id" :ripple="false" :class="{'pinned': item.pinned}">
+          <q-tab :name="item.id"
+                 :ripple="false"
+                 :class="{'pinned': item.pinned, 'minimized': minimized}">
             <section class="row items-center item">
               <div class="col-auto row justify-center items-center prefix">
                 <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
@@ -29,13 +31,13 @@
                   <span>{{ item.meta.icon || NoteDefaultIcon }}</span>
                 </template>
               </div>
-              <div class="col ellipsis label">
+              <div class="col ellipsis single label">
                 {{ menuLabel(item.name) }}
               </div>
               <div class="row justify-center items-center suffix">
                 <q-btn icon="close" flat round
                        @click.stop.prevent="onClose(item)" />
-                <div class="icon" v-if="false">
+                <div class="icon">
                   <q-icon name="circle" class="text-primary" size="0.6rem" />
                 </div>
               </div>
@@ -67,14 +69,15 @@
     </div>
     <div class="row col-auto items-center justify-center more no-drag-region">
       <q-spinner-ios class="text-readable" size="20px" v-if="pageLoading" />
-      <opened-tabs-hover-btn :icon="moreIcon" class="text-readable" v-else />
+      <opened-tabs-hover-btn icon="expand_more" class="text-readable" v-else />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import { useRoute } from 'vue-router';
+import { useElementSize } from '@vueuse/core';
 import { useAppStore } from 'stores/app';
 import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
@@ -85,8 +88,7 @@ import useNavi from 'src/hooks/useNavi';
 
 import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue';
-import { UUID } from 'core/utils/crypto'
-import { MenuItem } from 'core/types/menu'
+import { MenuItem } from 'core/types/menu';
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -97,6 +99,19 @@ const {
   onLeftDrawerEnter,
   onLeftDrawerLeave
 } = useNavi();
+
+const tabbarRef = useTemplateRef<HTMLElement>('tabbarRef');
+const { width } = useElementSize(tabbarRef);
+
+const tabMinWidth = computed(() => {
+  return Math.min(width.value / tabs.value.length, 160);
+})
+const tabWidth = computed(() => {
+  return Math.max(tabMinWidth.value, width.value / 10, 100);
+})
+const minimized = computed(() => {
+  return tabMinWidth.value <= 60;
+})
 
 const showDrawerToggle = computed(() => {
   return !leftDrawerShow.value;
@@ -115,15 +130,11 @@ const actions = computed(() => {
   ];
 });
 
-const tabBar = computed(() => appStore.setting.tabBar);
 const tabs = computed(() => {
   return tabStore.pinnedTabs.concat(tabStore.unpinnedTabs);
 });
 const tab = computed(() => tabStore.tab);
 
-const moreIcon = computed(() => {
-  return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less';
-});
 const pageLoading = computed(() => {
   return appStore.setting.pageLoading.loading;
 });
@@ -133,7 +144,6 @@ async function onAdd() {
 }
 
 function onTabChanged(id: string) {
-  console.log('tab', id);
   tabStore.openTab(id, route.path);
 }
 
@@ -142,7 +152,6 @@ function onClose(item: MenuItem) {
 }
 
 function onNewWindow(item: MenuItem) {
-  console.log('newWindow', tab);
   electronIpc.openNewWindow(item.id, item.path);
 }
 
@@ -195,22 +204,21 @@ $tab-height: 40px;
   .tabs {
     background: transparent!important;
     .q-tabs__arrow--left {
-      left: -20px;
-      z-index: 10;
+      background: linear-gradient(to right, var(--q-accent), transparent);
     }
     .q-tabs__arrow--right {
-      right: -16px;
       z-index: 10;
+      background: linear-gradient(to right, transparent, var(--q-accent));
     }
 
     .q-tab {
       flex: unset!important;
-      min-width: 10vw;
+      min-width: var(--tab-min-width);
       max-width: 240px;
       min-height: unset;
       height: $tab-height;
       text-transform: unset;
-      padding: 0 4px;
+      padding: 0 8px;
       z-index: 0;
 
       .prefix, .suffix {
@@ -276,7 +284,7 @@ $tab-height: 40px;
         }
       }
 
-      &.pinned {
+      &.pinned, &.minimized {
         min-width: unset;
         padding: 0 16px;
         .q-tab__content {
