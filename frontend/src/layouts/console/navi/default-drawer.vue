@@ -103,7 +103,7 @@
 import { computed, onBeforeMount, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import useSetting from 'core/hooks/useSetting';
 import { menuLabel } from 'core/hooks/useMenu';
 import useDialog from 'core/hooks/useDialog';

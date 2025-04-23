@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import {computed, onBeforeMount, ref} from 'vue';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import useSetting from 'core/hooks/useSetting';
 import useNavi from 'src/hooks/useNavi';
 

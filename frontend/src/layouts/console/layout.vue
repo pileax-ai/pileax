@@ -41,7 +41,7 @@
 import {computed, onBeforeMount, onMounted, onUnmounted, ref, watch} from 'vue';
 import { useRoute } from 'vue-router';
 import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import useShortcut from 'core/hooks/useShortcut';
 import useNavi from 'src/hooks/useNavi';
 

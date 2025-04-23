@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import { useNoteStore } from 'stores/note';
 import { Note } from 'src/types/note';
 import { MenuItem } from 'core/types/menu';

@@ -1,5 +1,5 @@
 import { boot } from 'quasar/wrappers';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import { useAppStore } from 'stores/app';
 import { startPageLoading, stopPageLoading } from 'src/utils/page';
 let routerInstance = null;

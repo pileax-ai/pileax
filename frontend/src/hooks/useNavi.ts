@@ -1,5 +1,5 @@
 
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import { computed } from 'vue';
 import { findMenuByPath } from 'core/hooks/useMenu';
 import { MenuItem } from 'core/types/menu';

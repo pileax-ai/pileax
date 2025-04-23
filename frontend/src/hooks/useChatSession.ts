@@ -3,7 +3,7 @@ import { ChatInput, ChatSession } from 'src/types/chat'
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { MenuItem } from 'core/types/menu';
 import { useChatStore } from 'stores/chat';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 
 export default function () {
   const sessionId = ref('')

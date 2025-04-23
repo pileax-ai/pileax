@@ -21,6 +21,7 @@ export const useTabStore = defineStore('tab', {
       const tab = { ...menu };
       if (this.tab.id) {
         tab.id = this.tab.id;
+        tab.pinned = this.tab.pinned;
         const index = this.findIndex(this.tab.id);
         if (index >= 0) {
           this.tabs.splice(index, 1, tab);
@@ -31,7 +32,6 @@ export const useTabStore = defineStore('tab', {
         this.tabs.push(tab);
         this.tab = tab;
       }
-      console.log('updateTab', tab);
     },
     addNewTab(path = '/') {
       const tab = {
@@ -45,7 +45,6 @@ export const useTabStore = defineStore('tab', {
     },
     openTab(id: string, path = '') {
       const index = this.findIndex(id);
-      console.log('open', index, path);
       if (index >= 0) {
         const tab = this.tabs.at(index);
         if (tab) {
@@ -89,10 +88,14 @@ export const useTabStore = defineStore('tab', {
         }
 
         this.tabs.splice(index, 1);
-
-        // Open sibling tab if current tab closed.
-        if (id === this.tab.id) {
-          this.openTab(newId, this.tab.path);
+        if (this.tabs.length === 0) {
+          this.tab = { id: '', name: '', path: '' };
+          this.router.push('/');
+        } else {
+          // Open sibling tab if current tab closed.
+          if (id === this.tab.id) {
+            this.openTab(newId, this.tab.path);
+          }
         }
       }
     },

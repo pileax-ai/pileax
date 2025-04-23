@@ -79,9 +79,8 @@ export const useNaviStore = defineStore('navi', {
       }
     },
     setCurrentMenu(menu: MenuItem) {
-      console.log('currentMenu', menu);
-      const newMenu = {} as MenuItem;
-      this.currentMenu = newMenu;
+      // console.log('currentMenu', menu);
+      this.currentMenu = menu;
       if (menu.path) {
         this.addOpenedMenu(menu);
       }

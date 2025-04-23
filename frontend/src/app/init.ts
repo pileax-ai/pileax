@@ -4,7 +4,7 @@
 
 import { useAccountStore } from 'stores/account';
 import { useApiStore } from 'stores/api';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 import useSetting from 'core/hooks/useSetting';
 import { electronIpc } from 'src/api/ipc/electron'
 
