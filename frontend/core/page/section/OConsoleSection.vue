@@ -88,7 +88,7 @@ import { toggleClass } from 'core/utils/misc';
 import { MenuItem } from 'core/types/menu';
 import { findMenuByPath, menuLabel } from 'core/hooks/useMenu';
 import { openPath } from 'core/hooks/useRouter';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 
 const props = defineProps({
   icon: {

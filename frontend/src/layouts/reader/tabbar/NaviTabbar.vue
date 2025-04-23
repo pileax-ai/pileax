@@ -64,7 +64,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 import { menuLabel } from 'core/hooks/useMenu';
 import { refresh } from 'core/hooks/useRouter';
 

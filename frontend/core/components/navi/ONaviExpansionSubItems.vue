@@ -21,7 +21,7 @@ import { computed, PropType } from 'vue';
 import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue';
 import ONaviItem from 'core/components/navi/ONaviItem.vue';
 import { MenuItem } from 'core/types/menu';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 
 const props = defineProps({
   level: { type: Number, default: 0 },

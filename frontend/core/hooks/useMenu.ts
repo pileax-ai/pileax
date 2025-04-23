@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 
 import { MenuItem } from 'core/types/menu';
 
@@ -61,7 +61,7 @@ export const buildMenuItem = (item :MenuItem) :MenuItem => {
 
 export const findMenuByPath = (path :string) => {
   const naviStore = useNaviStore();
-  const menus = naviStore.getMenus;
+  const menus = naviStore.menus;
   const menu = menus.find((e) => e.path === path);
 
   return (menu || {}) as MenuItem;

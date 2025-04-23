@@ -7,7 +7,6 @@ import { flattenMenu, nestMenu } from 'core/hooks/useMenu';
 import { defaultConsoleMenus } from 'src/app/default-menu';
 import { useTabStore } from 'stores/tab';
 
-
 export const useNaviStore = defineStore('navi', {
   state: () => ({
     leftDrawer: {

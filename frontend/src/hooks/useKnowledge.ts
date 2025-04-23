@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { useKnowledgeStore } from 'stores/knowledge';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 import { Knowledge } from 'src/types/knowledge'
 import { MenuItem } from 'core/types/menu'
 

@@ -19,7 +19,7 @@ import { computed } from 'vue';
 import { menuLabel } from 'core/hooks/useMenu';
 import { MenuItem } from 'core/types/menu';
 import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 
 const props = defineProps({
   disable: {

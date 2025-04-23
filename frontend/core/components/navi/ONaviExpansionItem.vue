@@ -47,7 +47,7 @@ import ONaviIcon from 'core/components/navi/ONaviIcon.vue';
 import ONaviItem from 'core/components/navi/ONaviItem.vue';
 import { MenuItem } from 'core/types/menu';
 import { menuLabel } from 'core/hooks/useMenu';
-import { useNaviStore } from 'stores/navi';
+import { useNaviStore } from 'stores/navi.setup';
 
 const props = defineProps({
   root: { type: Boolean, default: false },
