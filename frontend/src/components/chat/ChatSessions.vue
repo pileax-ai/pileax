@@ -97,7 +97,7 @@ async function refresh(openFirst = false) {
       refType: props.refType,
       refId: props.refId
     },
-    orderBy: {
+    sort: {
       updateTime: 'desc'
     }
   }

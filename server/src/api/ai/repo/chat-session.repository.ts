@@ -35,7 +35,7 @@ export class ChatSessionRepository {
 
   async query(query: Query) {
     const filters = buildFilters(chatSession, ['refId', 'refType', 'title', 'userId'], query.condition);
-    const orders = buildOrders(chatSession, ['title', 'updateTime'], query.orderBy);
+    const orders = buildOrders(chatSession, ['title', 'updateTime'], query.sort);
 
     const list = await db.select().from(chatSession)
       .where(and(...filters))

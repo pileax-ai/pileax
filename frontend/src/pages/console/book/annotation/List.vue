@@ -81,7 +81,7 @@ function doQuery() {
     condition: {
       'note|like': condition.value.note
     },
-    orderBy: orderBy.value
+    sort: orderBy.value
   };
   joinQueryAnnotation(query).then(res => {
     rows.value = res;

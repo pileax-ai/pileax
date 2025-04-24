@@ -14,6 +14,8 @@ export const NoteSchema = z.object({
 	content: z.string(),
 	icon: z.string().optional(),
 	cover: z.string().optional(),
+  favorite: z.number().optional().default(0),
+  styles: z.string().optional(),
   refId: z.string().optional(),
   refType: z.string().optional().default('general'),
 });

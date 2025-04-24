@@ -1,94 +1,75 @@
 <template>
-  <section class="note-tree fit" :style="`max-width: ${maxWidth}px`">
-    <header class="row col-12 justify-between items-center section text-tips">
-      <div>
-        Note
-      </div>
-      <div class="top-actions">
-        <q-btn class="action q-mr-sm" flat
-               @click.stop="onSearch">
-          <i class="iconfont icon-search" />
-          <o-tooltip message="Search note" :caption="`⌘ + P`" />
-        </q-btn>
-        <q-btn icon="add" class="action" flat
-               @click.stop="addNote()">
-          <o-tooltip message="Add Note" />
-        </q-btn>
-      </div>
-    </header>
-    <section class="note-tree-panel">
-      <q-tree ref="tree"
-              :nodes="noteTree"
-              node-key="key"
-              v-model:selected="selected"
-              @update:selected="onSelected"
-              no-connectors
-              no-selection-unset>
-        <template v-slot:default-header="prop">
-          <section class="row justify-between items-center full-width allow-drop"
-                   :draggable="prop.node.type === 'note'"
-                   @dragstart="onDragStart($event, prop.node)"
-                   @dragenter="onDragEnter"
-                   @dragleave="onDragLeave"
-                   @dragover="onDragOver"
-                   @drop="onDrop($event, prop.node)"
-                   @click.stop="onOpenNote(prop.node.data)">
-            <section class="none-pointer-events note-title" v-if="prop.node.type === 'note'">
-              <q-item>
-                <q-item-section avatar>
-                  <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
-                  <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
-                  <span v-else>{{ NoteDefaultIcon }}</span>
-                </q-item-section>
-                <q-item-section class="label">
-                  <q-item-label lines="1">
-                    {{prop.node.label}}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </section>
-            <section class="none-pointer-events cursor-pointer note-title" v-else>
-              <q-item>
-                <q-item-section class="text-tips" avatar>
-                  <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
-                  <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
-                </q-item-section>
-                <q-item-section class="label">
-                  <q-item-label class="text-tips" lines="1">
-                    {{prop.node.label}}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </section>
-          </section>
+  <q-tree ref="tree"
+          :nodes="noteTree"
+          node-key="key"
+          v-model:selected="selected"
+          @update:selected="onSelected"
+          no-connectors
+          no-selection-unset>
+    <template v-slot:default-header="prop">
+      <section class="row justify-between items-center full-width note-item"
+               :class="{'allow-drop': prop.node.allowDrop}"
+               :draggable="prop.node.type === 'note'"
+               @dragstart="onDragStart($event, prop.node)"
+               @dragend="onDragEnd"
+               @dragenter="onDragEnter"
+               @dragleave="onDragLeave"
+               @dragover="onDragOver"
+               @drop="onDrop($event, prop.node)"
+               @click.stop="onOpenNote(prop.node.data)">
+        <section class="none-pointer-events note-title" v-if="prop.node.type === 'note'">
+          <q-item>
+            <q-item-section avatar>
+              <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
+              <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
+              <span v-else>{{ NoteDefaultIcon }}</span>
+            </q-item-section>
+            <q-item-section class="label">
+              <q-item-label lines="1">
+                {{prop.node.label}}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </section>
+        <section class="none-pointer-events cursor-pointer note-title" v-else>
+          <q-item>
+            <q-item-section class="text-tips" avatar>
+              <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
+              <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
+            </q-item-section>
+            <q-item-section class="label">
+              <q-item-label class="text-tips" lines="1">
+                {{prop.node.label}}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </section>
+      </section>
 
-          <!--Actions-->
-          <section class="row justify-end text-tips actions" v-if="prop.node.type==='note'">
-            <q-btn icon="add" class="action" flat
-                   @click.stop="addNote(prop.node.key)" />
-            <q-btn icon="more_horiz" class="action" flat
-                   @click.stop="() => {}">
-              <o-context-menu anchor="top end" self="top start"
-                              :offset="[-50, 6]"
-                              :list="noteMenu"
-                              @command="onCommand($event, prop.node.data as Indexable)">
-                <template #list>
-                  <q-separator class="bg-accent" />
-                  <o-common-item icon="schedule" class="text-tips"
-                                 :label="timeMulti(prop.node.data.updateTime).timestamp" />
-                </template>
-              </o-context-menu>
-            </q-btn>
-          </section>
-        </template>
-      </q-tree>
-    </section>
-  </section>
+      <!--Actions-->
+      <section class="row justify-end text-tips actions" v-if="prop.node.type==='note'">
+        <q-btn icon="add" class="action" flat
+               @click.stop="addNote(prop.node.key)" />
+        <q-btn icon="more_horiz" class="action" flat
+               @click.stop="() => {}">
+          <o-context-menu anchor="top end" self="top start"
+                          :offset="[-50, 6]"
+                          :list="noteCommands(prop.node.data)"
+                          @command="onCommand($event, prop.node.data as Indexable)">
+            <template #list>
+              <q-separator class="bg-accent" />
+              <o-common-item icon="schedule" class="text-tips"
+                             :label="timeMulti(prop.node.data.updateTime).timestamp" />
+            </template>
+          </o-context-menu>
+        </q-btn>
+      </section>
+    </template>
+  </q-tree>
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref, watch} from 'vue';
-import useDialog from 'core/hooks/useDialog';
+import {computed, ref, watch} from 'vue';
 import { timeMulti } from 'core/utils/format';
 import { NoteDefaultIcon } from 'core/constants/constant';
 import OContextMenu from 'core/components/menu/OContextMenu.vue';
@@ -96,36 +77,48 @@ import useNote from 'src/hooks/useNote';
 import { useTabStore } from 'stores/tab';
 import { ipcService } from 'src/api/ipc';
 import useCommon from 'core/hooks/useCommon'
-const { t, confirm, dialog } = useCommon();
 
-defineProps({
-  maxWidth: {
-    type: Number,
-    default: 300
+const props = defineProps({
+  scope: {
+    type: String,
+    default: 'all'
   },
 });
-const { openDialog } = useDialog();
+
+const { t, confirm } = useCommon();
 const {
   notes,
   currentNote,
-  getAllNotes,
-  refreshAllNotes,
+  refreshNote,
   addNote,
   openNote,
   deleteNote,
   buildNoteTree,
+  buildFavoriteTree,
+  setParent,
+  toggleFavorite,
+  duplicateNote,
 } = useNote();
 const tabStore = useTabStore();
 const selected = ref('');
+
 const noteTree = computed(() => {
-  return buildNoteTree(notes.value);
-})
-const noteMenu = computed(() => {
+  switch (props.scope) {
+    case 'all':
+      return buildNoteTree(notes.value);
+    case 'favorite':
+      return buildFavoriteTree(notes.value);
+    default:
+      return buildNoteTree(notes.value);
+  }
+});
+
+function noteCommands(note: Indexable) {
   return [
     {
-      label: 'Add to favorite',
-      value: 'duplicate',
-      icon: 'star_outline',
+      label: note.favorite === 1 ? 'Remove from favorite': 'Add to favorite',
+      value: 'favorite',
+      icon: note.favorite === 1 ? 'star' : 'star_outline',
     },
     {
       label: 'Duplicate',
@@ -160,12 +153,15 @@ const noteMenu = computed(() => {
       icon: 'open_in_browser'
     },
   ]
-})
+}
 
 function onCommand (command: Indexable, data: Indexable) {
   switch (command.value) {
     case 'duplicate':
-      // duplicateNote(data);
+      duplicateNote(data);
+      break;
+    case 'favorite':
+      toggleFavorite(data);
       break;
     case 'delete':
       onDelete(data);
@@ -216,17 +212,19 @@ function onDelete(note: Indexable) {
   );
 }
 
-function onSearch () {
-  openDialog({
-    type: 'note-search'
-  });
-}
-
 function onDragStart (e: DragEvent, node: Indexable) {
-  let data = node.data;
+  const target = e.target as HTMLElement;
+  const data = node.data;
   data.contentType = 'note';
   e.dataTransfer?.setData('text', JSON.stringify(data));
   // e.dataTransfer?.dropEffect = 'move';
+  target.classList.add('dragging');
+  console.log('drag', e);
+}
+
+function onDragEnd (e: DragEvent) {
+  const target = e.target as HTMLElement;
+  target.classList.remove('dragging');
 }
 
 function onDragEnter (e: DragEvent) {
@@ -258,7 +256,7 @@ function onDrop (e: DragEvent, node: Indexable) {
     const note = node.data;
     console.log('drop', data.id, note.id);
     if ((data.id !== note.id) && (data.parent !== note.id)) {
-      // this.changeParent(data.id, note.id);
+      setParent(data.id, note.id);
     }
   }
 
@@ -267,69 +265,37 @@ function onDrop (e: DragEvent, node: Indexable) {
   target.classList.remove('drag-enter');
 }
 
-
 watch(() => currentNote.value, (newValue) => {
   selected.value = newValue.id;
-  refreshAllNotes();
-})
-
-onBeforeMount(() => {
-  getAllNotes();
+  refreshNote(currentNote.value);
 })
 
 </script>
 
 <style lang="scss">
-.navi-list:hover {
-  .note-tree {
-    .top-actions .action {
-      visibility: visible;
-    }
-  }
-}
-.note-tree {
-  header.section {
-    height: 40px;
-    padding: 0 8px 0 8px;
-
-    .top-actions {
-      padding: 0 4px;
-
-      .action {
-        width: 28px;
-        height: 28px;
-      }
-    }
-
-    &:hover {
-      .action {
-        visibility: visible;
-      }
-    }
-  }
-
-
-  .action {
-    visibility: hidden;
-    min-width: 24px;
-    min-height: 24px;
-    padding: 0;
-    .q-icon {
-      font-size: 20px;
-      min-height: 20px;
-    }
-  }
-
+.note-list {
   .note-tree-panel {
-    .drag-enter {
-      background: rgba(blue, 0.3);
-      border-radius: 4px;
-    }
-    .allow-drop .none-pointer-events {
-      pointer-events: none;
-    }
-
     .q-tree {
+      .drag-enter {
+        background: rgba(blue, 0.3);
+        border-radius: 4px;
+      }
+      .allow-drop .none-pointer-events {
+        pointer-events: none;
+      }
+      .note-item {
+        height: 36px;
+        padding: 0 4px;
+
+        &.dragging {
+          background: var(--q-dark) !important;
+          border-radius: 4px;
+          & + .actions {
+            display: none;
+          }
+        }
+      }
+
       .actions {
         position: absolute;
         right: 0;
@@ -338,7 +304,7 @@ onBeforeMount(() => {
         border-radius: 4px;
       }
       .q-tree__node {
-        padding: 0 0 0px 0px;
+        padding: 0;
 
         .q-focus-helper {
           border-radius: 4px;
@@ -374,8 +340,8 @@ onBeforeMount(() => {
 
       .q-tree__node-header {
         height: 36px;
-        padding: 0 4px;
-        margin: 2px 4px 0 4px;
+        padding: 0;
+        margin: 2px 8px 0 8px;
         border-radius: 2px;
         &:hover {
           border-radius: 2px;
@@ -388,9 +354,15 @@ onBeforeMount(() => {
           }
         }
 
+        .q-tree__arrow {
+          width: 24px;
+          height: 36px;
+          margin-right: 0;
+        }
+
         .q-tree__arrow:hover {
-          background: rgba(#000000, 0.05);
-          border-radius: 2px;
+          //background: rgba(#000000, 0.05);
+          //border-radius: 2px;
         }
       }
     }

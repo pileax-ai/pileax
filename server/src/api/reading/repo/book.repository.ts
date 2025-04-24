@@ -38,7 +38,7 @@ export class BookRepository {
 
   async query(query: Query) {
     const filters = buildFilters(book, ['title', 'userId'], query.condition);
-    const orders = buildOrders(book, ['title', 'updateTime'], query.orderBy);
+    const orders = buildOrders(book, ['title', 'updateTime'], query.sort);
 
     return db.select().from(book)
       .where(and(...filters))

@@ -78,7 +78,7 @@ async function getList() {
   const query = {
     pageIndex: 1,
     pageSize: 100,
-    orderBy: {
+    sort: {
       updateTime: 'desc'
     }
   }

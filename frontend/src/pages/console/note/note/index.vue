@@ -129,7 +129,7 @@ function onAction(action: Indexable) {
 }
 
 async function loadNote() {
-  noteService.value.getNote(id.value).then((note: any) => {
+  noteService.get(id.value).then((note: any) => {
     postLoadNote(note as Note);
   }).catch((err) => {
     createNote();
@@ -137,7 +137,7 @@ async function loadNote() {
 }
 
 async function createNote() {
-  const note = await noteService.value.saveNote({
+  const note = await noteService.save({
     id: id.value,
     parent: parent.value || '',
     title: 'New page',
@@ -189,7 +189,7 @@ async function updateNote() {
 }
 
 async function updateNoteRemote() {
-  const note = await noteService.value.saveNote({
+  const note = await noteService.save({
     id: id.value,
     title: getTitle(),
     content: noteHtml.value

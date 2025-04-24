@@ -44,7 +44,7 @@ export class ConfigRepository {
 
   async query(query: Query) {
     const filters = buildFilters(config, ['owner', 'scope'], query.condition);
-    const orders = buildOrders(config, ['name', 'owner', 'scope', 'updateTime'], query.orderBy);
+    const orders = buildOrders(config, ['name', 'owner', 'scope', 'updateTime'], query.sort);
 
     return db.select()
       .from(config)

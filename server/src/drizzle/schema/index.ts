@@ -131,6 +131,8 @@ export const note = sqliteTable('note', {
   content: text().notNull(),
   icon: text().default(''),
   cover: text().default(''),
+  favorite: integer().default(0),
+  styles: text().default(''),
   refId: text('ref_id').default(''), // reference Id
   refType: text('ref_type').default('general'), // general, chat, book, etc.
   ...timestamps

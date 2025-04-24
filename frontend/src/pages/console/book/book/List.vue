@@ -158,7 +158,7 @@ function doQuery() {
     condition: {
       'title|like': condition.value.title
     },
-    orderBy: orderBy.value
+    sort: orderBy.value
   };
 
   bookService.queryBook(query).then(res => {

@@ -5,6 +5,8 @@ export interface Note {
   content: string;
   icon?: string;
   cover?: string;
+  favorite?: number;
+  styles?: string;
   createTime?: string;
   updateTime?: string;
 }

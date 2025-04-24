@@ -28,7 +28,7 @@ export const QuerySchema = z.object({
   }).default({
     userId: ''
   }),
-  orderBy: z.object({
+  sort: z.object({
   }).default({ updateTime: 'desc' })
 });
 

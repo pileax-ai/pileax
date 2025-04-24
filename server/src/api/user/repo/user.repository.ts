@@ -35,7 +35,7 @@ export class UserRepository {
 
   async query(query: Query) {
     const filters = buildFilters(user, ['name', 'phone', 'status'], query.condition);
-    const orders = buildOrders(user, ['name', 'status', 'updateTime'], query.orderBy);
+    const orders = buildOrders(user, ['name', 'status', 'updateTime'], query.sort);
 
     return db.select().from(user)
       .where(and(...filters))

@@ -41,7 +41,7 @@ export class ChatRepository {
 
   async query(query: Query) {
     const filters = buildFilters(chat, ['sessionId', 'userId'], query.condition);
-    const orders = buildOrders(chat, ['createTime', 'updateTime'], query.orderBy);
+    const orders = buildOrders(chat, ['createTime', 'updateTime'], query.sort);
 
     return db.select().from(chat)
       .where(and(...filters))

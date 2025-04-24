@@ -1,40 +1,37 @@
 import { NoteService } from 'src/service/note';
+import { GET, POST, DELETE } from 'src/hooks/useRequest';
+import { RemoteChatService } from 'src/service/remote/chat'
 
-import { GET, POST, DELETE } from 'src/hooks/useRequest'
 /**
  * Remote note service
  *
  * @version 1.0
  */
 export class RemoteNoteService implements NoteService {
+  private apiName = 'note';
 
-  async saveNote(data: Indexable): Promise<any> {
-    return POST({ name: 'note', body: data });
+  async save(data: Indexable): Promise<any> {
+    return POST({ name: this.apiName, body: data });
   }
 
-  async getNotes(params: Indexable): Promise<any> {
-    return GET({ name: 'note', path: '/all' });
+  async get(id: string): Promise<any> {
+    return GET({ name: this.apiName, query: {id: id} });
   }
 
-  async getNote(id: string): Promise<any> {
-    return GET({ name: 'note', query: {id: id} });
+  async getAll(query: Indexable): Promise<any> {
+    return GET({ name: this.apiName, path: '/all', query: query });
   }
 
-  async deleteNote(id: string) {
-    return DELETE({ name: 'note', query: {id: id} });
+  async delete(id: string) {
+    return DELETE({ name: this.apiName, query: {id: id} });
   }
 
   /**
    * Pagination query
    *
-   * @param criteria
+   * @param query
    */
-  async queryNote(criteria: Indexable): Promise<any> {
-    const body = {
-      pageIndex: 1,
-      pageSize: 20,
-      condition: criteria
-    };
-    return POST({ name: 'note', path: '/query', body: body });
+  async query(query: Indexable): Promise<any> {
+    return POST({ name: this.apiName, path: '/query', body: query });
   }
 }

@@ -35,7 +35,7 @@ export class KnowledgeRepository {
 
   async query(query: Query) {
     const filters = buildFilters(knowledge, ['name', 'userId'], query.condition);
-    const orders = buildOrders(knowledge, ['name', 'updateTime'], query.orderBy);
+    const orders = buildOrders(knowledge, ['name', 'updateTime'], query.sort);
 
     const list = await db.select().from(knowledge)
       .where(and(...filters))

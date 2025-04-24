@@ -49,7 +49,7 @@ export class BookAnnotationRepository {
 
   async query(query: Query) {
     const filters = buildFilters(bookAnnotation, ['note', 'bookId', 'type', 'userId'], query.condition);
-    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.orderBy);
+    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.sort);
 
     return db.select().from(bookAnnotation)
       .where(and(...filters))
@@ -60,7 +60,7 @@ export class BookAnnotationRepository {
 
   async queryBook(query: Query) {
     const filters = buildFilters(bookAnnotation, ['note', 'bookId', 'type', 'userId'], query.condition);
-    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.orderBy);
+    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.sort);
 
     return db.select({
       ...getTableColumns(bookAnnotation),

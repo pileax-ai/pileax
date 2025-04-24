@@ -776,14 +776,3 @@ kbd {
     -webkit-transform: rotate(360deg);
   }
 }
-
-// --------------------------------------------------------------------------------
-// Iconfont
-// --------------------------------------------------------------------------------
-@font-face {
-  font-family: 'iconfont';  /* Project id 2532704 */
-  src: url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.woff2?t=1620381310945') format('woff2'),
-  url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.woff?t=1620381310945') format('woff'),
-  url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.ttf?t=1620381310945') format('truetype'),
-  url('//at.alicdn.com/t/font_2549515_y3bdq9lzyjk.svg?t=1620381310945#iconfont') format('svg');
-}

@@ -3,7 +3,9 @@
     <div>
       {{ timeMulti(currentNote.updateTime || '').fromNow }}
     </div>
-    <q-btn icon="star_outline" flat />
+    <q-btn :icon="currentNote.favorite === 1 ? 'star' : 'star_outline'"
+           flat
+           @click="toggleFavorite(currentNote)" />
     <q-btn icon="more_horiz" flat>
       <q-menu ref="menu"
               anchor="bottom right"
@@ -36,13 +38,13 @@
                            @click="onAction(action, '')"
                            closable>
               <template #side>
-                <q-toggle v-model="enableSmallText"
+                <q-toggle v-model="styles.smallText"
                           @update:model-value="onAction(action, $event)"
                           v-if="action.value === 'smallText'" />
-                <q-toggle v-model="enableFullWidth"
+                <q-toggle v-model="styles.fullWidth"
                           @update:model-value="onAction(action, $event)"
                           v-if="action.value === 'fullWidth'" />
-                <q-toggle v-model="enableToc"
+                <q-toggle v-model="styles.toc"
                           @update:model-value="onAction(action, $event)"
                           v-if="action.value === 'toc'" />
               </template>
@@ -57,31 +59,92 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue'
 import useNote from 'src/hooks/useNote';
 import { timeMulti } from 'core/utils/format';
-import { refresh } from 'core/hooks/useRouter';
 
 const emit = defineEmits(['action']);
 
-const { notes, currentNote } = useNote();
+const {
+  currentNote,
+  saveNote,
+  toggleFavorite
+} = useNote();
+
+const styles = ref({
+  font: 'default',
+  smallText: false,
+  fullWidth: false,
+  toc: true,
+});
 const font = ref('default');
-const enableSmallText = ref(false);
-const enableFullWidth = ref(false);
-const enableToc = ref(true);
 
 const actions = computed(() => {
   return [
-    { label: 'Small text', value: 'smallText', icon: 'text_decrease', rightSide: true },
-    { label: 'Full width', value: 'fullWidth', icon: 'open_in_full', iconClass: 'rotate-45', rightSide: true },
-    { label: 'Table of contents', value: 'toc', icon: 'toc', rightSide: true },
-    { label: 'Duplicate', value: 'duplicate', icon: 'copy_all', sideLabel: '⌘D', clickable: true, separator: true },
-    { label: 'Move to', value: 'move', icon: 'keyboard_return', iconClass: 'rotate-180', clickable: true, sideLabel: '⌘⇧P' },
-    { label: 'Delete', value: 'delete', icon: 'delete_outline', clickable: true },
-    { label: 'Import', value: 'delete', icon: 'vertical_align_top', sideLabel: '⌘⇧', clickable: true, separator: true },
-    { label: 'Export', value: 'delete', icon: 'vertical_align_bottom', clickable: true },
-    { label: 'Open in new tab', value: 'delete', icon: 'open_in_new', sideLabel: '⌘⇧', clickable: true, separator: true },
-    { label: 'Open in new window', value: 'delete', icon: 'open_in_browser', clickable: true },
+    {
+      label: "Small text",
+      value: "smallText",
+      icon: "text_decrease",
+      rightSide: true,
+    },
+    {
+      label: "Full width",
+      value: "fullWidth",
+      icon: "open_in_full",
+      iconClass: "rotate-45",
+      rightSide: true,
+    },
+    { label: "Table of contents", value: "toc", icon: "toc", rightSide: true },
+    {
+      label: "Duplicate",
+      value: "duplicate",
+      icon: "copy_all",
+      sideLabel: "⌘D",
+      clickable: true,
+      separator: true,
+    },
+    {
+      label: "Move to",
+      value: "move",
+      icon: "keyboard_return",
+      iconClass: "rotate-180",
+      clickable: true,
+      sideLabel: "⌘⇧P",
+    },
+    {
+      label: "Delete",
+      value: "delete",
+      icon: "delete_outline",
+      clickable: true,
+    },
+    {
+      label: "Import",
+      value: "delete",
+      icon: "vertical_align_top",
+      sideLabel: "⌘⇧",
+      clickable: true,
+      separator: true,
+    },
+    {
+      label: "Export",
+      value: "delete",
+      icon: "vertical_align_bottom",
+      clickable: true,
+    },
+    {
+      label: "Open in new tab",
+      value: "delete",
+      icon: "open_in_new",
+      sideLabel: "⌘⇧",
+      clickable: true,
+      separator: true,
+    },
+    {
+      label: "Open in new window",
+      value: "delete",
+      icon: "open_in_browser",
+      clickable: true,
+    },
   ];
 });
 
@@ -93,19 +156,34 @@ function onAction (action: Indexable, value: any) {
       break;
     case 'closeToRight':
       break;
-    case 'reload':
-      refresh();
-      break;
+    case 'smallText':
     case 'fullWidth':
     case 'toc':
+      onStyles();
       emit('action', { ...action, actionValue: value })
       break;
   }
 }
 
+function onStyles() {
+  console.log('style', styles.value)
+  saveNote({
+    id: currentNote.value.id,
+    styles: JSON.stringify(styles.value)
+  })
+}
+
 function onFont(value: string) {
   font.value = value;
 }
+
+onBeforeMount(() => {
+  try {
+    styles.value = JSON.parse(currentNote.value.styles || '');
+  } catch (err) {
+    // console.warn(err);
+  }
+})
 </script>
 
 <style lang="scss">
@@ -115,7 +193,7 @@ function onFont(value: string) {
     height: 32px !important;
     min-height: 32px;
     min-width: 32px;
-    border-radius: 2px;
+    border-radius: 4px;
     margin-left: 8px;
   }
 }

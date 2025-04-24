@@ -8,8 +8,8 @@
     <q-list>
       <template v-for="(item, index) in list" :key="index">
         <q-separator class="bg-accent" v-if="item.separator" />
-        <o-common-item v-bind="item"
-                       clickable closable
+        <o-common-item clickable closable
+                       v-bind="item"
                        @click="emit('command', item)" />
       </template>
       <slot name="list"></slot>
@@ -30,7 +30,7 @@ defineProps({
     default: 'bottom right'
   },
   self: {
-    type: String,
+    type: String as PropType<PositionType>,
     default: 'top right'
   },
   offset: {

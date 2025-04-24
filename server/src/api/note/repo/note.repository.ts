@@ -2,8 +2,8 @@ import type { Note, NoteUpdate } from "@/api/note/model/note.model";
 import type { Query } from "@/core/api/commonModel";
 
 import { db } from '@/drizzle'
-import { fileMeta, note } from '@/drizzle/schema'
-import { and, desc, eq } from 'drizzle-orm'
+import { note } from '@/drizzle/schema'
+import { and, eq } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle'
 
@@ -46,7 +46,7 @@ export class NoteRepository {
 
   async query(query: Query) {
     const filters = buildFilters(note, ['refId', 'refType', 'parent', 'title', 'userId'], query.condition);
-    const orders = buildOrders(note, ['title', 'updateTime'], query.orderBy);
+    const orders = buildOrders(note, ['title', 'updateTime'], query.sort);
 
     return db.select()
       .from(note)

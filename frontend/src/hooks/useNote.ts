@@ -5,15 +5,12 @@ import { Note } from 'src/types/note';
 import { MenuItem } from 'core/types/menu';
 import { UUID } from 'core/utils/crypto';
 import { router } from 'src/router';
+import { noteService } from 'src/service/note';
 
 export default function () {
   const naviStore = useNaviStore();
   const noteStore = useNoteStore();
   const recentNotes = ref<Note[]>([]);
-
-  const noteService = computed(() => {
-    return noteStore.service;
-  });
 
   const currentNote = computed(() => {
     return noteStore.currentNote;
@@ -46,22 +43,27 @@ export default function () {
   }
 
   async function getAllNotes() {
-    const notes = await noteService.value.getNotes({});
+    const notes = await noteService.getAll({});
     noteStore.setNotes(notes);
   }
 
-  function refreshAllNotes() {
-    const index = notes.value.findIndex((item) => item.id === currentNote.value.id);
+  function refreshNote(note: Note) {
+    const index = notes.value.findIndex((n) => n.id === note.id);
     if (index >= 0) {
-      notes.value.splice(index, 1, currentNote.value);
+      notes.value.splice(index, 1, note);
     } else {
       getAllNotes();
     }
   }
 
   async function getRecentNotes() {
-    const result = await noteService.value.queryNote({}) as Note[];
-    recentNotes.value = result;
+    const query = {
+      pageSize: 1000,
+      sort: {
+        updateTime: 'desc'
+      }
+    }
+    recentNotes.value = await noteService.query(query) as Note[];
   }
 
   function addNote(parent = '') {
@@ -93,12 +95,20 @@ export default function () {
     } as MenuItem);
 
     // Remove from database
-    noteService.value.deleteNote(note.id);
+    noteService.delete(note.id);
   }
 
-  async function saveNote(data: Indexable) {
-    const note = await noteService.value.saveNote(data);
-    setCurrentNote(note);
+  async function saveNote(data: Indexable, {
+    refresh = false
+    } = {}
+  ) {
+    const note = await noteService.save(data);
+    if (note.id === currentNote.value.id) {
+      setCurrentNote(note);
+    }
+    if (refresh) {
+      refreshNote(note);
+    }
   }
 
   function addIcon() {
@@ -118,6 +128,32 @@ export default function () {
     });
   }
 
+  function setParent(id: string, newParent: string) {
+    saveNote({
+      id: id,
+      parent: newParent
+    }, { refresh: true });
+  }
+
+  function toggleFavorite(data: Indexable) {
+    saveNote({
+      id: data.id,
+      favorite: data.favorite === 1 ? 0 : 1
+    }, { refresh: true });
+  }
+
+  function duplicateNote(data: Indexable) {
+    saveNote({
+      parent: data.parent,
+      title: data.title,
+      favorite: data.favorite,
+      content: data.content,
+      icon: data.icon,
+      cover: data.cover,
+      styles: data.styles,
+    }, { refresh: true });
+  }
+
   function buildNoteTree(items: Note[], id = '') {
     const list: any[] = items
       .filter(item => item['parent'] === id)
@@ -129,6 +165,7 @@ export default function () {
           header: (item.parent) ? '' : 'root',
           parent: item.parent,
           data: item,
+          allowDrop: true,
           children: buildNoteTree(items, item.id)
         };
       });
@@ -140,9 +177,28 @@ export default function () {
         header: 'root',
         parent: id,
         data: {},
+        allowDrop: false,
         children: []
       });
     }
+    return list;
+  }
+
+  function buildFavoriteTree(items: Note[]) {
+    const list: any[] = items
+      .filter(item => item.favorite === 1)
+      .map((item) => {
+        return {
+          key: item.id,
+          type: 'note',
+          label: item.title,
+          header: (item.parent) ? '' : 'root',
+          parent: item.parent,
+          data: item,
+          allowDrop: true,
+          children: buildNoteTree(items, item.id)
+        };
+      });
     return list;
   }
 
@@ -156,14 +212,18 @@ export default function () {
 
     setCurrentNote,
     getAllNotes,
-    refreshAllNotes,
+    refreshNote,
     getRecentNotes,
     buildNoteTree,
+    buildFavoriteTree,
     addNote,
     openNote,
     deleteNote,
     saveNote,
     addIcon,
     setIcon,
+    setParent,
+    toggleFavorite,
+    duplicateNote,
   };
 }

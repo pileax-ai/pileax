@@ -7,13 +7,16 @@ import { RemoteNoteService } from 'src/service/remote/note';
  * @version 1.0
  */
 export interface NoteService {
-  getNotes(params: Indexable): Promise<Note[]>;
-  getNote(id: string): Promise<Note | null>;
-  saveNote(note: Indexable): Promise<Note | null>;
-  queryNote(criteria: Indexable): Promise<unknown>;
-  deleteNote(id: string): Promise<unknown>;
+  save(note: Indexable): Promise<Note | null>;
+  getAll(query: Indexable): Promise<Note[]>;
+  get(id: string): Promise<Note | null>;
+  delete(id: string): Promise<unknown>;
+  query(query: Indexable): Promise<unknown>;
 }
 
+const noteService = new RemoteNoteService();
+
 export {
+  noteService,
   RemoteNoteService
 }
