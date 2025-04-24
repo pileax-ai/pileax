@@ -14,12 +14,11 @@
     <!--Actions-->
     <template #query-start>
       <o-hover-menu-btn label="批量操作"
-                        icon-right="mdi-chevron-down"
                         anchor="bottom left"
                         self="top left"
                         class="bg-accent"
                         menu-class="pi-menu dense"
-                        min-width="160px">
+                        min-width="160px" flat dropdown>
         <template v-for="(item, index) in actions"
         :key="index">
           <q-separator class="bg-accent" v-if="item.separator" />

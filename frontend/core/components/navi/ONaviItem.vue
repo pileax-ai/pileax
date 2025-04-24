@@ -1,5 +1,5 @@
 <template>
-  <q-item class="o-navi-item" clickable @click="onClick">
+  <q-item class="o-navi-item" :class="item.meta?.class" clickable @click="onClick">
     <o-navi-icon :meta="item.meta" v-if="showItemIcon" />
     <q-item-section class="row item-label">
       <q-item-label lines="1">
@@ -47,6 +47,11 @@ function onClick() {
 .o-navi-item {
   padding: 0 10px 0 10px;
   min-height: 42px;
+
+  &.highlight {
+    color: var(--q-primary);
+    font-weight: 600;
+  }
 
   &.active:before {
     content: "";

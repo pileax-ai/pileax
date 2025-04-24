@@ -1,5 +1,5 @@
 <template>
-  <q-item-section class="text-info o-navi-icon" avatar>
+  <q-item-section class="o-navi-icon" avatar>
     <q-avatar>
       <template v-if="meta.icon?.indexOf('icon') === 0">
         <svg class="icon" aria-hidden="true" v-if="meta.svg">

@@ -88,5 +88,9 @@ onBeforeMount(() => {
       }
     }
   }
+
+  .o-navi-item {
+    margin-bottom: 2px;
+  }
 }
 </style>

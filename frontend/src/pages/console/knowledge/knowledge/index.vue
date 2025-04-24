@@ -13,7 +13,6 @@
           text-color="readable"
           toggle-color="primary"
           toggle-text-color="white"
-          rounded
           unelevated
           :options="tabs"
         />
@@ -82,7 +81,7 @@ onActivated(() => {
 .page-knowledge {
   .console-header {
     .console-toolbar {
-      padding: 16px 21px 0 21px !important;
+      padding: 10px 21px 0 21px !important;
     }
     .header-extension .knowledge-tabs {
       position: absolute;
@@ -93,7 +92,7 @@ onActivated(() => {
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      padding-top: 16px;
+      padding-top: 10px;
 
       .q-btn-group {
         .q-btn {
@@ -118,6 +117,15 @@ onActivated(() => {
   .q-tab-panel {
     .console-content {
       padding: 0 21px;
+    }
+  }
+
+  &.page-full-screen {
+    .console-header {
+      .header-extension .knowledge-tabs {
+        padding: 0;
+      }
+
     }
   }
 }

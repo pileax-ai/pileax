@@ -1,43 +1,44 @@
 <template>
   <section class="row col-12 justify-center chat-section">
-    <q-scroll-area ref="scrollRef" class="o-scroll-wrapper">
+    <q-scroll-area ref="scrollRef"
+                   class="o-scroll-wrapper"
+                   @scroll="onScroll">
+      <o-chat-toc ref="tocRef" :chats="chats" />
       <header class="row col-12 justify-between header">
         <div>
-          <o-hover-menu-btn label="Session"
-                            icon-right="mdi-chevron-down"
+          <o-hover-menu-btn label="Chat List"
                             anchor="bottom left"
                             self="top left"
                             class="bg-accent"
                             menu-class="chat-section-session-menu pi-menu"
-                            min-width="240px">
+                            min-width="240px"
+                            flat default-open dropdown persistent>
             <chat-sessions ref="sessionsRef"
                            :ref-type="refType"
                            :ref-id="refId"
                            :active-id="sessionId"
+                           default-open
                            @open="openSession" />
           </o-hover-menu-btn>
         </div>
-        <div>
-          <chat-actions :session="session" v-if="showAction" />
-        </div>
+        <chat-actions v-if="showAction" />
       </header>
-      <o-chat-toc ref="tocRef" :chats="chats" />
 
-      <section class="row justify-center start-panel" v-if="start">
-        <header>
-          <div class="row justify-center items-center welcome">
-            <img :src="$public('/logo.png')" alt="Logo" />
-            我是PileaX，很高兴遇见你!
-          </div>
-          <div class="message text-readable">
-            {{ description }}
-          </div>
-        </header>
-        <o-chat-input @send="onSend" :tag="tag" />
-        <footer></footer>
-      </section>
-      <section class="row col-12 justify-center" v-else>
-        <section class="chat-list">
+      <section class="row col-12 justify-center">
+        <section class="row col-12 justify-center start-panel" v-if="start">
+          <header>
+            <div class="row justify-center items-center welcome">
+              <img :src="$public('/logo.png')" alt="Logo" />
+              我是PileaX，很高兴遇见你!
+            </div>
+            <div class="message text-readable">
+              {{ description }}
+            </div>
+          </header>
+          <o-chat-input @send="onSend" :tag="tag" />
+          <footer></footer>
+        </section>
+        <section class="chat-list" v-else>
           <template v-for="(item, index) in chats" :key="index">
             <o-chat-message :chat="item"
                             align-right @like="onLike($event, index)" />
@@ -49,25 +50,26 @@
                             :streaming="isLoading" />
           </template>
         </section>
-      </section>
-      <section class="row col-12 justify-center q-pb-lg new-chat"
-               v-show="!start && chats.length">
-        <q-btn icon="add_comment" label="开启新对话"
-               icon-class="rotate-90"
-               class="bg-primary text-white"
-               flat
-               @click="onNewChat" v-intersection="onIntersection">
-        </q-btn>
-      </section>
 
-      <transition name="fade">
-        <section class="row col-12 justify-center q-pb-lg scroll-bottom"
-                 v-if="chats.length && showScrollBtn">
-          <div class="row col-12 justify-end btn-wrapper">
-            <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500)" />
-          </div>
+        <section class="row col-12 justify-center q-pb-lg new-chat"
+                 v-show="!start && chats.length">
+          <q-btn class="bg-primary text-white"
+                 flat
+                 @click="onNewChat" v-intersection="onIntersection">
+            <q-icon name="add_comment" class="flip-horizontal" />
+            <span class="q-ml-sm">开启新对话</span>
+          </q-btn>
         </section>
-      </transition>
+
+        <transition name="fade">
+          <section class="row col-12 justify-center q-pb-lg scroll-bottom"
+                   v-if="chats.length && showScrollBtn">
+            <div class="row col-12 justify-end btn-wrapper">
+              <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500)" />
+            </div>
+          </section>
+        </transition>
+      </section>
 
       <footer class="row col-12 justify-center footer" v-if="!start">
         <o-chat-input :loading="isLoading"
@@ -126,14 +128,11 @@ const props = defineProps({
   },
 });
 
-const route = useRoute();
 const { provider } = useAi();
 const {
   session,
   sessionId,
-  currentChat,
   chatStore,
-  getSession,
 } = useChatSession();
 const { isLoading, startStream, cancelStream } = useStream();
 
@@ -144,6 +143,9 @@ const start = ref(true);
 const chats = ref<Indexable[]>([]);
 const newChat = ref<Indexable>({})
 const showScrollBtn = ref(false);
+const scrollable = ref(true);
+const scrollTop = ref(0);
+const scrollDirection = ref('');
 
 function init() {
   console.log('init');
@@ -251,6 +253,7 @@ function onNewChat() {
   start.value = true;
   sessionId.value = '';
   session.value = undefined;
+  chats.value = [];
 }
 
 async function scrollToBottom(duration = 0) {
@@ -263,13 +266,26 @@ async function scrollToBottom(duration = 0) {
   }, 0)
 }
 
-function onScroll() {
+function onScroll(info: any) {
   tocRef.value?.onScroll();
+
+  // scroll direction
+  if (scrollTop.value) {
+    scrollDirection.value = scrollTop.value > info.verticalPosition
+      ? 'up'
+      : 'down';
+    if (scrollDirection.value === 'up') {
+      scrollable.value = false;
+    }
+  }
+  scrollTop.value = info.verticalPosition;
 }
 
 function onIntersection(entry: Indexable) {
   showScrollBtn.value = !entry.isIntersecting;
-  console.log('entry', entry, showScrollBtn.value);
+  if (entry.isIntersecting) {
+    scrollable.value = true;
+  }
 }
 
 onActivated(() => {
@@ -279,19 +295,17 @@ onActivated(() => {
 
 <style lang="scss">
 .chat-section {
-  .chat-list {
-    width: 100%;
-    max-width: 800px;
-    padding: 64px 0 1rem 0;
+  .o-scroll-wrapper {
+    padding-bottom: 145px;
   }
 
   .start-panel {
     width: 100%;
+    max-width: 800px;
     padding-top: 150px;
 
     header, footer, .start-card {
       width: 100%;
-      max-width: 800px;
     }
 
     header {
@@ -317,8 +331,10 @@ onActivated(() => {
     }
   }
 
-  .o-scroll-wrapper {
-    padding-bottom: 145px;
+  .chat-list {
+    width: 100%;
+    max-width: 800px;
+    padding: 64px 0 1rem 0;
   }
 
   header.header {
@@ -359,15 +375,17 @@ onActivated(() => {
 
   .o-chat-toc {
     position: fixed;
-    top: 64px;
-    right: 1rem;
+    top: 1rem;
+    right: 28px;
+    z-index: 2;
   }
 
 
   .scroll-bottom {
     position: fixed;
-    right: 16px;
+    right: 0;
     bottom: 140px;
+    z-index: 1000;
     .btn-wrapper {
       width: 100%;
       max-width: 800px;
@@ -376,6 +394,8 @@ onActivated(() => {
 }
 
 .chat-section-session-menu {
+  box-shadow: none;
+  outline: solid 1px var(--q-dark);
   .q-list {
     .q-list {
       padding: 0;

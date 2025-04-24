@@ -23,7 +23,7 @@
                                  :parent-key="`${parentKey}-${item.name}`"
                                  :level="level+1"
                                  :data="item" />
-          <o-navi-item class="text-info data-item"
+          <o-navi-item class="data-item"
                        :class="{'active': currentMenu.id === item.id}"
                        :style="`padding-left: ${ level > 0 ? (level)*40 - (level-1)*10 : 0}px`"
                        :item="item"
@@ -32,7 +32,7 @@
         </section>
       </template>
     </q-expansion-item>
-    <o-navi-item class="text-info data-item"
+    <o-navi-item class="data-item"
                  :class="{'active': currentMenu.id === data.id}"
                  :item="data"
                  :show-item-icon="showItemIcon"

@@ -2,7 +2,9 @@
   <q-item class="o-chat-message user" :id="chat.id">
     <q-item-section avatar>
       <q-avatar>
-        <img :src="avatar" v-if="!alignRight" />
+        <img :src="avatar || account.avatar || $public('/logo.png')"
+             alt="Avatar"
+             v-if="!alignRight" />
       </q-avatar>
     </q-item-section>
     <q-item-section :align="alignRight ? 'right' : 'left'">
@@ -35,7 +37,9 @@
     </q-item-section>
     <q-item-section avatar>
       <q-avatar>
-        <img :src="avatar" v-if="alignRight" />
+        <img :src="avatar || account.avatar || $public('/logo.png')"
+             alt="Avatar"
+             v-if="alignRight" />
       </q-avatar>
     </q-item-section>
   </q-item>
@@ -77,7 +81,7 @@
           </div>
 
           <div class="actions" >
-            <q-spinner-dots size="2rem" v-if="streaming" />
+            <q-spinner-dots size="32px" v-if="streaming" />
             <template v-else>
               <o-copy-btn :value="chat.content" flat notify>
                 <o-tooltip position="bottom">复制</o-tooltip>
@@ -114,11 +118,12 @@
 import { onMounted, PropType, ref } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
 import { chatService } from 'src/service/remote/chat';
+import useAccount from 'src/hooks/useAccount';
 
 const props = defineProps({
   avatar: {
     type: String,
-    default: 'https://cdn.quasar.dev/img/avatar3.jpg'
+    default: ''
   },
   chat: {
     type: Object as PropType<Indexable>,
@@ -139,6 +144,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['like', 'send']);
 
+const { account } = useAccount();
 const editable = ref(false);
 const userMessage = ref('');
 
@@ -287,7 +293,7 @@ onMounted(() => {
         .line {
           margin-top: 4px;
           width: 50%;
-          height: calc(100% - 62px);
+          height: calc(100% - 60px);
           border-radius: 0 0 0 8px;
           border-left: solid 2px var(--q-dark);
           border-bottom: solid 2px var(--q-dark);

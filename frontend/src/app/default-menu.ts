@@ -16,14 +16,14 @@ export const defaultConsoleMenus: MenuItem[] = [
         name: 'quickstart',
         path: '/',
         action: 1,
-        meta: {icon: 'home'}
+        meta: {icon: 'rocket'}
       },
       {
         id: 'chat',
         name: 'newChat',
         path: '/chat',
         action: 1,
-        meta: {icon: 'add_comment'}
+        meta: {icon: 'add_comment', iconClass: 'flip-horizontal', class: 'highlight'}
       },
     ]
   },
@@ -71,7 +71,7 @@ export const defaultConsoleMenus: MenuItem[] = [
         name: '知识库',
         action: 1,
         path: '/knowledge',
-        meta: {icon: 'mdi-creation'}
+        meta: {icon: 'mdi-creation', class: 'highlight'}
       },
     ]
   },

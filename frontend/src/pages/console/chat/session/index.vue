@@ -5,7 +5,8 @@
                  :content-class="start ? 'justify-center' : ''"
                  header
                  :footer="!start"
-                 :scrollable="!start" @scroll="onScroll">
+                 :scrollable="!start"
+                 @scroll="onScroll">
     <template #header>
     </template>
     <template #right>
@@ -38,11 +39,11 @@
       </section>
     </section>
     <section class="row col-12 justify-center q-pb-lg new-chat" v-show="chats.length">
-      <q-btn icon="add_comment" label="开启新对话"
-             icon-class="rotate-90"
-             class="bg-primary text-white"
+      <q-btn class="bg-primary text-white"
              flat
              @click="onNewChat" v-intersection="onIntersection">
+        <q-icon name="add_comment" class="flip-horizontal" />
+        <span class="q-ml-sm">开启新对话</span>
       </q-btn>
     </section>
 
@@ -104,6 +105,7 @@ const chats = ref<Indexable[]>([]);
 const newChat = ref<Indexable>({})
 const showScrollBtn = ref(false);
 const tocRef = ref<InstanceType<typeof OChatToc>>();
+const scrollable = ref(true);
 
 function init() {
   start.value = route.name === 'chat-start';
@@ -213,18 +215,25 @@ function onNewChat() {
 }
 
 async function scrollToBottom(duration = 0) {
+  if (!scrollable.value) return;
   await nextTick();
   setTimeout(() => {
     pageRef.value?.scrollToBottom(duration);
   }, 0)
 }
 
-function onScroll() {
+function onScroll(info: Indexable, direction: string) {
   tocRef.value?.onScroll();
+  if (direction === 'up') {
+    scrollable.value = false;
+  }
 }
 
 function onIntersection(entry: Indexable) {
   showScrollBtn.value = !entry.isIntersecting;
+  if (entry.isIntersecting) {
+    scrollable.value = true;
+  }
 }
 
 onActivated(() => {

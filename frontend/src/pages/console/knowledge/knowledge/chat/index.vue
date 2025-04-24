@@ -5,7 +5,7 @@
     <chat-section ref-type="knowledge"
                   :ref-id="knowledgeId"
                   description="基于知识库问答"
-                  tag="基于知识库" show-action>
+                  tag="基于知识库">
 
     </chat-section>
   </o-console-section>
@@ -43,8 +43,19 @@ const props = defineProps({
   }
 
   .chat-section {
-    //background: red;
     height: calc(100vh - 98px);
+  }
+}
+
+.full-screen-page {
+  .chat-tab {
+    .chat-section {
+      height: calc(100vh - 42px);
+
+      header.header {
+        padding-top: 1rem;
+      }
+    }
   }
 }
 </style>

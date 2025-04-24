@@ -26,7 +26,7 @@ defineProps({
     default: false
   },
   anchor: {
-    type: String,
+    type: String as PropType<PositionType>,
     default: 'bottom right'
   },
   self: {

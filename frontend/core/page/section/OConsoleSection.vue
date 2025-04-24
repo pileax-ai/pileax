@@ -4,7 +4,7 @@
                     :side="side"
                     :side-full-screen="sideFullScreen">
     <!--Header-->
-    <header class="bg-secondary console-header">
+    <header class="bg-secondary console-header" :class="{'full': fullScreen}">
       <section class="row col-12 justify-between text-info console-toolbar">
         <div class="row items-center">
           <div class="row items-center" v-if="!disableMeta">
@@ -328,7 +328,7 @@ onActivated(() => {
 
 .full-screen-page {
   .o-console-section {
-    .console-header .console-toolbar {
+    .console-header.full .console-toolbar {
       background: var(--q-accent);
       padding: 0 21px 0 21px !important;
       position: fixed;
@@ -348,6 +348,9 @@ onActivated(() => {
 
     .console-content {
       margin-top: 42px;
+      .console-content {
+        margin-top: 0;
+      }
     }
   }
 }

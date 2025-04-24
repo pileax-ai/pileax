@@ -66,13 +66,21 @@ const props = defineProps({
 const emit = defineEmits(['scroll']);
 
 const scrollRef = ref<InstanceType<typeof QScrollArea>>();
+const scrollTop = ref(0);
+const scrollDirection = ref('');
 const pageStatus = computed(() => {
   return 200
 });
 
 function onScroll(info: any) {
-  // console.log('scroll', info)
-  emit('scroll')
+  if (scrollTop.value) {
+    scrollDirection.value = scrollTop.value > info.verticalPosition
+      ? 'up'
+      : 'down';
+  }
+  // console.log('scroll', info, scrollDirection.value);
+  scrollTop.value = info.verticalPosition;
+  emit('scroll', info, scrollDirection.value);
 }
 
 function scrollToBottom(duration = 0) {

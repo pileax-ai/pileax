@@ -8,7 +8,8 @@
             <template v-for="(item, index) in subGroup as ChatSession[]" :key="index">
               <q-item class="o-navi-item"
                       :class="{'active': activeId === item.id}"
-                      clickable v-close-popup
+                      clickable
+                      v-close-popup="closable"
                       @click="openSession(item)">
                 <q-item-section>
                   <q-item-label>
@@ -25,7 +26,8 @@
             <template v-for="(item, index) in group as ChatSession[]" :key="index">
               <q-item class="o-navi-item"
                       :class="{'active': activeId === item.id}"
-                      clickable v-close-popup
+                      clickable
+                      v-close-popup="closable"
                       @click="openSession(item)">
                 <q-item-section>
                   <q-item-label lines="1">
@@ -71,6 +73,14 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  closable: {
+    type: Boolean,
+    default: false
+  },
+  defaultOpen: {
+    type: Boolean,
+    default: false
+  },
 });
 const emit = defineEmits(['open']);
 
@@ -79,7 +89,7 @@ const groupedSession = computed(() => {
   return groupSessionsByTime(sessions.value);
 })
 
-async function refresh() {
+async function refresh(openFirst = false) {
   const query = {
     pageIndex: 1,
     pageSize: 100,
@@ -92,7 +102,10 @@ async function refresh() {
     }
   }
   chatSessionService.query(query).then(res => {
-    sessions.value = res;
+    sessions.value = res.list;
+    if (openFirst && sessions.value.length) {
+      emit('open', sessions.value.at(0));
+    }
   })
 }
 
@@ -150,7 +163,7 @@ function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
 }
 
 onBeforeMount(() => {
-  refresh();
+  refresh(props.defaultOpen);
 })
 
 defineExpose({

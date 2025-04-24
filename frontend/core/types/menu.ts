@@ -1,5 +1,6 @@
 export interface MenuItemMeta {
   type?: string,
+  class?: string,
   icon?: string,
   iconClass?: string,
   svg?: string,

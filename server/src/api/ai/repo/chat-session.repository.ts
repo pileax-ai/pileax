@@ -4,7 +4,7 @@ import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
 import { chatSession } from '@/drizzle/schema'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 
 export class ChatSessionRepository {
@@ -37,10 +37,20 @@ export class ChatSessionRepository {
     const filters = buildFilters(chatSession, ['refId', 'refType', 'title', 'userId'], query.condition);
     const orders = buildOrders(chatSession, ['title', 'updateTime'], query.orderBy);
 
-    return db.select().from(chatSession)
+    const list = await db.select().from(chatSession)
       .where(and(...filters))
       .limit(query.pageSize)
       .offset((query.pageIndex - 1) * query.pageSize)
       .orderBy(...orders);
+    const [{ count }] = await db.select({ count: sql<number>`count(*)` })
+      .from(chatSession)
+      .where(and(...filters));
+
+    return {
+      list,
+      // total: count,
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    }
   }
 }
