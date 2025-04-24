@@ -93,6 +93,10 @@ import { timeMulti } from 'core/utils/format';
 import { NoteDefaultIcon } from 'core/constants/constant';
 import OContextMenu from 'core/components/menu/OContextMenu.vue';
 import useNote from 'src/hooks/useNote';
+import { useTabStore } from 'stores/tab';
+import { ipcService } from 'src/api/ipc';
+import useCommon from 'core/hooks/useCommon'
+const { t, confirm, dialog } = useCommon();
 
 defineProps({
   maxWidth: {
@@ -111,19 +115,50 @@ const {
   deleteNote,
   buildNoteTree,
 } = useNote();
-
+const tabStore = useTabStore();
 const selected = ref('');
 const noteTree = computed(() => {
   return buildNoteTree(notes.value);
 })
 const noteMenu = computed(() => {
   return [
-    { label: 'Add to favorite', value: 'duplicate', icon: 'star_outline' },
-    { label: 'Duplicate', value: 'duplicate', icon: 'copy_all', sideLabel: '⌘D', separator: true },
-    { label: 'Move to', value: 'move', icon: 'keyboard_return', iconClass: 'rotate-180', sideLabel: '⌘⇧P' },
-    { label: 'Delete', value: 'delete', icon: 'delete_outline' },
-    { label: 'Open in new tab', value: 'delete', icon: 'open_in_new', sideLabel: '⌘⇧', separator: true },
-    { label: 'Open in new window', value: 'delete', icon: 'open_in_browser' },
+    {
+      label: 'Add to favorite',
+      value: 'duplicate',
+      icon: 'star_outline',
+    },
+    {
+      label: 'Duplicate',
+      value: 'duplicate',
+      icon: 'copy_all',
+      sideLabel: '⌘D',
+      separator: true
+    },
+    {
+      label: 'Move to',
+      value: 'move',
+      icon: 'keyboard_return',
+      iconClass: 'rotate-180',
+      sideLabel: '⌘⇧P'
+    },
+    {
+      label: 'Delete',
+      value: 'delete',
+      icon: 'delete_outline',
+      class: 'text-red'
+    },
+    {
+      label: 'Open in new tab',
+      value: 'newTab',
+      icon: 'open_in_new',
+      sideLabel: '⌘⇧',
+      separator: true
+    },
+    {
+      label: 'Open in new window',
+      value: 'newWindow',
+      icon: 'open_in_browser'
+    },
   ]
 })
 
@@ -134,6 +169,22 @@ function onCommand (command: Indexable, data: Indexable) {
       break;
     case 'delete':
       onDelete(data);
+      break;
+    case 'newTab':
+      tabStore.newTab({
+        id: data.id,
+        name: data.title,
+        path: `/note/${data.id}`,
+        action: 1,
+        meta: {
+          type: 'note',
+          icon: data.icon || '✍',
+          iconClass: 'emoji'
+        }
+      })
+      break;
+    case 'newWindow':
+      ipcService.openNewWindow(data.id, `/note/${data.id}`);
       break;
   }
 }
@@ -154,16 +205,15 @@ function onOpenNote (note: Indexable) {
 }
 
 function onDelete(note: Indexable) {
-  openDialog({
-    type: 'tips',
-    icon: 'error',
-    message: `你确定删除？[ <span class="text-bold text-amber">${note.title}</span> ]`,
-    showCancel: true,
-    showOk: true,
-    onOk: () => {
+  confirm(
+    `你确定删除？[ <span class="text-bold text-amber">${note.title}</span> ]`,
+    () => {
       deleteNote(note);
+    },
+    {
+      showCancel: true
     }
-  });
+  );
 }
 
 function onSearch () {

@@ -26,13 +26,20 @@ export default function () {
     })
   }
 
-  const confirm = (message: string, callback: () => void) => {
+  const confirm = (
+    message: string,
+    callback: () => void,
+    {
+      showCancel = false
+    } = {}
+  ) => {
     componentStore.setDialog({
       type: 'tips',
       icon: 'error',
       title: t('tips'),
       message: message,
       showOk: true,
+      showCancel: showCancel,
       onOk: callback
     });
   }

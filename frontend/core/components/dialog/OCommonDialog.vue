@@ -123,6 +123,10 @@ onMounted(() => {
 
 <style lang="scss">
 .o-common-dialog {
+  .dialog-card {
+    border-radius: 1rem;
+  }
+
   .dialog-content {
     padding: 16px 16px;
     min-height: unset!important;

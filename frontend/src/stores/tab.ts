@@ -42,9 +42,12 @@ export const useTabStore = defineStore('tab', {
         name: '',
         path: path
       }
+      this.newTab(tab);
+    },
+    newTab(tab: MenuItem) {
       this.tabs.push(tab);
       this.tab = tab;
-      this.router.push(path);
+      this.router.push(tab.path);
     },
     openTab(id: string, path = '') {
       const index = this.findIndex(id);

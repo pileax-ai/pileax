@@ -37,7 +37,7 @@ export default function () {
       action: 1,
       meta: {
         type: 'note',
-        icon: note.icon,
+        icon: note.icon || '✍',
         iconClass: 'emoji'
       }
     } as MenuItem;

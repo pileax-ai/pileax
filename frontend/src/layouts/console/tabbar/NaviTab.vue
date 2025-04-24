@@ -41,7 +41,6 @@
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
-import { useRoute } from 'vue-router';
 import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
 import { refresh } from 'core/hooks/useRouter';

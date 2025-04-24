@@ -2,7 +2,7 @@
   <o-common-dialog class="note-search-dialog"
                    position="top"
                    content-class="search-card"
-                   :content-style="{ minWidth: '600px', maxWidth: '1200px' }"
+                   :content-style="{ minWidth: '720px', maxWidth: '1200px' }"
                    :show="dialog.type === 'note-search'"
                    :header="false"
                    @close="onHide">
@@ -179,7 +179,7 @@ onUnmounted(() => {
 .note-search-dialog {
   .search-card {
     margin-top: 60px;
-    border-radius: 8px !important;
+    border-radius: 1rem !important;
 
     .dialog-content {
       padding: 0;
@@ -217,7 +217,7 @@ onUnmounted(() => {
         }
         .search-results {
           position: relative;
-          min-height: 240px;
+          min-height: 320px;
           max-height: 600px;
           .iconfont {
             font-size: 0.8rem;
