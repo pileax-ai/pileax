@@ -38,11 +38,6 @@ const emit = defineEmits(['close']);
 .note-chat {
   height: calc(100vh - 40px);
 
-  .o-scroll-wrapper {
-    top: 0 !important;
-    padding: 0;
-  }
-
   .q-toolbar {
     min-height: 40px;
     .q-toolbar__title {
@@ -53,12 +48,6 @@ const emit = defineEmits(['close']);
       font-size: 1.2rem;
     }
     border-bottom: solid 1px var(--q-accent);
-  }
-
-  .chat-section {
-    .chat-list {
-      padding: 1rem 1rem 150px 1rem;
-    }
   }
 }
 </style>

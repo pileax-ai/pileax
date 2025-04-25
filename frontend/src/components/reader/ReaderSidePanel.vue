@@ -94,7 +94,7 @@ const {
 
 const currentTab = ref(0);
 const tabs = ref([
-  { label: 'AI', value: 'common', icon: 'mdi-creation' },
+  { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' },
 ]);
 const addAiAgentStatus = ref(false);
 const addServiceStatus = ref(false);

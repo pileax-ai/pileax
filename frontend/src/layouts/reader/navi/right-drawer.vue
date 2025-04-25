@@ -5,14 +5,15 @@
     :default-width="width"
     :breakpoint="200"
     :overlay="rightDrawerHoverShow"
-    bordered
     class="right-drawer"
     :class="{'hover-show': rightDrawerHoverShow}"
     @leave="emit('leave', $event)"
     @resize="onResize">
-    <section class="col-12 fit bg-accent side-bar">
+    <section class="col-12 fit bg-secondary side-bar">
       <q-splitter v-model="splitterPercent"
                   :limits="[0, 80]"
+                  separator-class="bg-accent"
+                  :separator-style="`height: ${splitterPercent ? 8 : 0}px;`"
                   horizontal
                   reverse>
         <template #before>
@@ -67,8 +68,13 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss">
+.q-drawer:has(.right-drawer) {
+  background: red;
+}
+
 .right-drawer {
   .side-bar {
+    padding-left: 8px;
     .q-splitter {
       height: 100vh;
     }
@@ -81,6 +87,24 @@ onBeforeMount(() => {
 
     .o-scroll-wrapper {
       top: 40px;
+    }
+  }
+
+  .drawer-separator {
+    width: 8px;
+    background: var(--q-accent);
+
+    &:hover, &.is-resizing {
+      background: var(--q-accent)!important;
+    }
+  }
+
+  &.hover-show {
+    .side-bar {
+      padding-left: 0;
+    }
+    .drawer-separator {
+      width: 0;
     }
   }
 }

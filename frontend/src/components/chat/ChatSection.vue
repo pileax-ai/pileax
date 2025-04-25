@@ -1,5 +1,6 @@
 <template>
-  <section class="row col-12 justify-center chat-section">
+  <section class="row col-12 justify-center chat-section"
+           :class="{ 'dense': dense }">
     <q-scroll-area ref="scrollRef"
                    class="o-scroll-wrapper"
                    @scroll="onScroll">
@@ -445,6 +446,16 @@ onBeforeMount(() => {
     .btn-wrapper {
       width: 100%;
       max-width: 800px;
+    }
+  }
+
+  &.dense {
+    .o-scroll-wrapper {
+      top: 0 !important;
+      padding: 0;
+    }
+    .chat-list {
+      padding: 1rem 1rem 150px 1rem;
     }
   }
 }

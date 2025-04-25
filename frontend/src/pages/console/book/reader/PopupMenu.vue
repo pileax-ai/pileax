@@ -14,6 +14,10 @@
           </div>
           <o-tooltip>划线</o-tooltip>
         </q-btn>
+        <q-btn icon="content_copy" class="text-readable" flat square
+               @click="onAction('copy')">
+          <o-tooltip>复制</o-tooltip>
+        </q-btn>
         <q-btn icon="share" class="text-readable" flat square
                @click="onAction('share')">
           <o-tooltip>分享</o-tooltip>
@@ -40,11 +44,13 @@ import {
   addAnnotation,
   removeAnnotation
 } from 'src/service/book-annotation';
+import useCommon from 'core/hooks/useCommon';
 import useBook from 'src/hooks/useBook';
 import useReader from 'src/hooks/useReader';
 
 const emit = defineEmits(['share']);
 
+const { copy } = useCommon();
 const { bookId, progress, selection, setKeyword, setAnnotationTimer } = useBook();
 const { rightDrawerShow, setRightDrawerHoverShow } = useReader();
 const triggerRef = ref();
@@ -63,6 +69,9 @@ function onAction(action: string) {
       break;
     case 'removeAnnotation':
       onRemoveAnnotation();
+      break;
+    case 'copy':
+      onCopy();
       break;
     case 'search':
       onSearch();
@@ -97,6 +106,10 @@ async function onAnnotation() {
 async function onRemoveAnnotation() {
   await removeAnnotation(clickedAnnotation.value);
   setAnnotationTimer(Date.now());
+}
+
+function onCopy() {
+  copy(selection.value.text, true)
 }
 
 function onSearch() {
@@ -192,10 +205,10 @@ onMounted(() => {
 
 .popup-menu {
   position: absolute;
-  width: 162px;
+  width: 202px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 
   .q-btn {
