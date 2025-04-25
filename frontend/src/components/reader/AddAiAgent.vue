@@ -22,9 +22,9 @@
 import {computed, ref} from 'vue';
 
 const props = defineProps({
-  name: {
-    type: String,
-    default: 'common'
+  main: {
+    type: Boolean,
+    default: false
   }
 });
 const emit = defineEmits(['close']);

@@ -48,6 +48,10 @@ const activeMenu = computed(() => {
     height: 60px !important;
   }
 
+  .list {
+    padding: 0 8px;
+  }
+
   .root-item > .q-expansion-item > .q-expansion-item__container > .q-item {
     .title {
       padding-left: 30px;
@@ -59,12 +63,18 @@ const activeMenu = computed(() => {
   .q-expansion-item {
     .q-item {
       height: 36px;
+      border-radius: 4px;
+      margin-top: 2px;
       .q-icon {
         font-size: 1.5rem;
       }
       svg {
         width: 1.6rem;
         height: 1.6rem;
+      }
+
+      &.active:before {
+        border-radius: 4px;
       }
 
       &.active:after {

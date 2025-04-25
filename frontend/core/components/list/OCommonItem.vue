@@ -5,19 +5,9 @@
           :clickable="clickable"
           v-close-popup="closable" exact>
     <q-item-section avatar v-if="emoji || icon">
-      <template v-if="emoji">
-        <q-avatar>
-          {{emoji}}
-        </q-avatar>
-      </template>
-      <template v-else>
-        <q-avatar v-if="icon.indexOf('icon')===0">
-          <svg class="icon" aria-hidden="true">
-            <use :xlink:href="`#${icon}`"></use>
-          </svg>
-        </q-avatar>
-        <q-avatar :size="size" :icon="icon" :textColor="color" class="themed" :class="iconClass" v-else />
-      </template>
+      <q-avatar :size="size" :textColor="color" class="themed" :class="iconClass">
+        <o-icon :name="icon" :emoji="emoji" />
+      </q-avatar>
     </q-item-section>
     <q-item-section>
       <q-item-label class="row items-center ellipsis" lines="1">

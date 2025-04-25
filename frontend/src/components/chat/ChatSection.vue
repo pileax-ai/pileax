@@ -348,6 +348,10 @@ onActivated(() => {
 onBeforeMount(() => {
   init('mount');
 })
+
+defineExpose({
+  send: onSend
+})
 </script>
 
 <style lang="scss">

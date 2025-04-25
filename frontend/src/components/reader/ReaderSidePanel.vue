@@ -11,7 +11,7 @@
                 v-if="true">
           <template v-for="(item, index) in tabs" :key="index">
             <q-tab :name="index">
-              <q-icon :name="item.icon" />
+              <o-icon :name="item.icon" size="20px" class="rounded-borders" />
               <o-tooltip :message="item.label" />
             </q-tab>
           </template>
@@ -20,7 +20,7 @@
 
       <section class="col-auto">
         <q-btn icon="more_horiz" class="o-toolbar-btn" flat>
-          <q-menu class="o-menu">
+          <q-menu class="pi-menu">
             <q-list :style="{minWidth: '200px'}">
               <template v-for="(action, index) in actions" :key="`action-${index}`">
                 <template v-if="action.show">
@@ -57,6 +57,7 @@
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
       <add-ai-agent v-if="addAiAgentStatus"
+                    :main="main"
                     @close="showAiAgent(false)" />
     </transition>
 
@@ -64,8 +65,10 @@
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
       <add-service v-if="addServiceStatus"
+                   :main="main"
                    @close="showAddService(false)"
-                   @select="selectAddService" />
+                   @add="onAddService"
+                   @remove="onRemoveService" />
     </transition>
   </section>
 </template>
@@ -85,6 +88,8 @@ const props = defineProps({
 });
 
 const {
+  mainService,
+  secondaryService,
   rightDrawer,
   rightDrawerShow,
   setRightDrawerHoverShow,
@@ -93,11 +98,23 @@ const {
 } = useReader();
 
 const currentTab = ref(0);
-const tabs = ref([
-  { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' },
-]);
 const addAiAgentStatus = ref(false);
 const addServiceStatus = ref(false);
+
+const defaultTab = computed(() => {
+  return { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' };
+});
+const tabs = computed(() => {
+  return props.main
+    ? [
+      defaultTab.value,
+      ...mainService.value
+    ]
+    : [
+      defaultTab.value,
+      ...secondaryService.value
+    ];
+})
 
 const components = computed(() => {
   return tabs.value.map((item) => {
@@ -112,13 +129,13 @@ const components = computed(() => {
 const actions = computed(() => {
   return [
     {
-      label: 'Add AI Agent',
+      label: 'Manage AI Agents',
       value: 'ai',
       icon: 'mdi-creation',
       show: true
     },
     {
-      label: 'Add Service',
+      label: 'Manage Services',
       value: 'service',
       icon: 'language',
       show: true
@@ -192,15 +209,23 @@ function showAddService(value :boolean) {
   addServiceStatus.value = value;
 }
 
-function selectAddService(item :any) {
+function onAddService(item :any) {
   addServiceStatus.value = false;
-  console.log('service', item);
+  const exist = tabs.value.find((e) => e.value === item.value);
+  if (!exist) {
+    if (props.main) {
+      mainService.value.push(item);
+    } else {
+      secondaryService.value.push(item);
+    }
 
-  const addedTab = tabs.value.find((e) => e.value === item.value);
-  if (!addedTab) {
-    tabs.value.push(item);
+    console.log('tabs', tabs.value)
     currentTab.value = tabs.value.length - 1;
   }
+}
+
+function onRemoveService() {
+  currentTab.value = 0;
 }
 
 onBeforeMount(() => {
@@ -236,6 +261,9 @@ onBeforeMount(() => {
 
         .q-icon {
           font-size: 20px;
+        }
+        img {
+          width: 20px;
         }
       }
 

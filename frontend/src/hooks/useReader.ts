@@ -41,6 +41,14 @@ export default function () {
     return store.queryTimer;
   });
 
+  const mainService = computed(() => {
+    return store.mainService;
+  });
+
+  const secondaryService = computed(() => {
+    return store.secondaryService;
+  });
+
   function toggleLeftDrawer() {
     store.toggleLeftDrawer();
   }
@@ -107,5 +115,7 @@ export default function () {
     setRightDrawerSplit,
     setRightDrawerWidth,
     setQueryTimer,
+    mainService,
+    secondaryService,
   };
 }

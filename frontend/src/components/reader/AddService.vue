@@ -4,7 +4,7 @@
       <section class="col row items-center">
         <q-icon name="language" size="20px" />
         <span class="q-px-sm">
-          Add Service
+          Manage Services
         </span>
       </section>
 
@@ -18,10 +18,10 @@
           推荐
         </q-item-label>
         <template v-for="(item, index) in services" :key="index">
-          <q-item class="bg-secondary" clickable @click="onSelect(item)">
+          <q-item class="bg-secondary" clickable>
             <q-item-section avatar>
-              <q-avatar>
-                <q-icon :name="item.icon" size="40px" />
+              <q-avatar rounded>
+                <o-icon :name="item.icon" size="40px" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -33,7 +33,12 @@
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-icon name="radio_button_checked" size="14px" color="primary" />
+              <q-btn icon="close" color="red" size="12px" flat round
+                     @click.stop="onRemove(item)"
+                     v-if="isEnabled(item)" />
+              <q-btn icon="add" color="primary" size="12px" flat round
+                     @click.stop="onAdd(item)"
+                     v-else />
             </q-item-section>
           </q-item>
         </template>
@@ -44,27 +49,51 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue';
+import useReader from 'src/hooks/useReader'
 
 const props = defineProps({
-  name: {
-    type: String,
-    default: 'google'
+  main: {
+    type: Boolean,
+    default: false
   }
 });
-const emit = defineEmits(['close', 'select']);
+const emit = defineEmits(['close', 'add', 'remove']);
+
+const {
+  mainService,
+  secondaryService,
+} = useReader();
+
+const enabledServices = computed(() => {
+  return props.main ? mainService.value : secondaryService.value;
+});
 
 const services = computed(() => {
   return [
-    { label: 'Google', value: 'google', icon: 'public', type: 'service', url: 'https://www.google.com/search?q={word}' },
-    { label: 'Google Dictionary', value: 'google_dictionary', icon: 'public', type: 'service', url: 'https://www.google.com/search?q=define:{word}' },
-    { label: 'Bing', value: 'bing', icon: 'public', type: 'service', url: 'https://www.bing.com/search?q={word}' },
-    { label: '汉典', value: 'zdic', icon: 'public', type: 'service', url: 'https://www.zdic.net/hans/{word}' },
-    { label: '欧路词典', value: 'eudic', icon: 'public', type: 'service', url: 'https://dict.eudic.net/dicts/en/{word}' },
+    { label: 'Google', value: 'google', icon: 'icon-google-color', type: 'service', url: 'https://www.google.com/search?q={word}' },
+    { label: 'Google Dictionary', value: 'google_dictionary', icon: 'icon-google-color', type: 'service', url: 'https://www.google.com/search?q=define:{word}' },
+    { label: 'Bing', value: 'bing', icon: 'icon-bing-color', type: 'service', url: 'https://www.bing.com/search?q={word}' },
+    { label: '汉典', value: 'zdic', icon: '/images/icons/zdict.png', type: 'service', url: 'https://www.zdic.net/hans/{word}' },
+    { label: '欧路词典', value: 'eudic', icon: '/images/icons/eudic.png', type: 'service', url: 'https://dict.eudic.net/dicts/en/{word}' },
   ];
 });
 
-function onSelect(item :any) {
-  emit('select', item);
+function isEnabled(item: Indexable) {
+  return enabledServices.value.find(s => s.value === item.value);
+}
+
+function onAdd(item :any) {
+  emit('add', item);
+}
+
+function onRemove(item :any) {
+  const idx = enabledServices.value.findIndex(s => s.value === item.value);
+  if (idx >= 0) {
+    props.main
+      ? mainService.value.splice(idx, 1)
+      : secondaryService.value.splice(idx, 1);
+    emit('remove');
+  }
 }
 </script>
 

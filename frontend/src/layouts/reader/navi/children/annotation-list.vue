@@ -48,5 +48,19 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .annotation-navi-list {
+  .list {
+    padding: 0 8px;
+  }
+
+  .q-item {
+    border-radius: 4px;
+    margin-top: 2px;
+
+
+
+    &.active:before {
+      border-radius: 4px;
+    }
+  }
 }
 </style>
