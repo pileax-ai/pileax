@@ -1,5 +1,5 @@
 import type { FileMeta, FileMetaUpdate } from "@/api/file/model/file.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
@@ -35,7 +35,7 @@ export class FileMetaRepository {
 
   async query(query: Query) {
     const filters = buildFilters(fileMeta, ['refId', 'refType', 'mimetype', 'fileName', 'userId'], query.condition);
-    const orders = buildOrders(fileMeta, ['mimetype', 'updateTime'], query.sort);
+    const orders = buildOrders(fileMeta, [...SortFields, 'mimetype'], query.sort);
 
     const list = await db.select().from(fileMeta)
       .where(and(...filters))

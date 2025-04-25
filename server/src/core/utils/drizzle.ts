@@ -39,7 +39,7 @@ export const buildFilters = <T extends Record<string, any>, K extends keyof T>(
   condition: Indexable
 ) => {
   return !isObject(condition) ? [] : Object.entries(condition)
-    .filter(([field, value]) => fields.includes(field.split('|')[0]) && value)
+    .filter(([field, value]) => fields.includes(field.split('|')[0]))
     .map(([field, value]) => {
       const splits = field.split('|');
       const actualField = splits[0];

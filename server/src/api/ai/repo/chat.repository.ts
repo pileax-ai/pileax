@@ -1,5 +1,5 @@
 import type { Chat, ChatUpdate } from "@/api/ai/model/chat.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle';
@@ -41,7 +41,7 @@ export class ChatRepository {
 
   async query(query: Query) {
     const filters = buildFilters(chat, ['sessionId', 'userId'], query.condition);
-    const orders = buildOrders(chat, ['createTime', 'updateTime'], query.sort);
+    const orders = buildOrders(chat, [...SortFields], query.sort);
 
     return db.select().from(chat)
       .where(and(...filters))

@@ -38,7 +38,7 @@
                v-bind="table"
                v-model:pagination="table.paging"
                :grid="tableView==='grid'"
-               @request="query.onRequest" @update:pagination="onPagination">
+               @request="query.onRequest">
         <!-- Grid -->
         <template v-slot:item="props">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row-item">
@@ -52,7 +52,7 @@
     <!--Side Panel-->
     <template #side-panel>
       <Item :id="`${id}`"
-            @success="query.closeSide"
+            @success="onClose"
             v-if="view==='details'" />
     </template>
 
@@ -62,18 +62,15 @@
 <script setup lang="ts">
 import {computed, ref, onActivated} from 'vue';
 
-import { getArrayItem, RefTypes, Status, TableViews } from 'src/app/metadata'
 import useCommon from 'core/hooks/useCommon';
 import useQuery from 'src/hooks/useQuery';
-import { aiProviderService } from 'src/service/remote/ai-provider';
 
 import Item from './Item.vue';
 import ItemCard from './ItemCard.vue';
-import { notifyDone } from 'core/utils/control'
-import useApi from 'src/hooks/useApi';
+import useKnowledge from 'src/hooks/useKnowledge';
 import { formatFileSize } from 'core/utils/format'
 
-const { getFileUrl } = useApi();
+const { knowledgeStore } = useKnowledge();
 const { confirm } = useCommon();
 const {
   id,
@@ -101,10 +98,6 @@ const columns = computed(() => {
   ];
 });
 
-function onPagination(pagination: Indexable) {
-  console.log('pagination', pagination)
-}
-
 function init() {
   tableView.value = 'grid';
   initQuery({
@@ -120,11 +113,9 @@ function onEdit(value: Indexable) {
   query.value.onDetails(value.id);
 }
 
-function onDisable(value: Indexable) {
-  const label = ` [<span class="text-orange text-bold">${value.title}</span>] `;
-  confirm(`确认禁用${label}？`, () => {
-    disable(value);
-  })
+function onClose() {
+  knowledgeStore.setQueryTimer(Date.now());
+  query.value.closeSide();
 }
 
 onActivated(() => {

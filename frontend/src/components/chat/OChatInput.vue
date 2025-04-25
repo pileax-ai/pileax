@@ -1,15 +1,14 @@
 <template>
   <o-common-card class="chat-input-card" accent>
     <div class="tag" v-if="tag">
-      <o-chip color="blue" dense>基于知识库</o-chip>
+      <o-chip color="blue" dense>{{ tag }}</o-chip>
     </div>
     <q-input ref="inputRef"
              v-model="input"
              placeholder="发送消息"
+             autogrow
              borderless
              autofocus
-             autogrow
-             :dense="dense"
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
@@ -88,7 +87,7 @@ const props = defineProps({
 const emit = defineEmits(['send', 'stop']);
 
 const { provider } = useAi();
-const input = ref('');
+const input = ref();
 const reasoning = ref(false);
 
 function onToggleThink() {

@@ -3,21 +3,21 @@
     <q-scroll-area ref="scrollRef"
                    class="o-scroll-wrapper"
                    @scroll="onScroll">
-      <o-chat-toc ref="tocRef" :chats="chats" />
-      <header class="row col-12 justify-between header">
+      <o-chat-toc ref="tocRef" :chats="chats" v-show="toc" />
+      <header class="row col-12 justify-between header" v-show="header">
         <div>
           <o-hover-menu-btn label="Chat List"
                             anchor="bottom left"
                             self="top left"
                             class="bg-accent"
-                            menu-class="chat-section-session-menu pi-menu"
-                            min-width="240px"
-                            flat default-open dropdown persistent>
+                            :menu-class="`chat-section-session-menu pi-menu ${dense ? 'dense' : ''}`"
+                            min-width="200px"
+                            :default-open="defaultOpen"
+                            flat dropdown persistent>
             <chat-sessions ref="sessionsRef"
                            :ref-type="refType"
                            :ref-id="refId"
                            :active-id="sessionId"
-                           default-open
                            @open="openSession" />
           </o-hover-menu-btn>
         </div>
@@ -41,18 +41,21 @@
         <section class="chat-list" v-else>
           <template v-for="(item, index) in chats" :key="index">
             <o-chat-message :chat="item"
-                            align-right @like="onLike($event, index)" />
+                            :dense="dense"
+                            align-right
+                            @like="onLike($event, index)" />
           </template>
 
           <template v-if="isLoading">
             <o-chat-message :chat="newChat"
+                            :dense="dense"
                             align-right
                             :streaming="isLoading" />
           </template>
         </section>
 
         <section class="row col-12 justify-center q-pb-lg new-chat"
-                 v-show="!start && chats.length">
+                 v-show="multiSession && !start && chats.length">
           <q-btn class="bg-primary text-white"
                  flat
                  @click="onNewChat" v-intersection="onIntersection">
@@ -63,7 +66,7 @@
 
         <transition name="fade">
           <section class="row col-12 justify-center q-pb-lg scroll-bottom"
-                   v-if="chats.length && showScrollBtn">
+                   v-if="multiSession && chats.length && showScrollBtn">
             <div class="row col-12 justify-end btn-wrapper">
               <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500)" />
             </div>
@@ -74,11 +77,12 @@
       <footer class="row col-12 justify-center footer" v-if="!start">
         <o-chat-input :loading="isLoading"
                       :tag="tag"
+                      :dense="dense"
                       @send="onSend"
                       @stop="onStop" />
 
         <div class="row col-12 justify-center q-py-sm bg-secondary text-tips warning">
-          内容由 AI 生成，请仔细甄别
+          内容由 AI 生成，请仔细甄别 {{start}}
         </div>
       </footer>
     </q-scroll-area>
@@ -86,13 +90,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, ref, nextTick, onBeforeMount, onActivated } from 'vue'
-import { useRoute } from 'vue-router';
+import { computed, ref, nextTick, onActivated, onBeforeMount } from 'vue'
 import OChatInput from 'components/chat/OChatInput.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
 import ChatSessions from 'components/chat/ChatSessions.vue';
 
-import { router } from 'src/router';
 import { chatService } from 'src/service/remote/chat';
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { UUID } from 'core/utils/crypto';
@@ -122,7 +124,27 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  toc: {
+    type: Boolean,
+    default: false
+  },
+  header: {
+    type: Boolean,
+    default: false
+  },
   showAction: {
+    type: Boolean,
+    default: false
+  },
+  multiSession: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
+    type: Boolean,
+    default: false
+  },
+  defaultOpen: {
     type: Boolean,
     default: false
   },
@@ -139,7 +161,7 @@ const { isLoading, startStream, cancelStream } = useStream();
 const scrollRef = ref<InstanceType<typeof QScrollArea>>();
 const sessionsRef = ref<InstanceType<typeof ChatSessions>>();
 const tocRef = ref<InstanceType<typeof OChatToc>>();
-const start = ref(true);
+const start = ref(false);
 const chats = ref<Indexable[]>([]);
 const newChat = ref<Indexable>({})
 const showScrollBtn = ref(false);
@@ -147,15 +169,41 @@ const scrollable = ref(true);
 const scrollTop = ref(0);
 const scrollDirection = ref('');
 
-function init() {
-  console.log('init');
+function init(from = '') {
+  start.value = props.multiSession;
+  getLatestSession();
+  console.log('init', from, props.refId);
+}
+
+function getLatestSession() {
+  const query = {
+    pageIndex: 1,
+    pageSize: 1,
+    condition: {
+      refType: props.refType,
+      refId: props.refId
+    },
+    sort: {
+      updateTime: 'desc'
+    }
+  }
+  chatSessionService.query(query).then(res => {
+    const defaultSession = res.list.length
+      ? res.list.at(0)
+      : {};
+    openSession(defaultSession);
+  })
 }
 
 function openSession(item: ChatSession) {
-  start.value = false;
-  session.value = item;
-  sessionId.value = item.id;
-  getAllChats();
+  if (item && item.id) {
+    start.value = false;
+    session.value = item;
+    sessionId.value = item.id;
+    getAllChats();
+  } else {
+    reset();
+  }
 }
 
 function getAllChats() {
@@ -251,9 +299,7 @@ function onLike(item: Indexable, index: number) {
 
 function onNewChat() {
   start.value = true;
-  sessionId.value = '';
-  session.value = undefined;
-  chats.value = [];
+  reset();
 }
 
 async function scrollToBottom(duration = 0) {
@@ -288,8 +334,18 @@ function onIntersection(entry: Indexable) {
   }
 }
 
+function reset() {
+  sessionId.value = '';
+  session.value = undefined;
+  chats.value = [];
+}
+
 onActivated(() => {
-  init();
+  init('activated');
+})
+
+onBeforeMount(() => {
+  init('mount');
 })
 </script>
 
@@ -409,6 +465,10 @@ onActivated(() => {
         }
       }
     }
+  }
+
+  &.dense {
+    display: none;
   }
 }
 </style>

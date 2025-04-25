@@ -12,54 +12,36 @@
 
     <q-page-container>
       <q-page class="bg-secondary">
-        <section class="row col-12 justify-center">
-          <section class="chat-list">
-            <template v-for="(item, index) in chats" :key="index">
-              <o-chat-message :chat="item"
-                              align-right @like="onLike($event, index)" />
-            </template>
-
-            <template v-if="isLoading">
-              <o-chat-message :chat="newChat"
-                              align-right
-                              :streaming="isLoading" />
-            </template>
-          </section>
-        </section>
+        <chat-section ref-type="chat"
+                      :ref-id="noteId"
+                      description="基于笔记问答"
+                      tag="基于笔记" dense>
+        </chat-section>
       </q-page>
     </q-page-container>
-
-    <q-footer class="bg-secondary text-info">
-      <o-chat-input dense />
-    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import useNote from 'src/hooks/useNote';
-import useStream from 'src/hooks/useStream';
+import ChatSection from 'components/chat/ChatSection.vue'
 
-import OChatInput from 'components/chat/OChatInput.vue';
-import OChatMessage from 'components/chat/OChatMessage.vue'
-
+const props = defineProps({
+  noteId: {
+    type: String,
+    default: ''
+  },
+});
 const emit = defineEmits(['close']);
-
-const { isLoading, startStream, cancelStream } = useStream();
-
-const start = ref(true);
-const chats = ref<Indexable[]>([]);
-const newChat = ref<Indexable>({})
-const showScrollBtn = ref(false);
-
-function onLike(item: Indexable, index: number) {
-  chats.value.splice(index, 1, item);
-}
 </script>
 
 <style lang="scss">
 .note-chat {
   height: calc(100vh - 40px);
+
+  .o-scroll-wrapper {
+    top: 0 !important;
+    padding: 0;
+  }
 
   .q-toolbar {
     min-height: 40px;
@@ -70,10 +52,13 @@ function onLike(item: Indexable, index: number) {
     .q-icon {
       font-size: 1.2rem;
     }
+    border-bottom: solid 1px var(--q-accent);
   }
 
-  .q-footer {
-    padding: 1rem;
+  .chat-section {
+    .chat-list {
+      padding: 1rem 1rem 150px 1rem;
+    }
   }
 }
 </style>

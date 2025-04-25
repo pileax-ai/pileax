@@ -1,5 +1,5 @@
 import type { Config, ConfigUpdate } from "@/api/system/model/config.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 
 import { db } from '@/drizzle'
 import { fileMeta, config } from '@/drizzle/schema'
@@ -44,7 +44,7 @@ export class ConfigRepository {
 
   async query(query: Query) {
     const filters = buildFilters(config, ['owner', 'scope'], query.condition);
-    const orders = buildOrders(config, ['name', 'owner', 'scope', 'updateTime'], query.sort);
+    const orders = buildOrders(config, [...SortFields, 'name', 'owner', 'scope'], query.sort);
 
     return db.select()
       .from(config)

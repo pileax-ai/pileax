@@ -5,8 +5,9 @@
     <chat-section ref-type="knowledge"
                   :ref-id="knowledgeId"
                   description="基于知识库问答"
-                  tag="基于知识库">
-
+                  tag="基于知识库"
+                  toc header multi-session default-open
+                  v-if="knowledgeId">
     </chat-section>
   </o-console-section>
 </template>

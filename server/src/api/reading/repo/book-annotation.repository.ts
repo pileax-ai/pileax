@@ -1,5 +1,5 @@
 import type { BookAnnotation, BookAnnotationUpdate } from "@/api/reading/model/book-annotation.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 
 import { db } from '@/drizzle'
 import { book, bookAnnotation, note } from '@/drizzle/schema'
@@ -60,7 +60,7 @@ export class BookAnnotationRepository {
 
   async queryBook(query: Query) {
     const filters = buildFilters(bookAnnotation, ['note', 'bookId', 'type', 'userId'], query.condition);
-    const orders = buildOrders(bookAnnotation, ['note', 'updateTime'], query.sort);
+    const orders = buildOrders(bookAnnotation, [...SortFields, 'note'], query.sort);
 
     return db.select({
       ...getTableColumns(bookAnnotation),

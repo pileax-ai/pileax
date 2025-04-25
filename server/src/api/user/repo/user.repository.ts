@@ -1,5 +1,5 @@
 import type { User, UserUpdate } from "@/api/user/model/user.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
@@ -35,7 +35,7 @@ export class UserRepository {
 
   async query(query: Query) {
     const filters = buildFilters(user, ['name', 'phone', 'status'], query.condition);
-    const orders = buildOrders(user, ['name', 'status', 'updateTime'], query.sort);
+    const orders = buildOrders(user, [...SortFields, 'name', 'status'], query.sort);
 
     return db.select().from(user)
       .where(and(...filters))

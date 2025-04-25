@@ -99,6 +99,10 @@ watch(listOver, () => {
   toggleMenu();
 })
 
+onMounted(() => {
+  menu.value = props.defaultOpen;
+})
+
 onActivated(() => {
   menu.value = props.defaultOpen;
 });

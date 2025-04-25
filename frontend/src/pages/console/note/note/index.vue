@@ -167,6 +167,7 @@ function loadingNote(note: Note) {
   }
   const emitUpdate = true;
   loadNote(note, content, focusPosition, emitUpdate);
+  notePage.value?.refreshChat(note.id);
 }
 
 function loadNote(note: Note, content: string, focus: string,
@@ -189,7 +190,7 @@ function onScroll() {
 
 function onUpdate({ json, html }: { json: any; html: string }) {
   // console.log('update', json)
-  console.log('update', html);
+  // console.log('update', html);
   noteJson.value = json;
   noteHtml.value = html;
 

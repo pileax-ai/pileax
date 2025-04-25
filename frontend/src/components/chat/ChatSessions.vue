@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, onActivated, onMounted, ref, watch } from 'vue'
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { ChatSession } from 'src/types/chat';
 
@@ -77,10 +77,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  defaultOpen: {
-    type: Boolean,
-    default: false
-  },
 });
 const emit = defineEmits(['open']);
 
@@ -103,9 +99,6 @@ async function refresh(openFirst = false) {
   }
   chatSessionService.query(query).then(res => {
     sessions.value = res.list;
-    if (openFirst && sessions.value.length) {
-      emit('open', sessions.value.at(0));
-    }
   })
 }
 
@@ -162,8 +155,8 @@ function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
   return result;
 }
 
-onBeforeMount(() => {
-  refresh(props.defaultOpen);
+onMounted(() => {
+  refresh();
 })
 
 defineExpose({

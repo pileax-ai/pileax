@@ -1,6 +1,8 @@
 <template>
-  <q-item class="o-chat-message user" :id="chat.id">
-    <q-item-section avatar>
+  <q-item class="o-chat-message user"
+          :class="{ 'dense': dense }"
+          :id="chat.id">
+    <q-item-section avatar v-if="!dense">
       <q-avatar>
         <img :src="avatar || account.avatar || $public('/logo.png')"
              alt="Avatar"
@@ -35,7 +37,7 @@
         </div>
       </template>
     </q-item-section>
-    <q-item-section avatar>
+    <q-item-section avatar v-if="!dense">
       <q-avatar>
         <img :src="avatar || account.avatar || $public('/logo.png')"
              alt="Avatar"
@@ -44,8 +46,9 @@
     </q-item-section>
   </q-item>
 
-  <q-item class="o-chat-message assistant">
-    <q-item-section avatar>
+  <q-item class="o-chat-message assistant"
+          :class="{ 'dense': dense }" >
+    <q-item-section avatar v-if="!dense">
       <q-avatar color="accent">
         <o-svg-icon :name="chat.provider" size="2rem" />
       </q-avatar>
@@ -54,6 +57,14 @@
 
     <!-- Column 1 -->
     <q-item-section>
+      <section class="q-mb-xs" v-if="dense">
+        <div class="row items-center">
+          <q-avatar color="accent" size="36px" rounded>
+            <o-svg-icon :name="chat.provider" size="2rem" />
+          </q-avatar>
+          <o-chip color="info" square dense>{{chat.provider}}</o-chip>
+        </div>
+      </section>
       <q-spinner-dots size="2rem"
                       v-if="streaming && !chat.content && !chat.reasoningContent" />
       <template v-else>
@@ -87,7 +98,7 @@
                 <o-tooltip position="bottom">复制</o-tooltip>
               </o-copy-btn>
               <q-btn icon="autorenew" flat>
-                <o-tooltip position="bottom">重新生产</o-tooltip>
+                <o-tooltip position="bottom">重新生成</o-tooltip>
               </q-btn>
               <q-btn :icon="chat.like===1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
                      flat @click="onLike(1)">
@@ -140,6 +151,10 @@ const props = defineProps({
     default: false
   },
   alternative: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
     type: Boolean,
     default: false
   },
@@ -328,6 +343,20 @@ onMounted(() => {
   &:hover {
     .actions {
       visibility: visible;
+    }
+  }
+
+  &.dense {
+    .message-wrapper {
+      .q-item {
+        width: 100%;
+      }
+    }
+
+    .yiitap {
+      h1, h2, h3, h4, h5, p, strong {
+        font-size: 90%;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 import type { Note, NoteUpdate } from "@/api/note/model/note.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 
 import { db } from '@/drizzle'
 import { note } from '@/drizzle/schema'
@@ -46,7 +46,7 @@ export class NoteRepository {
 
   async query(query: Query) {
     const filters = buildFilters(note, ['refId', 'refType', 'parent', 'title', 'userId'], query.condition);
-    const orders = buildOrders(note, ['title', 'updateTime'], query.sort);
+    const orders = buildOrders(note, [...SortFields, 'title'], query.sort);
 
     return db.select()
       .from(note)

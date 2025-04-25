@@ -13,8 +13,7 @@
         <q-item-section side>
           <q-btn label="查看" color="primary"
                  :to="`/knowledge/${data.id}`"
-                 flat
-                 @click="emit('edit')" />
+                 flat />
         </q-item-section>
       </q-item>
     </q-card-section>

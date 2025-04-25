@@ -32,7 +32,6 @@ export const QuerySchema = z.object({
   }).default({ updateTime: 'desc' })
 });
 
-
 export const QueryBodySchema = {
   description: 'Query',
   content: {
@@ -41,3 +40,5 @@ export const QueryBodySchema = {
     }
   }
 }
+
+export const SortFields = ['createTime', 'updateTime'];

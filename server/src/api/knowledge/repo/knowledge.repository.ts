@@ -1,5 +1,5 @@
 import type { Knowledge, KnowledgeUpdate } from "@/api/knowledge/model/knowledge.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
@@ -35,7 +35,7 @@ export class KnowledgeRepository {
 
   async query(query: Query) {
     const filters = buildFilters(knowledge, ['name', 'userId'], query.condition);
-    const orders = buildOrders(knowledge, ['name', 'updateTime'], query.sort);
+    const orders = buildOrders(knowledge, [...SortFields, 'name'], query.sort);
 
     const list = await db.select().from(knowledge)
       .where(and(...filters))

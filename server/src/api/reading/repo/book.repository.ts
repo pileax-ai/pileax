@@ -1,5 +1,5 @@
 import type { Book, BookUpdate } from "@/api/reading/model/book.model";
-import type { Query } from "@/core/api/commonModel";
+import { Query, SortFields } from '@/core/api/commonModel'
 import { buildFilters, buildOrders } from '@/core/utils/drizzle';
 
 import { db } from '@/drizzle'
@@ -38,7 +38,7 @@ export class BookRepository {
 
   async query(query: Query) {
     const filters = buildFilters(book, ['title', 'userId'], query.condition);
-    const orders = buildOrders(book, ['title', 'updateTime'], query.sort);
+    const orders = buildOrders(book, [...SortFields, 'title'], query.sort);
 
     return db.select().from(book)
       .where(and(...filters))

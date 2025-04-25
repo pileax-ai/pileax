@@ -9,6 +9,7 @@ export const useNoteStore = defineStore('note', {
     notes: [] as Note[],
     favoriteTop: true,
     chatContent: '',
+    chatWidth: 0,
   }),
   getters: {
     noteId: (state) => state.currentNote.id,
@@ -25,6 +26,9 @@ export const useNoteStore = defineStore('note', {
     },
     setChatContent(value: string) {
       this.chatContent = value;
+    },
+    setChatWidth(value: number) {
+      this.chatWidth = value;
     },
   },
   persist: {
