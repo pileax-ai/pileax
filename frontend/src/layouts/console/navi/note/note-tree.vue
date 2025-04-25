@@ -267,7 +267,6 @@ function onDrop (e: DragEvent, node: Indexable) {
 
 watch(() => currentNote.value, (newValue) => {
   selected.value = newValue.id;
-  refreshNote(currentNote.value);
 })
 
 </script>

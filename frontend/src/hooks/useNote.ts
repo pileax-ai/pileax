@@ -39,7 +39,7 @@ export default function () {
       }
     } as MenuItem;
     naviStore.setCurrentMenu(menu);
-    // naviStore.openTab(menu);
+    refreshNote(note);
   }
 
   async function getAllNotes() {
@@ -66,15 +66,29 @@ export default function () {
     recentNotes.value = await noteService.query(query) as Note[];
   }
 
-  function addNote(parent = '') {
+  function addNote(parent = '', source = '') {
     const id = UUID();
-    router.push({name: 'note', params: {id}, query: {parent}});
+    const query = {} as Indexable;
+    if (parent) query.parent = parent;
+    if (source) query.source = source;
+
+    router.push({
+      name: 'note',
+      params: { id },
+      query
+    });
   }
 
-  function openNote (note: Indexable) {
+  function openNote (note: Indexable, source = '') {
     const id = note.id;
     if (id) {
-      router.push({name: 'note', params: {id}});
+      const query = {} as Indexable;
+      if (source) query.source = source;
+      router.push({
+        name: 'note',
+        params: { id },
+        query
+      });
     }
   }
 

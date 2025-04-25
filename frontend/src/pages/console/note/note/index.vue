@@ -45,10 +45,12 @@ import OEmojiMenu from 'components/form/OEmojiMenu.vue';
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue';
 import NoteActions from 'components/note/NoteActions.vue';
 import ONotePage from 'components/page/ONotePage.vue';
+import { chatContentToHtml } from 'src/utils/note'
+import { router } from 'src/router'
 
 const route = useRoute();
 const {
-  notes,
+  noteStore,
   currentNote,
   noteService,
   setCurrentNote,
@@ -61,6 +63,7 @@ const yiiEditor = ref<InstanceType<typeof YiiEditor>>();
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const id = ref('');
 const parent = ref('');
+const source = ref('');
 const noteHtml = ref('');
 const noteJson = ref<Indexable>({});
 const aiOption = ref<AiOption>({
@@ -128,35 +131,55 @@ function onAction(action: Indexable) {
   }
 }
 
-async function loadNote() {
+async function getNote() {
   noteService.get(id.value).then((note: any) => {
-    postLoadNote(note as Note);
+    loadingNote(note as Note);
   }).catch((err) => {
     createNote();
   })
 }
 
 async function createNote() {
+  let content = '';
+  let focusPosition = 'start';
+  if (source.value === 'chat') {
+    content = chatContentToHtml(noteStore.chatContent, true);
+    focusPosition = 'end';
+  }
   const note = await noteService.save({
     id: id.value,
     parent: parent.value || '',
     title: 'New page',
-    content: ''
+    content: content
   });
-  setCurrentNote(note);
-  setContent('');
+  loadNote(note, content, focusPosition);
 }
 
-function postLoadNote(note: Note) {
+function loadingNote(note: Note) {
   loading.value = true;
   parent.value = note.parent;
-  setCurrentNote(note);
-  setContent(note.content, true);
+  let content = note.content;
+  let focusPosition = 'start';
+  if (source.value ===  'chat') {
+    loading.value = false;
+    content += chatContentToHtml(noteStore.chatContent);
+    focusPosition = 'end';
+  }
+  const emitUpdate = true;
+  loadNote(note, content, focusPosition, emitUpdate);
 }
 
-function setContent (content: string, emitUpdate = false) {
+function loadNote(note: Note, content: string, focus: string,
+                  emitUpdate = false) {
+  setCurrentNote(note);
+  setContent(content, emitUpdate, focus);
+  noteStore.setChatContent('');
+  router.replace({ query: {} });
+}
+
+function setContent (content: string, emitUpdate = false, focus = 'start') {
   editor.value?.commands.setContent(content, emitUpdate);
-  editor.value?.commands.focus('start');
+  editor.value?.commands.focus(focus);
 }
 
 function onScroll() {
@@ -212,7 +235,8 @@ function getTitle () {
 onActivated(() => {
   id.value = route.params.id as string;
   parent.value = route.query.parent as string;
-  loadNote();
+  source.value = route.query.source as string;
+  getNote();
 })
 
 onMounted(() => {
@@ -262,7 +286,7 @@ onMounted(() => {
       }
     }
 
-    .editor-content.page {
+    .editor-content.page-view {
       width: 100%;
       max-width: 1000px;
     }

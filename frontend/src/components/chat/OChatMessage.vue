@@ -96,7 +96,7 @@
               <q-btn :icon="chat.like===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'" flat @click="onLike(-1)">
                 <o-tooltip position="bottom">不喜欢</o-tooltip>
               </q-btn>
-              <q-btn icon="post_add" flat>
+              <q-btn icon="post_add" flat @click="onNote">
                 <o-tooltip position="bottom">创建笔记</o-tooltip>
               </q-btn>
             </template>
@@ -119,6 +119,8 @@ import { onMounted, PropType, ref } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
 import { chatService } from 'src/service/remote/chat';
 import useAccount from 'src/hooks/useAccount';
+import useDialog from 'core/hooks/useDialog';
+import { useNoteStore } from 'stores/note';
 
 const props = defineProps({
   avatar: {
@@ -145,6 +147,8 @@ const props = defineProps({
 const emit = defineEmits(['like', 'send']);
 
 const { account } = useAccount();
+const { openDialog } = useDialog();
+const noteStore = useNoteStore();
 const editable = ref(false);
 const userMessage = ref('');
 
@@ -166,6 +170,13 @@ function onLike(like: number) {
     like: like
   }).then(res => {
     emit('like', res);
+  })
+}
+
+function onNote() {
+  noteStore.setChatContent(props.chat.content);
+  openDialog({
+    type: 'chat-note-select'
   })
 }
 

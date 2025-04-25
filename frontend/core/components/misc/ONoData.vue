@@ -1,6 +1,6 @@
 <template>
   <div class="o-no-data">
-    <img src="/images/ui/page/no-data.svg" v-if="image" />
+    <img :src="$public('/images/ui/page/no-data.svg')" v-if="image" />
     <div class="q-pt-lg text-tips">{{ message }}</div>
   </div>
 </template>
@@ -13,7 +13,7 @@ defineProps({
   },
   message: {
     type: String,
-    default: ''
+    default: 'No records'
   },
 });
 </script>

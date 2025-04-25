@@ -2,6 +2,8 @@
   <q-page class="o-note-page">
     <q-splitter v-model="splitterPercent"
                 :limits="[0, 50]"
+                separator-class="bg-accent"
+                :separator-style="`width: ${splitterPercent ? 6 : 0}px;`"
                 reverse>
       <template #before>
         <slot></slot>

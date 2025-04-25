@@ -1,6 +1,6 @@
 <template>
-  <o-command-dialog class="note-search-dialog"
-                    :show="dialog.type === 'note-search'"
+  <o-command-dialog class="chat-note-select-dialog"
+                    :show="dialog.type === 'chat-note-select'"
                     position="top"
                     scrollable
                     @close="onHide">
@@ -34,7 +34,7 @@
       <section class="row col-12 justify-center search-results">
         <q-list class="col-12" v-if="results.length">
           <template v-for="(item, index) in results" :key="index">
-            <q-item :class="{'bg-dark': index === selected}"
+            <q-item :class="{'bg-dark': index === selected, 'active': item.id === selectedNote?.id}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
                 <q-icon :name="item.icon || '✍'" size="1.2rem" />
@@ -43,7 +43,7 @@
                 {{item.title}}
               </q-item-section>
               <q-item-section class="time" side>
-                {{ timeMulti(item.updateTime).fromNow }}
+                {{ timeMulti(item.updateTime || '').fromNow }}
               </q-item-section>
             </q-item>
           </template>
@@ -53,14 +53,29 @@
     </section>
 
     <template #footer>
-      <div class="row items-center text-tips">
-        <div class="row items-center">
-          <kbd>↑↓</kbd> <span class="q-ml-xs">Select</span>
+      <section class="row col-12 justify-between">
+        <div class="row items-center text-tips">
+          <div class="row items-center">
+            <kbd>↑↓</kbd> <span class="q-ml-xs">Select</span>
+          </div>
+          <div class="row items-center q-ml-lg">
+            <kbd>↵</kbd> <span class="q-ml-xs">Open</span>
+          </div>
         </div>
-        <div class="row items-center q-ml-lg">
-          <kbd>↵</kbd> <span class="q-ml-xs">Open</span>
+        <div class="row items-center text-tips actions">
+          <q-btn label="创建于" class="bg-cyan text-white"
+                 flat @click="onAddNote" />
+          <q-btn label="添加至" class="bg-primary text-white"
+                 flat @click="onAppendNote" />
+
+          <q-chip v-if="selectedNote">
+            <q-icon :name="selectedNote.icon || '✍'" size="1.2rem" />
+            <div class="q-ml-sm ellipsis">
+              {{ selectedNote.title }}
+            </div>
+          </q-chip>
         </div>
-      </div>
+      </section>
     </template>
   </o-command-dialog>
 </template>
@@ -72,19 +87,22 @@ import useNote from 'src/hooks/useNote';
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
 import ONoData from 'core/components/misc/ONoData.vue';
 import {timeMulti} from 'core/utils/format';
+import { Note } from 'src/types/note';
 
 const { dialog, onHide, onOk } = useDialog();
 const {
   notes,
   recentNotes,
-  openNote,
   getAllNotes,
   getRecentNotes,
+  addNote,
+  openNote,
 } = useNote();
 
 const term = ref('');
 const selected = ref(0);
-const results = ref<Indexable[]>([]);
+const selectedNote = ref<Note>();
+const results = ref<Note[]>([]);
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -158,9 +176,20 @@ function onKeyup (e: KeyboardEvent) {
   }
 }
 
-function onSelected (item: Indexable) {
-  openNote(item);
-  onHide();
+function onSelected (item: Note) {
+  selectedNote.value = item;
+}
+
+function onAddNote() {
+  if (selectedNote.value) {
+    addNote(selectedNote.value?.id, 'chat');
+  }
+}
+
+function onAppendNote() {
+  if (selectedNote.value) {
+    openNote(selectedNote.value, 'chat');
+  }
 }
 
 onMounted( async () => {
@@ -176,7 +205,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.note-search-dialog {
+.chat-note-select-dialog {
   .search-container {
     .group {
       padding: 0 12px;
@@ -197,6 +226,7 @@ onUnmounted(() => {
         .q-item {
           min-height: 40px;
           padding: 8px 12px;
+          margin-bottom: 2px;
           border-radius: 4px;
 
           .q-icon {
@@ -206,12 +236,34 @@ onUnmounted(() => {
           .time {
             font-size: 0.9rem;
           }
+
+          &.active {
+            color: var(--q-primary);
+            background: var(--q-dark);
+          }
         }
       }
 
       .q-item__section--avatar {
         min-width: 32px;
         padding-right: 0!important;
+      }
+    }
+  }
+
+  .actions {
+    .q-btn {
+      padding: 0 16px;
+      margin-right: 8px;
+      height: 28px;
+      min-height: unset;
+    }
+
+    .q-chip {
+      margin: 0;
+      max-width: 200px;
+      .q-icon {
+        margin-top: -2px;
       }
     }
   }

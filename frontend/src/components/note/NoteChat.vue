@@ -3,7 +3,7 @@
     <q-header class="bg-secondary text-info header">
       <q-toolbar>
         <q-toolbar-title class="text-bold">
-          <q-icon name="public" />
+          <q-icon name="mdi-creation" />
         </q-toolbar-title>
         <q-btn icon="delete_sweep" flat round dense />
         <q-btn icon="close" flat round dense @click="emit('close')" />
