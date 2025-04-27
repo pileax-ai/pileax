@@ -23,7 +23,7 @@
     </q-card-section>
 
     <q-card-section>
-      <q-item-label lines="2">
+      <q-item-label lines="1">
         {{data.description}}
       </q-item-label>
     </q-card-section>

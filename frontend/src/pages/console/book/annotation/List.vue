@@ -79,7 +79,7 @@ function doQuery() {
     pageIndex: 1,
     pageSize: 20,
     condition: {
-      'note|like': condition.value.note
+      'note|like': condition.value.note || ''
     },
     sort: orderBy.value
   };

@@ -1,6 +1,6 @@
 <template>
   <span class="o-icon" v-if="emoji">
-    {{ name }}
+    {{ emoji }}
   </span>
   <template v-else>
     <svg class="o-icon svg-icon" v-bind="$attrs" aria-hidden="true"
@@ -8,14 +8,18 @@
          v-if="name.indexOf('icon') === 0">
       <use :xlink:href="`#${name}`"></use>
     </svg>
-    <img :src="$public(name)" alt="icon" class="o-icon" v-bind="$attrs"
-         v-else-if="name.indexOf('/images') === 0" />
+    <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"
+         v-else-if="name.indexOf('png') === 0" />
+    <img :src="name" alt="icon" class="o-icon" v-bind="$attrs"
+         v-else-if="name.indexOf('http') === 0" />
     <q-icon :name="name" class="o-icon" :size="size" v-bind="$attrs" v-else />
   </template>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   name: {
     type: String,
     default: ''
@@ -24,15 +28,20 @@ defineProps({
     type: String,
     default: ''
   },
-  emoji: {
-    type: String,
-    default: ''
-  },
   color: {
     type: String,
     default: ''
   },
+  emoji: {
+    type: String,
+    default: ''
+  },
 });
+
+const pngPath = computed(() => {
+  const name = props.name.replace('png-', '');
+  return `/icons/png/${name}.png`
+})
 </script>
 
 <style lang="scss">

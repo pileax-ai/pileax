@@ -105,7 +105,7 @@ export default defineConfig((ctx) => {
           }
         }, { server: false }],
         createSvgIconsPlugin({
-          iconDirs: [ fileURLToPath(new URL('./public/icons', import.meta.url)) ],
+          iconDirs: [ fileURLToPath(new URL('./public/icons/svg', import.meta.url)) ],
         }),
       ],
       alias: {

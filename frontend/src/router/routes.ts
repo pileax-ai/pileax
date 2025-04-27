@@ -132,12 +132,17 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'config/providers',
         component: () => import('pages/console/system/config/provider/List.vue'),
-        name: 'config-ai-providers'
+        name: 'ai-config-providers'
+      },
+      {
+        path: 'config/assistants',
+        component: () => import('pages/console/system/config/assistant/List.vue'),
+        name: 'ai-config-assistants'
       },
       {
         path: 'files',
         component: () => import('pages/console/system/content/file/List.vue'),
-        name: 'system-file'
+        name: 'system-files'
       },
       {
         path: 'about',

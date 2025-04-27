@@ -70,12 +70,42 @@ const enabledServices = computed(() => {
 
 const services = computed(() => {
   return [
-    { label: 'Google', value: 'google', icon: 'icon-google-color', type: 'service', url: 'https://www.google.com/search?q={word}' },
-    { label: 'Google Dictionary', value: 'google_dictionary', icon: 'icon-google-color', type: 'service', url: 'https://www.google.com/search?q=define:{word}' },
-    { label: 'Bing', value: 'bing', icon: 'icon-bing-color', type: 'service', url: 'https://www.bing.com/search?q={word}' },
-    { label: '汉典', value: 'zdic', icon: '/images/icons/zdict.png', type: 'service', url: 'https://www.zdic.net/hans/{word}' },
-    { label: '欧路词典', value: 'eudic', icon: '/images/icons/eudic.png', type: 'service', url: 'https://dict.eudic.net/dicts/en/{word}' },
-  ];
+    {
+      label: "Google",
+      value: "google",
+      icon: "icon-google-color",
+      type: "service",
+      url: "https://www.google.com/search?q={word}",
+    },
+    {
+      label: "Google Dictionary",
+      value: "google_dictionary",
+      icon: "icon-google-color",
+      type: "service",
+      url: "https://www.google.com/search?q=define:{word}",
+    },
+    {
+      label: "Bing",
+      value: "bing",
+      icon: "icon-bing-color",
+      type: "service",
+      url: "https://www.bing.com/search?q={word}",
+    },
+    {
+      label: "汉典",
+      value: "zdic",
+      icon: "png-zdict",
+      type: "service",
+      url: "https://www.zdic.net/hans/{word}",
+    },
+    {
+      label: "欧路词典",
+      value: "eudic",
+      icon: "png-eudic",
+      type: "service",
+      url: "https://dict.eudic.net/dicts/en/{word}",
+    },
+  ];;
 });
 
 function isEnabled(item: Indexable) {

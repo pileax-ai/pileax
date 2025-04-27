@@ -97,6 +97,13 @@ export const defaultConsoleMenus: MenuItem[] = [
             meta: {icon: 'mdi-creation'}
           },
           {
+            id: 'ai-assistants',
+            name: 'AI助手',
+            action: 1,
+            path: '/system/config/assistants',
+            meta: {icon: 'assistant_navigation'}
+          },
+          {
             id: 'ai-agents',
             name: 'AI智能体',
             action: 1,
