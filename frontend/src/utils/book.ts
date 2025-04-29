@@ -3,11 +3,20 @@
  *
  * @version 1.0
  */
+import CryptoJS from 'crypto-js';
+import sha1 from 'crypto-js/sha1';
+import encHex from 'crypto-js/enc-hex';
+
 export const getFileSHA1 =  async (file: File): Promise<string> => {
   const arrayBuffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest('SHA-1', arrayBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return  hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  if (crypto.subtle?.subtle) {
+    const hashBuffer = await crypto.subtle.digest('SHA-1', arrayBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  } else {
+    const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+    return sha1(wordArray).toString(encHex);
+  }
 }
 
 export const base64ToFile = (base64: string, name: string): File => {
