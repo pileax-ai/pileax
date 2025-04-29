@@ -3,7 +3,8 @@
     v-model="value"
     :width="width"
     :side="side"
-    @mouseleave="onMouseLeave($event)"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
     class="resizable-drawer">
     <slot></slot>
     <div class="drawer-separator"
@@ -41,7 +42,7 @@ const props = defineProps({
     default: 'left'
   },
 });
-const emit = defineEmits(['leave', 'resize', 'update:modelValue']);
+const emit = defineEmits(['enter', 'leave', 'resize', 'update:modelValue']);
 const value = computed({
   get() {
     return props.modelValue
@@ -73,6 +74,12 @@ function onMouseMove(e :any) {
     const newWidth = startWidth.value + deltaX;
     width.value = Math.max(props.minWidth, Math.min(props.maxWidth, newWidth));
     emit('resize', width.value);
+  }
+}
+
+function onMouseEnter(event: MouseEvent) {
+  if (!isResizing.value) {
+    emit('enter', event);
   }
 }
 
@@ -113,12 +120,8 @@ onBeforeMount(() => {
       left: 0;
     }
 
-    &:hover {
-      background: var(--q-primary);
-    }
-
-    &.is-resizing {
-      background: var(--q-primary);
+    &:hover, &.is-resizing {
+      //background: var(--q-primary);
     }
   }
   .drawer-handle {

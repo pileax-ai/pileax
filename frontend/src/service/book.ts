@@ -301,6 +301,23 @@ const parseAuthor = (data: any) => {
   return author;
 }
 
+const parseBookField = (data: any) => {
+  console.log('parseBookField', data);
+  let value = data;
+  if (Array.isArray(data)) {
+    console.log('parse array', data);
+    const arr = data.map(item => {
+      return (typeof item === 'object') ? item['name'] : item;
+    });
+    value = arr.join(',');
+  } else if (typeof data === 'object') {
+    console.log('parse object', data);
+    value = data['name'] ?? 'unknown';
+  }
+
+  return value ?? '';
+}
+
 const parseLanguage = (data: any) => {
   let author = data;
   if (Array.isArray(data)) {
@@ -322,7 +339,7 @@ const buildBook = (metadata: any, fileInfo: any) => {
     title: metadata.title,
     extension: parseFileExtension(fileInfo.fileName),
     language: parseLanguage(metadata.language),
-    publisher: metadata.publisher ?? '',
+    publisher: parseBookField(metadata.publisher),
     published: metadata.published ?? '',
     description: metadata.description ?? '',
   };

@@ -1,61 +1,37 @@
 <template>
   <resizable-drawer
     v-model="drawerOpen"
-    :default-width="sidebarWidth"
+    :width="drawerWidth"
+    :default-width="defaultWidth"
     :mini-width="miniWidth"
-    :mini="leftDrawerMiniState"
-    class="row group-drawer">
+    class="row group-drawer"
+    @leave="onLeave"
+    @resize="onResize">
     <section class="col-auto bg-deep activity-bar">
       <nav class="row col-12 full-height desktop-only">
         <q-tabs v-model="selectedActivity" class="activity-tabs" vertical>
-          <section class="row col-12 fit">
-            <div class="col-12">
+          <section class="column col-12 justify-between fit">
+            <div class="" @mouseenter="onEnter">
               <template v-for="(item, index) in consoleMenus" :key="index">
-                <o-hover-menu :offset="[4, 0]"
-                              :nohover="!leftDrawerMiniState"
-                              menu-class="group-drawer-hover-menu"
-                              min-width="260px"
-                              max-width="260px"
-                              anchor="top right"
-                              self="top left">
-                  <template #trigger>
-                    <q-tab :name="item.name"
-                           @click="onClickTab(item)"
-                           v-if="!item.meta?.hidden">
-                      <template v-if="item.meta?.icon?.indexOf('icon') === 0">
-                        <svg class="icon" aria-hidden="true" v-if="item.meta.svg">
-                          <use :xlink:href="`#${item.meta.icon}`"></use>
-                        </svg>
-                        <i class="iconfont q-icon" :class="item.meta.icon" v-else />
-                      </template>
-                      <q-icon :name="item.meta?.icon" v-else />
-                      <span class="label" v-if="false">{{menuLabel(item.name)}}</span>
-                      <o-tooltip position="right" v-if="!leftDrawerMiniState">
-                        {{menuLabel(item.name)}}
-                      </o-tooltip>
-                    </q-tab>
+                <q-tab :name="item.name"
+                       @click="onClickTab(item)"
+                       v-if="!item.meta?.hidden">
+                  <template v-if="item.meta?.icon?.indexOf('icon') === 0">
+                    <svg class="icon" aria-hidden="true" v-if="item.meta.svg">
+                      <use :xlink:href="`#${item.meta.icon}`"></use>
+                    </svg>
+                    <i class="iconfont q-icon" :class="item.meta.icon" v-else />
                   </template>
-
-                  <!--Hover Content-->
-                  <section class="mini-menu" v-if="leftDrawerMiniState">
-                    <header class="row col-12 justify-center items-center q-py-sm bg-accent text-bold">
-                      {{ menuLabel(item.name) }}
-                    </header>
-                    <q-separator class="bg-accent" />
-                    <section class="q-mb-sm">
-                      <o-navi-expansion-sub-items :parent-key="item.name"
-                                                  :list="item.children"
-                                                  :level="1"
-                                                  show-item-icon
-                                                  v-if="!item.meta?.hidden" />
-                      <note-tree :max-width="width" v-show="item.name === 'note'" />
-                    </section>
-                  </section>
-                </o-hover-menu>
+                  <q-icon :name="item.meta?.icon" v-else />
+                  <span class="label" v-if="false">{{menuLabel(item.name)}}</span>
+                  <o-tooltip position="right" v-if="!leftDrawerMiniState">
+                    {{menuLabel(item.name)}}
+                  </o-tooltip>
+                </q-tab>
               </template>
             </div>
             <q-space />
-            <div class="row col-12 items-end">
+            <div class="row col-auto items-end">
               <div class="col-12">
                 <q-btn icon="settings" class="toggle-sidebar text-grey-6" round flat
                        @click="openDialog({type: 'settings'})">
@@ -78,16 +54,16 @@
       </nav>
     </section>
 
-    <section class="col bg-accent side-bar">
-      <transition appear
-                  enter-active-class="animated slideInLeft"
-                  leave-active-class="animated slideOutLeft">
-        <section :style="{ width: `${width - miniWidth}px` }"
-                 v-if="!leftDrawerMiniState">
-          <navi-list :max-width="sidebarWidth" />
-        </section>
-      </transition>
-    </section>
+    <transition appear
+                enter-active-class="animated slideInLeft"
+                leave-active-class="animated slideOutLeft">
+      <section class="side-bar full-height"
+               :class="{ 'bg-accent col': !sidebarFixed, 'bg-secondary fixed-sidebar': sidebarFixed }"
+               :style="{ width: `${sidebarWidth}px` }"
+               v-show="!leftDrawerMiniState || sidebarFixed">
+        <navi-list :max-width="sidebarWidth" />
+      </section>
+    </transition>
 
   </resizable-drawer>
 </template>
@@ -100,10 +76,7 @@ import { menuLabel } from 'core/hooks/useMenu';
 import { DRAWER_DEFAULT_SIZE } from 'core/constants/style';
 
 import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue';
-import OHoverMenu from 'core/components/menu/OHoverMenu.vue';
 import NaviList from './navi-list.vue';
-import NoteTree from './note/note-tree.vue';
-import ONaviExpansionSubItems from 'core/components/navi/ONaviExpansionSubItems.vue';
 
 const { openDialog } = useDialog();
 const {
@@ -117,10 +90,17 @@ const {
 const width = ref(DRAWER_DEFAULT_SIZE);
 const miniWidth = ref(68);
 const drawerOpen = ref(true);
-
+const sidebarFixed = ref(false);
 const selectedActivity = ref('');
-const sidebarWidth = computed(() => {
+
+const defaultWidth = computed(() => {
   return leftDrawerMiniState.value ? miniWidth.value : width.value;
+})
+const drawerWidth = computed(() => {
+  return leftDrawerMiniState.value ? miniWidth.value : width.value;
+})
+const sidebarWidth = computed(() => {
+  return width.value - miniWidth.value;
 })
 
 
@@ -130,6 +110,20 @@ function onClickTab (item: Indexable) {
 
 function initActivity() {
   selectedActivity.value = activity.value;
+}
+
+function onEnter() {
+  if (leftDrawerMiniState.value) {
+    sidebarFixed.value = true;
+  }
+}
+
+function onLeave() {
+  sidebarFixed.value = false;
+}
+
+function onResize(value: number) {
+  width.value = value;
 }
 
 watch(() => activity.value, (newValue) => {
@@ -226,6 +220,18 @@ onBeforeMount(() => {
       }
     }
 
+  }
+
+  .fixed-sidebar {
+    position: fixed;
+    left: 68px;
+    right: 0;
+    top: 0;
+    bottom: 20px;
+    z-index: 2001;
+    box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+    overflow: hidden;
+    border-radius: 0 12px 12px 0;
   }
 
 }
