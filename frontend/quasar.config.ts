@@ -50,7 +50,8 @@ export default defineConfig((ctx) => {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
     build: {
       target: {
-        browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
+        // browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
+        browser: [ 'es2022' ],
         node: 'node20'
       },
 
@@ -79,7 +80,18 @@ export default defineConfig((ctx) => {
       envFolder: 'env',
       rawDefine: viteConfig(ctx).rawDefine,
 
-      // extendViteConf (viteConf) {},
+      extendViteConf: (config) => ({
+        optimizeDeps: {
+          exclude: ['src/js/foliate-js/vendor/pdfjs/pdf.mjs']
+        },
+        build: {
+          rollupOptions: {
+            external: [
+              '/src/js/foliate-js/vendor/pdfjs/pdf.mjs'
+            ]
+          }
+        }
+      }),
       // viteVuePluginOptions: {},
 
       vitePlugins: [

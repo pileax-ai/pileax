@@ -104,8 +104,8 @@ export const makeBook = async file => {
         }
     }
     else if (await isPDF(file)) { // todo
-        // const { makePDF } = await import('./pdf.js')
-        // book = await makePDF(file)
+        const { makePDF } = await import('./pdf.js')
+        book = await makePDF(file)
     }
     else {
         const { isMOBI, MOBI } = await import('./mobi.js')

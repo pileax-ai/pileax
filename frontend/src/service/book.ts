@@ -285,6 +285,7 @@ const saveBook = async (book: any) => {
 }
 
 const parseAuthor = (data: any) => {
+  if (!data) return 'Author';
   console.log('parseAuthor', data);
   let author = data;
   if (Array.isArray(data)) {
@@ -302,6 +303,7 @@ const parseAuthor = (data: any) => {
 }
 
 const parseBookField = (data: any) => {
+  if (!data) return '';
   console.log('parseBookField', data);
   let value = data;
   if (Array.isArray(data)) {
@@ -315,10 +317,11 @@ const parseBookField = (data: any) => {
     value = data['name'] ?? 'unknown';
   }
 
-  return value ?? '';
+  return value;
 }
 
 const parseLanguage = (data: any) => {
+  if (!data) return '';
   let author = data;
   if (Array.isArray(data)) {
     author = data.join(',');

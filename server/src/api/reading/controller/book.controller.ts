@@ -37,44 +37,48 @@ class BookController extends BaseController<Book>{
         if (req.files && req.files.length) {
           // console.log('book', req.body.book);
           const bookId = randomUUID();
-          const book = BookSchema.parse(
-            JSON.parse(req.body.book)
-          );
-          book.id = bookId;
-          book.userId = req.headers['x-user-id'] as string;
-          book.path = uuid;
-          const files = await Promise.all(
-            (req.files as Express.Multer.File[]).map(async (file) => {
-              if (file.filename.indexOf('book') === 0) {
-                book.fileName = file.filename;
-              } else {
-                book.coverName = file.filename;
-              }
+          try {
+            const book = BookSchema.parse(
+              JSON.parse(req.body.book)
+            );
+            book.id = bookId;
+            book.userId = req.headers['x-user-id'] as string;
+            book.path = uuid;
+            const files = await Promise.all(
+              (req.files as Express.Multer.File[]).map(async (file) => {
+                if (file.filename.indexOf('book') === 0) {
+                  book.fileName = file.filename;
+                } else {
+                  book.coverName = file.filename;
+                }
 
-              // save file meta
-              return await fileMetaService.save({
-                id: '',
-                userId: req.headers['x-user-id'] as string,
-                originalName: file.originalname,
-                fileName: file.filename,
-                path: file.path.replace(env.PUBLIC_ROOT, ''),
-                size: file.size,
-                mimetype: file.mimetype,
-                refType: 'book',
-                refId: bookId
-              });
-            })
-          );
+                // save file meta
+                return await fileMetaService.save({
+                  id: '',
+                  userId: req.headers['x-user-id'] as string,
+                  originalName: file.originalname,
+                  fileName: file.filename,
+                  path: file.path.replace(env.PUBLIC_ROOT, ''),
+                  size: file.size,
+                  mimetype: file.mimetype,
+                  refType: 'book',
+                  refId: bookId
+                });
+              })
+            );
 
-          // save book
-          const result = await service.create(book);
-          return sendOk(res, result);
+            // save book
+            const result = await service.create(book);
+            return sendOk(res, result);
+          } catch (err) {
+            return sendFailed(res, 'Parse book metadata failed.', JSON.parse(req.body.book));
+          }
         } else {
           return sendFailed(res, 'No file');
         }
       })
     } catch (err) {
-      console.error(err);
+      console.error('HHH', err);
       throw new ServerException('Book Upload', 'File upload failed');
     }
   };
