@@ -4,6 +4,7 @@ import { CODE } from 'core/app';
 import { MenuItem } from 'core/types/menu';
 import { defaultReaderMenus } from 'src/app/default-reader-menu';
 import { nestMenu } from 'core/hooks/useMenu';
+import defaultSetting from 'src/app/default-reader-setting';
 
 export const useReaderStore = defineStore('reader', {
   state: () => ({
@@ -23,7 +24,8 @@ export const useReaderStore = defineStore('reader', {
     consoleMenus: [] as MenuItem[],
     queryTimer: 0,
     mainService: [] as Indexable[],
-    secondaryService: [] as Indexable[]
+    secondaryService: [] as Indexable[],
+    settings: defaultSetting as Indexable
   }),
   getters: {
     getActivity: (state) => state.leftDrawer.activity,
@@ -50,6 +52,9 @@ export const useReaderStore = defineStore('reader', {
     },
     setQueryTimer(time: number) {
       this.queryTimer = time;
+    },
+    setSettingItem(key: string, value: any) {
+      this.settings[key] = value;
     },
   },
   persist: {

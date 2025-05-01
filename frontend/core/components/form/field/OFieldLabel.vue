@@ -1,18 +1,18 @@
 <template>
   <div class="col-12 o-field-label" :class="{ 'dense': dense }">
     <div class="row col-12 justify-between items-center main-label" v-if="side">
-      <div>
-        <span class="text-bold">{{label}}</span>
+      <div class="">
+        <span class="text-readable">{{label}}</span>
         <span class="text-red" v-if="required">*</span>
       </div>
-      <div class="side">
+      <div class="side" :class="contentClass">
         <slot></slot>
       </div>
     </div>
     <div class="main-label" v-else>
       <div class="row col-12 justify-between items-center">
         <div>
-          <span class="text-bold">{{ label }}</span>
+          <span class="text-readable">{{ label }}</span>
           <span class="text-red" v-if="required">*</span>
         </div>
         <div class="text-tips sub-label" v-if="subLabel">
@@ -66,6 +66,10 @@ defineProps({
 <style lang="scss">
 .o-field-label {
   margin-top: 16px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   .main-label {
     font-size: 1.2rem;

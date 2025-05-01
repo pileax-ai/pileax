@@ -1,5 +1,6 @@
 const pdfjsPath = path => {
   const url = `/vendor/pdfjs/${path}`;
+  // const url = new URL(`./vendor/pdfjs/${path}`, import.meta.url).toString();
   console.log('pdfjsPath', url);
   return url;
 }

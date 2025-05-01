@@ -82,7 +82,7 @@ onBeforeMount(() => {
 
     header {
       height: 40px;
-      padding: 0 6px;
+      padding: 0 8px;
     }
 
     .o-scroll-wrapper {

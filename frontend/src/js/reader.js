@@ -21,7 +21,7 @@ let style = {
   letterSpacing: 0,
   spacing: 1.7,
   paragraphSpacing: 0,
-  textIndent: 0,
+  textIndent: 2,
   fontColor: '#000000',
   backgroundColor: '#ffffff',
   topMargin: 0,
@@ -31,7 +31,7 @@ let style = {
   hyphenate: true,
 //  scroll: true,
 //  animated: true,
-  pageTurnStyle: 'slide',
+  pageTurnStyle: 'scroll',
   maxColumnCount: 1,
 };
 

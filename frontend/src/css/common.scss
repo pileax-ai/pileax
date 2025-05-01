@@ -160,3 +160,34 @@
     margin: 4px 0;
   }
 }
+
+.pi-btn-group {
+  .q-btn {
+    .on-left {
+      margin-right: 4px;
+    }
+
+    &:not(:first-child) {
+      border-left: solid 1px var(--q-secondary);
+    }
+  }
+
+  .q-tab {
+    background: var(--q-dark);
+    &:before {
+      border-radius: 0!important;
+    }
+
+    &:first-child {
+      border-radius: 4px 0 0 4px !important;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0 !important;
+    }
+
+    &:not(:first-child) {
+      border-left: solid 1px var(--q-secondary);
+    }
+  }
+}

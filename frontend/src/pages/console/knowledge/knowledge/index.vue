@@ -13,6 +13,7 @@
           text-color="readable"
           toggle-color="primary"
           toggle-text-color="white"
+          class="pi-btn-group"
           unelevated
           :options="tabs"
         />
@@ -98,14 +99,6 @@ onActivated(() => {
         .q-btn {
           height: 40px;
           min-width: 100px;
-
-          .on-left {
-            margin-right: 4px;
-          }
-
-          &:not(:first-child) {
-            border-left: solid 1px var(--q-secondary);
-          }
         }
       }
     }

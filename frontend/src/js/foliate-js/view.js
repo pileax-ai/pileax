@@ -103,7 +103,7 @@ export const makeBook = async file => {
             book = await new EPUB(loader).init()
         }
     }
-    else if (await isPDF(file)) { // todo
+    else if (await isPDF(file)) {
         const { makePDF } = await import('./pdf.js')
         book = await makePDF(file)
     }

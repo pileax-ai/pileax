@@ -89,7 +89,8 @@ export default defineConfig((ctx) => {
             external: [
               '/src/js/foliate-js/vendor/pdfjs/pdf.mjs'
             ]
-          }
+          },
+          // assetsInclude: ['**/*.mjs']
         }
       }),
       // viteVuePluginOptions: {},

@@ -1,6 +1,6 @@
 <template>
   <section class="reader-side-panel">
-    <header class="row col-12 justify-between items-center text-readable">
+    <header class="row col-12 justify-between items-center text-readable toolbar">
       <section class="col row items-center">
         <q-tabs v-model="currentTab"
                 active-color="primary"
@@ -19,6 +19,9 @@
       </section>
 
       <section class="col-auto">
+        <q-btn icon="settings" class="o-toolbar-btn" flat @click="toggleSettings">
+          <o-tooltip>阅读设置</o-tooltip>
+        </q-btn>
         <q-btn icon="more_horiz" class="o-toolbar-btn" flat>
           <q-menu class="pi-menu">
             <q-list :style="{minWidth: '200px'}">
@@ -70,15 +73,24 @@
                    @add="onAddService"
                    @remove="onRemoveService" />
     </transition>
+
+    <transition appear
+                enter-active-class="animated slideInRight"
+                leave-active-class="animated slideOutRight">
+      <reader-settings v-if="settingsStatus"
+                   :main="main"
+                   @close="toggleSettings" />
+    </transition>
   </section>
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, PropType, ref} from 'vue';
+import {computed, onBeforeMount, ref} from 'vue';
 import useReader from 'src/hooks/useReader';
 import ReaderSide from 'src/components/reader/ReaderSide.vue';
 import AddAiAgent from 'src/components/reader/AddAiAgent.vue';
 import AddService from 'src/components/reader/AddService.vue';
+import ReaderSettings from 'src/components/reader/settings/index.vue';
 
 const props = defineProps({
   main: {
@@ -100,6 +112,7 @@ const {
 const currentTab = ref(0);
 const addAiAgentStatus = ref(false);
 const addServiceStatus = ref(false);
+const settingsStatus = ref(false);
 
 const defaultTab = computed(() => {
   return { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' };
@@ -209,6 +222,10 @@ function showAddService(value :boolean) {
   addServiceStatus.value = value;
 }
 
+function toggleSettings() {
+  settingsStatus.value = !settingsStatus.value;
+}
+
 function onAddService(item :any) {
   addServiceStatus.value = false;
   const exist = tabs.value.find((e) => e.value === item.value);
@@ -235,7 +252,7 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .reader-side-panel {
-  header {
+  header.toolbar {
     .q-tabs {
       .q-tab {
         padding: 0;
@@ -273,12 +290,15 @@ onBeforeMount(() => {
     }
   }
 
-  .reader-add-ai-agent, .reader-add-service {
+  .reader-add-ai-agent,
+  .reader-add-service,
+  .reader-settings {
     position: fixed;
-    left: 0;
+    left: 8px;
     right: 0;
     top: 0;
     bottom: 0;
+    z-index: 99999;
   }
 }
 </style>
