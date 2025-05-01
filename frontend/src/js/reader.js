@@ -31,7 +31,7 @@ let style = {
   hyphenate: true,
 //  scroll: true,
 //  animated: true,
-  pageTurnStyle: 'scroll',
+  pageTurnStyle: 'slide',
   maxColumnCount: 1,
 };
 
@@ -475,6 +475,30 @@ const changeStyle = (newStyle) => {
   setStyle();
 }
 
+const search = async (text, opts) => {
+  opts == null && (opts = {
+    'scope': 'book',
+    'matchCase': false,
+    'matchDiacritics': false,
+    'matchWholeWords': false,
+  });
+  const query = text.trim();
+  if (!query) return;
+
+  const index = opts.scope === 'section' ? reader.index : null;
+
+  for await (const result of reader.view.search({ ...opts, query, index })) {
+    if (result === 'done') {
+      postMessage('onSearch', { progress: 1.0 });
+    }
+    else if ('progress' in result)
+      postMessage('onSearch', { progress: result.progress });
+    else {
+      postMessage('onSearch', result);
+    }
+  }
+}
+const clearSearch = () => reader.view.clearSearch();
 
 // --------------------------------------------------------------------------------
 // Ebook API
@@ -500,4 +524,6 @@ window.ebook = {
   removeAnnotation: removeAnnotation,
   renderAnnotations: renderAnnotations,
   changeStyle: changeStyle,
+  search: search,
+  clearSearch: clearSearch,
 }

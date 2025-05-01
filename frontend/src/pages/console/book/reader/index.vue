@@ -143,7 +143,9 @@ onActivated(() => {
     .toolbar-hover-show {
       visibility: hidden;
     }
+  }
 
+  header.can-hover, footer.can-hover {
     &:hover, &:focus-within {
       .toolbar-hover-show {
         visibility: visible;

@@ -16,19 +16,13 @@
                 class="col-12 activity-tabs"
                 align="justify"
                 mobile-arrows>
-          <template v-for="(item, index) in consoleMenus" :key="index">
-            <div v-if="!item.meta?.hidden">
-              <q-tab :name="item.name"
+          <template v-for="(item, index) in tabs" :key="index">
+            <div>
+              <q-tab :name="item.value"
                      @click="onClickTab(item)">
-                <template v-if="item.meta.icon.indexOf('icon') === 0">
-                  <svg class="icon" aria-hidden="true" v-if="item.meta.svg">
-                    <use :xlink:href="`#${item.meta.icon}`"></use>
-                  </svg>
-                  <i class="iconfont q-icon text-info" :class="item.meta.icon" v-else />
-                </template>
-                <q-icon :name="item.meta.icon" class="text-info" v-else />
+                <o-icon :name="item.icon" />
                 <o-tooltip>
-                  {{menuLabel(item.name)}}
+                  {{ item.label }}
                 </o-tooltip>
               </q-tab>
             </div>
@@ -42,7 +36,7 @@
                     class="fit bg-transparent"
                     keep-alive>
         <template v-for="(item, index) in tabs" :key="index">
-          <q-tab-panel :name="item.name">
+          <q-tab-panel :name="item.value">
             <component :is="item.component"
                        :width="width"
                        :class="{ 'no-header': !header }" />
@@ -58,9 +52,8 @@ import { computed, onBeforeMount, ref, watch } from 'vue';
 
 import TocList from './children/toc-list.vue';
 import AnnotationList from './children/annotation-list.vue';
-import { menuLabel } from 'core/hooks/useMenu';
+import SeaerchList from './children/search-list.vue';
 import useReader from 'src/hooks/useReader';
-import useDialog from 'core/hooks/useDialog';
 
 const props = defineProps({
   header: {
@@ -73,7 +66,6 @@ const props = defineProps({
   },
 });
 
-const { openDialog } = useDialog();
 const {
   activity,
   consoleMenus,
@@ -87,13 +79,14 @@ const activityHovered = ref(false);
 
 const tabs = computed(() => {
   return [
-    { name: 'toc', component: TocList },
-    { name: 'annotation', component: AnnotationList },
+    { label: 'Toc', value: 'toc', icon: 'toc', component: TocList },
+    { label: 'Annotation', value: 'annotation', icon: 'notes', component: AnnotationList },
+    { label: 'Search', value: 'search', icon: 'search', component: SeaerchList },
   ]
 })
 
-function onClickTab (item) {
-  setActivity(item.name);
+function onClickTab (item: Indexable) {
+  setActivity(item.value);
   activityHovered.value = true;
 }
 
@@ -150,7 +143,7 @@ onBeforeMount(() => {
     }
 
     .header-left {
-      padding: 0px 10px;
+      padding: 0 10px;
     }
 
     .sidebar-toggle {
@@ -247,13 +240,25 @@ onBeforeMount(() => {
       display: none;
     }
 
-    .q-expansion-item__content {
-      .header-item {
-        display: flex;
-      }
+    .list {
+      padding: 0 8px;
 
       .q-expansion-item__toggle-icon {
         font-size: 1.2rem;
+      }
+
+      .q-expansion-item__content {
+        .header-item {
+          display: flex;
+        }
+      }
+
+      .q-item {
+        border-radius: 4px;
+
+        &.active:before {
+          border-radius: 4px;
+        }
       }
     }
   }

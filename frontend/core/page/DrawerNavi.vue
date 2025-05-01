@@ -1,12 +1,12 @@
 <template>
   <section class="o-drawer-navi">
-    <nav class="row justify-center items-center" v-if="withHeader">
-      <slot name="action" />
+    <nav v-if="header">
+      <slot name="header" />
     </nav>
 
     <q-scroll-area style="" ref="tagsScroll"
                    class="o-scrollarea-sidenavi"
-                   :class="{'with-header': withHeader}">
+                   :class="{'with-header': header}">
       <slot name="content" />
     </q-scroll-area>
 
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 defineProps({
-  withHeader: {
+  header: {
     type: Boolean,
     default: false
   },

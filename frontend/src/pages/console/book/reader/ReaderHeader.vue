@@ -28,7 +28,6 @@
 
     <section class="row col-auto text-readable">
       <section class="row hover-shows top-toolbar toolbar-hover-shows">
-        <q-btn icon="search" class="o-toolbar-btn" flat />
         <q-btn icon="volume_up" class="o-toolbar-btn" flat>
           <o-tooltip>AI朗读</o-tooltip>
         </q-btn>
@@ -41,17 +40,36 @@
                    position="right" />
       </o-hover-btn>
     </section>
+
+
+    <transition appear
+                enter-active-class="animated slideInDown"
+                leave-active-class="animated slideOutUp">
+      <section class="row justify-center bg-secondary searching o-page-container" v-if="searchCurrent.top">
+        <section class="row justify-between items-center text-readable toolbar">
+          <div>
+            <div class="text-bold title">
+              本书包含 <span class="text-primary">{{ search.term }}</span> 的结果
+            </div>
+            <div>{{ searchCurrent.top.label }}</div>
+          </div>
+          <div>
+            <q-btn icon="close" size="0.8rem" flat round @click="clearSearch" />
+          </div>
+        </section>
+      </section>
+    </transition>
   </header>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue';
 import useBook from 'src/hooks/useBook';
 import useReader from 'src/hooks/useReader';
 import { nextPage, prevPage } from 'src/service/book';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
 
-const { progress } = useBook();
+const { progress, search, clearSearch } = useBook();
 const {
   leftDrawerShow,
   rightDrawerShow,
@@ -60,6 +78,10 @@ const {
   toggleRightDrawer,
   setLeftDrawerHoverShow
 } = useReader();
+
+const searchCurrent = computed(() => {
+  return search.value.current || {};
+})
 
 function onLeftDrawerEnter() {
   setLeftDrawerHoverShow(true);
@@ -84,6 +106,22 @@ function onLeftDrawerLeave() {
 
   .top-toolbar {
     padding-right: 24px;
+  }
+
+  .searching {
+    position: absolute;
+
+    .toolbar {
+      width: 100%;
+      max-width: 800px;
+      padding: 0 10px;
+      background: var(--q-dark);
+      border-radius: 4px;
+
+      .title {
+        font-size: 1rem;
+      }
+    }
   }
 }
 </style>

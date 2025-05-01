@@ -26,6 +26,8 @@ declare global {
       removeAnnotation: (cfi: string) => void;
       renderAnnotations: (annotations: []) => void;
       changeStyle: (newStyle: Indexable) => void;
+      search: (text: string, opts: Indexable) => void;
+      clearSearch: () => void;
     };
   }
 

@@ -1,5 +1,6 @@
 <template>
-  <footer class="row items-center justify-center bg-secondary read-footer">
+  <footer class="row items-center justify-center bg-secondary read-footer"
+          :class="{ 'can-hover': !searchCurrent.top }">
     <span class="text-tips">
       {{ progress.location?.current }} / {{ progress.location?.total }}
     </span>
@@ -34,6 +35,25 @@
         </div>
       </section>
     </section>
+
+
+    <transition appear
+                enter-active-class="animated slideInUp"
+                leave-active-class="animated slideOutDown">
+      <section class="row justify-center bg-secondary searching o-page-container"
+               v-if="searchCurrent.top">
+        <section class="row justify-between items-center text-readable toolbar">
+          <div>
+            <q-btn icon="west" label="上一结果" flat
+                   @click="store.previousResult" />
+          </div>
+          <div>
+            <q-btn icon-right="east" label="下一结果" flat
+                   @click="store.nextResult" />
+          </div>
+        </section>
+      </section>
+    </transition>
   </footer>
 </template>
 
@@ -41,10 +61,10 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import useSetting from 'core/hooks/useSetting';
 import useBook from 'src/hooks/useBook';
-import { changeStyle, goToHref, goToPercent } from 'src/service/book';
+import { changeStyle, goToHref, goToPercent, nextPage, prevPage } from 'src/service/book'
 
 const { setTheme, theme } = useSetting();
-const { store, progress } = useBook();
+const { store, progress, search } = useBook();
 const progressValue = ref(0);
 const phase = ref('');
 
@@ -54,6 +74,10 @@ const reservePercent = computed(() => {
 
 const showReserve = computed(() => {
   return Math.abs(progress.value.percentage - store.tempProgress.percentage) > 0.01;
+})
+
+const searchCurrent = computed(() => {
+  return search.value.current || {};
 })
 
 function onUpdated(value: number | null) {
@@ -143,6 +167,22 @@ onMounted(() => {
           opacity: 0.3;
           transition: transform 0.5s ease-out, opacity 0.5s ease-out;
         }
+      }
+    }
+  }
+
+  .searching {
+    position: absolute;
+
+    .toolbar {
+      width: 100%;
+      max-width: 800px;
+      padding: 0;
+      background: var(--q-dark);
+      border-radius: 4px;
+
+      .title {
+        font-size: 1rem;
       }
     }
   }

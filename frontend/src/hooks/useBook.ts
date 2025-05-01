@@ -36,6 +36,9 @@ export default function () {
   const readingMode = computed(() => {
     return store.readingMode;
   });
+  const search = computed(() => {
+    return store.search;
+  });
 
   function setBook(value: any) {
     store.setBook(value);
@@ -77,6 +80,17 @@ export default function () {
     store.setOperation(value);
   }
 
+  function setSearch(data: Indexable) {
+    if ('progress' in data) {
+      store.setSearchItem('progress', data.progress);
+    } else {
+      store.setSearchResult(data);
+    }
+  }
+
+  function clearSearch() {
+    store.clearSearch();
+  }
 
   return {
     store,
@@ -90,6 +104,7 @@ export default function () {
     annotationTimer,
     operation,
     readingMode,
+    search,
 
     setBook,
     setBookId,
@@ -101,5 +116,7 @@ export default function () {
     setAnnotationTimer,
     setAnnotationId,
     setOperation,
+    setSearch,
+    clearSearch
   };
 }

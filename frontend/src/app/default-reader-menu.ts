@@ -18,4 +18,11 @@ export const defaultReaderMenus: MenuItem[] = [
     action: 1,
     meta: {icon: 'notes'},
   },
+  {
+    id: 'group-search',
+    name: 'search',
+    path: '',
+    action: 1,
+    meta: {icon: 'search'},
+  },
 ];

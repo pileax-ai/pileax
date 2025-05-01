@@ -24,6 +24,7 @@ const {
   setSelection,
   setToc,
   setOperation,
+  setSearch,
   readingMode,
 } = useBook();
 
@@ -68,6 +69,9 @@ export const postMessage = (name :string, data :any) => {
     case 'onSelectionEnd':
       setSelection(data);
       break;
+    case 'onSearch':
+      setSearch(data);
+      break;
     default:
       break;
   }
@@ -100,6 +104,16 @@ const onRelocated = (data: Indexable) => {
 // ---------------------------------------------------------
 const changeStyle = (newStyle: Indexable) => {
   window.ebook.changeStyle(newStyle);
+}
+
+const search = (text: string, opts: Indexable) => {
+  store.startSearch(text);
+  window.ebook.search(text, opts);
+}
+
+const clearSearch = () => {
+  store.clearSearch();
+  window.ebook.clearSearch();
 }
 
 const goToHref = (href: string, manual = false) => {
@@ -396,6 +410,8 @@ export {
   prevPage,
   nextPage,
   changeStyle,
+  search,
+  clearSearch,
   setManual,
 
   importBooks,

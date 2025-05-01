@@ -164,10 +164,14 @@ export default defineConfig((ctx) => {
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
     animations: [
+      'slideInDown',
+      'slideOutDown',
       'slideInLeft',
       'slideOutLeft',
       'slideInRight',
       'slideOutRight',
+      'slideInUp',
+      'slideOutUp',
       'fadeIn',
       'fadeOut',
       'fadeInRight',
