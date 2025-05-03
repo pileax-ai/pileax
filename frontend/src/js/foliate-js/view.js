@@ -333,7 +333,7 @@ export class View extends HTMLElement {
         const tocItem = this.#tocProgress?.getProgress(index, range)
         const pageItem = this.#pageProgress?.getProgress(index, range)
         const cfi = this.getCFI(index, range)
-        this.lastLocation = { ...progress, tocItem, pageItem, cfi, range, chapterLocation }
+        this.lastLocation = { ...progress, tocItem, pageItem, cfi, range, chapterLocation } // TODO: EBOOK
         if (reason === 'snap' || reason === 'page' || reason === 'scroll')
             this.history.replaceState(cfi)
         this.#emit('relocate', this.lastLocation)
@@ -345,8 +345,8 @@ export class View extends HTMLElement {
             doc.documentElement.dir ||= this.language.direction ?? ''
 
         this.#handleLinks(doc, index)
-        this.#handleClick(doc)
-        this.#handleImage(doc)
+      this.#handleClick(doc) // TODO: EBOOK
+      this.#handleImage(doc) // TODO: EBOOK
         this.#cursorAutohider.cloneFor(doc.documentElement)
 
         this.#emit('load', { doc, index })
