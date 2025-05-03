@@ -8,6 +8,9 @@ import { viteConfig } from './core/vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng';
 
 export default defineConfig((ctx) => {
+  console.log('ctx', ctx);
+  let mode = ctx.modeName;
+  if (ctx.targetName) mode += '-' + ctx.targetName;
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -62,7 +65,7 @@ export default defineConfig((ctx) => {
       },
 
       vueRouterMode: 'history', // available values: 'hash', 'history'
-      distDir: 'dist/' + ctx.modeName,
+      distDir: 'dist/' + mode,
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,

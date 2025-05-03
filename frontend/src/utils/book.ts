@@ -9,12 +9,12 @@ import encHex from 'crypto-js/enc-hex';
 
 export const getFileSHA1 =  async (file: File): Promise<string> => {
   const arrayBuffer = await file.arrayBuffer();
-  if (crypto.subtle?.subtle) {
+  if (crypto?.subtle) {
     const hashBuffer = await crypto.subtle.digest('SHA-1', arrayBuffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   } else {
-    const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+    const wordArray = CryptoJS.lib.WordArray.create(new Uint8Array(arrayBuffer));
     return sha1(wordArray).toString(encHex);
   }
 }

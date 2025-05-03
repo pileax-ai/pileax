@@ -97,7 +97,7 @@ const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
 const bookView = ref('grid');
-const bookAccept = ref('.epub,.mobi,.azw3,.pdf');
+const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
 const orderBy = ref<Indexable>({
   updateTime: 'desc'
 });
@@ -118,7 +118,7 @@ function onDetails(item: any) {
 }
 
 function onClose() {
-  query.value.closeSide();
+  query.value.closeSide(false, false);
   doQuery();
 }
 

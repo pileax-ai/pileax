@@ -27,12 +27,15 @@ const FileAllowedTypes: Indexable = {
     'azw3',
     'epub',
     'mobi',
+    'fb2',
+    'cbz',
     'pdf',
   ]
 }
 
 const isBook = (file: Express.Multer.File) => {
-  return  FileAllowedTypes.book.find((e: string) => file.mimetype.indexOf(e) >= 0);
+  const extname = path.extname(file.originalname);
+  return  FileAllowedTypes.book.find((e: string) => file.mimetype.indexOf(e) >= 0 || extname.includes(e));
 }
 
 export class MulterUtil {

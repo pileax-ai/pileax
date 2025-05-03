@@ -116,9 +116,9 @@ export default function () {
     }
   }
 
-  function closeSide (notify = true, showSide = false) {
+  function closeSide (showSide = false, query = true, notify = true, ) {
     side.value.show = showSide;
-    onQuery();
+    if (query) onQuery();
     if (notify) notifyDone();
   }
 

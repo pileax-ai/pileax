@@ -82,6 +82,19 @@ class BookController extends BaseController<Book>{
       throw new ServerException('Book Upload', 'File upload failed');
     }
   };
+
+  public delete: RequestHandler = async (req: Request, res: Response) => {
+    const id = req.query.id as string;
+    const book = await this.service.get(id);
+    console.log('book', book);
+
+    // delete book from database
+    await this.service.delete(id);
+
+    // todo: delete book files from file system
+
+    sendOk(res, {});
+  };
 }
 
 export const bookController = new BookController();
