@@ -325,7 +325,7 @@ export class View extends HTMLElement {
         return this.dispatchEvent(new CustomEvent(name, { detail, cancelable }))
     }
     #onRelocate({ reason, range, index, fraction, size }) {
-        const chapterLocation = { // EBOOK
+        const chapterLocation = { // TODO: EBOOK
           current: this.renderer.page,
           total: this.renderer.pages - 2
         }
@@ -369,7 +369,7 @@ export class View extends HTMLElement {
                 .catch(e => console.error(e))
         })
     }
-    // EBOOK
+    // TODO: EBOOK
     #handleImage(doc) {
       for (const img of doc.querySelectorAll('img')) {
         img.addEventListener('click', e => {
@@ -379,7 +379,7 @@ export class View extends HTMLElement {
         })
       }
     }
-    // EBOOK
+    // TODO: EBOOK
     #handleClick(doc) {
       doc.addEventListener('click', e => {
         if (doc.getSelection().type === "Range")
