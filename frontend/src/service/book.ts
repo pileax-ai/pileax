@@ -137,6 +137,12 @@ const nextPage = () => {
   window.ebook.nextPage();
 }
 
+const ttsStart = () => window.ebook.ttsStart();
+const ttsStop = () => window.ebook.ttsStop();
+const ttsPrepare = () => window.ebook.ttsPrepare();
+const ttsNext = () => window.ebook.ttsNext();
+const ttsPrev = () => window.ebook.ttsPrev();
+
 const setManual = (operation = BookOperation.Manual) => {
   // console.log('operation', operation)
   setOperation(operation);
@@ -412,6 +418,11 @@ export {
   changeStyle,
   search,
   clearSearch,
+  ttsStart,
+  ttsStop,
+  ttsPrepare,
+  ttsNext,
+  ttsPrev,
   setManual,
 
   importBooks,

@@ -18,7 +18,8 @@ export const useReaderStore = defineStore('reader', {
       show: true,
       hoverShow: false,
       width: 300,
-      split: false
+      split: false,
+      tts: false
     } as Indexable,
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],

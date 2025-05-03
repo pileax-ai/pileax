@@ -90,6 +90,11 @@ export default function () {
     store.setRightDrawerItem({key: 'width', value: value});
   }
 
+  function setRightDrawerTTS(value: boolean) {
+    // console.log('tts', value)
+    store.setRightDrawerItem({key: 'tts', value: value});
+  }
+
   function setQueryTimer(time: number) {
     store.setQueryTimer(time);
   }
@@ -104,6 +109,8 @@ export default function () {
     rightDrawerHoverShow,
     rightDrawer,
     queryTimer,
+    mainService,
+    secondaryService,
 
     toggleLeftDrawer,
     setLeftDrawerHoverShow,
@@ -114,8 +121,7 @@ export default function () {
     setRightDrawerHoverShow,
     setRightDrawerSplit,
     setRightDrawerWidth,
+    setRightDrawerTTS,
     setQueryTimer,
-    mainService,
-    secondaryService,
   };
 }

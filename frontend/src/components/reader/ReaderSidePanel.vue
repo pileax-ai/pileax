@@ -7,8 +7,7 @@
                 indicator-color="transparent"
                 dense
                 narrow-indicator
-                shrink
-                v-if="true">
+                shrink>
           <template v-for="(item, index) in tabs" :key="index">
             <q-tab :name="index">
               <o-icon :name="item.icon" size="20px" class="rounded-borders" />
@@ -19,7 +18,8 @@
       </section>
 
       <section class="col-auto">
-        <q-btn icon="settings" class="o-toolbar-btn" flat @click="toggleSettings">
+        <q-btn icon="settings" class="o-toolbar-btn" flat
+               @click="toggleSettings" v-if="main">
           <o-tooltip>阅读设置</o-tooltip>
         </q-btn>
         <q-btn icon="more_horiz" class="o-toolbar-btn" flat>
@@ -59,38 +59,49 @@
     <transition appear
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
-      <add-ai-agent v-if="addAiAgentStatus"
-                    :main="main"
-                    @close="showAiAgent(false)" />
+      <ai-agent-manager class="side-fixed"
+                        :main="main"
+                        @close="showAiAgent(false)"
+                        v-if="addAiAgentStatus" />
     </transition>
 
     <transition appear
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
-      <add-service v-if="addServiceStatus"
-                   :main="main"
-                   @close="showAddService(false)"
-                   @add="onAddService"
-                   @remove="onRemoveService" />
+      <web-service-manager class="side-fixed"
+                           :main="main"
+                           @close="showAddService(false)"
+                           @add="onAddService"
+                           @remove="onRemoveService"
+                           v-if="addServiceStatus" />
     </transition>
 
     <transition appear
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
-      <reader-settings v-if="settingsStatus"
-                   :main="main"
-                   @close="toggleSettings" />
+      <reader-settings class="side-fixed"
+                       @close="toggleSettings"
+                       v-if="settingsStatus && main" />
+    </transition>
+
+    <transition appear
+                enter-active-class="animated slideInRight"
+                leave-active-class="animated slideOutRight">
+      <tts-player class="side-fixed"
+                  @close="ttsStatus = false;"
+                  v-if="ttsStatus && main" />
     </transition>
   </section>
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref} from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
 import useReader from 'src/hooks/useReader';
 import ReaderSide from 'src/components/reader/ReaderSide.vue';
-import AddAiAgent from 'src/components/reader/AddAiAgent.vue';
-import AddService from 'src/components/reader/AddService.vue';
+import AiAgentManager from 'components/reader/agent/ai-agent-manager.vue';
+import WebServiceManager from 'components/reader/service/web-service-manager.vue';
 import ReaderSettings from 'src/components/reader/settings/index.vue';
+import TtsPlayer from 'src/components/reader/tts/tts-player.vue';
 
 const props = defineProps({
   main: {
@@ -106,6 +117,7 @@ const {
   rightDrawerShow,
   setRightDrawerHoverShow,
   setRightDrawerSplit,
+  setRightDrawerTTS,
   toggleRightDrawer
 } = useReader();
 
@@ -113,6 +125,14 @@ const currentTab = ref(0);
 const addAiAgentStatus = ref(false);
 const addServiceStatus = ref(false);
 const settingsStatus = ref(false);
+const ttsStatus = computed({
+  get() {
+    return rightDrawer.value.tts;
+  },
+  set(val: boolean) {
+    setRightDrawerTTS(val);
+  }
+});
 
 const defaultTab = computed(() => {
   return { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' };
@@ -138,6 +158,7 @@ const components = computed(() => {
     };
   });
 });
+const showTTS = computed(() => rightDrawer.value.tts);
 
 const actions = computed(() => {
   return [
@@ -226,6 +247,10 @@ function toggleSettings() {
   settingsStatus.value = !settingsStatus.value;
 }
 
+function toggleTTS() {
+  ttsStatus.value = !ttsStatus.value;
+}
+
 function onAddService(item :any) {
   addServiceStatus.value = false;
   const exist = tabs.value.find((e) => e.value === item.value);
@@ -244,6 +269,10 @@ function onAddService(item :any) {
 function onRemoveService() {
   currentTab.value = 0;
 }
+
+watch(() => showTTS.value, (newValue) => {
+  console.log('tts', newValue)
+}, { deep: true })
 
 onBeforeMount(() => {
   currentTab.value = 0;
@@ -290,9 +319,7 @@ onBeforeMount(() => {
     }
   }
 
-  .reader-add-ai-agent,
-  .reader-add-service,
-  .reader-settings {
+  .side-fixed {
     position: fixed;
     left: 8px;
     right: 0;

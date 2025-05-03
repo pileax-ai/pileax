@@ -475,6 +475,7 @@ const changeStyle = (newStyle) => {
   setStyle();
 }
 
+/// Search
 const search = async (text, opts) => {
   opts == null && (opts = {
     'scope': 'book',
@@ -505,6 +506,8 @@ const clearSearch = () => reader.view.clearSearch();
 // --------------------------------------------------------------------------------
 const goToHref = (href) => reader.view.goTo(href);
 const goToPercent = (percent) => reader.view.goToFraction(percent);
+const nextSection = () => reader.view.renderer.nextSection();
+const prevSection = () => reader.view.renderer.prevSection();
 const addAnnotation = (annotation) =>
   reader.addAnnotation(annotation);
 const removeAnnotation = (cfi) =>
@@ -513,6 +516,37 @@ const renderAnnotations = (annotations) =>
   reader.renderAnnotations(annotations);
 const clearSelection = () =>
   reader.view.deselect();
+
+// TTS
+const initTTS = () => reader.view.initTTS();
+const ttsStart = async () => {
+  await initTTS();
+  return reader.view.tts.from(reader.view.lastLocation.range);
+};
+const ttsStop = () => reader.view.initTTS(true);
+const ttsPrepare = () => reader.view.tts.prepare();
+
+const ttsNext = async () => {
+  const result = reader.view.tts.next(true);
+  if (result) return result;
+  return await ttsNextSection();
+};
+const ttsPrev = () => {
+  const result = reader.view.tts.prev(true);
+  if (result) return result;
+  return ttsPrevSection(true);
+};
+
+const ttsNextSection = async () => {
+  await nextSection();
+  await initTTS();
+  return ttsNext();
+};
+const ttsPrevSection = async (last) => {
+  await prevSection();
+  await initTTS();
+  return last ? reader.view.tts.end() : ttsNext();
+};
 
 window.ebook = {
   open: openBook,
@@ -526,4 +560,11 @@ window.ebook = {
   changeStyle: changeStyle,
   search: search,
   clearSearch: clearSearch,
+  ttsStart: ttsStart,
+  ttsStop: ttsStop,
+  ttsPrepare: ttsPrepare,
+  ttsNext: ttsNext,
+  ttsPrev: ttsPrev,
+  ttsNextSection: ttsNextSection,
+  ttsPrevSection: ttsPrevSection,
 }

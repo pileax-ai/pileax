@@ -28,7 +28,8 @@
 
     <section class="row col-auto text-readable">
       <section class="row hover-shows top-toolbar toolbar-hover-shows">
-        <q-btn icon="volume_up" class="o-toolbar-btn" flat>
+        <q-btn icon="volume_up" class="o-toolbar-btn" flat
+               @click="setRightDrawerTTS(true)">
           <o-tooltip>AI朗读</o-tooltip>
         </q-btn>
       </section>
@@ -76,7 +77,8 @@ const {
   leftDrawerHoverShow,
   toggleLeftDrawer,
   toggleRightDrawer,
-  setLeftDrawerHoverShow
+  setLeftDrawerHoverShow,
+  setRightDrawerTTS
 } = useReader();
 
 const searchCurrent = computed(() => {

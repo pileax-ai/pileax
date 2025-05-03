@@ -23,6 +23,9 @@ export const useBookStore = defineStore('book', {
       result: [] as Indexable[],
       current: {} as Indexable
     } as Indexable,
+    tts: {
+      playing: false
+    } as Indexable
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -151,6 +154,9 @@ export const useBookStore = defineStore('book', {
           return;
         }
       }
+    },
+    setTTSItem(key: string, value: any) {
+      this.tts[key] = value;
     },
   },
   persist: {

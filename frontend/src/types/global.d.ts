@@ -28,6 +28,13 @@ declare global {
       changeStyle: (newStyle: Indexable) => void;
       search: (text: string, opts: Indexable) => void;
       clearSearch: () => void;
+      ttsStart: () => Promise<string>;
+      ttsStop: () => Promise<void>;
+      ttsPrepare: () => Promise<void>;
+      ttsNext: () => Promise<string>;
+      ttsPrev: () => Promise<string>;
+      ttsNextSection: () => Promise<string>;
+      ttsPrevSection: () => Promise<string>;
     };
   }
 
