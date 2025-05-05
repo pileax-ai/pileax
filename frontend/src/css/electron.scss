@@ -40,7 +40,7 @@
     }
   }
 
-  &:not(.platform-mac) {
+  &:not(.platform-macs) {
     .o-title-bar {
       display: flex !important;
     }

@@ -4,7 +4,7 @@
       <o-icon name="icon-fluent-minimize" />
     </q-btn>
     <q-btn class="col-4" flat @click="ipcService.maximizeWindow()">
-      <o-icon name="icon-fluent-restore" />
+      <o-icon :name="isMaximized ? 'icon-fluent-restore' : 'icon-fluent-maximize'" />
     </q-btn>
     <q-btn class="col-4 close" flat @click="ipcService.closeWindow()">
       <o-icon name="icon-fluent-close" />
@@ -13,6 +13,8 @@
 </template>
 
 <script setup lang="ts">
+import { onActivated, ref, watch } from 'vue'
+import { useWindowSize } from '@vueuse/core';
 import { ipcService } from 'src/api/ipc';
 
 defineProps({
@@ -22,9 +24,24 @@ defineProps({
   },
 });
 
+const { width, height } = useWindowSize();
+const isMaximized = ref(false);
+
 function onMinimized() {
   ipcService.minimizeWindow();
 }
+
+async function updateWindowState() {
+  isMaximized.value = await ipcService.isWindowMaximized();
+}
+
+watch(() => width.value, (newValue) => {
+  updateWindowState();
+})
+
+onActivated(() => {
+  updateWindowState();
+})
 </script>
 
 <style lang="scss">
@@ -44,8 +61,8 @@ function onMinimized() {
     }
 
     &.close:hover {
-      color: white;
-      background: red;
+      color: #ffffff;
+      background: #f44336;
     }
   }
 }
