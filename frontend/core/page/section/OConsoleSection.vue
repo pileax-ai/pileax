@@ -340,7 +340,7 @@ onActivated(() => {
 
       .q-btn {
         border-radius: 0;
-        min-height: 3em;
+        min-height: 40px;
       }
     }
 

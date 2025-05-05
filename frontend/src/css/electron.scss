@@ -23,6 +23,16 @@
       }
     }
 
+    .o-side-dialog.full-screen {
+      .q-toolbar {
+        padding: 0 0 0 75px !important;
+
+        .actions {
+          padding-right: 8px;
+        }
+      }
+    }
+
     &.full-screen-page {
       .o-console-section .console-header .console-toolbar {
         padding-left: 75px !important;

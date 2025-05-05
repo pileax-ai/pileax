@@ -16,10 +16,14 @@
             <q-icon :name="icon" v-if="icon" />
             {{title}}
           </q-toolbar-title>
-          <q-btn flat round dense icon="print" @click="onPrint" v-if="printable" />
-          <q-btn flat round dense :icon="viewIcon" @click="onToggleView" v-if="toggleView" />
-          <q-btn flat round dense :icon="positionIcon" @click="onTogglePosition" />
-          <q-btn flat v-close-popup round dense icon="close" />
+
+          <div class="row text-tips actions">
+            <q-btn flat round dense icon="print" @click="onPrint" v-if="printable" />
+            <q-btn flat round dense :icon="viewIcon" @click="onToggleView" v-if="toggleView" />
+            <q-btn flat round dense :icon="positionIcon" @click="onTogglePosition" />
+            <q-btn flat v-close-popup round dense icon="cancel" />
+          </div>
+          <o-tool-bar-overlay v-if="view==='full-screen'" />
         </q-toolbar>
       </q-card-section>
 
@@ -34,10 +38,13 @@
             <q-icon :name="icon" v-if="icon" />
             {{title}}
           </q-toolbar-title>
-          <q-btn flat round dense icon="print" @click="onPrint" v-if="printable" />
-          <q-btn flat round dense :icon="viewIcon" @click="onToggleView" v-if="toggleView" />
-          <q-btn flat round dense :icon="positionIcon" @click="onTogglePosition" />
-          <q-btn flat v-close-popup round dense icon="close" />
+          <div class="row text-tips actions">
+            <q-btn flat round dense icon="print" @click="onPrint" v-if="printable" />
+            <q-btn flat round dense :icon="viewIcon" @click="onToggleView" v-if="toggleView" />
+            <q-btn flat round dense :icon="positionIcon" @click="onTogglePosition" />
+            <q-btn flat v-close-popup round dense icon="cancel" />
+          </div>
+          <o-tool-bar-overlay v-if="view==='full-screen'" />
         </q-toolbar>
       </q-header>
       <q-page-container :class="{'print': printing}">
@@ -66,6 +73,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch, nextTick} from 'vue';
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const props = defineProps({
   show: {
@@ -316,7 +324,7 @@ onMounted(() => {
       background: rgba(0, 0, 0, 0.1);
     }
     .q-dialog__inner {
-      margin: 45px 10px;
+      margin: 50px 10px 10px 10px;
 
       .q-layout-container {
         border-radius: 6px !important;
