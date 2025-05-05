@@ -20,9 +20,11 @@
 		"build:frontend": "cd frontend && yarn build",
 		"build:electron": "cd frontend && yarn build:electron",
 		"build:electron:win": "cd frontend && yarn && yarn build:electron:win",
+		"build:electron:linux": "cd frontend && yarn && yarn build:electron:linux",
 		"build:tauri": "cd frontend && yarn build:tauri",
 		"build:server": "cd server && yarn && yarn build",
     "build:desktop": "yarn build:server && yarn build:electron",
+    "build:desktop:linux": "yarn build:server && yarn build:electron:linux",
     "build:desktop:win": "yarn build:server && yarn build:electron:win"
   },
 	"engines": {

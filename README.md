@@ -20,7 +20,26 @@ build
 
 #### Desktop
 ```shell
+# macOS
 yarn build:desktop
+
+# Linux
+docker run --rm \
+  -v ${PWD}:/project \
+  -v $HOME/.cache/electron:/root/.cache/electron \
+  -v $HOME/.cache/electron-builder:/root/.cache/electron-builder \
+  -w /project \
+  electronuserland/builder \
+  /bin/bash -c "yarn build:desktop:linux"
+
+# Windows
+docker run --rm \
+  -v ${PWD}:/project \
+  -v $HOME/.cache/electron:/root/.cache/electron \
+  -v $HOME/.cache/electron-builder:/root/.cache/electron-builder \
+  -w /project \
+  electronuserland/builder:wine \
+  /bin/bash -c "yarn build:desktop:win"
 ```
 
 ## Others
