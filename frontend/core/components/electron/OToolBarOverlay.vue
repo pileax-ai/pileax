@@ -26,10 +26,10 @@ defineProps({
 .o-title-bar-overlay {
   display: none;
   width: 138px !important;
-  min-height: 32px;
+  min-height: 40px;
   .q-btn {
     height: 100%;
-    min-height: 32px;
+    min-height: 40px;
     padding: 0;
     border-radius: 0;
 
@@ -37,12 +37,6 @@ defineProps({
       width: 10px;
       height: 10px;
     }
-  }
-}
-
-.electron:not(.platform-mac) {
-  .o-title-bar-overlay {
-    display: flex !important;
   }
 }
 </style>

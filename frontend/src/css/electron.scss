@@ -9,22 +9,33 @@
 }
 
 .electron {
-  .navi-tabbar {
-    .navi-left.show {
-      padding-left: 75px;
-      padding-right: 8px;
+  &.platform-mac {
+    .navi-tabbar {
+      .navi-left.show {
+        padding-left: 75px;
+        padding-right: 8px;
+      }
+    }
+
+    .o-reader-page {
+      header.left-drawer-closed {
+        padding-left: 65px;
+      }
+    }
+
+    &.full-screen-page {
+      .o-console-section .console-header .console-toolbar {
+        padding-left: 75px !important;
+      }
     }
   }
 
-  .o-reader-page {
-    header.drawer-closed {
-      padding-left: 65px;
+  &:not(.platform-mac) {
+    .o-title-bar {
+      display: flex !important;
     }
-  }
-
-  &.full-screen-page {
-    .o-console-section .console-header .console-toolbar {
-      padding-left: 75px !important;
+    .o-title-bar-overlay {
+      display: flex !important;
     }
   }
 }

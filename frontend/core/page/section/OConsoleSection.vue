@@ -40,6 +40,7 @@
                    @click="toggleFullScreen" v-if="enableFullscreen" />
             <slot name="query-table-actions-end"></slot>
           </template>
+          <o-tool-bar-overlay v-if="fullScreen" />
         </div>
       </section>
       <section class="col-12 header-extension" v-if="extendHeader">
@@ -89,6 +90,7 @@ import { MenuItem } from 'core/types/menu';
 import { findMenuByPath, menuLabel } from 'core/hooks/useMenu';
 import { openPath } from 'core/hooks/useRouter';
 import { useNaviStore } from 'stores/navi.setup';
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const props = defineProps({
   icon: {
@@ -330,7 +332,7 @@ onActivated(() => {
   .o-console-section {
     .console-header.full .console-toolbar {
       background: var(--q-accent);
-      padding: 0 21px 0 21px !important;
+      padding: 0 !important;
       position: fixed;
       left: 0;
       right: 0;

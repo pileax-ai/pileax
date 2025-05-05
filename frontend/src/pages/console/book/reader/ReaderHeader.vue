@@ -1,6 +1,9 @@
 <template>
   <header class="row items-center justify-between header reader-header"
-          :class="{'drawer-closed': !leftDrawerShow}">
+          :class="{
+            'left-drawer-closed': !leftDrawerShow,
+            'right-drawer-closed': !rightDrawerShow
+          }">
     <section class="row col-auto items-center text-readable">
       <div class="menu q-pl-sm no-drag-region" v-if="!leftDrawerShow">
         <o-hover-btn icon="menu"
@@ -41,7 +44,7 @@
                    position="right" />
       </o-hover-btn>
     </section>
-
+    <o-tool-bar-overlay class="col-auto" v-if="!rightDrawerShow" />
 
     <transition appear
                 enter-active-class="animated slideInDown"
@@ -69,6 +72,7 @@ import useBook from 'src/hooks/useBook';
 import useReader from 'src/hooks/useReader';
 import { nextPage, prevPage } from 'src/service/book';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const { progress, search, clearSearch } = useBook();
 const {
@@ -124,6 +128,10 @@ function onLeftDrawerLeave() {
         font-size: 1rem;
       }
     }
+  }
+
+  &.right-drawer-closed {
+    padding-right: 0!important;
   }
 }
 </style>

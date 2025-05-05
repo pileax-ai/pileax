@@ -121,7 +121,7 @@ onBeforeMount(() => {
   .right-drawer {
     .side-bar .main {
       .o-scroll-wrapper {
-        top: 72px;
+        top: 80px;
       }
     }
   }

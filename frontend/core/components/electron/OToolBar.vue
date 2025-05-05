@@ -23,12 +23,6 @@ defineProps({
 
 <style lang="scss">
 .o-title-bar {
-  height: 32px;
-}
-
-.electron:not(.platform-mac) {
-  .o-title-bar {
-    display: flex !important;
-  }
+  height: 40px;
 }
 </style>
