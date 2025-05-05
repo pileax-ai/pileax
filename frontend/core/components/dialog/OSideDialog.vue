@@ -316,7 +316,7 @@ onMounted(() => {
       background: rgba(0, 0, 0, 0.1);
     }
     .q-dialog__inner {
-      margin: 10px;
+      margin: 45px 10px;
 
       .q-layout-container {
         border-radius: 6px !important;
@@ -331,4 +331,5 @@ onMounted(() => {
     }
   }
 }
+
 </style>

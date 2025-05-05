@@ -53,17 +53,7 @@
       <q-spinner-ios class="text-readable" size="20px" v-if="pageLoading" />
       <opened-tabs-hover-btn icon="expand_more" class="bg-dark text-readable" v-else />
     </div>
-    <div class="row col-auto items-center text-readable title-bar-overlay">
-      <q-btn class="col-4" flat>
-        <o-icon name="icon-fluent-minimize" />
-      </q-btn>
-      <q-btn class="col-4" flat>
-        <o-icon name="icon-fluent-restore" />
-      </q-btn>
-      <q-btn class="col-4" flat>
-        <o-icon name="icon-fluent-close" />
-      </q-btn>
-    </div>
+    <o-tool-bar-overlay class="col-auto" />
   </section>
 </template>
 
@@ -81,6 +71,7 @@ import OHoverBtn from 'core/components/button/OHoverBtn.vue';
 import NaviTab from './NaviTab.vue';
 import { MenuItem } from 'core/types/menu';
 import draggable from 'vuedraggable';
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -152,20 +143,6 @@ $tab-height: 40px;
       height: 36px;
       min-height: unset;
       border-radius: 4px;
-    }
-  }
-
-  .title-bar-overlay {
-    display: none;
-    width: 138px;
-    .q-btn {
-      height: 40px;
-      padding: 0;
-
-      .o-icon {
-        width: 12px;
-        height: 12px;
-      }
     }
   }
 
@@ -372,9 +349,4 @@ $tab-height: 40px;
   }
 }
 
-.electron:not(.platform-mac) {
-  .navi-tabbar .title-bar-overlay {
-    display: flex;
-  }
-}
 </style>

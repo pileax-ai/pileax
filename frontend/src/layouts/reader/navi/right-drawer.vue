@@ -116,4 +116,14 @@ onBeforeMount(() => {
     background: var(--q-secondary) !important;
   }
 }
+
+.electron {
+  .right-drawer {
+    .side-bar .main {
+      .o-scroll-wrapper {
+        top: 72px;
+      }
+    }
+  }
+}
 </style>

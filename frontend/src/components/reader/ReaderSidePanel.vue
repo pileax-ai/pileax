@@ -1,5 +1,7 @@
 <template>
-  <section class="reader-side-panel">
+  <section class="reader-side-panel" :class="{'main': main}">
+    <o-tool-bar>
+    </o-tool-bar>
     <header class="row col-12 justify-between items-center text-readable toolbar">
       <section class="col row items-center">
         <q-tabs v-model="currentTab"
@@ -102,6 +104,7 @@ import AiAgentManager from 'components/reader/agent/ai-agent-manager.vue';
 import WebServiceManager from 'components/reader/service/web-service-manager.vue';
 import ReaderSettings from 'src/components/reader/settings/index.vue';
 import TtsPlayer from 'src/components/reader/tts/tts-player.vue';
+import OToolBar from 'core/components/electron/OToolBar.vue';
 
 const props = defineProps({
   main: {

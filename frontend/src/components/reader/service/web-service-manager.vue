@@ -1,5 +1,6 @@
 <template>
-  <section class="reader-add-service bg-accent">
+  <section class="reader-add-service bg-secondary main">
+    <o-tool-bar />
     <header class="row col-12 justify-between items-center text-readable">
       <section class="col row items-center">
         <q-icon name="language" size="20px" />
@@ -18,7 +19,7 @@
           推荐
         </q-item-label>
         <template v-for="(item, index) in services" :key="index">
-          <q-item class="bg-secondary" clickable>
+          <q-item class="bg-accent" clickable>
             <q-item-section avatar>
               <q-avatar rounded>
                 <o-icon :name="item.icon" size="40px" />
@@ -50,6 +51,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
 import useReader from 'src/hooks/useReader'
+import OToolBar from 'core/components/electron/OToolBar.vue'
 
 const props = defineProps({
   main: {

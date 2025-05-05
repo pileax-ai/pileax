@@ -1,5 +1,6 @@
 <template>
-  <section class="reader-add-ai-agent bg-accent">
+  <section class="reader-add-ai-agent bg-secondary main">
+    <o-tool-bar />
     <header class="row col-12 justify-between items-center text-readable">
       <section class="col row items-center">
         <q-icon name="mdi-creation" size="20px" />
@@ -9,7 +10,7 @@
       </section>
 
       <section class="col-auto">
-        <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
+        <q-btn icon="cancel" class="o-toolbar-btn" flat @click="emit('close')" />
       </section>
     </header>
     <q-scroll-area class="o-scroll-wrapper">
@@ -20,6 +21,7 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue';
+import OToolBar from 'core/components/electron/OToolBar.vue';
 
 const props = defineProps({
   main: {
