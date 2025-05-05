@@ -7,7 +7,7 @@ const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const windows: Indexable = {};
 
 // Open new window with id
-export const openNewWindow = async (id: string, url: string) => {
+export const openNewWindow = async (id: string, url: string, titleBarHeight = 40) => {
   // Focus window if exists.
   const w = windows[id];
   if (w && !w.isDestroyed()) {
@@ -24,7 +24,7 @@ export const openNewWindow = async (id: string, url: string) => {
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 12, y: 12 },
     titleBarOverlay: process.platform !== 'darwin' ? {
-      height: 40,
+      height: titleBarHeight,
       color: 'rgba(0, 0, 0, 0)',
       symbolColor: 'rgba(0, 0, 0, 0)'
     } : undefined,

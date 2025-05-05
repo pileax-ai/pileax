@@ -11,8 +11,8 @@ export class ElectronIpc implements IpcService {
     });
   }
 
-  public openNewWindow(id: string, url: string) {
-    return window.electronAPI.openNewWindow(id, url);
+  public openNewWindow(id: string, url: string, titleBarHeight = 40) {
+    return window.electronAPI.openNewWindow(id, url, titleBarHeight);
   }
 
   public setTheme(theme: 'system' | 'light' | 'dark') {

@@ -64,6 +64,7 @@ import { removeBook } from 'src/service/book';
 import { timeMulti } from 'core/utils/format';
 import useApi from 'src/hooks/useApi';
 import { ipcService } from 'src/api/ipc';
+import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 
 const props = defineProps({
   data: {
@@ -132,7 +133,8 @@ function init() {
 
 function openBook() {
   const item = props.data;
-  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`,
+    READER_TITLE_BAR_HEIGHT);
 }
 
 

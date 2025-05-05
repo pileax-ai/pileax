@@ -88,6 +88,7 @@ import OFileUploaderBtn from 'core/components/fIle/OFileUploaderBtn.vue';
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
 import { ipcService } from 'src/api/ipc';
+import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();
@@ -148,7 +149,8 @@ function onAdd() {
 }
 
 function openBook(item: any) {
-  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`,
+    READER_TITLE_BAR_HEIGHT);
 }
 
 function doQuery() {

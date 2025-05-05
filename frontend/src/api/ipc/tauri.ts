@@ -11,7 +11,7 @@ export class TauriIpc implements IpcService {
     });
   }
 
-  public openNewWindow(id: string, url: string) {
+  public openNewWindow(id: string, url: string, titleBarHeight = 40) {
     return window.electronAPI.openNewWindow(id, url);
   }
 

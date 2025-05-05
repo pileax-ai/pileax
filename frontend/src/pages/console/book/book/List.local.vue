@@ -79,6 +79,7 @@ import BookFilterBtn from './BookFilterBtn.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
+import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();
@@ -131,7 +132,8 @@ function onAdd() {
 }
 
 function openBook(item: any) {
-  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`);
+  window.electronAPI.openNewWindow(item.id, `/reader/book?id=${item.id}`,
+    READER_TITLE_BAR_HEIGHT);
 }
 
 function doQuery() {

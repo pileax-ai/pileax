@@ -6,7 +6,7 @@ declare global {
       hi: (message: string) => void;
       showDialog: (options: OpenDialogOptions) => Promise<any>;
       getServerInfo: () => Promise<Indexable>;
-      openNewWindow: (id: string, url: string) => Promise<any>;
+      openNewWindow: (id: string, url: string, titleBarHeight = 40) => Promise<any>;
       readFile: (filePath: string) => Promise<any>;
       readImage: (filePath: string) => Promise<any>;
       readBookFile: (filePath: string) => Promise<any>;

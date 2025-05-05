@@ -41,8 +41,8 @@ const electronAPI = {
   },
   getServerInfo: async (): Promise<Indexable> =>
     ipcRenderer.invoke('get-server-info'),
-  openNewWindow: async (id: string, url: string) =>
-    ipcRenderer.invoke('open-new-window', id, url),
+  openNewWindow: async (id: string, url: string, titleBarHeight = 40) =>
+    ipcRenderer.invoke('open-new-window', id, url, titleBarHeight),
   readFile: async (filePath: string) =>
     ipcRenderer.invoke('read-file', filePath),
   readImage: async (filePath: string) =>

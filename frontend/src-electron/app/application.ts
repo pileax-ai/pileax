@@ -48,8 +48,8 @@ export class Application {
     });
 
     ipcMain.handle('open-new-window',
-      (event, id: string, url: string) => {
-      openNewWindow(id, url);
+      (event, id: string, url: string, titleBarHeight = 40) => {
+      openNewWindow(id, url, titleBarHeight);
     });
 
     ipcMain.handle('read-file',
