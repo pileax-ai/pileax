@@ -5,6 +5,7 @@ import { TauriIpc } from 'src/api/ipc/tauri';
 export interface IpcService {
   getServerInfo(): Promise<Indexable>;
   openNewWindow(id: string, url: string): void;
+  setTheme(theme: 'system' | 'light' | 'dark'): void;
 }
 
 let ipcService: IpcService;

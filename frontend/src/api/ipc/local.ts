@@ -14,4 +14,8 @@ export class LocalIpc implements IpcService {
   public openNewWindow(id: string, url: string) {
     return window.open(url, '_blank', 'noopener');
   }
+
+  public setTheme(theme: 'system' | 'light' | 'dark') {
+    // return window.electronAPI.setTheme(theme);
+  }
 }

@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
 import log from 'electron-log';
 
@@ -41,6 +41,12 @@ export class Application {
   }
 
   static initIpcMain() {
+    ipcMain.handle('set-theme',
+      (event, theme: 'system' | 'light' | 'dark') => {
+      console.log('set-theme', theme);
+      nativeTheme.themeSource = theme;
+    });
+
     ipcMain.handle('open-new-window',
       (event, id: string, url: string) => {
       openNewWindow(id, url);

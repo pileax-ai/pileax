@@ -53,6 +53,17 @@
       <q-spinner-ios class="text-readable" size="20px" v-if="pageLoading" />
       <opened-tabs-hover-btn icon="expand_more" class="bg-dark text-readable" v-else />
     </div>
+    <div class="row col-auto items-center justify-around text-readable title-bar-overlay">
+      <q-btn flat>
+        <o-icon name="icon-win-minimize" size="2rem" />
+      </q-btn>
+      <q-btn flat>
+        <o-icon name="icon-win-maximize" size="2rem" />
+      </q-btn>
+      <q-btn flat>
+        <o-icon name="icon-win-close" size="2rem" />
+      </q-btn>
+    </div>
   </section>
 </template>
 
@@ -141,6 +152,19 @@ $tab-height: 40px;
       height: 36px;
       min-height: unset;
       border-radius: 4px;
+    }
+  }
+
+  .title-bar-overlay {
+    width: 138px;
+    .q-btn {
+      width: 40px;
+      height: 40px;
+
+      svg {
+        width: 32px !important;
+        height: 32px !important;
+      }
     }
   }
 

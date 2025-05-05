@@ -55,6 +55,8 @@ const electronAPI = {
     ipcRenderer.invoke('save-book-files', metadata),
   saveImageFile: async (metadata: any) =>
     ipcRenderer.invoke('save-image-file', metadata),
+  setTheme: async (theme: 'system' | 'light' | 'dark') =>
+    ipcRenderer.invoke('set-theme', theme),
   dbExecute: async (entity: string, method: string, params: any) =>
     ipcRenderer.invoke('db-execute', entity, method, params),
 };

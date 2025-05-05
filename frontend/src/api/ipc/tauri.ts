@@ -14,4 +14,8 @@ export class TauriIpc implements IpcService {
   public openNewWindow(id: string, url: string) {
     return window.electronAPI.openNewWindow(id, url);
   }
+
+  public setTheme(theme: 'system' | 'light' | 'dark') {
+    return window.electronAPI.setTheme(theme);
+  }
 }

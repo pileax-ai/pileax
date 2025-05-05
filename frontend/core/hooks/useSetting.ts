@@ -1,6 +1,7 @@
 import { Dark, setCssVar } from 'quasar';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ipcService } from 'src/api/ipc'
 
 import { THEMES, THEME_COLORS } from 'core/constants/setting';
 import { useAppStore } from 'stores/app';
@@ -51,6 +52,8 @@ export default function () {
     const themeSetting = appStore.setting.theme;
     themeSetting.name = name;
     appStore.setTheme(themeSetting);
+    console.log('theme', name);
+    ipcService.setTheme(name as 'system' | 'light' | 'dark');
   }
 
   const setThemeColor = (colorName :string) => {

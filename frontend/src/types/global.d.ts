@@ -13,6 +13,7 @@ declare global {
       readBookCover: (filePath: string) => Promise<any>;
       saveBookFiles: (metadata: any) => Promise<any>;
       saveImageFile: (metadata: any) => Promise<any>;
+      setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
       dbExecute: (entity: string, method: string, params: any) => Promise<any>;
     };
 

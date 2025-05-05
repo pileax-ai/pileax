@@ -23,6 +23,11 @@ export const openNewWindow = async (id: string, url: string) => {
     useContentSize: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 12, y: 12 },
+    titleBarOverlay: process.platform !== 'darwin' ? {
+      height: 40,
+      color: 'rgba(0, 0, 0, 0)',
+      symbolColor: 'rgba(0, 0, 0, 0)'
+    } : undefined,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,

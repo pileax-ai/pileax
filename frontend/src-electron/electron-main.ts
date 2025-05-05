@@ -1,4 +1,4 @@
-import { app, ipcMain, BrowserWindow, session } from 'electron';
+import { app, ipcMain, BrowserWindow, session, nativeTheme } from 'electron';
 import { fileURLToPath } from 'node:url';
 import log from 'electron-log';
 import path from 'path';
@@ -32,6 +32,11 @@ async function createWindow() {
     useContentSize: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 8, y: 12 },
+    titleBarOverlay: process.platform !== 'darwin' ? {
+      height: 40,
+      color: 'rgba(0, 0, 0, 0)',
+      symbolColor: 'rgba(0, 0, 0, 0)'
+    } : undefined,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
