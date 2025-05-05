@@ -10,7 +10,8 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng';
 export default defineConfig((ctx) => {
   console.log('ctx', ctx);
   let mode = ctx.modeName;
-  if (ctx.targetName) mode += '-' + ctx.targetName;
+  const targetName = (ctx as Indexable).targetName;
+  if (targetName) mode += '-' + targetName;
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
