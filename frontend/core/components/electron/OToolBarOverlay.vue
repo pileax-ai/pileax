@@ -29,12 +29,13 @@ defineProps({
   min-height: 32px;
   .q-btn {
     height: 100%;
+    min-height: 32px;
     padding: 0;
     border-radius: 0;
 
     .o-icon {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
     }
   }
 }
