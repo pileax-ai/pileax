@@ -23,7 +23,7 @@ export const openNewWindow = async (id: string, url: string, titleBarHeight = 40
     useContentSize: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 12, y: 12 },
-    titleBarOverlay: process.platform !== 'darwin' ? {
+    titleBarOverlay: process.platform === 'win32' ? {
       height: titleBarHeight,
       color: 'rgba(0, 0, 0, 0)',
       symbolColor: 'rgba(0, 0, 0, 0)'
@@ -54,4 +54,28 @@ export const openNewWindow = async (id: string, url: string, titleBarHeight = 40
   });
 
   windows[id] = newWindow;
+}
+
+export const minimizeWindow = () => {
+  const win = BrowserWindow.getFocusedWindow();
+  win?.minimize();
+}
+
+export const maximizeWindow = () => {
+  const win = BrowserWindow.getFocusedWindow();
+  if (win?.isMaximized()) {
+    win.unmaximize();
+  } else {
+    win?.maximize();
+  }
+}
+
+export const closeWindow = () => {
+  const win = BrowserWindow.getFocusedWindow();
+  win?.close();
+}
+
+export const isWindowMaximized = () => {
+  const win = BrowserWindow.getFocusedWindow();
+  return win?.isMaximized() ?? false;
 }

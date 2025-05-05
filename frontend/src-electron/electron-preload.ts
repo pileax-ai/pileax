@@ -30,6 +30,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import type { OpenDialogOptions } from 'electron';
 import { dialog } from '@electron/remote';
+import { closeWindow, isWindowMaximized, maximizeWindow, minimizeWindow } from 'app/src-electron/app/window'
 
 // Electron API
 const electronAPI = {
@@ -43,6 +44,14 @@ const electronAPI = {
     ipcRenderer.invoke('get-server-info'),
   openNewWindow: async (id: string, url: string, titleBarHeight = 40) =>
     ipcRenderer.invoke('open-new-window', id, url, titleBarHeight),
+  minimizeWindow: async () =>
+    ipcRenderer.invoke('window-minimize'),
+  maximizeWindow: async () =>
+    ipcRenderer.invoke('window-maximize'),
+  closeWindow: async () =>
+    ipcRenderer.invoke('window-close'),
+  isWindowMaximized: async () =>
+    ipcRenderer.invoke('window-is-maximized'),
   readFile: async (filePath: string) =>
     ipcRenderer.invoke('read-file', filePath),
   readImage: async (filePath: string) =>

@@ -32,7 +32,7 @@ async function createWindow() {
     useContentSize: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 8, y: 12 },
-    titleBarOverlay: process.platform !== 'darwin' ? {
+    titleBarOverlay: process.platform === 'win32' ? {
       height: 40,
       color: 'rgba(0, 0, 0, 0)',
       symbolColor: 'rgba(0, 0, 0, 0)'

@@ -1,18 +1,20 @@
 <template>
-  <div class="row items-center text-readable o-title-bar-overlay">
-    <q-btn class="col-4" flat>
+  <div class="row items-center text-readable o-title-bar-overlay no-drag-region">
+    <q-btn class="col-4" flat @click="onMinimized">
       <o-icon name="icon-fluent-minimize" />
     </q-btn>
-    <q-btn class="col-4" flat>
+    <q-btn class="col-4" flat @click="ipcService.maximizeWindow()">
       <o-icon name="icon-fluent-restore" />
     </q-btn>
-    <q-btn class="col-4" flat>
+    <q-btn class="col-4 close" flat @click="ipcService.closeWindow()">
       <o-icon name="icon-fluent-close" />
     </q-btn>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ipcService } from 'src/api/ipc';
+
 defineProps({
   link: {
     type: String,
@@ -20,6 +22,9 @@ defineProps({
   },
 });
 
+function onMinimized() {
+  ipcService.minimizeWindow();
+}
 </script>
 
 <style lang="scss">
@@ -36,6 +41,11 @@ defineProps({
     .o-icon {
       width: 10px;
       height: 10px;
+    }
+
+    &.close:hover {
+      color: white;
+      background: red;
     }
   }
 }

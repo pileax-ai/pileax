@@ -5,6 +5,10 @@ import { TauriIpc } from 'src/api/ipc/tauri';
 export interface IpcService {
   getServerInfo(): Promise<Indexable>;
   openNewWindow(id: string, url: string, titleBarHeight?: number): void;
+  minimizeWindow(): void;
+  maximizeWindow(): void;
+  closeWindow(): void;
+  isWindowMaximized(): Promise<boolean>;
   setTheme(theme: 'system' | 'light' | 'dark'): void;
 }
 

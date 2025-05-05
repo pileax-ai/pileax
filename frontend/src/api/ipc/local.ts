@@ -15,6 +15,22 @@ export class LocalIpc implements IpcService {
     return window.open(url, '_blank', 'noopener');
   }
 
+  public minimizeWindow() {
+    window.electronAPI.minimizeWindow();
+  }
+
+  public maximizeWindow() {
+    window.electronAPI.maximizeWindow();
+  }
+
+  public closeWindow() {
+    window.electronAPI.closeWindow();
+  }
+
+  public async isWindowMaximized() {
+    return await window.electronAPI.isWindowMaximized();
+  }
+
   public setTheme(theme: 'system' | 'light' | 'dark') {
     // return window.electronAPI.setTheme(theme);
   }

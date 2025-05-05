@@ -7,6 +7,10 @@ declare global {
       showDialog: (options: OpenDialogOptions) => Promise<any>;
       getServerInfo: () => Promise<Indexable>;
       openNewWindow: (id: string, url: string, titleBarHeight = 40) => Promise<any>;
+      minimizeWindow: () => Promise<any>;
+      maximizeWindow: () => Promise<any>;
+      closeWindow: () => Promise<any>;
+      isWindowMaximized: () => Promise<boolean>;
       readFile: (filePath: string) => Promise<any>;
       readImage: (filePath: string) => Promise<any>;
       readBookFile: (filePath: string) => Promise<any>;

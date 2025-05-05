@@ -12,7 +12,13 @@ import {
 } from '../utils/file';
 import { appLogPath, appStoragePath } from '../utils/path'
 import { dbExecute } from '../db/service';
-import { openNewWindow } from './window';
+import {
+  openNewWindow,
+  closeWindow,
+  maximizeWindow,
+  minimizeWindow,
+  isWindowMaximized
+} from './window';
 
 export class Application {
   static initialize() {
@@ -50,6 +56,22 @@ export class Application {
     ipcMain.handle('open-new-window',
       (event, id: string, url: string, titleBarHeight = 40) => {
       openNewWindow(id, url, titleBarHeight);
+    });
+
+    ipcMain.handle('window-minimize', () => {
+      minimizeWindow();
+    });
+
+    ipcMain.handle('window-maximize', () => {
+      maximizeWindow();
+    });
+
+    ipcMain.handle('window-close', () => {
+      closeWindow();
+    });
+
+    ipcMain.handle('window-is-maximized', () => {
+      return isWindowMaximized();
     });
 
     ipcMain.handle('read-file',
