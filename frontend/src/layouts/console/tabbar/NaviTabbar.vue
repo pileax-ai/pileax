@@ -20,9 +20,12 @@
               indicator-color="transparent"
               narrow-indicator
               class="text-info bg-accent tabs">
+        <!--        <template v-for="(item, index) in tabs" :key="index">-->
+        <!--          <navi-tab :item="item" :minimized="minimized" />-->
+        <!--        </template>-->
         <draggable :list="pinnedTabs"
                    item-key="id"
-                   class="row"
+                   class="row no-wrap"
                    ghost-class="ghost"
                    @end="onTabsSorted">
           <template #item="{ element }">
@@ -31,16 +34,13 @@
         </draggable>
         <draggable :list="unpinnedTabs"
                    item-key="id"
-                   class="row"
+                   class="row no-wrap"
                    ghost-class="ghost"
                    @end="onTabsSorted">
           <template #item="{ element }">
             <navi-tab :item="element" :minimized="minimized" />
           </template>
         </draggable>
-<!--        <template v-for="(item, index) in tabs" :key="index">-->
-<!--          <navi-tab :item="item" :minimized="minimized" />-->
-<!--        </template>-->
         <q-btn icon="add" color="info" size="0.8rem"
                class="tab-add no-drag-region"
                flat round
@@ -53,15 +53,15 @@
       <q-spinner-ios class="text-readable" size="20px" v-if="pageLoading" />
       <opened-tabs-hover-btn icon="expand_more" class="bg-dark text-readable" v-else />
     </div>
-    <div class="row col-auto items-center justify-around text-readable title-bar-overlay">
-      <q-btn flat>
-        <o-icon name="icon-win-minimize" size="2rem" />
+    <div class="row col-auto items-center text-readable title-bar-overlay">
+      <q-btn class="col-4" flat>
+        <o-icon name="icon-fluent-minimize" />
       </q-btn>
-      <q-btn flat>
-        <o-icon name="icon-win-maximize" size="2rem" />
+      <q-btn class="col-4" flat>
+        <o-icon name="icon-fluent-restore" />
       </q-btn>
-      <q-btn flat>
-        <o-icon name="icon-win-close" size="2rem" />
+      <q-btn class="col-4" flat>
+        <o-icon name="icon-fluent-close" />
       </q-btn>
     </div>
   </section>
@@ -156,14 +156,15 @@ $tab-height: 40px;
   }
 
   .title-bar-overlay {
+    display: none;
     width: 138px;
     .q-btn {
-      width: 40px;
       height: 40px;
+      padding: 0;
 
-      svg {
-        width: 32px !important;
-        height: 32px !important;
+      .o-icon {
+        width: 12px;
+        height: 12px;
       }
     }
   }
@@ -176,6 +177,9 @@ $tab-height: 40px;
     .q-tabs__arrow--right {
       z-index: 10;
       background: linear-gradient(to right, transparent, var(--q-accent));
+    }
+    .q-tabs__content {
+      justify-content: start!important;
     }
 
     .q-tab {
@@ -365,6 +369,12 @@ $tab-height: 40px;
         }
       }
     }
+  }
+}
+
+.electron:not(.platform-mac) {
+  .navi-tabbar .title-bar-overlay {
+    display: flex;
   }
 }
 </style>

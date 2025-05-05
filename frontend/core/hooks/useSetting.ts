@@ -1,4 +1,4 @@
-import { Dark, setCssVar } from 'quasar';
+import { Dark, Platform, setCssVar } from 'quasar';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ipcService } from 'src/api/ipc'
@@ -33,6 +33,7 @@ export default function () {
     setThemeColor(setting.theme.color);
     setThemeGray(setting.theme.gray);
     setThemeWeak(setting.theme.weak);
+    setPlatform();
   }
 
   const setTheme = (name :string) => {
@@ -88,6 +89,11 @@ export default function () {
     const themeSetting = appStore.setting.theme as ThemeSetting;
     themeSetting.weak = weak;
     appStore.setTheme(themeSetting);
+  }
+
+  const setPlatform = () => {
+    const platform = Platform.is.platform;
+    document.body.classList.add(`platform-${platform}`);
   }
 
   const setNavi = (key :string, value :never) => {
