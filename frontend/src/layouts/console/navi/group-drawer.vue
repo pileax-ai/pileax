@@ -8,9 +8,10 @@
     @leave="onLeave"
     @resize="onResize">
     <section class="col-auto bg-deep activity-bar">
-      <nav class="row col-12 full-height desktop-only">
+      <nav class="row col-12 full-height">
         <q-tabs v-model="selectedActivity" class="activity-tabs" vertical>
           <section class="column col-12 justify-between fit">
+            <quick-settings type="group" />
             <div class="" @mouseenter="onEnter">
               <template v-for="(item, index) in consoleMenus" :key="index">
                 <q-tab :name="item.name"
@@ -77,6 +78,7 @@ import { DRAWER_DEFAULT_SIZE } from 'core/constants/style';
 
 import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue';
 import NaviList from './navi-list.vue';
+import QuickSettings from 'layouts/console/navi/quick-settings.vue'
 
 const { openDialog } = useDialog();
 const {
@@ -152,12 +154,7 @@ onBeforeMount(() => {
     width: 68px !important;
     height: 100vh;
     z-index: 2002;
-    cursor: pointer;
     background: #001529;
-
-    .activity-tabs {
-      padding-top: 40px;
-    }
 
     .q-tab {
       width: 48px;

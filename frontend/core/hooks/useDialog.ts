@@ -17,7 +17,7 @@ export default function () {
     });
   }
 
-  function openSettingsDialog() {
+  function openSettingsDialog(tab: string) {
     openDialog({
       type: 'settings'
     });

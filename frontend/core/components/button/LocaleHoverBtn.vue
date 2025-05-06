@@ -1,15 +1,16 @@
 <template>
   <o-hover-menu-btn class="locale-hover-btn"
-                    icon="translate"
-                    icon-right="mdi-chevron-down"
-                    anchor="bottom right"
-                    self="top right"
                     menu-class="o-menu"
                     min-width="240px"
+                    icon="translate"
+                    :icon-right="iconRight"
+                    :anchor="anchor"
+                    :self="self"
                     :label="label"
                     :round="round"
+                    :outline="outline"
                     :offset="offset"
-                    :enable-hover="enableHover" flat>
+                    :enable-hover="enableHover">
     <o-common-item v-for="(item, index) in Locales"
                    :key="index"
                    icon="public"
@@ -25,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, PropType } from 'vue'
 import { useI18n } from 'vue-i18n';
 
 import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue';
@@ -42,9 +43,25 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  outline: {
+    type: Boolean,
+    default: false
+  },
   showLabel: {
     type: Boolean,
     default: false
+  },
+  iconRight: {
+    type: String,
+    default: ''
+  },
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: 'bottom right'
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: 'top right'
   },
   offset: {
     type: Array,

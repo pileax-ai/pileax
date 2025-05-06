@@ -20,7 +20,7 @@
       <q-item-label caption v-if="sublabel">{{sublabel}}</q-item-label>
     </q-item-section>
     <q-item-section side v-if="sideIcon">
-      <q-avatar :size="size" :icon="sideIcon" />
+      <o-icon :name="sideIcon" class="side-icon" />
     </q-item-section>
     <q-item-section class="side-label" side v-if="sideLabel || rightSide">
       <q-item-label>{{sideLabel}}</q-item-label>
@@ -33,9 +33,6 @@
 </template>
 
 <script setup lang="ts">
-
-import {computed} from 'vue';
-
 const props = defineProps({
   clickable: {
     type: Boolean,
@@ -139,6 +136,10 @@ const props = defineProps({
 
   &.round {
     border-radius: 4px;
+  }
+
+  .side-icon {
+    font-size: 1rem;
   }
 }
 

@@ -34,7 +34,6 @@
           <template v-for="(action, index) in actions" :key="`action-${index}`">
             <q-separator class="bg-accent" v-if="action.separator" />
             <o-common-item v-bind="action"
-                           class="text-tips"
                            @click="onAction(action, '')"
                            closable>
               <template #side>

@@ -7,7 +7,9 @@
                          :label="$t('language')"
                          sublabel="Change the language used in user interface">
             <div>
-              <locale-hover-btn class="text-tips bg-accent" show-label />
+              <locale-hover-btn class="text-tips bg-accent"
+                                icon-right="mdi-chevron-down"
+                                show-label />
             </div>
           </o-common-item>
         </q-list>

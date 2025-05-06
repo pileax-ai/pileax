@@ -74,8 +74,9 @@
         margin-top: 2px;
       }
 
-      .side-label {
-        padding-right: 8px;
+      .q-avatar {
+        width: 2rem !important;
+        height: 2rem !important;
       }
     }
     .q-separator {
@@ -91,7 +92,7 @@
       padding-left: 8px;
     }
 
-    .side-label {
+    .side-labels {
       .q-icon {
         font-size: 1rem;
         visibility: hidden;
@@ -105,10 +106,6 @@
     }
   }
 
-  .q-avatar {
-    width: 2rem !important;
-    height: 2rem !important;
-  }
 
   &.dense {
     .q-list {

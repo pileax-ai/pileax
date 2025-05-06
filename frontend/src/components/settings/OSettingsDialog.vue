@@ -24,7 +24,7 @@
                   {{item.group}}
                 </div>
                 <q-tab class="o-navi-tab"
-                       :name="index"
+                       :name="item.value"
                        :icon="item.icon"
                        :label="item.label" />
               </template>
@@ -55,7 +55,7 @@
               <q-scroll-area class="o-scroll-wrapper">
                 <q-tab-panels v-model="currentTab" class="fit col-12" vertical keep-alive>
                   <template v-for="(item, index) of tabs" :key="index">
-                    <q-tab-panel :name="index">
+                    <q-tab-panel :name="item.value">
                       <component :is="item.component" />
                     </q-tab-panel>
                   </template>
@@ -100,7 +100,7 @@ const { dialog, onHide } = useDialog();
 const { t } = useCommon();
 const modal = ref();
 const splitterModel = ref(300);
-const currentTab = ref(0);
+const currentTab = ref('profile');
 const isMaximized = ref(false);
 const style = computed(() => {
   return isMaximized.value
@@ -128,7 +128,7 @@ const tabs = computed(() => {
 });
 
 const tab = computed(() => {
-  return tabs.value[currentTab.value];
+  return tabs.value.find(t => t.value === currentTab.value);
 })
 
 const type = computed(() => dialog.value.type);
@@ -148,6 +148,7 @@ watch(() => type.value, (newValue) => {
 onMounted(() => {
   if (type.value === 'settings') {
     modal.value.show();
+    currentTab.value = dialog.value.tab || 'profile';
   }
 })
 </script>

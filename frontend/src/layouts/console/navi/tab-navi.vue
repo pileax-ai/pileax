@@ -1,7 +1,8 @@
 <template>
   <section class="tab-navi">
     <header class="row col-12 justify-between top-header" v-if="header">
-      <div class="col header-left drag-region">
+      <div class="row col items-center header-left drag-region">
+        <quick-settings type="tab" />
       </div>
       <div class="col-auto sidebar-toggles no-drag-region">
         <q-btn class="text-info square" flat round
@@ -50,6 +51,7 @@ import NaviList from './navi-list.vue';
 import { menuLabel } from 'core/hooks/useMenu';
 import useNavi from 'src/hooks/useNavi';
 import useDialog from 'core/hooks/useDialog';
+import QuickSettings from 'layouts/console/navi/quick-settings.vue'
 
 const props = defineProps({
   header: {
@@ -130,7 +132,7 @@ onBeforeMount(() => {
     }
 
     .header-left {
-      padding: 0px 10px;
+      padding: 0 6px;
     }
 
     .sidebar-toggle {

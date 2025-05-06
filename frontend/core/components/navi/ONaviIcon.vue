@@ -1,13 +1,7 @@
 <template>
   <q-item-section class="o-navi-icon" avatar>
     <q-avatar>
-      <template v-if="meta.icon?.indexOf('icon') === 0">
-        <svg class="icon" aria-hidden="true" v-if="meta.svg">
-          <use :xlink:href="`#${meta.icon}`"></use>
-        </svg>
-        <i class="iconfont q-icon" :class="meta.icon" v-else />
-      </template>
-      <q-icon :name="meta.icon" :class="meta.iconClass" v-else />
+      <o-icon :name="meta.icon" :class="meta.iconClass" />
     </q-avatar>
   </q-item-section>
 </template>

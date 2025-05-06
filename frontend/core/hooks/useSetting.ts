@@ -57,6 +57,11 @@ export default function () {
     ipcService.setTheme(name as 'system' | 'light' | 'dark');
   }
 
+  const toggleTheme = () => {
+    const name = Dark.isActive ? 'light' : 'dark';
+    setTheme(name);
+  }
+
   const setThemeColor = (colorName :string) => {
     const color = THEME_COLORS.find(m => m.name === colorName);
     if (!color) return;
@@ -195,6 +200,7 @@ export default function () {
     setSetting,
     setLocale,
     toggleNaviFlatten,
+    toggleTheme,
     setTheme,
     setThemeColor,
     setThemeGray,

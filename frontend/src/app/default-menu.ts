@@ -45,10 +45,17 @@ export const defaultConsoleMenus: MenuItem[] = [
     children: [
       {
         id: 'book-library',
-        name: '书库',
+        name: '书架',
         action: 1,
         path: '/book/library',
-        meta: {icon: 'library_books'}
+        meta: {icon: 'icon-book-library'}
+      },
+      {
+        id: 'book-list',
+        name: '书单',
+        action: 1,
+        path: '/book/reading-list',
+        meta: {icon: 'icon-reading-list'}
       },
       {
         id: 'book-annotation',
