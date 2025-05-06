@@ -1,6 +1,5 @@
 <template>
-  <section class="reader-settings bg-secondary main">
-    <o-tool-bar />
+  <section class="reader-settings bg-secondary">
     <header class="row col-12 justify-center items-center">
       <q-tabs v-model="currentTab"
               active-color="white"
@@ -16,7 +15,7 @@
       </q-tabs>
 
       <section class="close text-tips">
-        <q-btn icon="cancel" class="o-toolbar-btn" flat @click="emit('close')" />
+        <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
       </section>
     </header>
     <q-scroll-area class="o-scroll-wrapper">
@@ -41,7 +40,6 @@ import { changeStyle } from 'src/service/book';
 import GeneralTab from './general-tab.vue';
 import FontTab from './font-tab.vue';
 import KeyBindingsTab from './key-bindings-tab.vue';
-import OToolBar from 'core/components/electron/OToolBar.vue'
 
 const emit = defineEmits(['close']);
 

@@ -65,6 +65,10 @@ export default function () {
     store.setLeftDrawerItem({key: 'width', value: value});
   }
 
+  function closeRightDrawer() {
+    store.closeRightDrawer();
+  }
+
   function toggleRightDrawer() {
     store.toggleRightDrawer();
   }
@@ -116,6 +120,7 @@ export default function () {
     setLeftDrawerHoverShow,
     setLeftDrawerWidth,
     setActivity,
+    closeRightDrawer,
     toggleRightDrawer,
     toggleShowRightDrawer,
     setRightDrawerHoverShow,

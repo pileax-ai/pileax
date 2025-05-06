@@ -8,6 +8,7 @@ html {
 }
 
 body {
+  font-family: "Roboto", "-apple-system", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol !important;
   &.body--gray {
     filter: grayscale(1);
     overflow: hidden;

@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center text-readable o-title-bar">
     <nav class="row col-12">
-      <div class="row col items-center">
+      <div class="row col items-center drag-region">
         <slot></slot>
       </div>
       <o-tool-bar-overlay class="col-auto" />

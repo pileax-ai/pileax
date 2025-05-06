@@ -45,6 +45,9 @@ export const useReaderStore = defineStore('reader', {
     setLeftDrawerItem(kv: KeyValue) {
       this.leftDrawer[kv.key] = kv.value;
     },
+    closeRightDrawer() {
+      this.rightDrawer.show = false;
+    },
     toggleRightDrawer() {
       this.rightDrawer.show = !this.rightDrawer.show;
     },

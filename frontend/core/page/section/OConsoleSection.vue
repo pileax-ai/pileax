@@ -6,7 +6,7 @@
     <!--Header-->
     <header class="bg-secondary console-header" :class="{'full': fullScreen}">
       <section class="row col-12 justify-between text-info console-toolbar">
-        <div class="row items-center">
+        <div class="row items-center meta">
           <div class="row items-center" v-if="!disableMeta">
             <o-icon :name="icon || (menu.icon ? menu.icon : 'apps')" size="2rem" />
             <div class="row items-center toolbar-title">
@@ -338,9 +338,20 @@ onActivated(() => {
       right: 0;
       z-index: 100;
 
-      .q-btn {
+      .q-btn, .q-field {
         border-radius: 0;
         min-height: 40px;
+      }
+      .q-field__control {
+        border-radius: 0;
+      }
+      .meta {
+        .o-icon {
+          font-size: 1.5rem !important;
+        }
+        .toolbar-title {
+          font-size: 1.1rem;
+        }
       }
     }
 

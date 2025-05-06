@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, ref, watch } from 'vue'
+import { onActivated, onMounted, ref, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core';
 import { ipcService } from 'src/api/ipc';
 
@@ -39,7 +39,7 @@ watch(() => width.value, (newValue) => {
   updateWindowState();
 })
 
-onActivated(() => {
+onMounted(() => {
   updateWindowState();
 })
 </script>

@@ -1,6 +1,5 @@
 <template>
-  <section class="reader-add-service bg-secondary main">
-    <o-tool-bar />
+  <section class="reader-add-service bg-secondary">
     <header class="row col-12 justify-between items-center text-readable">
       <section class="col row items-center">
         <q-icon name="language" size="20px" />
@@ -51,7 +50,6 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
 import useReader from 'src/hooks/useReader'
-import OToolBar from 'core/components/electron/OToolBar.vue'
 
 const props = defineProps({
   main: {

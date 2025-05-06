@@ -1,7 +1,6 @@
 <template>
-  <section class="reader-side-panel" :class="{'main': main}">
-    <o-tool-bar>
-    </o-tool-bar>
+  <section class="reader-side-panel">
+    <o-tool-bar v-if="rightDrawerShow" />
     <header class="row col-12 justify-between items-center text-readable toolbar">
       <section class="col row items-center">
         <q-tabs v-model="currentTab"
@@ -46,7 +45,7 @@
         </q-btn>
       </section>
     </header>
-    <q-scroll-area class="o-scroll-wrapper">
+    <q-scroll-area class="o-scroll-wrapper" :class="{'with-title-bar': rightDrawerShow}">
       <q-tab-panels v-model="currentTab"
                     class="o-page-container bg-transparent"
                     keep-alive>
@@ -121,6 +120,7 @@ const {
   setRightDrawerHoverShow,
   setRightDrawerSplit,
   setRightDrawerTTS,
+  closeRightDrawer,
   toggleRightDrawer
 } = useReader();
 
@@ -181,22 +181,22 @@ const actions = computed(() => {
       label: 'Pin',
       value: 'pin',
       icon: 'push_pin',
-      show: props.main,
+      show: props.main && false, // todo
       selected: rightDrawerShow.value,
-      separator: true
+      separator: true,
     },
     {
       label: 'Split',
       value: 'split',
       icon: 'splitscreen',
-      show: props.main,
+      show: props.main && false, // todo
       selected: rightDrawer.value.split
     },
     {
       label: 'Close',
       value: 'close',
       icon: 'close',
-      show: true,
+      show: rightDrawerShow.value,
       separator: true
     },
   ];
@@ -223,11 +223,13 @@ function onAction (action :any) {
 }
 
 function onClose() {
-  if (props.main) {
-    //
-  } else {
-    setRightDrawerSplit(false);
-  }
+  setTimeout(() => {
+    if (props.main) {
+      closeRightDrawer();
+    } else {
+      setRightDrawerSplit(false);
+    }
+  }, 10);
 }
 
 function onPin() {

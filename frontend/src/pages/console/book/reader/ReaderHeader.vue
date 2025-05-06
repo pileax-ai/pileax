@@ -122,7 +122,7 @@ function onLeftDrawerLeave() {
       max-width: 800px;
       padding: 0 10px;
       background: var(--q-dark);
-      border-radius: 4px;
+      border-radius: 0 0 8px 8px;
 
       .title {
         font-size: 1rem;

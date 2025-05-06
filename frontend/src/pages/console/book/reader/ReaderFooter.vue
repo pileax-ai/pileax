@@ -179,7 +179,7 @@ onMounted(() => {
       max-width: 800px;
       padding: 0;
       background: var(--q-dark);
-      border-radius: 4px;
+      border-radius: 8px 8px 0 0;
 
       .title {
         font-size: 1rem;

@@ -4,6 +4,8 @@
     side="right"
     :default-width="width"
     :breakpoint="200"
+    :min-width="400"
+    :max-width="1000"
     :overlay="rightDrawerHoverShow"
     class="right-drawer"
     :class="{'hover-show': rightDrawerHoverShow}"
@@ -38,7 +40,7 @@ import useReader from 'src/hooks/useReader';
 const emit = defineEmits(['leave']);
 const { rightDrawer, rightDrawerShow, rightDrawerHoverShow, setRightDrawerWidth } = useReader();
 
-const width = ref(300);
+const width = ref(400);
 const drawerOpen = ref(true);
 const splitterPercent = ref(0);
 
@@ -119,9 +121,20 @@ onBeforeMount(() => {
 
 .electron {
   .right-drawer {
-    .side-bar .main {
-      .o-scroll-wrapper {
-        top: 80px;
+    .side-bar .reader-side-panel {
+      .o-title-bar {
+        height: 28px !important;
+
+        .o-title-bar-overlay {
+          height: 28px;
+          min-height: 28px;
+        }
+        .q-btn {
+          min-height: 28px;
+        }
+      }
+      .o-scroll-wrapper.with-title-bar {
+        top: 68px;
       }
     }
   }
