@@ -1,11 +1,11 @@
 <template>
-  <footer class="row items-center justify-center bg-secondary read-footer"
+  <footer class="row items-center justify-center read-footer"
           :class="{ 'can-hover': !searchCurrent.top }">
     <span class="text-tips">
       {{ progress.location?.current }} / {{ progress.location?.total }}
     </span>
 
-    <section class="row items-start bg-secondary text-readable bottom-toolbar toolbar-hover-show">
+    <section class="row items-start text-readable bottom-toolbar toolbar-hover-show">
       <template v-if="false">
         <q-btn icon="pending" class="o-toolbar-btn" flat>
           <o-tooltip>Dark Mode</o-tooltip>

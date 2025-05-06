@@ -10,6 +10,7 @@ export default {
   textIndent: 0,
   fontColor: '#000000',
   backgroundColor: '#ffffff',
+  backgroundImage: '',
   topMargin: 0,
   bottomMargin: 0,
   sideMargin: 0,

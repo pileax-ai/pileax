@@ -7,6 +7,7 @@ const getCSS = ({
                   textIndent,
                   paragraphSpacing,
                   fontColor,
+                  backgroundImage,
                   backgroundColor,
                   justify,
                   hyphenate,

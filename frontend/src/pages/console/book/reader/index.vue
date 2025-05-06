@@ -1,5 +1,7 @@
 <template>
-  <o-reader-page class="page-reader" content-class="reader-view" extension-only>
+  <o-reader-page class="page-reader"
+                 content-class="reader-view"
+                 extension-only>
     <reader-header />
 
     <!-- Nav -->
@@ -42,13 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import PopupMenu from './PopupMenu.vue'
-import ShareDialog from './ShareDialog.vue'
-import ReaderHeader from './ReaderHeader.vue'
-import ReaderFooter from './ReaderFooter.vue'
-import OReaderPage from 'components/page/OReaderPage.vue'
-import ReaderSide from 'components/reader/ReaderSide.vue'
+import { useRoute } from 'vue-router';
+import PopupMenu from './PopupMenu.vue';
+import ShareDialog from './ShareDialog.vue';
+import ReaderHeader from './ReaderHeader.vue';
+import ReaderFooter from './ReaderFooter.vue';
+import OReaderPage from 'components/page/OReaderPage.vue';
+import ReaderSide from 'components/reader/ReaderSide.vue';
 
 import 'js/reader.js'
 import { onActivated, ref } from 'vue'

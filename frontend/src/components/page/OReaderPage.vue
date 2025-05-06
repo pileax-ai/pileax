@@ -1,11 +1,16 @@
 <template>
-  <q-page class="o-reader-page bg-accent full-width full-height">
+  <q-page class="o-reader-page bg-accent full-width full-height"
+          :style="`--reader-background-color: ${settings.backgroundColor};
+                 --reader-background-image: url(${settings.backgroundImage});
+                 --reader-background-blur: blur(${settings.backgroundBlur}px)`">
     <q-scroll-area ref="contentScroll"
-                   class="o-page-container fit bg-secondary"
+                   class="o-page-container fit"
                    :class="contentClass">
+      <div class="overlay"></div>
       <slot></slot>
-      <dialog ref="footnoteDialog" id="footnote-dialog"
-              v-on-click-outside="onClickOutside" @show="onShow">
+      <dialog ref="footnoteDialog"
+              id="footnote-dialog"
+              v-on-click-outside="onClickOutside">
         <div>
           <main></main>
         </div>
@@ -17,6 +22,7 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
+import useReaderSetting from 'src/hooks/useReaderSetting';
 
 const props = defineProps({
   contentClass: {
@@ -24,6 +30,8 @@ const props = defineProps({
     default: 'bg-accent'
   }
 });
+
+const { settings } = useReaderSetting();
 const footnoteDialog = ref(null);
 
 function onClickOutside() {
@@ -58,6 +66,19 @@ onUnmounted(() => {
   .o-page-container {
     .q-scrollarea__content {
       width: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: var(--reader-background-color)!important;
+      background-image: var(--reader-background-image)!important;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      filter: var(--reader-background-blur);
     }
   }
 }

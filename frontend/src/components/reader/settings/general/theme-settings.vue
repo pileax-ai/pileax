@@ -14,20 +14,10 @@
         </div>
       </template>
     </o-field-label>
-    <o-field-label label="背景" content-class="row justify-around" side>
-      <template v-for="(item, index) in themeList" :key="index">
-        <div :class="`${itemClass}`">
-          <q-btn :icon="`${item.value===theme.name ? 'done': ''}`"
-                 :class="`theme-${item.value}`"
-                 flat
-                 @click="select(item.value)">
-            <o-tooltip>
-              {{$t(`theme.${item.value}`)}}
-            </o-tooltip>
-          </q-btn>
-        </div>
-      </template>
-    </o-field-label>
+    <o-view-item label="背景" class="col-12 q-mt-md"
+                 align="right" arrow clickable
+                 @click="emit('next', 'background')">
+    </o-view-item>
   </section>
 </template>
 
@@ -40,6 +30,7 @@ const props = defineProps({
     default: ''
   }
 });
+const emit = defineEmits(['next']);
 
 import useSetting from 'core/hooks/useSetting';
 import useReaderSetting from 'src/hooks/useReaderSetting';

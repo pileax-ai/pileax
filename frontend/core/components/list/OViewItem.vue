@@ -22,8 +22,8 @@
       </q-item-label>
       <slot></slot>
     </q-item-section>
-    <q-item-section side v-if="rightSide || copiable">
-      <div class="row">
+    <q-item-section side v-if="rightSide || copiable || arrow">
+      <div class="row items-center">
         <q-btn icon="open_in_new" flat round v-if="link">
           <q-tooltip class="bg-primary text-white">
             Open in new tab
@@ -31,6 +31,8 @@
         </q-btn>
         <o-copy-btn :value="value" flat round v-if="copiable" />
         <slot name="side"></slot>
+
+        <q-icon name="chevron_right" class="text-tips" v-if="arrow" />
       </div>
     </q-item-section>
   </q-item>
@@ -81,6 +83,10 @@ const props = defineProps({
     default: false
   },
   rightSide: {
+    type: Boolean,
+    default: false
+  },
+  arrow: {
     type: Boolean,
     default: false
   }

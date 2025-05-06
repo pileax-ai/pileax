@@ -216,5 +216,10 @@ onMounted(() => {
     }
   }
 
+  .q-dialog__inner--maximized {
+    nav {
+      height: 100vh;
+    }
+  }
 }
 </style>

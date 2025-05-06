@@ -105,7 +105,7 @@ const services = computed(() => {
       type: "service",
       url: "https://dict.eudic.net/dicts/en/{word}",
     },
-  ];;
+  ];
 });
 
 function isEnabled(item: Indexable) {

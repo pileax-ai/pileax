@@ -23,6 +23,7 @@ defineProps({
 
 <style lang="scss">
 .o-title-bar {
+  display: none;
   height: 40px;
 }
 </style>
