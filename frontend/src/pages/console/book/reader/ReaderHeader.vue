@@ -57,7 +57,7 @@
             </div>
             <div>{{ searchCurrent.top.label }}</div>
           </div>
-          <div>
+          <div class="no-drag-region">
             <q-btn icon="close" size="0.8rem" class="o-toolbar-btn" flat @click="clearSearch" />
           </div>
         </section>

@@ -40,12 +40,18 @@
     }
   }
 
-  &:not(.platform-mac) {
+  &:not(.platform-macs) {
     .o-title-bar {
       display: flex !important;
     }
     .o-title-bar-overlay {
       display: flex !important;
+    }
+
+    &.full-screen-page {
+      .o-console-section .console-header .console-toolbar {
+        padding-left: 1rem !important;
+      }
     }
   }
 }

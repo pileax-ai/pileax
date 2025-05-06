@@ -1,5 +1,5 @@
 <template>
-  <section class="reader-settings bg-secondary">
+  <section class="reader-settings bg-secondary no-drag-region">
     <header class="row col-12 justify-center items-center">
       <q-tabs v-model="currentTab"
               active-color="white"

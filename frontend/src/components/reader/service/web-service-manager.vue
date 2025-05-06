@@ -1,5 +1,5 @@
 <template>
-  <section class="reader-add-service bg-secondary">
+  <section class="reader-add-service bg-secondary no-drag-region">
     <header class="row col-12 justify-between items-center text-readable">
       <section class="col row items-center">
         <q-icon name="language" size="20px" />

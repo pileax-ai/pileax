@@ -1,5 +1,5 @@
 <template>
-  <section class="reader-add-ai-agent bg-secondary">
+  <section class="reader-add-ai-agent bg-secondary no-drag-region">
     <header class="row col-12 justify-between items-center text-readable">
       <section class="col row items-center">
         <q-icon name="mdi-creation" size="20px" />
