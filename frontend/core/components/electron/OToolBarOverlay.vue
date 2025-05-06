@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center text-readable o-title-bar-overlay no-drag-region">
-    <q-btn class="col-4" flat @click="onMinimized">
+    <q-btn class="col-4" flat @click="ipcService.minimizeWindow()">
       <o-icon name="icon-fluent-minimize" />
     </q-btn>
     <q-btn class="col-4" flat @click="ipcService.maximizeWindow()">
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core';
 import { ipcService } from 'src/api/ipc';
 
@@ -26,10 +26,6 @@ defineProps({
 
 const { width, height } = useWindowSize();
 const isMaximized = ref(false);
-
-function onMinimized() {
-  ipcService.minimizeWindow();
-}
 
 async function updateWindowState() {
   isMaximized.value = await ipcService.isWindowMaximized();

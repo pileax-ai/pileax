@@ -4,11 +4,11 @@
             @show="$emit('show')"
             @hide="onHide"
             position="standard"
-            :class="`o-settings-dialog`">
+            :class="`o-settings-dialog`" :maximized="isMaximized">
     <q-layout view="lhh LpR lff" container :style="style"
               class="bg-secondary">
       <q-splitter v-model="splitterModel"
-                  :limits="[180, 300]"
+                  :limits="[200, 400]"
                   unit="px"
                   class="fit">
         <template v-slot:before>
@@ -39,12 +39,13 @@
                 {{tab?.label}}
               </q-toolbar-title>
               <q-space />
-              <section>
-                <q-btn
-                       icon="close"
-                       class="text-tips close-btn"
-                       flat round dense
-                       v-close-popup />
+              <section class="text-tips actions">
+                <q-btn flat round dense @click="onMinimized">
+                  <o-icon :name="isMaximized ? 'icon-fluent-restore' : 'icon-fluent-maximize'" size="10px" />
+                </q-btn>
+                <q-btn flat round dense v-close-popup>
+                  <o-icon name="icon-fluent-close" size="10px" />
+                </q-btn>
               </section>
             </q-toolbar>
             <q-separator class="bg-accent" />
@@ -79,9 +80,6 @@ import AppearanceTab from 'src/components/settings/tab/appearance-tab.vue';
 import GeneralTab from 'src/components/settings/tab/general-tab.vue';
 import ProfileTab from 'src/components/settings/tab/profile-tab.vue';
 
-const { dialog, onHide } = useDialog();
-const { t } = useCommon();
-
 const props = defineProps({
   show: {
     type: Boolean,
@@ -98,16 +96,24 @@ const props = defineProps({
 });
 const emit = defineEmits(['show']);
 
+const { dialog, onHide } = useDialog();
+const { t } = useCommon();
 const modal = ref();
-const splitterModel = ref(240);
+const splitterModel = ref(300);
 const currentTab = ref(0);
+const isMaximized = ref(false);
 const style = computed(() => {
-  return {
-    height: '80vh',
-    maxHeight: '720px',
-    width: '80vw',
-    maxWidth: '1200px',
-  }
+  return isMaximized.value
+    ? {
+      height: '100vh',
+      width: '100vw',
+    }
+    : {
+      height: '90vh',
+      maxHeight: '90vh',
+      width: '90vw',
+      maxWidth: '90vw',
+    }
 })
 
 const tabs = computed(() => {
@@ -127,8 +133,11 @@ const tab = computed(() => {
 
 const type = computed(() => dialog.value.type);
 
+function onMinimized() {
+  isMaximized.value = !isMaximized.value;
+}
+
 watch(() => type.value, (newValue) => {
-  console.log('ssss', type);
   if (newValue === 'settings') {
     modal.value.show();
   } else {
@@ -154,7 +163,7 @@ onMounted(() => {
   }
 
   nav {
-    height: 720px;
+    height: 90vh;
     padding: 16px 10px;
     .group {
       padding: 0 12px;
@@ -198,6 +207,12 @@ onMounted(() => {
 
     .q-icon {
       font-size: 1.2rem;
+    }
+
+    .actions {
+      .q-btn {
+        border-radius: 4px !important;
+      }
     }
   }
 
