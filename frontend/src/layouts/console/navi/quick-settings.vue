@@ -1,7 +1,7 @@
 <template>
   <q-btn class="quick-settings no-drag-region"
          :class="type" flat>
-    <img :src="$public('/logo.png')" alt="Logo" />
+    <img :src="account.avatar || $public('/logo.png')" alt="Logo" />
     <q-menu class="quick-settings-menu pi-menu shadow-5"
             transition-show="jump-down"
             anchor="top left"
@@ -11,7 +11,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar size="48px">
-              <img :src="$public('/logo.png')" alt="Logo" />
+              <img :src="account.avatar || $public('/logo.png')" alt="Logo" />
             </q-avatar>
           </q-item-section>
           <q-item-section>
