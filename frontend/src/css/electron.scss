@@ -40,7 +40,7 @@
     }
   }
 
-  &:not(.platform-macs) {
+  &:not(.platform-mac) {
     .o-title-bar {
       display: flex !important;
     }
@@ -50,7 +50,7 @@
 
     &.full-screen-page {
       .o-console-section .console-header .console-toolbar {
-        padding-left: 1rem !important;
+        padding-left: 10px !important;
       }
     }
   }

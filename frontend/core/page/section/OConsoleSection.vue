@@ -15,6 +15,7 @@
           </div>
           <slot name="header-left"></slot>
         </div>
+        <q-space class="drag-region" v-if="fullScreen" />
         <div class="row items-center toolbar-right no-drag-region">
           <div class="row items-center actions">
             <slot name="actions"></slot>
