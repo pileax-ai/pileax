@@ -2,7 +2,7 @@
   <o-console-page class="book-annotation-list"
                   v-bind="query"
                   disable-meta
-                  enable-fullscreen>
+                  enable-fullscreen fixed-header>
     <template #header-left>
       <div class="query-item no-drag-region">
         <q-input v-model="condition.note"

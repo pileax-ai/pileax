@@ -4,7 +4,7 @@
                   icon="book"
                   v-bind="query"
                   disable-meta
-                  enable-fullscreen>
+                  enable-fullscreen fixed-header>
     <template #header-left>
       <q-btn icon="tune"
              class="filter"

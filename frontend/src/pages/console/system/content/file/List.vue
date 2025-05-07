@@ -4,7 +4,7 @@
                 @dense="query.onDense"
                 @query="query.onQuery"
                 @reset="query.onReset"
-                enable-fullscreen>
+                enable-fullscreen fixed-header>
 
     <!--Condition-->
     <template #condition>
@@ -187,7 +187,7 @@ onActivated(() => {
 <style lang="scss">
 .system-files {
   .console-content {
-    padding: 0 21px 21px 21px !important;
+    //padding: 50px 21px 21px 21px !important;
   }
 
   .query-wrap {

@@ -255,9 +255,10 @@ onActivated(() => {
     padding: 0 10px;
     z-index: 1;
     background: linear-gradient(to right,
-      var(--q-secondary) 15%,
-      transparent 50%,
-      var(--q-secondary) 85%);
+      var(--q-secondary) 10%,
+      transparent 20%,
+      transparent 80%,
+      var(--q-secondary) 90%);
 
     .q-btn {
       width: 32px !important;

@@ -250,12 +250,18 @@ onMounted(() => {
   .note-header {
     height: 50px;
     padding: 0 10px;
+    background: linear-gradient(to right,
+      var(--q-secondary) 30%,
+      transparent 50%,
+      var(--q-secondary) 90%);
   }
 
   .o-scroll-wrapper {
-    top: 50px;
+    //padding-top: 50px;
+    z-index: -1;
 
     .note-meta {
+      margin-top: 50px;
       padding: 0 100px;
       &.page {
         .note-meta-wrapper {

@@ -4,7 +4,8 @@
                     :side="side"
                     :side-full-screen="sideFullScreen">
     <!--Header-->
-    <header class="bg-secondary console-header" :class="{'full': fullScreen}">
+    <header class="console-header"
+            :class="{'full': fullScreen, 'fixed-header': fixedHeader && !fullScreen}">
       <section class="row col-12 justify-between text-info console-toolbar">
         <div class="row items-center meta">
           <div class="row items-center" v-if="!disableMeta">
@@ -50,7 +51,7 @@
     </header>
 
     <!--Content-->
-    <section class="console-content">
+    <section class="console-content" :class="{'fixed-header': fixedHeader && !fullScreen}">
       <template v-if="expand & !extensionOnly">
         <q-card :class="contentClass" flat>
           <q-card-section class="row col-12 content"
@@ -103,6 +104,10 @@ const props = defineProps({
     default: ''
   },
   extendHeader: {
+    type: Boolean,
+    default: false
+  },
+  fixedHeader: {
     type: Boolean,
     default: false
   },
@@ -260,10 +265,25 @@ onActivated(() => {
 
     }
 
+    &.fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      background: linear-gradient(to right,
+        var(--q-secondary) 30%,
+        transparent 50%,
+        var(--q-secondary) 70%);
+    }
   }
 
   .console-content {
     padding: 21px;
+
+    &.fixed-header {
+      padding-top: 84px;
+    }
 
     &:has(.no-padding) {
       padding: 0!important;

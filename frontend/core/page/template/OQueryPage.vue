@@ -60,6 +60,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  fixedHeader: {
+    type: Boolean,
+    default: false
+  },
   icon: {
     type: String,
     default: ''

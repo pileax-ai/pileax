@@ -43,6 +43,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  fixedHeader: {
+    type: Boolean,
+    default: false
+  },
   extensionOnly: {
     type: Boolean,
     default: false
