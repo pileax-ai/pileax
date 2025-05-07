@@ -50,7 +50,7 @@
     <transition name="fade">
       <section class="row col-12 justify-center q-pb-lg scroll-bottom" v-if="chats.length && showScrollBtn">
         <div class="row col-12 justify-end btn-wrapper">
-          <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500)" />
+          <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500, true)" />
         </div>
       </section>
     </transition>
@@ -214,8 +214,8 @@ function onNewChat() {
   router.replace({name: 'chat-start'});
 }
 
-async function scrollToBottom(duration = 0) {
-  if (!scrollable.value) return;
+async function scrollToBottom(duration = 0, manual = false) {
+  if (!scrollable.value && !manual) return;
   await nextTick();
   setTimeout(() => {
     pageRef.value?.scrollToBottom(duration);
@@ -234,6 +234,7 @@ function onIntersection(entry: Indexable) {
   if (entry.isIntersecting) {
     scrollable.value = true;
   }
+  console.log('inter', scrollable.value);
 }
 
 onActivated(() => {

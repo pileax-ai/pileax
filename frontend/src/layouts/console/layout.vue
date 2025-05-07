@@ -92,6 +92,7 @@ function onRouteChanged() {
       activity = reduceActivity(path);
       break;
   }
+  if (!activity) return;
   setActivity(activity);
 }
 
