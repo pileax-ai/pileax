@@ -13,9 +13,10 @@ export default {
   backgroundImage: '',
   topMargin: 0,
   bottomMargin: 0,
-  sideMargin: 0,
+  sideMargin: 1,
   justify: true,
   hyphenate: true,
   pageTurnStyle: 'slide',
   maxColumnCount: 1,
+  maxInlineSize: 720,
 }

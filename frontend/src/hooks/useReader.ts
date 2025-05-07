@@ -49,6 +49,10 @@ export default function () {
     return store.secondaryService;
   });
 
+  const style = computed(() => {
+    return store.settings;
+  });
+
   function toggleLeftDrawer() {
     store.toggleLeftDrawer();
   }
@@ -115,6 +119,7 @@ export default function () {
     queryTimer,
     mainService,
     secondaryService,
+    style,
 
     toggleLeftDrawer,
     setLeftDrawerHoverShow,

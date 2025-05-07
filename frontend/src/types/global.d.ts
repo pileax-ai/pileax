@@ -22,7 +22,9 @@ declare global {
     };
 
     ebook: {
-      open: (bookElement: any, data: any, cfi: string, importing: boolean) => Promise<any>;
+      open: (bookElement: any, data: any,
+             { cfi, importing, userStyle }:
+             { cfi?: string, importing?: boolean, userStyle?: Indexable }) => Promise<any>;
       nextPage: () => void;
       prevPage: () => void;
       goToHref: (href: string) => void;

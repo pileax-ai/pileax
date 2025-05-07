@@ -16,19 +16,20 @@ export class LocalIpc implements IpcService {
   }
 
   public minimizeWindow() {
-    window.electronAPI.minimizeWindow();
+    // window.electronAPI.minimizeWindow();
   }
 
   public maximizeWindow() {
-    window.electronAPI.maximizeWindow();
+    // window.electronAPI.maximizeWindow();
   }
 
   public closeWindow() {
-    window.electronAPI.closeWindow();
+    // window.electronAPI.closeWindow();
   }
 
   public async isWindowMaximized() {
-    return await window.electronAPI.isWindowMaximized();
+    // return await window.electronAPI.isWindowMaximized();
+    return false;
   }
 
   public setTheme(theme: 'system' | 'light' | 'dark') {

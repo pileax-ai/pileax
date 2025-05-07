@@ -1,6 +1,7 @@
 import './foliate-js/view.js';
 import { FootnoteHandler } from './foliate-js/footnotes.js';
 import { Overlayer } from './foliate-js/overlayer.js';
+import * as CFI from './foliate-js/epubcfi.js';
 import {
   debounce,
   getCSS,
@@ -8,6 +9,7 @@ import {
   getPosition,
   getSelectionRange
 } from './utils';
+import defaultSetting from 'src/app/default-reader-setting';
 import { postMessage } from 'src/service/book';
 
 // --------------------------------------------------------------------------------
@@ -15,28 +17,12 @@ import { postMessage } from 'src/service/book';
 // --------------------------------------------------------------------------------
 
 // Default style
-let style = {
-  fontSize: 1.2,
-  fontName: 'book',
-  letterSpacing: 0,
-  spacing: 1.7,
-  paragraphSpacing: 0,
-  textIndent: 2,
-  fontColor: '#000000',
-  backgroundImage: '',
-  backgroundColor: '#ffffff',
-  topMargin: 0,
-  bottomMargin: 0,
-  sideMargin: 0,
-  justify: true,
-  hyphenate: true,
-//  scroll: true,
-//  animated: true,
-  pageTurnStyle: 'slide',
-  maxColumnCount: 1,
-};
+let style = defaultSetting;
 
-const setStyle = () => {
+const setStyle = (userStyle) => {
+  if (userStyle && typeof userStyle === 'object') {
+    style = userStyle;
+  }
   const turn = {
     scroll: false,
     animated: true,
@@ -66,6 +52,7 @@ const setStyle = () => {
   reader.view.renderer.setAttribute('gap', `${style.sideMargin}%`);
   reader.view.renderer.setAttribute('background-color', style.backgroundColor);
   reader.view.renderer.setAttribute('max-column-count', style.maxColumnCount);
+  reader.view.renderer.setAttribute('max-inline-size', `${style.maxInlineSize}px`);
 
   turn.animated
     ? reader.view.renderer.setAttribute('animated', 'true')
@@ -140,7 +127,8 @@ class Reader {
     this.#originalContent = null;
   }
 
-  async open(bookElement, file, cfi = '', importing = false) {
+  async open(bookElement, file,
+             { cfi = '', importing = false, userStyle }) {
     this.view = await getView(bookElement, file);
     if (importing) return;
 
@@ -150,12 +138,13 @@ class Reader {
     this.view.addEventListener('click-view', this.#onClickView.bind(this));
     document.addEventListener('keydown', this.#handleKeydown.bind(this));
 
-    setStyle();
-    if (!cfi) {
+    setStyle(userStyle);
+    if (cfi) {
+      await this.view.init({ lastLocation: cfi });
+    } else {
       this.view.renderer.next();
     }
     await this.setView(this.view);
-    await this.view.init({ lastLocation: cfi });
   }
 
   async setView(view) {
@@ -290,6 +279,12 @@ class Reader {
     setSelectionHandler(this.view, doc, index);
   }
   #onRelocate({ detail }) {
+    const cfi = detail.cfi;
+    const parts = CFI.parse(cfi);
+    if (Array.isArray(parts)) {
+      console.log('Ignore non-range CFI');
+      return;
+    }
     onRelocated(detail);
   }
   #onClickView({ detail: { x, y } }) {
@@ -300,10 +295,12 @@ class Reader {
   }
 }
 
-const openBook = async (bookElement, data, cfi = '', importing = false) => {
+const openBook = async (bookElement, data,
+                        { cfi = '', importing = false, userStyle }) => {
   const reader = new Reader();
   globalThis.reader = reader;
-  await reader.open(bookElement, data.file, cfi, importing);
+  await reader.open(bookElement, data.file,
+    { cfi, importing, userStyle });
 
   if (!importing) {
     onSetToc();

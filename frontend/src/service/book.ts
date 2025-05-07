@@ -15,7 +15,7 @@ import { base64ToFile, getFileSHA1 } from 'src/utils/book';
 
 const { getBookByPath } = useApi();
 const { openDialog } = useDialog();
-const { setQueryTimer } = useReader();
+const { setQueryTimer, style } = useReader();
 const {
   store,
   bookId,
@@ -96,7 +96,9 @@ const onRelocated = (data: Indexable) => {
     setProgress(data);
   }
   store.setTempProgress(data);
-  setManual(BookOperation.None)
+
+  // Todo: 可能没保存最终进度
+  setManual(BookOperation.None);
 }
 
 // ---------------------------------------------------------
@@ -182,7 +184,8 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
       };
 
       console.log('openBook', cfi)
-      window.ebook.open(bookElement, data, cfi, importing);
+      window.ebook.open(bookElement, data,
+        { cfi, importing, userStyle: style.value });
       setManual(BookOperation.Load);
       resolve(data);
     }).catch((err: any) => {
@@ -198,7 +201,6 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
  * @param bookElement
  * @param filePath
  * @param cfi
- * @param importing
  */
 const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
   const bookUrl = getBookByPath(filePath);
@@ -215,7 +217,8 @@ const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
       };
 
       console.log('openBook', cfi)
-      window.ebook.open(bookElement, data, cfi, false);
+      window.ebook.open(bookElement, data,
+        { cfi, userStyle: style.value });
       setManual(BookOperation.Load);
       resolve(data);
     }).catch((err: any) => {
@@ -232,7 +235,7 @@ const uploadBook = async (file: File) => {
     sha1: await getFileSHA1(file),
     filePath: ''
   }
-  window.ebook.open(document.body, data, '', true);
+  window.ebook.open(document.body, data, { importing: true});
 }
 
 const onMetadata = async (metadata: any) => {

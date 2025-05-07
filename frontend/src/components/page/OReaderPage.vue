@@ -1,5 +1,5 @@
 <template>
-  <q-page class="o-reader-page bg-accent full-width full-height"
+  <q-page class="o-reader-page bg-secondary full-width full-height"
           :style="`--reader-background-color: ${settings.backgroundColor};
                  --reader-background-image: url(${settings.backgroundImage});
                  --reader-background-blur: blur(${settings.backgroundBlur}px)`">
@@ -74,7 +74,7 @@ onUnmounted(() => {
       right: 0;
       top: 0;
       bottom: 0;
-      background-color: var(--reader-background-color)!important;
+      //background-color: var(--reader-background-color)!important;
       background-image: var(--reader-background-image)!important;
       background-repeat: no-repeat;
       background-size: 100% 100%;
