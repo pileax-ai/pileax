@@ -1,5 +1,5 @@
 <template>
-  <section class="row items-center text-tips note-actions">
+  <section class="row items-center text-tips chat-actions">
     <q-btn icon="star_outline" flat v-if="session?.id" />
     <q-btn icon="more_horiz" flat>
       <q-menu ref="menu"
@@ -95,7 +95,7 @@ function onAction (action: Indexable, value: any) {
 </script>
 
 <style lang="scss">
-.note-actions {
+.chat-actions {
   .q-btn {
     width: 32px !important;
     height: 32px !important;

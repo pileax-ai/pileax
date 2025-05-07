@@ -1,10 +1,10 @@
 <template>
-  <header class="row items-center justify-between header reader-header"
+  <header class="row items-center justify-between text-readable header reader-header"
           :class="{
             'left-drawer-closed': !leftDrawerShow,
             'right-drawer-closed': !rightDrawerShow
           }">
-    <section class="row col-auto items-center text-readable">
+    <section class="row col-auto items-center header-left">
       <div class="menu q-pl-sm no-drag-region" v-if="!leftDrawerShow">
         <o-hover-btn icon="menu"
                      hover-icon="mdi-backburger rotate-180"
@@ -21,7 +21,7 @@
       <q-btn icon="east" class="o-toolbar-btn hover-show" flat @click="nextPage">
         <o-tooltip message="下一页" />
       </q-btn>
-      <span class="text-tips" v-if="progress.chapterLocation?.current > 1">
+      <span class="text-tips q-ml-xs" v-if="progress.chapterLocation?.current > 1">
           {{ progress.tocItem?.label }}
         </span>
     </section>
@@ -29,14 +29,14 @@
     <div class="col spacer drag-region">
     </div>
 
-    <section class="row col-auto text-readable">
-      <section class="row hover-shows top-toolbar toolbar-hover-shows">
+    <section class="row col-auto header-right">
+      <section class="row hover-show">
         <q-btn icon="volume_up" class="o-toolbar-btn" flat
                @click="setRightDrawerTTS(true)">
           <o-tooltip>AI朗读</o-tooltip>
         </q-btn>
       </section>
-      <o-hover-btn icon="menu"
+      <o-hover-btn icon="icon-sidebar-right"
                    :hover-icon="`mdi-backburger ${rightDrawerShow ? 'rotate-180' : ''}`"
                    class="o-toolbar-btn"
                    @click="toggleRightDrawer">
@@ -110,8 +110,11 @@ function onLeftDrawerLeave() {
     height: 40px;
   }
 
-  .top-toolbar {
-    padding-right: 24px;
+  .header-right {
+    .o-icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .searching {
@@ -132,6 +135,10 @@ function onLeftDrawerLeave() {
 
   &.right-drawer-closed {
     padding-right: 0!important;
+
+    .header-right {
+      padding-right: 6px;
+    }
   }
 }
 </style>

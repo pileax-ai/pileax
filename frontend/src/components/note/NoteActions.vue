@@ -52,8 +52,10 @@
         </q-list>
       </q-menu>
     </q-btn>
-    <q-btn icon="vertical_split" flat
-           @click="emit('action', { value: 'split' })" />
+    <q-btn flat
+           @click="emit('action', { value: 'split' })">
+      <o-icon name="icon-sidebar-right" size="20px" />
+    </q-btn>
   </section>
 </template>
 
@@ -194,6 +196,7 @@ onBeforeMount(() => {
     min-width: 32px;
     border-radius: 4px;
     margin-left: 8px;
+    padding: 0;
   }
 }
 

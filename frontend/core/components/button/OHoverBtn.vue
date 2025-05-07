@@ -1,9 +1,9 @@
 <template>
-  <q-btn :icon="hovered ? hoverIcon : icon"
-         @mouseenter.stop="onEnter"
+  <q-btn @mouseenter.stop="onEnter"
          @mouseleave.stop="onLeave"
          @click="onLeave"
          flat>
+    <o-icon :name="hovered ? hoverIcon : icon" />
     <slot></slot>
   </q-btn>
 </template>
