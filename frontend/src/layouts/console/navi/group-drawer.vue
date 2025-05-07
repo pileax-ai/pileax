@@ -59,7 +59,10 @@
                 enter-active-class="animated slideInLeft"
                 leave-active-class="animated slideOutLeft">
       <section class="side-bar full-height"
-               :class="{ 'bg-accent col': !sidebarFixed, 'bg-secondary fixed-sidebar': sidebarFixed }"
+               :class="{
+                  'bg-accent col': !sidebarFixed,
+                  'bg-secondary fixed-sidebar': sidebarFixed
+                }"
                :style="{ width: `${sidebarWidth}px` }"
                v-show="!leftDrawerMiniState || sidebarFixed">
         <navi-list :max-width="sidebarWidth" />
@@ -228,16 +231,7 @@ onBeforeMount(() => {
     z-index: 2001;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     overflow: hidden;
-    border-radius: 0 12px 12px 0;
-  }
-
-}
-
-.group-drawer-hover-menu {
-  .mini-menu {
-    header {
-      height: 40px;
-    }
+    border-radius: 0 8px 8px 0;
   }
 
 }
