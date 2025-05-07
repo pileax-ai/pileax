@@ -6,6 +6,11 @@
                   disable-meta
                   enable-fullscreen>
     <template #header-left>
+      <q-btn icon="tune"
+             class="filter"
+             :class="filter ? 'bg-primary text-white' : 'bg-dark'"
+             @click="filter = !filter"
+             flat v-if="false" />
       <div class="query-item no-drag-region">
         <q-input v-model="condition.title"
                  class="pi-field"
@@ -31,40 +36,47 @@
       <book-filter-btn @view="onView" @sort="onSort" />
     </template>
 
-    <template v-if="rows.length">
-      <section class="row col-12 q-col-gutter-lg grid-view" v-if="bookView === 'grid'">
-        <template v-for="(item, index) in rows" :key="index">
-          <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <book-grid-item :data="item"
-                            @click="openBook(item)"
-                            @details="onDetails(item)" />
-          </div>
+    <section class="row full-width">
+      <nav class="col-auto" v-show="filter">
+        Book Filters
+      </nav>
+      <section class="col">
+        <template v-if="rows.length">
+          <section class="row col-12 q-col-gutter-lg grid-view" v-if="bookView === 'grid'">
+            <template v-for="(item, index) in rows" :key="index">
+              <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <book-grid-item :data="item"
+                                @click="openBook(item)"
+                                @details="onDetails(item)" />
+              </div>
+            </template>
+          </section>
+          <section class="row col-12 justify-center list-view" v-else>
+            <q-list>
+              <template v-for="(item, index) in rows" :key="index">
+                <book-list-item :data="item"
+                                @click="openBook(item)"
+                                @details="onDetails(item)" />
+              </template>
+            </q-list>
+          </section>
+        </template>
+        <template v-else>
+          <o-no-data message="没有记录" image v-if="condition.title" />
+          <section class="row col-12 justify-center no-records" v-else>
+            <span class="text-readable">书库中还没有记录，快来添加吧</span>
+
+            <div class="row col-12 justify-center action">
+              <q-btn icon="add" label="添加图书"
+                     class="bg-primary text-white"
+                     flat @click="onAdd" v-if="false" />
+              <o-file-uploader :accept="bookAccept" :loading="loading" leading
+                               @ready="onAddReady" />
+            </div>
+          </section>
         </template>
       </section>
-      <section class="row col-12 justify-center list-view" v-else>
-        <q-list>
-          <template v-for="(item, index) in rows" :key="index">
-            <book-list-item :data="item"
-                            @click="openBook(item)"
-                            @details="onDetails(item)" />
-          </template>
-        </q-list>
-      </section>
-    </template>
-    <template v-else>
-      <o-no-data message="没有记录" image v-if="condition.title" />
-      <section class="row col-12 justify-center no-records" v-else>
-        <span class="text-readable">书库中还没有记录，快来添加吧</span>
-
-        <div class="row col-12 justify-center action">
-          <q-btn icon="add" label="添加图书"
-                 class="bg-primary text-white"
-                 flat @click="onAdd" v-if="false" />
-          <o-file-uploader :accept="bookAccept" :loading="loading" leading
-                           @ready="onAddReady" />
-        </div>
-      </section>
-    </template>
+    </section>
 
     <template #side-panel>
       <book-details :data="data"
@@ -97,6 +109,7 @@ const data = ref({});
 const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
+const filter = ref(false);
 const bookView = ref('grid');
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
 const orderBy = ref<Indexable>({
@@ -184,6 +197,11 @@ onActivated(() => {
 
 <style lang="scss">
 .book-list {
+  .filter {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
   .list-view {
     .q-list {
       width: 100%;

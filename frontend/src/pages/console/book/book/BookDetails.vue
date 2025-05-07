@@ -96,9 +96,9 @@ const actions = computed(() => {
       icon: 'list',
     },
     {
-      label: 'Recent',
-      value: 'recent',
-      icon: 'schedule',
+      label: 'Edit',
+      value: 'edit',
+      icon: 'edit_note',
       separator: true
     },
     {
@@ -166,6 +166,10 @@ onMounted(() => {
       width: 36px;
       height: 36px;
     }
+  }
+
+  .q-responsive {
+    max-height: 400px;
   }
 
   .cover {

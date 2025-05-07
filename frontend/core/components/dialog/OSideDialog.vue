@@ -324,7 +324,7 @@ onMounted(() => {
       background: rgba(0, 0, 0, 0.1);
     }
     .q-dialog__inner {
-      margin: 50px 10px 10px 10px;
+      margin: 10px;
 
       .q-layout-container {
         border-radius: 6px !important;
