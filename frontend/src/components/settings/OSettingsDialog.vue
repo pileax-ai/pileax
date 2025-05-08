@@ -101,7 +101,7 @@ const { t } = useCommon();
 const modal = ref();
 const splitterModel = ref(300);
 const currentTab = ref('profile');
-const isMaximized = ref(false);
+const isMaximized = ref(true);
 const style = computed(() => {
   return isMaximized.value
     ? {

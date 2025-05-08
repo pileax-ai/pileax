@@ -11,8 +11,8 @@
                                show-item-icon separator />
       </q-list>
       <note-list :max-width="maxWidth" v-show="activity === 'note'" />
-      <chat-session-list :max-width="maxWidth" v-show="activity === 'chat'" />
-      <knowledge-list :max-width="maxWidth" v-show="activity === 'knowledge'" />
+      <ai-assistant-list :max-width="maxWidth" v-show="activity === 'chat'" />
+<!--      <knowledge-list :max-width="maxWidth" v-show="activity === 'knowledge'" />-->
     </template>
   </drawer-navi>
 </template>
@@ -23,7 +23,7 @@ import { computed, onBeforeMount } from 'vue';
 import DrawerNavi from 'core/page/DrawerNavi.vue'
 import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue'
 import NoteList from './note/note-list.vue';
-import ChatSessionList from './chat/chat-session-list.vue';
+import AiAssistantList from './chat/ai-assistant-list.vue';
 import KnowledgeList from './knowledge/knowledge-list.vue';
 
 import useNavi from 'src/hooks/useNavi';
@@ -84,7 +84,6 @@ onBeforeMount(() => {
 
   .q-expansion-item {
     .q-item {
-      height: 50px;
       .q-icon {
         font-size: 1.5rem;
       }
@@ -92,21 +91,10 @@ onBeforeMount(() => {
         width: 1.6rem;
         height: 1.6rem;
       }
-
-      &.active:after {
-        content: "";
-        width: 2px;
-        height: 20px;
-        position: absolute;
-        right: 0;
-        top: 15px;
-        background-color: var(--q-primary);
-      }
     }
   }
 
   .o-navi-item {
-    margin-bottom: 2px;
   }
 }
 </style>

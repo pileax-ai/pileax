@@ -22,7 +22,6 @@ export interface MenuItem {
   meta?: MenuItemMeta,
   children?: MenuItem[]
   type?: number,
-  isShow?: number,
   favorite?: number,
   pinned?: boolean,
 }

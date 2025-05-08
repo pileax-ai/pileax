@@ -43,7 +43,7 @@ import { knowledgeService } from 'src/service/remote/knowledge'
 
 const route = useRoute();
 const { knowledgeId, knowledge, setCurrentKnowledge } = useKnowledge();
-const currentTab = ref('chat');
+const currentTab = ref('dataset');
 
 import ChatTab from './chat/index.vue'
 import ConfigTab from './config/index.vue'
@@ -52,7 +52,7 @@ import TestTab from './test/index.vue'
 
 const tabs = computed(() => {
   return [
-    { label: 'Chat', value: 'chat', icon: 'forum', component: ChatTab },
+    // { label: 'Chat', value: 'chat', icon: 'forum', component: ChatTab },
     { label: 'Dataset', value: 'dataset', icon: 'dataset', component: DatesetTab },
     { label: 'Test', value: 'test', icon: 'radio_button_checked', component: TestTab },
     { label: 'Config', value: 'config', icon: 'tune', component: ConfigTab },

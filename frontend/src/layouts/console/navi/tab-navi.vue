@@ -24,13 +24,7 @@
           <template v-for="(item, index) in consoleMenus" :key="index">
             <div v-if="!item.meta?.hidden">
               <q-tab :name="item.name">
-                <template v-if="item.meta.icon.indexOf('icon') === 0">
-                  <svg class="icon" aria-hidden="true" v-if="item.meta.svg">
-                    <use :xlink:href="`#${item.meta.icon}`"></use>
-                  </svg>
-                  <i class="iconfont q-icon text-info" :class="item.meta.icon" v-else />
-                </template>
-                <q-icon :name="item.meta.icon" class="text-info" v-else />
+                <o-icon :name="item.meta.icon" />
                 <o-tooltip>
                   {{menuLabel(item.name)}}
                 </o-tooltip>

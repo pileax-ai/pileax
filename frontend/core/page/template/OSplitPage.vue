@@ -1,7 +1,8 @@
 <template>
-  <q-page class="o-split-page">
+  <q-page ref="pageRef" class="o-split-page">
     <q-splitter v-model="verticalSideWidth"
-                :limits="[0, 100]"
+                :limits="[0, Infinity]"
+                unit="px"
                 before-class="before-v"
                 after-class="after-v"
                 separator-class="bg-dark separator-v"
@@ -9,7 +10,8 @@
                 @update:modelValue="onVerticalChanged">
       <template #before>
         <q-splitter v-model="horizontalSideWidth"
-                    :limits="[0, 100]"
+                    :limits="[0, Infinity]"
+                    unit="px"
                     before-class="before-h"
                     after-class="after-h"
                     separator-class="bg-dark separator-h"
@@ -44,7 +46,9 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from 'vue'
+import { PropType, ref, useTemplateRef } from 'vue'
+import { useElementSize } from '@vueuse/core';
+
 const props = defineProps({
   vertical: {
     type: String as PropType<'left' | 'right'>,
@@ -53,7 +57,7 @@ const props = defineProps({
   },
   verticalSide: {
     type: Number,
-    default: 20
+    default: 320
   },
   horizontal: {
     type: String as PropType<'top' | 'bottom'>,
@@ -62,9 +66,12 @@ const props = defineProps({
   },
   horizontalSide: {
     type: Number,
-    default: 16
+    default: 160
   }
 });
+
+const pageRef = useTemplateRef<HTMLElement>('pageRef');
+const { width, height } = useElementSize(pageRef);
 
 const verticalSideWidth = ref(props.verticalSide);
 const verticalSideWidthRestore = ref(0);
@@ -73,7 +80,7 @@ const horizontalSideWidthRestore = ref(0);
 
 function expandHorizontalSide(expanded: boolean) {
   horizontalSideWidth.value = expanded
-    ? 100
+    ? height.value
     : (horizontalSideWidthRestore.value || props.horizontalSide);
 }
 
@@ -148,9 +155,6 @@ defineExpose({
     height: 24px;
     margin-top: -12px;
     border-radius: 4px 4px 0 0;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
   }
 
   .toggle-v {
@@ -159,6 +163,9 @@ defineExpose({
     width: 24px;
     margin-left: -12px;
     border-radius: 4px 0 0 4px;
+  }
+
+  .toggle-h, .toggle-v {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;

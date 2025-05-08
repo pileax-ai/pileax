@@ -85,7 +85,6 @@ const currentMenu = computed(() => naviStore.currentMenu);
 
   .q-item {
     padding: 0 10px 0 0;
-    min-height: 42px;
     &.root {
       .q-item__section--main {
         padding: 0 !important;

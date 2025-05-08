@@ -46,11 +46,17 @@ function onClick() {
 <style lang="scss">
 .o-navi-item {
   padding: 0 10px 0 10px;
-  min-height: 42px;
+  min-height: 48px;
+  border-radius: 4px;
+  margin: 2px 0;
 
   &.highlight {
     color: var(--q-primary);
     font-weight: 600;
+  }
+
+  &.dense {
+    min-height: 36px;
   }
 
   &.active:before {
@@ -72,7 +78,7 @@ function onClick() {
     right: 0;
     top: 10px;
     bottom: 10px;
-    background-color: var(--q-primary);
+    //background-color: var(--q-primary);
   }
 }
 </style>

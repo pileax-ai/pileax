@@ -20,7 +20,7 @@ export const defaultConsoleMenus: MenuItem[] = [
       },
       {
         id: 'chat',
-        name: 'newChat',
+        name: '随便聊聊',
         path: '/chat',
         action: 1,
         meta: {icon: 'add_comment', iconClass: 'flip-horizontal', class: 'highlight'}
@@ -71,24 +71,68 @@ export const defaultConsoleMenus: MenuItem[] = [
     name: 'knowledge',
     path: '',
     action: 1,
-    meta: {icon: 'mdi-creation'},
+    meta: {icon: 'icon-knowledge-base'},
     children: [
       {
         id: 'knowledge-start',
         name: '知识库',
         action: 1,
         path: '/knowledge',
-        meta: {icon: 'mdi-creation', class: 'highlight'}
+        meta: {icon: 'icon-knowledge-base', class: 'highlight'}
+      },
+      {
+        id: 'system-files',
+        name: '文件',
+        path: '',
+        action: 1,
+        meta: {icon: 'folder_open'},
+        children: [
+          {
+            id: 'file-all',
+            name: '全部',
+            action: 1,
+            path: '/system/files',
+            meta: {icon: 'mdi-creation', class: 'dense'}
+          },
+          {
+            id: 'file-documents',
+            name: '文档',
+            action: 1,
+            path: '/system/files?category=documents',
+            meta: {icon: 'mdi-creation', class: 'dense'}
+          },
+          {
+            id: 'file-images',
+            name: '图片',
+            action: 1,
+            path: '/system/files?category=images',
+            meta: {icon: 'mdi-creation', class: 'dense'}
+          },
+        ]
       },
     ]
   },
   {
     id: 'group-system',
-    name: 'system',
+    name: 'AI应用',
     path: '',
     action: 1,
-    meta: {icon: 'tune'},
+    meta: {icon: 'mdi-creation'},
     children: [
+      {
+        id: 'ai-assistants',
+        name: '聊天助手',
+        action: 1,
+        path: '/system/config/assistants',
+        meta: {icon: 'assistant_navigation'}
+      },
+      {
+        id: 'ai-agents',
+        name: 'AI智能体',
+        action: 1,
+        path: '/system/config/agents',
+        meta: {icon: 'assignment'}
+      },
       {
         id: 'config',
         name: '配置',
@@ -104,20 +148,6 @@ export const defaultConsoleMenus: MenuItem[] = [
             meta: {icon: 'mdi-creation'}
           },
           {
-            id: 'ai-assistants',
-            name: 'AI助手',
-            action: 1,
-            path: '/system/config/assistants',
-            meta: {icon: 'assistant_navigation'}
-          },
-          {
-            id: 'ai-agents',
-            name: 'AI智能体',
-            action: 1,
-            path: '/system/config/agents',
-            meta: {icon: 'assignment'}
-          },
-          {
             id: 'vector-database',
             name: '向量数据库',
             action: 1,
@@ -128,7 +158,7 @@ export const defaultConsoleMenus: MenuItem[] = [
       },
       {
         id: 'content',
-        name: '内容',
+        name: 'AIGC',
         action: 1,
         path: '',
         meta: {icon: 'web_stories'},
@@ -141,13 +171,6 @@ export const defaultConsoleMenus: MenuItem[] = [
             meta: {icon: 'article'}
           },
         ]
-      },
-      {
-        id: 'system-about',
-        name: 'about',
-        action: 1,
-        path: '/system/about',
-        meta: {icon: 'info'}
       },
     ]
   },
