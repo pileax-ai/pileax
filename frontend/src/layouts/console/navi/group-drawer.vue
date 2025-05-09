@@ -17,14 +17,7 @@
                 <q-tab :name="item.name"
                        @click="onClickTab(item)"
                        v-if="!item.meta?.hidden">
-                  <template v-if="item.meta?.icon?.indexOf('icon') === 0">
-                    <svg class="icon" aria-hidden="true" v-if="item.meta.svg">
-                      <use :xlink:href="`#${item.meta.icon}`"></use>
-                    </svg>
-                    <i class="iconfont q-icon" :class="item.meta.icon" v-else />
-                  </template>
-                  <q-icon :name="item.meta?.icon" v-else />
-                  <span class="label" v-if="false">{{menuLabel(item.name)}}</span>
+                  <o-icon :name="item.meta?.icon" />
                   <o-tooltip position="right" v-if="!leftDrawerMiniState">
                     {{menuLabel(item.name)}}
                   </o-tooltip>

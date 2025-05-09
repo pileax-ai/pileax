@@ -21,7 +21,6 @@ export const ChatSchema = z.object({
   model: z.string().optional(),
   result: z.number().optional().default(0),
   like: z.number().optional().default(0),
-  noteId: z.string().optional(),
   status: z.number().optional().default(0),
 });
 

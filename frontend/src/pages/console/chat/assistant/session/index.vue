@@ -1,5 +1,6 @@
 <template>
-  <q-scroll-area ref="pageRef"
+  <q-scroll-area ref="scrollRef"
+                 :thumb-style="{ width: '4px', height: '4px' }"
                  class="o-scroll-wrapper chat-session"
                  :class="{ 'start': start }">
     <section class="row col-12 justify-center">
@@ -52,7 +53,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick, onActivated } from 'vue';
 import { useRoute } from 'vue-router';
-import OCommonPage from 'core/page/template/OCommonPage.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
 import OChatToc from 'components/chat/OChatToc.vue';
 
@@ -64,6 +64,7 @@ import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
 import useChatSession from 'src/hooks/useChatSession';
 import { ChatInput } from 'src/types/chat'
+import { QScrollArea } from 'quasar'
 
 const route = useRoute();
 const { provider } = useAi();
@@ -76,7 +77,7 @@ const {
 } = useChatSession();
 const { isLoading, startStream, cancelStream } = useStream();
 
-const pageRef = ref<InstanceType<typeof OCommonPage>>();
+const scrollRef = ref<InstanceType<typeof QScrollArea>>();
 const start = ref(true);
 const chats = ref<Indexable[]>([]);
 const newChat = ref<Indexable>({})
@@ -195,7 +196,9 @@ async function scrollToBottom(duration = 0, manual = false) {
   if (!scrollable.value && !manual) return;
   await nextTick();
   setTimeout(() => {
-    pageRef.value?.scrollToBottom(duration);
+    const scrollTarget = scrollRef.value?.getScrollTarget();
+    const scrollHeight = scrollTarget?.scrollHeight || 0;
+    scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
   }, 0)
 }
 
@@ -216,6 +219,12 @@ function onIntersection(entry: Indexable) {
 
 onActivated(() => {
   init();
+})
+
+defineExpose({
+  isLoading,
+  onSend,
+  onStop
 })
 </script>
 

@@ -12,6 +12,7 @@ export const ChatSessionSchema = z.object({
   userId: z.string().optional(),
 	title: z.string().optional(),
 	name: z.string(),
+  assistant: z.string().optional().default('chat'),
   refId: z.string().optional(),
   refType: z.string().optional().default('general'),
   status: z.number().optional(),

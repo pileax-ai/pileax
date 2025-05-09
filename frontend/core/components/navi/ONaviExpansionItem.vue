@@ -24,7 +24,7 @@
                                  :level="level+1"
                                  :data="item" />
           <o-navi-item class="data-item"
-                       :class="{'active': currentMenu.id === item.id}"
+                       :class="{'active': isActive(item)}"
                        :style="`padding-left: ${ level > 0 ? (level)*40 - (level-1)*10 : 0}px`"
                        :item="item"
                        :showItemIcon="showItemIcon"
@@ -33,7 +33,7 @@
       </template>
     </q-expansion-item>
     <o-navi-item class="data-item"
-                 :class="{'active': currentMenu.id === data.id}"
+                 :class="{'active': isActive(item)}"
                  :item="data"
                  :show-item-icon="showItemIcon"
                  v-else />
@@ -41,13 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, PropType, defineAsyncComponent, watch} from 'vue';
+import { computed, PropType, defineAsyncComponent } from 'vue';
 
 import ONaviIcon from 'core/components/navi/ONaviIcon.vue';
 import ONaviItem from 'core/components/navi/ONaviItem.vue';
 import { MenuItem } from 'core/types/menu';
 import { menuLabel } from 'core/hooks/useMenu';
-import { useNaviStore } from 'stores/navi.setup';
+import { useNaviStore } from 'stores/navi';
 
 const props = defineProps({
   root: { type: Boolean, default: false },
@@ -70,9 +70,12 @@ defineAsyncComponent(() =>
 
 const naviStore = useNaviStore();
 
-const activeKey = computed(() => naviStore.drawer.activeKey);
 const currentMenu = computed(() => naviStore.currentMenu);
 
+function isActive(item: MenuItem) {
+  return currentMenu.value?.id === item?.id
+    || currentMenu.value?.parentId === item?.id;
+}
 </script>
 
 <style lang="scss">

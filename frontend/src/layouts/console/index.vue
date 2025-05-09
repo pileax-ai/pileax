@@ -5,7 +5,9 @@
                   :name="transitionName"
                   mode="out-in">
         <keep-alive>
-          <component :is="Component" :key="route.path" v-if="!route.meta?.isIframe" />
+          <component :is="Component"
+                     :key="route.meta?.keep ? route.name : route.path"
+                     v-if="!route.meta?.isIframe" />
         </keep-alive>
       </transition>
     </router-view>

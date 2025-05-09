@@ -27,7 +27,8 @@ const { currentMenu } = useNavi();
 const sessionsRef = ref<InstanceType<typeof ChatSessions>>();
 
 function openSession(item: ChatSession) {
-  router.push({name: 'chat-session', params: {id: item.id}});
+  router.push({name: 'chat-session',
+    params: {assistant: item.assistant, id: item.id}});
 }
 
 watch(() => sessionTimer.value, (newValue) => {

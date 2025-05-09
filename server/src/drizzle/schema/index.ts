@@ -63,7 +63,6 @@ export const chat = sqliteTable('chat', {
   model: text().default(''),
   result: integer().default(0),
   like: integer().default(0),
-  noteId: text('note_id').default(''),
   status: integer().default(1),
   ...timestamps
 });
@@ -73,6 +72,7 @@ export const chatSession = sqliteTable('chat_session', {
   userId: text('user_id').default(''),
   title: text().default(''),
   name: text().notNull(),
+  assistant: text().default('chat'),
   refId: text('ref_id').default(''), // reference Id
   refType: text('ref_type').default('general'), // general, note, knowledge
   status: integer().default(0),

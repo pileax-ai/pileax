@@ -257,11 +257,11 @@ onMounted(() => {
   }
 
   .o-scroll-wrapper {
-    //padding-top: 50px;
+    padding-top: 50px;
     z-index: -1;
 
     .note-meta {
-      margin-top: 50px;
+      //margin-top: 50px;
       padding: 0 100px;
       &.page {
         .note-meta-wrapper {

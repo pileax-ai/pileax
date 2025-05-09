@@ -22,8 +22,9 @@ export default function () {
   function setCurrentSession(s: ChatSession) {
     const menuItem = {
       id: s.id,
+      parentId: s.assistant,
       name: s.title,
-      path: `/a/chat/${s.id}`,
+      path: `/a/chat/${s.assistant}/${s.id}`,
       action: 1,
       meta: {
         type: 'chat-session',

@@ -10,6 +10,10 @@
         <q-btn icon="language" flat />
         <q-btn flat>
           <q-icon name="attachment" class="rotate-315" />
+          <o-tooltip position="top" transition>
+            <div class="title">上传文件</div>
+            <div class="caption">最多10个，每个50M，支持各类文档和图片</div>
+          </o-tooltip>
         </q-btn>
         <q-btn flat>
           <o-icon name="icon-knowledge-base" size="1.6rem" />
@@ -37,14 +41,20 @@
     </section>
     <footer class="row col-auto justify-between text-tips">
       <div class="row items-center">
-        <kbd>⌘</kbd> <kbd><q-icon name="keyboard_return" /></kbd> 发送，
-        <kbd>⇧</kbd> <kbd><q-icon name="keyboard_return" /></kbd> 换行
+        <o-badge color="grey">
+          {{provider.title}}
+        </o-badge>
       </div>
-      <div>
-        <q-btn icon="add" class="bg-dark" flat round v-if="enableUpload">
+      <div class="row">
+
+        <q-btn class="bg-dark" flat>
+          <q-icon name="keyboard" />
           <o-tooltip position="top" transition>
-            <div class="title">上传文件</div>
-            <div class="caption">最多10个，每个50M，支持各类文档和图片</div>
+            <div class="caption">快捷键</div>
+            <div class="row items-center ">
+              <kbd>⌘</kbd> <kbd><q-icon name="keyboard_return" /></kbd> 发送，
+              <kbd>⇧</kbd> <kbd><q-icon name="keyboard_return" /></kbd> 换行
+            </div>
           </o-tooltip>
         </q-btn>
         <q-btn icon="stop"
@@ -57,25 +67,18 @@
           </o-tooltip>
         </q-btn>
 
-        <q-btn-group flat v-if="false">
-          <q-btn icon="arrow_upward"
-                 label="发送"
-                 class="bg-accent send"
-                 flat round
-                 @click="onSend">
-            <o-tooltip position="top" transition>
-              <div class="title">发送</div>
-              <div class="caption">发送消息，按<q-icon name="keyboard_return"/>直接发送</div>
-            </o-tooltip>
-          </q-btn>
-        </q-btn-group>
-
         <q-btn-dropdown icon="arrow_upward"
                         label="发送"
-                        class="bg-primary text-white"
+                        :class="`
+                          bg-${input ? 'primary' : 'dark'}
+                          text-${input ? 'white' : 'tips'}
+                        `"
                         content-class="pi-menu"
+                        :disable="!input"
                         :menu-offset="[0, 4]"
-                        split flat>
+                        split flat
+                        @click="onSend"
+                        v-else>
           <q-list>
             <o-common-item icon="check" size="2rem" label="按 Enter 发送" clickable closable />
             <o-common-item icon="none" size="2rem" label="按 ⌘ + Enter 发送" clickable closable />
@@ -200,16 +203,6 @@ function reset() {
       width: unset;
     }
 
-
-    &.reasoning {
-      padding: 0 16px 0 12px;
-      min-height: 36px;
-
-      .q-icon {
-        margin-right: 2px;
-      }
-    }
-
     &.bg-primary {
       color: var(--q-primary) !important;
       background: transparent!important;
@@ -232,12 +225,6 @@ function reset() {
         padding: 0 20px 0 10px;
       }
     }
-  }
-
-  .tag {
-    position: absolute;
-    right: 12px;
-    top: 4px;
   }
 }
 </style>

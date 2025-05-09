@@ -24,6 +24,7 @@ export interface ChatSession {
   userId?: number;
   title: string;
   name: string;
+  assistant: string;
   createTime: string;
   updateTime: string;
 }
