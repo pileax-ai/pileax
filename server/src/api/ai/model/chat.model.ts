@@ -1,7 +1,6 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
 import { commonValidations } from '@/core/api/commonValidation'
-import { ChatSessionSchema } from '@/api/ai/model/chat-session.model'
 
 extendZodWithOpenApi(z);
 

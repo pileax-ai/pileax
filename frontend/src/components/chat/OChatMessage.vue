@@ -1,4 +1,5 @@
 <template>
+  <!-- User -->
   <q-item class="o-chat-message user"
           :class="{ 'dense': dense }"
           :id="chat.id">
@@ -46,11 +47,13 @@
     </q-item-section>
   </q-item>
 
+  <!-- Assistant -->
   <q-item class="o-chat-message assistant"
           :class="{ 'dense': dense }" >
     <q-item-section avatar v-if="!dense">
       <q-avatar color="accent">
-        <o-svg-icon :name="chat.provider" size="2rem" />
+        <q-spinner-ios size="1.5rem" v-if="streaming" />
+        <o-svg-icon :name="chat.provider" size="2rem" v-else />
       </q-avatar>
       <div class="line"></div>
     </q-item-section>
@@ -60,7 +63,8 @@
       <section class="q-mb-xs" v-if="dense">
         <div class="row items-center">
           <q-avatar color="accent" size="36px" rounded>
-            <o-svg-icon :name="chat.provider" size="2rem" />
+            <q-spinner-ios size="1.5rem" v-if="streaming" />
+            <o-svg-icon :name="chat.provider" size="2rem" v-else />
           </q-avatar>
           <o-chip color="info" square dense>{{chat.provider}}</o-chip>
         </div>
@@ -132,6 +136,7 @@ import { chatService } from 'src/service/remote/chat';
 import useAccount from 'src/hooks/useAccount';
 import useDialog from 'core/hooks/useDialog';
 import { useNoteStore } from 'stores/note';
+import { loading } from 'vxe-table'
 
 const props = defineProps({
   avatar: {
@@ -232,7 +237,10 @@ onMounted(() => {
         width: 32px;
         height: 32px;
         min-height: unset;
-        margin-left: 4px;
+
+        &:not(:first-child) {
+          margin-left: 4px;
+        }
 
         .q-icon {
           font-size: 18px;

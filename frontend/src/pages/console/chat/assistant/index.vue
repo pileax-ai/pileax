@@ -1,6 +1,7 @@
 <template>
   <o-split-page ref="pageRef"
-                class="page-assistant-chat">
+                class="page-assistant-chat"
+                @side-width="onSideWidth">
     <template #vertical-side>
       <chat-session-list />
     </template>
@@ -33,10 +34,11 @@ import { ChatInput } from 'src/types/chat'
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>();
 const sessionRef = ref<InstanceType<typeof ChatSession>>();
+const sideWidth = ref(320);
+const sideHeight = ref(160);
 
-function onSend(data: ChatInput) {
-  console.log('send', data, sessionRef);
-  sessionRef.value?.onSend(data);
+function onSideWidth(value: number) {
+  sideWidth.value = value;
 }
 </script>
 

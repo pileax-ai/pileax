@@ -25,6 +25,7 @@ export interface ChatSession {
   title: string;
   name: string;
   assistant: string;
+  favorite: number;
   createTime: string;
   updateTime: string;
 }

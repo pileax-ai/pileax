@@ -9,7 +9,7 @@
                 reverse
                 @update:modelValue="onVerticalChanged">
       <template #before>
-        <q-splitter v-model="horizontalSideWidth"
+        <q-splitter v-model="horizontalSideHeight"
                     :limits="[0, Infinity]"
                     unit="px"
                     before-class="before-h"
@@ -22,7 +22,7 @@
             <slot></slot>
           </template>
           <template v-slot:separator>
-            <q-btn :icon="horizontalSideWidth ? 'keyboard_arrow_down' :  'keyboard_arrow_up'"
+            <q-btn :icon="horizontalSideHeight ? 'keyboard_arrow_down' :  'keyboard_arrow_up'"
                    class="bg-dark text-tips toggle-h"
                    flat
                    @click="onToggleHorizontal" />
@@ -69,27 +69,28 @@ const props = defineProps({
     default: 160
   }
 });
+const emit = defineEmits(['sideWidth', 'sideHeight']);
 
 const pageRef = useTemplateRef<HTMLElement>('pageRef');
 const { width, height } = useElementSize(pageRef);
 
 const verticalSideWidth = ref(props.verticalSide);
 const verticalSideWidthRestore = ref(0);
-const horizontalSideWidth = ref(props.horizontalSide);
-const horizontalSideWidthRestore = ref(0);
+const horizontalSideHeight = ref(props.horizontalSide);
+const horizontalSideHeightRestore = ref(0);
 
 function expandHorizontalSide(expanded: boolean) {
-  horizontalSideWidth.value = expanded
+  horizontalSideHeight.value = expanded
     ? height.value
-    : (horizontalSideWidthRestore.value || props.horizontalSide);
+    : (horizontalSideHeightRestore.value || props.horizontalSide);
 }
 
 function onToggleHorizontal() {
-  if (horizontalSideWidth.value) {
-    horizontalSideWidthRestore.value = horizontalSideWidth.value;
-    horizontalSideWidth.value = 0;
+  if (horizontalSideHeight.value) {
+    horizontalSideHeightRestore.value = horizontalSideHeight.value;
+    horizontalSideHeight.value = 0;
   } else {
-    horizontalSideWidth.value = horizontalSideWidthRestore.value || props.horizontalSide;
+    horizontalSideHeight.value = horizontalSideHeightRestore.value || props.horizontalSide;
   }
 }
 
@@ -104,10 +105,12 @@ function onToggleVertical() {
 
 function onVerticalChanged(value: number) {
   verticalSideWidthRestore.value = value;
+  emit('sideWidth', value);
 }
 
 function onHorizontalChanged(value: number) {
-  horizontalSideWidthRestore.value = value;
+  horizontalSideHeightRestore.value = value;
+  emit('sideHeight', value);
 }
 
 defineExpose({

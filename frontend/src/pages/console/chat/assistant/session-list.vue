@@ -1,5 +1,12 @@
 <template>
-  <section class="assistant-chat-session-list fit">
+  <section class="assistant-chat-session-list">
+    <header class="row justify-between items-center header">
+      <div>话题</div>
+      <div>
+        <q-btn icon="more_horiz" class="pi-toolbar-btn" flat v-if="false" />
+      </div>
+    </header>
+
     <chat-sessions ref="sessionsRef"
                    :max-width="maxWidth"
                    :active-id="currentMenu.id"
@@ -42,7 +49,28 @@ onMounted(() => {
 
 <style lang="scss">
 .assistant-chat-session-list {
-  padding: 10px;
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    padding: 0 10px;
+    z-index: 1;
+    background: var(--q-secondary);
+  }
+
+  .chat-sessions {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    .group {
+      position: sticky;
+    }
+  }
 
   .o-navi-item {
     border-radius: 4px;

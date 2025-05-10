@@ -75,6 +75,7 @@ export const chatSession = sqliteTable('chat_session', {
   assistant: text().default('chat'),
   refId: text('ref_id').default(''), // reference Id
   refType: text('ref_type').default('general'), // general, note, knowledge
+  favorite: integer().default(0),
   status: integer().default(0),
   ...timestamps
 });

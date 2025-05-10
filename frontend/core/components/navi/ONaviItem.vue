@@ -45,7 +45,7 @@ function onClick() {
 
 <style lang="scss">
 .o-navi-item {
-  padding: 0 10px 0 10px;
+  padding: 0 10px;
   min-height: 48px;
   border-radius: 4px;
   margin: 2px 0;

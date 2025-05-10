@@ -15,6 +15,7 @@ export const ChatSessionSchema = z.object({
   assistant: z.string().optional().default('chat'),
   refId: z.string().optional(),
   refType: z.string().optional().default('general'),
+  favorite: z.number().optional().default(0),
   status: z.number().optional(),
 });
 

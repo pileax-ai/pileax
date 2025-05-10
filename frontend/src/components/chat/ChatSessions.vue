@@ -1,40 +1,36 @@
 <template>
-  <section class="chat-sessions" :style="`max-width: ${maxWidth}px`">
+  <section class="chat-sessions">
     <q-list>
-      <template v-for="(group, groupName) in groupedSession" :key="groupName">
+      <template v-for="(group, groupName) in groupedSession"
+                :key="groupName">
         <template v-if="groupName === 'byMonth'">
-          <template v-for="(subGroup, subGroupName) in group" :key="subGroupName">
-            <q-item-label class="text-tips group">{{ subGroupName }}</q-item-label>
-            <template v-for="(item, index) in subGroup as ChatSession[]" :key="index">
-              <q-item class="o-navi-item"
-                      :class="{'active': activeId === item.id}"
-                      clickable
-                      v-close-popup="closable"
-                      @click="openSession(item)">
-                <q-item-section>
-                  <q-item-label>
-                    {{ item.title }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
+          <template v-for="(subGroup, subGroupName) in group"
+                    :key="subGroupName">
+            <q-item-label class="text-tips bg-secondary group">
+              {{ subGroupName }}
+            </q-item-label>
+            <template v-for="(item, index) in subGroup as ChatSession[]"
+                      :key="index">
+              <chat-session-item :item="item"
+                                 :active-id="activeId"
+                                 :closable="closable"
+                                 @open="emit('open', item)"
+                                 @updated="onItemUpdated" />
             </template>
           </template>
         </template>
         <template v-else>
           <template v-if="(group as ChatSession[]).length">
-            <q-item-label class="text-tips group">{{ $t(groupName) }}</q-item-label>
-            <template v-for="(item, index) in group as ChatSession[]" :key="index">
-              <q-item class="o-navi-item"
-                      :class="{'active': activeId === item.id}"
-                      clickable
-                      v-close-popup="closable"
-                      @click="openSession(item)">
-                <q-item-section>
-                  <q-item-label lines="1">
-                    {{ item.title }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
+            <q-item-label class="text-tips bg-secondary group">
+              {{ $t(groupName) }}
+            </q-item-label>
+            <template v-for="(item, index) in group as ChatSession[]"
+                      :key="index">
+              <chat-session-item :item="item"
+                                 :active-id="activeId"
+                                 :closable="closable"
+                                 @open="emit('open', item)"
+                                 @updated="onItemUpdated" />
             </template>
           </template>
         </template>
@@ -44,11 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { ChatSession } from 'src/types/chat';
+import ChatSessionItem from 'components/chat/ChatSessionItem.vue';
 
 type GroupedSessions = {
+  favorite: ChatSession[];
   today: ChatSession[];
   yesterday: ChatSession[];
   last7Days: ChatSession[];
@@ -102,10 +100,6 @@ async function refresh(openFirst = false) {
   })
 }
 
-function openSession(item: ChatSession) {
-  emit('open', item);
-}
-
 function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
   const now = new Date();
   const todayStart = new Date(now.setHours(0, 0, 0, 0));
@@ -114,6 +108,7 @@ function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
   const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
 
   const result: GroupedSessions = {
+    favorite: [],
     today: [],
     yesterday: [],
     last7Days: [],
@@ -123,6 +118,11 @@ function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
 
   sessions.forEach((session) => {
     const sessionDate = new Date(session.createTime);
+
+    if (session.favorite === 1) {
+      result.favorite.push(session);
+      return;
+    }
 
     // Day group
     if (sessionDate >= todayStart) {
@@ -155,6 +155,13 @@ function groupSessionsByTime(sessions: ChatSession[]): GroupedSessions {
   return result;
 }
 
+function onItemUpdated(item: ChatSession) {
+  const idx = sessions.value.findIndex(s => s.id === item.id);
+  if (idx >= 0) {
+    sessions.value.splice(idx, 1, item);
+  }
+}
+
 onMounted(() => {
   refresh();
 })
@@ -166,6 +173,17 @@ defineExpose({
 
 <style lang="scss">
 .chat-sessions {
+  width: 100%;
+  overflow: hidden;
+  .q-list {
+    padding: 10px;
 
+  }
+  .group {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 4px 0;
+  }
 }
 </style>

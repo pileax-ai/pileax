@@ -1,8 +1,8 @@
 <template>
-  <q-scroll-area ref="scrollRef"
-                 :thumb-style="{ width: '4px', height: '4px' }"
-                 class="o-scroll-wrapper chat-session"
-                 :class="{ 'start': start }">
+  <o-scroll-section ref="scrollRef"
+                    class="chat-session"
+                    :class="{ 'start': start }"
+                    @scroll="onScroll">
     <section class="row col-12 justify-center">
       <section class="row justify-center start-panel" v-if="start">
         <header>
@@ -47,12 +47,13 @@
     </section>
 
     <o-chat-toc ref="tocRef" :chats="chats" />
-  </q-scroll-area>
+  </o-scroll-section>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick, onActivated } from 'vue';
 import { useRoute } from 'vue-router';
+import OScrollSection from 'core/page/section/OScrollSection.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
 import OChatToc from 'components/chat/OChatToc.vue';
 
@@ -63,8 +64,7 @@ import { UUID } from 'core/utils/crypto';
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
 import useChatSession from 'src/hooks/useChatSession';
-import { ChatInput } from 'src/types/chat'
-import { QScrollArea } from 'quasar'
+import { ChatInput } from 'src/types/chat';
 
 const route = useRoute();
 const { provider } = useAi();
@@ -77,7 +77,7 @@ const {
 } = useChatSession();
 const { isLoading, startStream, cancelStream } = useStream();
 
-const scrollRef = ref<InstanceType<typeof QScrollArea>>();
+const scrollRef = ref<InstanceType<typeof OScrollSection>>();
 const start = ref(true);
 const chats = ref<Indexable[]>([]);
 const newChat = ref<Indexable>({})
@@ -134,7 +134,8 @@ async function createSession(data: Indexable) {
   chatSessionService.save({
     id: UUID(),
     title: message,
-    name: message
+    name: message,
+    assistant: 'chat' // todo
   }).then(res => {
     sessionId.value = res.id;
     start.value = false;
@@ -143,7 +144,10 @@ async function createSession(data: Indexable) {
     chatStore.setSessionTimer(Date.now());
 
     // replace router
-    router.replace({name: 'chat-session', params: {id: sessionId.value}});
+    router.replace({
+      name: 'chat-session',
+      params: { assistant: res.assistant, id: res.id }
+    });
   })
 }
 
@@ -196,9 +200,7 @@ async function scrollToBottom(duration = 0, manual = false) {
   if (!scrollable.value && !manual) return;
   await nextTick();
   setTimeout(() => {
-    const scrollTarget = scrollRef.value?.getScrollTarget();
-    const scrollHeight = scrollTarget?.scrollHeight || 0;
-    scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
+    scrollRef.value?.scrollToBottom(duration);
   }, 0)
 }
 
@@ -239,29 +241,6 @@ defineExpose({
     }
   }
 
-  header.header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 50px;
-    padding: 0 10px;
-    z-index: 1;
-    background: linear-gradient(to right,
-      var(--q-secondary) 10%,
-      transparent 20%,
-      transparent 80%,
-      var(--q-secondary) 90%);
-
-    .q-btn {
-      width: 32px !important;
-      height: 32px !important;
-      min-height: 32px;
-      min-width: 32px;
-      border-radius: 2px;
-      margin-left: 8px;
-    }
-  }
-
   .o-page-container {
     top: 0;
     bottom: 140px;
@@ -272,20 +251,6 @@ defineExpose({
     width: 100%;
     max-width: 800px;
     padding: 1rem 0;
-  }
-
-  footer.footer {
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0 1rem;
-
-    .warning {
-      font-size: 0.8rem;
-      //opacity: 0.75;
-    }
   }
 
   .start-panel {
@@ -338,7 +303,7 @@ defineExpose({
 
   .o-chat-toc {
     position: fixed;
-    top: 40px;
+    top: 1rem;
     right: 1rem;
   }
 }
