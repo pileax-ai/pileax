@@ -17,7 +17,6 @@ const timestamps = {
 // ------------------------------------------------------------
 // Tables
 // ------------------------------------------------------------
-
 export const book = sqliteTable('book', {
   id: text().primaryKey().unique(),
   userId: text('user_id').default(''),
@@ -33,13 +32,26 @@ export const book = sqliteTable('book', {
   description: text().default(''),
   publisher: text().default(''),
   published: text().default(''),
-  readingPosition: text('reading_position').default(''),
-  readingPercentage: real('reading_percentage').default(0.0),
+  scope: integer().default(9), // 0.offline; 1.owner only; 9.all users
   ...timestamps
 });
 
+export const userBook = sqliteTable('user_book', {
+  id: text().primaryKey().unique(),
+  userId: text('user_id').default(''),
+  bookId: text('book_id').notNull(),
+  rating: integer().default(0),
+  readingPosition: text('reading_position').default(''),
+  readingPercentage: real('reading_percentage').default(0.0),
+  ...timestamps
+},
+(t) => ({
+  userBookUnique: uniqueIndex('user_book_unique').on(t.userId, t.bookId),
+}));
+
 export const bookAnnotation = sqliteTable('book_annotation', {
   id: text().primaryKey().unique(),
+  userBookId: text('user_book_id').default(''),
   userId: text('user_id').default(''),
   bookId: text('book_id').notNull(),
   type: text().notNull(),

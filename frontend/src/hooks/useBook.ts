@@ -15,6 +15,9 @@ export default function () {
   const bookId = computed(() => {
     return store.bookId;
   });
+  const userBookId = computed(() => {
+    return store.userBookId;
+  });
   const tocItem = computed(() => {
     return store.tocItem;
   });
@@ -46,6 +49,10 @@ export default function () {
 
   function setBookId(value: string) {
     store.setBookId(value);
+  }
+
+  function setUserBookId(value: string) {
+    store.setUserBookId(value);
   }
 
   function setTocItem(item :BookTocItem) {
@@ -96,6 +103,7 @@ export default function () {
     store,
     book,
     bookId,
+    userBookId,
     progress,
     selection,
     toc,
@@ -108,6 +116,7 @@ export default function () {
 
     setBook,
     setBookId,
+    setUserBookId,
     setTocItem,
     setKeyword,
     setProgress,

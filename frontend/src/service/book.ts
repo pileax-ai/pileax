@@ -10,6 +10,7 @@ import useApi from 'src/hooks/useApi';
 import useReader from 'src/hooks/useReader';
 import useBook from 'src/hooks/useBook';
 import { bookService } from 'src/service/remote/book';
+import { userBookService } from 'src/service/remote/user-book';
 import { BookOperation, ReadingMode } from 'src/types/reading';
 import { base64ToFile, getFileSHA1 } from 'src/utils/book';
 
@@ -18,6 +19,7 @@ const { openDialog } = useDialog();
 const { setQueryTimer, style } = useReader();
 const {
   store,
+  userBookId,
   bookId,
   operation,
   setProgress,
@@ -248,8 +250,17 @@ const onMetadata = async (metadata: any) => {
 
 const savingBookRemote = async (metadata: any) => {
   console.log('savingBookRemote', metadata);
-  bookService.getBookByUuid(metadata.sha1).then(res => {
-    notifyWarning('书已存在');
+  bookService.getByUuid(metadata.sha1).then(book => {
+    userBookService.save({
+      bookId: book.id
+    }).then(res => {
+      setQueryTimer(Date.now());
+    }).catch(err => {
+      const message = err.response.data.message;
+      if (message?.indexOf('UNIQUE') >= 0) {
+        notifyWarning('书已存在');
+      }
+    })
   }).catch(err => {
     const coverFile = base64ToFile(metadata.cover, 'cover');
     console.log('cover', coverFile)
@@ -258,7 +269,7 @@ const savingBookRemote = async (metadata: any) => {
       fileName: metadata.file.name
     });
     // Save book files and metadata
-    bookService.uploadBook(metadata.file, coverFile, book).then(res => {
+    bookService.upload(metadata.file, coverFile, book).then(res => {
       console.log('upload', res);
       setQueryTimer(Date.now());
     })
@@ -267,7 +278,7 @@ const savingBookRemote = async (metadata: any) => {
 
 const savingBook = async (metadata: any) => {
   console.log('savingBook', metadata);
-  bookService.getBookByUuid(metadata.sha1).then(res => {
+  bookService.getByUuid(metadata.sha1).then(res => {
     notifyWarning('书已存在');
   }).catch(err => {
     // Save book files
@@ -288,11 +299,10 @@ const saveBookProgress = (progress: any) => {
   console.log('saveBookProgress', progress);
   if (!progress.cfi || !progress.percentage) return;
   const params = {
-    id: bookId.value,
     readingPosition: progress.cfi,
     readingPercentage: progress.percentage
   }
-  saveBook(params);
+  saveUserBook(params);
 }
 
 /**
@@ -300,7 +310,22 @@ const saveBookProgress = (progress: any) => {
  * @param book Book
  */
 const saveBook = async (book: any) => {
-  bookService.saveBook(book).then((res: any) => {
+  bookService.save(book).then((res: any) => {
+    setQueryTimer(Date.now());
+  }).catch((err: any) => {
+    console.error('保存数据库失败', err);
+  })
+}
+
+/**
+ * Save user book to database
+ * @param params Book params
+ */
+const saveUserBook = async (params: any) => {
+  userBookService.save({
+    ...params,
+    id: userBookId.value
+  }).then((res: any) => {
     setQueryTimer(Date.now());
   }).catch((err: any) => {
     console.error('保存数据库失败', err);
@@ -395,7 +420,7 @@ const queryBook = async (title = '') => {
 
 const getBook = async (id: string): Promise<any> => {
   return new Promise((resolve, reject) => {
-    bookService.getBook(id).then((res: any) => {
+    bookService.get(id).then((res: any) => {
       resolve(res);
     }).catch((err: any) => {
       reject(err);
@@ -405,7 +430,7 @@ const getBook = async (id: string): Promise<any> => {
 
 const removeBook = async (id: string) => {
   return new Promise((resolve, reject) => {
-    bookService.deleteBook(id).then((res: any) => {
+    bookService.delete(id).then((res: any) => {
       resolve(res);
     }).catch((err: any) => {
       reject(err);

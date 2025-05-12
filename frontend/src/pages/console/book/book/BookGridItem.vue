@@ -3,7 +3,8 @@
     <q-card class="book-grid-item" v-ripple>
       <q-img :src="coverUrl">
         <div class="absolute-bottom text-subtitle1 text-center details">
-          <q-btn label="详情" flat @click.stop="onDetails" />
+          <q-btn label="添加" flat @click.stop="emit('add')" v-if="add" />
+          <q-btn label="详情" flat @click.stop="emit('details')" />
         </div>
       </q-img>
     </q-card>
@@ -21,17 +22,17 @@ const props = defineProps({
       return {};
     }
   },
+  add: {
+    type: Boolean,
+    default: false
+  },
 });
-const emit = defineEmits(['details']);
+const emit = defineEmits(['add', 'details']);
 
 const { getCoverUrl } = useApi();
 const coverUrl = computed(() => {
   return getCoverUrl(props.data);
 })
-
-function onDetails() {
-  emit('details');
-}
 
 onMounted(() => {
   // getCover();

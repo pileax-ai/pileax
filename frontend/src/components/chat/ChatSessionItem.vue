@@ -37,6 +37,9 @@
                                clickable closable>
                 </o-common-item>
               </template>
+              <q-separator class="bg-accent" />
+              <o-common-item icon="schedule" class="text-tips"
+                             :label="timeMulti(item.updateTime).timestamp" />
             </q-list>
           </q-menu>
         </q-btn>
@@ -50,6 +53,7 @@ import { computed, PropType, ref } from 'vue'
 import { chatSessionService } from 'src/service/remote/chat-session';
 import { ChatSession } from 'src/types/chat';
 import { refresh } from 'core/hooks/useRouter'
+import { timeMulti } from 'core/utils/format'
 
 const props = defineProps({
   item: {

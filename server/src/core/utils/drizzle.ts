@@ -53,3 +53,11 @@ export const buildFilters = <T extends Record<string, any>, K extends keyof T>(
       }
     });
 }
+
+export function parseColumns<T extends Record<string, any>>(table: T): Record<string, any> {
+  const columnEntries = Object.entries(table).filter(([_, value]) =>
+    value && typeof value === 'object' && 'name' in value
+  );
+
+  return Object.fromEntries(columnEntries);
+}

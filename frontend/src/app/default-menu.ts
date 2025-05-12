@@ -55,7 +55,7 @@ export const defaultConsoleMenus: MenuItem[] = [
         name: '书单',
         action: 1,
         path: '/book/reading-list',
-        meta: {icon: 'icon-reading-list'}
+        meta: {icon: 'icon-reading-list', hidden: true}
       },
       {
         id: 'book-annotation',

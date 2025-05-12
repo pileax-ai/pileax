@@ -11,6 +11,7 @@ import { providerApi } from '@/api/ai/api/provider.api';
 import { systemApi } from '@/api/system/api/system.api';
 import { systemConfigApi } from '@/api/system/api/config.api';
 import { userApi } from '@/api/user/api/user.api';
+import { userBookApi } from '@/api/reading/api/user-book.api';
 
 export const registerApi = () => {
   authApi();
@@ -25,4 +26,5 @@ export const registerApi = () => {
   systemApi();
   systemConfigApi();
   userApi();
+  userBookApi();
 }

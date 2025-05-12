@@ -12,6 +12,7 @@ import { providerRegistry } from '@/api/ai/api/provider.api';
 import { systemRegistry } from '@/api/system/api/system.api';
 import { systemConfigRegistry } from '@/api/system/api/config.api';
 import { userRegistry } from '@/api/user/api/user.api';
+import { userBookRegistry } from '@/api/reading/api/user-book.api';
 
 export function generateOpenAPIDocument() {
 	const registry = new OpenAPIRegistry([
@@ -27,6 +28,7 @@ export function generateOpenAPIDocument() {
 		systemRegistry,
 		systemConfigRegistry,
 		userRegistry,
+    userBookRegistry,
 	]);
 	const generator = new OpenApiGeneratorV3(registry.definitions);
 

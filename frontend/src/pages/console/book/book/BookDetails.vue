@@ -8,7 +8,7 @@
       </q-responsive>
 
       <div class="absolute-right more">
-        <q-btn icon="more_horiz" flat >
+        <q-btn icon="more_horiz" flat v-if="!add">
           <q-menu class="o-menu">
             <q-list :style="{minWidth: '160px'}">
               <template v-for="(action, index) in actions" :key="`action-${index}`">
@@ -19,7 +19,8 @@
                                  @click="onAction(action)"
                                  clickable
                                  closable
-                                 right-side>
+                                 right-side
+                                 v-if="action.show">
                   </o-common-item>
                 </template>
               </template>
@@ -35,8 +36,13 @@
         <o-view-item label="作者" :value="data.author" align="right" lines="2" />
         <o-view-item label="出版社" :value="data.publisher" align="right" v-if="data.publisher" />
         <o-view-item label="格式" :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
-        <o-view-item label="添加时间" :value="timeMulti(data.createTime).timestamp" align="right" />
-        <o-view-item label="最后阅读时间" :value="timeMulti(data.updateTime).timestamp" align="right" />
+        <template v-if="add">
+          <o-view-item label="上传时间" :value="timeMulti(data.createTime).timestamp" align="right" />
+        </template>
+        <template v-else>
+          <o-view-item label="添加时间" :value="timeMulti(data.createTime).timestamp" align="right" />
+          <o-view-item label="最后阅读时间" :value="timeMulti(data.updateTime).timestamp" align="right" />
+        </template>
 
         <section class="description" v-if="data.description">
           <span class="text-readable">简介</span>
@@ -47,11 +53,16 @@
       </q-card-section>
 
       <q-card-section class="row col-12 justify-center">
+        <q-btn icon="add"
+               label="添加"
+               class="bg-primary text-white action"
+               flat
+               @click="emit('add')" v-if="add" />
         <q-btn icon="menu_book"
                label="开始阅读"
                class="bg-primary text-white action"
                flat
-               @click="openBook" />
+               @click="openBook" v-else />
       </q-card-section>
     </q-card>
   </section>
@@ -60,10 +71,10 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
-import { removeBook } from 'src/service/book';
 import { timeMulti } from 'core/utils/format';
 import useApi from 'src/hooks/useApi';
 import { ipcService } from 'src/api/ipc';
+import { userBookService } from 'src/service/remote/user-book';
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 
 const props = defineProps({
@@ -73,11 +84,16 @@ const props = defineProps({
       return {};
     }
   },
+  add: {
+    type: Boolean,
+    default: false
+  },
 });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['add', 'close', 'edit']);
 
 const $q = useQuasar();
-const { getCoverUrl } = useApi();
+const { getBookUrl, getCoverUrl } = useApi();
+const editing = ref(false);
 const coverUrl = ref('');
 const coverPath = computed(() => {
   return `${props.data.path}/${props.data.coverName}`;
@@ -86,25 +102,24 @@ const coverPath = computed(() => {
 const actions = computed(() => {
   return [
     {
-      label: 'Grid',
-      value: 'grid',
-      icon: 'grid_view',
-    },
-    {
-      label: 'List',
-      value: 'list',
-      icon: 'list',
+      label: '下载',
+      value: 'download',
+      icon: 'download',
+      show: true,
     },
     {
       label: 'Edit',
       value: 'edit',
       icon: 'edit_note',
-      separator: true
+      show: props.data.userId === props.data.owner,
+      separator: true,
     },
     {
       label: 'Remove book',
       value: 'remove',
       icon: 'delete',
+      class: 'text-red',
+      show: true,
     },
   ];
 });
@@ -112,14 +127,42 @@ const actions = computed(() => {
 
 function onAction (action :any) {
   switch (action.value) {
+    case 'download':
+      onDownload();
+      break;
+    case 'edit':
+      emit('edit');
+      break;
     case 'remove':
       onRemoveBook();
-      break;
-    case 'title':
       break;
     default:
       break;
   }
+}
+
+function onDownload() {
+  const url = getBookUrl(props.data);
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = props.data.title;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(blobUrl);
+    })
+    .catch(error => {
+      console.error('Download error:', error);
+    });
 }
 
 function init() {
@@ -144,7 +187,7 @@ async function onRemoveBook() {
     message: '你确定删除吗？',
     cancel: true
   }).onOk( async () => {
-    await removeBook(props.data.id);
+    await userBookService.delete(props.data.id);
     emit('close');
   })
 }

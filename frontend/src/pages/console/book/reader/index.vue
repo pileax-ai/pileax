@@ -57,11 +57,12 @@ import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import { getBook, nextPage, openBookRemote, prevPage } from 'src/service/book'
 import { bookAnnotationService } from 'src/service/remote/book-annotation'
+import { userBookService } from 'src/service/remote/user-book'
 import { findBookAnnotation, renderAnnotations } from 'src/service/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute();
-const { store, setBook, setBookId } = useBook();
+const { store, setBook, setBookId, setUserBookId } = useBook();
 
 const bookRef = ref(null);
 const showShareDialog = ref(false);
@@ -83,9 +84,9 @@ function prepareOpen() {
   }
 }
 
-async function openWithBook(bookId: string) {
+async function openWithBook(userBookId: string) {
   store.setReadingMode(ReadingMode.Read);
-  await open(bookId);
+  await open(userBookId);
 }
 
 async function openWithAnnotation(annotationId: string) {
@@ -96,10 +97,11 @@ async function openWithAnnotation(annotationId: string) {
   await open(bookId, cfi);
 }
 
-async function open(bookId: string, initialCfi = '') {
-  const book: Indexable = await getBook(bookId);
+async function open(userBookId: string, initialCfi = '') {
+  const book: Indexable = await userBookService.getDetails(userBookId);
   if (book) {
-    setBookId(bookId);
+    setBookId(book.bookId);
+    setUserBookId(userBookId);
     setBook(book);
 
     const filePath = `${book.path}/${book.fileName}`;
@@ -110,7 +112,7 @@ async function open(bookId: string, initialCfi = '') {
     loading.value = false;
 
     setTimeout(() => {
-      prepareAnnotations(bookId);
+      prepareAnnotations(userBookId);
     }, 300);
   }
 }

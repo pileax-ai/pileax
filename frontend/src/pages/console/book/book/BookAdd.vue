@@ -1,5 +1,5 @@
 <template>
-  <o-console-page class="book-list"
+  <o-console-page class="book-add"
                   title=" "
                   icon="book"
                   v-bind="query"
@@ -27,25 +27,6 @@
 
     <!--Actions-->
     <template #actions>
-      <q-btn icon="add" flat round>
-        <q-menu v-model="addMenu" class="pi-menu" :offset="[0, 4]">
-          <q-list style="min-width: 400px">
-            <div>
-              <div class="text-tips">上传添加</div>
-              <div class="q-pa-md">
-                <o-file-uploader :accept="bookAccept" :loading="loading" leading
-                                 @ready="onAddReady" />
-              </div>
-            </div>
-            <q-separator class="bg-dark" />
-            <o-common-item icon="search" label="从书库中添加" class="bg-accent" closable clickable @click="onOpenAdd" />
-          </q-list>
-        </q-menu>
-      </q-btn>
-      <o-file-uploader-btn :accept="bookAccept" :loading="loading" leading
-                       @ready="onAddReady" v-if="false">
-        <o-tooltip>添加</o-tooltip>
-      </o-file-uploader-btn>
       <book-filter-btn @view="onView" @sort="onSort" />
     </template>
 
@@ -59,8 +40,9 @@
             <template v-for="(item, index) in rows" :key="index">
               <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                 <book-grid-item :data="item"
-                                @click="openBook(item)"
-                                @details="onDetails(item)" />
+                                @click.stop
+                                @add="addBook(item)"
+                                @details="onDetails(item)" add />
               </div>
             </template>
           </section>
@@ -68,8 +50,9 @@
             <q-list>
               <template v-for="(item, index) in rows" :key="index">
                 <book-list-item :data="item"
-                                @click="openBook(item)"
-                                @details="onDetails(item)" />
+                                @click.stop
+                                @add="addBook(item)"
+                                @details="onDetails(item)" add />
               </template>
             </q-list>
           </section>
@@ -93,41 +76,33 @@
 
     <template #side-panel>
       <book-details :data="data"
+                    @add="addBook(data)"
                     @close="onClose"
-                    @edit="onEdit"
-                    v-if="view==='details'" />
-      <book-edit :id="data.bookId"
-                    @close="onClose"
-                    v-if="view==='edit'" />
-      <book-add @close="onClose"
-                v-if="view==='add'" />
+                    v-if="view==='details'" add />
     </template>
   </o-console-page>
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, ref, watch } from 'vue';
-import { importBooks, uploadBook, queryBook } from 'src/service/book';
+import { onMounted, ref, watch } from 'vue'
+import { importBooks, uploadBook } from 'src/service/book';
+import { bookService } from 'src/service/remote/book';
 import { userBookService } from 'src/service/remote/user-book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
-import BookEdit from './BookEdit.vue';
-import BookAdd from './BookAdd.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
 import OFileUploader from 'core/components/fIle/OFileUploader.vue';
-import OFileUploaderBtn from 'core/components/fIle/OFileUploaderBtn.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
-import { ipcService } from 'src/api/ipc';
-import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
+
+const emit = defineEmits(['close']);
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();
 
-const addMenu = ref(false);
-const data = ref<Indexable>({});
+const data = ref({});
 const condition = ref<Indexable>({});
 const rows = ref([]);
 const loading = ref(false);
@@ -143,7 +118,6 @@ function onView(value: string) {
 }
 
 function onSort(value: Indexable) {
-  console.log('sort', value);
   orderBy.value = value;
   doQuery();
 }
@@ -153,24 +127,15 @@ function onDetails(item: any) {
   query.value.openSide('480px', 'details');
 }
 
-function onEdit() {
-  query.value.openSide('480px', 'edit', 'edit_note', 'Edit');
-}
-
 function onClose() {
   query.value.closeSide(false, false);
   doQuery();
-}
-
-function onOpenAdd() {
-  query.value.openSide('70vw', 'add', 'add', 'Add book');
 }
 
 async function onAddReady(file: File, icon: string) {
   loading.value = true;
   await uploadBook(file);
   loading.value = false;
-  addMenu.value = false;
 }
 
 function onAdd() {
@@ -191,9 +156,12 @@ function onAdd() {
   });
 }
 
-function openBook(item: any) {
-  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`,
-    READER_TITLE_BAR_HEIGHT);
+function addBook(book: any) {
+  userBookService.save({
+    bookId: book.id
+  }).then(res => {
+    emit('close');
+  })
 }
 
 function doQuery() {
@@ -206,13 +174,12 @@ function doQuery() {
     sort: orderBy.value
   };
 
-  userBookService.queryDetails(query).then(res => {
+  bookService.query(query).then(res => {
     rows.value = res;
   });
 }
 
 function initData() {
-  // query.value.side.contentClass = '';
   doQuery();
 }
 
@@ -220,13 +187,26 @@ watch(() => queryTimer.value, (newValue) => {
   doQuery();
 })
 
-onActivated(() => {
+onMounted(() => {
   initData();
 })
 </script>
 
 <style lang="scss">
-.book-list {
+.book-add {
+  .o-console-section {
+    padding-top: 64px;
+
+    .fixed-header {
+      padding: 21px 21px 21px 21px;
+      border: none;
+      .console-toolbar {
+        padding: 0;
+      }
+    }
+  }
+
+
   .filter {
     width: 40px;
     height: 40px;

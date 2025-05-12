@@ -7,43 +7,39 @@ import { GET, POST, DELETE } from 'src/hooks/useRequest';
 import { Book } from 'app/src-electron/db/entity'
 
 export class RemoteBookService {
+  private apiName = 'book';
 
-  async saveBook(data: Indexable): Promise<any> {
-    return POST({ name: 'book', body: data });
+  async save(data: Indexable): Promise<any> {
+    return POST({ name: this.apiName, body: data });
   }
 
-  async getBooks(params: Indexable): Promise<any> {
-    return GET({ name: 'book', path: '/all' });
+  async getAll(params: Indexable): Promise<any> {
+    return GET({ name: this.apiName, path: '/all' });
   }
 
-  async getBook(id: string): Promise<any> {
-    return GET({ name: 'book', query: {id: id} });
+  async get(id: string): Promise<any> {
+    return GET({ name: this.apiName, query: {id: id} });
   }
 
-  async getBookByUuid(uuid: string): Promise<any> {
-    return GET({ name: 'book', path: '/uuid',  query: {uuid: uuid} });
+  async getByUuid(uuid: string): Promise<any> {
+    return GET({ name: this.apiName, path: '/uuid',  query: {uuid: uuid} });
   }
 
-  async deleteBook(id: string) {
-    return DELETE({ name: 'book', query: {id: id} });
+  async delete(id: string) {
+    return DELETE({ name: this.apiName, query: {id: id} });
   }
 
-  /**
-   * Pagination query
-   *
-   * @param query
-   */
-  async queryBook(query: Indexable): Promise<any> {
-    return POST({ name: 'book', path: '/query', body: query });
+  async query(query: Indexable): Promise<any> {
+    return POST({ name: this.apiName, path: '/query', body: query });
   }
 
-  async uploadBook(file: File, cover: File, book: Indexable) {
+  async upload(file: File, cover: File, book: Indexable) {
     const formData = new FormData();
     formData.append('files', file);
     formData.append('files', cover);
     formData.append('book', JSON.stringify(book));
     return POST({
-      name: 'book',
+      name: this.apiName,
       path: '/upload',
       query: { uuid: book.uuid },
       body: formData,

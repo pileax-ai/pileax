@@ -33,6 +33,15 @@ registry.registerPath({
 });
 apiRouter.post(`${pathBase}`, validateBody(BookSchema.partial()), bookController.save);
 
+registry.registerPath({
+  method: 'put',
+  path: `${apiPathBase}`,
+  tags: ['Book'],
+  request: { body: BookBodySchema },
+  responses: createApiResponse(BookSchema, 'Success'),
+});
+apiRouter.put(`${pathBase}`, validateBody(BookSchema.partial()), bookController.save);
+
 /**
  * getAll
  */

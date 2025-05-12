@@ -1,7 +1,8 @@
 import type { Request, RequestHandler, Response } from 'express';
 
-import { fileMetaService } from '@/api/file/service/file.service';
 import { bookService as service } from '@/api/reading/service/book.service';
+import { fileMetaService } from '@/api/file/service/file.service';
+import { userBookService } from '@/api/reading/service/user-book.service';
 import { sendFailed, sendOk } from '@/core/api/httpHandlers'
 import { MulterUtil } from '@/common/storage'
 import { env } from '@/common/utils/envConfig'
@@ -69,6 +70,17 @@ class BookController extends BaseController<Book>{
 
             // save book
             const result = await service.create(book);
+
+            // save user book
+            await userBookService.create({
+              id: '',
+              bookId: result.id,
+              userId: result.userId,
+              rating: 0,
+              readingPosition: '',
+              readingPercentage: 0,
+            });
+
             return sendOk(res, result);
           } catch (err) {
             return sendFailed(res, 'Parse book metadata failed.', JSON.parse(req.body.book));

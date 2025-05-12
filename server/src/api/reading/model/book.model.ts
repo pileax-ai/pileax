@@ -22,6 +22,7 @@ export const BookSchema = z.object({
   description: z.string().optional(),
   publisher: z.string().optional(),
   published: z.string().optional(),
+  scope: z.number().optional().default(9),
   readingPosition: z.string().optional(),
   readingPercentage: z.number().optional(),
 });

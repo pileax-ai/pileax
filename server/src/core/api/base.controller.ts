@@ -44,7 +44,7 @@ export class BaseController<T extends { id?: string }> {
         userId: req.headers['x-user-id'] as string
       };
     }
-    const result = await this.service.query(req.body);
+    const result = await this.service.query(query);
     sendOk(res, result);
   };
 

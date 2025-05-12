@@ -11,6 +11,7 @@ export const BookAnnotationSchema = z.object({
   id: z.string(),
   userId: z.string().optional(),
 	bookId: z.string(),
+	userBookId: z.string(),
 	type: z.string(),
 	value: z.string(),
 	note: z.string(),

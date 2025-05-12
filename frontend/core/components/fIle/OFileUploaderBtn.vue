@@ -5,11 +5,11 @@
             @update:model-value="updateFiles" outlined :disable="loading">
       <section class="row justify-center items-center panel">
         <o-refresh-btn icon="add"
-                       tooltip="添加"
                        class="text-info"
                        :loading="loading" />
       </section>
     </q-file>
+    <slot></slot>
   </section>
 </template>
 
