@@ -1,1 +1,0 @@
-CREATE UNIQUE INDEX `user_book_unique` ON `user_book` (`user_id`,`book_id`);

@@ -1,1 +1,0 @@
-ALTER TABLE `book_annotation` ADD `user_book_id` text DEFAULT '';

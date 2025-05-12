@@ -18,7 +18,8 @@
 		"test": "vitest run",
 		"test:cov": "vitest run --coverage",
 		"check": "pnpm lint && pnpm format && pnpm build && pnpm test",
-		"drizzle:generate": "drizzle-kit generate"
+		"drizzle:generate": "drizzle-kit generate",
+		"drizzle:push": "drizzle-kit push"
 	},
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "7.3.0",
