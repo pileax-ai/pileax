@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1747032187080,
+      "tag": "0000_cool_lila_cheney",
+      "breakpoints": true
+    }
+  ]
+}
