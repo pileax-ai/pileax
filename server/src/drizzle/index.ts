@@ -25,18 +25,21 @@ class DatabaseClient {
       // verbose: console.log, // Optional: print SQL log
     });
 
-    // migration
-    const migrationsFolder = `${env.SERVER_ROOT}/src/drizzle/migrations`;
-    try {
-      migrate(drizzle(sqlite), {
-        migrationsFolder: migrationsFolder,
-        migrationsTable: 'migrations'
-      })
-      console.info('✅ Migrations : ', migrationsFolder)
-    } catch (err) {
-      console.error('Failed to migrate: ', err)
-      console.error('MigrationsFolder: ', migrationsFolder)
+    // Only migrate in none-development environment
+    if (env.NODE_ENV !== 'development') {
+      const migrationsFolder = `${env.SERVER_ROOT}/src/drizzle/release/migrations`;
+      try {
+        migrate(drizzle(sqlite), {
+          migrationsFolder: migrationsFolder,
+          migrationsTable: 'migrations'
+        })
+        console.info('✅ Migrations : ', migrationsFolder)
+      } catch (err) {
+        console.error('Failed to migrate: ', err)
+        console.error('MigrationsFolder: ', migrationsFolder)
+      }
     }
+
 
     // instance
     const instance = drizzle(sqlite, {

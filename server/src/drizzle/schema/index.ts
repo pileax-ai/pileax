@@ -32,6 +32,7 @@ export const book = sqliteTable('book', {
   description: text().default(''),
   publisher: text().default(''),
   published: text().default(''),
+  tag: text().default(''),
   scope: integer().default(9), // 0.offline; 1.owner only; 9.all users
   ...timestamps
 });
