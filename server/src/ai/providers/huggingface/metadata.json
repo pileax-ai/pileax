@@ -1,0 +1,28 @@
+{
+  "name": "huggingface",
+  "title": "Hugging Face",
+  "description": "Open-source LLMs from HuggingFace",
+  "home": "https://huggingface.co",
+  "github": "",
+  "huggingface": "",
+  "config": [
+    {
+      "name": "apiKey",
+      "type": "password",
+      "key": "HUGGINGFACE_API_KEY",
+      "value": "",
+      "values": []
+    },
+    {
+      "name": "model",
+      "type": "select",
+      "key": "HUGGINGFACE_MODEL",
+      "value": "",
+      "values": [
+        "gpt-4.5",
+        "gpt-4o",
+        "o3-mini"
+      ]
+    }
+  ]
+}

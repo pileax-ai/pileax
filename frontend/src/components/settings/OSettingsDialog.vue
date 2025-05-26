@@ -39,7 +39,7 @@
                 {{tab?.label}}
               </q-toolbar-title>
               <q-space />
-              <section class="text-tips actions">
+              <section class="text-tips actions no-drag-region">
                 <q-btn flat round dense @click="onMinimized">
                   <o-icon :name="isMaximized ? 'icon-fluent-restore' : 'icon-fluent-maximize'" size="10px" />
                 </q-btn>
@@ -101,7 +101,7 @@ const { t } = useCommon();
 const modal = ref();
 const splitterModel = ref(300);
 const currentTab = ref('profile');
-const isMaximized = ref(true);
+const isMaximized = ref(false);
 const style = computed(() => {
   return isMaximized.value
     ? {
@@ -165,7 +165,7 @@ onMounted(() => {
 
   nav {
     height: 90vh;
-    padding: 16px 10px;
+    padding: 40px 10px 16px 10px;
     .group {
       padding: 0 12px;
       opacity: 0.5;

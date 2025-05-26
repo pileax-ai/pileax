@@ -33,7 +33,10 @@
             <div>
               <div class="text-tips">上传添加</div>
               <div class="q-pa-md">
-                <o-file-uploader :accept="bookAccept" :loading="loading" leading
+                <o-file-uploader :accept="bookAccept"
+                                 :max-size="500 * 1024 * 1024"
+                                 :loading="loading"
+                                 leading
                                  @ready="onAddReady" />
               </div>
             </div>
@@ -83,7 +86,10 @@
               <q-btn icon="add" label="添加图书"
                      class="bg-primary text-white"
                      flat @click="onAdd" v-if="false" />
-              <o-file-uploader :accept="bookAccept" :loading="loading" leading
+              <o-file-uploader :accept="bookAccept"
+                               :loading="loading"
+                               :max-size="500 * 1024 * 1024"
+                               leading
                                @ready="onAddReady" />
             </div>
           </section>

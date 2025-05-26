@@ -156,22 +156,6 @@ export const defaultConsoleMenus: MenuItem[] = [
           },
         ]
       },
-      {
-        id: 'content',
-        name: 'AIGC',
-        action: 1,
-        path: '',
-        meta: {icon: 'web_stories'},
-        children: [
-          {
-            id: 'system-files',
-            name: '文件',
-            action: 1,
-            path: '/system/files',
-            meta: {icon: 'article'}
-          },
-        ]
-      },
     ]
   },
 ];

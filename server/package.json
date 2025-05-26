@@ -1,6 +1,6 @@
 {
 	"name": "pileax-server",
-	"version": "1.0.0",
+  "version": "0.0.1",
 	"description": "An Express boilerplate backend",
 	"author": "Edwin Hernandez",
 	"repository": "edwinhern/express-typescript-2024",
@@ -18,8 +18,9 @@
 		"test": "vitest run",
 		"test:cov": "vitest run --coverage",
 		"check": "pnpm lint && pnpm format && pnpm build && pnpm test",
-		"drizzle:generate": "drizzle-kit generate",
-		"drizzle:push": "drizzle-kit push"
+		"drizzle:generate": "drizzle-kit generate --config=drizzle.config.release.ts && tsx src/drizzle/release/release.ts",
+		"drizzle:push": "drizzle-kit push",
+		"drizzle:push:electron": "drizzle-kit push --config=drizzle.config.electron.ts"
 	},
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "7.3.0",

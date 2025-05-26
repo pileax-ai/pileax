@@ -33,7 +33,7 @@
       </template>
     </q-expansion-item>
     <o-navi-item class="data-item"
-                 :class="{'active': isActive(item)}"
+                 :class="{'active': isActive(data)}"
                  :item="data"
                  :show-item-icon="showItemIcon"
                  v-else />

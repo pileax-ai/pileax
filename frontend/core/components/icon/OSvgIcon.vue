@@ -1,12 +1,13 @@
 <template>
   <svg class="o-svg-icon" aria-hidden="true"
        :style="`--svg-icon-color: ${iconColor}; --svg-icon-size: ${size}`">
-    <use :xlink:href="`#icon-${name}`" />
+    <use :xlink:href="`#icon-${iconName}`" />
   </svg>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
+import ids from 'virtual:svg-icons/ids';
 import { Icons } from 'core/constants/icons';
 
 defineOptions({ name: 'OSvgIcon', inheritAttrs: true });
@@ -19,10 +20,24 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  colored: {
+    type: Boolean,
+    default: false
+  },
   size: {
     type: String,
     default: '1rem'
   },
+});
+
+const iconName = computed(() => {
+  if (props.colored) {
+    return ids.includes(`icon-${props.name}-color`)
+      ? `${props.name}-color`
+      : props.name;
+  } else {
+    return props.name;
+  }
 });
 
 const iconColor = computed(() => {

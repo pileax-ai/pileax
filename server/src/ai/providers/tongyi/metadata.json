@@ -1,0 +1,28 @@
+{
+  "name": "tongyi",
+  "title": "通义千问",
+  "description": "AI models from Alibaba",
+  "home": "https://www.tongyi.com/",
+  "github": "https://github.com/QwenLM/Qwen",
+  "huggingface": "https://huggingface.co/Qwen",
+  "config": [
+    {
+      "name": "apiKey",
+      "type": "password",
+      "key": "QWEN_API_KEY",
+      "value": "",
+      "values": []
+    },
+    {
+      "name": "model",
+      "type": "select",
+      "key": "QWEN_MODEL",
+      "value": "",
+      "values": [
+        "gpt-4.5",
+        "gpt-4o",
+        "o3-mini"
+      ]
+    }
+  ]
+}

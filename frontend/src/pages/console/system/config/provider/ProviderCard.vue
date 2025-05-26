@@ -3,8 +3,8 @@
     <q-card-section class="header">
       <q-item>
         <q-item-section avatar>
-          <q-avatar>
-            <o-svg-icon :name="data.name" size="2.4rem" />
+          <q-avatar square>
+            <o-svg-icon :name="data.name" size="2.4rem" colored />
           </q-avatar>
         </q-item-section>
         <q-item-section>
