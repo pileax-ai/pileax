@@ -301,8 +301,8 @@ export default defineConfig((ctx) => {
             filter: ["**/*"]
           },
           {
-            from: '../server/src/drizzle/migrations',
-            to: 'server/src/drizzle/migrations',
+            from: '../server/src/drizzle/release/migrations',
+            to: 'server/src/drizzle/release/migrations',
             filter: ["**/*"]
           },
           {
