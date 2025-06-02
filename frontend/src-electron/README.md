@@ -7,3 +7,6 @@ Use [Icon Genie CLI](https://quasar.dev/icongenie/introduction) to generate icon
 ```shell
 yarn global add @quasar/icongenie
 ```
+```shell
+icongenie generate -m electron -i /path/to/icon.png
+```
