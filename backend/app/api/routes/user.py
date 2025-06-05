@@ -1,10 +1,11 @@
 import uuid
 from typing import Any
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
-from app.api.models.user import User, UserUpdate, UserPublic
 from app.api.deps import SessionDep
-from app.api.models.response import Response, send_ok, send_error
+from app.api.models.response import Response, send_ok
+from app.api.models.query import PaginationQuery, QueryResult
+from app.api.models.user import User, UserUpdate, UserPublic
 from app.api.services.user_service import UserService
 
 router = APIRouter(prefix="/user", tags=["User"])
@@ -33,3 +34,9 @@ def delete(id: uuid.UUID, session: SessionDep) -> Any:
     service = UserService(session)
     service.delete(id)
     return send_ok()
+
+@router.post("/query", response_model=Response[QueryResult[UserPublic]])
+def query(query: PaginationQuery, session: SessionDep) -> Any:
+    service = UserService(session)
+    res = service.query(query)
+    return send_ok(res)

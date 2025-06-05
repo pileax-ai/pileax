@@ -1,8 +1,11 @@
+import uuid
+
 from typing import Generic, TypeVar
 from sqlmodel import SQLModel, Session
 from fastapi import HTTPException
-import uuid
+
 from app.api.repos.base_repository import BaseRepository
+from app.api.models.query import PaginationQuery
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 RepositoryType = TypeVar("RepositoryType", bound=BaseRepository)
@@ -36,3 +39,6 @@ class BaseService(Generic[ModelType]):
     def delete(self, id: uuid.UUID):
         obj = self.get(id)
         return self.repo.delete(obj)
+
+    def query(self, query: PaginationQuery):
+        return self.repo.query(query)
