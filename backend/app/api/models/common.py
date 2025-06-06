@@ -1,6 +1,8 @@
 import re
 import uuid
 from datetime import datetime, UTC
+
+from pydantic import BaseModel
 from sqlalchemy.types import TypeDecorator, CHAR
 from sqlmodel import SQLModel, Field
 
@@ -40,6 +42,12 @@ class TimestampMixin:
 
 
 class BaseSQLModel(SQLModel):
+    class Config:
+        alias_generator = to_camel
+        allow_population_by_field_name = True
+
+
+class BaseApiModel(BaseModel):
     class Config:
         alias_generator = to_camel
         allow_population_by_field_name = True

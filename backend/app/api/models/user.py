@@ -2,9 +2,8 @@ import uuid
 
 from sqlalchemy import Column
 from sqlmodel import Field
-from pydantic import BaseModel
 
-from app.api.models.common import BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
 
 
 class User(BaseSQLModel, TimestampMixin, table=True):
@@ -17,7 +16,7 @@ class User(BaseSQLModel, TimestampMixin, table=True):
     bio: str | None = Field(default=None, max_length=255)
 
 
-class UserBase(BaseModel):
+class UserBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     avatar: str | None = None
     bio: str | None = None
