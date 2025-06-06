@@ -19,7 +19,7 @@ from app.core.database.sqlite import engine
 DEFAULT_USER_ID: UUID = UUID('00000000-0000-0000-0000-000000000000')
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/auth/signin"
+    tokenUrl=f"{settings.API_V1_STR}/auth/token"
 )
 
 

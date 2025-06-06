@@ -1,6 +1,5 @@
 import uuid
 
-from sqlalchemy import Column
 from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
 
@@ -14,3 +13,15 @@ class Token(SQLModel):
 
 class TokenPayload(SQLModel):
     sub: str | None = None
+
+
+class UserSimple(BaseModel):
+    id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    name: str | None = None
+    avatar: str | None = None
+    bio: str | None = None
+
+
+class SigninPublic(BaseSQLModel):
+    user: UserSimple
+    token: Token

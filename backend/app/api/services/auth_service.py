@@ -3,7 +3,7 @@ from datetime import timedelta
 from fastapi import HTTPException
 
 from app.api.deps import DEFAULT_USER_ID
-from app.api.models.auth import Token
+from app.api.models.auth import Token, SigninPublic, UserSimple
 from app.api.models.user import User
 from app.api.services.user_service import UserService
 from app.core import security
@@ -14,7 +14,7 @@ class AuthService:
     def __init__(self, session):
         self.service = UserService(session)
 
-    def signin(self, name: str, password: str) -> Token:
+    def signin(self, name: str, password: str) -> SigninPublic:
         app_mode = settings.APP_MODE
         if app_mode == "SINGLE":
             return self.signin_single()
@@ -22,7 +22,7 @@ class AuthService:
             return self.signin_multiple(name, password)
 
 
-    def signin_single(self) -> Token:
+    def signin_single(self) -> SigninPublic:
         """
         Signin in SINGLE mode
         """
@@ -42,10 +42,13 @@ class AuthService:
                 expires_delta=access_token_expires
             )
         )
-        return token
+        return SigninPublic(
+            user=UserSimple(**user.model_dump(by_alias=True)),
+            token=token
+        )
 
 
-    def signin_multiple(self, name: str, password: str) -> Token:
+    def signin_multiple(self, name: str, password: str) -> SigninPublic:
         """
         Signin in MULTIPLE mode
         """
@@ -57,4 +60,7 @@ class AuthService:
                 expires_delta=access_token_expires
             )
         )
-        return token
+        return SigninPublic(
+            user=UserSimple(**user.model_dump(by_alias=True)),
+            token=token
+        )
