@@ -9,7 +9,7 @@ from app.api.services.auth_service import AuthService
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-@router.post("/signin", response_model=Response[Token])
+@router.post("/signin", response_model=Token)
 def signin(
     session: SessionDep, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ):
@@ -18,4 +18,4 @@ def signin(
     """
     service = AuthService(session)
     res = service.signin(form_data.username, form_data.password)
-    return send_ok(res)
+    return res

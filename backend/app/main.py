@@ -2,6 +2,7 @@ import logging
 import uvicorn
 from typing import Union
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import JSONResponse
 
 from app.api.main import api_router
@@ -17,7 +18,8 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="PileaX",
     version="0.0.1",
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    docs_url=None
 )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
@@ -27,6 +29,18 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 async def startup():
     sqlite.create_db_and_tables()
     logger.info("Initializing service")
+
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    """
+    Set persistAuthorization
+    """
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url,
+        title="PileaX",
+        swagger_ui_parameters={"persistAuthorization": True},
+    )
 
 
 # 全局异常处理

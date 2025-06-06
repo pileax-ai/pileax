@@ -8,6 +8,9 @@ from sqlmodel import SQLModel, Field
 
 
 def to_camel(string: str) -> str:
+    """
+    Convert snake case string to camelCase
+    """
     return re.sub(r'_([a-z])', lambda m: m.group(1).upper(), string)
 
 
@@ -32,12 +35,12 @@ class TimestampMixin:
     create_time: datetime = Field(
         default_factory=lambda: datetime.now(UTC),
         nullable=False,
-        sa_column_kwargs={"comment": "创建时间"}
+        sa_column_kwargs={"comment": "Created time"}
     )
     update_time: datetime = Field(
         default_factory=lambda: datetime.now(UTC),
         nullable=False,
-        sa_column_kwargs={"comment": "更新时间"}
+        sa_column_kwargs={"comment": "Updated time"}
     )
 
 

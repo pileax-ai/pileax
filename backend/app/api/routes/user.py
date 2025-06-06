@@ -12,26 +12,25 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.post("/", response_model=Response[UserPublic])
-def save(user_create: UserCreate, session: SessionDep, token: TokenDep) -> Any:
-    user = User(**user_create.model_dump())
+def save(item_in: UserCreate, session: SessionDep, token: TokenDep) -> Any:
+    item = User(**item_in.model_dump(by_alias=True))
     service = UserService(session)
-    service.save(user)
-    return send_ok(user)
+    service.save(item)
+    return send_ok(item)
 
 
 @router.get("/", response_model=Response[UserPublic])
 def get(id: uuid.UUID, session: SessionDep) -> Any:
     service = UserService(session)
-    user = service.get(id)
-    return send_ok(user)
+    item = service.get(id)
+    return send_ok(item)
 
 
 @router.put("/", response_model=Response[UserPublic])
-def update(data: UserUpdate, session: SessionDep) -> Any:
+def update(item_in: UserUpdate, session: SessionDep) -> Any:
     service = UserService(session)
-    update_dict = data.model_dump(exclude_unset=True)
-    user = service.update(data.id, update_dict)
-    return send_ok(user)
+    item = service.update(item_in.id, item_in.model_dump(exclude_unset=True))
+    return send_ok(item)
 
 
 @router.delete("/", response_model=Response)
