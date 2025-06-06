@@ -1,50 +1,40 @@
 import uuid
 from typing import Any
-from fastapi import APIRouter
+
+from app.api.router import ApiRouter
 
 from app.api.deps import SessionDep, CurrentUser
-from app.api.models.response import Response, send_ok
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.note import Note, NoteCreate, NoteUpdate, NotePublic
 from app.api.services.note_service import NoteService
 
-router = APIRouter(prefix="/note", tags=["Note"])
+router = ApiRouter(prefix="/note", tags=["Note"])
 
 
-@router.post("/", response_model=Response[NotePublic])
+@router.api_post("/", response_model=NotePublic)
 def save(item_in: NoteCreate, session: SessionDep, current_user: CurrentUser) -> Any:
     item = Note.model_validate(
         item_in.model_dump(by_alias=True),
         update={"userId": str(current_user.id)}
     )
-    service = NoteService(session)
-    service.save(item)
-    return send_ok(item)
+    return NoteService(session).save(item)
 
 
-@router.get("/", response_model=Response[NotePublic])
+@router.api_get("/", response_model=NotePublic)
 def get(id: uuid.UUID, session: SessionDep) -> Any:
-    service = NoteService(session)
-    item = service.get(id)
-    return send_ok(item)
+    return NoteService(session).get(id)
 
 
-@router.put("/", response_model=Response[NotePublic])
+@router.api_put("/", response_model=NotePublic)
 def update(item_in: NoteUpdate, session: SessionDep) -> Any:
-    service = NoteService(session)
-    item = service.update(item_in.id, item_in.model_dump(exclude_unset=True))
-    return send_ok(item)
+    return NoteService(session).update(item_in.id, item_in.model_dump(exclude_unset=True))
 
 
-@router.delete("/", response_model=Response)
+@router.api_delete("/")
 def delete(id: uuid.UUID, session: SessionDep) -> Any:
-    service = NoteService(session)
-    service.delete(id)
-    return send_ok()
+    NoteService(session).delete(id)
 
 
-@router.post("/query", response_model=Response[QueryResult[NotePublic]])
+@router.api_post("/query", response_model=QueryResult[NotePublic])
 def query(query: PaginationQuery, session: SessionDep) -> Any:
-    service = NoteService(session)
-    res = service.query(query)
-    return send_ok(res)
+    return NoteService(session).query(query)

@@ -4,7 +4,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.deps import SessionDep
 from app.api.models.auth import Token
-from app.api.models.response import Response, send_ok
 from app.api.services.auth_service import AuthService
 
 router = APIRouter(prefix="/auth", tags=["Auth"])

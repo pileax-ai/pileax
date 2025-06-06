@@ -1,12 +1,11 @@
 import logging
 import uvicorn
-from typing import Union
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import JSONResponse
 
 from app.api.main import api_router
-from app.api.models import response
+from app.api.router import send_error
 from app.core.config import settings
 from app.core.database import sqlite
 
@@ -48,7 +47,7 @@ async def custom_swagger_ui_html():
 async def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(
         status_code=exc.status_code,
-        content=response.send_error(str(exc.detail), exc.status_code).dict()
+        content=send_error(str(exc.detail), exc.status_code).dict()
     )
 
 

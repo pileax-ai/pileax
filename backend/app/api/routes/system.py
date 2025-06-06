@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 import time
 
-from app.api.models.response import Response, send_ok
+from app.api.router import Response, send_ok
 
 router = APIRouter(prefix="/system", tags=["System"])
 
