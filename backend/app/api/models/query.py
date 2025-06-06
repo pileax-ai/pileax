@@ -1,6 +1,5 @@
 from typing import Generic, Optional, Dict, List, Literal, Any, TypeVar
 from pydantic import BaseModel, Field
-from pydantic.generics import GenericModel
 
 T = TypeVar("T")
 SortOrder = Literal["asc", "desc"]
@@ -53,7 +52,7 @@ class PaginationQuery(BaseModel):
     sort: Optional[Dict[str, SortOrder]] = Field(default_factory=dict)
 
 
-class QueryResult(GenericModel, Generic[T]):
+class QueryResult(BaseModel, Generic[T]):
     """
     通用分页查询结果，支持结构不固定的列表数据。
 

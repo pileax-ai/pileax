@@ -2,13 +2,12 @@ from functools import wraps
 from typing import Generic, TypeVar, Optional, Any, Type, Callable
 from http import HTTPStatus
 from pydantic import Field, BaseModel
-from pydantic.generics import GenericModel
 from fastapi import status, APIRouter
 
 T = TypeVar("T")
 
 
-class Response(GenericModel, Generic[T]):
+class Response(BaseModel, Generic[T]):
     code: int = Field(default=0)
     message: str = Field(default="ok")
     data: Optional[T] = None
