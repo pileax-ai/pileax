@@ -18,3 +18,13 @@ source .venv/bin/activate
 ```shell
 fastapi run --reload app/main.py
 ```
+
+## Config
+### Generate Secret Keys
+Some environment variables in the .env file have a default value of changethis.
+
+You have to change them with a secret key, to generate secret keys you can run the following command:
+
+```angular2html
+python -c "import secrets; print(secrets.token_urlsafe(32))"
+```

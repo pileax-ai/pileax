@@ -2,7 +2,7 @@ import uuid
 from typing import Any
 from fastapi import APIRouter
 
-from app.api.deps import SessionDep
+from app.api.deps import SessionDep, TokenDep
 from app.api.models.response import Response, send_ok
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user import User, UserCreate, UserUpdate, UserPublic
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.post("/", response_model=Response[UserPublic])
-def save(user_create: UserCreate, session: SessionDep) -> Any:
+def save(user_create: UserCreate, session: SessionDep, token: TokenDep) -> Any:
     user = User(**user_create.model_dump())
     service = UserService(session)
     service.save(user)

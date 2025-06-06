@@ -26,6 +26,7 @@
   ],
   "scopes": [
     "global",
+    "backend",
     "frontend",
     "server"
   ],
