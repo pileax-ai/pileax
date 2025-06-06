@@ -1,5 +1,7 @@
 from sqlmodel import Session, SQLModel, create_engine, select
 
+from app.core.database import events
+
 sqlite_file_name = "metadata.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 

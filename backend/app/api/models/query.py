@@ -48,7 +48,7 @@ class PaginationQuery(BaseModel):
         | `__istartswith` | Starts with (case-insensitive) |
     """
     pageIndex: int = Field(1, ge=1)
-    pageSize: int = Field(10, ge=1, le=100)
+    pageSize: int = Field(10, ge=1)
     condition: Optional[Dict[str, object]] = Field(default_factory=dict)
     sort: Optional[Dict[str, SortOrder]] = Field(default_factory=dict)
 
