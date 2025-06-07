@@ -54,7 +54,7 @@ async def global_exception_handler(request: Request, ex: Exception) -> Response:
     )
 
 
-def register_exception_handlers(app):
+def setup_exception_handlers(app):
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
     app.add_exception_handler(Exception, global_exception_handler)
