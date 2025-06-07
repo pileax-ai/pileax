@@ -3,4 +3,5 @@ from app.api.repos.base_repository import BaseRepository
 
 
 class UserRepository(BaseRepository[User]):
-    model = User
+    def __init__(self, session):
+        super().__init__(User, session)

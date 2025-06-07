@@ -8,9 +8,8 @@ from app.api.models.query import PaginationQuery, QueryResult
 ModelType = TypeVar("ModelType", bound=SQLModel)
 
 class BaseRepository(Generic[ModelType]):
-    model: Type[ModelType]
-
-    def __init__(self, session: Session):
+    def __init__(self, model: Type[ModelType], session: Session):
+        self.model = model
         self.session = session
 
     def get(self, id: uuid.UUID) -> ModelType | None:
