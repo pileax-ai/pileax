@@ -53,7 +53,6 @@ class BaseService(Generic[ModelType]):
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
 
-
     def _check_owner(self, owner: str, obj: ModelType):
         if not obj:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
