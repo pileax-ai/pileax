@@ -1,8 +1,7 @@
-import uuid
-
 from typing import Generic, TypeVar, Type
 from sqlmodel import SQLModel, Session
 from fastapi import HTTPException
+from uuid import UUID
 
 from app.api.repos.base_repository import BaseRepository
 from app.api.models.query import PaginationQuery
@@ -15,7 +14,7 @@ class BaseService(Generic[ModelType]):
         self.session = session
         self.repo = repo_cls(model, session)
 
-    def get(self, id: uuid.UUID) -> ModelType:
+    def get(self, id: UUID) -> ModelType:
         obj = self.repo.get(id)
         if not obj:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
@@ -32,20 +31,20 @@ class BaseService(Generic[ModelType]):
     def create(self, obj: ModelType) -> ModelType:
         return self.repo.create(obj)
 
-    def update(self, id: uuid.UUID, new_data: dict) -> ModelType:
+    def update(self, id: UUID, new_data: dict) -> ModelType:
         obj = self.get(id)
         return self.repo.update(obj, new_data)
 
-    def update_by_owner(self, owner: str, id: uuid.UUID, new_data: dict) -> ModelType:
+    def update_by_owner(self, owner: UUID, id: UUID, new_data: dict) -> ModelType:
         obj = self.get(id)
         self._check_owner(owner, obj)
         return self.repo.update(obj, new_data)
 
-    def delete(self, id: uuid.UUID):
+    def delete(self, id: UUID):
         obj = self.get(id)
         return self.repo.delete(obj)
 
-    def delete_by_owner(self, owner: str, id: uuid.UUID):
+    def delete_by_owner(self, owner: UUID, id: UUID):
         obj = self.get(id)
         self._check_owner(owner, obj)
         return self.repo.delete(obj)
@@ -53,7 +52,7 @@ class BaseService(Generic[ModelType]):
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
 
-    def _check_owner(self, owner: str, obj: ModelType):
+    def _check_owner(self, owner: UUID, obj: ModelType):
         if not obj:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         if getattr(obj, "user_id", None) != str(owner):

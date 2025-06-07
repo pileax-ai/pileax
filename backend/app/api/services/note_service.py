@@ -1,5 +1,3 @@
-import uuid
-
 from app.api.models.note import Note
 from app.api.repos.note_repository import NoteRepository
 from app.api.services.base_service import BaseService

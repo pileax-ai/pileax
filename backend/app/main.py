@@ -8,6 +8,8 @@ from app.api.main import api_router
 from app.api.router import send_error
 from app.core.config import settings
 from app.core.database import sqlite
+from app.core.exception_handler import register_exception_handlers
+from app.core.logging import setup_logger
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -21,7 +23,14 @@ app = FastAPI(
     docs_url=None
 )
 
+# Register route
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Register exception handlers
+register_exception_handlers(app)
+
+# Setup logger
+setup_logger()
 
 
 @app.on_event("startup")
@@ -39,15 +48,6 @@ async def custom_swagger_ui_html():
         openapi_url=app.openapi_url,
         title="PileaX",
         swagger_ui_parameters={"persistAuthorization": True},
-    )
-
-
-# 全局异常处理
-@app.exception_handler(HTTPException)
-async def http_exception_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content=send_error(str(exc.detail), exc.status_code).dict()
     )
 
 

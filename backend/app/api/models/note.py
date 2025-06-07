@@ -1,5 +1,4 @@
 import uuid
-from typing import Optional
 
 from sqlalchemy import Column
 from sqlmodel import Field
@@ -12,8 +11,14 @@ class Note(BaseSQLModel, TimestampMixin, table=True):
         default_factory=uuid.uuid4,
         sa_column=Column(UUIDString(), primary_key=True)
     )
-    user_id: str = Field(..., max_length=64, description="Owner's ID")
-    parent: str | None = Field(default=None, max_length=64, description="Parent's ID")
+    user_id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        sa_column=Column(UUIDString())
+    )
+    parent: uuid.UUID | None = Field(
+        default_factory=uuid.uuid4,
+        sa_column=Column(UUIDString(), default=None)
+    )
     title: str = Field(..., max_length=255, description="Note title")
     content: str = Field(..., description="Note content")
     icon: str | None = Field(default=None)
@@ -26,7 +31,7 @@ class Note(BaseSQLModel, TimestampMixin, table=True):
 
 class NoteBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
-    parent: str | None = None
+    parent: uuid.UUID | None = None
     title: str
     content: str
     icon: str | None = None

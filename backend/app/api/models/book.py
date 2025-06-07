@@ -11,8 +11,11 @@ class Book(BaseSQLModel, TimestampMixin, table=True):
         default_factory=uuid.uuid4,
         sa_column=Column(UUIDString(), primary_key=True)
     )
-    user_id: str = Field(..., max_length=64, description="Owner's ID")
-    uuid: str = Field(..., max_length=64, unique=True, description="Book unique ID")
+    user_id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        sa_column=Column(UUIDString())
+    )
+    uuid: str = Field(..., min_length=32, max_length=64, unique=True, description="Book sha1 hash")
     title: str = Field(..., max_length=255, description="Book title")
     path: str = Field(..., description="Book file path")
     file_name: str | None = Field(default=None)
@@ -36,17 +39,18 @@ class BookBase(BaseApiModel):
     publisher: str | None = None
     published: str | None = None
 
+
 class BookCreate(BookBase):
-    uuid: str
+    uuid: str = Field(min_length=32, max_length=64)
     path: str
     file_name: str
-    cover_name: str | None = None
-    extension: str | None = None
+    cover_name: str | None = ""
+    extension: str | None = ""
 
 
 class BookUpdate(BookBase):
     id: uuid.UUID
-    title: str | None = None
+    title: str | None = ""
 
 
 class BookPublic(BookCreate, TimestampMixin):
