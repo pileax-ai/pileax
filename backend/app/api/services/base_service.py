@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Type, List
+from typing import Generic, TypeVar, Type, List, Dict, Optional
 from sqlmodel import SQLModel, Session
 from fastapi import HTTPException
 from uuid import UUID
@@ -51,6 +51,12 @@ class BaseService(Generic[ModelType]):
 
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
+
+    def find_one(self, condition: Optional[Dict[str, object]] = None) -> ModelType | None:
+        obj = self.repo.find_one(condition)
+        if not obj:
+            raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
+        return obj
 
     def find_all(self) -> List[ModelType]:
         return self.repo.find_all()

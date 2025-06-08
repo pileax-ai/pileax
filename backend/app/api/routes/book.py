@@ -1,5 +1,5 @@
-import uuid
 from typing import Any
+from uuid import UUID
 
 from app.api.controllers.book_controller import BookController
 from app.api.router import ApiRouter
@@ -17,8 +17,13 @@ def save(item_in: BookCreate, session: SessionDep, user_id: CurrentUserId) -> An
 
 
 @router.api_get("/", response_model=BookPublic)
-def get(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
+def get(id: UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
     return BookController(session, user_id).get(id)
+
+
+@router.api_get("/uuid", response_model=BookPublic)
+def get_by_uuid(uuid: str, session: SessionDep, user_id: CurrentUserId) -> Any:
+    return BookController(session, user_id).get_by_uuid(uuid)
 
 
 @router.api_put("/", response_model=BookPublic)
@@ -27,7 +32,7 @@ def update(item_in: BookUpdate, session: SessionDep, user_id: CurrentUserId) -> 
 
 
 @router.api_delete("/")
-def delete(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
+def delete(id: UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
     return BookController(session, user_id).delete(id)
 
 

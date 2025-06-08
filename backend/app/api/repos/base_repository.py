@@ -108,6 +108,16 @@ class BaseRepository(Generic[ModelType]):
             pageIndex=query.pageIndex,
         )
 
+    def find_one(self, condition: Optional[Dict[str, object]] = None) -> ModelType | None:
+        stmt = select(self.model)
+
+        if condition:
+            for field, value in condition.items():
+                if hasattr(self.model, field):
+                    stmt = stmt.where(getattr(self.model, field) == value)
+
+        return self.session.exec(stmt).first()
+
     def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
         stmt = select(self.model)
 
