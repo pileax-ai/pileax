@@ -11,6 +11,6 @@ from app.api.models.file_meta import FileMetaPublic
 router = ApiRouter(prefix="/file/upload", tags=["FileUpload"])
 
 
-@router.api_post("/", response_model=FileMetaPublic)
+@router.api_post("", response_model=FileMetaPublic)
 async def upload(file: UploadFile, session: SessionDep, user_id: CurrentUserId) -> Any:
     return await FileUploadController(session, user_id).upload(file)

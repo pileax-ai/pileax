@@ -7,8 +7,12 @@
 import { BigNumber } from 'bignumber.js';
 import dayjs, { ManipulateType } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import zhCn from 'dayjs/locale/zh-cn';
 dayjs.extend(relativeTime);
+dayjs.extend(utc);
+dayjs.extend(localizedFormat);
 dayjs.locale(zhCn);
 
 // =========================================================
@@ -58,9 +62,10 @@ export function formatNumber(value: number, {
 // Time
 // =========================================================
 export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
+  const  d = dayjs(time).utc().local()
   return {
-    fromNow: dayjs(time).fromNow(),
-    timestamp: dayjs(time).format(format)
+    fromNow: d.fromNow(),
+    timestamp: d.format(format)
   }
 }
 

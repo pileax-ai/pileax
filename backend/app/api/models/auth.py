@@ -25,3 +25,8 @@ class UserSimple(BaseModel):
 class SigninPublic(BaseSQLModel):
     user: UserSimple
     token: Token
+
+
+class SigninVo(BaseSQLModel):
+    account: UserSimple
+    token: str

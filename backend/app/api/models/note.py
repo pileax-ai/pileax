@@ -1,5 +1,6 @@
 import uuid
 
+from pydantic import field_validator
 from sqlalchemy import Column
 from sqlmodel import Field
 
@@ -32,8 +33,6 @@ class Note(BaseSQLModel, TimestampMixin, table=True):
 class NoteBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     parent: uuid.UUID | None = None
-    title: str
-    content: str
     icon: str | None = None
     cover: str | None = None
     favorite: int | None = None
@@ -41,8 +40,16 @@ class NoteBase(BaseApiModel):
     ref_id: str | None = None
     ref_type: str | None = None
 
+    @field_validator("parent", mode="before")
+    def parse_empty_string_as_none(cls, v):
+        if v == "":
+            return None
+        return v
+
+
 class NoteCreate(NoteBase):
-    pass
+    title: str | None = None
+    content: str | None = None
 
 
 class NoteUpdate(NoteBase):

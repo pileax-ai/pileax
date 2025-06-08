@@ -168,7 +168,7 @@ export default function () {
     }, { refresh: true });
   }
 
-  function buildNoteTree(items: Note[], id = '') {
+  function buildNoteTree(items: Note[], id: string | null = null) {
     const list: any[] = items
       .filter(item => item['parent'] === id)
       .map((item) => {

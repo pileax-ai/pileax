@@ -11,22 +11,22 @@ from app.api.models.note import NoteCreate, NoteUpdate, NotePublic
 router = ApiRouter(prefix="/note", tags=["Note"])
 
 
-@router.api_post("/", response_model=NotePublic)
+@router.api_post("", response_model=NotePublic)
 def save(item_in: NoteCreate, session: SessionDep, user_id: CurrentUserId) -> Any:
     return NoteController(session, user_id).save(item_in)
 
 
-@router.api_get("/", response_model=NotePublic)
+@router.api_get("", response_model=NotePublic)
 def get(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
     return NoteController(session, user_id).get(id)
 
 
-@router.api_put("/", response_model=NotePublic)
+@router.api_put("", response_model=NotePublic)
 def update(item_in: NoteUpdate, session: SessionDep, user_id: CurrentUserId) -> Any:
     return NoteController(session, user_id).update(item_in)
 
 
-@router.api_delete("/")
+@router.api_delete("")
 def delete(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
     return NoteController(session, user_id).delete(id)
 
@@ -36,6 +36,6 @@ def query(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -
     return NoteController(session, user_id).query(query)
 
 
-@router.api_post("/all", response_model=List[NotePublic])
+@router.api_get("/all", response_model=List[NotePublic])
 def find_all(session: SessionDep, user_id: CurrentUserId) -> Any:
     return NoteController(session, user_id).find_all_by_owner()

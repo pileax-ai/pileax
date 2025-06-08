@@ -25,7 +25,7 @@ class BaseService(Generic[ModelType]):
         newObj = self.repo.get(id)
         if not newObj:
             return self.create(obj)
-        update_dict = obj.model_dump(exclude_unset=True)
+        update_dict = obj.model_dump(exclude_unset=True, exclude_none=True)
         return self.update(id, update_dict)
 
     def create(self, obj: ModelType) -> ModelType:

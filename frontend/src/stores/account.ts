@@ -8,6 +8,7 @@ import {
   removeAllCookies,
   saveItemObject,
 } from 'core/utils/storage'
+import { authService } from 'src/service/remote/auth'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
@@ -27,23 +28,32 @@ export const useAccountStore = defineStore('account', {
     async autoLogin() {
       await this.login({
         phone: 'phone',
+        username: 'phone',
         password: 'password'
       });
     },
-    async login(params: LoginParams) {
+    async login0(params: LoginParams) {
       try {
         const query = {
           ...params,
           password: encryptPassword(params.password)
         };
-        const res = await POST({name: 'auth', path: '/signin', query: query}) as Indexable;
+        const res = await POST({name: 'auth', path: '/signin', body: query}) as Indexable;
+        return this.afterLogin(res);
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    },
+    async login(params: LoginParams) {
+      try {
+        const res = await authService.autoSignin() as Indexable;
         return this.afterLogin(res);
       } catch (err) {
         return Promise.reject(err);
       }
     },
     afterLogin(result: Indexable, redirect = '/welcome') {
-      console.log('abc', result)
+      // console.log('login', result)
       saveItemObject('user', result);
       this.account = result.account;
       if (redirect) {

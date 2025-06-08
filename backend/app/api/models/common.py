@@ -1,6 +1,6 @@
 import re
 import uuid
-from datetime import datetime, UTC
+from datetime import datetime, UTC, timezone
 
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy.types import TypeDecorator, CHAR
@@ -32,16 +32,27 @@ class UUIDString(TypeDecorator):
 
 
 class TimestampMixin:
-    create_time: datetime = Field(
-        default_factory=lambda: datetime.now(UTC),
+    create_time: str = Field(
+        default_factory=lambda: datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         nullable=False,
         sa_column_kwargs={"comment": "Created time"}
     )
-    update_time: datetime = Field(
-        default_factory=lambda: datetime.now(UTC),
+    update_time: str = Field(
+        default_factory=lambda: datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         nullable=False,
         sa_column_kwargs={"comment": "Updated time"}
     )
+
+
+class TimestampReadMixin(BaseModel):
+    create_time: datetime
+    update_time: datetime
+
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+        }
 
 
 class BaseSQLModel(SQLModel):

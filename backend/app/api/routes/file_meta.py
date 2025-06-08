@@ -11,22 +11,22 @@ from app.api.models.file_meta import FileMetaCreate, FileMetaUpdate, FileMetaPub
 router = ApiRouter(prefix="/file/meta", tags=["FileMeta"])
 
 
-@router.api_post("/", response_model=FileMetaPublic)
+@router.api_post("", response_model=FileMetaPublic)
 def save(item_in: FileMetaCreate, session: SessionDep, user_id: CurrentUserId) -> Any:
     return FileMetaController(session, user_id).save(item_in)
 
 
-@router.api_get("/", response_model=FileMetaPublic)
+@router.api_get("", response_model=FileMetaPublic)
 def get(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
     return FileMetaController(session, user_id).get(id)
 
 
-@router.api_put("/", response_model=FileMetaPublic)
+@router.api_put("", response_model=FileMetaPublic)
 def update(item_in: FileMetaUpdate, session: SessionDep, user_id: CurrentUserId) -> Any:
     return FileMetaController(session, user_id).update(item_in)
 
 
-@router.api_delete("/")
+@router.api_delete("")
 def delete(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
     return FileMetaController(session, user_id).delete(id)
 

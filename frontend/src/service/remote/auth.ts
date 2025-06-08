@@ -6,13 +6,21 @@
 import { GET, POST, DELETE } from 'src/hooks/useRequest';
 
 export class RemoteAuthService {
+  private apiName = 'auth';
 
   async autoSignin(): Promise<any> {
-    const query = {
-      phone: 'phone',
-      password: 'password'
-    }
-    return POST({ name: 'auth', path: '/signib', query: query });
+    const formData = new FormData();
+    formData.append('username', 'username');
+    formData.append('password', 'password');
+
+    return POST({
+      name: this.apiName,
+      path: '/signin',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    });
   }
 
 }

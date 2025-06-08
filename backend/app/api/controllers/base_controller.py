@@ -32,7 +32,7 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return self.service.update_by_owner(
             self.user_id,
             item_in.id,
-            item_in.model_dump(exclude_unset=True)
+            item_in.model_dump(exclude_unset=True, exclude_none=True)
         )
 
     def delete(self, id: UUID) -> Any:
