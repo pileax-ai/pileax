@@ -1,12 +1,13 @@
-import uvicorn
 from fastapi import FastAPI
 
 from app.core.config import settings
+from app.core.lifecycle import lifespan, start_server
 from app.core.lifecycle import initialization
 
 # FastAPI
 # see: https://fastapi.tiangolo.com/zh/tutorial/metadata/
 app = FastAPI(
+    lifespan=lifespan,
     title="PileaX",
     version="0.0.1",
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
@@ -16,4 +17,4 @@ initialization(app)
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    start_server(app)

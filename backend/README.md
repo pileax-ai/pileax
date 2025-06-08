@@ -17,6 +17,9 @@ source .venv/bin/activate
 ### Star server
 ```shell
 fastapi run --reload app/main.py
+
+# or
+python app/main.py
 ```
 
 ## Config

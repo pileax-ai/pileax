@@ -1,5 +1,7 @@
 import logging
+from contextlib import asynccontextmanager
 
+import uvicorn
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
 
@@ -8,16 +10,20 @@ from app.core.config import settings
 from app.core.database import sqlite
 from app.core.exception_handler import setup_exception_handlers
 from app.core.logging import setup_logger
+from app.utils.http_util import get_free_port
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def setup_events(app: FastAPI):
-    @app.on_event("startup")
-    async def startup():
-        sqlite.create_db_and_tables()
-        logger.info("Initializing service")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # startup
+    logger.info('startup')
+    sqlite.create_db_and_tables()
+
+    yield
+    # shutdown
+    logger.info('shutdown')
 
 
 def setup_docs(app: FastAPI):
@@ -38,7 +44,13 @@ def setup_routes(app: FastAPI):
 
 def initialization(app: FastAPI):
     setup_logger()
-    setup_events(app)
     setup_docs(app)
     setup_routes(app)
     setup_exception_handlers(app)
+    logger.info("Initialization completed")
+
+
+def start_server(app: FastAPI):
+    port = get_free_port()
+    logger.info(f"Starting server at http://localhost:{port}, docs at http://localhost:{port}/docs")
+    uvicorn.run(app, host="localhost", port=port)
