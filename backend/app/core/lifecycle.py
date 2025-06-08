@@ -1,9 +1,11 @@
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
+from starlette.staticfiles import StaticFiles
 
 from app.api.main import api_router
 from app.core.config import settings
@@ -41,11 +43,16 @@ def setup_docs(app: FastAPI):
 def setup_routes(app: FastAPI):
     app.include_router(api_router, prefix=settings.API_V1_STR)
 
+def setup_static(app: FastAPI):
+    static_path = Path(settings.PUBLIC_ROOT).resolve()
+    app.mount("/", StaticFiles(directory=static_path), name="root")
+
 
 def initialization(app: FastAPI):
     setup_logger()
     setup_docs(app)
     setup_routes(app)
+    setup_static(app)
     setup_exception_handlers(app)
     logger.info("Initialization completed")
 
