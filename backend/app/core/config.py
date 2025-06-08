@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
     APP_MODE: Literal["SINGLE", "MULTIPLE"] = "SINGLE"
     PROJECT_NAME: str = ""
+    PUBLIC_ROOT: str = "./storage/public"
 
 
 settings = Settings()
