@@ -34,10 +34,10 @@ def api_response(model: Type[T]):
             if isinstance(result, BaseModel):
                 result = model(**result.model_dump(by_alias=True))
             # 如果是 list[BaseModel]，统一转 dict
-            elif isinstance(result, list) and result and isinstance(result[0], BaseModel):
-                result = [model(**item.model_dump(by_alias=True)) for item in result]
+            # elif isinstance(result, list) and result and isinstance(result[0], BaseModel):
+            #     result = [model(**item.model_dump(by_alias=True)) for item in result]
 
-            return Response[T](
+            return Response(
                 code=HTTPStatus.OK,
                 message="ok",
                 data=result

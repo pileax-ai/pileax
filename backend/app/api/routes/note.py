@@ -1,5 +1,5 @@
 import uuid
-from typing import Any
+from typing import Any, List
 
 from app.api.controllers.note_controller import NoteController
 from app.api.router import ApiRouter
@@ -34,3 +34,8 @@ def delete(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
 @router.api_post("/query", response_model=QueryResult[NotePublic])
 def query(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
     return NoteController(session, user_id).query(query)
+
+
+@router.api_post("/all", response_model=List[NotePublic])
+def find_all(session: SessionDep, user_id: CurrentUserId) -> Any:
+    return NoteController(session, user_id).find_all_by_owner()

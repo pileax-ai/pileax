@@ -8,7 +8,7 @@ from app.core.lifecycle import initialization
 # see: https://fastapi.tiangolo.com/zh/tutorial/metadata/
 app = FastAPI(
     lifespan=lifespan,
-    title="PileaX",
+    title=settings.PROJECT_NAME,
     version="0.0.1",
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url=None

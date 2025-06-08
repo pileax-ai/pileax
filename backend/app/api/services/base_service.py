@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar, Type, List
 from sqlmodel import SQLModel, Session
 from fastapi import HTTPException
 from uuid import UUID
@@ -51,6 +51,12 @@ class BaseService(Generic[ModelType]):
 
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
+
+    def find_all(self) -> List[ModelType]:
+        return self.repo.find_all()
+
+    def find_all_by_owner(self, owner: UUID) -> List[ModelType]:
+        return self.repo.find_all({"user_id": owner})
 
     def _check_owner(self, owner: UUID, obj: ModelType):
         if not obj:

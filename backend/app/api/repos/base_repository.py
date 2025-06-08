@@ -1,7 +1,7 @@
 import uuid
 
 from sqlmodel import SQLModel, Session, select, func
-from typing import TypeVar, Generic, Type, List, Tuple
+from typing import TypeVar, Generic, Type, List, Tuple, Dict, Optional, cast
 
 from app.api.models.query import PaginationQuery, QueryResult
 
@@ -107,3 +107,14 @@ class BaseRepository(Generic[ModelType]):
             pageSize=query.pageSize,
             pageIndex=query.pageIndex,
         )
+
+    def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
+        stmt = select(self.model)
+
+        if condition:
+            for field, value in condition.items():
+                if hasattr(self.model, field):
+                    stmt = stmt.where(getattr(self.model, field) == value)
+
+        rows = self.session.exec(stmt).all()
+        return cast(List[ModelType], rows)
