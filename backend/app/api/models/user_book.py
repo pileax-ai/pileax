@@ -47,3 +47,17 @@ class UserBookUpdate(UserBookBase):
 
 class UserBookPublic(UserBookCreate, TimestampMixin):
     pass
+
+class UserBookDetails(UserBookPublic):
+    owner: uuid.UUID
+    title: str
+    path: str | None = None
+    file_name: str | None = None
+    cover_name: str | None = None
+    author: str | None = None
+    language: str | None = None
+    description: str | None = None
+    publisher: str | None = None
+    published: str | None = None
+    scope: int
+    book_rating: int

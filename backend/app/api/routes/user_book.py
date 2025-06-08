@@ -1,11 +1,11 @@
 import uuid
-from typing import Any
+from typing import Any, List
 
 from app.api.controllers.user_book_controller import UserBookController
 from app.api.router import ApiRouter
 from app.api.deps import SessionDep, CurrentUserId
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.user_book import UserBookCreate, UserBookUpdate, UserBookPublic
+from app.api.models.user_book import UserBookCreate, UserBookUpdate, UserBookPublic, UserBookDetails
 
 router = ApiRouter(prefix="/user/book", tags=["UserBook"])
 
@@ -33,3 +33,13 @@ def delete(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
 @router.api_post("/query", response_model=QueryResult[UserBookPublic])
 def query(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
     return UserBookController(session, user_id).query(query)
+
+
+@router.api_get("/details", response_model=UserBookDetails)
+def get_details(id: uuid.UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
+    return UserBookController(session, user_id).get_details(id)
+
+
+@router.api_post("/query/details", response_model=QueryResult[UserBookDetails])
+def query_details(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
+    return UserBookController(session, user_id).query_details(query)

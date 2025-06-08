@@ -4,6 +4,7 @@ from sqlmodel import SQLModel, Session, select, func
 from typing import TypeVar, Generic, Type, List, Tuple, Dict, Optional, cast
 
 from app.api.models.query import PaginationQuery, QueryResult
+from app.utils.db_util import DbUtil
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 
@@ -38,57 +39,19 @@ class BaseRepository(Generic[ModelType]):
     """
     def query(self, query: PaginationQuery) -> QueryResult[ModelType]:
         # 1. Basic Filter
-        filters = []
+        filters = DbUtil.get_filters(self.model, query.condition)
 
-        for raw_field, value in query.condition.items():
-            if not value:
-                continue
-
-            if "__" in raw_field:
-                field, op = raw_field.split("__", 1)
-            else:
-                field, op = raw_field, "eq"
-
-            if not hasattr(self.model, field):
-                continue
-
-            column = getattr(self.model, field)
-
-            # Operations
-            if op == "eq":
-                filters.append(column == value)
-            elif op == "ne":
-                filters.append(column != value)
-            elif op == "gt":
-                filters.append(column > value)
-            elif op == "lt":
-                filters.append(column < value)
-            elif op == "ge":
-                filters.append(column >= value)
-            elif op == "le":
-                filters.append(column <= value)
-            elif op == "contains":
-                filters.append(column.contains(value))
-            elif op == "icontains":
-                filters.append(func.lower(column).contains(value.lower()))
-            elif op == "startswith":
-                filters.append(column.startswith(value))
-            elif op == "istartswith":
-                filters.append(func.lower(column).startswith(value.lower()))
-
-        # 2. Total
+        # 2. stmt
+        stmt = select(self.model)
         count_stmt = select(func.count()).select_from(self.model)
         if filters:
+            stmt = stmt.where(*filters)
             count_stmt = count_stmt.where(*filters)
 
-        total = self.session.exec(count_stmt).one()
 
         # 3. Query Filter
-        stmt = select(self.model)
-        if filters:
-            stmt = stmt.where(*filters)
 
-        # 3.1 Add order
+        # 3. Sort
         for field, direction in query.sort.items():
             if hasattr(self.model, field):
                 column = getattr(self.model, field)
@@ -99,6 +62,10 @@ class BaseRepository(Generic[ModelType]):
         stmt = stmt.offset(offset).limit(query.pageSize)
 
         # 5. Query
+        # 5.1 Total
+        total = self.session.exec(count_stmt).one()
+
+        # 5.2 Rows
         rows = self.session.exec(stmt).all()
 
         return QueryResult[ModelType](
