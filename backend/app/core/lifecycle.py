@@ -69,6 +69,8 @@ def initialization(app: FastAPI):
 
 
 def start_server(app: FastAPI):
-    port = get_free_port()
+    # port = get_free_port()
+    port = settings.PORT
     logger.info(f"Starting server at http://localhost:{port}, docs at http://localhost:{port}/docs")
-    uvicorn.run(app, host="localhost", port=port)
+
+    uvicorn.run(app, host="localhost", port=port, log_config=None)

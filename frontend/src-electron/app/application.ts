@@ -10,7 +10,7 @@ import {
   saveBookFiles,
   saveImageFile
 } from '../utils/file';
-import { appLogPath, appStoragePath } from '../utils/path'
+import { appLogPath, appPublicRootPath, appStoragePath } from '../utils/path'
 import { dbExecute } from '../db/service';
 import {
   openNewWindow,
@@ -28,12 +28,12 @@ export class Application {
   }
 
   static initPath() {
-    const storagePath = appStoragePath();
-    if (!fs.existsSync(storagePath)) {
-      fs.mkdirSync(storagePath, { recursive: true });
-      console.log(`📁 Create storage dir: ${storagePath}`);
+    const publicPath = appPublicRootPath();
+    if (!fs.existsSync(publicPath)) {
+      fs.mkdirSync(publicPath, { recursive: true });
+      console.log(`📁 Create storage dir: ${publicPath}`);
     } else {
-      console.log(`✅ Storage dir is ready: ${storagePath}`);
+      console.log(`✅ Public dir is ready: ${publicPath}`);
     }
   }
 

@@ -3,6 +3,7 @@ Logging module
 """
 import logging
 import os
+import sys
 
 from app.core.config import settings
 
@@ -26,7 +27,7 @@ def setup_logger():
     file_handler.setFormatter(logging.Formatter(format, datefmt))
 
     # 控制台
-    console_handler = logging.StreamHandler()
+    console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(logging.Formatter(format, datefmt))
 

@@ -44,8 +44,8 @@ export const appBookRootPath = () => {
 /**
  * App public root path
  *
- * APP_ROOT/storage/files
+ * APP_ROOT/storage/public
  */
 export const appPublicRootPath = () => {
-  return path.join(appStoragePath(), 'files');
+  return path.join(appStoragePath(), 'public');
 }

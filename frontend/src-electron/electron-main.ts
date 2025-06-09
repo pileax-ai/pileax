@@ -5,7 +5,7 @@ import path from 'path';
 import os from 'os';
 import * as remoteMain from '@electron/remote/main/index.js';
 import { Application } from './app/application';
-import { startServer, stopServer } from './server/server';
+import { startServer, stopServer } from './server/fastapi';
 
 remoteMain.initialize();
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
