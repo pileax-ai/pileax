@@ -117,8 +117,8 @@ async function open(userBookId: string, initialCfi = '') {
   }
 }
 
-async function prepareAnnotations(bookId: string) {
-  const annotations = await findBookAnnotation(bookId);
+async function prepareAnnotations(userBookId: string) {
+  const annotations = await findBookAnnotation(userBookId);
   renderAnnotations(annotations);
 }
 

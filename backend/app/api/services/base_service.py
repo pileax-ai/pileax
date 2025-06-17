@@ -58,8 +58,8 @@ class BaseService(Generic[ModelType]):
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj
 
-    def find_all(self) -> List[ModelType]:
-        return self.repo.find_all()
+    def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
+        return self.repo.find_all(condition)
 
     def find_all_by_owner(self, owner: UUID) -> List[ModelType]:
         return self.repo.find_all({"user_id": owner})

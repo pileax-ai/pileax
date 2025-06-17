@@ -30,12 +30,12 @@ const renderAnnotations = (annotations: []) => {
 /**
  * Finds book annotation that match given find options.
  *
- * @param bookId Book id
+ * @param userBookId User Book Id
  * @return List
  */
-const findBookAnnotation = async (bookId: string) => {
+const findBookAnnotation = async (userBookId: string) => {
   const query = {
-    bookId: bookId
+    id: userBookId
   };
   return bookAnnotationService.getAll(query);
 }
