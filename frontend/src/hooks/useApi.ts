@@ -10,19 +10,19 @@ export default function() {
   })
 
   function getBookUrl(book: Indexable) {
-    return `${appBase.value}/files/book/${book.path}/${book.fileName}`;
+    return `${appBase.value}/book/${book.path}/${book.fileName}`;
   }
 
   function getBookByPath(filePath: string) {
-    return `${appBase.value}/files/book/${filePath}`;
+    return `${appBase.value}/book/${filePath}`;
   }
 
   function getCoverUrl(book: Indexable) {
-    return `${appBase.value}/files/book/${book.path}/${book.coverName}`;
+    return `${appBase.value}/book/${book.path}/${book.coverName}`;
   }
 
   function getFileUrl(path: string) {
-    return `${appBase.value}/files/${path}`;
+    return `${appBase.value}/${path}`;
   }
 
   return {

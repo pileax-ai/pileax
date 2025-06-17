@@ -175,7 +175,8 @@ function doQuery() {
   };
 
   bookService.query(query).then(res => {
-    rows.value = res;
+    console.log('res', res)
+    rows.value = res.list;
   });
 }
 

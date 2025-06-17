@@ -61,9 +61,9 @@ def setup_cors(app: FastAPI):
 def initialization(app: FastAPI):
     setup_logger()
     setup_docs(app)
+    setup_cors(app)
     setup_routes(app)
     setup_static(app)
-    setup_cors(app)
     setup_exception_handlers(app)
     logger.info("Initialization completed")
 

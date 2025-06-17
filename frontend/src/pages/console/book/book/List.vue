@@ -213,7 +213,7 @@ function doQuery() {
   };
 
   userBookService.queryDetails(query).then(res => {
-    rows.value = res;
+    rows.value = res.list;
   });
 }
 

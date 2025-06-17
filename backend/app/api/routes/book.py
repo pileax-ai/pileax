@@ -1,5 +1,7 @@
-from typing import Any
+from typing import Any, List
 from uuid import UUID
+
+from fastapi import UploadFile, File, Form
 
 from app.api.controllers.book_controller import BookController
 from app.api.router import ApiRouter
@@ -39,3 +41,8 @@ def delete(id: UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
 @router.api_post("/query", response_model=QueryResult[BookPublic])
 def query(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
     return BookController(session, user_id).query(query)
+
+
+@router.api_post("/upload", response_model=BookPublic)
+async def upload(files: List[UploadFile], session: SessionDep, user_id: CurrentUserId, book: str = Form(...)) -> Any:
+    return await BookController(session, user_id).upload(book, files)
