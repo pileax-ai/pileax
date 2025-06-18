@@ -79,17 +79,17 @@ class UserBookRepository(BaseRepository[UserBook]):
 
     def _build_details(self, user_book: UserBook, book: Book) -> dict:
         return {
-                **user_book.model_dump(),
-                "owner": book.user_id,
-                "title": book.title,
-                "path": book.path,
-                "file_name": book.file_name,
-                "cover_name": book.cover_name,
-                "author": book.author,
-                "language": book.language,
-                "description": book.description,
-                "publisher": book.publisher,
-                "published": book.published,
-                "scope": book.scope,
-                "book_rating": book.rating,
-            }
+            **user_book.model_dump(),
+            "owner": book.user_id,
+            "title": book.title,
+            "path": book.path,
+            "file_name": book.file_name,
+            "cover_name": book.cover_name,
+            "author": book.author,
+            "language": book.language,
+            "description": book.description,
+            "publisher": book.publisher,
+            "published": book.published,
+            "scope": book.scope,
+            "book_rating": book.rating,
+        }

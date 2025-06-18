@@ -84,7 +84,7 @@ function doQuery() {
     sort: orderBy.value
   };
   joinQueryAnnotation(query).then(res => {
-    rows.value = res;
+    rows.value = res.list;
   });
 }
 

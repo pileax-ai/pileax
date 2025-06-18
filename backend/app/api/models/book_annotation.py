@@ -54,3 +54,10 @@ class BookAnnotationUpdate(BookAnnotationBase):
 
 class BookAnnotationPublic(BookAnnotationCreate, TimestampMixin):
     pass
+
+
+class BookAnnotationDetails(BookAnnotationPublic):
+    book_title: str
+    path: str | None = None
+    file_name: str | None = None
+    cover_name: str | None = None

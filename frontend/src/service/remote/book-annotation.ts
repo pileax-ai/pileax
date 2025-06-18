@@ -47,7 +47,7 @@ export class RemoteBookAnnotationService {
    */
   async queryBook(query: Indexable): Promise<any> {
 
-    return POST({ name: 'bookAnnotation', path: '/query/book', body: query });
+    return POST({ name: 'bookAnnotation', path: '/query/details', body: query });
   }
 }
 

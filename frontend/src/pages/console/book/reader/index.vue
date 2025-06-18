@@ -91,10 +91,10 @@ async function openWithBook(userBookId: string) {
 
 async function openWithAnnotation(annotationId: string) {
   const annotation = await bookAnnotationService.get(annotationId);
-  const bookId = annotation.bookId;
+  const userBookId = annotation.userBookId;
   const cfi = annotation.value;
   store.setReadingMode(ReadingMode.Preview);
-  await open(bookId, cfi);
+  await open(userBookId, cfi);
 }
 
 async function open(userBookId: string, initialCfi = '') {

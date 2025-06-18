@@ -48,9 +48,6 @@ class BaseRepository(Generic[ModelType]):
             stmt = stmt.where(*filters)
             count_stmt = count_stmt.where(*filters)
 
-
-        # 3. Query Filter
-
         # 3. Sort
         for field, direction in query.sort.items():
             if hasattr(self.model, field):

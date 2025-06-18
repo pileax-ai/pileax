@@ -22,3 +22,7 @@ export function toggleClass (element: HTMLElement, className: string) {
   classString = classString.trim();
   element.className = classString;
 }
+
+export const sleep = async (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

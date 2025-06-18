@@ -33,9 +33,9 @@
             <div>
               <div class="text-tips">上传添加</div>
               <div class="q-pa-md">
-                <o-file-uploader :accept="bookAccept"
+                <o-book-uploader :accept="bookAccept"
                                  :max-size="500 * 1024 * 1024"
-                                 :loading="loading"
+                                 :progress="uploadProgress"
                                  leading
                                  @ready="onAddReady" />
               </div>
@@ -45,10 +45,6 @@
           </q-list>
         </q-menu>
       </q-btn>
-      <o-file-uploader-btn :accept="bookAccept" :loading="loading" leading
-                       @ready="onAddReady" v-if="false">
-        <o-tooltip>添加</o-tooltip>
-      </o-file-uploader-btn>
       <book-filter-btn @view="onView" @sort="onSort" />
     </template>
 
@@ -86,8 +82,8 @@
               <q-btn icon="add" label="添加图书"
                      class="bg-primary text-white"
                      flat @click="onAdd" v-if="false" />
-              <o-file-uploader :accept="bookAccept"
-                               :loading="loading"
+              <o-book-uploader :accept="bookAccept"
+                               :progress="uploadProgress"
                                :max-size="500 * 1024 * 1024"
                                leading
                                @ready="onAddReady" />
@@ -121,13 +117,13 @@ import BookDetails from './BookDetails.vue';
 import BookEdit from './BookEdit.vue';
 import BookAdd from './BookAdd.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
-import OFileUploader from 'core/components/fIle/OFileUploader.vue';
-import OFileUploaderBtn from 'core/components/fIle/OFileUploaderBtn.vue';
+import OBookUploader from 'core/components/fIle/OBookUploader.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
 import { ipcService } from 'src/api/ipc';
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
+import { sleep } from 'core/utils/misc'
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();
@@ -136,7 +132,8 @@ const addMenu = ref(false);
 const data = ref<Indexable>({});
 const condition = ref<Indexable>({});
 const rows = ref([]);
-const loading = ref(false);
+const uploadProgress = ref(0);
+const loading = ref(true);
 const filter = ref(false);
 const bookView = ref('grid');
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
@@ -172,7 +169,20 @@ function onOpenAdd() {
   query.value.openSide('70vw', 'add', 'add', 'Add book');
 }
 
-async function onAddReady(file: File, icon: string) {
+async function onAddReady(files: File[]) {
+  const total = files.length
+  for (let i = 0; i < total; i++) {
+    uploadProgress.value = (i + 1) / total * 100;
+    const file = files.at(i);
+    await uploadBook(file!);
+    await sleep(500);
+  }
+
+  addMenu.value = false;
+  uploadProgress.value = 0;
+}
+
+async function onAddReady0(file: File, icon: string) {
   loading.value = true;
   await uploadBook(file);
   loading.value = false;

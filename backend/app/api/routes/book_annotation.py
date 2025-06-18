@@ -6,7 +6,8 @@ from app.api.router import ApiRouter
 
 from app.api.deps import SessionDep, CurrentUserId
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.book_annotation import BookAnnotationCreate, BookAnnotationUpdate, BookAnnotationPublic
+from app.api.models.book_annotation import BookAnnotationCreate, BookAnnotationUpdate, BookAnnotationPublic, \
+    BookAnnotationDetails
 
 router = ApiRouter(prefix="/book/annotation", tags=["BookAnnotation"])
 
@@ -34,6 +35,11 @@ def delete(id: UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
 @router.api_post("/query", response_model=QueryResult[BookAnnotationPublic])
 def query(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
     return BookAnnotationController(session, user_id).query(query)
+
+
+@router.api_post("/query/details", response_model=QueryResult[BookAnnotationDetails])
+def query_details(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
+    return BookAnnotationController(session, user_id).query_details(query)
 
 
 @router.api_get("/all", response_model=List[BookAnnotationPublic])
