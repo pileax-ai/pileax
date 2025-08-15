@@ -5,6 +5,7 @@ from pathlib import Path
 import uvicorn
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
@@ -16,6 +17,14 @@ from app.core.logging import setup_logger
 from app.utils.http_util import get_free_port
 
 logger = logging.getLogger(__name__)
+
+class StaticCORSMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        if request.url.path.startswith("/book/"):
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+        return response
 
 
 @asynccontextmanager
@@ -41,12 +50,16 @@ def setup_docs(app: FastAPI):
             swagger_ui_parameters={"persistAuthorization": True},
         )
 
+
 def setup_routes(app: FastAPI):
     app.include_router(api_router, prefix=settings.API_V1_STR)
+
 
 def setup_static(app: FastAPI):
     static_path = Path(settings.PUBLIC_ROOT).resolve()
     app.mount("/", StaticFiles(directory=static_path), name="root")
+    app.add_middleware(StaticCORSMiddleware)
+    logger.info('setup_static')
 
 
 def setup_cors(app: FastAPI):
@@ -58,12 +71,13 @@ def setup_cors(app: FastAPI):
         allow_headers=["*"],
     )
 
+
 def initialization(app: FastAPI):
     setup_logger()
     setup_docs(app)
-    setup_cors(app)
     setup_routes(app)
     setup_static(app)
+    setup_cors(app)
     setup_exception_handlers(app)
     logger.info("Initialization completed")
 

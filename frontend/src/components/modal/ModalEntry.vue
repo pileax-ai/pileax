@@ -4,6 +4,7 @@
     <chat-to-note-dialog v-if="type === 'chat-note-select'" />
     <ai-provider-search-dialog v-if="type === 'ai-provider-search'" />
     <tips-dialog v-if="type === 'tips'" />
+    <signin-dialog v-if="type === 'signin'" />
     <o-settings-dialog v-if="type === 'settings'" />
   </section>
 </template>
@@ -17,6 +18,7 @@ import AiProviderSearchDialog from './AiProviderSearchDialog.vue';
 import ChatToNoteDialog from './ChatToNoteDialog.vue';
 import NoteSearchDialog from './NoteSearchDialog.vue';
 import TipsDialog from './TipsDialog.vue';
+import SigninDialog from './SigninDialog.vue';
 
 const componentStore = useComponentStore();
 

@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { getCommonHeaders } from 'core/utils/common';
+import useDialog from 'core/hooks/useDialog';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -15,6 +16,7 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
+const { openDialog } = useDialog();
 const api = axios.create({
   baseURL: process.env.API_BASE_URL,
   timeout: 100000
@@ -43,7 +45,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-  console.error('API Error:', error.response?.data || error.message);
+    const data = error.response?.data
+    console.error('API Error:', data || error.message);
+    if (data?.code === 401 && data?.msg === 'Could not validate credentials') {
+      openDialog({
+        type: 'signin'
+      })
+    }
 
   return Promise.reject(error);
 })

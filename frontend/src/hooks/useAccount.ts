@@ -16,14 +16,20 @@ export default function () {
     accountStore.setAccount(value);
   }
 
+  async function autoLogin() {
+    await accountStore.autoLogin();
+  }
+
   function logout(api :string) {
     accountStore.logout();
   }
 
   return {
+    accountStore,
     account,
     isLogin,
 
+    autoLogin,
     logout,
     setAccount,
   };

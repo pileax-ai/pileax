@@ -13,7 +13,7 @@
         <section class="bg-accent meta">
           <q-item>
             <q-item-section avatar>
-              <q-img :src="coverUrl">
+              <q-img :src="coverUrl" crossorigin="anonymous">
               </q-img>
             </q-item-section>
             <q-item-section>
