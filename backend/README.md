@@ -31,3 +31,28 @@ You have to change them with a secret key, to generate secret keys you can run t
 ```angular2html
 python -c "import secrets; print(secrets.token_urlsafe(32))"
 ```
+
+## Build
+### Mac
+```shell
+uv sync
+uv add --dev pyinstaller
+uv run pyinstaller \
+  --onedir \
+  --name runnable \
+  --add-data ".env:.env" \
+  --collect-all passlib \
+  app/main.py
+```
+The results are available in: ./dist/installer
+
+### Windows
+```shell
+# Build docker image
+cd docker
+docker build -f windows.Dockerfile -t pyinstaller-windows .
+docker build  --platform linux/amd64 -f windows.Dockerfile -t pyinstaller-windows .
+
+# build
+./run.sh win
+```

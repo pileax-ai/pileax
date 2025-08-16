@@ -25,8 +25,8 @@ async function startServer() {
 
     if (isProduction) {
       // production
-      serverPath = path.join(process.resourcesPath, 'server');
-      serverEntry = path.join(serverPath, 'index.js');
+      serverPath = path.join(process.resourcesPath, 'backend');
+      serverEntry = path.join(serverPath, 'runnable');
       const options: Indexable = {
         env: {
           ...process.env,
@@ -49,7 +49,7 @@ async function startServer() {
         options.windowsVerbatimArguments = true;
         options.shell = true;
       }
-      serverProcess = spawn(process.execPath, [serverEntry], options);
+      serverProcess = spawn(serverEntry, [], options);
       serverProcess.unref();
     } else {
       // development
@@ -96,7 +96,7 @@ async function startServer() {
       port: port,
       appBase: `http://localhost:${port}`,
       apiBase: `http://localhost:${port}/api/v1`,
-      apiDocs: `http://localhost:${port}/api/docs`,
+      apiDocs: `http://localhost:${port}/docs`,
     };
     log.info('✅ Start server...', serverInfo);
 

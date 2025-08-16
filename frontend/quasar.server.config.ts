@@ -286,9 +286,32 @@ export default defineConfig((ctx) => {
         },
         extraResources: [
           {
-            from: '../backend/dist/runnable',
-            to: 'backend',
+            from: '../server/dist',
+            to: 'server',
             filter: ["**/*"]
+          },
+          {
+            from: '../server/node_modules',
+            to: 'server/node_modules',
+            filter: ["**/*", '!better-sqlite3/**']
+          },
+          {
+            from: 'node_modules/better-sqlite3',
+            to: 'server/node_modules/better-sqlite3',
+            filter: ["**/*"]
+          },
+          {
+            from: '../server/src/drizzle/release/migrations',
+            to: 'server/src/drizzle/release/migrations',
+            filter: ["**/*"]
+          },
+          {
+            from: '../server/package.json',
+            to: 'server/package.json'
+          },
+          {
+            from: '../server/.env.production',
+            to: 'server/.env'
           },
         ]
       }
