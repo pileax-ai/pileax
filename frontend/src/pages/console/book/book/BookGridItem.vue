@@ -32,7 +32,6 @@ const emit = defineEmits(['add', 'details']);
 const { getCoverUrl } = useApi();
 const coverUrl = computed(() => {
   const url = getCoverUrl(props.data);
-  console.log('url', url)
   return url;
 })
 

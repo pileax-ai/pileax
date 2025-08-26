@@ -67,5 +67,5 @@ class BaseService(Generic[ModelType]):
     def _check_owner(self, owner: UUID, obj: ModelType):
         if not obj:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
-        if getattr(obj, "user_id", None) != str(owner):
+        if str(getattr(obj, "user_id", None)) != str(owner):
             raise HTTPException(status_code=401, detail="Access denied")

@@ -3,22 +3,22 @@
     <q-menu class="pi-menu" :offset="[0, 4]">
       <q-list :style="{minWidth: '200px'}">
         <template v-for="(action, index) in actions" :key="`action-${index}`">
-          <template v-if="true">
-            <q-separator class="bg-accent" v-if="action.separator" />
-            <o-common-item v-bind="action"
-                           class="text-tips"
-                           :class="{ 'active': action.selected }"
-                           @click="onAction(action)"
-                           clickable
-                           closable
-                           right-side>
-              <template #side>
-                <q-icon :name="orderDesc ? 'south' : 'north'"
-                        v-if="action.sortable" />
-              </template>
-            </o-common-item>
-          </template>
+          <q-separator class="bg-accent" v-if="action.separator" />
+          <o-common-item v-bind="action"
+                         class="text-tips"
+                         :class="{ 'active': action.selected }"
+                         @click="onAction(action)"
+                         clickable
+                         closable
+                         right-side>
+            <template #side>
+              <q-icon :name="orderDesc ? 'south' : 'north'"
+                      v-if="action.sortable" />
+            </template>
+          </o-common-item>
         </template>
+
+        <slot></slot>
       </q-list>
     </q-menu>
   </q-btn>

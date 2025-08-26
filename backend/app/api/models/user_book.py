@@ -32,6 +32,7 @@ class UserBook(BaseSQLModel, TimestampMixin, table=True):
 
 class UserBookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    user_id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     book_id: uuid.UUID | None = None
     rating: int | None = 0
     reading_position: str | None = ""

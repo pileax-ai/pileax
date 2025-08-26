@@ -27,7 +27,7 @@ class DbUtil:
             else:
                 field, op = raw_field, "eq"
 
-            if not hasattr(model, raw_field):
+            if not hasattr(model, field):
                 continue
 
             if fields and field not in fields:
@@ -47,6 +47,7 @@ class DbUtil:
                 "le": column <= value,
                 # "contains": column.contains(value),
                 # "startswith": column.startswith(value),
+                "like": column.op("GLOB")(f"*{value}*"),
                 "contains": column.op("GLOB")(f"*{value}*"),
                 "startswith": column.op("GLOB")(f"{value}*"),
             }
