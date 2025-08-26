@@ -56,3 +56,7 @@ docker build  --platform linux/amd64 -f windows.Dockerfile -t pyinstaller-window
 # build
 ./run.sh win
 ```
+
+```shell
+docker build --platform windows/amd64 -f docker/Dockerfile.win -t pyinstaller-windows .
+```
