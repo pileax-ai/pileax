@@ -44,7 +44,7 @@ uv run pyinstaller \
   --collect-all passlib \
   app/main.py
 ```
-The results are available in: ./dist/installer
+The results are available in: ./dist/runnable
 
 ### Windows
 ```shell

@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { YiiEditor, ODocToc } from '@yiitap/vue';
 import '@yiitap/vue/dist/vue.css';
+import 'katex/dist/katex.min.css'
 
 import { useRoute } from 'vue-router';
 import { computed, onActivated, onMounted, ref } from 'vue';
@@ -80,24 +81,32 @@ const options = computed(() => {
     content: '',
     showMainMenu: false,
     showBubbleMenu: true,
-    showSideMenu: true,
+    sideMenu: {
+      show: true,
+      add: 'menu',
+    },
     pageView: pageView.value,
     mainMenu: [
     ],
     extensions: [
+      'Emoji',
+      'InlineMath',
+      'Markdown',
       'OAiBlock',
+      'OBlockMath',
       'OBlockquote',
       'OCallout',
       'OCodeBlock',
       'OColon',
       'OColorHighlighter',
+      'ODetails',
       'OHeading',
       'OImage',
+      'OLink',
       'OParagraph',
+      'OShortcut',
       'OSlash',
       'OSlashZh',
-      'OLink',
-      'OTrailingNode',
       'OVideo',
     ],
   }
@@ -179,8 +188,10 @@ function loadNote(note: Note, content: string, focus: string,
 }
 
 function setContent (content: string, emitUpdate = false, focus = 'start') {
-  editor.value?.commands.setContent(content, emitUpdate);
-  editor.value?.commands.focus(focus);
+  editor.value?.commands.setContent(content, {
+    emitUpdate
+  });
+  editor.value?.commands.focus(focus as 'start');
 }
 
 function onScroll() {
