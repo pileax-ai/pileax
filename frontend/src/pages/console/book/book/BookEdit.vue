@@ -50,13 +50,16 @@ import OField from 'core/components/form/field/OField.vue'
 
 const apiName = 'book';
 const props = defineProps({
-  id: {
-    type: String,
-    default: ''
+  data: {
+    type: Object,
+    default: function () {
+      return {};
+    }
   }
 });
 const emit = defineEmits(['close', 'success']);
 const { form, loading, actions } = useForm();
+const id = ref('');
 const status = ref(true);
 
 const rules = {
@@ -68,8 +71,9 @@ const v$ = useVuelidate(rules, form);
 function load () {
   actions.initForm(apiName);
 
-  if (props.id) {
-    GET({name: apiName, query: {id: props.id}}).then((data) => {
+  id.value = props.data.bookId
+  if (id.value) {
+    GET({name: apiName, query: {id: id.value}}).then((data) => {
       form.value = data as Indexable;
     })
   }
@@ -85,15 +89,24 @@ function onSubmit () {
   }
 
   const body = {
-    id: form.value.id || props.id,
+    id: form.value.id || id.value,
     title: form.value.title,
     author: form.value.author,
     publisher: form.value.publisher,
     description: form.value.description,
   };
 
-  actions.submit(body,() => {
-    emit('close');
+  actions.submit(body,(data) => {
+    emit('close', {
+      action: 'edit',
+      item: {
+        ...props.data,
+        author: data.author,
+        description: data.description,
+        publisher: data.publisher,
+        title: data.title,
+      }
+    });
   });
 }
 

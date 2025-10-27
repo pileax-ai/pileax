@@ -88,6 +88,7 @@ class UserBookRepository(BaseRepository[UserBook]):
             "author": book.author,
             "language": book.language,
             "description": book.description,
+            "extension": book.extension,
             "publisher": book.publisher,
             "published": book.published,
             "scope": book.scope,

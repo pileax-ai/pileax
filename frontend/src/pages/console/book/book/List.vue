@@ -12,7 +12,7 @@
              @click="filter = !filter"
              flat v-if="false" />
       <div class="query-item no-drag-region">
-        <q-input v-model="condition.title__like"
+        <q-input v-model="condition.title__icontains"
                  class="pi-field"
                  placeholder="搜索"
                  debounce="800"
@@ -113,7 +113,7 @@
                     @close="onClose"
                     @edit="onEdit"
                     v-if="view==='details'" />
-      <book-edit :id="data.bookId"
+      <book-edit :data="data"
                     @close="onClose"
                     v-if="view==='edit'" />
       <book-add @close="onClose"
@@ -168,9 +168,25 @@ function onEdit() {
   query.value.openSide('480px', 'edit', 'edit_note', 'Edit');
 }
 
-function onClose() {
+function onClose(options: Indexable) {
+  if (options && options.action && options.item) {
+    const bookId = options.item.bookId
+    const index = rows.value.findIndex(e => e.bookId === bookId)
+    console.log('onClose', index, options)
+    if (index !== -1) {
+      switch (options.action) {
+        case 'edit':
+          rows.value.splice(index, 1, options.item)
+          break;
+        case 'remove':
+          rows.value.splice(index, 1)
+          break;
+      }
+    }
+  } else {
+    query.value.onQuery();
+  }
   query.value.closeSide(false, false);
-  query.value.onQuery();
 }
 
 function onOpenAdd() {

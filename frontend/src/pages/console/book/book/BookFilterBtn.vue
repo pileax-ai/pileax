@@ -79,7 +79,7 @@ function onAction (action :any) {
         orderDesc.value = true;
       }
       orderField.value = value;
-      emit('sort', { updateTime: orderDesc.value ? 'desc' : 'asc' });
+      emit('sort', { update_time: orderDesc.value ? 'desc' : 'asc' });
       break;
     case 'title':
       if (orderField.value === value) {

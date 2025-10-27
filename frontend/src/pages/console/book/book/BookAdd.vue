@@ -96,6 +96,7 @@ import OFileUploader from 'core/components/fIle/OFileUploader.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
+import { notifyWarning } from 'core/utils/control'
 
 const emit = defineEmits(['close']);
 
@@ -161,6 +162,14 @@ function addBook(book: any) {
     bookId: book.id
   }).then(res => {
     emit('close');
+  }).catch(res => {
+    console.log('res', res)
+    const data = res.response.data
+    if (data.message.indexOf('UNIQUE') === 0) {
+      notifyWarning('已经添加本书')
+    } else {
+      notifyWarning(data.message)
+    }
   })
 }
 

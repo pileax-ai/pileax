@@ -61,5 +61,6 @@ class UserBookDetails(UserBookPublic):
     description: str | None = None
     publisher: str | None = None
     published: str | None = None
+    extension: str | None = None
     scope: int
     book_rating: int

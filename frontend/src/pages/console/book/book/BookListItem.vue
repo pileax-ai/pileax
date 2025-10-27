@@ -5,13 +5,13 @@
     </q-item-section>
     <q-item-section class="meta">
       <q-item-label class="title" lines="1">
-        {{data.title}}
+        {{ data.title }}
       </q-item-label>
       <q-item-label caption>
-        王大力
+        {{ data.author }}
       </q-item-label>
       <q-item-label caption>
-        {{data.publisher}}
+        {{ data.publisher }}
       </q-item-label>
     </q-item-section>
     <q-item-section side>

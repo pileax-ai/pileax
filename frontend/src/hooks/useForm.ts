@@ -23,24 +23,24 @@ export default function () {
     }
   }
 
-  function submit (body: Indexable, callback:() => any) {
+  function submit (body: Indexable, callback: (res: any) => any) {
     loading.value = true;
     if (body.id) {
-      PUT({name: apiName.value, body: body}).then(data => {
-        postSubmit(data as Indexable, callback);
+      PUT({name: apiName.value, body: body}).then(res => {
+        postSubmit(res as Indexable, callback);
       }).catch(() => {
         loading.value = false;
       })
     } else {
-      POST({name: apiName.value, body: body}).then(data => {
-        postSubmit(data as Indexable, callback);
+      POST({name: apiName.value, body: body}).then(res => {
+        postSubmit(res.data as Indexable, callback);
       }).catch(() => {
         loading.value = false;
       })
     }
   }
 
-  function postSubmit (data: Indexable, callback: (value: any) => any) {
+  function postSubmit (data: Indexable, callback: (res: any) => any) {
     loading.value = false;
     form.value.id = data.id;
     vuelidate.value?.$reset();

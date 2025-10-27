@@ -184,11 +184,14 @@ function openBook() {
 async function onRemoveBook() {
   $q.dialog({
     title: '确认',
-    message: '你确定删除吗？',
+    message: '你确定从书架中移除吗？',
     cancel: true
   }).onOk( async () => {
     await userBookService.delete(props.data.id);
-    emit('close');
+    emit('close', {
+      action: 'remove',
+      item: props.data
+    });
   })
 }
 

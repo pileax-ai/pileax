@@ -81,7 +81,7 @@ export default function () {
   }
 
   async function onLoadMore(index: number, done: (stop: boolean) => void) {
-    console.log('scroll bottom', index, paging.value);
+    // console.log('scroll bottom', index, paging.value);
     if (paging.value.more) {
       loadingMore.value = true;
       setTimeout(async () => {
