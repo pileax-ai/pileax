@@ -1,4 +1,4 @@
-import { app, ipcMain, BrowserWindow, session, nativeTheme } from 'electron';
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 import { fileURLToPath } from 'node:url';
 import log from 'electron-log';
 import path from 'path';
@@ -6,12 +6,12 @@ import os from 'os';
 import * as remoteMain from '@electron/remote/main/index.js';
 import { Application } from './app/application';
 import { startServer, stopServer } from './server/fastapi';
+import { PathManager } from './app/pathManager';
 
 remoteMain.initialize();
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const platform = process.platform || os.platform();
 let mainWindow: BrowserWindow | undefined;
-let serverInfo: Indexable | undefined;
 
 /**
  * Main window
@@ -73,7 +73,7 @@ async function createWindow() {
 }
 
 app.whenReady().then(async () => {
-  serverInfo = await startServer();
+  await startServer();
   await createWindow();
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -109,6 +109,11 @@ app.on('window-all-closed', async () => {
 // App initialization
 Application.initialize();
 
-ipcMain.handle('get-server-info', () => {
-  return serverInfo;
-});
+ipcMain.handle('reload',
+  async (event, force: boolean) => {
+    if (force) {
+      mainWindow?.webContents.reloadIgnoringCache()
+    } else {
+      mainWindow?.reload()
+    }
+  });

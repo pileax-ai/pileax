@@ -10,8 +10,9 @@ import {
   saveBookFiles,
   saveImageFile
 } from '../utils/file';
-import { appLogPath, appPublicRootPath, appStoragePath } from '../utils/path'
+import { PathManager } from '../app/pathManager'
 import { dbExecute } from '../db/service';
+import { serverInfo } from '../server/fastapi';
 import {
   openNewWindow,
   closeWindow,
@@ -22,31 +23,40 @@ import {
 
 export class Application {
   static initialize() {
-    Application.initPath();
-    Application.initLog();
+    const pathManager = new PathManager();
+    Application.initPath(pathManager);
+    Application.initLog(pathManager);
     Application.initIpcMain();
   }
 
-  static initPath() {
-    const publicPath = appPublicRootPath();
+  static reload() {
+    const pathManager = new PathManager();
+    Application.initPath(pathManager);
+    Application.initLog(pathManager);
+  }
+
+  static initPath(pathManger: PathManager) {
+    const publicPath = pathManger.appPublicRootPath();
     if (!fs.existsSync(publicPath)) {
       fs.mkdirSync(publicPath, { recursive: true });
-      console.log(`📁 Create storage dir: ${publicPath}`);
+      console.log(`📁 Create public dir: ${publicPath}`);
     } else {
       console.log(`✅ Public dir is ready: ${publicPath}`);
     }
   }
 
-  static initLog() {
-    const logPath = appLogPath();
+  static initLog(pathManger: PathManager) {
+    const logFilePath = pathManger.appLogFilePath();
     log.initialize();
     log.transports.file.resolvePathFn = () => {
-      return logPath;
+      return logFilePath;
     };
-    log.info('Init log: ', logPath);
+    log.info('Init log: ', logFilePath);
   }
 
   static initIpcMain() {
+    const pathManager = new PathManager();
+
     ipcMain.handle('set-theme',
       (event, theme: 'system' | 'light' | 'dark') => {
       console.log('set-theme', theme);
@@ -58,16 +68,16 @@ export class Application {
       openNewWindow(id, url, titleBarHeight);
     });
 
+    ipcMain.handle('window-close', () => {
+      closeWindow();
+    });
+
     ipcMain.handle('window-minimize', () => {
       minimizeWindow();
     });
 
     ipcMain.handle('window-maximize', () => {
       maximizeWindow();
-    });
-
-    ipcMain.handle('window-close', () => {
-      closeWindow();
     });
 
     ipcMain.handle('window-is-maximized', () => {
@@ -104,6 +114,10 @@ export class Application {
         return await saveImageFile(metadata);
       });
 
+    ipcMain.handle('get-server-info', () => {
+      return serverInfo;
+    });
+
     ipcMain.handle('db-execute',
       async (event, entity: string, method: string, params: any) => {
         return new Promise((resolve, reject) => {
@@ -114,6 +128,16 @@ export class Application {
             reject(err);
           });
         });
+      });
+
+    ipcMain.handle('get-path',
+      (event, key: string) => {
+        return pathManager.getPath(key);
+      });
+
+    ipcMain.handle('migrate-library',
+      async (event, options) => {
+        return await pathManager.migrateLibrary(options);
       });
   }
 }

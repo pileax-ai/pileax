@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { CODE } from 'core/app';
 import { api } from 'boot/axios';
+import { electronIpc } from 'src/api/ipc/electron'
 
 export const useApiStore = defineStore('api', {
   state: () => ({
@@ -9,6 +10,15 @@ export const useApiStore = defineStore('api', {
     timeout: (process.env.API_TIMEOUT || 60000) as number,
   }),
   actions: {
+    async resetServer() {
+      if (process.env.MODE === 'electron') {
+        const serverInfo = await electronIpc.getServerInfo();
+        const apiBase = serverInfo.apiBase || process.env.API_BASE_URL;
+        const appBase = serverInfo.appBase || process.env.APP_BASE_URL;
+        this.setApiBase(apiBase);
+        this.setAppBase(appBase);
+      }
+    },
     setAppBase(url: string) {
       this.appBase = url;
     },

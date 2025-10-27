@@ -9,6 +9,7 @@ import { appBookRootPath } from './path';
  * Read local file
  *
  * @param filePath absolute path
+ * @deprecated
  */
 export const readFile = (filePath: string) => {
   return new Promise((resolve, reject) => {
@@ -161,4 +162,27 @@ export const saveImageFile = (metadata: any) => {
       resolve({ path: imageFilePath, name: imageName });
     })
   });
+}
+
+export async function isDirectoryEmpty(dirPath: string): Promise<boolean> {
+  try {
+    const files = await fsExtra.readdir(dirPath)
+    return files.length === 0
+  } catch (err: any) {
+    if (err.code === 'ENOENT') {
+      throw new Error(`目录不存在：${dirPath}`)
+    }
+    if (err.code === 'ENOTDIR') {
+      throw new Error(`路径不是目录：${dirPath}`)
+    }
+    throw err
+  }
+}
+
+export function isDirectoryExists(dirPath: string): boolean {
+  try {
+    return fs.existsSync(dirPath) && fs.statSync(dirPath).isDirectory()
+  } catch {
+    return false
+  }
 }

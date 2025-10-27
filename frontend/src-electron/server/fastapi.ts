@@ -4,11 +4,12 @@ import log from 'electron-log';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import os from 'os';
-import { appDbPath, appPublicRootPath } from '../utils/path'
+import { PathManager } from '../app/pathManager'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const platform = process.platform || os.platform();
 let serverProcess: ChildProcess | undefined;
+let serverInfo: Indexable | undefined;
 
 /**
  * Start a local server
@@ -17,8 +18,9 @@ async function startServer() {
   try {
     const isProduction = process.env.NODE_ENV === 'production';
     const port = await getPort({ port: 3000 });
-    const dbPath = appDbPath();
-    const publicPath = appPublicRootPath();
+    const pathManager = new PathManager();
+    const dbPath = pathManager.appDbFilePath();
+    const publicPath = pathManager.appPublicRootPath();
     let serverPath: string;
     let serverEntry: string;
     let envPath: string;
@@ -87,12 +89,17 @@ async function startServer() {
       serverProcess = undefined;
     })
 
+    serverProcess.on('close', (code) => {
+      log.info(`Server closed with code ${code}`);
+      serverProcess = undefined;
+    })
+
     serverProcess.on('exit', (code) => {
       log.info(`Server exited with code ${code}`);
       serverProcess = undefined;
     })
 
-    const serverInfo = {
+    serverInfo = {
       port: port,
       appBase: `http://localhost:${port}`,
       apiBase: `http://localhost:${port}/api/v1`,
@@ -109,22 +116,50 @@ async function startServer() {
 /**
  * Stop the local server
  */
-function stopServer(event = 'NA') {
-  log.info('⏹️ Stop server process...', event);
-  if (serverProcess) {
-    if (process.platform === 'win32') {
-      const pid = serverProcess.pid;
-      if (pid) {
-        spawn('taskkill', ['/pid', `${pid}`, '/f', '/t']);
-      }
-      serverProcess.kill('SIGKILL');
-    } else {
-      serverProcess.kill('SIGTERM');
-    }
+async function stopServer(event = 'NA') {
+  if (!serverProcess) {
+    log.info('⚠️ No server process to stop.', event)
+    return
   }
+
+  const pid = serverProcess.pid;
+  log.info(`⏹️ Stopping server process (pid: ${pid}) ...`, event);
+
+  return new Promise<void>((resolve) => {
+    if (serverProcess) {
+      try {
+        serverProcess.removeAllListeners();
+        if (process.platform === 'win32' && pid) {
+          spawn('taskkill', ['/pid', `${pid}`, '/f', '/t']);
+          serverProcess.kill('SIGKILL');
+        } else {
+          serverProcess.kill('SIGTERM');
+        }
+      } catch (err) {
+        log.error('❌ Failed to kill server process:', err)
+        serverProcess = undefined
+        resolve()
+      }
+    }
+    setTimeout(() => {
+      if (serverProcess) {
+        log.warn('⚠️ Force clearing serverProcess after timeout.')
+        serverProcess = undefined
+      }
+      resolve()
+    }, 2000)
+  })
+}
+
+async function restartServer() {
+  log.info('🔄️ Restarting server process ...');
+  await stopServer('restart')
+  await startServer()
 }
 
 export {
+  serverInfo,
   startServer,
   stopServer,
+  restartServer,
 }

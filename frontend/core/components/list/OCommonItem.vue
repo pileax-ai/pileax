@@ -17,7 +17,10 @@
           <o-tooltip position="top">{{ help }}</o-tooltip>
         </q-icon>
       </q-item-label>
-      <q-item-label caption v-if="sublabel">{{sublabel}}</q-item-label>
+      <q-item-label caption v-if="sublabel">
+        {{sublabel}}
+        <slot name="sublabel"></slot>
+      </q-item-label>
     </q-item-section>
     <q-item-section side v-if="sideIcon">
       <o-icon :name="sideIcon" class="side-icon" />

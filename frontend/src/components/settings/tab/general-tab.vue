@@ -9,7 +9,7 @@
             <div>
               <locale-hover-btn class="text-tips bg-accent"
                                 icon-right="mdi-chevron-down"
-                                show-label />
+                                show-label flat />
             </div>
           </o-common-item>
         </q-list>

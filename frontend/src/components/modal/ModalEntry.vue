@@ -1,8 +1,8 @@
 <template>
   <section>
-    <note-search-dialog v-if="type === 'note-search'" />
-    <chat-to-note-dialog v-if="type === 'chat-note-select'" />
     <ai-provider-search-dialog v-if="type === 'ai-provider-search'" />
+    <chat-to-note-dialog v-if="type === 'chat-note-select'" />
+    <note-search-dialog v-if="type === 'note-search'" />
     <tips-dialog v-if="type === 'tips'" />
     <signin-dialog v-if="type === 'signin'" />
     <o-settings-dialog v-if="type === 'settings'" />

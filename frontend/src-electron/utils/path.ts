@@ -38,7 +38,7 @@ export const appDbPath = () => {
  * APP_ROOT/storage/book
  */
 export const appBookRootPath = () => {
-  return path.join(appStoragePath(), 'books');
+  return path.join(appStoragePath(), 'book');
 }
 
 /**

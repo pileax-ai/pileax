@@ -6,13 +6,19 @@ import { useAccountStore } from 'stores/account';
 import { useApiStore } from 'stores/api';
 import { useNaviStore } from 'stores/navi';
 import useSetting from 'core/hooks/useSetting';
-import { electronIpc } from 'src/api/ipc/electron'
 
 export const initApp = () => {
   initApi();
   // initMenu();
   initSetting();
 };
+
+export const reloadApp = async () => {
+  await initApi()
+  if (process.env.MODE === 'electron') {
+    await window.electronAPI.reload(true);
+  }
+}
 
 const initMenu = () => {
   const naviStore = useNaviStore();
@@ -28,13 +34,7 @@ const initApi = async () => {
   const apiStore = useApiStore();
 
   try {
-    if (process.env.MODE === 'electron') {
-      const serverInfo = await electronIpc.getServerInfo();
-      const apiBase = serverInfo.apiBase || process.env.API_BASE_URL;
-      const appBase = serverInfo.appBase || process.env.APP_BASE_URL;
-      apiStore.setApiBase(apiBase);
-      apiStore.setAppBase(appBase);
-    }
+    await apiStore.resetServer()
     await initAccount();
   } catch (err) {
     console.error('initApi', err);
