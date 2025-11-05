@@ -14,7 +14,6 @@ from app.core.config import settings
 from app.core.database import sqlite
 from app.core.exception_handler import setup_exception_handlers
 from app.core.logging import setup_logger
-from app.utils.http_util import get_free_port
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +79,18 @@ def initialization(app: FastAPI):
     setup_cors(app)
     setup_exception_handlers(app)
     logger.info("Initialization completed")
+    logger.info(f"Sectet key: {settings.SECRET_KEY}")
+    logging.info(r"""
+
+    8888888b.  d8b 888                   Y88b   d88P
+    888   Y88b Y8P 888                    Y88b d88P
+    888    888     888                     Y88o88P
+    888   d88P 888 888  .d88b.   8888b.     Y888P
+    8888888P"  888 888 d8P  Y8b     "88b    d888b
+    888        888 888 88888888 .d888888   d88888b
+    888        888 888 Y8b.     888  888  d88P Y88b
+    888        888 888  "Y8888  "Y888888 d88P   Y88b
+    """)
 
 
 def start_server(app: FastAPI):

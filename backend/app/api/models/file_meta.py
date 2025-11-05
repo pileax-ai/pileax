@@ -1,9 +1,9 @@
 import uuid
 
-from sqlalchemy import Column
+from sqlalchemy import Column, Integer
 from sqlmodel import Field
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin, Status
 
 
 class FileMeta(BaseSQLModel, TimestampMixin, table=True):
@@ -25,7 +25,7 @@ class FileMeta(BaseSQLModel, TimestampMixin, table=True):
     path: str | None = Field(default="")
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general")
-    status: int | None = Field(default=1)
+    status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
 
 
 class FileMetaBase(BaseApiModel):

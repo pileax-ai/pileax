@@ -7,7 +7,6 @@ export interface AccountModel {
 }
 
 export interface LoginParams {
-  phone: string;
   username: string;
   password: string;
 }

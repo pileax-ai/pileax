@@ -27,7 +27,6 @@ export const useAccountStore = defineStore('account', {
     },
     async autoLogin() {
       await this.login({
-        phone: 'phone',
         username: 'phone',
         password: 'password'
       });
@@ -44,9 +43,17 @@ export const useAccountStore = defineStore('account', {
         return Promise.reject(err);
       }
     },
+    async signup(data: Indexable) {
+      try {
+        const res = await authService.signup(data) as Indexable;
+        return this.afterLogin(res);
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    },
     async login(params: LoginParams) {
       try {
-        const res = await authService.autoSignin() as Indexable;
+        const res = await authService.signin(params) as Indexable;
         return this.afterLogin(res);
       } catch (err) {
         return Promise.reject(err);
@@ -64,7 +71,7 @@ export const useAccountStore = defineStore('account', {
     logout() {
       this.account = {};
       removeAllCookies();
-      this.router.push('/');
+      this.router.push('/auth/signin');
     }
   },
   persist: {

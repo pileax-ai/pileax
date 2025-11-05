@@ -5,6 +5,7 @@ import OCommonCard from 'core/components/card/OCommonCard.vue';
 import OCommonItem from 'core/components/list/OCommonItem.vue';
 import OConsolePage from 'core/page/template/OConsolePage.vue';
 import OCopyBtn from 'core/components/button/OCopyBtn.vue';
+import OField from 'core/components/form/field/OField.vue';
 import OIcon from 'core/components/icon/OIcon.vue';
 import OLink from 'core/components/misc/OLink.vue';
 import ONoData from 'core/components/misc/ONoData.vue';
@@ -24,6 +25,7 @@ const globalComponents :Indexable = {
   'o-common-item': OCommonItem,
   'o-console-page': OConsolePage,
   'o-copy-btn': OCopyBtn,
+  'o-field': OField,
   'o-icon': OIcon,
   'o-link': OLink,
   'o-no-data': ONoData,

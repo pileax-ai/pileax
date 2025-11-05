@@ -1,3 +1,4 @@
+import enum
 import re
 import uuid
 from datetime import datetime, UTC, timezone
@@ -67,3 +68,9 @@ class BaseApiModel(BaseModel):
         alias_generator=to_camel,
         validate_by_name=True
     )
+
+
+class Status(enum.IntEnum):
+    INACTIVE = -1
+    PENDING = 0
+    ACTIVE = 1

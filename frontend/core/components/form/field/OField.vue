@@ -57,7 +57,7 @@ defineProps({
 <style lang="scss">
 .o-field {
   margin-top: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 
   .q-field {
     margin-bottom: 0;

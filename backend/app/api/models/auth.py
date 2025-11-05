@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 
 from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
@@ -6,13 +7,30 @@ from pydantic import BaseModel
 from app.api.models.common import BaseSQLModel, UUIDString, TimestampMixin
 
 
-class Token(SQLModel):
+class Signin(BaseModel):
+    email: str
+    password: str | None = None
+
+
+class LoginUpdate(BaseModel):
+    last_login_ip: Optional[str] = None
+    last_login_time: Optional[str] = None
+
+
+class TokenPublic(BaseModel):
     access_token: str
     token_type: str = "bearer"
 
 
+class Token(TokenPublic):
+    refresh_token: str
+    csrf_token: str
+
+
 class TokenPayload(SQLModel):
+    iss: str | None = None
     sub: str | None = None
+    exp: int | None = None
 
 
 class UserSimple(BaseModel):
@@ -24,7 +42,7 @@ class UserSimple(BaseModel):
 
 class SigninPublic(BaseSQLModel):
     user: UserSimple
-    token: Token
+    token: TokenPublic
 
 
 class SigninVo(BaseSQLModel):

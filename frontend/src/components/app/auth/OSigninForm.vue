@@ -1,120 +1,99 @@
 <template>
-  <q-card class="o-signin-card" flat>
+  <q-card class="o-auth-card" flat>
     <q-card-section class="header">
-      {{ $t('signin') }}
+      <div class="label">
+        {{ $t('signin') }} {{ $t('app.name') }}
+      </div>
+      <div class="text-tips">
+        <q-icon name="rocket_launch" color="orange" />
+        {{ $t('app.slogan') }}
+      </div>
     </q-card-section>
     <q-card-section>
-      <q-form class="o-form o-signin-form" @submit="handleLogin">
-        <q-input v-model="form.phone" label="用户名" class="o-field" standout
-                 :rules="[val => !!val]">
-          <template #prepend>
-            <q-icon name="person_outline" />
-          </template>
-        </q-input>
-        <q-input v-model="form.password" label="密码" :type="type" class="o-field password" standout
-                 :rules="[val => !!val]">
-          <template #prepend>
-            <q-icon name="lock_outline" />
-          </template>
-          <template #append>
-            <q-icon :name="type === 'password' ? 'visibility' : 'visibility_off'"
-                    class="cursor-pointer"
-                    @click="type = (type === 'password' ? 'text' : 'password')"
-                    v-if="form.password" />
-          </template>
-        </q-input>
-        <q-checkbox v-model="remember" label="记住我" />
+      <q-form class="o-form o-signin-form" @submit="onSubmit">
+        <o-field label="邮箱">
+          <q-input v-model="form.username" placeholder="邮箱"
+                   outlined dense
+                   :rules="[val => !!val]">
+            <template #prepend>
+              <q-icon name="mail_outline" />
+            </template>
+          </q-input>
+        </o-field>
+        <o-field label="密码">
+          <q-input v-model="form.password" placeholder="密码"
+                   :type="type"
+                   autocomplete="current-password"
+                   class="password"
+                   outlined dense
+                   :rules="[val => !!val]">
+            <template #prepend>
+              <q-icon name="lock_outline" />
+            </template>
+            <template #append>
+              <q-icon :name="type === 'password' ? 'visibility' : 'visibility_off'"
+                      class="cursor-pointer"
+                      @click="type = (type === 'password' ? 'text' : 'password')"
+                      v-if="form.password" />
+            </template>
+          </q-input>
+        </o-field>
+        <q-checkbox v-model="remember" label="记住我" v-if="false" />
 
         <q-btn type="submit" :label="$t('signin')" class="bg-primary text-white col-12" flat />
       </q-form>
+    </q-card-section>
+    <q-card-section class="footer">
+      <div class="label">
+        <span class="text-tips">还没有账户？</span>
+        <q-btn to="/auth/signup" flat dense>注册</q-btn>
+      </div>
+      <div class="label">
+        <span class="text-tips">使用即代表您同意我们的</span>
+        <q-btn flat dense>使用协议 & 隐私政策</q-btn>
+      </div>
     </q-card-section>
   </q-card>
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, onMounted, ref} from 'vue';
-import { useAccountStore } from 'stores/account';
+import { onBeforeMount, reactive, ref } from 'vue';
 import { getItemObject, saveItemObject } from 'core/utils/storage';
 import { notifyError } from 'core/utils/control';
+import { useAccountStore } from 'stores/account';
 
 const emit = defineEmits(['success']);
-const type = ref('password');
+const type = ref<'text' | 'password'>('password');
 const remember = ref(false);
-const form = ref({
-  phone: '',
+const form = reactive({
+  username: '',
   password: ''
 });
 
 const accountStore = useAccountStore();
 
-async function handleLogin () {
+async function onSubmit () {
   try {
-    const account = await accountStore.login(form.value);
+    const account = await accountStore.login(form);
     emit('success');
 
     if (remember.value) {
       saveItemObject('login-remember', {
         remember: true,
-        phone: form.value.phone
+        username: form.username
       });
     }
   } catch (err) {
-    notifyError(err.message)
+    notifyError((err as Error).message)
   }
 }
 
 onBeforeMount(() => {
   const rememberMe = getItemObject('login-remember');
   remember.value = rememberMe.remember || false;
-  form.value.phone = rememberMe.phone || '';
+  form.username = rememberMe.username || '';
 })
 </script>
 
 <style lang="scss">
-.o-signin-card {
-  width: 100%;
-  padding: 1rem 2rem;
-  background: transparent;
-
-  .header {
-    font-size: 2rem;
-    font-weight: 600;
-  }
-
-  .o-form {
-    .password {
-      margin-bottom: 4px !important;
-    }
-
-    .q-field__control {
-      padding: 0 16px;
-    }
-
-    .q-field__control, .q-field__prepend, .q-field__append {
-      border-radius: 4px;
-    }
-    .q-field--focused, .q-field--highlighted {
-      .q-field__control {
-        background: rgba(#000, 0.05) !important;
-        box-shadow: unset !important;
-        box-sizing: border-box !important;
-
-        input, .q-field__native {
-          color: #000;
-        }
-        .q-field__prefix, .q-field__suffix, .q-field__marginal {
-          color: #666;
-        }
-      }
-    }
-
-    .q-btn {
-      width: 100%;
-      min-height: 56px;
-      border-radius: 4px;
-
-      margin-top: 50px;
-    }
-  }
-}
 </style>

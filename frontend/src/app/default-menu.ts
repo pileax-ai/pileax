@@ -14,7 +14,7 @@ export const defaultConsoleMenus: MenuItem[] = [
       {
         id: 'start',
         name: 'quickstart',
-        path: '/',
+        path: '/welcome',
         action: 1,
         meta: {icon: 'rocket'}
       },

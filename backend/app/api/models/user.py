@@ -1,9 +1,9 @@
 import uuid
 
-from sqlalchemy import Column
+from sqlalchemy import Column, Integer
 from sqlmodel import Field
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin, Status
 
 
 class User(BaseSQLModel, TimestampMixin, table=True):
@@ -12,8 +12,17 @@ class User(BaseSQLModel, TimestampMixin, table=True):
         sa_column=Column(UUIDString(), primary_key=True)
     )
     name: str = Field(..., max_length=100)
+    email: str = Field(..., max_length=255, unique=True)
+    password: str = Field(..., max_length=255)
+    password_salt: str = Field(default=None, max_length=255)
     avatar: str | None = Field(default=None, max_length=255)
     bio: str | None = Field(default=None, max_length=255)
+    timezone: str | None = Field(default=None, max_length=255)
+    status: int | None = Field(default=1, sa_column=Column(Integer, default=Status.ACTIVE))
+    settings: str | None = Field(default=None, description="UI settings")
+    last_login_time: str | None = Field(default=None, max_length=64)
+    last_login_ip: str | None = Field(default=None, max_length=64)
+    last_active_time: str | None = Field(default=None, max_length=64)
 
 
 class UserBase(BaseApiModel):
@@ -22,8 +31,10 @@ class UserBase(BaseApiModel):
     bio: str | None = None
 
 
-class UserCreate(UserBase):
+class UserCreate(BaseApiModel):
     name: str
+    email: str
+    password: str
 
 
 class UserUpdate(UserBase):

@@ -35,7 +35,7 @@ const initApi = async () => {
 
   try {
     await apiStore.resetServer()
-    await initAccount();
+    // await initAccount();
   } catch (err) {
     console.error('initApi', err);
   }

@@ -3,11 +3,35 @@
     <section class="row col-12 justify-center footer">
       <section class="row col-12 justify-center footer-main desktop-only">
         <section class="row col-12 o-wide">
-          <section class="col-3 q-pr-md">
-            <div>
-              <img src="logo.png" height="80" />
+          <section class="col-3 q-pr-md about">
+            <section class="row items-center">
+              <div>
+                <img src="logo.png" height="48" />
+              </div>
+              <div class="q-ml-sm text-bold">{{$t('app.name')}}</div>
+            </section>
+            <section class="row justify-between socials">
+              <q-btn to="/about" flat round>
+                <o-icon name="icon-github" />
+              </q-btn>
+              <q-btn to="/about" flat round>
+                <o-icon name="icon-ollama" />
+              </q-btn>
+              <q-btn to="/about" flat round>
+                <o-icon name="icon-huggingface" />
+              </q-btn>
+              <q-btn to="/about" flat round>
+                <o-icon name="icon-deepseek" />
+              </q-btn>
+            </section>
+            <locale-hover-btn class="bg-accent text-readable "
+                              icon-right="mdi-chevron-down"
+                              anchor="bottom left"
+                              self="top left"
+                              flat show-label />
+            <div class="copyright">
+              {{`©${(new Date()).getFullYear()}`}} {{$t('app.name')}} AI.
             </div>
-            <div>{{$t('app.slogan')}}</div>
           </section>
 
           <section class="row col-9 justify-end">
@@ -29,28 +53,22 @@
           </section>
         </section>
       </section>
-
-      <q-separator class="col-12 o-wide" />
-      <section class="row col-12 justify-between items-center o-wide footer-bottom">
-        <div>
-          {{`©2023-${(new Date()).getFullYear()}`}} {{$t('app.name')}}, All rights reserved.
-        </div>
-      </section>
     </section>
   </section>
 </template>
 
 <script setup lang="ts">
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 </script>
 
 <style lang="scss">
 .template-page-footer {
-  background: #011213;
-  color: #cdd3de;
+  //background: #011213;
+  //color: #cdd3de;
 
   .footer {
     .footer-main {
-      background: #011213;
+      //background: #011213;
       padding: 5rem 0;
 
       header {
@@ -91,24 +109,26 @@
       background: rgba(#fff, 0.05);
     }
 
-    .footer-bottom {
-      height: 120px;
-
+    .about {
       .socials {
+        margin: 20px 0;
         .q-btn {
-          margin: 0 12px;
           background: rgba(#fff, 0.05);
         }
 
         .q-btn:hover {
-          color: white;
-          background: var(--q-primary);
+          //background: var(--q-secondary);
         }
 
-        .iconfont {
-          font-size: 1.5rem;
+        .o-icon {
+          width: 24px;
+          height: 24px;
         }
 
+      }
+
+      .copyright {
+        margin-top: 16px;
       }
     }
   }

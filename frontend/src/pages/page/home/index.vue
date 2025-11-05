@@ -1,17 +1,10 @@
 <template>
-  <o-single-page class="page-home" header footer>
+  <o-single-page class="page-home" footer>
     <content-wide class="row col-12 downloads" content-class="q-py-xl">
       <section class="row col-12 o-banner">
         <section class="col-12">
           <div class="name">{{$t('app.name')}}</div>
           <div class="slogan">{{$t('app.slogan')}}</div>
-
-          <section class="q-mt-lg">
-            <section class="row col-12 justify-center" v-if="isMobile">
-              <m-app-download />
-            </section>
-            <o-app-download v-else />
-          </section>
         </section>
       </section>
     </content-wide>
@@ -26,22 +19,6 @@
           Explore more options
         </div>
       </header>
-      <section class="col-12 relative-position">
-        <section class="row col-12" :class="isMobile ? 'q-col-gutter-md' : 'q-col-gutter-xl'">
-          <template v-for="(item, index) in Categories" :key="index">
-            <section :class="isMobile ? 'col-4' : 'col-2'">
-              <div class="bg-secondary category">
-                <q-avatar>
-                  <o-icon :name="item.icon" size="3rem" class="text-white" disable-svg />
-                </q-avatar>
-              </div>
-              <footer>
-                <div class="name text-tips">{{ item.name }}</div>
-              </footer>
-            </section>
-          </template>
-        </section>
-      </section>
     </content-wide>
 
     <content-wide class="introduction">
@@ -107,11 +84,8 @@ import { computed, ref } from 'vue';
 
 import OSinglePage from 'core/page/template/OSinglePage.vue';
 import ContentWide from 'core/page/content/ContentWide.vue';
-import OAppDownload from 'components/app/download/OAppDownload.vue';
-import MAppDownload from 'components/app/download/MAppDownload.vue';
 
 import { isMobile } from 'core/hooks/useCommon';
-import { Categories } from 'src/api/mock/data/data';
 </script>
 
 <style lang="scss">

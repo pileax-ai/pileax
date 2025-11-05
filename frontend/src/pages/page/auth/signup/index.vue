@@ -1,25 +1,23 @@
 <template>
-  <q-page class="page-auth signin column">
+  <q-page class="page-auth signup column">
     <section class="row col items-center justify-center">
       <section class="auth-form-wrapper">
-        <o-signin-form @success="onSuccess" />
+        <o-signup-form @success="onSuccess" />
       </section>
     </section>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { router } from 'src/router';
+import { ref } from 'vue';
+
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
+import OSignupForm from 'components/app/auth/OSignupForm.vue';
 
 import useAccount from 'src/hooks/useAccount';
 
-import OSigninForm from 'components/app/auth/OSigninForm.vue';
-
-const showSignIn = ref(true);
-
 const { account, isLogin } = useAccount();
-
+const showSignIn = ref(true);
 
 function onSuccess() {
   showSignIn.value = false;

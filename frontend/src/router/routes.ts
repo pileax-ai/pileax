@@ -8,36 +8,36 @@ import {
 } from './utils';
 
 const routes: RouteRecordRaw[] = [
-  // {
-  //   path: '/',
-  //   component: FullPageLayout,
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('pages/page/home/index.vue'),
-  //       name: 'home'
-  //     },
-  //     {
-  //       path: 'about',
-  //       component: () => import('pages/page/about/index.vue'),
-  //       name: 'about'
-  //     },
-  //     {
-  //       path: 'signin',
-  //       component: () => import('pages/page/auth/signin/index.vue'),
-  //       name: 'signin'
-  //     },
-  //   ]
-  // },
+  {
+    path: '/',
+    component: FullPageLayout,
+    children: [
+      {
+        path: '',
+        component: () => import('pages/page/home/index.vue'),
+        name: 'home'
+      },
+      {
+        path: 'about',
+        component: () => import('pages/page/about/index.vue'),
+        name: 'about'
+      },
+      {
+        path: 'auth/signin',
+        component: () => import('pages/page/auth/signin/index.vue'),
+        name: 'signin'
+      },
+      {
+        path: 'auth/signup',
+        component: () => import('pages/page/auth/signup/index.vue'),
+        name: 'signup'
+      },
+    ]
+  },
   {
     path: '/start',
     component: ConsoleLayout,
     children: [
-      {
-        path: '/',
-        component: () => import('pages/console/start/welcome/index.vue'),
-        name: 'home'
-      },
       {
         path: '/welcome',
         component: () => import('pages/console/start/welcome/index.vue'),

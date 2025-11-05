@@ -1,5 +1,5 @@
 <template>
-  <o-single-page class="page-about" header footer>
+  <o-single-page class="page-about" footer>
     <section>
       <q-carousel
         animated

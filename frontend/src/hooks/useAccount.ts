@@ -20,7 +20,7 @@ export default function () {
     await accountStore.autoLogin();
   }
 
-  function logout(api :string) {
+  function logout() {
     accountStore.logout();
   }
 

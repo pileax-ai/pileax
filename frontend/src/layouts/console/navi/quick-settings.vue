@@ -36,7 +36,8 @@
         <q-separator class="bg-dark" />
         <div class="row col-12 items-center">
           <div class="col">
-            <o-common-item icon="logout" label="退出登录" clickable disabled />
+            <o-common-item icon="logout" label="退出登录" clickable
+                           @click="onAction({value: 'logout'}, '')" />
           </div>
           <div class="col-auto">
             <div class="text-tips">
@@ -69,7 +70,7 @@ const props = defineProps({
   },
 });
 
-const { account } = useAccount();
+const { account, logout } = useAccount();
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
@@ -134,6 +135,7 @@ function onAction (action: Indexable, value: any) {
       openDialog({type: 'settings', tab: action.value});
       break;
     case 'logout':
+      logout()
       break;
   }
 }

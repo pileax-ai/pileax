@@ -15,7 +15,7 @@ class BookAnnotation(BaseSQLModel, TimestampMixin, table=True):
     )
     user_id: uuid.UUID = Field(
         default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString())
+        sa_column=Column(UUIDString(), nullable=False)
     )
     book_id: uuid.UUID = Field(
         default_factory=uuid.uuid4,

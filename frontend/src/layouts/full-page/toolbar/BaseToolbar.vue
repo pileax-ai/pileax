@@ -1,49 +1,33 @@
 <template>
-  <q-toolbar class="justify-center base-toolbar">
-    <section class="row col-12 justify-start desktop top-nav">
-      <div class="row col-12 justify-start full-height">
-        <!-- Logo -->
-        <div class="col-auto">
-          <div class="row items-center logo-wrapper cursor-pointer" @click="$router.push('/')">
-            <div class="col-auto row items-center full-height">
-              <img src="logo.png"/>
+  <q-toolbar class="base-toolbar">
+    <div class="row items-center cursor-pointer app" @click="$router.push('/')">
+      <q-avatar size="40px">
+        <img src="/logo.svg">
+      </q-avatar>
+      <span class="q-ml-sm">
+        {{ $t('app.name') }}
+      </span>
+    </div>
 
-              <span class="q-ml-md text-info">
-                {{$t("app.name")}}
-              </span>
-            </div>
-
+    <q-toolbar-title>
+      <q-tabs class="o-navi-tabs" align="left" shrink inline-label>
+        <template v-for="(item, index) in topMenus" :key="`r-${index}`">
+          <div v-if="!item.hidden">
+            <q-route-tab :to="item.to" exact :label="menuLabel(item.label)" v-if="!item.action || item.action==='route'">
+              <q-icon :name="item.naviIcon" :color="item.color" v-if="item.naviIcon"/>
+            </q-route-tab>
+            <q-tab :label="menuLabel(item.label)" @click="onAction(item)" v-else>
+              <q-icon :name="item.naviIcon" :color="item.color" v-if="item.naviIcon"/>
+            </q-tab>
           </div>
-        </div>
+        </template>
+      </q-tabs>
+    </q-toolbar-title>
 
-        <!-- Top Navi -->
-        <div class="col row items-center o-toolbar">
-          <div class="top-menus">
-            <q-tabs class="o-navi-tabs" align="left" shrink inline-label>
-              <template v-for="(item, index) in topMenus" :key="`r-${index}`">
-                <div v-if="!item.hidden">
-                  <q-route-tab :to="item.to" exact :label="menuLabel(item.label)" v-if="!item.action || item.action==='route'">
-                    <q-icon :name="item.naviIcon" :color="item.color" v-if="item.naviIcon"/>
-                  </q-route-tab>
-                  <q-tab :label="menuLabel(item.label)" @click="onAction(item)" v-else>
-                    <q-icon :name="item.naviIcon" :color="item.color" v-if="item.naviIcon"/>
-                  </q-tab>
-                </div>
-              </template>
-            </q-tabs>
-          </div>
-          <q-toolbar-title />
-        </div>
-
-        <!-- Extra -->
-        <div class="col-md-7">
-          <div class="row col-12 justify-end items-center o-toolbar-extra">
-            <q-btn :label="$t('console')" class="bg-primary text-white" @click="onConsole" rounded flat />
-            <q-btn :label="$t('signin')" class="bg-primary text-white" to="/signin" rounded flat />
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="row items-center o-toolbar-extra">
+      <q-btn :label="$t('console')" class="bg-primary text-white" @click="onConsole" rounded flat v-if="isLogin" />
+      <q-btn :label="$t('signin')" class="bg-primary text-white" to="/auth/signin" rounded flat v-else />
+    </div>
   </q-toolbar>
 </template>
 
@@ -68,36 +52,15 @@ $hheight: 80px;
 .base-toolbar {
   height: 100%;
   padding: 0 24px;
-  position: fixed;
   z-index: 101;
   background: rgba(#fff, 0.7) !important;
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
 
-  .top-nav {
-    height: $hheight;
-    max-width: 1200px;
-
-    .top-nav-container {
-      max-width: 1080px;
-    }
-
-    .logo-wrapper {
-      width: 200px;
-      height: $hheight;
-      font-size: 1.2rem;
-
-      img {
-        height: 40px;
-      }
-    }
-
-    .logo {
-      height: 36px;
-      width:  200px;
-      margin: 12px 0 0 0px;
-    }
+  .app {
+    width: 200px;
   }
+
 
   .o-navi-tabs {
     height: 40px;
@@ -146,10 +109,6 @@ $hheight: 80px;
 
   .o-toolbar-extra {
     height: 100%;
-
-    .top-menus {
-      margin-right: 16px;
-    }
 
     .q-btn {
       height: 40px;

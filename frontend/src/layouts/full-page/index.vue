@@ -1,8 +1,9 @@
 <template>
   <q-layout view="hHh Lpr lFf" class="o-layout layout-common full-page-layout">
-    <section class="top-navi" v-if="showToolbar">
-      <base-toolbar />
-    </section>
+    <q-header class="top-navi full-width">
+      <simple-toolbar v-if="showSimpleToolbar" />
+      <base-toolbar v-else />
+    </q-header>
 
     <q-page-container>
       <router-view v-slot="{ Component, route }">
@@ -18,11 +19,12 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import BaseToolbar from './toolbar/BaseToolbar.vue';
+import SimpleToolbar from './toolbar/SimpleToolbar.vue';
 
 const route = useRoute();
 
-const showToolbar = computed(() => {
-  return route.name != 'signin';
+const showSimpleToolbar = computed(() => {
+  return route.name == 'signin' || route.name == 'signup';
 })
 </script>
 

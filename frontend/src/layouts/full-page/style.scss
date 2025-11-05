@@ -6,16 +6,27 @@ $mheight:  60px;
 .full-page-layout {
   .q-header {
     height: $dheight;
-  }
+    color: unset;
+    .q-toolbar {
+      height: 100%;
+      padding: 0 20px;
 
-  .base-toolbar {
-    position: fixed;
-    height: $dheight;
+      .app {
+        span {
+          font-size: 1.2rem;
+        }
+      }
+
+      .q-btn {
+        padding: 0 8px;
+      }
+    }
   }
 
   .top-navi {
     position: fixed;
     background: transparent!important;
+    height: $dheight;
     z-index: 100;
   }
 }
