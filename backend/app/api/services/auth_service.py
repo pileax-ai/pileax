@@ -3,17 +3,16 @@ import secrets
 
 from datetime import timedelta
 
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
-from app.api.models.auth import Token, Signin, LoginUpdate
+from app.api.models.auth import Token, Signin, LoginUpdate, TokenPublic
 from app.api.models.common import Status
 from app.api.models.user import User
 from app.api.services.tenant_service import TenantService
 from app.api.services.user_service import UserService
-from app.libs.helper import TokenHelper, get_current_time
+from app.libs.helper import get_current_time
 from app.libs.jwt_service import JWTService
 from app.libs.password import compare_password, hash_password
-from app.core import security
 from app.core.config import settings
 
 
@@ -55,24 +54,32 @@ class AuthService:
 
         return user
 
-
     def login(self, user: User, ip: str | None = None) -> Token:
         item_in = LoginUpdate(last_login_ip=ip, last_login_time=get_current_time())
         self.service.update(user.id, item_in.model_dump(exclude_unset=True, exclude_none=True))
 
+        # todo: cache/save refresh_token
+
         return Token(
-            access_token=JWTService().issue_access_token(user),
-            refresh_token=TokenHelper.generate_refresh_token(),
-            csrf_token=JWTService().issue_csrf_token(user),
+            access_token=JWTService().issue_access_token(str(user.id)),
+            refresh_token=JWTService().issue_refresh_token(str(user.id)),
+            csrf_token=JWTService().issue_csrf_token(str(user.id)),
         )
 
+    def refresh_token(self, token: str) -> Token:
+        try:
+            payload = JWTService().decode(token)
+            user_id = payload["sub"]
 
-    @staticmethod
-    def generate_jwt_token(self, user: User) -> Token:
-        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-        return Token(
-            access_token=security.create_access_token(
-                user.id,
-                expires_delta=access_token_expires
+            # todo: reset refresh_token
+
+            return Token(
+                access_token=JWTService().issue_access_token(user_id),
+                refresh_token=JWTService().issue_refresh_token(user_id),
+                csrf_token=JWTService().issue_csrf_token(user_id),
             )
-        )
+        except HTTPException:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Invalid refresh token.",
+            )

@@ -4,14 +4,14 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.controllers.auth_controller import AuthController
 from app.api.deps import SessionDep
-from app.api.models.auth import Token, SigninVo, Signin
+from app.api.models.auth import Token, SigninVo, Signin, TokenPublic, SigninPublic
 from app.api.models.user import UserCreate
 from app.api.router import ApiRouter
 from app.api.services.auth_service import AuthService
 
 router = ApiRouter(prefix="/auth", tags=["Auth"])
 
-@router.api_post("/signup", response_model=SigninVo)
+@router.api_post("/signup", response_model=SigninPublic)
 def signup(
     item_in: UserCreate,
     session: SessionDep,
@@ -21,12 +21,10 @@ def signup(
     """
     signup for new user
     """
-    res = AuthController(session, request, response).signup(item_in)
-    token = f"Bearer {res.token.access_token}"
-    return SigninVo(account=res.user, token=token)
+    return AuthController(session, request, response).signup(item_in)
 
 
-@router.api_post("/signin", response_model=SigninVo)
+@router.api_post("/signin", response_model=SigninPublic)
 def signin(
     session: SessionDep,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -36,10 +34,21 @@ def signin(
     """
     signin for frontend with standard response
     """
-    res = (AuthController(session, request, response)
+    return (AuthController(session, request, response)
            .signin(form_data.username, form_data.password))
-    token = f"Bearer {res.token.access_token}"
-    return SigninVo(account=res.user, token=token)
+
+
+@router.api_post("/refresh-token", response_model=TokenPublic)
+def refresh_token(
+    session: SessionDep,
+    request: Request,
+    response: Response,
+):
+    """
+    Refresh access token
+    """
+    return (AuthController(session, request, response)
+           .refresh_token())
 
 
 @router.post("/token", response_model=Token)

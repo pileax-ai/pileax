@@ -58,13 +58,14 @@ def setup_static(app: FastAPI):
     static_path = Path(settings.PUBLIC_ROOT).resolve()
     app.mount("/", StaticFiles(directory=static_path), name="root")
     app.add_middleware(StaticCORSMiddleware)
-    logger.info('setup_static')
+    logger.info("setup_static")
 
 
 def setup_cors(app: FastAPI):
+    logger.info(f"setup_cors: {settings.FRONTEND_HOST}")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=[settings.FRONTEND_HOST],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -79,7 +80,6 @@ def initialization(app: FastAPI):
     setup_cors(app)
     setup_exception_handlers(app)
     logger.info("Initialization completed")
-    logger.info(f"Sectet key: {settings.SECRET_KEY}")
     logging.info(r"""
 
     8888888b.  d8b 888                   Y88b   d88P

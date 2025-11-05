@@ -3,7 +3,8 @@ export interface RequestOptions {
   path?: string;
   query?: any,
   body?: any,
-  headers?: any
+  headers?: any,
+  withCredentials?: boolean | undefined
 }
 
 export interface PageResult {

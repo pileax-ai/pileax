@@ -33,7 +33,7 @@ def get_user_id(token: TokenDep) -> UUID:
         payload = JWTService().decode(token)
         token_data = TokenPayload(**payload)
         return UUID(token_data.sub)
-    except (InvalidTokenError, ValidationError):
+    except HTTPException:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials",

@@ -39,9 +39,9 @@ export const orderedUrls = () => {
   return ordered;
 }
 
-export const getUrl = (data: RequestOptions) => {
-  const name = data.name;
-  const path = data.path;
+export const getUrl = (options: RequestOptions) => {
+  const name = options.name;
+  const path = options.path;
   let url = '';
   if (name.indexOf('http') === 0 || name.indexOf('/') === 0) {
     url = name;
@@ -55,47 +55,51 @@ export const getUrl = (data: RequestOptions) => {
   return url;
 }
 
-export const getRequest = (data: RequestOptions) => {
-  const url = getUrl(data)
+export const getRequest = (options: RequestOptions) => {
+  const url = getUrl(options)
 
   return request({
     url: url,
     method: 'get',
-    params: data.query
+    withCredentials: options.withCredentials,
+    params: options.query
   })
 }
 
-export const postRequest = (data: RequestOptions) => {
-  const url = getUrl(data)
-  const body = data.body
+export const postRequest = (options: RequestOptions) => {
+  const url = getUrl(options)
+  const body = options.body
 
   return request({
     url: url,
     method: 'post',
-    params: data.query || {},
+    withCredentials: options.withCredentials,
+    params: options.query || {},
     data: body,
-    headers: data.headers
+    headers: options.headers
   })
 }
 
-export const putRequest = (data: RequestOptions) => {
-  const url = getUrl(data)
-  const body = data.body
+export const putRequest = (options: RequestOptions) => {
+  const url = getUrl(options)
+  const body = options.body
 
   return request({
     url: url,
     method: 'put',
-    params: data.query || {},
+    withCredentials: options.withCredentials,
+    params: options.query || {},
     data: body
   })
 }
 
-export const deleteRequest = (data: RequestOptions) => {
-  const url = getUrl(data)
+export const deleteRequest = (options: RequestOptions) => {
+  const url = getUrl(options)
 
   return request({
     url: url,
     method: 'delete',
-    params: data.query
+    withCredentials: options.withCredentials,
+    params: options.query
   })
 }

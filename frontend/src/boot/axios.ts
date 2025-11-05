@@ -2,6 +2,7 @@ import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { getCommonHeaders } from 'core/utils/common';
 import useDialog from 'core/hooks/useDialog';
+import { refreshToken } from 'src/utils/auth';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -30,6 +31,12 @@ api.interceptors.request.use(
     if (config.url && config.url.indexOf('http') < 0) {
       const headers = getCommonHeaders();
       config.headers = Object.assign(config.headers, headers);
+    }
+
+    // Auto refresh token
+    console.log('url', config.url)
+    if (!config.url?.includes('refresh-token')) {
+      refreshToken()
     }
 
     return config;

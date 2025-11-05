@@ -7,12 +7,12 @@
 import { Platform, Cookies } from 'quasar'
 import packageInfo from '../../package.json'
 import { getItem, getItemObject } from 'core/utils/storage'
+import { getAuthorization } from 'src/utils/auth'
 
 export const getCommonHeaders = () => {
   const platform = Platform.is;
-  const accountInfo = getItemObject('user') as Indexable;
   return {
-    'Authorization': accountInfo.token,
+    'Authorization': getAuthorization(),
     'x-api-version': 'v1',
     'x-project': packageInfo.productName,
     'x-locale': getItem('locale') || 'en',

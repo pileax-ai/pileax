@@ -22,7 +22,7 @@ import useDialog from 'core/hooks/useDialog';
 import useAccount from 'src/hooks/useAccount';
 
 const { dialog, onHide } = useDialog();
-const { autoLogin } = useAccount();
+const { logout } = useAccount();
 
 const style = computed(() => {
   return {
@@ -32,8 +32,8 @@ const style = computed(() => {
   };
 });
 
-const onOk = async () => {
-  await autoLogin()
+const onOk = () => {
+  logout()
   onHide()
 }
 </script>

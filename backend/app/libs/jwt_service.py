@@ -15,21 +15,30 @@ class JWTService:
     def issue(self, payload: dict) -> str:
         return jwt.encode(payload, self.secret_key, algorithm=ALGORITHM)
 
-    def issue_access_token(self, user: User) -> str:
+    def issue_access_token(self, user_id: str) -> str:
         expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         expire = datetime.now(timezone.utc) + expires_delta
         payload = {
             "iss": "PileaX API",
-            "sub": str(user.id),
+            "sub": user_id,
             "exp": expire,
         }
         return self.issue(payload)
 
-    def issue_csrf_token(self, user: User) -> str:
-        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    def issue_refresh_token(self, user_id: str) -> str:
+        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 15)
         expire = datetime.now(timezone.utc) + expires_delta
         payload = {
-            "sub": str(user.id),
+            "sub": user_id,
+            "exp": expire,
+        }
+        return self.issue(payload)
+
+    def issue_csrf_token(self, user_id: str) -> str:
+        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 15)
+        expire = datetime.now(timezone.utc) + expires_delta
+        payload = {
+            "sub": user_id,
             "exp": expire,
         }
         return self.issue(payload)

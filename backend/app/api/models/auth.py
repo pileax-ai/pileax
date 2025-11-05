@@ -19,7 +19,7 @@ class LoginUpdate(BaseModel):
 
 class TokenPublic(BaseModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: str = "Bearer"
 
 
 class Token(TokenPublic):

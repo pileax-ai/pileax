@@ -9,10 +9,6 @@ export class RemoteAuthService {
   private apiName = 'auth';
 
   async signup(body: Indexable): Promise<any> {
-    const formData = new FormData();
-    formData.append('username', 'username');
-    formData.append('password', 'password');
-
     return POST({
       name: this.apiName,
       path: '/signup',
@@ -31,7 +27,16 @@ export class RemoteAuthService {
       body: formData,
       headers: {
         'Content-Type': 'multipart/form-data',
-      }
+      },
+      withCredentials: true
+    });
+  }
+
+  refreshToken(): Promise<any> {
+    return POST({
+      name: this.apiName,
+      path: '/refresh-token',
+      withCredentials: true
     });
   }
 

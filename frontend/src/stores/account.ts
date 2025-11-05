@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import {CODE} from 'core/app';
 import { POST } from 'src/hooks/useRequest';
-import { encryptPassword } from 'src/utils/auth';
+import { encryptPassword, saveAccount } from 'src/utils/auth'
 import { LoginParams, LoginResultModel } from 'src/api/models/account';
 import {
   getItemObject,
@@ -19,8 +19,8 @@ export const useAccountStore = defineStore('account', {
   },
   actions: {
     loadAccount() {
-      const accountInfo = getItemObject('account') as Indexable;
-      this.account = accountInfo.account?.account || {};
+      const accountInfo = getItemObject('user') as Indexable;
+      this.account = accountInfo.user || {};
     },
     setAccount(value: Indexable) {
       this.account = value;
@@ -61,12 +61,12 @@ export const useAccountStore = defineStore('account', {
     },
     afterLogin(result: Indexable, redirect = '/welcome') {
       // console.log('login', result)
-      saveItemObject('user', result);
-      this.account = result.account;
+      saveAccount(result)
+      this.account = result.user;
       if (redirect) {
         this.router.push(redirect);
       }
-      return result.account;
+      return result.user;
     },
     logout() {
       this.account = {};
