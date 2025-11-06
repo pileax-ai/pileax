@@ -60,10 +60,11 @@ export default function () {
     const query = {
       pageSize: 1000,
       sort: {
-        updateTime: 'desc'
+        update_time: 'desc'
       }
     }
-    recentNotes.value = await noteService.query(query) as Note[];
+    const res = await noteService.query(query) as Indexable;
+    recentNotes.value = res.list as Note[]
   }
 
   function addNote(parent = '', source = '') {
