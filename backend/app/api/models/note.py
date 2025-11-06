@@ -1,25 +1,15 @@
 import uuid
 
 from pydantic import field_validator
-from sqlalchemy import Column
 from sqlmodel import Field
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
 
-class Note(BaseSQLModel, TimestampMixin, table=True):
-    id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), primary_key=True)
-    )
-    user_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString())
-    )
-    parent: uuid.UUID | None = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), default=None)
-    )
+class Note(BaseSQLModel, BaseMixin, table=True):
+    user_id: uuid.UUID = uuid_field()
+    tenant_id: uuid.UUID = uuid_field()
+    parent: uuid.UUID | None = uuid_field(default_none=True)
     title: str = Field(..., max_length=255, description="Note title")
     content: str = Field(..., description="Note content")
     icon: str | None = Field(default=None)
@@ -58,5 +48,5 @@ class NoteUpdate(NoteBase):
     content: str | None = None
 
 
-class NotePublic(NoteCreate, TimestampMixin):
+class NotePublic(NoteCreate, BaseMixin):
     pass

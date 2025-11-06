@@ -12,7 +12,8 @@ export class RemoteAuthService {
     return POST({
       name: this.apiName,
       path: '/signup',
-      body
+      body,
+      withCredentials: true
     });
   }
 

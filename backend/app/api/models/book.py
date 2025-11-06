@@ -1,20 +1,12 @@
 import uuid
 
-from sqlalchemy import Column
 from sqlmodel import Field
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
 
-class Book(BaseSQLModel, TimestampMixin, table=True):
-    id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), primary_key=True)
-    )
-    user_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString())
-    )
+class Book(BaseSQLModel, BaseMixin, table=True):
+    user_id: uuid.UUID = uuid_field()
     uuid: str = Field(..., min_length=32, max_length=64, unique=True, description="Book sha1 hash")
     title: str = Field(..., max_length=255, description="Book title")
     path: str = Field(..., description="Book file path")
@@ -53,5 +45,5 @@ class BookUpdate(BookBase):
     title: str | None = ""
 
 
-class BookPublic(BookCreate, TimestampMixin):
+class BookPublic(BookCreate, BaseMixin):
     pass

@@ -4,7 +4,7 @@ from typing import Optional
 from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
 
-from app.api.models.common import BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.base import BaseSQLModel
 
 
 class Signin(BaseModel):

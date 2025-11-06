@@ -6,7 +6,7 @@ from datetime import timedelta
 from fastapi import HTTPException, status
 
 from app.api.models.auth import Token, Signin, LoginUpdate, TokenPublic
-from app.api.models.common import Status
+from app.api.models.enums import Status
 from app.api.models.user import User
 from app.api.services.tenant_service import TenantService
 from app.api.services.user_service import UserService
@@ -83,3 +83,4 @@ class AuthService:
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Invalid refresh token.",
             )
+

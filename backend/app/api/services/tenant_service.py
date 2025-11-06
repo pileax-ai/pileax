@@ -1,4 +1,4 @@
-from app.api.models.tenant import Tenant, TenantPlan
+from app.api.models.tenant import Tenant, TenantPlan, TenantType
 from app.api.models.tenant_member import TenantMember, TenantMemberRole
 from app.api.models.user import User
 from app.api.repos.base_repository import BaseRepository
@@ -11,9 +11,11 @@ class TenantService(BaseService[Tenant]):
         super().__init__(Tenant, session, BaseRepository)
 
     def create_default(self, user: User) -> TenantMember:
-        # Tenant
+        # Tenant, user user id as id
         tenant = Tenant(
+            id=user.id,
             name=user.name,
+            type=TenantType.PERSONAL,
             plan=TenantPlan.BASIC,
         )
         tenant = self.create(tenant)

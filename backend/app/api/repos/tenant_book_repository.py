@@ -4,20 +4,20 @@ from uuid import UUID
 
 from app.api.models.book import Book
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.user_book import UserBook
+from app.api.models.tenant_book import TenantBook
 from app.api.repos.base_repository import BaseRepository
 from app.utils.db_util import DbUtil
 
 
-class UserBookRepository(BaseRepository[UserBook]):
+class TenantBookRepository(BaseRepository[TenantBook]):
     def __init__(self, model, session):
         super().__init__(model, session)
 
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
-            select(UserBook, Book)
-            .join(Book, Book.id == UserBook.book_id)
-            .where(UserBook.id == id)
+            select(TenantBook, Book)
+            .join(Book, Book.id == TenantBook.book_id)
+            .where(TenantBook.id == id)
         )
         result = self.session.exec(stmt).first()
         if result:
@@ -27,19 +27,19 @@ class UserBookRepository(BaseRepository[UserBook]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        user_book_filters = DbUtil.get_filters(UserBook, query.condition, ['user_id'])
+        user_book_filters = DbUtil.get_filters(TenantBook, query.condition, ['user_id'])
         book_filters = DbUtil.get_filters(Book, query.condition, ['title'])
         filters = user_book_filters + book_filters
 
         # 2. stmt
         stmt = (
-            select(UserBook, Book)
-            .join(Book, Book.id == UserBook.book_id)
+            select(TenantBook, Book)
+            .join(Book, Book.id == TenantBook.book_id)
         )
         count_stmt = (
             select(func.count())
-            .select_from(UserBook)
-            .join(Book, Book.id == UserBook.book_id)
+            .select_from(TenantBook)
+            .join(Book, Book.id == TenantBook.book_id)
         )
         if filters:
             stmt = stmt.where(*filters)
@@ -47,8 +47,8 @@ class UserBookRepository(BaseRepository[UserBook]):
 
         # 3. Sort
         for field, direction in query.sort.items():
-            if hasattr(UserBook, field):
-                column = getattr(UserBook, field)
+            if hasattr(TenantBook, field):
+                column = getattr(TenantBook, field)
             elif hasattr(Book, field):
                 column = getattr(Book, field)
             else:
@@ -77,7 +77,7 @@ class UserBookRepository(BaseRepository[UserBook]):
             pageIndex=query.pageIndex,
         )
 
-    def _build_details(self, user_book: UserBook, book: Book) -> dict:
+    def _build_details(self, user_book: TenantBook, book: Book) -> dict:
         return {
             **user_book.model_dump(),
             "owner": book.user_id,

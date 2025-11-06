@@ -1,36 +1,25 @@
 import uuid
 
-from sqlalchemy import Column, UniqueConstraint
-from sqlmodel import Field
+from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
 
-class UserBook(BaseSQLModel, TimestampMixin, table=True):
-    __tablename__ = "user_book"
+class TenantBook(BaseSQLModel, BaseMixin, table=True):
+    __tablename__ = "tenant_book"
 
     __table_args__ = (
-        UniqueConstraint("user_id", "book_id", name="uq_user_book"),
+        UniqueConstraint("tenant_id", "book_id", name="unique_tenant_book"),
     )
 
-    id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), primary_key=True)
-    )
-    user_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), nullable=False)
-    )
-    book_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), nullable=False)
-    )
+    tenant_id: uuid.UUID = uuid_field()
+    book_id: uuid.UUID = uuid_field()
     rating: int | None = Field(default=0, ge=0, le=5)
     reading_position: str | None = Field(default="")
     reading_percentage: float | None = Field(default=0.0, ge=0.0, le=100.0)
 
 
-class UserBookBase(BaseApiModel):
+class TenantBookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     user_id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     book_id: uuid.UUID | None = None
@@ -39,18 +28,18 @@ class UserBookBase(BaseApiModel):
     reading_percentage: float | None = 0.0
 
 
-class UserBookCreate(UserBookBase):
+class TenantBookCreate(TenantBookBase):
     pass
 
 
-class UserBookUpdate(UserBookBase):
+class TenantBookUpdate(TenantBookBase):
     id: uuid.UUID
 
 
-class UserBookPublic(UserBookCreate, TimestampMixin):
+class TenantBookPublic(TenantBookCreate, BaseMixin):
     pass
 
-class UserBookDetails(UserBookPublic):
+class TenantBookDetails(TenantBookPublic):
     owner: uuid.UUID
     title: str
     path: str | None = None

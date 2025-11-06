@@ -36,8 +36,7 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return self.login(user)
 
     def signin(self, email: str, password: str) -> SigninPublic:
-        data = Signin(email=email, password=password)
-        user = self.service.signin(data)
+        user = self.service.signin(Signin(email=email, password=password))
         return self.login(user)
 
     def login(self, user: User) -> SigninPublic:
@@ -68,4 +67,10 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         # todo: remove old refresh_token
 
+        return TokenPublic(**token.model_dump(by_alias=True))
+
+    def get_token(self, email: str, password: str) -> TokenPublic:
+        user = self.service.signin(Signin(email=email, password=password))
+        ip = extract_remote_ip(self.request)
+        token = self.service.login(user, ip)
         return TokenPublic(**token.model_dump(by_alias=True))

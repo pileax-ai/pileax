@@ -1,16 +1,12 @@
 import uuid
 
-from sqlalchemy import Column, Integer
-from sqlmodel import Field
+from sqlmodel import Column, Field, Integer
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin, Status
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin
+from app.api.models.enums import Status
 
 
-class User(BaseSQLModel, TimestampMixin, table=True):
-    id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), primary_key=True)
-    )
+class User(BaseSQLModel, BaseMixin, table=True):
     name: str = Field(..., max_length=100)
     email: str = Field(..., max_length=255, unique=True)
     password: str = Field(..., max_length=255)
@@ -42,5 +38,5 @@ class UserUpdate(UserBase):
     name: str | None = None
 
 
-class UserPublic(UserCreate, TimestampMixin):
+class UserPublic(UserCreate, BaseMixin):
     pass

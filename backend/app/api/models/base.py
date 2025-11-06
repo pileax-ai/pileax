@@ -1,4 +1,3 @@
-import enum
 import re
 import uuid
 from datetime import datetime, UTC, timezone
@@ -23,37 +22,13 @@ class UUIDString(TypeDecorator):
         if value is None:
             return None
         if isinstance(value, uuid.UUID):
-            return str(value)  # 带短横
+            return str(value)
         return str(uuid.UUID(value))
 
     def process_result_value(self, value, dialect):
         if value is None:
             return None
         return uuid.UUID(value)
-
-
-class TimestampMixin:
-    create_time: str = Field(
-        default_factory=lambda: datetime.now(UTC).isoformat().replace("+00:00", "Z"),
-        nullable=False,
-        sa_column_kwargs={"comment": "Created time"}
-    )
-    update_time: str = Field(
-        default_factory=lambda: datetime.now(UTC).isoformat().replace("+00:00", "Z"),
-        nullable=False,
-        sa_column_kwargs={"comment": "Updated time"}
-    )
-
-
-class TimestampReadMixin(BaseModel):
-    create_time: datetime
-    update_time: datetime
-
-    class Config:
-        from_attributes = True
-        json_encoders = {
-            datetime: lambda v: v.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
-        }
 
 
 class BaseSQLModel(SQLModel):
@@ -70,7 +45,40 @@ class BaseApiModel(BaseModel):
     )
 
 
-class Status(enum.IntEnum):
-    INACTIVE = -1
-    PENDING = 0
-    ACTIVE = 1
+class TimestampMixin:
+    create_time: str = Field(
+        default_factory=lambda: datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        nullable=False,
+        sa_column_kwargs={"comment": "Created time"}
+    )
+    update_time: str = Field(
+        default_factory=lambda: datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        nullable=False,
+        sa_column_kwargs={"comment": "Updated time"}
+    )
+
+
+class BaseMixin(TimestampMixin):
+    id: uuid.UUID = Field(
+        default_factory=uuid.uuid4,
+        primary_key=True,
+        sa_type=UUIDString,
+        sa_column_kwargs={"nullable": False, "unique": True},
+    )
+
+
+def uuid_field(
+    nullable: bool = False,
+    unique: bool = False,
+    primary_key: bool = False,
+    default_none: bool = False,
+):
+    if default_none:
+        return Field(default=None, sa_type=UUIDString)
+    return Field(
+        default_factory=uuid.uuid4,
+        nullable=nullable,
+        primary_key=primary_key,
+        sa_type=UUIDString,
+        sa_column_kwargs={"nullable": nullable, "unique": unique},
+    )

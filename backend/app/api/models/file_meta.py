@@ -1,22 +1,15 @@
 import uuid
 
-from sqlalchemy import Column, Integer
-from sqlmodel import Field
+from sqlmodel import Column, Field, Integer
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin, Status
+from app.api.models.base import BaseApiModel, BaseSQLModel, UUIDString, BaseMixin, uuid_field
+from app.api.models.enums import Status
 
 
-class FileMeta(BaseSQLModel, TimestampMixin, table=True):
+class FileMeta(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "file_meta"
 
-    id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), primary_key=True)
-    )
-    user_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), nullable=False)
-    )
+    user_id: uuid.UUID = uuid_field()
     mimetype: str | None = Field(default="")
     size: int | None = Field(default=0, ge=0)
     original_name: str | None = Field(default="")
@@ -50,5 +43,5 @@ class FileMetaUpdate(BaseApiModel):
     status: int | None = Field(default=0)
 
 
-class FileMetaPublic(FileMetaCreate, TimestampMixin):
+class FileMetaPublic(FileMetaCreate, BaseMixin):
     pass

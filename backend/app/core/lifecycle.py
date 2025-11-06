@@ -9,7 +9,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
-from app.api.main import api_router
+#from app.api.main import api_router
+from app.api.routes import api_router
 from app.core.config import settings
 from app.core.database import sqlite
 from app.core.exception_handler import setup_exception_handlers
@@ -82,14 +83,14 @@ def initialization(app: FastAPI):
     logger.info("Initialization completed")
     logging.info(r"""
 
-    8888888b.  d8b 888                   Y88b   d88P
-    888   Y88b Y8P 888                    Y88b d88P
-    888    888     888                     Y88o88P
-    888   d88P 888 888  .d88b.   8888b.     Y888P
-    8888888P"  888 888 d8P  Y8b     "88b    d888b
-    888        888 888 88888888 .d888888   d88888b
-    888        888 888 Y8b.     888  888  d88P Y88b
-    888        888 888  "Y8888  "Y888888 d88P   Y88b
+    8888888b.     d8b    888                    Y88b   d88P
+    888   Y88b    Y8P    888                     Y88b d88P
+    888    888           888                      Y88o88P
+    888   d88P    888    888   .d88b.   8888b.     Y888P
+    8888888P"     888    888  d8P  Y8b     "88b    d888b
+    888           888    888  88888888 .d888888   d88888b
+    888           888    888  Y8b.     888  888  d88P Y88b
+    888           888    888   "Y8888  "Y888888 d88P   Y88b
     """)
 
 

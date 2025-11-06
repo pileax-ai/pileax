@@ -52,5 +52,5 @@ class CookieHelper:
     @staticmethod
     def set_token(response: Response, token: Token):
         # CookieHelper.set_access_token(response, token.access_token)
-        CookieHelper.set_refresh_token(response, token.refresh_token)
-        CookieHelper.set_csrf_token(response, token.csrf_token)
+        CookieHelper.set_refresh_token(response, token.refresh_token, samesite="Strict")
+        CookieHelper.set_csrf_token(response, token.csrf_token, samesite="Strict")

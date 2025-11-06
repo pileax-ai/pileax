@@ -51,14 +51,15 @@ def refresh_token(
            .refresh_token())
 
 
-@router.post("/token", response_model=Token)
+@router.post("/token", response_model=TokenPublic)
 def get_token(
     session: SessionDep,
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    request: Request,
+    response: Response,
 ):
     """
     token for swagger and oauth2
     """
-    data = Signin(email=form_data.username, password=form_data.password)
-    res = AuthService(session).signin(data)
-    return res.token
+    return (AuthController(session, request, response)
+            .get_token(form_data.username, form_data.password))

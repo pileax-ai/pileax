@@ -5,10 +5,10 @@ from fastapi import UploadFile
 
 from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
-from app.api.controllers.user_book_controller import UserBookController
+from app.api.controllers.tenant_book_controller import TenantBookController
 from app.api.models.book import Book, BookCreate, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
-from app.api.models.user_book import UserBookCreate
+from app.api.models.tenant_book import TenantBookCreate
 from app.api.services.book_service import BookService
 from app.utils.book_uploader import BookUploader
 
@@ -18,7 +18,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         super().__init__(Book, session, user_id)
         self.service = BookService(session)
         self.file_meta_controller = FileMetaController(session, user_id)
-        self.user_book_controller = UserBookController(session, user_id)
+        self.user_book_controller = TenantBookController(session, user_id)
 
     def get_by_uuid(self, uuid: str) -> Book:
         return self.service.get_by_uuid(uuid)
@@ -52,7 +52,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book_out_data = book_out.dict()
 
         # save user_book
-        user_book_in = UserBookCreate(book_id=id)
+        user_book_in = TenantBookCreate(book_id=id)
         self.user_book_controller.save(user_book_in)
 
         return book_out_data

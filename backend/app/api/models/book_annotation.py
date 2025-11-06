@@ -1,30 +1,16 @@
 import uuid
 
-from sqlalchemy import Column
 from sqlmodel import Field
 
-from app.api.models.common import BaseApiModel, BaseSQLModel, UUIDString, TimestampMixin
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
 
-class BookAnnotation(BaseSQLModel, TimestampMixin, table=True):
+class BookAnnotation(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "book_annotation"
 
-    id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), primary_key=True)
-    )
-    user_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), nullable=False)
-    )
-    book_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), nullable=False)
-    )
-    user_book_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4,
-        sa_column=Column(UUIDString(), nullable=False)
-    )
+    user_id: uuid.UUID = uuid_field()
+    book_id: uuid.UUID = uuid_field()
+    tenant_book_id: uuid.UUID = uuid_field()
     type: str | None = Field(default=None)
     value: str | None = Field(default=None)
     note: str | None = Field(default=None)
@@ -52,7 +38,7 @@ class BookAnnotationUpdate(BookAnnotationBase):
     id: uuid.UUID
 
 
-class BookAnnotationPublic(BookAnnotationCreate, TimestampMixin):
+class BookAnnotationPublic(BookAnnotationCreate, BaseMixin):
     pass
 
 

@@ -2,7 +2,7 @@ from functools import wraps
 from typing import Generic, TypeVar, Optional, Any, Type, Callable
 from http import HTTPStatus
 from pydantic import Field, BaseModel
-from fastapi import status, APIRouter
+from fastapi import APIRouter
 
 T = TypeVar("T")
 
