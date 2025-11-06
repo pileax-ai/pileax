@@ -14,15 +14,13 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        filters = DbUtil.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'user_id'])
+        filters = DbUtil.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'tenant_id', 'user_id'])
 
         # 2. stmt
-        stmt = (
-            select(BookAnnotation, Book)
+        stmt = (select(BookAnnotation, Book)
             .join(Book, Book.id == BookAnnotation.book_id)
         )
-        count_stmt = (
-            select(func.count())
+        count_stmt = (select(func.count())
             .select_from(BookAnnotation)
             .join(Book, Book.id == BookAnnotation.book_id)
         )
@@ -31,30 +29,21 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        for field, direction in query.sort.items():
-            if hasattr(BookAnnotation, field):
-                column = getattr(BookAnnotation, field)
-            elif hasattr(Book, field):
-                column = getattr(Book, field)
-            else:
-                continue
-            stmt = stmt.order_by(column.desc() if direction == "desc" else column.asc())
+        stmt = DbUtil.apply_sort(stmt, [BookAnnotation, Book], query.sort)
 
         # 4. Pagination
-        offset = (query.pageIndex - 1) * query.pageSize
-        stmt = stmt.offset(offset).limit(query.pageSize)
+        stmt = DbUtil.apply_pagination(stmt, query.pageIndex, query.pageSize)
 
         # 5. Query
         # 5.1 Total
         total = self.session.exec(count_stmt).one()
 
         # 5.2 Rows
-        result = self.session.exec(stmt)
-        pairs = result.all()
         rows = [
             self._build_details(user_book, book)
-            for user_book, book in pairs
+            for user_book, book in self.session.exec(stmt).all()
         ]
+
         return QueryResult(
             total=total,
             list=rows,

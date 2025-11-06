@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, func
 from sqlalchemy.sql.elements import BinaryExpression
 
 from app.api.models.query import SortOrder
+from app.libs.helper import StringHelper
 
 
 class DbUtil:
@@ -107,7 +108,8 @@ class DbUtil:
                 columns_map[f"{model_prefix}.{col.name}"] = getattr(model, col.name)
 
         for field, direction in sort.items():
-            column = columns_map.get(field)
+            field_snake = StringHelper.to_snake(field)
+            column = columns_map.get(field) or columns_map.get(field_snake)
             if column:
                 stmt = stmt.order_by(column.desc() if direction == "desc" else column.asc())
         return stmt

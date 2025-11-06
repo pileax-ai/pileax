@@ -9,4 +9,4 @@ class NoteController(BaseController[Note, NoteCreate, NoteUpdate]):
         user_id: CurrentUserId,
         tenant_id: CurrentTenantId
     ):
-        super().__init__(Note, session, user_id, tenant_id)
+        super().__init__(Note, session, tenant_id, user_id)

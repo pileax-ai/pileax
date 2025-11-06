@@ -62,7 +62,7 @@ import { findBookAnnotation, renderAnnotations } from 'src/service/book-annotati
 import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute();
-const { store, setBook, setBookId, setUserBookId } = useBook();
+const { store, setBook, setBookId, setTenantBookId } = useBook();
 
 const bookRef = ref(null);
 const showShareDialog = ref(false);
@@ -84,24 +84,25 @@ function prepareOpen() {
   }
 }
 
-async function openWithBook(userBookId: string) {
+async function openWithBook(tenantBookId: string) {
   store.setReadingMode(ReadingMode.Read);
-  await open(userBookId);
+  await open(tenantBookId);
 }
 
 async function openWithAnnotation(annotationId: string) {
   const annotation = await bookAnnotationService.get(annotationId);
-  const userBookId = annotation.userBookId;
+  const tenantBookId = annotation.tenantBookId;
   const cfi = annotation.value;
   store.setReadingMode(ReadingMode.Preview);
-  await open(userBookId, cfi);
+  await open(tenantBookId, cfi);
 }
 
-async function open(userBookId: string, initialCfi = '') {
-  const book: Indexable = await userBookService.getDetails(userBookId);
+async function open(tenantBookId: string, initialCfi = '') {
+  console.log('open', tenantBookId)
+  const book: Indexable = await userBookService.getDetails(tenantBookId);
   if (book) {
     setBookId(book.bookId);
-    setUserBookId(userBookId);
+    setTenantBookId(tenantBookId);
     setBook(book);
 
     const filePath = `${book.path}/${book.fileName}`;
@@ -112,13 +113,13 @@ async function open(userBookId: string, initialCfi = '') {
     loading.value = false;
 
     setTimeout(() => {
-      prepareAnnotations(userBookId);
+      prepareAnnotations(tenantBookId);
     }, 300);
   }
 }
 
-async function prepareAnnotations(userBookId: string) {
-  const annotations = await findBookAnnotation(userBookId);
+async function prepareAnnotations(tenantBookId: string) {
+  const annotations = await findBookAnnotation(tenantBookId);
   renderAnnotations(annotations);
 }
 

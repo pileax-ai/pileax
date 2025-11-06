@@ -51,7 +51,7 @@ import useReader from 'src/hooks/useReader';
 const emit = defineEmits(['share']);
 
 const { copy } = useCommon();
-const { userBookId, bookId, progress, selection, setKeyword, setAnnotationTimer } = useBook();
+const { tenantBookId, bookId, progress, selection, setKeyword, setAnnotationTimer } = useBook();
 const { rightDrawerShow, setRightDrawerHoverShow } = useReader();
 const triggerRef = ref();
 const menuRef = ref();
@@ -91,7 +91,7 @@ async function onAnnotation() {
   }
 
   const annotation = {
-    userBookId: userBookId.value,
+    tenantBookId: tenantBookId.value,
     bookId: bookId.value,
     type: 'highlight',
     value: cfi,

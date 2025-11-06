@@ -6,7 +6,6 @@ from fastapi import Depends
 from app.api.controllers.note_controller import NoteController
 from app.api.router import ApiRouter
 
-from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.note import NoteCreate, NoteUpdate, NotePublic
 

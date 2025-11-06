@@ -6,12 +6,7 @@ from pydantic import BaseModel, ConfigDict
 from sqlalchemy.types import TypeDecorator, CHAR
 from sqlmodel import SQLModel, Field
 
-
-def to_camel(string: str) -> str:
-    """
-    Convert snake case string to camelCase
-    """
-    return re.sub(r'_([a-z])', lambda m: m.group(1).upper(), string)
+from app.libs.helper import StringHelper
 
 
 class UUIDString(TypeDecorator):
@@ -33,14 +28,14 @@ class UUIDString(TypeDecorator):
 
 class BaseSQLModel(SQLModel):
     model_config = ConfigDict(
-        alias_generator=to_camel,
+        alias_generator=StringHelper.to_camel,
         validate_by_name=True
     )
 
 
 class BaseApiModel(BaseModel):
     model_config = ConfigDict(
-        alias_generator=to_camel,
+        alias_generator=StringHelper.to_camel,
         validate_by_name=True
     )
 

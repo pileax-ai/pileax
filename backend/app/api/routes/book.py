@@ -1,12 +1,11 @@
 from typing import Any, List
 from uuid import UUID
 
-from fastapi import UploadFile, File, Form
+from fastapi import UploadFile, Form, Depends
 
 from app.api.controllers.book_controller import BookController
 from app.api.router import ApiRouter
 
-from app.api.deps import SessionDep, CurrentUserId
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.book import BookCreate, BookUpdate, BookPublic
 
@@ -14,35 +13,35 @@ router = ApiRouter(prefix="/book", tags=["Book"])
 
 
 @router.api_post("", response_model=BookPublic)
-def save(item_in: BookCreate, session: SessionDep, user_id: CurrentUserId) -> Any:
-    return BookController(session, user_id).save(item_in)
+def save(item_in: BookCreate, controller: BookController = Depends()) -> Any:
+    return controller.save(item_in)
 
 
 @router.api_get("", response_model=BookPublic)
-def get(id: UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
-    return BookController(session, user_id).get(id)
+def get(id: UUID, controller: BookController = Depends()) -> Any:
+    return controller.get(id)
 
 
 @router.api_get("/uuid", response_model=BookPublic)
-def get_by_uuid(uuid: str, session: SessionDep, user_id: CurrentUserId) -> Any:
-    return BookController(session, user_id).get_by_uuid(uuid)
+def get_by_uuid(uuid: str, controller: BookController = Depends()) -> Any:
+    return controller.get_by_uuid(uuid)
 
 
 @router.api_put("", response_model=BookPublic)
-def update(item_in: BookUpdate, session: SessionDep, user_id: CurrentUserId) -> Any:
-    return BookController(session, user_id).update(item_in)
+def update(item_in: BookUpdate, controller: BookController = Depends()) -> Any:
+    return controller.update(item_in)
 
 
 @router.api_delete("")
-def delete(id: UUID, session: SessionDep, user_id: CurrentUserId) -> Any:
-    return BookController(session, user_id).delete(id)
+def delete(id: UUID, controller: BookController = Depends()) -> Any:
+    return controller.delete(id)
 
 
 @router.api_post("/query", response_model=QueryResult[BookPublic])
-def query(query: PaginationQuery, session: SessionDep, user_id: CurrentUserId) -> Any:
-    return BookController(session, user_id).query(query)
+def query(query: PaginationQuery, controller: BookController = Depends()) -> Any:
+    return controller.query(query)
 
 
 @router.api_post("/upload", response_model=BookPublic)
-async def upload(files: List[UploadFile], session: SessionDep, user_id: CurrentUserId, book: str = Form(...)) -> Any:
-    return await BookController(session, user_id).upload(book, files)
+async def upload(files: List[UploadFile], book: str = Form(...), controller: BookController = Depends()) -> Any:
+    return await controller.upload(book, files)

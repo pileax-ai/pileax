@@ -19,7 +19,7 @@ const { openDialog } = useDialog();
 const { setQueryTimer, style } = useReader();
 const {
   store,
-  userBookId,
+  tenantBookId,
   bookId,
   operation,
   setProgress,
@@ -324,7 +324,7 @@ const saveBook = async (book: any) => {
 const saveUserBook = async (params: any) => {
   userBookService.save({
     ...params,
-    id: userBookId.value
+    id: tenantBookId.value
   }).then((res: any) => {
     setQueryTimer(Date.now());
   }).catch((err: any) => {

@@ -21,7 +21,7 @@ const urls: Indexable = {
   note: '/note',
   knowledge: '/knowledge',
   user: '/user',
-  userBook: '/user/book',
+  userBook: '/tenant/book',
   systemConfig: '/system/config',
   systemHealthCheck: '/system/health-check',
   workspace: '/workspace',

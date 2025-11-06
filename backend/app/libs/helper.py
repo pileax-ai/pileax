@@ -1,3 +1,4 @@
+import re
 import secrets
 from datetime import datetime, UTC
 from fastapi import Request
@@ -22,7 +23,19 @@ def get_current_time() -> str:
     return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
-class TokenHelper:
+class StringHelper:
     @staticmethod
-    def generate_refresh_token(length: int = 64) -> str:
-        return secrets.token_hex(length)
+    def to_camel(snake_str: str) -> str:
+        """
+        Convert to camelCase
+        """
+        parts = snake_str.split('_')
+        return parts[0].lower() + ''.join(word.capitalize() for word in parts[1:])
+
+    @staticmethod
+    def to_snake(camel_str: str) -> str:
+        """
+        Convert to snake case
+        """
+        import re
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', camel_str).lower()

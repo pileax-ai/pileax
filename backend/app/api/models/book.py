@@ -6,6 +6,7 @@ from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_fiel
 
 
 class Book(BaseSQLModel, BaseMixin, table=True):
+    tenant_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     uuid: str = Field(..., min_length=32, max_length=64, unique=True, description="Book sha1 hash")
     title: str = Field(..., max_length=255, description="Book title")
@@ -46,4 +47,5 @@ class BookUpdate(BookBase):
 
 
 class BookPublic(BookCreate, BaseMixin):
+    tenant_id: uuid.UUID
     pass

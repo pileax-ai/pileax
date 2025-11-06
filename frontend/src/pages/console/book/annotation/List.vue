@@ -5,7 +5,7 @@
                   enable-fullscreen fixed-header>
     <template #header-left>
       <div class="query-item no-drag-region">
-        <q-input v-model="condition.note"
+        <q-input v-model="condition.note__icontains"
                  class="pi-field"
                  placeholder="搜索"
                  debounce="800"
@@ -78,9 +78,7 @@ function doQuery() {
   const query = {
     pageIndex: 1,
     pageSize: 20,
-    condition: {
-      'note|like': condition.value.note || ''
-    },
+    condition: condition.value,
     sort: orderBy.value
   };
   joinQueryAnnotation(query).then(res => {
