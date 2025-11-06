@@ -31,7 +31,11 @@ class Tenant(BaseSQLModel, BaseMixin, table=True):
         sa_column=Column(String(32), default=TenantType.PERSONAL)
     )
     public_key: str | None = Field(default=None, max_length=255)
-    status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
+    status: int = Field(
+        default=Status.ACTIVE,
+        sa_type=Integer,
+        sa_column_kwargs={"default": Status.ACTIVE}
+    )
 
 
 class TenantBase(BaseApiModel):
@@ -40,14 +44,15 @@ class TenantBase(BaseApiModel):
     plan: str | None = None
 
 
-class UserCreate(BaseApiModel):
+class TenantCreate(BaseApiModel):
     name: str
     plan: str
+    type: str
 
 
-class UserUpdate(TenantBase):
+class TenantUpdate(TenantBase):
     id: uuid.UUID
 
 
-class UserPublic(UserCreate, BaseMixin):
+class TenantPublic(TenantCreate, BaseMixin):
     pass

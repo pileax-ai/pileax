@@ -1,18 +1,19 @@
 import { defineStore } from 'pinia';
 import {CODE} from 'core/app';
-import { POST } from 'src/hooks/useRequest';
-import { encryptPassword, saveAccount } from 'src/utils/auth'
-import { LoginParams, LoginResultModel } from 'src/api/models/account';
+import { saveAccount } from 'src/utils/auth'
+import { LoginParams } from 'src/api/models/account';
 import {
+  clearUserCache,
   getItemObject,
-  removeAllCookies,
-  saveItemObject,
 } from 'core/utils/storage'
 import { authService } from 'src/service/remote/auth'
+import { workspaceService } from 'src/service/remote/workspace'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
     account: {} as Indexable,
+    workspaces: [] as Indexable[],
+    workspace: {} as Indexable,
   }),
   getters: {
     isLogin: (state) => state.account?.id
@@ -24,24 +25,6 @@ export const useAccountStore = defineStore('account', {
     },
     setAccount(value: Indexable) {
       this.account = value;
-    },
-    async autoLogin() {
-      await this.login({
-        username: 'phone',
-        password: 'password'
-      });
-    },
-    async login0(params: LoginParams) {
-      try {
-        const query = {
-          ...params,
-          password: encryptPassword(params.password)
-        };
-        const res = await POST({name: 'auth', path: '/signin', body: query}) as Indexable;
-        return this.afterLogin(res);
-      } catch (err) {
-        return Promise.reject(err);
-      }
     },
     async signup(data: Indexable) {
       try {
@@ -69,9 +52,19 @@ export const useAccountStore = defineStore('account', {
       return result.user;
     },
     logout() {
-      this.account = {};
-      removeAllCookies();
+      clearUserCache();
       this.router.push('/auth/signin');
+    },
+    getWorkspaces() {
+      workspaceService.getWorkspaces().then(res => {
+        this.workspaces = res
+        if (!this.workspace?.id && this.workspaces.length) {
+          this.setWorkspace(this.workspaces[0]!)
+        }
+      })
+    },
+    setWorkspace(value: Indexable) {
+      this.workspace = value
     }
   },
   persist: {

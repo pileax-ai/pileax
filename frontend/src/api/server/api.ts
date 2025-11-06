@@ -24,6 +24,7 @@ const urls: Indexable = {
   userBook: '/user/book',
   systemConfig: '/system/config',
   systemHealthCheck: '/system/health-check',
+  workspace: '/workspace',
 };
 
 // 排序

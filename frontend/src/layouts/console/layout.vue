@@ -43,6 +43,7 @@ import { useRoute } from 'vue-router';
 import { useAppStore } from 'stores/app';
 import { useNaviStore } from 'stores/navi';
 import useShortcut from 'core/hooks/useShortcut';
+import useAccount from 'src/hooks/useAccount';
 import useNavi from 'src/hooks/useNavi';
 
 import TabDrawer from './navi/tab-drawer.vue';
@@ -54,6 +55,7 @@ const route = useRoute();
 const appStore = useAppStore();
 const naviStore = useNaviStore();
 const { addKeyBindings, removeKeyBindings } = useShortcut();
+const { initWorkspace } = useAccount();
 const {
   setActivity,
   reduceActivity,
@@ -69,8 +71,9 @@ const naviLayout = computed(() => appStore.setting.navi.layout);
 const tabBar = computed(() => appStore.setting.tabBar);
 const openedMenus = computed(() => naviStore.openedMenus);
 
-function init () {
+function initConsole () {
   naviStore.initMenu();
+  initWorkspace();
   onRouteChanged();
 }
 
@@ -101,7 +104,7 @@ watch(() => route.fullPath, (newValue) => {
 })
 
 onBeforeMount(() => {
-  init();
+  initConsole();
   addKeyBindings();
 })
 

@@ -12,12 +12,18 @@ export default function () {
     return accountStore.account.id !== undefined;
   });
 
-  function setAccount(value: Indexable) {
-    accountStore.setAccount(value);
+  const initWorkspace = () => {
+    if (isLogin.value) {
+      accountStore.getWorkspaces()
+    }
   }
 
-  async function autoLogin() {
-    await accountStore.autoLogin();
+  const setWorkspace = (value: Indexable) => {
+    accountStore.setWorkspace(value)
+  }
+
+  function setAccount(value: Indexable) {
+    accountStore.setAccount(value);
   }
 
   function logout() {
@@ -29,8 +35,9 @@ export default function () {
     account,
     isLogin,
 
-    autoLogin,
     logout,
     setAccount,
+    initWorkspace,
+    setWorkspace,
   };
 }

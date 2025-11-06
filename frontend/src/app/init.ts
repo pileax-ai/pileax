@@ -41,11 +41,3 @@ const initApi = async () => {
   }
 }
 
-const initAccount = async () => {
-  if (process.env.APP_MODE === 'SINGLE') {
-    const accountStore = useAccountStore();
-    if (!accountStore.isLogin) {
-      await accountStore.autoLogin();
-    }
-  }
-}

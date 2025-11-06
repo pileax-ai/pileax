@@ -14,15 +14,25 @@ UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
 class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: Type[ModelType], session, user_id: Optional[UUID] = None):
+    def __init__(
+        self,
+        model: Type[ModelType],
+        session,
+        tenant_id: Optional[UUID] = None,
+        user_id: Optional[UUID] = None,
+    ):
         self.model = model
         self.session = session
         self.user_id = user_id
+        self.tenant_id = tenant_id
         self.service = BaseService[ModelType](model, session, BaseRepository[ModelType])
 
     def save(self, item_in: CreateSchemaType) -> Any:
         item = item_in.model_dump(by_alias=True)
-        item["userId"] = self.user_id
+        if hasattr(self.model, 'tenant_id'):
+            item.setdefault('tenantId', self.tenant_id)
+        if hasattr(self.model, 'user_id'):
+            item.setdefault('userId', self.user_id)
         return self.service.save(self.model(**item))
 
     def get(self, id: UUID) -> Any:
@@ -38,8 +48,11 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(self.user_id, id)
 
-    def query(self, query: PaginationQuery) -> Any:
-        query.condition["user_id"] = self.user_id
+    def query(self, query: PaginationQuery, filter_by_user=False) -> Any:
+        if filter_by_user:
+            query.condition.setdefault('user_id', self.user_id)
+        else:
+            query.condition.setdefault('tenant_id', self.tenant_id)
         return self.service.query(query)
 
     def find_all(self) -> List[ModelType]:

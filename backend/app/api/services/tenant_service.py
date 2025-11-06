@@ -1,7 +1,11 @@
+import uuid
+from typing import List
+
 from app.api.models.tenant import Tenant, TenantPlan, TenantType
 from app.api.models.tenant_member import TenantMember, TenantMemberRole
 from app.api.models.user import User
 from app.api.repos.base_repository import BaseRepository
+from app.api.repos.user_tenant_repository import UserTenantRepository
 from app.api.services.base_service import BaseService
 from app.api.services.tenant_member_service import TenantMemberService
 
@@ -31,3 +35,6 @@ class TenantService(BaseService[Tenant]):
         )
 
         return TenantMemberService(self.session).create(tenant_member)
+
+    def get_user_tenants(self, user_id: uuid.UUID) -> List[Tenant]:
+        return UserTenantRepository(Tenant, self.session).get_user_tenants(user_id)

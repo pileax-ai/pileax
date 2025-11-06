@@ -54,6 +54,12 @@ export const getAuthorization = () => {
   return `${token.token_type} ${token.access_token}`;
 }
 
+export const getTenantId = () => {
+  const account = getItemObject('account') as Indexable;
+  const workspace = account.workspace
+  return workspace?.id || '';
+}
+
 
 // -----------------------------------------------------------------------------
 // JwtToken

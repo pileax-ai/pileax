@@ -7,7 +7,7 @@
 import { Platform, Cookies } from 'quasar'
 import packageInfo from '../../package.json'
 import { getItem, getItemObject } from 'core/utils/storage'
-import { getAuthorization } from 'src/utils/auth'
+import { getAuthorization, getTenantId } from 'src/utils/auth'
 
 export const getCommonHeaders = () => {
   const platform = Platform.is;
@@ -16,10 +16,9 @@ export const getCommonHeaders = () => {
     'x-api-version': 'v1',
     'x-project': packageInfo.productName,
     'x-locale': getItem('locale') || 'en',
-    'x-api-key': 'apiKey', // ToDo
-    'x-signed-query': 'signedQuery', // ToDo
     'x-os': platform.platform,
     'x-os-version': platform.versionNumber,
+    'x-tenant-id': getTenantId(),
   }
 }
 

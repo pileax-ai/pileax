@@ -23,10 +23,10 @@ class TenantMemberBase(BaseApiModel):
 
 
 class TenantMemberCreate(BaseApiModel):
-    tenant_id: str
-    user_id: str
+    tenant_id: uuid.UUID
+    user_id: uuid.UUID
     role: str
-    invited_by: str
+    invited_by: uuid.UUID
 
 
 class TenantMemberUpdate(TenantMemberBase):

@@ -49,4 +49,5 @@ class NoteUpdate(NoteBase):
 
 
 class NotePublic(NoteCreate, BaseMixin):
+    tenant_id: uuid.UUID
     pass

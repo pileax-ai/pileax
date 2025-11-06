@@ -1,45 +1,64 @@
+import uuid
+from typing import List
+
 from sqlalchemy import func
+from sqlalchemy.util import deprecated
 from sqlmodel import select
 from uuid import UUID
 
+from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.user import User
+from app.api.models.tenant import Tenant
 from app.api.models.tenant_member import TenantMember
 from app.api.repos.base_repository import BaseRepository
 from app.utils.db_util import DbUtil
 
 
-class TenantMemberRepository(BaseRepository[TenantMember]):
+class UserTenantRepository(BaseRepository[TenantMember]):
     def __init__(self, model, session):
         super().__init__(model, session)
 
+    def get_user_tenants(self, user_id: uuid.UUID) -> List[Tenant]:
+        stmt = (
+            select(Tenant)
+            .join(TenantMember, TenantMember.tenant_id == Tenant.id)
+            .where(
+                TenantMember.user_id == user_id,
+                Tenant.status == Status.ACTIVE
+            )
+        )
+        tenants: List[Tenant] = list(self.session.exec(stmt).all())
+        return tenants
+
+    @deprecated
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
-            select(TenantMember, User)
-            .join(User, User.id == TenantMember.user_id)
+            select(TenantMember, Tenant)
+            .join(Tenant, Tenant.id == TenantMember.tenant_id)
             .where(TenantMember.id == id)
         )
         result = self.session.exec(stmt).first()
         if result:
-            tenant_member, user = result
-            return self._build_details(tenant_member, user)
+            tenant_member, tenant = result
+            return self._build_details(tenant_member, tenant)
         return None
 
+    @deprecated
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
             TenantMember: ['tenant_id', 'user_id'],
-            User: ['name'],
+            Tenant: ['name', 'plan', 'type'],
         }
         filters = DbUtil.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(TenantMember, User)
-            .join(User, User.id == TenantMember.user_id)
+        stmt = (select(TenantMember, Tenant)
+            .join(Tenant, Tenant.id == TenantMember.tenant_id)
         )
         count_stmt = (select(func.count())
             .select_from(TenantMember)
-            .join(User, User.id == TenantMember.user_id)
+            .join(Tenant, Tenant.id == TenantMember.tenant_id)
         )
 
         if filters:
@@ -47,7 +66,7 @@ class TenantMemberRepository(BaseRepository[TenantMember]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        stmt = DbUtil.apply_sort(stmt, [TenantMember, User], query.sort)
+        stmt = DbUtil.apply_sort(stmt, [TenantMember, Tenant], query.sort)
 
         # 4. Pagination
         stmt = DbUtil.apply_pagination(stmt, query.pageIndex, query.pageSize)
@@ -55,8 +74,8 @@ class TenantMemberRepository(BaseRepository[TenantMember]):
         # 5. Query
         total = self.session.exec(count_stmt).one()
         rows = [
-            self._build_details(tenant_member, user)
-            for tenant_member, user in self.session.exec(stmt).all()
+            self._build_details(tenant_member, tenant)
+            for tenant_member, tenant in self.session.exec(stmt).all()
         ]
 
         return QueryResult(
@@ -66,10 +85,10 @@ class TenantMemberRepository(BaseRepository[TenantMember]):
             pageIndex=query.pageIndex,
         )
 
-    def _build_details(self, tenant_member: TenantMember, user: User) -> dict:
+    def _build_details(self, tenant_member: TenantMember, tenant: Tenant) -> dict:
         return {
             **tenant_member.model_dump(),
-            "user_name": user.name,
-            "user_email": user.email,
-            "last_active_time": user.last_active_time,
+            "name": tenant.name,
+            "plan": tenant.plan,
+            "type": tenant.type,
         }

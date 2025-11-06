@@ -71,7 +71,7 @@ export function removeItem (name: string) {
 /**
  * 删除所有
  */
-export function removeAll () {
+export function removeAll(prefix = PREFIX) {
   const keys = [];
   const length = LocalStorage.getLength();
   for (let i = 0; i < length; i++) {
@@ -81,9 +81,17 @@ export function removeAll () {
 
   console.log('removeAll', keys);
   for (const key of keys) {
-    if (key && key.indexOf(PREFIX) >= 0) {
+    if (key && key.indexOf(prefix) >= 0) {
       LocalStorage.remove(key);
     }
+  }
+}
+
+export function removeUserData(prefix = PREFIX) {
+  const keys = ['account', 'note', 'user'];
+
+  for (const key of keys) {
+    LocalStorage.remove(`${prefix}${key}`);
   }
 }
 
@@ -137,6 +145,11 @@ export function removeAllCookies (prefix = PREFIX, options = COOKIE_OPTIONS) {
       Cookies.remove(key, options);
     }
   }
+}
+
+export function clearUserCache () {
+  removeUserData();
+  removeAllCookies();
 }
 
 export function clearStorage () {
