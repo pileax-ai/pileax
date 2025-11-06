@@ -29,10 +29,10 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def save(self, item_in: CreateSchemaType) -> Any:
         item = item_in.model_dump(by_alias=True)
-        if hasattr(self.model, 'tenant_id'):
-            item.setdefault('tenantId', self.tenant_id)
+        if hasattr(self.model, 'tenant_id') and item.get('tenant_id') is None:
+            item['tenantId'] = self.tenant_id
         if hasattr(self.model, 'user_id'):
-            item.setdefault('userId', self.user_id)
+            item['userId'] = self.user_id
         return self.service.save(self.model(**item))
 
     def get(self, id: UUID) -> Any:
@@ -50,9 +50,10 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def query(self, query: PaginationQuery, filter_by_user=False) -> Any:
         if filter_by_user:
-            query.condition.setdefault('user_id', self.user_id)
+            query.condition['userId'] = self.user_id
         else:
-            query.condition.setdefault('tenant_id', self.tenant_id)
+            if query.condition.get('tenantId') is None:
+                query.condition['tenantId'] = self.tenant_id
         return self.service.query(query)
 
     def find_all(self) -> List[ModelType]:

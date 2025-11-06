@@ -11,7 +11,7 @@ from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.tenant import Tenant
 from app.api.models.tenant_member import TenantMember
 from app.api.repos.base_repository import BaseRepository
-from app.utils.db_util import DbUtil
+from app.libs.db_helper import DbHelper
 
 
 class UserTenantRepository(BaseRepository[TenantMember]):
@@ -50,7 +50,7 @@ class UserTenantRepository(BaseRepository[TenantMember]):
             TenantMember: ['tenant_id', 'user_id'],
             Tenant: ['name', 'plan', 'type'],
         }
-        filters = DbUtil.build_filters(filter_mapping, query.condition)
+        filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
         stmt = (select(TenantMember, Tenant)
@@ -66,10 +66,10 @@ class UserTenantRepository(BaseRepository[TenantMember]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        stmt = DbUtil.apply_sort(stmt, [TenantMember, Tenant], query.sort)
+        stmt = DbHelper.apply_sort(stmt, [TenantMember, Tenant], query.sort)
 
         # 4. Pagination
-        stmt = DbUtil.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
 
         # 5. Query
         total = self.session.exec(count_stmt).one()

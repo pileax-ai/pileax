@@ -178,7 +178,7 @@ function doQuery() {
     pageIndex: 1,
     pageSize: 20,
     condition: {
-      'title|like': condition.value.title
+      'title__icontains': condition.value.title
     },
     sort: orderBy.value
   };

@@ -6,7 +6,7 @@ from app.api.models.query import SortOrder
 from app.libs.helper import StringHelper
 
 
-class DbUtil:
+class DbHelper:
     @staticmethod
     def get_filters(
         model: Type[SQLModel],
@@ -84,7 +84,7 @@ class DbUtil:
         """
         filters: List[BinaryExpression] = []
         for model, fields in field_mapping.items():
-            filters += DbUtil.get_filters(model, condition, fields)
+            filters += DbHelper.get_filters(model, condition, fields)
         return filters
 
     @staticmethod

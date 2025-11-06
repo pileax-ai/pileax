@@ -14,6 +14,7 @@ class TenantBook(BaseSQLModel, BaseMixin, table=True):
 
     tenant_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
+    user_id: uuid.UUID = uuid_field()
     rating: int | None = Field(default=0, ge=0, le=5)
     reading_position: str | None = Field(default="")
     reading_percentage: float | None = Field(default=0.0, ge=0.0, le=100.0)
@@ -21,8 +22,9 @@ class TenantBook(BaseSQLModel, BaseMixin, table=True):
 
 class TenantBookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
-    user_id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    user_id: uuid.UUID | None = None
     book_id: uuid.UUID | None = None
+    tenant_id: uuid.UUID | None = None
     rating: int | None = 0
     reading_position: str | None = ""
     reading_percentage: float | None = 0.0

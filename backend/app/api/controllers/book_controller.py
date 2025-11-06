@@ -11,7 +11,7 @@ from app.api.models.book import Book, BookCreate, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.tenant_book import TenantBookCreate
 from app.api.services.book_service import BookService
-from app.utils.book_uploader import BookUploader
+from app.libs.book_uploader import BookUploader
 
 
 class BookController(BaseController[Book, BookCreate, BookUpdate]):

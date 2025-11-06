@@ -5,7 +5,7 @@ from app.api.models.book import Book
 from app.api.models.book_annotation import BookAnnotation
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.repos.base_repository import BaseRepository
-from app.utils.db_util import DbUtil
+from app.libs.db_helper import DbHelper
 
 
 class BookAnnotationRepository(BaseRepository[BookAnnotation]):
@@ -14,7 +14,7 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        filters = DbUtil.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'tenant_id', 'user_id'])
+        filters = DbHelper.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'tenant_id', 'user_id'])
 
         # 2. stmt
         stmt = (select(BookAnnotation, Book)
@@ -29,10 +29,10 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        stmt = DbUtil.apply_sort(stmt, [BookAnnotation, Book], query.sort)
+        stmt = DbHelper.apply_sort(stmt, [BookAnnotation, Book], query.sort)
 
         # 4. Pagination
-        stmt = DbUtil.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
 
         # 5. Query
         # 5.1 Total

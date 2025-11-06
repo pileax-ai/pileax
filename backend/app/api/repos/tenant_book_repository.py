@@ -6,7 +6,7 @@ from app.api.models.book import Book
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.tenant_book import TenantBook
 from app.api.repos.base_repository import BaseRepository
-from app.utils.db_util import DbUtil
+from app.libs.db_helper import DbHelper
 
 
 class TenantBookRepository(BaseRepository[TenantBook]):
@@ -27,17 +27,17 @@ class TenantBookRepository(BaseRepository[TenantBook]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        user_book_filters = DbUtil.get_filters(TenantBook, query.condition, ['user_id'])
-        book_filters = DbUtil.get_filters(Book, query.condition, ['title'])
-        filters = user_book_filters + book_filters
+        filter_mapping = {
+            TenantBook: ['tenant_id', 'user_id'],
+            Book: ['title'],
+        }
+        filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (
-            select(TenantBook, Book)
+        stmt = (select(TenantBook, Book)
             .join(Book, Book.id == TenantBook.book_id)
         )
-        count_stmt = (
-            select(func.count())
+        count_stmt = (select(func.count())
             .select_from(TenantBook)
             .join(Book, Book.id == TenantBook.book_id)
         )
@@ -46,29 +46,16 @@ class TenantBookRepository(BaseRepository[TenantBook]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        for field, direction in query.sort.items():
-            if hasattr(TenantBook, field):
-                column = getattr(TenantBook, field)
-            elif hasattr(Book, field):
-                column = getattr(Book, field)
-            else:
-                continue
-            stmt = stmt.order_by(column.desc() if direction == "desc" else column.asc())
+        stmt = DbHelper.apply_sort(stmt, [TenantBook, Book], query.sort)
 
         # 4. Pagination
-        offset = (query.pageIndex - 1) * query.pageSize
-        stmt = stmt.offset(offset).limit(query.pageSize)
+        stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
 
         # 5. Query
-        # 5.1 Total
         total = self.session.exec(count_stmt).one()
-
-        # 5.2 Rows
-        result = self.session.exec(stmt)
-        pairs = result.all()
         rows = [
             self._build_details(user_book, book)
-            for user_book, book in pairs
+            for user_book, book in self.session.exec(stmt).all()
         ]
         return QueryResult(
             total=total,

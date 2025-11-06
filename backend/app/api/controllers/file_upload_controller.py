@@ -3,7 +3,7 @@ from fastapi import UploadFile
 
 from app.api.controllers.base_controller import BaseController
 from app.api.models.file_meta import FileMeta, FileMetaCreate, FileMetaUpdate
-from app.utils.file_uploader import FileUploader
+from app.libs.file_uploader import FileUploader
 
 
 class FileUploadController(BaseController[FileMeta, FileMetaCreate, FileMetaUpdate]):
