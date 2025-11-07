@@ -240,7 +240,7 @@ const onOpenFailed = (metadata: Indexable) => {
   const sha1 = metadata.sha1;
   const waiter = uploadBookWaiters.get(sha1)
   if (waiter) {
-    waiter.reject();
+    waiter.reject(metadata.err);
     uploadBookWaiters.delete(sha1);
   }
 }

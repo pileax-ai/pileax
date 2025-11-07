@@ -308,6 +308,7 @@ const openBook = async (bookElement, data,
       ...data,
       err: err
     })
+    return
   }
 
   if (!importing) {
