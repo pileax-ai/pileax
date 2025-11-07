@@ -41,13 +41,17 @@ export function notifyWarning (message :string, {
 
 export function notifyInfo (message :string, {
   position = 'top',
+  icon = 'info',
+  color = 'primary',
   timeout = 1000,
+  html = false,
   progress = false} = {}
 ) {
   Notify.create({
     progress: progress,
-    color: 'light-blue',
-    icon: 'info',
+    color: color,
+    icon: icon,
+    html: html,
     message: message,
     timeout: timeout,
     position: position as 'top'

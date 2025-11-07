@@ -54,7 +54,8 @@ api.interceptors.response.use(
   (error) => {
     const data = error.response?.data
     console.error('API Error:', data || error.message);
-    if ((data?.code === 401 || data?.code === 403) && data?.message === 'Could not validate credentials') {
+    if ((data?.code === 401 || data?.code === 403) &&
+      (data?.message === 'Could not validate credentials' || data?.message === 'Not authenticated')) {
       openDialog({
         type: 'signin'
       })

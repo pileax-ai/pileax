@@ -1,13 +1,17 @@
-from typing import Optional
 from uuid import UUID
 
+from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
 from app.api.models.query import PaginationQuery
-from app.api.models.tenant_member import TenantMember, TenantMemberCreate, TenantMemberUpdate
 from app.api.services.tenant_member_service import TenantMemberService
 
 
 class TenantMemberController:
-    def __init__(self, session, user_id: Optional[str] = None, tenant_id: Optional[str] = None):
+    def __init__(
+        self,
+        session: SessionDep,
+        user_id: CurrentUserId,
+        tenant_id: CurrentTenantId
+    ):
         self.service = TenantMemberService(session)
         self.tenant_id = tenant_id
 

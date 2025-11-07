@@ -4,6 +4,7 @@ from uuid import UUID
 from fastapi import UploadFile, Form, Depends
 
 from app.api.controllers.book_controller import BookController
+from app.api.models.tenant_book import TenantBookDetails
 from app.api.router import ApiRouter
 
 from app.api.models.query import PaginationQuery, QueryResult
@@ -42,6 +43,10 @@ def query(query: PaginationQuery, controller: BookController = Depends()) -> Any
     return controller.query(query)
 
 
-@router.api_post("/upload", response_model=BookPublic)
-async def upload(files: List[UploadFile], book: str = Form(...), controller: BookController = Depends()) -> Any:
+@router.api_post("/upload", response_model=TenantBookDetails)
+async def upload(
+    files: List[UploadFile],
+    book: str = Form(...),
+    controller: BookController = Depends()
+) -> Any:
     return await controller.upload(book, files)

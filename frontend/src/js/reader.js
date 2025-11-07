@@ -299,8 +299,16 @@ const openBook = async (bookElement, data,
                         { cfi = '', importing = false, userStyle }) => {
   const reader = new Reader();
   globalThis.reader = reader;
-  await reader.open(bookElement, data.file,
-    { cfi, importing, userStyle });
+
+  try {
+    await reader.open(bookElement, data.file,
+      { cfi, importing, userStyle });
+  } catch (err) {
+    postMessage('onOpenFailed', {
+      ...data,
+      err: err
+    })
+  }
 
   if (!importing) {
     onSetToc();

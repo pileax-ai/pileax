@@ -23,7 +23,7 @@ class TenantBook(BaseSQLModel, BaseMixin, table=True):
 class TenantBookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     user_id: uuid.UUID | None = None
-    book_id: uuid.UUID | None = None
+    book_id: uuid.UUID
     tenant_id: uuid.UUID | None = None
     rating: int | None = 0
     reading_position: str | None = ""

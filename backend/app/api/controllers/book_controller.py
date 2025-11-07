@@ -10,6 +10,7 @@ from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
 from app.api.models.book import Book, BookCreate, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.tenant_book import TenantBookCreate
+from app.api.repos.tenant_book_repository import TenantBookRepository
 from app.api.services.book_service import BookService
 from app.libs.book_uploader import BookUploader
 
@@ -30,18 +31,18 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         return self.service.get_by_uuid(uuid)
 
 
-    async def upload(self, book: str, files: List[UploadFile]) -> Any:
+    async def upload(self, book_str: str, files: List[UploadFile]) -> Any:
         """
         Upload a book
-        :param book: Book metadata
+        :param book_str: Book metadata
         :param files: Book file and cover
         """
-        book_in = BookCreate(**json.loads(str(book)))
-        id = uuid.uuid4()
+        book_in = BookCreate(**json.loads(str(book_str)))
+        book_id = uuid.uuid4()
         sha1 = book_in.uuid
 
         # upload
-        metas = await BookUploader(str(id), sha1).upload(files)
+        metas = await BookUploader(str(book_id), sha1).upload(files)
 
         # save book
         for meta in metas:
@@ -52,13 +53,12 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
                 book_in.cover_name = file_name
             # save file_meta
             self.fm_controller.save(FileMetaCreate(**meta))
-        book_in.id = id
+        book_in.id = book_id
         book_in.path = sha1
-        book_out = self.save(book_in)
-        book_out_data = book_out.dict()
+        book = self.save(book_in)
 
         # save tenant_book
-        tenant_book_in = TenantBookCreate(book_id=id)
-        self.tb_controller.save(tenant_book_in)
+        tenant_book_in = TenantBookCreate(book_id=book_id)
+        tenant_book = self.tb_controller.save(tenant_book_in)
 
-        return book_out_data
+        return TenantBookRepository.build_details(tenant_book, book)

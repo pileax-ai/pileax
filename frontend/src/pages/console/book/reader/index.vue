@@ -55,7 +55,7 @@ import ReaderSide from 'components/reader/ReaderSide.vue';
 import 'js/reader.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
-import { getBook, nextPage, openBookRemote, prevPage } from 'src/service/book'
+import { nextPage, prevPage, openBook } from 'src/service/book'
 import { bookAnnotationService } from 'src/service/remote/book-annotation'
 import { userBookService } from 'src/service/remote/user-book'
 import { findBookAnnotation, renderAnnotations } from 'src/service/book-annotation'
@@ -109,7 +109,7 @@ async function open(tenantBookId: string, initialCfi = '') {
     const cfi = initialCfi || book.readingPosition || '';
 
     loading.value = true;
-    await openBookRemote(bookRef.value, filePath, cfi);
+    await openBook(bookRef.value, filePath, cfi);
     loading.value = false;
 
     setTimeout(() => {

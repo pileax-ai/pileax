@@ -57,13 +57,17 @@ def setup_routes(app: FastAPI):
 
 def setup_static(app: FastAPI):
     static_path = Path(settings.PUBLIC_ROOT).resolve()
+
+    if not static_path.exists():
+        static_path.mkdir(parents=True, exist_ok=True)
+
     app.mount("/", StaticFiles(directory=static_path), name="root")
     app.add_middleware(StaticCORSMiddleware)
-    logger.info("setup_static")
+    logger.info(f"{static_path}")
 
 
 def setup_cors(app: FastAPI):
-    logger.info(f"setup_cors: {settings.FRONTEND_HOST}")
+    logger.info(f"{settings.FRONTEND_HOST}")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[settings.FRONTEND_HOST],

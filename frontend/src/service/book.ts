@@ -13,6 +13,7 @@ import { bookService } from 'src/service/remote/book';
 import { userBookService } from 'src/service/remote/user-book';
 import { BookOperation, ReadingMode } from 'src/types/reading';
 import { base64ToFile, getFileSHA1 } from 'src/utils/book';
+import { getErrorMessage } from 'src/utils/request'
 
 const { getBookByPath } = useApi();
 const { openDialog } = useDialog();
@@ -29,6 +30,18 @@ const {
   setSearch,
   readingMode,
 } = useBook();
+
+export const uploadBookWaiters = new Map()
+export const bookMimeTypes = {
+  'application/epub+zip': 'epub',
+  'application/pdf': 'pdf',
+  'application/x-mobipocket-ebook': 'mobi',
+  'application/x-azw3-ebook': 'azw3',
+  'application/vnd.amazon.ebook': 'azw3', // AZW3/KF8
+  'application/x-fictionbook+xml': 'fb2',
+  'application/x-cbr': 'cbz',
+  'application/vnd.comicbook+zip': 'cbz',
+} as Indexable
 
 // ---------------------------------------------------------
 // From Reader
@@ -61,6 +74,9 @@ export const postMessage = (name :string, data :any) => {
       break;
     case 'onMetadata':
       onMetadata(data);
+      break;
+    case 'onOpenFailed':
+      onOpenFailed(data);
       break;
     case 'onRelocated':
       onRelocated(data);
@@ -152,50 +168,6 @@ const setManual = (operation = BookOperation.Manual) => {
   setOperation(operation);
 }
 
-// --------------------------------------------------------------------------------
-// Electron
-// --------------------------------------------------------------------------------
-const sleep = async (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-const importBooks = async (filePaths: string[]) => {
-  for (const filePath of filePaths) {
-    await openBook(document.body, filePath, '', true);
-    await sleep(500);
-  }
-}
-
-/**
- * Open book
- *
- * @param bookElement
- * @param filePath
- * @param cfi
- * @param importing
- */
-const openBook = async (bookElement: any, filePath: string, cfi = '', importing = false) => {
-  return new Promise((resolve, reject) => {
-    window.electronAPI.readBookFile(filePath).then((res: any) => {
-      const fileName = filePath.split('/').pop() ?? '';
-      const file = new File([res.buffer], fileName);
-      const data = {
-        saving: 'local',
-        file: file,
-        sha1: res.sha1,
-        filePath: filePath
-      };
-
-      console.log('openBook', cfi)
-      window.ebook.open(bookElement, data,
-        { cfi, importing, userStyle: style.value });
-      setManual(BookOperation.Load);
-      resolve(data);
-    }).catch((err: any) => {
-      console.error('打开文件失败：', err);
-      reject(err);
-    })
-  });
-}
 
 /**
  * Open book
@@ -204,7 +176,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '', importing 
  * @param filePath
  * @param cfi
  */
-const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
+const openBook = async (bookElement: any, filePath: string, cfi = '') => {
   const bookUrl = getBookByPath(filePath);
   return new Promise((resolve, reject) => {
     fetch(bookUrl)
@@ -231,68 +203,74 @@ const openBookRemote = async (bookElement: any, filePath: string, cfi = '') => {
 }
 
 const uploadBook = async (file: File) => {
-  const data = {
-    saving: 'remote',
-    file: file,
-    sha1: await getFileSHA1(file),
-    filePath: ''
-  }
-  window.ebook.open(document.body, data, { importing: true});
+  const sha1 = await getFileSHA1(file)
+  return new Promise((resolve, reject) => {
+    const data = {
+      saving: 'remote',
+      file: file,
+      sha1: sha1,
+      filePath: ''
+    }
+    window.ebook.open(document.body, data, { importing: true});
+
+    // Register waiter, resolve/reject in onMetadata/onOpenFailed
+    uploadBookWaiters.set(sha1, { resolve, reject });
+  })
+
 }
 
 const onMetadata = async (metadata: any) => {
-  if (metadata.saving === 'remote') {
-    await savingBookRemote(metadata);
-  } else {
-    await savingBook(metadata);
+  const sha1 = metadata.sha1;
+  const waiter = uploadBookWaiters.get(sha1)
+  try {
+    const book = await savingBookRemote(metadata);
+    if (waiter) {
+      waiter.resolve(book);
+      uploadBookWaiters.delete(sha1);
+    }
+  } catch (err) {
+    if (waiter) {
+      waiter.reject();
+      uploadBookWaiters.delete(sha1);
+    }
+  }
+}
+
+const onOpenFailed = (metadata: Indexable) => {
+  const sha1 = metadata.sha1;
+  const waiter = uploadBookWaiters.get(sha1)
+  if (waiter) {
+    waiter.reject();
+    uploadBookWaiters.delete(sha1);
   }
 }
 
 const savingBookRemote = async (metadata: any) => {
-  console.log('savingBookRemote', metadata);
-  bookService.getByUuid(metadata.sha1).then(book => {
-    userBookService.save({
-      bookId: book.id
-    }).then(res => {
-      setQueryTimer(Date.now());
-    }).catch(err => {
-      const message = err.response.data.message;
+  try {
+    // Book uploaded, add to shelf
+    const remoteBook = await bookService.getByUuid(metadata.sha1);
+    try {
+      await userBookService.save({bookId: remoteBook.id})
+    } catch (err) {
+      const message = getErrorMessage(err);
       if (message?.indexOf('UNIQUE') >= 0) {
         notifyWarning('书已存在');
       }
-    })
-  }).catch(err => {
+    }
+    return remoteBook
+  } catch (err) {
+    // New upload
     const coverFile = base64ToFile(metadata.cover, 'cover');
-    console.log('cover', coverFile)
     const book = buildBook(metadata, {
       path: metadata.sha1,
-      fileName: metadata.file.name
+      fileName: metadata.file.name,
     });
-    // Save book files and metadata
-    bookService.upload(metadata.file, coverFile, book).then(res => {
-      console.log('upload', res);
-      setQueryTimer(Date.now());
-    })
-  })
-}
-
-const savingBook = async (metadata: any) => {
-  console.log('savingBook', metadata);
-  bookService.getByUuid(metadata.sha1).then(res => {
-    notifyWarning('书已存在');
-  }).catch(err => {
-    // Save book files
-    const { sha1, filePath, cover } = metadata;
-    window.electronAPI.saveBookFiles({ sha1, filePath, cover }).then((res: any) => {
-      const book = buildBook(metadata, res);
-      console.log('saveBookFile', book);
-
-      // Save to database
-      saveBook(book);
-    }).catch((err: any) => {
-      console.error('保存文件失败', err);
-    })
-  })
+    try {
+      return await bookService.upload(metadata.file, coverFile, book);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 const saveBookProgress = (progress: any) => {
@@ -303,18 +281,6 @@ const saveBookProgress = (progress: any) => {
     readingPercentage: progress.percentage
   }
   saveUserBook(params);
-}
-
-/**
- * Save book to database
- * @param book Book
- */
-const saveBook = async (book: any) => {
-  bookService.save(book).then((res: any) => {
-    setQueryTimer(Date.now());
-  }).catch((err: any) => {
-    console.error('保存数据库失败', err);
-  })
 }
 
 /**
@@ -378,8 +344,15 @@ const parseLanguage = (data: any) => {
   return author;
 }
 
-const parseFileExtension = (filePath: string) => {
-  return filePath.includes('.') ? filePath.split('.').pop() : '';
+const parseBookExtension = (file: File) => {
+  // 1. Use file type
+  if (file.type && bookMimeTypes[file.type]) {
+    return bookMimeTypes[file.type]
+  }
+
+  // 2. Fallback: use file name
+  const fileName = file.name
+  return fileName.includes('.') ? fileName.split('.').pop() : '';
 }
 
 const buildBook = (metadata: any, fileInfo: any) => {
@@ -387,35 +360,13 @@ const buildBook = (metadata: any, fileInfo: any) => {
     ...fileInfo,
     uuid: metadata.sha1,
     author: parseAuthor(metadata.author),
-    title: metadata.title,
-    extension: parseFileExtension(fileInfo.fileName),
+    title: metadata.title || 'New book',
+    extension: parseBookExtension(metadata.file),
     language: parseLanguage(metadata.language),
     publisher: parseBookField(metadata.publisher),
     published: metadata.published ?? '',
     description: metadata.description ?? '',
   };
-}
-
-/**
- * Pagination query
- *
- * @param title Book title
- */
-const queryBook = async (title = '') => {
-  const query = {
-    pageIndex: 1,
-    pageSize: 100,
-    condition: {
-      title: title
-    }
-  };
-  return new Promise((resolve, reject) => {
-    window.electronAPI.dbExecute('Book', 'query', query).then((res: any) => {
-      resolve(res);
-    }).catch((err: any) => {
-      reject(err);
-    })
-  });
 }
 
 const getBook = async (id: string): Promise<any> => {
@@ -453,13 +404,8 @@ export {
   ttsPrev,
   setManual,
 
-  importBooks,
   getBook,
   openBook,
-  openBookRemote,
   uploadBook,
-  savingBook,
-  saveBook,
-  queryBook,
-  removeBook
+  removeBook,
 }

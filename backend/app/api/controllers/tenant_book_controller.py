@@ -17,6 +17,12 @@ class TenantBookController(BaseController[TenantBook, TenantBookCreate, TenantBo
         super().__init__(TenantBook, session, tenant_id, user_id)
         self.service = TenantBookService(session)
 
+    def save(self, item: TenantBookCreate) -> TenantBook:
+        book = self.service.get_tenant_book(self.tenant_id, item.book_id)
+        if book is not None:
+            return book
+        return super().save(item)
+
     def get_details(self, id: UUID):
         return self.service.get_details(id)
 

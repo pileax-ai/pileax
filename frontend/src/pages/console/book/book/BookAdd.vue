@@ -63,9 +63,6 @@
             <span class="text-readable">书库中还没有记录，快来添加吧</span>
 
             <div class="row col-12 justify-center action">
-              <q-btn icon="add" label="添加图书"
-                     class="bg-primary text-white"
-                     flat @click="onAdd" v-if="false" />
               <o-file-uploader :accept="bookAccept" :loading="loading" leading
                                @ready="onAddReady" />
             </div>
@@ -85,7 +82,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { importBooks, uploadBook } from 'src/service/book';
+import { uploadBook } from 'src/service/book';
 import { bookService } from 'src/service/remote/book';
 import { userBookService } from 'src/service/remote/user-book';
 import BookGridItem from './BookGridItem.vue';
@@ -139,23 +136,6 @@ async function onAddReady(file: File, icon: string) {
   loading.value = false;
 }
 
-function onAdd() {
-  loading.value = true;
-  window.electronAPI.showDialog({
-    filters: [
-      { name: 'EBook', extensions: ['epub', 'mobi'] }
-    ],
-    properties: ['openFile', 'multiSelections']
-  }).then(async (result: any) => {
-    if (!result.canceled && result.filePaths.length > 0) {
-      await importBooks(result.filePaths);
-    }
-    loading.value = false;
-  }).catch((err: any) => {
-    console.error('导入文件失败：', err);
-    loading.value = false;
-  });
-}
 
 function addBook(book: any) {
   userBookService.save({

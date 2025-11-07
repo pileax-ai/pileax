@@ -35,7 +35,7 @@ def signin(
     signin for frontend with standard response
     """
     return (AuthController(session, request, response)
-           .signin(form_data.username, form_data.password))
+            .signin(form_data.username, form_data.password))
 
 
 @router.api_post("/refresh-token", response_model=TokenPublic)

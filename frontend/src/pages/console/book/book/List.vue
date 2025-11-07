@@ -35,9 +35,8 @@
               <div class="q-pa-md">
                 <o-book-uploader :accept="bookAccept"
                                  :max-size="500 * 1024 * 1024"
-                                 :progress="uploadProgress"
                                  leading
-                                 @ready="onAddReady" />
+                                 @completed="onUploadCompleted" />
               </div>
             </div>
             <q-separator class="bg-dark" />
@@ -65,7 +64,7 @@
 
           <template v-if="rows.length">
             <section class="row col-12 q-col-gutter-lg grid-view" v-if="bookView === 'grid'">
-              <template v-for="(item, index) in rows" :key="index">
+              <template v-for="(item) in rows" :key="item.id">
                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                   <book-grid-item :data="item"
                                   @click="openBook(item)"
@@ -75,7 +74,7 @@
             </section>
             <section class="row col-12 justify-center list-view" v-else>
               <q-list>
-                <template v-for="(item, index) in rows" :key="index">
+                <template v-for="(item) in rows" :key="item.id">
                   <book-list-item :data="item"
                                   @click="openBook(item)"
                                   @details="onDetails(item)" />
@@ -87,16 +86,11 @@
             <o-no-data message="没有记录" image v-if="condition.title__like" />
             <section class="row col-12 justify-center no-records" v-else>
               <span class="text-readable">书库中还没有记录，快来添加吧</span>
-
               <div class="row col-12 justify-center action">
-                <q-btn icon="add" label="添加图书"
-                       class="bg-primary text-white"
-                       flat @click="onAdd" v-if="false" />
                 <o-book-uploader :accept="bookAccept"
-                                 :progress="uploadProgress"
                                  :max-size="500 * 1024 * 1024"
                                  leading
-                                 @ready="onAddReady" />
+                                 @completed="onUploadCompleted" />
               </div>
             </section>
           </template>
@@ -124,8 +118,6 @@
 
 <script setup lang="ts">
 import { onActivated, ref, watch } from 'vue';
-import { importBooks, uploadBook } from 'src/service/book';
-import { userBookService } from 'src/service/remote/user-book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
@@ -138,14 +130,12 @@ import useReader from 'src/hooks/useReader';
 import useLoadMore from 'src/hooks/useLoadMore';
 import { ipcService } from 'src/api/ipc';
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
-import { sleep } from 'core/utils/misc'
 
 const { queryTimer } = useReader();
 const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
 
 const addMenu = ref(false);
 const data = ref<Indexable>({});
-const uploadProgress = ref(0);
 const filter = ref(false);
 const bookView = ref('grid');
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
@@ -190,38 +180,12 @@ function onClose(options: Indexable) {
 }
 
 function onOpenAdd() {
-  query.value.openSide('70vw', 'add', 'add', 'Add book');
+  query.value.openSide('80vw', 'add', 'add', 'Add book');
 }
 
-async function onAddReady(files: File[]) {
-  const total = files.length
-  for (let i = 0; i < total; i++) {
-    uploadProgress.value = (i + 1) / total * 100;
-    const file = files.at(i);
-    await uploadBook(file!);
-    await sleep(500);
-  }
-
+async function onUploadCompleted() {
   addMenu.value = false;
-  uploadProgress.value = 0;
-}
-
-function onAdd() {
-  loading.value = true;
-  window.electronAPI.showDialog({
-    filters: [
-      { name: 'EBook', extensions: ['epub', 'mobi'] }
-    ],
-    properties: ['openFile', 'multiSelections']
-  }).then(async (result: any) => {
-    if (!result.canceled && result.filePaths.length > 0) {
-      await importBooks(result.filePaths);
-    }
-    loading.value = false;
-  }).catch((err: any) => {
-    console.error('导入文件失败：', err);
-    loading.value = false;
-  });
+  query.value.onQuery();
 }
 
 function openBook(item: any) {

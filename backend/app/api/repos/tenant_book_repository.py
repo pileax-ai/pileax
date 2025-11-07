@@ -22,7 +22,7 @@ class TenantBookRepository(BaseRepository[TenantBook]):
         result = self.session.exec(stmt).first()
         if result:
             user_book, book = result
-            return self._build_details(user_book, book)
+            return self.build_details(user_book, book)
         return None
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
@@ -54,7 +54,7 @@ class TenantBookRepository(BaseRepository[TenantBook]):
         # 5. Query
         total = self.session.exec(count_stmt).one()
         rows = [
-            self._build_details(user_book, book)
+            self.build_details(user_book, book)
             for user_book, book in self.session.exec(stmt).all()
         ]
         return QueryResult(
@@ -64,9 +64,10 @@ class TenantBookRepository(BaseRepository[TenantBook]):
             pageIndex=query.pageIndex,
         )
 
-    def _build_details(self, user_book: TenantBook, book: Book) -> dict:
+    @staticmethod
+    def build_details(tenant_book: TenantBook, book: Book) -> dict:
         return {
-            **user_book.model_dump(),
+            **tenant_book.model_dump(),
             "owner": book.user_id,
             "title": book.title,
             "path": book.path,

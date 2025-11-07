@@ -30,13 +30,15 @@ const props = defineProps({
 const emit = defineEmits(['add', 'details']);
 
 const { getCoverUrl } = useApi();
-const coverUrl = computed(() => {
-  const url = getCoverUrl(props.data);
-  return url;
-})
+const coverUrl = ref('')
+
+// const coverUrl = computed(() => {
+//   const url = getCoverUrl(props.data);
+//   return url;
+// })
 
 onMounted(() => {
-  // getCover();
+  coverUrl.value = getCoverUrl(props.data)
 })
 
 </script>
