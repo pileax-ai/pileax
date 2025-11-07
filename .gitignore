@@ -24,3 +24,6 @@ packages/*/types
 
 # .env files
 .env.local*
+
+# custom
+foliate-js.backup

@@ -658,6 +658,15 @@ const getIndent = el => {
     return x
 }
 
+function rawBytesToString(uint8Array) {
+    const chunkSize = 0x8000
+    let result = ''
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+        result += String.fromCharCode.apply(null, uint8Array.subarray(i, i + chunkSize))
+    }
+    return result
+}
+
 class MOBI6 {
     parser = new DOMParser()
     serializer = new XMLSerializer()
@@ -671,32 +680,37 @@ class MOBI6 {
         this.mobi = mobi
     }
     async init() {
+        const recordBuffers = []
+        for (let i = 0; i < this.mobi.headers.palmdoc.numTextRecords; i++) {
+            const buf = await this.mobi.loadText(i)
+            recordBuffers.push(buf)
+        }
+        const totalLength = recordBuffers.reduce((sum, buf) => sum + buf.byteLength, 0)
         // load all text records in an array
-        let array = new Uint8Array()
-        for (let i = 0; i < this.mobi.headers.palmdoc.numTextRecords; i++)
-            array = concatTypedArray(array, await this.mobi.loadText(i))
-
+        const array = new Uint8Array(totalLength)
+        recordBuffers.reduce((offset, buf) => {
+            array.set(new Uint8Array(buf), offset)
+            return offset + buf.byteLength
+        }, 0)
         // convert to string so we can use regex
         // note that `filepos` are byte offsets
         // so it needs to preserve each byte as a separate character
         // (see https://stackoverflow.com/q/50198017)
-        const str = Array.from(new Uint8Array(array),
-            c => String.fromCharCode(c)).join('')
+        const str = rawBytesToString(array)
 
         // split content into sections at each `<mbp:pagebreak>`
         this.#sections = [0]
             .concat(Array.from(str.matchAll(mbpPagebreakRegex), m => m.index))
-            .map((x, i, a) => str.slice(x, a[i + 1]))
-            // recover the original raw bytes
-            .map(str => Uint8Array.from(str, x => x.charCodeAt(0)))
-            .map(raw => ({ book: this, raw }))
+            .map((start, i, a) => {
+                const end = a[i + 1] ?? array.length
+                return { book: this, raw: array.subarray(start, end) }
+            })
             // get start and end filepos for each section
-            .reduce((arr, x) => {
-                const last = arr[arr.length - 1]
-                x.start = last?.end ?? 0
-                x.end = x.start + x.raw.byteLength
-                return arr.concat(x)
-            }, [])
+            .map((section, i, arr) => {
+                section.start = arr[i - 1]?.end ?? 0
+                section.end = section.start + section.raw.byteLength
+                return section
+            })
 
         this.sections = this.#sections.map((section, index) => ({
             id: index,
@@ -925,6 +939,7 @@ const getPageSpread = properties => {
 class KF8 {
     parser = new DOMParser()
     serializer = new XMLSerializer()
+    transformTarget = new EventTarget()
     #cache = new Map()
     #fragmentOffsets = new Map()
     #fragmentSelectors = new Map()
@@ -1071,8 +1086,13 @@ class KF8 {
             : await this.mobi.loadResource(id - 1)
         const result = [MIME.XHTML, MIME.HTML, MIME.CSS, MIME.SVG].includes(type)
             ? await this.replaceResources(this.mobi.decode(raw)) : raw
-        const doc = type === MIME.SVG ? this.parser.parseFromString(result, type) : null
-        return [new Blob([result], { type }),
+        const detail = { data: result, type }
+        const event = new CustomEvent('data', { detail })
+        this.transformTarget.dispatchEvent(event)
+        const newData = await event.detail.data
+        const newType = await event.detail.type
+        const doc = newType === MIME.SVG ? this.parser.parseFromString(newData, newType) : null
+        return [new Blob([newData], { newType }),
             // SVG wrappers need to be inlined
             // as browsers don't allow external resources when loading SVG as an image
             doc?.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'image')?.length
@@ -1136,7 +1156,7 @@ class KF8 {
 
             const offsets = this.#fragmentOffsets.get(frag.index)
             if (offsets) for (const offset of offsets) {
-                const str = this.mobi.decode(fragRaw).slice(offset)
+                const str = this.mobi.decode(fragRaw.slice(offset))
                 const selector = getFragmentSelector(str)
                 this.#setFragmentSelector(frag.index, offset, selector)
             }
@@ -1192,7 +1212,7 @@ class KF8 {
         const frag = frags.find(frag => frag.index === fid)
         const offset = skel.offset + skel.length + frag.offset
         const fragRaw = await this.loadRaw(offset, offset + frag.length)
-        const str = this.mobi.decode(fragRaw).slice(off)
+        const str = this.mobi.decode(fragRaw.slice(off))
         const selector = getFragmentSelector(str)
         this.#setFragmentSelector(fid, off, selector)
         const anchor = doc => doc.querySelector(selector)

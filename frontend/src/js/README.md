@@ -32,6 +32,11 @@ const chapterLocation = { // TODO: EBOOK
 }
 ```
 
+### Line 336, lastLocation
+```js
+this.lastLocation = { ...progress, tocItem, pageItem, cfi, range, chapterLocation } // TODO: EBOOK
+```
+
 ### Line 348, after `#handleLinks`
 ```js
     // TODO: EBOOK

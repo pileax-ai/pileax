@@ -645,6 +645,7 @@ class Resources {
                 item.properties = item.properties?.split(/\s/)
                 return item
             })
+        this.manifestById = new Map(this.manifest.map(item => [item.id, item]))
         this.spine = $$itemref
             .map(getAttributes('idref', 'id', 'linear', 'properties'))
             .map(item => (item.properties = item.properties?.split(/\s/), item))
@@ -675,7 +676,7 @@ class Resources {
         this.cfis = CFI.fromElements($$itemref)
     }
     getItemByID(id) {
-        return this.manifest.find(item => item.id === id)
+        return this.manifestById.get(id)
     }
     getItemByHref(href) {
         return this.manifest.find(item => item.href === href)
@@ -705,7 +706,6 @@ class Loader {
     #cache = new Map()
     #children = new Map()
     #refCount = new Map()
-    allowScript = false
     eventTarget = new EventTarget()
     constructor({ loadText, loadBlob, resources }) {
         this.loadText = loadText
@@ -764,7 +764,11 @@ class Loader {
         const { href, mediaType } = item
 
         const isScript = MIME.JS.test(item.mediaType)
-        if (isScript && !this.allowScript) return null
+        const detail = { type: mediaType, isScript, allow: true}
+        const event = new CustomEvent('load', { detail })
+        this.eventTarget.dispatchEvent(event)
+        const allow = await event.detail.allow
+        if (!allow) return null
 
         const parent = parents.at(-1)
         if (this.#cache.has(href)) return this.ref(href, parent)
@@ -832,7 +836,6 @@ class Loader {
                 }
             }
             // replace hrefs (excluding anchors)
-            // TODO: srcset?
             const replace = async (el, attr) => el.setAttribute(attr,
                 await this.loadHref(el.getAttribute(attr), href, parents))
             for (const el of doc.querySelectorAll('link[href]')) await replace(el, 'href')
@@ -842,6 +845,11 @@ class Loader {
             for (const el of doc.querySelectorAll('[*|href]:not([href])'))
                 el.setAttributeNS(NS.XLINK, 'href', await this.loadHref(
                     el.getAttributeNS(NS.XLINK, 'href'), href, parents))
+            for (const el of doc.querySelectorAll('[srcset]'))
+                el.setAttribute('srcset', await replaceSeries(el.getAttribute('srcset'),
+                    /(\s*)(.+?)\s*((?:\s[\d.]+[wx])+\s*(?:,|$)|,\s+|$)/g,
+                    (_, p1, p2, p3) => this.loadHref(p2, href, parents)
+                        .then(p2 => `${p1}${p2}${p3}`)))
             // replace inline styles
             for (const el of doc.querySelectorAll('style'))
                 if (el.textContent) el.textContent =

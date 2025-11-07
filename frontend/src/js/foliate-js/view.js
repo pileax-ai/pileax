@@ -326,8 +326,8 @@ export class View extends HTMLElement {
     }
     #onRelocate({ reason, range, index, fraction, size }) {
         const chapterLocation = { // TODO: EBOOK
-          current: this.renderer.page,
-          total: this.renderer.pages - 2
+            current: this.renderer.page,
+            total: this.renderer.pages - 2
         }
         const progress = this.#sectionProgress?.getProgress(index, fraction, size) ?? {}
         const tocItem = this.#tocProgress?.getProgress(index, range)
@@ -345,8 +345,8 @@ export class View extends HTMLElement {
             doc.documentElement.dir ||= this.language.direction ?? ''
 
         this.#handleLinks(doc, index)
-      this.#handleClick(doc) // TODO: EBOOK
-      this.#handleImage(doc) // TODO: EBOOK
+        this.#handleClick(doc) // TODO: EBOOK
+        this.#handleImage(doc) // TODO: EBOOK
         this.#cursorAutohider.cloneFor(doc.documentElement)
 
         this.#emit('load', { doc, index })
@@ -371,38 +371,38 @@ export class View extends HTMLElement {
     }
     // TODO: EBOOK
     #handleImage(doc) {
-      for (const img of doc.querySelectorAll('img')) {
-        img.addEventListener('click', e => {
-          e.preventDefault()
-          e.stopPropagation()
-          this.#emit('click-image', { img })
-        })
-      }
+        for (const img of doc.querySelectorAll('img')) {
+            img.addEventListener('click', e => {
+                e.preventDefault()
+                e.stopPropagation()
+                this.#emit('click-image', { img })
+            })
+        }
     }
     // TODO: EBOOK
     #handleClick(doc) {
-      doc.addEventListener('click', e => {
-        if (doc.getSelection().type === "Range")
-          return
+        doc.addEventListener('click', e => {
+            if (doc.getSelection().type === "Range")
+                return
 
-        let { clientX, clientY } = e
-        // add top margin to y, y is relative to the iframe
-        const topMargin = this.renderer.getAttribute('top-margin').match(/\d+/)[0]
-        clientY += parseInt(topMargin)
+            let { clientX, clientY } = e
+            // add top margin to y, y is relative to the iframe
+            const topMargin = this.renderer.getAttribute('top-margin').match(/\d+/)[0]
+            clientY += parseInt(topMargin)
 
-        this.renderer.scrollProp == 'scrollLeft'
-          ? clientX -= (this.renderer.start - this.renderer.size)
-          : clientY -= (this.renderer.start)
+            this.renderer.scrollProp == 'scrollLeft'
+              ? clientX -= (this.renderer.start - this.renderer.size)
+              : clientY -= (this.renderer.start)
 
-        this.#emit('click-view', { x: clientX, y: clientY })
-      })
-      this.renderer.addEventListener('click', e => {
-        let { clientX, clientY } = e
-        while (clientX > window.innerWidth) {
-          clientX -= window.innerWidth
-        }
-        this.#emit('click-view', { x: clientX, y: clientY })
-      })
+            this.#emit('click-view', { x: clientX, y: clientY })
+        })
+        this.renderer.addEventListener('click', e => {
+            let { clientX, clientY } = e
+            while (clientX > window.innerWidth) {
+                clientX -= window.innerWidth
+            }
+            this.#emit('click-view', { x: clientX, y: clientY })
+        })
     }
     async addAnnotation(annotation, remove) {
         const { value } = annotation
@@ -618,12 +618,12 @@ export class View extends HTMLElement {
             for (const item of list) this.deleteAnnotation(item)
         this.#searchResults.clear()
     }
-    async initTTS(granularity = 'word') {
+    async initTTS(granularity = 'word', highlight) {
         const doc = this.renderer.getContents()[0].doc
         if (this.tts && this.tts.doc === doc) return
         const { TTS } = await import('./tts.js')
-        this.tts = new TTS(doc, textWalker, range =>
-            this.renderer.scrollToAnchor(range, true), granularity)
+        this.tts = new TTS(doc, textWalker, highlight || (range =>
+            this.renderer.scrollToAnchor(range, true)), granularity)
     }
     startMediaOverlay() {
         const { index } = this.renderer.getContents()[0]

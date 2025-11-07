@@ -1,8 +1,8 @@
 const pdfjsPath = path => { // TODO: EBOOK
-  const url = `/vendor/pdfjs/${path}`;
-  // const url = new URL(`./vendor/pdfjs/${path}`, import.meta.url).toString();
-  console.log('pdfjsPath', url);
-  return url;
+    const url = `/vendor/pdfjs/${path}`;
+    // const url = new URL(`./vendor/pdfjs/${path}`, import.meta.url).toString();
+    console.log('pdfjsPath', url);
+    return url;
 }
 
 import './vendor/pdfjs/pdf.mjs'

@@ -19,10 +19,10 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
 
     def find_all_by_book(self, id: str) -> List[BookAnnotation]:
         """
-        Find all by user_book id
-        :param id: user book id
+        Find all by tenant_book id
+        :param id: tenant book id
         """
-        return self.service.find_all({"user_book_id": id})
+        return self.service.find_all({"tenant_book_id": id})
 
     def query_details(self, query: PaginationQuery):
         return self.service.query_details(query)

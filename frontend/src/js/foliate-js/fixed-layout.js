@@ -18,7 +18,7 @@ const getViewport = (doc, viewport) => {
 
     // fallback to book's viewport
     if (typeof viewport === 'string') return parseViewport(viewport)
-    if (viewport) return viewport
+    if (viewport?.width && viewport.height) return viewport
 
     // if no viewport (possibly with image directly in spine), get image size
     const img = doc.querySelector('img')
@@ -73,6 +73,7 @@ export class FixedLayout extends HTMLElement {
         const src = srcOptionIsString ? srcOption : srcOption?.src
         const onZoom = srcOptionIsString ? null : srcOption?.onZoom
         const element = document.createElement('div')
+        element.setAttribute('dir', 'ltr')
         const iframe = document.createElement('iframe')
         element.append(iframe)
         Object.assign(iframe.style, {
@@ -105,32 +106,35 @@ export class FixedLayout extends HTMLElement {
     #render(side = this.#side) {
         if (!side) return
         const left = this.#left ?? {}
-        const right = this.#center ?? this.#right
+        const right = this.#center ?? this.#right ?? {}
         const target = side === 'left' ? left : right
         const { width, height } = this.getBoundingClientRect()
         const portrait = this.spread !== 'both' && this.spread !== 'portrait'
             && height > width
         this.#portrait = portrait
-        const blankWidth = left.width ?? right.width
-        const blankHeight = left.height ?? right.height
+        const blankWidth = left.width ?? right.width ?? 0
+        const blankHeight = left.height ?? right.height ?? 0
 
         const scale = typeof this.#zoom === 'number' && !isNaN(this.#zoom)
             ? this.#zoom
-            : this.#zoom === 'fit-width' ? (portrait || this.#center
-                ? width / (target.width ?? blankWidth)
-                : width / ((left.width ?? blankWidth) + (right.width ?? blankWidth)))
-            : (portrait || this.#center
-                ? Math.min(
-                    width / (target.width ?? blankWidth),
-                    height / (target.height ?? blankHeight))
-                : Math.min(
-                    width / ((left.width ?? blankWidth) + (right.width ?? blankWidth)),
-                    height / Math.max(
-                        left.height ?? blankHeight,
-                        right.height ?? blankHeight)))
+            : (this.#zoom === 'fit-width'
+                ? (portrait || this.#center
+                    ? width / (target.width ?? blankWidth)
+                    : width / ((left.width ?? blankWidth) + (right.width ?? blankWidth)))
+                : (portrait || this.#center
+                    ? Math.min(
+                        width / (target.width ?? blankWidth),
+                        height / (target.height ?? blankHeight))
+                    : Math.min(
+                        width / ((left.width ?? blankWidth) + (right.width ?? blankWidth)),
+                        height / Math.max(
+                            left.height ?? blankHeight,
+                            right.height ?? blankHeight)))
+            ) || 1
 
         const transform = frame => {
             let { element, iframe, width, height, blank, onZoom } = frame
+            if (!iframe) return
             if (onZoom) onZoom({ doc: frame.iframe.contentDocument, scale })
             const iframeScale = onZoom ? scale : 1
             Object.assign(iframe.style, {
@@ -179,18 +183,18 @@ export class FixedLayout extends HTMLElement {
     #goLeft() {
         if (this.#center || this.#left?.blank) return
         if (this.#portrait && this.#left?.element?.style?.display === 'none') {
-            this.#right.element.style.display = 'none'
-            this.#left.element.style.display = 'block'
             this.#side = 'left'
+            this.#render()
+            this.#reportLocation('page')
             return true
         }
     }
     #goRight() {
         if (this.#center || this.#right?.blank) return
         if (this.#portrait && this.#right?.element?.style?.display === 'none') {
-            this.#left.element.style.display = 'none'
-            this.#right.element.style.display = 'block'
             this.#side = 'right'
+            this.#render()
+            this.#reportLocation('page')
             return true
         }
     }
@@ -234,14 +238,14 @@ export class FixedLayout extends HTMLElement {
             else {
                 if (last.center || last.left) newSpread().right = section
                 else if (last.right || !i) last.left = section
-                else last .right = section
+                else last.right = section
             }
             return arr
         }, [{}])
     }
     get index() {
         const spread = this.#spreads[this.#index]
-        const section = spread?.center ?? (this.side === 'left'
+        const section = spread?.center ?? (this.#side === 'left'
             ? spread.left ?? spread.right : spread.right ?? spread.left)
         return this.book.sections.indexOf(section)
     }
@@ -295,13 +299,11 @@ export class FixedLayout extends HTMLElement {
     }
     async next() {
         const s = this.rtl ? this.#goLeft() : this.#goRight()
-        if (s) this.#reportLocation('page')
-        else return this.goToSpread(this.#index + 1, this.rtl ? 'right' : 'left', 'page')
+        if (!s) return this.goToSpread(this.#index + 1, this.rtl ? 'right' : 'left', 'page')
     }
     async prev() {
         const s = this.rtl ? this.#goRight() : this.#goLeft()
-        if (s) this.#reportLocation('page')
-        else return this.goToSpread(this.#index - 1, this.rtl ? 'left' : 'right', 'page')
+        if (!s) return this.goToSpread(this.#index - 1, this.rtl ? 'left' : 'right', 'page')
     }
     getContents() {
         return Array.from(this.#root.querySelectorAll('iframe'), frame => ({
