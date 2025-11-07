@@ -2,10 +2,20 @@
 https://github.com/johnfactotum/foliate-js
 
 # Versions
-## 0.0.1
-SHA: e2014ee7532310b8a3c60d10b84c58e6344ae4e4
 
-## 0.0.2
-SHA: 052123beafed921a9a2a45ef6330c235289a634e
+## 0.0.1
+### pileax
+```angular2html
+commit d3a48181bb2bb19c224e9867d9ce484cce7bae63 (HEAD -> feat/fastapi, origin/feat/fastapi)
+Date:   Fri Nov 7 15:14:49 2025 +0800
+ChangeLog:
+- docs(global): ✏️ add thanks
+```
+
+### foliate-js
+```md
+commit 052123beafed921a9a2a45ef6330c235289a634e (origin/main, origin/HEAD)
+Date:   Sat Mar 29 14:56:37 2025 +0800
 ChangeLog:
 - Add an EventTarget for transforming the book (github)
+```
