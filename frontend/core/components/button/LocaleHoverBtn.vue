@@ -1,6 +1,6 @@
 <template>
   <o-hover-menu-btn class="locale-hover-btn"
-                    menu-class="o-menu"
+                    menu-class="pi-menu"
                     min-width="240px"
                     icon="translate"
                     :icon-right="iconRight"

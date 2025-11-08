@@ -3,7 +3,7 @@
                     icon="person"
                     anchor="bottom right"
                     self="top right"
-                    menu-class="o-menu"
+                    menu-class="pi-menu"
                     min-width="240px"
                     :label="account?.name"
                     :round="round"

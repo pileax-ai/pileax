@@ -3,7 +3,7 @@
                     :icon="icon"
                     anchor="bottom right"
                     self="top right"
-                    menu-class="o-menus opened-tabs-menu"
+                    menu-class="pi-menu opened-tabs-menu"
                     min-width="240px"
                     :round="round"
                     :offset="offset"

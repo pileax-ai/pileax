@@ -1,119 +1,122 @@
 <template>
-  <o-console-page class="book-list"
-                  title=" "
-                  icon="book"
-                  v-bind="query"
-                  disable-meta
-                  enable-fullscreen fixed-header>
-    <template #header-left>
-      <q-btn icon="tune"
-             class="filter"
-             :class="filter ? 'bg-primary text-white' : 'bg-dark'"
-             @click="filter = !filter"
-             flat v-if="false" />
-      <div class="query-item no-drag-region">
-        <q-input v-model="condition.title__icontains"
-                 class="pi-field"
-                 placeholder="搜索"
-                 debounce="800"
-                 standout dense clearable
-                 @update:model-value="query.onQuery(true)">
-          <template #prepend>
-            <q-icon name="search" class="text-readable" />
-          </template>
-        </q-input>
-      </div>
+  <o-split-page ref="pageRef" :init-size="200" v-model:show="showFilter">
+    <template #before>
+      <book-filter />
     </template>
-
-    <!--Actions-->
-    <template #actions>
-      <q-btn icon="add" flat round>
-        <q-menu v-model="addMenu" class="pi-menu" :offset="[0, 4]">
-          <q-list style="min-width: 400px">
-            <div>
-              <div class="text-tips">上传添加</div>
-              <div class="q-pa-md">
-                <o-book-uploader :accept="bookAccept"
-                                 :max-size="500 * 1024 * 1024"
-                                 leading
-                                 @completed="onUploadCompleted" />
-              </div>
-            </div>
-            <q-separator class="bg-dark" />
-            <o-common-item icon="search" label="从书库中添加" class="bg-accent" closable clickable @click="onOpenAdd" />
-          </q-list>
-        </q-menu>
-      </q-btn>
-      <book-filter-btn @view="onView" @sort="onSort">
-        <q-separator class="bg-accent" />
-        <o-view-item label="Total" :value="total" align="right" />
-      </book-filter-btn>
-    </template>
-
-    <section class="row full-width">
-      <nav class="col-auto" v-show="filter">
-        Book Filters
-      </nav>
-      <section class="col">
-        <q-infinite-scroll ref="scrollRef" @load="query.onLoadMore" :offset="350">
-          <template v-slot:loading>
-            <div class="row justify-center q-my-md">
-              <q-spinner-dots color="primary" size="40px" />
-            </div>
-          </template>
-
-          <template v-if="rows.length">
-            <section class="row col-12 q-col-gutter-lg grid-view" v-if="bookView === 'grid'">
-              <template v-for="(item) in rows" :key="item.id">
-                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                  <book-grid-item :data="item"
-                                  @click="openBook(item)"
-                                  @details="onDetails(item)" />
-                </div>
+    <template #after>
+      <o-console-section class="book-list"
+                         title=" "
+                         icon="book"
+                         v-bind="query"
+                         disable-meta
+                         enable-fullscreen fixed-header
+                         @full-screen="onFullScreen">
+        <template #header-left>
+          <q-btn icon="tune"
+                 class="filter"
+                 :class="showFilter ? 'bg-primary text-white' : 'bg-dark'"
+                 @click="onToggleFiler()"
+                 flat v-if="true" />
+          <div class="query-item no-drag-region">
+            <q-input v-model="condition.title__icontains"
+                     class="pi-field"
+                     placeholder="搜索"
+                     debounce="800"
+                     standout dense clearable
+                     @update:model-value="query.onQuery(true)">
+              <template #prepend>
+                <q-icon name="search" class="text-readable" />
               </template>
-            </section>
-            <section class="row col-12 justify-center list-view" v-else>
-              <q-list>
-                <template v-for="(item) in rows" :key="item.id">
-                  <book-list-item :data="item"
-                                  @click="openBook(item)"
-                                  @details="onDetails(item)" />
-                </template>
-              </q-list>
-            </section>
-          </template>
-          <template v-else>
-            <o-no-data message="没有记录" image v-if="condition.title__like" />
-            <section class="row col-12 justify-center no-records" v-else>
-              <span class="text-readable">书库中还没有记录，快来添加吧</span>
-              <div class="row col-12 justify-center action">
-                <o-book-uploader :accept="bookAccept"
-                                 :max-size="500 * 1024 * 1024"
-                                 leading
-                                 @completed="onUploadCompleted" />
-              </div>
-            </section>
-          </template>
-
-          <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
-            共{{total}}条记录，没有更多数据了
+            </q-input>
           </div>
-        </q-infinite-scroll>
-      </section>
-    </section>
+        </template>
 
-    <template #side-panel>
-      <book-details :data="data"
-                    @close="onClose"
-                    @edit="onEdit"
-                    v-if="view==='details'" />
-      <book-edit :data="data"
-                    @close="onClose"
-                    v-if="view==='edit'" />
-      <book-add @close="onClose"
-                v-if="view==='add'" />
+        <!--Actions-->
+        <template #actions>
+          <q-btn icon="add" flat round>
+            <q-menu v-model="addMenu" class="pi-menu" :offset="[0, 4]">
+              <q-list style="min-width: 400px">
+                <div>
+                  <div class="text-tips">上传添加</div>
+                  <div class="q-pa-md">
+                    <o-book-uploader :accept="bookAccept"
+                                     :max-size="500 * 1024 * 1024"
+                                     leading
+                                     @completed="onUploadCompleted" />
+                  </div>
+                </div>
+                <q-separator class="bg-dark" />
+                <o-common-item icon="search" label="从书库中添加" class="bg-accent" closable clickable @click="onOpenAdd" />
+              </q-list>
+            </q-menu>
+          </q-btn>
+          <book-filter-btn @view="onView" @sort="onSort">
+            <q-separator class="bg-accent" />
+            <o-view-item label="Total" :value="total" align="right" />
+          </book-filter-btn>
+        </template>
+
+        <section class="col-12">
+          <q-infinite-scroll ref="scrollRef" @load="query.onLoadMore" :offset="350">
+            <template v-slot:loading>
+              <div class="row justify-center q-my-md">
+                <q-spinner-dots color="primary" size="40px" />
+              </div>
+            </template>
+
+            <template v-if="rows.length">
+              <section class="grid-view" v-if="bookView === 'grid'">
+                <template v-for="(item) in rows" :key="item.id">
+                  <div class="">
+                    <book-grid-item :data="item"
+                                    @click="openBook(item)"
+                                    @details="onDetails(item)" />
+                  </div>
+                </template>
+              </section>
+              <section class="row col-12 justify-center list-view" v-else>
+                <q-list>
+                  <template v-for="(item) in rows" :key="item.id">
+                    <book-list-item :data="item"
+                                    @click="openBook(item)"
+                                    @details="onDetails(item)" />
+                  </template>
+                </q-list>
+              </section>
+            </template>
+            <template v-else>
+              <o-no-data message="没有记录" image v-if="condition.title__like" />
+              <section class="row col-12 justify-center no-records" v-else>
+                <span class="text-readable">书库中还没有记录，快来添加吧</span>
+                <div class="row col-12 justify-center action">
+                  <o-book-uploader :accept="bookAccept"
+                                   :max-size="500 * 1024 * 1024"
+                                   leading
+                                   @completed="onUploadCompleted" />
+                </div>
+              </section>
+            </template>
+
+            <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
+              共{{total}}条记录，没有更多数据了
+            </div>
+          </q-infinite-scroll>
+        </section>
+
+        <template #side-panel>
+          <book-details :data="data"
+                        @close="onClose"
+                        @edit="onEdit"
+                        v-if="view==='details'" />
+          <book-edit :data="data"
+                     @close="onClose"
+                     v-if="view==='edit'" />
+          <book-add @close="onClose"
+                    v-if="view==='add'" />
+        </template>
+      </o-console-section>
     </template>
-  </o-console-page>
+  </o-split-page>
 </template>
 
 <script setup lang="ts">
@@ -123,20 +126,24 @@ import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
 import BookEdit from './BookEdit.vue';
 import BookAdd from './BookAdd.vue';
+import BookFilter from './BookFilter.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
 import OBookUploader from 'core/components/fIle/OBookUploader.vue';
+import OSplitPage from 'core/page/template/OSplitPage.vue';
 
 import useReader from 'src/hooks/useReader';
 import useLoadMore from 'src/hooks/useLoadMore';
 import { ipcService } from 'src/api/ipc';
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
+import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 
 const { queryTimer } = useReader();
 const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
 
+const pageRef = ref<InstanceType<typeof OSplitPage>>();
 const addMenu = ref(false);
 const data = ref<Indexable>({});
-const filter = ref(false);
+const showFilter = ref(true);
 const bookView = ref('grid');
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
 
@@ -201,6 +208,15 @@ function initData() {
   });
 }
 
+function onFullScreen(value: boolean) {
+  pageRef.value?.setFullScree(value)
+  showFilter.value = false
+}
+
+function onToggleFiler() {
+  showFilter.value = !showFilter.value
+}
+
 watch(() => queryTimer.value, (newValue) => {
   query.value.onQuery();
 })
@@ -212,11 +228,19 @@ onActivated(() => {
 
 <style lang="scss">
 .book-list {
+
   .filter {
     width: 40px;
     height: 40px;
     margin-right: 10px;
   }
+
+  .grid-view {
+    display: grid;
+    gap: 21px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
   .list-view {
     .q-list {
       width: 100%;

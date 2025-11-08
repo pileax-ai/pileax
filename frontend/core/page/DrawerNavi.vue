@@ -5,7 +5,7 @@
     </nav>
 
     <q-scroll-area style="" ref="tagsScroll"
-                   class="o-scrollarea-sidenavi"
+                   class="o-scroll-wrapper"
                    :class="{'with-header': header}">
       <slot name="content" />
     </q-scroll-area>

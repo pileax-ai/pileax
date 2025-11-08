@@ -1,138 +1,151 @@
 <template>
-  <q-page ref="pageRef" class="o-split-page">
-    <q-splitter v-model="verticalSideWidth"
-                :limits="[0, Infinity]"
+  <q-page ref="pageRef" class="o-split-page"
+          :class="{'page-full-screen': fullScreen, 'closed': closed}">
+    <q-splitter v-model="size"
+                :limits="[0, 300]"
+                :reverse="reverse"
+                :horizontal="horizontal"
                 unit="px"
-                before-class="before-v"
-                after-class="after-v"
-                separator-class="bg-dark separator-v"
-                reverse
-                @update:modelValue="onVerticalChanged">
+                :before-class="{ 'toggle-activator': !reverse }"
+                :after-class="{ 'toggle-activator': reverse }"
+                separator-class="bg-dark toggle-activator"
+                @update:modelValue="onSizeChanged">
       <template #before>
-        <q-splitter v-model="horizontalSideHeight"
-                    :limits="[0, Infinity]"
-                    unit="px"
-                    before-class="before-h"
-                    after-class="after-h"
-                    separator-class="bg-dark separator-h"
-                    horizontal
-                    reverse
-                    @update:modelValue="onHorizontalChanged">
-          <template #before>
-            <slot></slot>
-          </template>
-          <template v-slot:separator>
-            <q-btn :icon="horizontalSideHeight ? 'keyboard_arrow_down' :  'keyboard_arrow_up'"
-                   class="bg-dark text-tips toggle-h"
-                   flat
-                   @click="onToggleHorizontal" />
-          </template>
-          <template #after>
-            <slot name="horizontal-side"></slot>
-          </template>
-        </q-splitter>
+        <slot name="before"></slot>
       </template>
       <template v-slot:separator>
-        <q-btn :icon="verticalSideWidth ? 'keyboard_arrow_right' :  'keyboard_arrow_left'"
-               class="bg-dark text-tips toggle-v"
+        <q-btn :icon="toggleIcon"
+               class="bg-dark text-tips"
+               :class="{
+                  'reverse': reverse,
+                  'toggle-v': !horizontal,
+                  'toggle-h': horizontal
+               }"
                flat
-               @click="onToggleVertical" />
+               @click="onToggle" />
       </template>
       <template #after>
-        <slot name="vertical-side"></slot>
+        <q-scroll-area class="o-page-container">
+          <slot name="after"></slot>
+        </q-scroll-area>
       </template>
     </q-splitter>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, useTemplateRef } from 'vue'
+import { computed, onMounted, PropType, ref, useTemplateRef, watch } from 'vue'
 import { useElementSize } from '@vueuse/core';
 
 const props = defineProps({
-  vertical: {
-    type: String as PropType<'left' | 'right'>,
-    default: 'right',
-    validator: (val: string) => ['left', 'right'].includes(val)
-  },
-  verticalSide: {
-    type: Number,
-    default: 320
-  },
   horizontal: {
-    type: String as PropType<'top' | 'bottom'>,
-    default: 'bottom',
-    validator: (val: string) => ['top', 'bottom'].includes(val)
+    type: Boolean,
+    default: false
   },
-  horizontalSide: {
+  reverse: {
+    type: Boolean,
+    default: false
+  },
+  initSize: {
     type: Number,
-    default: 160
-  }
+    default: 260
+  },
+  show: {
+    type: Boolean,
+    default: false
+  },
 });
-const emit = defineEmits(['sideWidth', 'sideHeight']);
+const emit = defineEmits(['size', 'update:show']);
 
 const pageRef = useTemplateRef<HTMLElement>('pageRef');
 const { width, height } = useElementSize(pageRef);
+const fullScreen = ref(false);
 
-const verticalSideWidth = ref(props.verticalSide);
-const verticalSideWidthRestore = ref(0);
-const horizontalSideHeight = ref(props.horizontalSide);
-const horizontalSideHeightRestore = ref(0);
+const size = ref(0);
+const sizeRestore = ref(0);
 
-function expandHorizontalSide(expanded: boolean) {
-  horizontalSideHeight.value = expanded
-    ? height.value
-    : (horizontalSideHeightRestore.value || props.horizontalSide);
-}
-
-function onToggleHorizontal() {
-  if (horizontalSideHeight.value) {
-    horizontalSideHeightRestore.value = horizontalSideHeight.value;
-    horizontalSideHeight.value = 0;
+const toggleIcon = computed(() => {
+  if (props.horizontal) {
+    return props.reverse
+      ? size.value > 0 ? 'keyboard_arrow_down' :  'keyboard_arrow_up'
+      : size.value > 0 ? 'keyboard_arrow_up' :  'keyboard_arrow_down'
   } else {
-    horizontalSideHeight.value = horizontalSideHeightRestore.value || props.horizontalSide;
+    return props.reverse
+      ? size.value > 0 ? 'keyboard_arrow_right' :  'keyboard_arrow_left'
+      : size.value > 0 ? 'keyboard_arrow_left' :  'keyboard_arrow_right'
   }
+})
+
+const closed = computed(() => {
+  return size.value === 0
+})
+
+function onToggle() {
+  !props.show ? open() : close();
 }
 
-function onToggleVertical() {
-  if (verticalSideWidth.value) {
-    verticalSideWidthRestore.value = verticalSideWidth.value;
-    verticalSideWidth.value = 0;
-  } else {
-    verticalSideWidth.value = verticalSideWidthRestore.value || props.verticalSide;
-  }
+function open() {
+  size.value = sizeRestore.value || props.initSize;
 }
 
-function onVerticalChanged(value: number) {
-  verticalSideWidthRestore.value = value;
-  emit('sideWidth', value);
+function close() {
+  sizeRestore.value = size.value;
+  size.value = 0;
 }
 
-function onHorizontalChanged(value: number) {
-  horizontalSideHeightRestore.value = value;
-  emit('sideHeight', value);
+function onSizeChanged(value: number) {
+  sizeRestore.value = value;
 }
+
+function setFullScree(value: boolean) {
+  fullScreen.value = value
+}
+
+watch(() => props.show, (newValue) => {
+  newValue ? open() : close();
+})
+
+watch(size, (newValue) => {
+  emit('size', newValue)
+  emit('update:show', newValue > 0)
+})
 
 defineExpose({
-  expandHorizontalSide
+  setFullScree,
+})
+
+onMounted(() => {
+  size.value = props.show ? props.initSize : 0
 })
 </script>
 
 <style lang="scss">
 .o-split-page {
+  &.closed {
+    .q-splitter__separator {
+      width: 0;
+    }
+  }
+
   .q-splitter--vertical {
     height: calc(100vh - 40px);
 
     .q-splitter__before {
       overflow: hidden;
+      //transition: width 0.3s ease-in-out;
     }
 
-    &:has(.after-v:hover, .separator-v:hover) {
+    &:has(.toggle-activator:hover) {
       .toggle-v {
         visibility: visible;
         opacity: 1;
         transition: opacity 0.3s ease;
       }
+    }
+
+    .q-splitter__separator-area {
+      left: -16px !important;
+      right: -16px !important;
     }
   }
 
@@ -143,12 +156,17 @@ defineExpose({
       overflow: hidden;
     }
 
-    &:has(.after-h:hover, .separator-h:hover) {
+    &:has(.toggle-activator:hover) {
       .toggle-h {
         visibility: visible;
         opacity: 1;
         transition: opacity 0.3s ease;
       }
+    }
+
+    .q-splitter__separator-area {
+      top: -16px !important;
+      bottom: -16px !important;
     }
   }
 
@@ -156,16 +174,26 @@ defineExpose({
     min-height: unset;
     padding: 0 16px;
     height: 24px;
-    margin-top: -12px;
-    border-radius: 4px 4px 0 0;
+    margin-top: 12px;
+    border-radius: 0 0 4px 4px;
+
+    &.reverse {
+      margin-top: -12px;
+      border-radius: 4px 4px 0 0;
+    }
   }
 
   .toggle-v {
     min-width: unset;
     padding: 16px 0;
     width: 24px;
-    margin-left: -12px;
-    border-radius: 4px 0 0 4px;
+    margin-left: 12px;
+    border-radius: 0 4px 4px 0;
+
+    &.reverse {
+      margin-left: -12px;
+      border-radius: 4px 0 0 4px;
+    }
   }
 
   .toggle-h, .toggle-v {
@@ -174,5 +202,19 @@ defineExpose({
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
   }
 
+  &.page-full-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2002;
+    background: var(--q-secondary);
+
+
+    .q-splitter--vertical, .q-splitter--horizontal {
+      height: 100vh;
+    }
+  }
 }
 </style>

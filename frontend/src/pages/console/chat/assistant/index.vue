@@ -1,5 +1,5 @@
 <template>
-  <o-split-page ref="pageRef"
+  <o-split-side-page ref="pageRef"
                 class="page-assistant-chat"
                 @side-width="onSideWidth">
     <template #vertical-side>
@@ -20,19 +20,19 @@
                    :key="route.path" />
       </keep-alive>
     </router-view>
-  </o-split-page>
+  </o-split-side-page>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 
 import OAssistantChat from 'components/chat/OAssistantChat.vue';
-import OSplitPage from 'core/page/template/OSplitPage.vue';
+import OSplitSidePage from 'core/page/template/OSplitSidePage.vue';
 import ChatSession from './session/index.vue';
 import ChatSessionList from './session-list.vue';
 import { ChatInput } from 'src/types/chat'
 
-const pageRef = ref<InstanceType<typeof OSplitPage>>();
+const pageRef = ref<InstanceType<typeof OSplitSidePage>>();
 const sessionRef = ref<InstanceType<typeof ChatSession>>();
 const sideWidth = ref(320);
 const sideHeight = ref(160);

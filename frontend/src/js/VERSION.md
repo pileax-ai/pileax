@@ -5,6 +5,14 @@ https://github.com/johnfactotum/foliate-js
 
 ## 0.0.2
 
+### pileax
+```md
+commit 2fab204928b6a802a1f18aa9209c2d0d4a484928 (HEAD -> feat/fastapi, origin/feat/fastapi)
+Date:   Fri Nov 7 16:02:38 2025 +0800
+Changelog:
+- feat(global): 🎸 0.0.2
+```
+
 ### foliate-js
 ```md
 commit c49ded0cc498ed323b044eb3274bbfc3e4e9b07c (origin/main, origin/HEAD)

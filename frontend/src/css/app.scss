@@ -1,6 +1,5 @@
 // App global css
 // --------------------------------------------------
-// @import '~quasar-variables'
 
 html {
   font-size: 14px;
@@ -34,6 +33,29 @@ a:hover {
   text-decoration: none;
 }
 
+kbd {
+  font-family: Consolas, "Lucida Console", monospace;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0 4px;
+  margin: 2px;
+  font-size: small;
+  vertical-align: text-bottom;
+  background: #eee;
+  color: #555;
+  cursor: pointer;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+// --------------------------------------------------------------------------------
+// Quasar
+// --------------------------------------------------------------------------------
+.q-tooltip {
+  max-width: 400px;
+}
+
 .q-touch {
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -54,6 +76,7 @@ a:hover {
 .q-btn, .q-tab {
   text-transform: unset;
 }
+
 
 // --------------------------------------------------------------------------------
 // Page
@@ -81,75 +104,9 @@ a:hover {
 }
 
 // --------------------------------------------------------------------------------
-// Form
-// --------------------------------------------------------------------------------
-.main-title {
-  font-family: Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;
-  font-size: 2.2rem;
-  font-weight: normal;
-  height: 48px;
-  //padding: 0 24px;
-}
-
-// --------------------------------------------------------------------------------
 // List
 // --------------------------------------------------------------------------------
-.o-navi-listssss {
 
-  .q-item {
-    padding: 16px 16px;
-    font-size: 1rem;
-    min-height: 24px;
-
-    .q-item-section + .q-item-section {
-      margin-left: 0px;
-    }
-
-    .q-item__section--side {
-      //padding-right: 16px;
-    }
-    .q-item__section--side > .q-avatar {
-      font-size: 30px;
-    }
-    .q-item__section--main ~ .q-item__section--side {
-      padding-left: 0;
-    }
-
-    .q-item__section--avatar {
-      min-width: unset;
-    }
-  }
-
-  .q-item.q-link:hover {
-    text-decoration: none;
-  }
-
-  .q-item.stripped:nth-child(even) {
-    background: rgba(50,64,87,0.1);
-  }
-
-  .q-collapsible-sub-item {
-    padding: 0;
-
-    .q-item {
-      padding-left: 24px;
-      cursor: pointer;
-    }
-  }
-
-  .q-item-side {
-    min-width: 24px;
-
-    .q-icon {
-      font-size: 1.2rem;
-    }
-  }
-
-  .header {
-    padding: 4px 8px;
-    min-height: $hheight;
-  }
-}
 
 // --------------------------------------------------------------------------------
 // Button
@@ -160,46 +117,9 @@ a:hover {
   border-radius: 20px;
 }
 
-.q-btn {
-  &:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  &.primary {
-    color: var(--q-primary);
-    border: solid 1px var(--q-primary);
-    &:before {
-      background: var(--q-primary);
-      opacity: 0.08;
-    }
-    &:hover {
-      color: white;
-      background: var(--q-primary);
-    }
-  }
-}
-
 // --------------------------------------------------------------------------------
 // Scroll
 // --------------------------------------------------------------------------------
-/* side navi */
-.o-scrollarea-sidenavi {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.o-scrollarea-sidenavi.with-header {
-  top: 90px;
-}
-
 .o-scrollarea-page, .o-page-container, .o-scroll-wrapper {
   position: absolute;
   top: 0;
@@ -208,65 +128,8 @@ a:hover {
   bottom: 0;
 }
 
-/* Fonts */
-@font-face {
-  font-family: 'Segoe UI';
-  src: url("/fonts/segoe-ui/latest.eot"),
-  url("/fonts/segoe-ui/latest.eot") format("embedded-opentype");
-  src: local("Segoe UI Light"),
-  url("/fonts/segoe-ui/latest.woff2") format("woff2"),
-  url("/fonts/segoe-ui/latest.woff") format("woff"),
-  url("/fonts/segoe-ui/latest.ttf") format("truetype"),
-  url("/fonts/segoe-ui/latest.svg") format("svg");
-  font-weight: 200;
-}
-
-.o-search {
-  .q-field__control {
-    box-shadow: unset !important;
-  }
-
-  .iconfont {
-    font-size: 1.5rem;
-  }
-}
-
-// --------------------------------------------------------------------------------
-// Quasar
-// --------------------------------------------------------------------------------
-.o-menu {
-  min-width: 160px !important;
-  max-height: 80vh !important;
-
-  .q-list {
-    padding: 8px 8px;
-    .q-item {
-      padding: 8px 10px;
-      min-height: unset;
-      border-radius: 4px;
-
-      &:not(:first-child) {
-        margin-top: 2px;
-      }
-    }
-    .q-separator {
-      margin: 8px -8px;
-    }
-  }
-
-  .q-item {
-    min-height: unset;
-    padding: 4px 8px;
-
-    .q-item__section--main {
-      padding-left: 8px;
-    }
-  }
-
-  .q-avatar {
-    width: 2rem !important;
-    height: 2rem !important;
-  }
+.o-scroll-wrapper.with-header {
+  top: 90px;
 }
 
 // --------------------------------------------------------------------------------
@@ -432,39 +295,6 @@ a:hover {
   }
 }
 
-.o-address-edit {
-  min-width: 400px !important;
-}
-
-.o-popup-edit {
-  min-width: 400px !important;
-}
-
-.q-tooltip {
-  max-width: 400px;
-}
-
-// --------------------------------------------------------------------------------
-// Tab
-// --------------------------------------------------------------------------------
-.o-route-tabs {
-  .q-tab {
-    border-radius: 4px 4px 0 0;
-    min-height: 40px;
-    margin-right: 4px;
-  }
-  .q-tab--active:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--q-primary);
-    opacity: 0.1;
-    border-radius: 4px 4px 0 0;
-  }
-}
 
 // --------------------------------------------------------------------------------
 // Table
@@ -682,25 +512,6 @@ model-viewer {
   --poster-color: transparent;
 }
 
-kbd {
-  font-family: Consolas, "Lucida Console", monospace;
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0px 4px;
-  //box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
-  margin: 2px;
-  font-size: small;
-  vertical-align: text-bottom;
-  background: #eee;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  //font-variant: small-caps;
-  font-weight: 600;
-  min-width: 20px;
-  text-align: center;
-}
-
 // --------------------------------------------------------------------------------
 // yiitap
 // --------------------------------------------------------------------------------
@@ -708,6 +519,21 @@ kbd {
   .o-dialog {
     background: transparent;
   }
+}
+
+// --------------------------------------------------------------------------------
+// Fonts
+// --------------------------------------------------------------------------------
+@font-face {
+  font-family: 'Segoe UI';
+  src: url("/fonts/segoe-ui/latest.eot"),
+  url("/fonts/segoe-ui/latest.eot") format("embedded-opentype");
+  src: local("Segoe UI Light"),
+  url("/fonts/segoe-ui/latest.woff2") format("woff2"),
+  url("/fonts/segoe-ui/latest.woff") format("woff"),
+  url("/fonts/segoe-ui/latest.ttf") format("truetype"),
+  url("/fonts/segoe-ui/latest.svg") format("svg");
+  font-weight: 200;
 }
 
 // --------------------------------------------------------------------------------

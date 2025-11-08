@@ -15,7 +15,7 @@ export default function () {
   const total = ref(0);
   const paging = ref({
     index: 1,
-    size: 10,
+    size: 20,
     more: true
   });
   const side = ref({

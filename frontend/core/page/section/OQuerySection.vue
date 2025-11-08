@@ -21,8 +21,8 @@
         <template v-if="!disableActions">
           <q-btn icon="refresh" flat round @click="onQuery" />
           <q-btn icon="settings" flat v-if="false">
-            <q-menu class="o-menu">
-              <div :style="{minWidth: '200px'}">
+            <q-menu class="pi-menu">
+              <div>
                 <q-list no-border link inset-delimiter>
                   <o-common-item v-for="(item, index) of columns" :key="index"
                                  :label="item.label"

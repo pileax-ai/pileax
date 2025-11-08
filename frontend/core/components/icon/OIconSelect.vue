@@ -3,7 +3,7 @@
                     :icon="icon"
                     anchor="bottom right"
                     self="top right"
-                    menu-class="o-menu o-icon-select-menu"
+                    menu-class="pi-menu o-icon-select-menu"
                     min-width="240px"
                     :label="label"
                     :default-class="contentClass"
