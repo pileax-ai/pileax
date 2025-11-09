@@ -2,7 +2,10 @@
   <o-common-section class="o-console-section"
                     :scrollable="fullScreen"
                     :side="side"
-                    :side-full-screen="sideFullScreen">
+                    :side-full-screen="sideFullScreen"
+                    @update:side="onSideShow"
+                    @side-close="onSideClose"
+                    @side-confirm="onSideConfirm">
     <!--Header-->
     <header class="console-header"
             :class="{'full': fullScreen, 'fixed-header': fixedHeader && !fullScreen}">
@@ -52,7 +55,7 @@
 
     <!--Content-->
     <section class="console-content" :class="{'fixed-header': fixedHeader && !fullScreen}">
-      <template v-if="expand & !extensionOnly">
+      <template v-if="expand && !extensionOnly">
         <q-card :class="contentClass" flat>
           <q-card-section class="row col-12 content"
                           :class="{'padding': contentPadding}">
@@ -61,7 +64,6 @@
             </section>
           </q-card-section>
         </q-card>
-        <q-separator class="bg-accent" v-if="false" />
       </template>
 
       <section class="extension" :class="{'only': extensionOnly}">
@@ -163,14 +165,10 @@ const naviStore = useNaviStore();
 const fullScreen = ref(false);
 const expand = ref(true);
 
-const starred = computed(() => {
-  const index = naviStore.starMenus.findIndex(e => e.path === menu.value.path);
-  return index >= 0;
-})
 const menu = computed(() => naviStore.currentMenu);
 
 function updateMenu () {
-  naviStore.updateMenu(route.path);
+  naviStore.updateMenu(route);
 }
 
 function toggleFullScreen () {
@@ -179,16 +177,6 @@ function toggleFullScreen () {
   emit('fullScreen', fullScreen.value);
 }
 
-function toggleExpand () {
-  expand.value = !expand.value;
-}
-function toggleStar () {
-  if (starred.value) {
-    naviStore.unstarMenu(menu.value);
-  } else {
-    naviStore.starMenu(menu.value);
-  }
-}
 function onSideShow () {
   let side = props.side;
   side.show = true;
@@ -229,6 +217,14 @@ onActivated(() => {
           .q-icon {
             font-size: 1.5rem;
           }
+        }
+      }
+
+      .meta {
+        .q-btn {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
         }
       }
 

@@ -1,5 +1,4 @@
-from datetime import timedelta
-from typing import Optional, TypeVar, Generic, Any
+from typing import Optional, TypeVar, Generic
 
 from fastapi import Request, Response, HTTPException, status
 from pydantic import BaseModel
@@ -8,10 +7,9 @@ from uuid import UUID
 
 from app.libs.cookie_helper import CookieHelper
 from app.libs.helper import extract_remote_ip
-from app.api.models.auth import Signin, SigninPublic, Token, UserSimple, TokenPublic
+from app.api.models.auth import Signin, SigninPublic, UserSimple, TokenPublic
 from app.api.models.user import User
 from app.api.services.auth_service import AuthService
-from app.libs.jwt_service import JWTService
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -59,14 +57,12 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 detail="No refresh token.",
             )
         # todo: check refresh_token
-
         token = self.service.refresh_token(cookie_refresh_token)
 
         # set cookies
         CookieHelper.set_token(self.response, token)
 
         # todo: remove old refresh_token
-
         return TokenPublic(**token.model_dump(by_alias=True))
 
     def get_token(self, email: str, password: str) -> TokenPublic:

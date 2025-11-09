@@ -65,7 +65,7 @@
             </template>
 
             <template v-if="rows.length">
-              <section class="grid-view" v-if="bookView === 'grid'">
+              <section class="pi-view-grid" v-if="bookView === 'grid'">
                 <template v-for="(item) in rows" :key="item.id">
                   <div class="">
                     <book-grid-item :data="item"
@@ -74,7 +74,7 @@
                   </div>
                 </template>
               </section>
-              <section class="row col-12 justify-center list-view" v-else>
+              <section class="row col-12 justify-center pi-view-list" v-else>
                 <q-list>
                   <template v-for="(item) in rows" :key="item.id">
                     <book-list-item :data="item"
@@ -85,10 +85,10 @@
               </section>
             </template>
             <template v-else>
-              <o-no-data message="没有记录" image v-if="condition.title__like" />
+              <o-no-data message="没有记录" image v-if="condition.title__icontains" />
               <section class="row col-12 justify-center no-records" v-else>
                 <span class="text-readable">书库中还没有记录，快来添加吧</span>
-                <div class="row col-12 justify-center action">
+                <div class="row col-12 justify-center q-mt-lg action">
                   <o-book-uploader :accept="bookAccept"
                                    :max-size="500 * 1024 * 1024"
                                    leading
@@ -228,37 +228,8 @@ onActivated(() => {
 
 <style lang="scss">
 .book-list {
-
-  .filter {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-  }
-
-  .grid-view {
-    display: grid;
-    gap: 21px;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-
-  .list-view {
-    .q-list {
-      width: 100%;
-      max-width: 1000px;
-    }
-  }
-
   .no-records {
     padding: 60px 0;
-
-    .action {
-      margin-top: 21px;
-
-      .q-btn {
-        height: 48px;
-        width: 160px;
-      }
-    }
   }
 }
 </style>
