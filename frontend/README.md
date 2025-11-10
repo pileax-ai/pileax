@@ -53,10 +53,3 @@ pileax
 │   └── icon
 └── server
 ```
-
-## Thanks
-- [Yiitap](https://github.com/yiitap/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
-- [foliate-js](https://github.com/johnfactotum/foliate-js): Library for rendering e-books in the browser.
-
-## License
-The MIT License (MIT). Please see [License File](LICENSE) for more information.

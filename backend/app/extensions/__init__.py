@@ -1,0 +1,48 @@
+"""
+Description: middlewares, exception handlers, and global setup etc.
+"""
+import importlib
+import logging
+import pkgutil
+import time
+from typing import Any, List, Tuple
+
+from fastapi import FastAPI
+
+from app.configs import app_config
+
+logger = logging.getLogger(__name__)
+
+
+def setup_extensions(app: FastAPI):
+    extensions: List[Tuple[Any, int, str]] = []
+
+    for module_info in pkgutil.iter_modules(__path__):
+        module_name = f"{__name__}.{module_info.name}"
+        ext = importlib.import_module(module_name)
+        order = getattr(ext, "order", 0)
+        short_name = ext.__name__.split(".")[-1]
+        extensions.append((ext, order, short_name))
+
+    extensions.sort(key=lambda x: x[1])
+    names = "\n".join([f"{i + 1}. {name} (order={order})" for i, (_, order, name) in enumerate(extensions)])
+    print("\nLoading Extensions:\n" + names + "\n")
+
+    for ext, order, short_name in extensions:
+        setup_extension(app, ext, short_name)
+
+
+def setup_extension(app: FastAPI, ext: Any, short_name: str):
+    is_enabled = ext.is_enabled() if hasattr(ext, "is_enabled") else True
+    if not is_enabled:
+        if app_config.DEBUG:
+            logger.warning("Skipped %s", short_name)
+        return
+    if not hasattr(ext, "setup"):
+        logger.warning("Extension %s has no setup() method", short_name)
+        return
+    start_time = time.perf_counter()
+    ext.setup(app)
+    end_time = time.perf_counter()
+    if app_config.DEBUG:
+        logger.info("Setup %s (%s ms)", short_name, round((end_time - start_time) * 1000, 2))

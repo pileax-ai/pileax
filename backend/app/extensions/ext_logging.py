@@ -1,17 +1,14 @@
-"""
-Logging module
-"""
+
 import logging
 import os
 import sys
 
+from fastapi import FastAPI
 from app.core.config import settings
 
+order = 0
 
-def setup_logger():
-    """
-    初始化日志配置
-    """
+def setup(app: FastAPI):
     app_name = settings.PROJECT_NAME
     filename = f'./log/console.log'
     format = f'%(asctime)s - %(levelname)s \t[{app_name}] %(process)d [%(name)s] %(funcName)s \t: %(message)s'
@@ -37,18 +34,3 @@ def setup_logger():
     logger.setLevel(logging.DEBUG)  # 全局默认级别
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
-
-    # 测试
-    # test()
-
-
-def test():
-    logger = logging.getLogger(__name__)
-    logger.debug('This is a debug message: %s', 'debug')
-    logger.info('This is an info message')
-    logger.warning('This is a warning message')
-    logger.error('This is an error message')
-    logger.critical('This is a critical message')
-
-    # json
-    # logger.info(json.dumps(get_config('app'), indent=4, ensure_ascii=False))

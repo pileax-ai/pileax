@@ -17,7 +17,6 @@ else:
 
 
 class Settings(BaseSettings):
-    print(f"Reading .env from: {str(ENV_PATH)}")
     model_config = SettingsConfigDict(
         # Use top level .env file
         env_file=str(ENV_PATH),

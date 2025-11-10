@@ -1,7 +1,7 @@
 import enum
 import uuid
 
-from sqlalchemy import Integer
+from sqlalchemy import Integer, String, text
 from sqlmodel import Field, UniqueConstraint
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
@@ -25,17 +25,17 @@ class TenantBook(BaseSQLModel, BaseMixin, table=True):
     rating: int | None = Field(default=0, ge=0, le=5)
     reading_position: str | None = Field(default="")
     reading_percentage: float | None = Field(default=0.0, ge=0.0, le=100.0)
-    # reading_status: int = Field(
-    #     default=ReadStatus.NOT_STARTED, ge=0, le=3,
-    #     sa_type=Integer,
-    #     sa_column_kwargs={"default": ReadStatus.NOT_STARTED}
-    # )
-    # reading_status_time: str | None = Field(default=None)
-    # tags: str = Field(
-    #     default="[]",
-    #     sa_type=str,
-    #     sa_column_kwargs={"default": "[]"}
-    # )
+    reading_status: int = Field(
+        default=ReadStatus.NOT_STARTED, ge=0, le=3,
+        sa_type=Integer,
+        sa_column_kwargs={"server_default": text(str(ReadStatus.NOT_STARTED))}
+    )
+    reading_status_time: str | None = Field(default=None)
+    tags: str = Field(
+        default="[]",
+        sa_type=String,
+        sa_column_kwargs={"server_default": "[]"}
+    )
 
 
 class TenantBookBase(BaseApiModel):

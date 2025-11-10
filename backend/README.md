@@ -28,8 +28,27 @@ Some environment variables in the .env file have a default value of changethis.
 
 You have to change them with a secret key, to generate secret keys you can run the following command:
 
-```angular2html
-python -c "import secrets; print(secrets.token_urlsafe(32))"
+```shell
+python -c "import secrets; print(secrets.token_urlsafe(42))"
+
+# or
+openssl rand -base64 42
+
+# replace SECRET_KEY in .env
+awk -v key="$(openssl rand -base64 42)" '/^SECRET_KEY=/ {sub(/=.*/, "=" key)} 1' .env > temp_env && mv temp_env .env
+```
+
+## Migration
+> alembic/versions
+```shell
+# generate new migration
+alembic revision --autogenerate -m "v0.0.2"
+
+# view current migration
+alembic current
+
+# migrate
+alembic upgrade head
 ```
 
 ## Build

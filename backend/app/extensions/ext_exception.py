@@ -9,6 +9,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 logger = logging.getLogger(__name__)
+order = 99
 
 
 def get_cors_response(response: JSONResponse):
@@ -67,7 +68,7 @@ async def global_exception_handler(request: Request, ex: Exception):
     return get_cors_response(response)
 
 
-def setup_exception_handlers(app):
+def setup(app):
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
     app.add_exception_handler(Exception, global_exception_handler)

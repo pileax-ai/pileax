@@ -62,7 +62,10 @@ pileax
     └── src
 ```
 
-## Thanks
+## Acknowledgements
+- [Dify](https://github.com/langgenius/dify/): An open-source platform for developing LLM applications.
+- [foliate-js](https://github.com/johnfactotum/foliate-js): Library for rendering e-books in the browser.
+- [Yiitap](https://github.com/yiitap/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
 
 ## License
 The MIT License (MIT). Please see [License File](LICENSE) for more information.

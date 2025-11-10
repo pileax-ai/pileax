@@ -6,6 +6,7 @@ app.egg-info
 htmlcov
 .cache
 .venv
-build
 runnable.spec
-storage
+/build/
+/log/
+/storage/
