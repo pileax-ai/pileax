@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi import UploadFile
 from datetime import datetime
 
-from app.core.config import settings
+from app.configs import app_config
 
 
 class FileUploader:
@@ -16,7 +16,7 @@ class FileUploader:
             self.base_dir = directory
 
     async def upload(self, file: UploadFile):
-        upload_dir = Path(f"{settings.PUBLIC_ROOT}/{self.base_dir}")
+        upload_dir = Path(f"{app_config.PUBLIC_FILE_ROOT}/{self.base_dir}")
         upload_dir.mkdir(parents=True, exist_ok=True)
         original_name = file.filename
 

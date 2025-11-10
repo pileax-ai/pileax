@@ -42,6 +42,8 @@ build_win() {
 build_macos() {
   echo "Build for macos ..."
   source .venv/bin/activate
+  uv sync
+  uv add --dev pyinstaller
   uv run pyinstaller \
   --onedir \
   --name runnable \

@@ -12,7 +12,7 @@ from sqlmodel import Session, create_engine
 from app.configs import app_config
 
 logger = logging.getLogger(__name__)
-order = 0
+order = -1
 
 if app_config.DB_PROVIDER == 'sqlite':
     connect_args = {"check_same_thread": False}

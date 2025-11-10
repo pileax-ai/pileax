@@ -61,6 +61,7 @@ import { onBeforeMount, reactive, ref } from 'vue';
 import { getItemObject, saveItemObject } from 'core/utils/storage';
 import { notifyError } from 'core/utils/control';
 import { useAccountStore } from 'stores/account';
+import { getErrorMessage } from 'src/utils/request'
 
 const emit = defineEmits(['success']);
 const type = ref<'text' | 'password'>('password');
@@ -84,7 +85,8 @@ async function onSubmit () {
       });
     }
   } catch (err) {
-    notifyError((err as Error).message)
+    const message = getErrorMessage(err);
+    notifyError(message);
   }
 }
 

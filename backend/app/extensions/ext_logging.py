@@ -4,33 +4,40 @@ import os
 import sys
 
 from fastapi import FastAPI
-from app.core.config import settings
+
+from app.configs import app_config
 
 order = 0
 
 def setup(app: FastAPI):
-    app_name = settings.PROJECT_NAME
+    app_name = app_config.APPLICATION_CODE
     filename = f'./log/console.log'
     format = f'%(asctime)s - %(levelname)s \t[{app_name}] %(process)d [%(name)s] %(funcName)s \t: %(message)s'
     datefmt = '%Y-%m-%d %H:%M:%S'
 
-    # 创建日志目录
+    # Log path
     if not os.path.exists(os.path.dirname(filename)):
         os.makedirs(os.path.dirname(filename))
 
-    # 文件
-    file_handler = logging.FileHandler(filename)
-    file_handler.setLevel(logging.INFO)
-    file_handler.setFormatter(logging.Formatter(format, datefmt))
+    formatter = logging.Formatter(format, datefmt)
 
-    # 控制台
+    # File handler
+    file_handler = logging.FileHandler(filename, encoding='utf-8', mode='w')
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(formatter)
+
+    # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.DEBUG)
-    console_handler.setFormatter(logging.Formatter(format, datefmt))
+    console_handler.setFormatter(formatter)
 
-    # 根日志记录器，不要再指定名称，以获取到默认的根日志记录器
-    # 在其它模块使用时，可使用__name__指定名称
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)  # 全局默认级别
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
+    # Remove existing handlers
+    root = logging.getLogger()
+    for h in root.handlers[:]:
+        root.removeHandler(h)
+
+    # Add new handlers
+    root.addHandler(file_handler)
+    root.addHandler(console_handler)
+    root.setLevel(logging.DEBUG)
+    root.propagate = False

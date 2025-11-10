@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
 from app.api.routes import api_router
-from app.core.config import settings
+from app.configs import app_config
 
 order = 1
 
 def setup(app: FastAPI):
-    app.include_router(api_router, prefix=settings.API_V1_STR)
+    app.include_router(api_router, prefix=app_config.API_VERSION)

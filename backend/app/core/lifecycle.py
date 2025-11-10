@@ -4,10 +4,8 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
-from starlette.concurrency import run_in_threadpool
 
-from app.core.config import settings
-from app.core.database import sqlite
+from app.configs import app_config
 from app.extensions import setup_extensions
 from app.extensions import ext_database
 
@@ -18,7 +16,7 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     await asyncio.to_thread(ext_database.setup)
 
-    # startup log
+    # startup
     logger.info("===== startup =====")
 
     yield
@@ -48,7 +46,7 @@ def start_server(app: FastAPI):
     :param app:
     :return:
     """
-    port = settings.PORT
+    port = app_config.PORT
     logger.info(f"Starting server at http://localhost:{port}, docs at http://localhost:{port}/docs")
 
     uvicorn.run(app, host="localhost", port=port, log_config=None)

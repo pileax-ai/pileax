@@ -8,7 +8,12 @@ class DeploymentConfig(BaseSettings):
     """
 
     APPLICATION_NAME: str = Field(
-        description="Name of the application, used for identification and logging purposes",
+        description="Name of the application, used for display",
+        default="PileaX",
+    )
+
+    APPLICATION_CODE: str = Field(
+        description="Code of the application, used for identification and logging purposes",
         default="pileax",
     )
 
@@ -23,12 +28,17 @@ class DeploymentConfig(BaseSettings):
         default=False,
     )
 
-    EDITION: str = Field(
-        description="Deployment edition of the application (e.g., 'SELF_HOSTED', 'CLOUD')",
+    DEPLOY_EDITION: str = Field(
+        description="Deployment edition of the application (e.g., 'STANDALONE', 'SELF_HOSTED', 'CLOUD')",
         default="SELF_HOSTED",
     )
 
     DEPLOY_ENV: str = Field(
-        description="Deployment environment (e.g., 'PRODUCTION', 'DEVELOPMENT'), default to PRODUCTION",
+        description="Deployment environment (e.g., 'DEVELOPMENT', 'STAGING', 'PRODUCTION')",
         default="PRODUCTION",
+    )
+
+    PORT: int = Field(
+        description="Listening port for deployment",
+        default=8000
     )

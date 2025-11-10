@@ -3,20 +3,19 @@ import jwt
 from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, status
 
-from app.api.models.user import User
-from app.core.config import settings
+from app.configs import app_config
 
 ALGORITHM = "HS256"
 
 class JWTService:
     def __init__(self):
-        self.secret_key = settings.SECRET_KEY
+        self.secret_key = app_config.SECRET_KEY
 
     def issue(self, payload: dict) -> str:
         return jwt.encode(payload, self.secret_key, algorithm=ALGORITHM)
 
     def issue_access_token(self, user_id: str) -> str:
-        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expires_delta = timedelta(minutes=app_config.ACCESS_TOKEN_EXPIRE_MINUTES)
         expire = datetime.now(timezone.utc) + expires_delta
         payload = {
             "iss": "PileaX API",
@@ -26,7 +25,7 @@ class JWTService:
         return self.issue(payload)
 
     def issue_refresh_token(self, user_id: str) -> str:
-        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 15)
+        expires_delta = timedelta(days=app_config.REFRESH_TOKEN_EXPIRE_DAYS)
         expire = datetime.now(timezone.utc) + expires_delta
         payload = {
             "sub": user_id,
@@ -35,7 +34,7 @@ class JWTService:
         return self.issue(payload)
 
     def issue_csrf_token(self, user_id: str) -> str:
-        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 15)
+        expires_delta = timedelta(minutes=app_config.ACCESS_TOKEN_EXPIRE_MINUTES)
         expire = datetime.now(timezone.utc) + expires_delta
         payload = {
             "sub": user_id,

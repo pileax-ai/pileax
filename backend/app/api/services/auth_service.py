@@ -10,10 +10,10 @@ from app.api.models.enums import Status
 from app.api.models.user import User
 from app.api.services.tenant_service import TenantService
 from app.api.services.user_service import UserService
+from app.configs import app_config
 from app.libs.helper import get_current_time
 from app.libs.jwt_service import JWTService
 from app.libs.password import compare_password, hash_password
-from app.core.config import settings
 
 
 class AuthService:
@@ -42,7 +42,7 @@ class AuthService:
         return user
 
     def signin(self, data: Signin) -> User:
-        app_mode = settings.APP_MODE
+        app_edition = app_config.DEPLOY_EDITION
         # query = select(User).where(User.email == email)
         # user = self.session.exec(query).first()
         user = self.session.query(User).filter_by(email=data.email).first()

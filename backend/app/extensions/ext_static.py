@@ -5,7 +5,7 @@ from pathlib import Path
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.staticfiles import StaticFiles
 
-from app.core.config import settings
+from app.configs import app_config
 
 logger = logging.getLogger(__name__)
 order = 97
@@ -21,7 +21,7 @@ class StaticCORSMiddleware(BaseHTTPMiddleware):
 
 
 def setup(app: FastAPI):
-    static_path = Path(settings.PUBLIC_ROOT).resolve()
+    static_path = Path(app_config.PUBLIC_FILE_ROOT).resolve()
 
     if not static_path.exists():
         static_path.mkdir(parents=True, exist_ok=True)

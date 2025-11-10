@@ -12,21 +12,17 @@ from app.api.models.auth import TokenPayload
 from app.api.models.enums import Status
 from app.api.models.tenant import Tenant
 from app.api.models.user import User
-from app.core.config import settings
-from app.core.database.sqlite import engine
+from app.configs import app_config
+
+from app.extensions.ext_database import get_db_session
 from app.libs.jwt_service import JWTService
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/auth/token"
+    tokenUrl=f"{app_config.API_VERSION}/auth/token"
 )
 
 
-def get_db() -> Generator[Session, None, None]:
-    with Session(engine) as session:
-        yield session
-
-
-SessionDep = Annotated[Session, Depends(get_db)]
+SessionDep = Annotated[Session, Depends(get_db_session)]
 TokenDep = Annotated[str, Depends(oauth2_scheme)]
 
 

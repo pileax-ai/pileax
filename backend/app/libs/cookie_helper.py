@@ -2,7 +2,6 @@ from fastapi import Request, Response
 
 from app.api.models.auth import Token
 from app.constants import COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, COOKIE_NAME_CSRF_TOKEN
-from app.core.config import settings
 
 
 class CookieHelper:

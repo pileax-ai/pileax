@@ -1,12 +1,10 @@
 import shutil
-import uuid
 from pathlib import Path
 from typing import List, Union
 
 from fastapi import UploadFile
-import uuid
 
-from app.core.config import settings
+from app.configs import app_config
 
 FileAllowedTypes = {
     "file": [
@@ -33,7 +31,7 @@ FileAllowedTypes = {
 class BookUploader:
     def __init__(self, id: str, sha1: str):
         self.book_path = f"book/{sha1}"
-        self.book_dir = Path(f"{settings.PUBLIC_ROOT}/{self.book_path}")
+        self.book_dir = Path(f"{app_config.PUBLIC_FILE_ROOT}/{self.book_path}")
         self.book_dir.mkdir(parents=True, exist_ok=True)
         self.fileName = id
         self.id = id

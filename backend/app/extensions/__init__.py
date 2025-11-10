@@ -21,8 +21,9 @@ def setup_extensions(app: FastAPI):
         module_name = f"{__name__}.{module_info.name}"
         ext = importlib.import_module(module_name)
         order = getattr(ext, "order", 0)
-        short_name = ext.__name__.split(".")[-1]
-        extensions.append((ext, order, short_name))
+        if order >= 0:
+            short_name = ext.__name__.split(".")[-1]
+            extensions.append((ext, order, short_name))
 
     extensions.sort(key=lambda x: x[1])
     names = "\n".join([f"{i + 1}. {name} (order={order})" for i, (_, order, name) in enumerate(extensions)])
@@ -34,15 +35,17 @@ def setup_extensions(app: FastAPI):
 
 def setup_extension(app: FastAPI, ext: Any, short_name: str):
     is_enabled = ext.is_enabled() if hasattr(ext, "is_enabled") else True
+
     if not is_enabled:
-        if app_config.DEBUG:
-            logger.warning("Skipped %s", short_name)
+        logger.warning("Skipped %s", short_name)
         return
+
     if not hasattr(ext, "setup"):
         logger.warning("Extension %s has no setup() method", short_name)
         return
+
     start_time = time.perf_counter()
     ext.setup(app)
     end_time = time.perf_counter()
-    if app_config.DEBUG:
-        logger.info("Setup %s (%s ms)", short_name, round((end_time - start_time) * 1000, 2))
+
+    logger.info("Setup %s (%s ms)", short_name, round((end_time - start_time) * 1000, 2))

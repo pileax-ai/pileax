@@ -7,6 +7,11 @@ class EndpointConfig(BaseSettings):
     Configuration for various application endpoints and URLs
     """
 
+    API_VERSION: str = Field(
+        description="API version of the application",
+        default="/api/v1",
+    )
+
     CONSOLE_API_URL: str = Field(
         description="Base URL for the console API,"
         "used for login authentication callback or notion integration callbacks",
