@@ -35,6 +35,7 @@ class DbHelper:
             else:
                 field, op = raw_field, "eq"
 
+            field = StringHelper.to_snake(field)
             if not hasattr(model, field):
                 continue
 

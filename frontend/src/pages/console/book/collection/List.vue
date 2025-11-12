@@ -42,10 +42,10 @@
           <q-btn icon="add" flat round @click="onEdit('')">
             <o-tooltip position="bottom">Add Collection</o-tooltip>
           </q-btn>
-          <book-filter-btn @view="onView" @sort="onSort">
+          <book-collection-more-btn @view="onView" @sort="onSort">
             <q-separator class="bg-accent" />
             <o-view-item label="Total" :value="total" align="right" />
-          </book-filter-btn>
+          </book-collection-more-btn>
         </template>
 
         <section class="col-12">
@@ -62,7 +62,12 @@
                   <div class="">
                     <book-grid-item :data="item"
                                     @click="openBook(item)"
-                                    @details="onDetails(item)" />
+                                    @details="onDetails(item)">
+                      <book-collection-context-menu :data="item"
+                                                    @close="onClose"
+                                                    @edit="onEdit"
+                                                    context-menu />
+                    </book-grid-item>
                   </div>
                 </template>
               </section>
@@ -71,22 +76,18 @@
                   <template v-for="(item) in rows" :key="item.id">
                     <book-list-item :data="item"
                                     @click="openBook(item)"
-                                    @details="onDetails(item)" />
+                                    @details="onDetails(item)">
+                      <book-collection-context-menu :data="item"
+                                                    @close="onClose"
+                                                    @edit="onEdit"
+                                                    context-menu />
+                    </book-list-item>
                   </template>
                 </q-list>
               </section>
             </template>
             <template v-else>
-              <o-no-data message="没有记录" image v-if="condition.title__icontains" />
-              <section class="row col-12 justify-center no-records" v-else>
-                <span class="text-readable">书库中还没有记录，快来添加吧</span>
-                <div class="row col-12 justify-center q-mt-lg action">
-                  <o-book-uploader :accept="bookAccept"
-                                   :max-size="500 * 1024 * 1024"
-                                   leading
-                                   @completed="onUploadCompleted" />
-                </div>
-              </section>
+              <o-no-data message="没有记录" image />
             </template>
 
             <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
@@ -98,7 +99,7 @@
         <template #side-panel>
           <book-details :data="data"
                         @close="onClose"
-                        @edit="onEdit"
+                        @edit="onEditBook"
                         v-if="view==='details'" />
           <book-collection-edit :id="editCollectionId"
                      @close="onClose"
@@ -111,13 +112,14 @@
 
 <script setup lang="ts">
 import { onActivated, ref, watch } from 'vue';
-import BookGridItem from './BookGridItem.vue';
-import BookListItem from './BookListItem.vue';
+import OConsoleSection from 'core/page/section/OConsoleSection.vue';
+import BookGridItem from '../book/BookGridItem.vue';
+import BookListItem from '../book/BookListItem.vue';
 import BookDetails from './BookDetails.vue';
+import BookCollectionContextMenu from './BookCollectionContextMenu.vue';
 import BookCollectionEdit from './BookCollectionEdit.vue';
-import BookAdd from './BookAdd.vue';
 import BookCollectionFilter from './BookCollectionFilter.vue';
-import BookFilterBtn from './BookFilterBtn.vue';
+import BookCollectionMoreBtn from './BookCollectionMoreBtn.vue';
 import OBookUploader from 'core/components/fIle/OBookUploader.vue';
 import OSplitPage from 'core/page/template/OSplitPage.vue';
 
@@ -125,7 +127,6 @@ import useReader from 'src/hooks/useReader';
 import useLoadMore from 'src/hooks/useLoadMore';
 import { ipcService } from 'src/api/ipc';
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
-import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 
 const { queryTimer } = useReader();
 const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
@@ -144,6 +145,7 @@ function onAction(item: Indexable) {
   switch (item.action) {
     case 'filter':
       collectionId.value = item.value
+      doQuery()
       break;
     case 'add':
       onEdit()
@@ -160,7 +162,7 @@ function onView(value: string) {
 
 function onSort(value: Indexable) {
   sort.value = value;
-  query.value.onQuery();
+  doQuery();
 }
 
 function onDetails(item: any) {
@@ -171,6 +173,11 @@ function onDetails(item: any) {
 function onEdit(id = '', icon = 'add', title = 'Add Collection') {
   editCollectionId.value = id
   query.value.openSide('480px', 'edit', icon, title);
+}
+
+function onEditBook(item: Indexable) {
+  data.value = item
+  query.value.openSide('480px', 'edit-book', 'edit_note', 'Edit');
 }
 
 function onClose(options: Indexable) {
@@ -192,18 +199,14 @@ function onClose(options: Indexable) {
       }
     }
   } else {
-    query.value.onQuery();
+    doQuery();
   }
   query.value.closeSide(false, false);
 }
 
-function onOpenAdd() {
-  query.value.openSide('80vw', 'add', 'add', 'Add book');
-}
-
 async function onUploadCompleted() {
   addMenu.value = false;
-  query.value.onQuery();
+  doQuery();
 }
 
 function openBook(item: any) {
@@ -211,10 +214,15 @@ function openBook(item: any) {
     READER_TITLE_BAR_HEIGHT);
 }
 
+function doQuery() {
+  condition.value['bookCollectionId'] = collectionId.value
+  query.value.onQuery();
+}
+
 function initData() {
   initQuery({
-    api: 'tenantBook',
-    path: '/query/details',
+    api: 'tenantBookCollection',
+    path: '/query/book/details',
     title: 'Book'
   });
 }
@@ -229,11 +237,18 @@ function onToggleFiler() {
 }
 
 watch(() => queryTimer.value, (newValue) => {
-  query.value.onQuery();
+  doQuery();
 })
 
 onActivated(() => {
-  initData();
+  filterRef.value?.refresh().then(res => {
+    const collectionList = res as Indexable[]
+    if (collectionList.length) {
+      collectionId.value = collectionList[0]!.id
+      condition.value['bookCollectionId'] = collectionId.value
+    }
+    initData();
+  })
 })
 </script>
 

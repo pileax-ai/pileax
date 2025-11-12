@@ -14,8 +14,15 @@
                        closable
                        right-side>
           <template #side>
+            <q-icon name="circle"
+                    size="8px"
+                    class="dot"
+                    :color="item.color"
+                    v-if="item.value === modelValue && false" />
             <q-btn icon="more_vert"
                    flat
+                   class="more"
+                   @click.stop="() => {}"
                    v-if="item.value && item.value !== 'add'">
               <q-menu class="pi-menu" :offset="[0, 4]" anchor="bottom right" self="top right">
                 <q-list>
@@ -65,13 +72,6 @@ const collections = computed(() => {
       action: 'filter',
     }
   }) || [] as Indexable[]
-  newList.unshift({
-    label: 'All',
-    value: '',
-    icon: 'icon-reading-list',
-    color: '',
-    action: 'filter',
-  })
   newList.push({
     label: 'Add Collection',
     value: 'add',
@@ -123,8 +123,13 @@ function onDelete(item: Indexable) {
 }
 
 function refresh() {
-  bookCollectionService.getAll().then(res => {
-    list.value = res
+  return new Promise((resolve, reject) => {
+    bookCollectionService.getAll().then(res => {
+      list.value = res
+      resolve(res)
+    }).then(err => {
+      reject(err)
+    })
   })
 }
 
@@ -149,6 +154,28 @@ defineExpose({
     .q-item {
       padding: 4px 10px;
       min-height: 44px;
+
+      .dot {
+        position: absolute;
+      }
+
+      .more {
+        .q-icon {
+          font-size: 1.2rem!important;
+        }
+      }
+
+      &:hover {
+        .dot {
+          z-index: -1;
+        }
+        .more {
+          display: block!important;
+          .q-icon {
+            font-size: 1.2rem!important;
+          }
+        }
+      }
     }
   }
 }

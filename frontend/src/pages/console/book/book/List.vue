@@ -50,10 +50,10 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <book-filter-btn @view="onView" @sort="onSort">
+          <book-more-btn @view="onView" @sort="onSort">
             <q-separator class="bg-accent" />
             <o-view-item label="Total" :value="total" align="right" />
-          </book-filter-btn>
+          </book-more-btn>
         </template>
 
         <section class="col-12">
@@ -70,7 +70,12 @@
                   <div class="">
                     <book-grid-item :data="item"
                                     @click="openBook(item)"
-                                    @details="onDetails(item)" />
+                                    @details="onDetails(item)">
+                      <book-context-menu :data="item"
+                                         @close="onClose"
+                                         @edit="onEdit"
+                                         context-menu />
+                    </book-grid-item>
                   </div>
                 </template>
               </section>
@@ -79,7 +84,12 @@
                   <template v-for="(item) in rows" :key="item.id">
                     <book-list-item :data="item"
                                     @click="openBook(item)"
-                                    @details="onDetails(item)" />
+                                    @details="onDetails(item)">
+                      <book-context-menu :data="item"
+                                         @close="onClose"
+                                         @edit="onEdit"
+                                         context-menu />
+                    </book-list-item>
                   </template>
                 </q-list>
               </section>
@@ -121,13 +131,14 @@
 
 <script setup lang="ts">
 import { onActivated, ref, watch } from 'vue';
+import BookContextMenu from './BookContextMenu.vue';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
 import BookEdit from './BookEdit.vue';
 import BookAdd from './BookAdd.vue';
 import BookFilter from './BookFilter.vue';
-import BookFilterBtn from './BookFilterBtn.vue';
+import BookMoreBtn from './BookMoreBtn.vue';
 import OBookUploader from 'core/components/fIle/OBookUploader.vue';
 import OSplitPage from 'core/page/template/OSplitPage.vue';
 
@@ -173,7 +184,8 @@ function onDetails(item: any) {
   query.value.openSide('480px', 'details');
 }
 
-function onEdit() {
+function onEdit(item: Indexable) {
+  data.value = item
   query.value.openSide('480px', 'edit', 'edit_note', 'Edit');
 }
 

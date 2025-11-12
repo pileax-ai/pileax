@@ -1,3 +1,4 @@
+from typing import Any
 from uuid import UUID
 
 from app.api.controllers.base_controller import BaseController
@@ -23,6 +24,10 @@ class TenantBookController(BaseController[TenantBook, TenantBookCreate, TenantBo
         if book is not None:
             return book
         return super().save(item)
+
+    def delete(self, id: UUID) -> Any:
+        return self.service.delete_by_owner(self.user_id, self.tenant_id, id)
+
 
     def update_reading_progress(self, item: TenantBookUpdateReadingProgress) -> TenantBook:
         book = self.service.get(item.id)

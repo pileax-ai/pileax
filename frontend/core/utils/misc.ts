@@ -32,5 +32,5 @@ export const sleep = async (ms: number) => {
  * @param text
  */
 export const isIcon = (text: string) => {
-  return /^[A-Za-z0-9_-]+$/.test(text)
+  return /^[A-Za-z0-9_\-\s]+$/.test(text)
 }

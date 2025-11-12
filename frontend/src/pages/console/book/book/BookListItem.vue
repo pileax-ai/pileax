@@ -23,6 +23,8 @@
         <q-btn label="详情" class="bg-tips details q-ml-sm" flat @click.stop="emit('details')" />
       </div>
     </q-item-section>
+
+    <slot></slot>
   </q-item>
 </template>
 

@@ -27,6 +27,7 @@ export default function () {
     contentClass: 'card'
   });
   const scrollRef = ref<InstanceType<typeof QInfiniteScroll>>();
+  const initial = ref(false);
   const loading = ref(false);
   const loaded = ref(false);
   const loadingMore = ref(false);
@@ -37,6 +38,7 @@ export default function () {
   const componentStore = useComponentStoreWithOut();
 
   function initQuery({api = '', path = '/query', title = ''}) {
+    initial.value = true
     apiName.value = api;
     apiPath.value = path;
     itemTitle.value = title;
@@ -52,6 +54,7 @@ export default function () {
   }
 
   async function onQuery(scrollReset = true) {
+    if (!initial.value) return
     if (scrollReset) {
       resetScroll();
     }

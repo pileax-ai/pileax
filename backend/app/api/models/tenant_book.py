@@ -66,6 +66,7 @@ class TenantBookUpdateReadingProgress(BaseApiModel):
 class TenantBookPublic(TenantBookCreate, BaseMixin):
     pass
 
+
 class TenantBookDetails(TenantBookPublic):
     owner: uuid.UUID
     title: str
@@ -80,3 +81,7 @@ class TenantBookDetails(TenantBookPublic):
     extension: str | None = None
     scope: int
     book_rating: int
+
+
+class TenantCollectionBookDetails(TenantBookDetails):
+    tid: uuid.UUID | None = None

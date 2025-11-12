@@ -1,8 +1,8 @@
 """v0.0.2
 
-Revision ID: 4f9c62911e32
+Revision ID: a700246362ab
 Revises:
-Create Date: 2025-11-10 18:23:50.551507
+Create Date: 2025-11-12 12:52:19.962288
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '4f9c62911e32'
+revision: str = 'a700246362ab'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -88,8 +88,8 @@ def upgrade() -> None:
     sa.Column('title', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('cover', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('color', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('position', sa.Integer(), nullable=True),
-    sa.Column('styles', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
@@ -164,10 +164,10 @@ def upgrade() -> None:
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('book_collection_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('tenant_book_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('tenant_id', 'book_collection_id', name='unique_tenant_book_collection')
+    sa.UniqueConstraint('tenant_book_id', 'book_collection_id', name='unique_tenant_book_collection')
     )
     op.create_table('tenant_member',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),

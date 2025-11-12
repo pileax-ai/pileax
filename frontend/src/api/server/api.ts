@@ -23,6 +23,7 @@ const urls: Indexable = {
   knowledge: '/knowledge',
   user: '/user',
   tenantBook: '/tenant/book',
+  tenantBookCollection: '/tenant/book/collection',
   systemConfig: '/system/config',
   systemHealthCheck: '/system/health-check',
   workspace: '/workspace',

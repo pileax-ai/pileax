@@ -33,9 +33,7 @@
       </section>
     </template>
     <template v-else>
-      <section class="row col-12 justify-center no-records">
-        <span class="text-readable">书库中还没有记录，快来添加吧</span>
-      </section>
+      <o-no-data message="没有记录" image />
     </template>
 
     <template #side-panel>
@@ -56,7 +54,7 @@ import AnnotationDetails from './AnnotationDetails.vue';
 
 import useReader from 'src/hooks/useReader';
 import useQuery from 'src/hooks/useQuery';
-import BookFilterBtn from 'pages/console/book/book/BookFilterBtn.vue'
+import BookMoreBtn from 'pages/console/book/book/BookMoreBtn.vue'
 
 const { queryTimer } = useReader();
 const { view, query } = useQuery();

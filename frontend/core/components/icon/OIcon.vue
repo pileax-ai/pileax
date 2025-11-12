@@ -45,6 +45,7 @@ const pngPath = computed(() => {
   const name = props.name.replace('png-', '');
   return `/icons/png/${name}.png`
 })
+
 </script>
 
 <style lang="scss">

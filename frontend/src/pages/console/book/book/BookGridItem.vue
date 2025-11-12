@@ -8,6 +8,8 @@
         </div>
       </q-img>
     </q-card>
+
+    <slot></slot>
   </q-responsive>
 </template>
 

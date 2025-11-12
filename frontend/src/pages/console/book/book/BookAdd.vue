@@ -27,7 +27,7 @@
 
     <!--Actions-->
     <template #actions>
-      <book-filter-btn @view="onView" @sort="onSort" />
+      <book-more-btn @view="onView" @sort="onSort" />
     </template>
 
     <section class="row full-width">
@@ -88,7 +88,7 @@ import { userBookService } from 'src/service/remote/user-book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
-import BookFilterBtn from './BookFilterBtn.vue';
+import BookMoreBtn from './BookMoreBtn.vue';
 import OFileUploader from 'core/components/fIle/OFileUploader.vue';
 
 import useReader from 'src/hooks/useReader';

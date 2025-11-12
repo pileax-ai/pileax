@@ -10,7 +10,8 @@
         <q-separator class="bg-accent" v-if="item.separator" />
         <o-common-item clickable closable
                        v-bind="item"
-                       @click="emit('command', item)" />
+                       @click="emit('command', item)"
+                       v-if="!item.hidden" />
       </template>
       <slot name="list"></slot>
     </q-list>

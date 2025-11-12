@@ -1,10 +1,11 @@
 <template>
   <section>
     <ai-provider-search-dialog v-if="type === 'ai-provider-search'" />
+    <book-collection-dialog v-if="type === 'book-collection'" />
     <chat-to-note-dialog v-if="type === 'chat-note-select'" />
     <note-search-dialog v-if="type === 'note-search'" />
-    <tips-dialog v-if="type === 'tips'" />
     <signin-dialog v-if="type === 'signin'" />
+    <tips-dialog v-if="type === 'tips'" />
     <o-settings-dialog v-if="type === 'settings'" />
   </section>
 </template>
@@ -15,10 +16,11 @@ import { useComponentStore } from 'stores/component';
 
 import OSettingsDialog from 'src/components/settings/OSettingsDialog.vue';
 import AiProviderSearchDialog from './AiProviderSearchDialog.vue';
+import BookCollectionDialog from './BookCollectionDialog.vue';
 import ChatToNoteDialog from './ChatToNoteDialog.vue';
 import NoteSearchDialog from './NoteSearchDialog.vue';
-import TipsDialog from './TipsDialog.vue';
 import SigninDialog from './SigninDialog.vue';
+import TipsDialog from './TipsDialog.vue';
 
 const componentStore = useComponentStore();
 

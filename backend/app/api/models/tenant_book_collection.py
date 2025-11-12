@@ -9,17 +9,17 @@ class TenantBookCollection(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "tenant_book_collection"
 
     __table_args__ = (
-        UniqueConstraint("tenant_id", "book_collection_id", name="unique_tenant_book_collection"),
+        UniqueConstraint("tenant_book_id", "book_collection_id", name="unique_tenant_book_collection"),
     )
 
     tenant_id: uuid.UUID = uuid_field()
     book_collection_id: uuid.UUID = uuid_field()
-    user_id: uuid.UUID = uuid_field()
+    tenant_book_id: uuid.UUID = uuid_field()
 
 
 class TenantBookCollectionBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
-    user_id: uuid.UUID | None = None
+    tenant_book_id: uuid.UUID
     book_collection_id: uuid.UUID
     tenant_id: uuid.UUID | None = None
 

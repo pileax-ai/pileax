@@ -9,28 +9,14 @@
 
       <div class="absolute-right more">
         <q-btn icon="more_horiz" flat v-if="!add">
-          <q-menu class="pi-menu">
-            <q-list>
-              <template v-for="(action, index) in actions" :key="`action-${index}`">
-                <template v-if="true">
-                  <q-separator class="bg-accent" v-if="action.separator" />
-                  <o-common-item v-bind="action"
-                                 class="text-tips"
-                                 @click="onAction(action)"
-                                 clickable
-                                 closable
-                                 right-side
-                                 v-if="action.show">
-                  </o-common-item>
-                </template>
-              </template>
-            </q-list>
-          </q-menu>
+          <book-collection-context-menu :data="data"
+                             @edit="onEdit"
+                             @close="onClose" />
         </q-btn>
       </div>
     </q-card>
 
-    <q-card flat>
+    <q-card class="meta-card" flat>
       <q-card-section class="meta">
         <header class="title">{{data.title}}</header>
         <o-view-item label="作者" :value="data.author" align="right" lines="2" />
@@ -69,13 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { timeMulti } from 'core/utils/format';
 import useApi from 'src/hooks/useApi';
 import { ipcService } from 'src/api/ipc';
-import { userBookService } from 'src/service/remote/user-book';
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
+import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
 
 const props = defineProps({
   data: {
@@ -91,87 +76,15 @@ const props = defineProps({
 });
 const emit = defineEmits(['add', 'close', 'edit']);
 
-const $q = useQuasar();
-const { getBookUrl, getCoverUrl } = useApi();
-const editing = ref(false);
+const { getCoverUrl } = useApi();
 const coverUrl = ref('');
-const coverPath = computed(() => {
-  return `${props.data.path}/${props.data.coverName}`;
-})
 
-const actions = computed(() => {
-  return [
-    {
-      label: '下载',
-      value: 'download',
-      icon: 'download',
-      show: true,
-    },
-    {
-      label: 'Edit',
-      value: 'edit',
-      icon: 'edit_note',
-      show: props.data.userId === props.data.owner,
-      separator: true,
-    },
-    {
-      label: 'Remove book',
-      value: 'remove',
-      icon: 'delete',
-      class: 'text-red',
-      show: true,
-    },
-  ];
-});
-
-
-function onAction (action :any) {
-  switch (action.value) {
-    case 'download':
-      onDownload();
-      break;
-    case 'edit':
-      emit('edit');
-      break;
-    case 'remove':
-      onRemoveBook();
-      break;
-    default:
-      break;
-  }
+function onEdit() {
+  emit('edit', props.data);
 }
 
-function onDownload() {
-  const url = getBookUrl(props.data);
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.blob();
-    })
-    .then(blob => {
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = props.data.title;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(blobUrl);
-    })
-    .catch(error => {
-      console.error('Download error:', error);
-    });
-}
-
-function init() {
-  // window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-  //   coverUrl.value = res.url;
-  // }).catch((err: any) => {
-  //   console.error('打开文件失败：', err);
-  // })
-  coverUrl.value = getCoverUrl(props.data);
+function onClose(args: Indexable) {
+  emit('close', args);
 }
 
 function openBook() {
@@ -180,19 +93,8 @@ function openBook() {
     READER_TITLE_BAR_HEIGHT);
 }
 
-
-async function onRemoveBook() {
-  $q.dialog({
-    title: '确认',
-    message: '你确定从书架中移除吗？',
-    cancel: true
-  }).onOk( async () => {
-    await userBookService.delete(props.data.id);
-    emit('close', {
-      action: 'remove',
-      item: props.data
-    });
-  })
+function init() {
+  coverUrl.value = getCoverUrl(props.data);
 }
 
 onMounted(() => {
@@ -222,7 +124,7 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     text-align: center;
-    padding: 1rem 0;
+    padding-top: 1rem;
 
     img {
       height: 100%;
@@ -244,7 +146,7 @@ onMounted(() => {
     .description {
       margin-top: 4px;
       .q-scrollarea {
-        height: 200px;
+        height: 160px;
       }
     }
   }
