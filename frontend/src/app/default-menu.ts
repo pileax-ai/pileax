@@ -51,11 +51,11 @@ export const defaultConsoleMenus: MenuItem[] = [
         meta: {icon: 'icon-book-library'}
       },
       {
-        id: 'book-list',
+        id: 'book-collection',
         name: '书单',
         action: 1,
-        path: '/book/reading-list',
-        meta: {icon: 'icon-reading-list', hidden: true}
+        path: '/book/collection',
+        meta: {icon: 'icon-reading-list'}
       },
       {
         id: 'book-annotation',

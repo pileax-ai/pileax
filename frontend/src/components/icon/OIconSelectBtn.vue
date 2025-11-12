@@ -1,9 +1,9 @@
 <template>
-  <o-hover-menu-btn class="o-icon-select"
+  <o-hover-menu-btn class="o-icon-select-btn"
                     :icon="icon"
                     anchor="bottom right"
                     self="top right"
-                    menu-class="pi-menu o-icon-select-menu"
+                    menu-class="pi-menu o-icon-select-btn-menu"
                     min-width="240px"
                     :label="label"
                     :default-class="contentClass"
@@ -59,12 +59,12 @@ function onIcon (value) {
 </script>
 
 <style lang="scss">
-.o-icon-select {
+.o-icon-select-btn {
   min-width: 3rem;
   min-height: 3rem;
 }
 
-.o-icon-select-menu {
+.o-icon-select-btn-menu {
   max-width: 600px !important;
   height: 50vh !important;
 }

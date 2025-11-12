@@ -1,8 +1,8 @@
 """v0.0.2
 
-Revision ID: a767832221d1
+Revision ID: 4f9c62911e32
 Revises:
-Create Date: 2025-11-10 11:43:13.079431
+Create Date: 2025-11-10 18:23:50.551507
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = 'a767832221d1'
+revision: str = '4f9c62911e32'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -78,7 +78,7 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
-    op.create_table('bookcollection',
+    op.create_table('book_collection',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
@@ -214,7 +214,7 @@ def downgrade() -> None:
     op.drop_table('tenant')
     op.drop_table('note')
     op.drop_table('file_meta')
-    op.drop_table('bookcollection')
+    op.drop_table('book_collection')
     op.drop_table('book_annotation')
     op.drop_table('book')
     op.drop_table('app')

@@ -35,18 +35,18 @@ class BaseService(Generic[ModelType]):
         obj = self.get(id)
         return self.repo.update(obj, new_data)
 
-    def update_by_owner(self, owner: UUID, id: UUID, new_data: dict) -> ModelType:
+    def update_by_owner(self, user_id: UUID, tenant_id: UUID, id: UUID, new_data: dict) -> ModelType:
         obj = self.get(id)
-        self._check_owner(owner, obj)
+        self._check_owner(user_id, tenant_id, obj)
         return self.repo.update(obj, new_data)
 
     def delete(self, id: UUID):
         obj = self.get(id)
         return self.repo.delete(obj)
 
-    def delete_by_owner(self, owner: UUID, id: UUID):
+    def delete_by_owner(self, user_id: UUID, tenant_id: UUID, id: UUID):
         obj = self.get(id)
-        self._check_owner(owner, obj)
+        self._check_owner(user_id, tenant_id, obj)
         return self.repo.delete(obj)
 
     def query(self, query: PaginationQuery):
@@ -64,8 +64,8 @@ class BaseService(Generic[ModelType]):
     def find_all_by_owner(self, owner: UUID) -> List[ModelType]:
         return self.repo.find_all({"user_id": owner})
 
-    def _check_owner(self, owner: UUID, obj: ModelType):
+    def _check_owner(self, user_id: UUID, tenant_id: UUID, obj: ModelType):
         if not obj:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
-        if str(getattr(obj, "user_id", None)) != str(owner):
+        if str(getattr(obj, "user_id", None)) != str(user_id) and str(getattr(obj, "tenant_id", None)) != str(tenant_id):
             raise HTTPException(status_code=401, detail="Access denied")

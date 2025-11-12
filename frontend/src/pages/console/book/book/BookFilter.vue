@@ -10,14 +10,13 @@
         <q-separator class="bg-accent" v-if="action.separator" />
         <o-common-item v-bind="action"
                        class="text-readable"
-                       :class="{ 'active': action.selected }"
+                       :class="{ 'active': isActive(action) }"
                        @click="onAction(action)"
                        clickable
                        closable
                        right-side>
           <template #side>
-            <q-icon :name="orderDesc ? 'south' : 'north'"
-                    v-if="action.sortable" />
+            <q-icon name="circle" size="8px" v-if="isActive(action)" />
           </template>
         </o-common-item>
       </template>
@@ -28,118 +27,106 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-const emit = defineEmits(['view', 'sort']);
+import { computed, onMounted, ref } from 'vue'
+import { userBookService } from 'src/service/remote/user-book'
+import { bookExtensions } from 'src/service/book'
+const emit = defineEmits(['filter']);
 
-const bookView = ref('grid');
-const orderField = ref('recent');
-const orderDesc = ref(true);
+const bookType = ref('');
+const readingStatus = ref('');
 
 const actions = computed(() => {
   return [
     {
       label: 'All',
-      value: 'grid',
+      value: '',
       icon: 'grid_view',
-      selected: bookView.value === 'grid',
+      filter: 'extension',
+      filterValue: '',
       group: 'Library',
     },
     {
-      label: 'List',
-      value: 'list',
-      icon: 'list',
-      selected: bookView.value === 'list',
+      label: 'Book',
+      value: 'book',
+      icon: 'book',
+      filter: 'extension',
+      filterValue: bookExtensions,
     },
     {
       label: 'PDF',
-      value: 'list',
-      icon: 'list',
-      selected: bookView.value === 'list',
+      value: 'pdf',
+      icon: 'mdi-file-pdf-box',
+      filter: 'extension',
+      filterValue: 'pdf',
+    },
+    {
+      label: '所有',
+      value: '',
+      icon: 'grid_view',
+      filter: 'reading_status',
+      group: 'Reading status',
+      filterValue: '',
     },
     {
       label: '未读',
-      value: 'recent',
+      value: 'not_started',
       icon: 'schedule',
-      selected: orderField.value === 'recent',
-      sortable: true,
-      group: 'Reading status',
+      filter: 'reading_status',
+      filterValue: 0,
     },
     {
       label: '想读',
-      value: 'title',
-      icon: 'sort_by_alpha',
-      sortable: true,
-      selected: orderField.value === 'title',
+      value: 'want_to_read',
+      icon: 'arrow_circle_right',
+      filter: 'reading_status',
+      filterValue: 1,
     },
     {
       label: '在读',
-      value: 'title',
-      icon: 'sort_by_alpha',
-      sortable: true,
-      selected: orderField.value === 'title',
+      value: 'currently_reading',
+      icon: 'downloading',
+      filter: 'reading_status',
+      filterValue: 2,
     },
     {
       label: '已读',
-      value: 'title',
-      icon: 'sort_by_alpha',
-      sortable: true,
-      selected: orderField.value === 'title',
+      value: 'finished',
+      icon: 'check_circle',
+      filter: 'reading_status',
+      filterValue: 3,
     },
-    {
-      label: '未读',
-      value: 'recent',
-      icon: 'schedule',
-      selected: orderField.value === 'recent',
-      sortable: true,
-      group: 'Color tag',
-    },
-    {
-      label: '想读',
-      value: 'title',
-      icon: 'sort_by_alpha',
-      sortable: true,
-      selected: orderField.value === 'title',
-    },
-    {
-      label: '在读',
-      value: 'title',
-      icon: 'sort_by_alpha',
-      sortable: true,
-      selected: orderField.value === 'title',
-    },
-  ];
+  ] as Indexable[]
 });
 
-function onAction (action :any) {
-  const value = action.value;
-  switch (value) {
-    case 'grid':
-    case 'list':
-      bookView.value = value;
-      emit('view', value);
+function isActive(action: Indexable) {
+  return (action.filter === 'extension' && action.value === bookType.value)
+    || (action.filter === 'reading_status' && action.value === readingStatus.value)
+}
+
+function onAction (action: Indexable) {
+  switch (action.filter) {
+    case 'extension':
+      bookType.value = action.value
       break;
-    case 'recent':
-      if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value;
-      } else {
-        orderDesc.value = true;
-      }
-      orderField.value = value;
-      emit('sort', { update_time: orderDesc.value ? 'desc' : 'asc' });
-      break;
-    case 'title':
-      if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value;
-      } else {
-        orderDesc.value = false;
-      }
-      orderField.value = value;
-      emit('sort', { title: orderDesc.value ? 'desc' : 'asc' });
+    case 'reading_status':
+      readingStatus.value = action.value
       break;
     default:
       break;
   }
+  emit('filter', action);
 }
+
+
+function refresh() {
+  userBookService.getStats().then(res => {
+    // list.value = res
+  })
+}
+
+onMounted(() => {
+  refresh()
+})
 </script>
 
 <style lang="scss">

@@ -16,6 +16,7 @@ export const Locales = [
 ]
 
 export const StandardColors :OptionValue[] = [
+  { label: 'No color', value: '', icon: 'square', color: 'grey' },
   { label: 'Red', value: 'red', icon: 'square', color: 'red' },
   { label: 'Pink', value: 'pink', icon: 'square', color: 'pink' },
   { label: 'Purple', value: 'purple', icon: 'square', color: 'purple' },

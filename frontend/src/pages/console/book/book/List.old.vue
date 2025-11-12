@@ -195,7 +195,7 @@ function openBook(item: any) {
 
 function initData() {
   initQuery({
-    api: 'userBook',
+    api: 'tenantBook',
     path: '/query/details',
     title: 'Book'
   });

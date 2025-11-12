@@ -33,7 +33,6 @@
 
 <script setup lang="ts">
 import { YiiEditor, ODocToc } from '@yiitap/vue';
-import '@yiitap/vue/dist/vue.css';
 import 'katex/dist/katex.min.css'
 
 import { useRoute } from 'vue-router';
@@ -42,7 +41,7 @@ import { debounce } from 'quasar';
 
 import useNote from 'src/hooks/useNote';
 import { Note } from 'src/types/note';
-import OEmojiMenu from 'components/form/OEmojiMenu.vue';
+import OEmojiMenu from 'components/icon/OEmojiMenu.vue';
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue';
 import NoteActions from 'components/note/NoteActions.vue';
 import ONotePage from 'components/page/ONotePage.vue';
@@ -97,7 +96,7 @@ const options = computed(() => {
       'OBlockquote',
       'OCallout',
       'OCodeBlock',
-      'OColon',
+      // 'OColon',
       'OColorHighlighter',
       'ODetails',
       'OHeading',

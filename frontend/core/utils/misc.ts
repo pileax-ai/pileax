@@ -26,3 +26,11 @@ export function toggleClass (element: HTMLElement, className: string) {
 export const sleep = async (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+/**
+ * Check if text is icon string (alphabet, number, - and _)
+ * @param text
+ */
+export const isIcon = (text: string) => {
+  return /^[A-Za-z0-9_-]+$/.test(text)
+}

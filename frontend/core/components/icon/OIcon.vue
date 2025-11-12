@@ -12,12 +12,15 @@
          v-else-if="name.indexOf('png') === 0" />
     <img :src="name" alt="icon" class="o-icon" v-bind="$attrs"
          v-else-if="name.indexOf('http') === 0" />
-    <q-icon :name="name" class="o-icon" :size="size" v-bind="$attrs" v-else />
+    <q-icon :name="name" class="o-icon" :size="size" :color="color" v-bind="$attrs"
+            v-else-if="isIcon(name)" />
+    <span v-else>{{name}}</span>
   </template>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { isIcon } from 'core/utils/misc'
 
 const props = defineProps({
   name: {

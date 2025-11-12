@@ -2,7 +2,7 @@
   <q-page ref="pageRef" class="o-split-page"
           :class="{'page-full-screen': fullScreen, 'closed': closed}">
     <q-splitter v-model="size"
-                :limits="[0, 300]"
+                :limits="[0, maxSize]"
                 :reverse="reverse"
                 :horizontal="horizontal"
                 unit="px"
@@ -49,6 +49,10 @@ const props = defineProps({
   initSize: {
     type: Number,
     default: 260
+  },
+  maxSize: {
+    type: Number,
+    default: 300
   },
   show: {
     type: Boolean,

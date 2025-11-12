@@ -1,4 +1,3 @@
-from collections.abc import Generator
 from typing import Annotated, Optional
 from uuid import UUID
 

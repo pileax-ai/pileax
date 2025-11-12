@@ -84,5 +84,13 @@ defineProps({
       font-size: 0.8rem;
     }
   }
+
+  &.lax {
+    margin-top: 32px;
+  }
+
+  &:first-of-type {
+    margin-top: 0;
+  }
 }
 </style>

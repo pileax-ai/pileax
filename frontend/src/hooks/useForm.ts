@@ -32,8 +32,9 @@ export default function () {
         loading.value = false;
       })
     } else {
+      delete body.id
       POST({name: apiName.value, body: body}).then(res => {
-        postSubmit(res.data as Indexable, callback);
+        postSubmit(res as Indexable, callback);
       }).catch(() => {
         loading.value = false;
       })

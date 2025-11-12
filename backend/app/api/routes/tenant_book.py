@@ -1,12 +1,13 @@
 import uuid
-from typing import Any
+from typing import Any, List
 
 from fastapi import Depends
 
 from app.api.controllers.tenant_book_controller import TenantBookController
 from app.api.router import ApiRouter
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.tenant_book import TenantBookCreate, TenantBookUpdate, TenantBookPublic, TenantBookDetails
+from app.api.models.tenant_book import TenantBookCreate, TenantBookUpdate, TenantBookPublic, TenantBookDetails, \
+    TenantBookUpdateReadingProgress
 
 router = ApiRouter(prefix="/tenant/book", tags=["TenantBook"])
 
@@ -24,6 +25,10 @@ def get(id: uuid.UUID, controller: TenantBookController = Depends()) -> Any:
 @router.api_put("", response_model=TenantBookPublic)
 def update(item_in: TenantBookUpdate, controller: TenantBookController = Depends()) -> Any:
     return controller.update(item_in)
+
+@router.api_put("/reading/progress", response_model=TenantBookPublic)
+def update_reading_progress(item_in: TenantBookUpdateReadingProgress, controller: TenantBookController = Depends()) -> Any:
+    return controller.update_reading_progress(item_in)
 
 
 @router.api_delete("")
@@ -44,3 +49,8 @@ def get_details(id: uuid.UUID, controller: TenantBookController = Depends()) -> 
 @router.api_post("/query/details", response_model=QueryResult[TenantBookDetails])
 def query_details(query: PaginationQuery, controller: TenantBookController = Depends()) -> Any:
     return controller.query_details(query)
+
+
+@router.api_get("/stats", response_model=List[dict])
+def get_details(controller: TenantBookController = Depends()) -> Any:
+    return controller.get_stats()

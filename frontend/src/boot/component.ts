@@ -17,6 +17,7 @@ import OViewItem from 'core/components/list/OViewItem.vue';
 
 import VXETable from 'vxe-table';
 import 'vxe-table/lib/style.css';
+import '@yiitap/vue/dist/vue.css';
 
 const globalComponents :Indexable = {
   'o-badge': OBadge,

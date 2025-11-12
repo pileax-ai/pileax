@@ -42,6 +42,7 @@ export const bookMimeTypes = {
   'application/x-cbr': 'cbz',
   'application/vnd.comicbook+zip': 'cbz',
 } as Indexable
+export const bookExtensions = ['epub', 'mobi', 'azw3', 'fb2', 'cbz']
 
 // ---------------------------------------------------------
 // From Reader
@@ -277,18 +278,19 @@ const saveBookProgress = (progress: any) => {
   console.log('saveBookProgress', progress);
   if (!progress.cfi || !progress.percentage) return;
   const params = {
+    id: tenantBookId.value,
     readingPosition: progress.cfi,
     readingPercentage: progress.percentage
   }
-  saveUserBook(params);
+  userBookService.updateReadingProgress(params)
 }
 
 /**
- * Save user book to database
+ * Save tenant book to database
  * @param params Book params
  */
-const saveUserBook = async (params: any) => {
-  userBookService.save({
+const updateTenantBook = async (params: any) => {
+  userBookService.update({
     ...params,
     id: tenantBookId.value
   }).then((res: any) => {

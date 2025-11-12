@@ -1,4 +1,4 @@
-from sqlalchemy import func
+from sqlalchemy import func, text
 from sqlmodel import select
 from uuid import UUID
 
@@ -12,6 +12,28 @@ from app.libs.db_helper import DbHelper
 class TenantBookRepository(BaseRepository[TenantBook]):
     def __init__(self, model, session):
         super().__init__(model, session)
+
+    def get_extension_stats(self, tenant_id: UUID):
+        stmt = (
+            select(Book.extension.label("type"), func.count().label("count"))
+            .select_from(TenantBook)
+            .join(Book, Book.id == TenantBook.book_id, isouter=True)
+            .where(TenantBook.tenant_id == str(tenant_id))
+            .group_by(Book.extension)
+        )
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        result = self.session.exec(stmt)
+        return [{"type": row.type, "count": row.count} for row in result.all()]
+
+    def get_status_stats(self, tenant_id: UUID):
+        stmt = (
+            select(TenantBook.reading_status.label("status"), func.count().label("count"))
+            .where(TenantBook.tenant_id == str(tenant_id))
+            .group_by(TenantBook.reading_status)
+        )
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        result = self.session.exec(stmt)
+        return [{"status": row.status, "count": row.count} for row in result.all()]
 
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
@@ -28,8 +50,8 @@ class TenantBookRepository(BaseRepository[TenantBook]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            TenantBook: ['tenant_id', 'user_id'],
-            Book: ['title'],
+            TenantBook: ['tenant_id', 'user_id', 'reading_status'],
+            Book: ['title', 'extension'],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 

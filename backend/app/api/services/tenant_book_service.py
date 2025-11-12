@@ -21,6 +21,12 @@ class TenantBookService(BaseService[TenantBook]):
         book = self.session.exec(stmt).first()
         return book
 
+    def get_stats(self, tenant_id: UUID) -> dict:
+        extension_stat = self.repo.get_extension_stats(tenant_id)
+        status_stat = self.repo.get_status_stats(tenant_id)
+
+        return extension_stat + status_stat
+
     def get_details(self, id: UUID):
         obj = self.repo.get_details(id)
         if not obj:

@@ -1,15 +1,21 @@
 <template>
-  <o-split-page ref="pageRef" :init-size="200" v-model:show="showFilter">
+  <o-split-page ref="pageRef"
+                :init-size="260"
+                :max-size="420"
+                v-model:show="showFilter">
     <template #before>
-      <book-filter @filter="onFilter" />
+      <book-collection-filter ref="filterRef"
+                              v-model="collectionId"
+                              @action="onAction" />
     </template>
     <template #after>
-      <o-console-section class="book-list"
+      <o-console-section class="book-collection-list"
                          title=" "
                          icon="book"
                          v-bind="query"
                          disable-meta
-                         enable-fullscreen fixed-header
+                         enable-fullscreen
+                         fixed-header
                          @full-screen="onFullScreen">
         <template #header-left>
           <q-btn icon="tune"
@@ -33,22 +39,8 @@
 
         <!--Actions-->
         <template #actions>
-          <q-btn icon="add" flat round>
-            <q-menu v-model="addMenu" class="pi-menu" :offset="[0, 4]">
-              <q-list style="min-width: 400px">
-                <div>
-                  <div class="text-tips">上传添加</div>
-                  <div class="q-pa-md">
-                    <o-book-uploader :accept="bookAccept"
-                                     :max-size="500 * 1024 * 1024"
-                                     leading
-                                     @completed="onUploadCompleted" />
-                  </div>
-                </div>
-                <q-separator class="bg-dark" />
-                <o-common-item icon="search" label="从书库中添加" class="bg-accent" closable clickable @click="onOpenAdd" />
-              </q-list>
-            </q-menu>
+          <q-btn icon="add" flat round @click="onEdit('')">
+            <o-tooltip position="bottom">Add Collection</o-tooltip>
           </q-btn>
           <book-filter-btn @view="onView" @sort="onSort">
             <q-separator class="bg-accent" />
@@ -108,11 +100,9 @@
                         @close="onClose"
                         @edit="onEdit"
                         v-if="view==='details'" />
-          <book-edit :data="data"
+          <book-collection-edit :id="editCollectionId"
                      @close="onClose"
                      v-if="view==='edit'" />
-          <book-add @close="onClose"
-                    v-if="view==='add'" />
         </template>
       </o-console-section>
     </template>
@@ -124,9 +114,9 @@ import { onActivated, ref, watch } from 'vue';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
-import BookEdit from './BookEdit.vue';
+import BookCollectionEdit from './BookCollectionEdit.vue';
 import BookAdd from './BookAdd.vue';
-import BookFilter from './BookFilter.vue';
+import BookCollectionFilter from './BookCollectionFilter.vue';
 import BookFilterBtn from './BookFilterBtn.vue';
 import OBookUploader from 'core/components/fIle/OBookUploader.vue';
 import OSplitPage from 'core/page/template/OSplitPage.vue';
@@ -141,11 +131,28 @@ const { queryTimer } = useReader();
 const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>();
+const filterRef = ref<InstanceType<typeof BookCollectionFilter>>();
+const collectionId = ref('');
+const editCollectionId = ref('');
 const addMenu = ref(false);
 const data = ref<Indexable>({});
 const showFilter = ref(true);
 const bookView = ref('grid');
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
+
+function onAction(item: Indexable) {
+  switch (item.action) {
+    case 'filter':
+      collectionId.value = item.value
+      break;
+    case 'add':
+      onEdit()
+      break;
+    case 'edit':
+      onEdit(item.value, 'edit', item.label)
+      break;
+  }
+}
 
 function onView(value: string) {
   bookView.value = value;
@@ -156,29 +163,21 @@ function onSort(value: Indexable) {
   query.value.onQuery();
 }
 
-function onFilter(value: Indexable) {
-  switch (value.filter) {
-    case 'extension':
-      condition.value[`${value.filter}__in`] = value.filterValue
-      break;
-    default:
-      condition.value[value.filter] = value.filterValue
-      break;
-  }
-  query.value.onQuery();
-}
-
 function onDetails(item: any) {
   data.value = item;
   query.value.openSide('480px', 'details');
 }
 
-function onEdit() {
-  query.value.openSide('480px', 'edit', 'edit_note', 'Edit');
+function onEdit(id = '', icon = 'add', title = 'Add Collection') {
+  editCollectionId.value = id
+  query.value.openSide('480px', 'edit', icon, title);
 }
 
 function onClose(options: Indexable) {
-  if (options && options.action && options.item) {
+  console.log('close', options)
+  if (options.action === 'book-collection-edit') {
+    filterRef.value?.refresh()
+  } else if (options && options.action && options.item) {
     const bookId = options.item.bookId
     const index = rows.value.findIndex(e => e.bookId === bookId)
     console.log('onClose', index, options)
@@ -239,7 +238,7 @@ onActivated(() => {
 </script>
 
 <style lang="scss">
-.book-list {
+.book-collection-list {
   .no-records {
     padding: 60px 0;
   }

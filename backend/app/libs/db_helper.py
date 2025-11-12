@@ -45,7 +45,7 @@ class DbHelper:
             if column is None:
                 continue
 
-            # Operations
+            # Operations: Basic comparison
             simple_ops = {
                 "eq": column == value,
                 "ne": column != value,
@@ -58,15 +58,23 @@ class DbHelper:
                 "startswith": column.op("GLOB")(f"{value}*"),
             }
 
+            # Operations: Case-insensitive string match
             icase_ops = {
                 "icontains": func.lower(column).contains(str(value).lower()),
                 "istartswith": func.lower(column).startswith(str(value).lower()),
             }
 
-            if op in simple_ops:
-                filters.append(simple_ops[op])
-            elif op in icase_ops:
-                filters.append(icase_ops[op])
+            # Operations: IN / NOT IN support
+            list_ops = {
+                "in": column.in_(value if isinstance(value, (list, tuple, set)) else [value]),
+                "notin": ~column.in_(value if isinstance(value, (list, tuple, set)) else [value]),
+            }
+
+            # All supported ops
+            all_ops = {**simple_ops, **icase_ops, **list_ops}
+
+            if op in all_ops:
+                filters.append(all_ops[op])
 
         return filters
 

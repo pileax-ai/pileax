@@ -99,6 +99,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/console/book/annotation/List.vue'),
         name: 'book-annotation',
       },
+      {
+        path: 'collection',
+        component: () => import('pages/console/book/collection/List.vue'),
+        name: 'book-collection',
+      },
     ]
   },
   {

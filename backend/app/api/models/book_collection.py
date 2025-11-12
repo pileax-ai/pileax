@@ -7,14 +7,16 @@ from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_fiel
 
 
 class BookCollection(BaseSQLModel, BaseMixin, table=True):
+    __tablename__ = "book_collection"
+
     tenant_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     parent: uuid.UUID | None = uuid_field(default_none=True)
     title: str = Field(..., max_length=255, description="BookCollection title")
     icon: str | None = Field(default=None)
     cover: str | None = Field(default=None)
+    color: str | None = Field(default=None)
     position: int | None = Field(default=0)
-    styles: str | None = Field(default=None)
 
 
 class BookCollectionBase(BaseApiModel):
@@ -23,7 +25,7 @@ class BookCollectionBase(BaseApiModel):
     title: str | None = None
     icon: str | None = None
     cover: str | None = None
-    styles: str | None = None
+    color: str | None = None
 
     @field_validator("parent", mode="before")
     def parse_empty_string_as_none(cls, v):

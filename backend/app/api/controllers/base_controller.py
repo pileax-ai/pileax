@@ -41,12 +41,13 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def update(self, item_in: UpdateSchemaType) -> Any:
         return self.service.update_by_owner(
             self.user_id,
+            self.tenant_id,
             item_in.id,
             item_in.model_dump(exclude_unset=True, exclude_none=True)
         )
 
     def delete(self, id: UUID) -> Any:
-        return self.service.delete_by_owner(self.user_id, id)
+        return self.service.delete_by_owner(self.user_id, self.tenant_id, id)
 
     def query(self, query: PaginationQuery, filter_by_user=False) -> Any:
         if filter_by_user:
