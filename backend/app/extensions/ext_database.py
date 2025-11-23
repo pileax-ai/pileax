@@ -1,12 +1,14 @@
 import hashlib
 import logging
 import os
+from datetime import datetime, UTC
 from tempfile import gettempdir
 
 from alembic import command
 from alembic.config import Config
 from fastapi import FastAPI
 from filelock import FileLock
+from sqlalchemy import event
 from sqlmodel import Session, create_engine
 
 from app.configs import app_config
@@ -35,6 +37,16 @@ def get_db_session():
         yield session
 
 
+@event.listens_for(Session, "before_flush")
+def auto_update_modified_time(session, flush_context, instances):
+    for obj in session.dirty:
+        if hasattr(obj, "update_time"):
+            try:
+                setattr(obj, "update_time", datetime.now(UTC).isoformat().replace("+00:00", "Z"))
+            except AttributeError:
+                pass
+
+
 def get_migration_lock_file():
     db_hash = hashlib.md5(str(app_config.SQLALCHEMY_DATABASE_URI).encode()).hexdigest()
     dir_path = os.path.join(gettempdir(), "pileax")
@@ -56,6 +68,7 @@ def run_migrations():
         with temp_engine.connect() as connection:
             alembic_cfg.attributes["connection"] = connection
             command.upgrade(alembic_cfg, "head")
+
 
 def is_enabled():
     """

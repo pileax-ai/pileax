@@ -1,5 +1,5 @@
 from app.app_factory import create_app
-from app.core.lifecycle import lifespan, start_server
+from app.app_lifecycle import start_server
 
 # App
 app = create_app()
