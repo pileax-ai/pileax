@@ -5,11 +5,12 @@ import uuid
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from sqlalchemy.exc import IntegrityError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 logger = logging.getLogger(__name__)
-order = -1
+order = 99
 
 
 def get_cors_response(response: JSONResponse):
@@ -48,6 +49,23 @@ async def validation_exception_handler(request: Request, ex: RequestValidationEr
     )
     return get_cors_response(response)
 
+async def integrity_exception_handler(request: Request, ex: IntegrityError):
+    trace_id = get_trace_id(request)
+    exc_type = type(ex).__name__
+    exc_msg = str(ex).split('\n')[0]
+    logger.error(
+        f"{request.method} {request.url.path} - {exc_type}: {exc_msg}"
+    )
+    cleaned_msg = re.sub(r"^\([^\)]*\)\s*", "", exc_msg)
+    return JSONResponse(
+        status_code=400,
+        content={
+            "code": 400,
+            "message": cleaned_msg,
+            "data": None
+        },
+    )
+
 
 async def global_exception_handler(request: Request, ex: Exception):
     trace_id = get_trace_id(request)
@@ -71,4 +89,5 @@ async def global_exception_handler(request: Request, ex: Exception):
 def setup(app):
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
+    app.add_exception_handler(IntegrityError, integrity_exception_handler)
     app.add_exception_handler(Exception, global_exception_handler)
