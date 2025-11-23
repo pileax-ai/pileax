@@ -54,5 +54,8 @@ defineProps({
     }
   }
 
+  .q-tab-panel {
+    padding: 1rem 0;
+  }
 }
 </style>

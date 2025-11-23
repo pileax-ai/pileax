@@ -7,4 +7,4 @@ class BookService(BaseService[Book]):
         super().__init__(Book, session, BookRepository)
 
     def get_by_uuid(self, uuid: str) -> Book:
-        return self.find_one({'uuid': uuid})
+        return self.find_one({'uuid': uuid}, True)

@@ -88,7 +88,7 @@ export function removeAll(prefix = PREFIX) {
 }
 
 export function removeUserData(prefix = PREFIX) {
-  const keys = ['account', 'note', 'user'];
+  const keys = ['account', 'ai', 'note', 'user'];
 
   for (const key of keys) {
     LocalStorage.remove(`${prefix}${key}`);

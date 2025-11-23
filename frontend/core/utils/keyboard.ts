@@ -26,7 +26,7 @@ export const getKeys = (event: KeyboardEvent) => {
   if (ctrlKey) keys.push(CTRL);
   if (altKey) keys.push(ALT);
   if (metaKey) keys.push(META);
-  if (!keys.includes(key)) {
+  if (key && !keys.includes(key)) {
     keys.push(key.toUpperCase());
   }
   return keys.join('+').replaceAll(META, CMD);

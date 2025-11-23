@@ -2,7 +2,7 @@
     "factory_llm_infos": [
         {
             "name": "OpenAI",
-            "logo": "",
+            "logo": "openai",
             "tags": "LLM,TEXT EMBEDDING,TTS,TEXT RE-RANK,SPEECH2TEXT,MODERATION",
             "status": "1",
             "llm": [

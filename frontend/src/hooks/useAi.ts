@@ -7,10 +7,33 @@ export default function() {
 
   const provider = computed(() => {
     return aiStore.provider;
-  });
+  })
+
+  const defaultModels = computed(() => {
+    return aiStore.defaultModels;
+  })
+
+  const initAiSettings = () => {
+    if (defaultModels.value.length === 0) {
+      console.log('init default models', defaultModels.value)
+      getDefaultModels()
+    }
+  }
+
+  const getDefaultModels = () => {
+    aiStore.getDefaultModels()
+  }
+
+  const updateLocalDefaultModels = (item: Indexable) => {
+    aiStore.updateLocalDefaultModels(item)
+  }
 
   return {
     aiStore,
     provider,
+    defaultModels,
+    initAiSettings,
+    getDefaultModels,
+    updateLocalDefaultModels,
   }
 }

@@ -2,11 +2,11 @@
   <section class="column col-12 fit o-assistant-chat">
     <header class="row col-auto justify-between text-tips">
       <div class="row">
-        <o-ai-provider-select-btn round single persist enabled-only>
+        <o-ai-model-select-btn type="chat" single icon-only>
           <o-tooltip position="left" transition>
-            {{provider.title}}
+            AI Model
           </o-tooltip>
-        </o-ai-provider-select-btn>
+        </o-ai-model-select-btn>
         <q-btn icon="language" flat />
         <q-btn flat>
           <q-icon name="attachment" class="rotate-315" />
@@ -94,6 +94,7 @@ import { ref } from 'vue';
 import { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
+import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';
 
 const props = defineProps({
   loading: {
@@ -191,8 +192,9 @@ function reset() {
       font-size: 1.7rem;
     }
     .o-icon {
-      width: 1.6rem;
-      height: 1.6rem;
+      width: 1.6rem !important;
+      height: 1.6rem !important;
+      margin: 0 !important;
     }
 
     &:not(:last-child) {

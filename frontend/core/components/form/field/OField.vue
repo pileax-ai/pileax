@@ -2,8 +2,8 @@
   <div class="col-12 o-field" :class="{ 'dense': dense }">
     <div class="row col-12 justify-start items-center" v-if="side">
       <div class="row col-3 main-label">
-        <span class="text-red" v-if="required">*</span>
         <span>{{label}}</span>
+        <span class="text-red" v-if="required">*</span>
       </div>
       <div class="col side">
         <slot></slot>
@@ -11,8 +11,8 @@
     </div>
     <div class="row col-12 justify-start items-center" v-else>
       <div class="col-12 main-label">
-        <span class="text-red" v-if="required">*</span>
         <span>{{label}}</span>
+        <span class="text-red q-ml-xs" v-if="required">*</span>
       </div>
       <div class="col-12 side">
         <slot></slot>
@@ -65,6 +65,7 @@ defineProps({
 
   .main-label {
     font-size: 1rem;
+    font-weight: 500;
     text-align: left;
     padding-right: 8px;
   }

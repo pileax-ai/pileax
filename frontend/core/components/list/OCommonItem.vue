@@ -83,7 +83,7 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: 'Label'
+    default: ''
   },
   sublabel: {
     type: String,

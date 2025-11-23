@@ -12,8 +12,8 @@
             v-if="positionAlt==='standard'">
       <q-card-section class="bg-deep no-padding no-drag-region header" v-if="!printing">
         <q-toolbar>
-          <q-toolbar-title class="text-bold">
-            <q-icon :name="icon" v-if="icon" />
+          <q-toolbar-title class="row items-center text-bold">
+            <o-icon :name="icon" size="1.4rem" class="q-mr-sm" colored v-if="icon" />
             {{title}}
           </q-toolbar-title>
 
@@ -34,8 +34,8 @@
     <q-layout view="lhh LpR lff" container :style="contentStyle" class="bg-secondary" v-else>
       <q-header class="bg-accent text-info header no-drag-region" v-if="!printing">
         <q-toolbar>
-          <q-toolbar-title class="text-bold">
-            <q-icon :name="icon" v-if="icon" />
+          <q-toolbar-title class="row items-center text-bold">
+            <o-icon :name="icon" size="1.4rem" class="q-mr-sm" colored v-if="icon" />
             {{title}}
           </q-toolbar-title>
           <div class="row text-tips actions">

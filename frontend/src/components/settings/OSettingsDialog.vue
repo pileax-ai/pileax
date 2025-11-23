@@ -123,7 +123,7 @@ const tabs = computed(() => {
     { label: '通用', value: 'general', icon: 'settings', group: '设置', component: GeneralTab },
     { label: '外观', value: 'appearance', icon: 'palette', component: AppearanceTab },
     { label: '阅读', value: 'reading', icon: 'chrome_reader_mode', component: ReadingTab },
-    { label: 'AI模型', value: 'ai', icon: 'mdi-creation', group: 'AI', component: AiTab },
+    { label: 'AI模型提供商', value: 'ai', icon: 'mdi-creation', group: 'AI', component: AiTab },
     { label: t('about'), value: 'about', icon: 'info', group: t('about'), component: AboutTab },
     { label: '隐私政策', value: 'about', icon: 'policy', component: AboutTab },
   ];
@@ -202,7 +202,7 @@ onMounted(() => {
 
   .q-tab-panel {
     .q-btn {
-      min-width: 100px;
+      //min-width: 100px;
     }
   }
 

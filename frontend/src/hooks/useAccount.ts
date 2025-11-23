@@ -1,8 +1,10 @@
 import { computed, ref } from 'vue';
 import { useAccountStore } from 'stores/account';
+import { useAiStore } from 'stores/ai';
 
 export default function () {
   const accountStore = useAccountStore();
+  const aiStore = useAiStore();
 
   const account = computed(() => {
     return accountStore.account;
@@ -12,9 +14,9 @@ export default function () {
     return accountStore.account.id !== undefined;
   });
 
-  const initWorkspace = () => {
+  const initWorkspace = async () => {
     if (isLogin.value) {
-      accountStore.getWorkspaces()
+      await accountStore.getWorkspaces()
     }
   }
 
@@ -28,6 +30,10 @@ export default function () {
 
   function logout() {
     accountStore.logout();
+
+    // Todo: reset stores
+    accountStore.$reset();
+    aiStore.$reset();
   }
 
   return {

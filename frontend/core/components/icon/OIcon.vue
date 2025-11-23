@@ -3,11 +3,9 @@
     {{ emoji }}
   </span>
   <template v-else>
-    <svg class="o-icon svg-icon" v-bind="$attrs" aria-hidden="true"
-         :style="`--svg-icon-color: ${color}; --svg-icon-size: ${size}`"
-         v-if="name.indexOf('icon') === 0">
-      <use :xlink:href="`#${name}`"></use>
-    </svg>
+
+    <o-svg-icon v-bind="{...props, ...$attrs}" class="o-icon"
+                v-if="name.indexOf('icon') === 0" />
     <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"
          v-else-if="name.indexOf('png') === 0" />
     <img :src="name" alt="icon" class="o-icon" v-bind="$attrs"
@@ -34,6 +32,10 @@ const props = defineProps({
   color: {
     type: String,
     default: ''
+  },
+  colored: {
+    type: Boolean,
+    default: false
   },
   emoji: {
     type: String,

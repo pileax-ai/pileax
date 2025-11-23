@@ -50,11 +50,14 @@ import TabDrawer from './navi/tab-drawer.vue';
 import GroupDrawer from './navi/group-drawer.vue';
 import NaviTabbar from './tabbar/NaviTabbar.vue';
 import ModalEntry from 'components/modal/ModalEntry.vue';
+import useAi from 'src/hooks/useAi'
 
 const route = useRoute();
 const appStore = useAppStore();
 const naviStore = useNaviStore();
 const { addKeyBindings, removeKeyBindings } = useShortcut();
+
+const { initAiSettings } = useAi();
 const { initWorkspace } = useAccount();
 const {
   setActivity,
@@ -71,10 +74,13 @@ const naviLayout = computed(() => appStore.setting.navi.layout);
 const tabBar = computed(() => appStore.setting.tabBar);
 const openedMenus = computed(() => naviStore.openedMenus);
 
-function initConsole () {
-  naviStore.initMenu();
-  initWorkspace();
+async function initConsole () {
   onRouteChanged();
+  naviStore.initMenu();
+
+  // First
+  await initWorkspace();
+  initAiSettings();
 }
 
 function onRouteChanged() {

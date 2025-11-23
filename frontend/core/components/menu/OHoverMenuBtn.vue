@@ -79,7 +79,7 @@ const props = defineProps({
   },
   menuClass: {
     type: String,
-    default: 'shadow-0'
+    default: 'pi-menu'
   }
 });
 

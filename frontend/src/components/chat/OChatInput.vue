@@ -13,11 +13,12 @@
     <div class="row justify-between">
       <div class="row items-end">
         <o-ai-provider-select-btn class="bg-dark"
-                                  round single persist enabled-only>
+                                  round single persist enabled-only v-if="false">
           <o-tooltip position="left" transition>
             {{provider.title}}
           </o-tooltip>
         </o-ai-provider-select-btn>
+        <o-ai-model-select-single-btn type="chat" />
         <q-btn :class="`text-${reasoning ? 'white' : 'readable'}
                             bg-${reasoning ? 'primary' : 'dark'} reasoning`"
                @click="onToggleThink"
@@ -65,6 +66,7 @@ import { ref } from 'vue';
 import { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
+import OAiModelSelectSingleBtn from 'components/ai/OAiModelSelectSingleBtn.vue';
 
 const props = defineProps({
   loading: {

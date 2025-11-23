@@ -23,7 +23,7 @@
     </section>
 
     <!--Controls-->
-    <section>
+    <section class="controls full-width">
       <slot name="control"></slot>
     </section>
   </o-common-page>
@@ -100,6 +100,12 @@ function onReset () {
     }
     .q-btn:not(:first-child) {
       margin-left: 8px;
+    }
+  }
+
+  .controls {
+    footer {
+      height: 40px;
     }
   }
 }

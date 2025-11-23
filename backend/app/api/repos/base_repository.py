@@ -1,7 +1,8 @@
 import uuid
 
+from sqlalchemy import exists
 from sqlmodel import SQLModel, Session, select, func
-from typing import TypeVar, Generic, Type, List, Dict, Optional, cast
+from typing import TypeVar, Generic, Type, List, Dict, Optional, cast, Any
 
 from app.api.models.query import PaginationQuery, QueryResult
 from app.libs.db_helper import DbHelper
@@ -85,3 +86,17 @@ class BaseRepository(Generic[ModelType]):
 
         rows = self.session.exec(stmt).all()
         return cast(List[ModelType], rows)
+
+    def exists(self, **filters: Any) -> bool:
+        conditions = []
+        for k, v in filters.items():
+            if not hasattr(self.model, k):
+                continue
+            conditions.append(getattr(self.model, k) == v)
+
+        if not conditions:
+            return False
+
+        stmt = select(exists().where(*conditions))
+        result = self.session.exec(stmt)
+        return result.one()

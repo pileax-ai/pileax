@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Type, List, Dict, Optional
+from typing import Generic, TypeVar, Type, List, Dict, Optional, Any
 from sqlmodel import SQLModel, Session
 from fastapi import HTTPException
 from uuid import UUID
@@ -52,9 +52,9 @@ class BaseService(Generic[ModelType]):
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
 
-    def find_one(self, condition: Optional[Dict[str, object]] = None) -> ModelType | None:
+    def find_one(self, condition: Optional[Dict[str, object]] = None, raise_exception = False) -> ModelType | None:
         obj = self.repo.find_one(condition)
-        if not obj:
+        if not obj and raise_exception:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj
 
@@ -63,6 +63,9 @@ class BaseService(Generic[ModelType]):
 
     def find_all_by_owner(self, owner: UUID) -> List[ModelType]:
         return self.repo.find_all({"user_id": owner})
+
+    def exists(self, **filters: Any) -> bool:
+        return self.repo.exists(**filters)
 
     def _check_owner(self, user_id: UUID, tenant_id: UUID, obj: ModelType):
         if not obj:

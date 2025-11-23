@@ -1,15 +1,18 @@
-import re
+import json
 import uuid
-from datetime import datetime, UTC, timezone
+from datetime import datetime, UTC
 
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy.types import TypeDecorator, CHAR
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, TEXT
 
 from app.libs.helper import StringHelper
 
 
 class UUIDString(TypeDecorator):
+    """
+    UUID field
+    """
     impl = CHAR(36)
     cache_ok = True
 
@@ -26,6 +29,20 @@ class UUIDString(TypeDecorator):
         return uuid.UUID(value)
 
 
+class JSONString(TypeDecorator):
+    """
+    JSON field
+    """
+    impl = TEXT
+
+    def process_bind_param(self, value, dialect):
+        return json.dumps(value) if isinstance(value, dict) else value
+
+    def process_result_value(self, value, dialect):
+        return json.loads(value) if value else {}
+
+
+
 class BaseSQLModel(SQLModel):
     model_config = ConfigDict(
         alias_generator=StringHelper.to_camel,
@@ -36,7 +53,8 @@ class BaseSQLModel(SQLModel):
 class BaseApiModel(BaseModel):
     model_config = ConfigDict(
         alias_generator=StringHelper.to_camel,
-        validate_by_name=True
+        validate_by_name=True,
+        from_attributes=True
     )
 
 

@@ -1,3 +1,4 @@
+from .ai import AiConfig
 from .auth_config import AuthConfig
 from .docs_config import SwaggerUIConfig
 from .endpoint_config import EndpointConfig
@@ -8,6 +9,7 @@ from .security_config import SecurityConfig
 
 
 class FeatureConfig(
+    AiConfig,
     AuthConfig,
     EndpointConfig,
     FileConfig,

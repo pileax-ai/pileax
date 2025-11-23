@@ -56,12 +56,18 @@ export const useAccountStore = defineStore('account', {
       this.router.push('/auth/signin');
     },
     getWorkspaces() {
-      workspaceService.getWorkspaces().then(res => {
-        this.workspaces = res
-        if (!this.workspace?.id && this.workspaces.length) {
-          this.setWorkspace(this.workspaces[0]!)
-        }
-      })
+      return new Promise((resolve, reject) => {
+        workspaceService.getWorkspaces().then(res => {
+          this.workspaces = res
+          if (!this.workspace?.id && this.workspaces.length) {
+            this.setWorkspace(this.workspaces[0]!)
+          }
+          resolve(res)
+        }).catch((err: any) => {
+          reject(err);
+        })
+      });
+
     },
     setWorkspace(value: Indexable) {
       this.workspace = value

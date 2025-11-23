@@ -3,11 +3,11 @@
     <o-common-card small header>
       <template #header>
         <q-tabs v-model="currentTab"
-                unix="px"
-                inline-label
-                align="right"
-                active-color="primary"
-                class="text-info">
+                active-color="white"
+                active-bg-color="primary"
+                indicator-color="transparent"
+                content-class="pi-btn-group"
+                inline-label dense>
           <template v-for="(item, index) of tabs" :key="index">
             <q-tab class="o-navi-tab"
                    :name="item.value"
@@ -49,8 +49,5 @@ const tab = computed(() => {
 
 <style lang="scss">
 .reading-tab {
-  .q-tab-panel {
-    padding: 16px 0;
-  }
 }
 </style>

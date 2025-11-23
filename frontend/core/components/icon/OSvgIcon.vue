@@ -30,18 +30,28 @@ const props = defineProps({
   },
 });
 
+const finalName = computed(() => {
+  let name = props.name
+  if (name?.indexOf('icon-') === 0) {
+    name = name.substring(5)
+  }
+  return name
+})
+
 const iconName = computed(() => {
+  const name = finalName.value
   if (props.colored) {
-    return ids.includes(`icon-${props.name}-color`)
-      ? `${props.name}-color`
-      : props.name;
+    return ids.includes(`icon-${name}-color`)
+      ? `${name}-color`
+      : name;
   } else {
-    return props.name;
+    return name;
   }
 });
 
 const iconColor = computed(() => {
-  const icon = Icons.find(e => e.name === props.name);
+  const name = finalName.value
+  const icon = Icons.find(e => e.name === name);
   return icon ? props.color || icon.color : props.color;
 })
 </script>
