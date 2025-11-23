@@ -127,6 +127,11 @@ defineExpose({
       overflow: hidden;
     }
 
+    .q-splitter__separator-area {
+      left: -16px !important;
+      right: -16px !important;
+    }
+
     &:has(.after-v:hover, .separator-v:hover) {
       .toggle-v {
         visibility: visible;
@@ -141,6 +146,11 @@ defineExpose({
 
     .q-splitter__before {
       overflow: hidden;
+    }
+
+    .q-splitter__separator-area {
+      top: -16px !important;
+      bottom: -16px !important;
     }
 
     &:has(.after-h:hover, .separator-h:hover) {

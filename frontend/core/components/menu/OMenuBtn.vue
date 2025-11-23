@@ -4,7 +4,7 @@
          @mouseleave="enableHover && (menuOver = false)">
     <slot name="icon"></slot>
     <q-icon :name="icon" v-if="icon" />
-    <div class="row items-center label">
+    <div class="row items-center label" v-if="!iconOnly">
       <span v-if="label">{{label}}</span>
       <slot name="label"></slot>
     </div>
@@ -61,6 +61,10 @@ const props = defineProps({
   iconRight: {
     type: String,
     default: ''
+  },
+  iconOnly: {
+    type: Boolean,
+    required: false
   },
   label: {
     type: String,

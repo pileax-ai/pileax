@@ -39,7 +39,9 @@
                    :type="type"
                    autocomplete="new-password"
                    class="password"
-                   outlined dense>
+                   outlined dense
+                   :error="v$.password.$errors.length > 0"
+                   error-message="请输入正确密码">
             <template #prepend>
               <q-icon name="lock_outline" />
             </template>
@@ -52,10 +54,12 @@
           </q-input>
         </o-field>
         <o-field label="重复密码">
-          <q-input v-model="password" placeholder="重复密码"
+          <q-input v-model="form.confirmPassword" placeholder="重复密码"
                    :type="type"
                    class="password"
-                   outlined dense>
+                   outlined dense
+                   :error="v$.confirmPassword.$errors.length > 0"
+                   error-message="两次密码不一致">
             <template #prepend>
               <q-icon name="lock_outline" />
             </template>
@@ -63,7 +67,7 @@
               <q-icon :name="type === 'password' ? 'visibility' : 'visibility_off'"
                       class="cursor-pointer"
                       @click="type = (type === 'password' ? 'text' : 'password')"
-                      v-if="password" />
+                      v-if="form.confirmPassword" />
             </template>
           </q-input>
         </o-field>
@@ -86,9 +90,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue'
 import useVuelidate, { BaseValidation } from '@vuelidate/core'
-import {maxLength, minLength, required, email} from '@vuelidate/validators';
+import {maxLength, minLength, required, email, sameAs} from '@vuelidate/validators';
 import { notifyError } from 'core/utils/control';
 import { useAccountStore } from 'stores/account';
 import { Ref } from 'vue-demi'
@@ -100,13 +104,15 @@ const form = reactive({
   email: 'mekery@qq.com',
   name: '',
   password: '',
+  confirmPassword: ''
 });
-const password = ref('');
+const passwordRef = computed(() => form.password);
 const type = ref<'text' | 'password'>('password');
 const rules = {
-  email: { email },
+  email: { required, email },
   name: { required, minLength: minLength(1), maxLength: maxLength(100) },
   password: { required },
+  confirmPassword: { sameAsPassword: sameAs(passwordRef) }
 };
 const v$ = useVuelidate(rules, form);
 const vuelidate: Ref<BaseValidation | null> = ref(null);
@@ -115,13 +121,17 @@ async function onSubmit() {
   vuelidate.value = v$.value;
   v$.value.$touch();
   if (v$.value.$error) {
+    console.log('submit', v$.value)
     return;
   }
 
   try {
-    console.log('submit', form)
-    const account = await accountStore.signup(form);
-    emit('success');
+    const account = await accountStore.signup({
+      email: form.email,
+      name: form.name,
+      password: form.password
+    });
+    emit('success', account);
   } catch (err) {
     let message = getErrorMessage(err)
     if (message.includes('UNIQUE constraint')) {

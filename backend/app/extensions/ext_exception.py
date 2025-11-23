@@ -9,7 +9,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 logger = logging.getLogger(__name__)
-order = 99
+order = -1
 
 
 def get_cors_response(response: JSONResponse):

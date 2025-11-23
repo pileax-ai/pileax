@@ -11,7 +11,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
 import OSignupForm from 'components/app/auth/OSignupForm.vue';
 
 import useAccount from 'src/hooks/useAccount';

@@ -6,7 +6,9 @@
               :self="self"
               :dropdown="!iconOnly"
               :enable-hover="enableHover"
-              flat @before-show="onBeforeShow">
+              :icon-only="iconOnly"
+              flat
+              @before-show="onBeforeShow">
     <template #icon>
       <o-icon :name="`icon-${defaultModel.logo}`" v-if="defaultModel?.id" />
       <q-icon :name="icon" v-else-if="icon" />
