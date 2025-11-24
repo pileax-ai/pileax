@@ -1,7 +1,7 @@
 from typing import List, Any
 from uuid import UUID
 
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 from app.api.models.provider import Provider
 from app.api.repos.provider_repository import ProviderRepository
@@ -37,7 +37,10 @@ class ProviderService(BaseService[Provider]):
 
         exist_credential = self.credential_service.exists(tenant_id=tenant_id, provider=provider.provider)
         if exist_credential:
-            raise HTTPException(status_code=403, detail="Provider credential exists")
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Provider credential exists"
+            )
 
         return super().delete_by_owner(user_id, tenant_id, id)
 

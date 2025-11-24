@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { getCommonHeaders } from 'core/utils/common';
 import useDialog from 'core/hooks/useDialog';
-import { refreshToken } from 'src/utils/auth';
+import { refreshToken, refreshTokenThrottle } from 'src/utils/auth'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -36,7 +36,7 @@ api.interceptors.request.use(
     // Auto refresh token
     console.log('url', config.url)
     if (!config.url?.includes('refresh-token')) {
-      refreshToken()
+      refreshTokenThrottle()
     }
 
     return config;
@@ -51,17 +51,34 @@ api.interceptors.request.use(
 // =========================================================
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    const data = error.response?.data
-    console.error('API Error:', data || error.message);
-    if ((data?.code === 401 || data?.code === 403) &&
-      (data?.message === 'Could not validate credentials' || data?.message === 'Not authenticated')) {
-      openDialog({
-        type: 'signin'
-      })
+  async (error) => {
+    const originalRequest = error.config;
+    const data = error.response?.data;
+    const message = data?.message;
+    const status = error.response?.status || data?.code;
+    console.error('API Error:', error);
+
+    if (status === 401) {
+      if (originalRequest._retry) {
+        // Guide to signin again
+        openDialog({ type: 'signin' });
+      } else {
+        // Retry
+        originalRequest._retry = true;
+
+        try {
+          const token = await refreshToken(true);
+          const accessToken = (token as Indexable).access_token;
+          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+          return api(originalRequest);
+        } catch (refreshError) {
+          openDialog({ type: 'signin' });
+          return Promise.reject(refreshError);
+        }
+      }
     }
 
-  return Promise.reject(error);
+    return Promise.reject(error);
 })
 
 // Export

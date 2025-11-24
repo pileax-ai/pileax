@@ -26,26 +26,14 @@ TokenDep = Annotated[str, Depends(oauth2_scheme)]
 
 
 def get_user_id(token: TokenDep) -> UUID:
-    try:
-        payload = JWTService().decode(token)
-        token_data = TokenPayload(**payload)
-        return UUID(token_data.sub)
-    except HTTPException:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate credentials",
-        )
+    payload = JWTService().decode(token)
+    token_data = TokenPayload(**payload)
+    return UUID(token_data.sub)
 
 
 def get_current_user(session: SessionDep, token: TokenDep) -> User:
-    try:
-        payload = JWTService().decode(token)
-        token_data = TokenPayload(**payload)
-    except (InvalidTokenError, ValidationError):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate credentials",
-        )
+    payload = JWTService().decode(token)
+    token_data = TokenPayload(**payload)
     user: Optional[User] = session.get(User, token_data.sub)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -62,15 +50,9 @@ def get_tenant_id(
     if x_tenant_id:
         return UUID(x_tenant_id)
 
-    try:
-        payload = JWTService().decode(token)
-        token_data = TokenPayload(**payload)
-        return UUID(token_data.sub)
-    except HTTPException:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate credentials",
-        )
+    payload = JWTService().decode(token)
+    token_data = TokenPayload(**payload)
+    return UUID(token_data.sub)
 
 
 def get_current_tenant(

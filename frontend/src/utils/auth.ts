@@ -105,22 +105,30 @@ export const isJwtTokenNeedRefresh = (): boolean => {
 export const isTokenNeedRefresh = (): boolean => {
   const exp = getTokenExp()
   const currentTime = Math.floor(Date.now() / 1000);
-  return exp - currentTime < 15 * 60 // 15 minutes
+  return exp - currentTime < 5 * 60 // 5 minutes
 }
 
-export const refreshToken = throttle(() => {
-  console.log('Refresh token')
+export const refreshTokenThrottle = throttle(() => {
   if (!isTokenNeedRefresh()) return
 
-  authService.refreshToken().then(res => {
-    const token = res
-    token.exp = getJwtTokenExp(token.access_token)
-    const user = getAccount()
-    user.token = token
-
-    saveItemObject('user', user);
-  })
+  refreshToken()
 }, 10 * 1000)
+
+export const refreshToken = (retry = false) => {
+  console.log('Refresh token', retry)
+  return new Promise((resolve, reject) => {
+    authService.refreshToken().then(res => {
+      const token = res
+      token.exp = getJwtTokenExp(token.access_token)
+      const user = getAccount()
+      user.token = token
+      saveItemObject('user', user);
+      resolve(token as Indexable)
+    }).catch(err => {
+      reject(err)
+    })
+  });
+}
 
 
 // -----------------------------------------------------------------------------

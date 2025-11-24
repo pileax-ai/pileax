@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar, Type, List, Dict, Optional, Any
 from sqlmodel import SQLModel, Session
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from uuid import UUID
 
 from app.api.repos.base_repository import BaseRepository
@@ -69,6 +69,12 @@ class BaseService(Generic[ModelType]):
 
     def _check_owner(self, user_id: UUID, tenant_id: UUID, obj: ModelType):
         if not obj:
-            raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"{self.repo.model.__name__} not found"
+            )
         if str(getattr(obj, "user_id", None)) != str(user_id) and str(getattr(obj, "tenant_id", None)) != str(tenant_id):
-            raise HTTPException(status_code=401, detail="Access denied")
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
