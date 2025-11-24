@@ -12,3 +12,7 @@ def get_root_dir(*paths: str) -> str:
     if paths:
         return str(base_dir.joinpath(*paths))
     return str(base_dir)
+
+
+def get_cache_dir(*paths: str) -> str:
+    return get_root_dir(".cache", *paths)
