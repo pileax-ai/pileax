@@ -181,32 +181,32 @@ class Base(ABC):
                     ans += LENGTH_NOTIFICATION_EN
             yield ans, tol
 
-        def chat(self, system, history, gen_conf={}, **kwargs):
-            if system and history and history[0].get("role") != "system":
-                history.insert(0, {"role": "system", "content": system})
-            gen_conf = self._clean_conf(gen_conf)
+    def chat(self, system, history, gen_conf={}, **kwargs):
+        if system and history and history[0].get("role") != "system":
+            history.insert(0, {"role": "system", "content": system})
+        gen_conf = self._clean_conf(gen_conf)
 
-            # Implement exponential backoff retry strategy
-            for attempt in range(self.max_retries + 1):
-                try:
-                    return self._chat(history, gen_conf, **kwargs)
-                except Exception as e:
-                    e = self._exceptions(e, attempt)
-                    if e:
-                        return e, 0
-            assert False, "Shouldn't be here."
-
-        def chat_streamly(self, system, history, gen_conf: dict = {}, **kwargs):
-            if system and history and history[0].get("role") != "system":
-                history.insert(0, {"role": "system", "content": system})
-            gen_conf = self._clean_conf(gen_conf)
-            ans = ""
-            total_tokens = 0
+        # Implement exponential backoff retry strategy
+        for attempt in range(self.max_retries + 1):
             try:
-                for delta_ans, tol in self._chat_streamly(history, gen_conf, **kwargs):
-                    yield delta_ans
-                    total_tokens += tol
-            except openai.APIError as e:
-                yield ans + "\n**ERROR**: " + str(e)
+                return self._chat(history, gen_conf, **kwargs)
+            except Exception as e:
+                e = self._exceptions(e, attempt)
+                if e:
+                    return e, 0
+        assert False, "Shouldn't be here."
 
-            yield total_tokens
+    def chat_streamly(self, system, history, gen_conf: dict = {}, **kwargs):
+        if system and history and history[0].get("role") != "system":
+            history.insert(0, {"role": "system", "content": system})
+        gen_conf = self._clean_conf(gen_conf)
+        ans = ""
+        total_tokens = 0
+        try:
+            for delta_ans, tol in self._chat_streamly(history, gen_conf, **kwargs):
+                yield delta_ans
+                total_tokens += tol
+        except openai.APIError as e:
+            yield ans + "\n**ERROR**: " + str(e)
+
+        yield total_tokens

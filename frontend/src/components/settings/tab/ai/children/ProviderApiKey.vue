@@ -40,6 +40,11 @@
         <o-badge v-bind="getArrayItem(ConnectionStatus, `${connectionStatus}`)" />
       </div>
     </section>
+    <section class="row col-12 justify-center link">
+      <o-link class="text-primary" :link="data.apikey_url">
+        Get your API Key from {{ data.name }}
+      </o-link>
+    </section>
 
     <template #control>
       <footer class="row col-12 items-center justify-center bg-accent text-tips">
@@ -60,6 +65,7 @@ import { GET } from 'src/hooks/useRequest'
 import { ConnectionStatus, getArrayItem } from 'src/app/metadata'
 import { notifyWarning } from 'core/utils/control'
 import useForm from 'src/hooks/useForm';
+import { getErrorMessage } from 'src/utils/request'
 
 const apiName = 'providerCredential';
 const props = defineProps({
@@ -77,7 +83,7 @@ const { form, loading, actions } = useForm();
 
 const isPwd = ref(true);
 const models = ref<Indexable[]>([]);
-const testable = ref(true);
+const testable = ref(false);
 const testing = ref(false);
 const connectionStatus = ref(0);
 
@@ -112,9 +118,21 @@ function onSubmit () {
     }
   }
 
-  actions.submit(body,(data) => {
-    emit('success');
-  });
+  actions.submit(
+    body,
+    (data) => {
+      emit('success');
+    },
+    (err) => {
+      if (err.response.status === 403) {
+        notifyWarning('API Key 无效')
+      } else {
+        const message = getErrorMessage(err)
+        notifyWarning(message)
+        console.error(err)
+      }
+    }
+  );
 }
 
 function getModels() {
@@ -151,6 +169,10 @@ onMounted(() => {
         font-size: 1rem;
       }
     }
+  }
+
+  .link {
+    font-size: 0.9rem;
   }
 }
 </style>

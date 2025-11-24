@@ -5,6 +5,7 @@
             "logo": "anthropic",
             "tags": "LLM",
             "status": "1",
+            "apikey_url": "https://console.anthropic.com/account/keys",
             "llm": [
                 {
                     "llm_name": "claude-opus-4-1-20250805",
@@ -69,6 +70,7 @@
             "logo": "deepseek",
             "tags": "LLM",
             "status": "1",
+            "apikey_url": "https://platform.deepseek.com/api_keys",
             "llm": [
                 {
                     "llm_name": "deepseek-chat",
@@ -91,6 +93,7 @@
             "logo": "gemini",
             "tags": "LLM,TEXT EMBEDDING,IMAGE2TEXT",
             "status": "1",
+            "apikey_url": "https://ai.google.dev",
             "llm": [
                 {
                     "llm_name": "gemini-2.5-flash",
@@ -146,6 +149,7 @@
             "logo": "ollama",
             "tags": "LLM,TEXT EMBEDDING,SPEECH2TEXT,MODERATION",
             "status": "1",
+            "apikey_url": "",
             "llm": []
         },
         {
@@ -153,6 +157,7 @@
             "logo": "openai",
             "tags": "LLM,TEXT EMBEDDING,TTS,TEXT RE-RANK,SPEECH2TEXT,MODERATION",
             "status": "1",
+            "apikey_url": "https://platform.openai.com/account/api-keys",
             "llm": [
                 {
                     "llm_name": "gpt-5",
@@ -322,6 +327,7 @@
             "logo": "tongyi",
             "tags": "LLM,TEXT EMBEDDING,TEXT RE-RANK,TTS,SPEECH2TEXT,MODERATION",
             "status": "1",
+            "apikey_url": "https://bailian.console.aliyun.com/?apiKey=1#/api-key",
             "llm": [
                 {
                     "llm_name": "Moonshot-Kimi-K2-Instruct",

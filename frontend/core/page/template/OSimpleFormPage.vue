@@ -15,7 +15,7 @@
           </o-common-card>
         </section>
 
-        <section class="row col-12 justify-center full-width actions">
+        <section class="row col-12 justify-center actions">
           <q-btn type="submit" class="bg-primary text-white" :label="$t('save')" :loading="loading" flat v-if="enableActions" />
           <slot name="actions"></slot>
         </section>

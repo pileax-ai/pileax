@@ -1,6 +1,7 @@
 <template>
   <a class="o-link" :href="link" target="_blank">
     <slot></slot>
+    <q-icon name="open_in_new" />
   </a>
 </template>
 
@@ -16,7 +17,12 @@ defineProps({
 
 <style lang="scss">
 .o-link {
-  display: inline-block;
+  display: flex;
   color: currentColor;
+  align-items: center;
+
+  .q-icon {
+    margin-left: 4px;
+  }
 }
 </style>

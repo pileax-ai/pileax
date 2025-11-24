@@ -31,11 +31,12 @@ export function notifyWarning (message :string, {
 ) {
   Notify.create({
     progress: progress,
-    color: 'red',
+    color: 'deep-orange',
     icon: 'info',
     message: message,
     timeout: timeout,
-    position: position as 'top'
+    position: position as 'top',
+    classes: 'o-notify-warning'
   })
 }
 

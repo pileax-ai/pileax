@@ -1,8 +1,9 @@
 [project]
-name = "app"
+name = "pileax"
 version = "0.0.2"
 description = "PileaX AI"
 requires-python = ">=3.10,<4.0"
+
 dependencies = [
     "fastapi[standard]<1.0.0,>=0.114.2",
     "python-multipart<1.0.0,>=0.0.7",

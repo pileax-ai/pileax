@@ -10,6 +10,8 @@ from app.api.models.provider_credential import ProviderCredential, ProviderCrede
     ProviderCredentialPublic
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_service import ProviderService
+from app.constants import HIDDEN_VALUE
+from app.core.llm.utils.llm_helper import LLMHelper
 from app.libs.provider_helper import ProviderHelper
 
 
@@ -31,6 +33,9 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
         if provider_info is None:
             raise HTTPException(status_code=404, detail="Provider not supported")
 
+        # Check api_key
+        LLMHelper.validate_api_key(provider, item_in.credential.api_key, item_in.credential.base_url)
+
         # Save provider credential
         item = item_in.model_dump(by_alias=True)
         item["credential"] = item_in.credential.model_dump_json(by_alias=True)
@@ -45,6 +50,20 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
         ))
 
         return ProviderCredentialPublic.model_validate(item_out)
+
+    def update(self, item_in: ProviderCredentialUpdate) -> Any:
+        # Check provider
+        provider = item_in.provider
+        provider_info = ProviderHelper.get_provider(provider)
+        if provider_info is None:
+            raise HTTPException(status_code=404, detail="Provider not supported")
+
+        # Check api_key
+        api_key = item_in.credential.api_key
+        if api_key and api_key != HIDDEN_VALUE:
+            LLMHelper.validate_api_key(provider, api_key, item_in.credential.base_url)
+
+        return super().update(item_in)
 
     def delete(self, id: UUID) -> Any:
         provider_credential = super().get(id)

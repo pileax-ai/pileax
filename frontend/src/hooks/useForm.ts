@@ -23,20 +23,22 @@ export default function () {
     }
   }
 
-  function submit (body: Indexable, callback: (res: any) => any) {
+  function submit (body: Indexable, callback: (res: any) => any, error?: (err: any) => any) {
     loading.value = true;
     if (body.id) {
       PUT({name: apiName.value, body: body}).then(res => {
         postSubmit(res as Indexable, callback);
-      }).catch(() => {
+      }).catch(err => {
         loading.value = false;
+        if (error) error(err);
       })
     } else {
       delete body.id
       POST({name: apiName.value, body: body}).then(res => {
         postSubmit(res as Indexable, callback);
-      }).catch(() => {
+      }).catch(err => {
         loading.value = false;
+        if (error) error(err);
       })
     }
   }

@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from app.configs import app_config
 from app.libs.file_utils import get_root_dir
 
-order = 1
+order = -1
 
 
 def setup(app: FastAPI):

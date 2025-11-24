@@ -11,7 +11,7 @@ order = 0
 
 def setup(app: FastAPI):
     app_name = app_config.APPLICATION_CODE
-    filename = f'./log/console.log'
+    filename = f'./.cache/log/console.log'
     format = f'%(asctime)s - %(levelname)s \t[{app_name}] %(process)d [%(name)s] %(funcName)s \t: %(message)s'
     datefmt = '%Y-%m-%d %H:%M:%S'
 

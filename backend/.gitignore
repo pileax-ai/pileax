@@ -9,5 +9,5 @@ htmlcov
 .env
 runnable.spec
 /build/
-/log/
-/storage/
+/.cache/log/
+/.cache/storage/
