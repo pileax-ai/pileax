@@ -5,8 +5,8 @@ import random
 import re
 import time
 
-import litellm
-import openai
+# import litellm
+# import openai
 
 from app.core.nlp import is_chinese
 from .base import Base, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, LLMErrorCode, ERROR_PREFIX
@@ -158,6 +158,7 @@ class LiteLLMBase(Base):
         return completion_args
 
     def _chat(self, history, gen_conf, **kwargs):
+        import litellm
         logger.info("[HISTORY]" + json.dumps(history, ensure_ascii=False, indent=2))
         if self.model_name.lower().find("qwen3") >= 0:
             kwargs["extra_body"] = {"enable_thinking": False}
@@ -178,6 +179,7 @@ class LiteLLMBase(Base):
         return ans, total_token_count_from_response(response)
 
     def _chat_streamly(self, history, gen_conf, **kwargs):
+        import litellm
         logging.info("[HISTORY STREAMLY]" + json.dumps(history, ensure_ascii=False, indent=4))
         reasoning_start = False
 
@@ -273,7 +275,7 @@ class LiteLLMBase(Base):
             for delta_ans, tol in self._chat_streamly(history, gen_conf, **kwargs):
                 yield delta_ans
                 total_tokens += tol
-        except openai.APIError as e:
+        except Exception as e:
             yield ans + "\n**ERROR**: " + str(e)
 
         yield total_tokens

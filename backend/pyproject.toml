@@ -1,5 +1,5 @@
 [project]
-name = "pileax"
+name = "app"
 version = "0.0.2"
 description = "PileaX AI"
 requires-python = ">=3.10,<4.0"

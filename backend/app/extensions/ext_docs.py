@@ -3,7 +3,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 
 from app.configs import app_config
 
-order = 1
+order = 2
 
 
 def is_enabled():

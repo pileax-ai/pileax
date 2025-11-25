@@ -31,13 +31,13 @@ class LLMHelper:
                         raise Exception(m)
                     chat_passed = True
                 except Exception as e:
-                    msg += f"\nFail to access model({provider}/{model_name}) using this api key." + str(e)
+                    msg = f"\nFail to access model({provider}/{model_name}) using this api key." + str(e)
             elif not rerank_passed and model_type == LLMType.RERANK.value:
                 pass
             if any([embd_passed, chat_passed, rerank_passed]):
                 msg = ''
                 break
-        if msg:
-            raise HTTPException(status_code=403, detail=f"{msg}")
+            if msg:
+                raise HTTPException(status_code=403, detail=f"{msg}")
 
         return True

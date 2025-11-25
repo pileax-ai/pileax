@@ -3,11 +3,10 @@ import logging
 import os
 import random
 import re
+import time
 from abc import ABC
 from enum import StrEnum
 
-import openai
-from openai import OpenAI
 
 from app.core.llm.utils.token import total_token_count_from_response, num_tokens_from_string
 from app.core.nlp import is_chinese
@@ -42,6 +41,8 @@ LENGTH_NOTIFICATION_EN = "...\nThe answer is truncated by your chosen LLM due to
 
 class Base(ABC):
     def __init__(self, key, model_name, base_url, **kwargs):
+        from openai import OpenAI
+
         timeout = int(os.environ.get("LM_TIMEOUT_SECONDS", 600))
         self.client = OpenAI(api_key=key, base_url=base_url, timeout=timeout)
         self.model_name = model_name
@@ -115,6 +116,32 @@ class Base(ABC):
         if is_chinese([ans]):
             return ans + LENGTH_NOTIFICATION_CN
         return ans + LENGTH_NOTIFICATION_EN
+
+
+    @property
+    def _retryable_errors(self) -> set[str]:
+        return {
+            LLMErrorCode.ERROR_RATE_LIMIT,
+            LLMErrorCode.ERROR_SERVER,
+        }
+
+    def _should_retry(self, error_code: str) -> bool:
+        return error_code in self._retryable_errors
+
+    def _exceptions(self, e, attempt) -> str | None:
+        logger.exception("OpenAI chat_with_tools")
+        # Classify the error
+        error_code = self._classify_error(e)
+        if attempt == self.max_retries:
+            error_code = LLMErrorCode.ERROR_MAX_RETRIES
+
+        if self._should_retry(error_code):
+            delay = self._get_delay()
+            logger.warning(f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})")
+            time.sleep(delay)
+            return None
+
+        return f"{ERROR_PREFIX}: {error_code} - {str(e)}"
 
     def _chat(self, history, gen_conf, **kwargs):
         logging.info("[HISTORY]" + json.dumps(history, ensure_ascii=False, indent=2))
@@ -206,7 +233,7 @@ class Base(ABC):
             for delta_ans, tol in self._chat_streamly(history, gen_conf, **kwargs):
                 yield delta_ans
                 total_tokens += tol
-        except openai.APIError as e:
+        except Exception as e:
             yield ans + "\n**ERROR**: " + str(e)
 
         yield total_tokens

@@ -7,7 +7,7 @@ from fastapi import FastAPI
 
 from app.configs import app_config
 
-order = 0
+order = 1
 
 def setup(app: FastAPI):
     app_name = app_config.APPLICATION_CODE

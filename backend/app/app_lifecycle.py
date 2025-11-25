@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from app.configs import app_config
 from app.extensions import setup_extensions
 from app.extensions import ext_database
+from app.extensions import ext_perf
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,7 @@ async def lifespan(app: FastAPI):
 
 
 def initialization(app: FastAPI):
+    ext_perf.setup(app)
     setup_extensions(app)
     logger.info("Initialization completed")
     logging.info(r"""

@@ -6,10 +6,7 @@ import logging
 import pkgutil
 import time
 from typing import Any, List, Tuple
-
 from fastapi import FastAPI
-
-from app.configs import app_config
 
 logger = logging.getLogger(__name__)
 
