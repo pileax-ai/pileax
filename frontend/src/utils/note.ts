@@ -13,7 +13,8 @@ export const markdownToHtml = (text: string) => {
   return md.render(text);
 }
 
-export const chatContentToHtml = (text: string, addTitle = false) => {
-  text = addTitle ? `# New page \n ${text}` : text;
+export const chatContentToHtml = (text: string, title = '') => {
+  text = title ? `# ${title} \n ${text}` : text;
+  console.log('chatContentToHtml', text)
   return md.render(text);
 }

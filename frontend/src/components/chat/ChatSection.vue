@@ -173,7 +173,7 @@ const scrollDirection = ref('');
 function init(from = '') {
   start.value = props.multiSession;
   getLatestSession();
-  console.log('init', from, props.refId);
+  // console.log('init', from, props.refId);
 }
 
 function getLatestSession() {

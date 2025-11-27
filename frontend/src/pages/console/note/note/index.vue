@@ -72,6 +72,7 @@ const aiOption = ref<AiOption>({
 const pageView = ref('page');
 const showToc = ref(true);
 const loading = ref(false);
+const ready = ref(false);
 
 const options = computed(() => {
   return {
@@ -115,12 +116,11 @@ const editor = computed(() => {
   return yiiEditor.value?.editor;
 })
 
-const updateNoteNext = debounce( () => {
-  updateNoteRemote();
-}, 500)
-
 function initEditor() {
-  //
+  ready.value = false;
+  editor.value?.on('create', () => {
+    ready.value = true;
+  })
 }
 
 function onAction(action: Indexable) {
@@ -139,7 +139,7 @@ function onAction(action: Indexable) {
   }
 }
 
-async function getNote() {
+async function getAndLoadNote() {
   noteService.get(id.value).then((note: any) => {
     loadingNote(note as Note);
   }).catch((err) => {
@@ -150,18 +150,21 @@ async function getNote() {
 async function createNote() {
   let content = '';
   let focusPosition = 'start';
+  let emitUpdate = false;
   if (source.value === 'chat') {
-    console.log('Create note', noteStore.chatContent)
-    // content = chatContentToHtml(noteStore.chatContent, true);
-    // focusPosition = 'end';
+    loading.value = false;
+    emitUpdate = true;
+    content = chatContentToHtml(noteStore.chatToNote.content, noteStore.chatToNote.message);
+    focusPosition = 'end';
   }
-  const note = await noteService.save({
+  noteService.save({
     id: id.value,
     parent: parent.value || '',
     title: 'New page',
     content: content
+  }).then(note => {
+    loadNote(note, content, focusPosition, emitUpdate);
   });
-  loadNote(note, content, focusPosition);
 }
 
 function loadingNote(note: Note) {
@@ -169,14 +172,15 @@ function loadingNote(note: Note) {
   parent.value = note.parent;
   let content = note.content;
   let focusPosition = 'start';
+  let emitUpdate = false;
   if (source.value ===  'chat') {
-    console.log('Append note', noteStore.chatContent)
-    // loading.value = false;
-    // content += chatContentToHtml(noteStore.chatContent);
-    // focusPosition = 'end';
+    loading.value = false;
+    emitUpdate = true;
+    const appendHtml = chatContentToHtml(noteStore.chatToNote.content)
+    console.log('appendHtml', appendHtml)
+    content += appendHtml;
+    focusPosition = 'end';
   }
-  const emitUpdate = true;
-  console.log('loading note', note, content)
   loadNote(note, content, focusPosition, emitUpdate);
   notePage.value?.refreshChat(note.id);
 }
@@ -185,7 +189,7 @@ function loadNote(note: Note, content: string, focus: string,
                   emitUpdate = false) {
   setCurrentNote(note);
   setContent(content, emitUpdate, focus);
-  noteStore.setChatContent('');
+  noteStore.setChatToNote({});
   router.replace({ query: {} });
 }
 
@@ -202,8 +206,9 @@ function onScroll() {
 }
 
 function onUpdate({ json, html }: { json: any; html: string }) {
+  if (!ready.value) return;
   // console.log('update', json)
-  console.log('update', html, id.value);
+  // console.log('update', html);
   noteJson.value = json;
   noteHtml.value = html;
 
@@ -213,6 +218,10 @@ function onUpdate({ json, html }: { json: any; html: string }) {
     updateNote();
   }
 }
+
+const updateNoteNext = debounce( () => {
+  updateNoteRemote();
+}, 500)
 
 async function updateNote() {
   const note = {
@@ -250,7 +259,7 @@ onActivated(() => {
   id.value = route.params.id as string;
   parent.value = route.query.parent as string;
   source.value = route.query.source as string;
-  getNote();
+  getAndLoadNote();
 })
 
 onMounted(() => {

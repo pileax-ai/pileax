@@ -2,13 +2,14 @@ import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
 import { Note } from 'src/types/note';
+import { Chat } from 'src/types/chat'
 
 export const useNoteStore = defineStore('note', {
   state: () => ({
     currentNote: {} as Note,
     notes: [] as Note[],
     favoriteTop: true,
-    chatContent: '',
+    chatToNote: {} as Chat,
     chatWidth: 0,
   }),
   getters: {
@@ -24,8 +25,8 @@ export const useNoteStore = defineStore('note', {
     setFavoriteTop(value: boolean) {
       this.favoriteTop = value;
     },
-    setChatContent(value: string) {
-      this.chatContent = value;
+    setChatToNote(value: Chat) {
+      this.chatToNote = value;
     },
     setChatWidth(value: number) {
       this.chatWidth = value;

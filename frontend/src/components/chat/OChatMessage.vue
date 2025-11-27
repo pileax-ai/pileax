@@ -137,6 +137,7 @@ import useAccount from 'src/hooks/useAccount';
 import useDialog from 'core/hooks/useDialog';
 import { useNoteStore } from 'stores/note';
 import { loading } from 'vxe-table'
+import { Chat } from 'src/types/chat'
 
 const props = defineProps({
   avatar: {
@@ -144,7 +145,7 @@ const props = defineProps({
     default: ''
   },
   chat: {
-    type: Object as PropType<Indexable>,
+    type: Object as PropType<Chat>,
     default: () => {}
   },
   streaming: {
@@ -194,7 +195,7 @@ function onLike(like: number) {
 }
 
 function onNote() {
-  noteStore.setChatContent(props.chat.content);
+  noteStore.setChatToNote(props.chat);
   openDialog({
     type: 'chat-note-select',
     data: props.chat
