@@ -3,11 +3,16 @@
  *
  * @version 1.0
  */
-import { GET, POST } from 'src/hooks/useRequest';
+import { GET, POST, PUT } from 'src/hooks/useRequest'
 import { RemoteBaseService } from 'src/service/remote/base'
 
 export class RemoteChatService extends RemoteBaseService {
   protected apiName = 'chat';
+
+
+  // override put(body: Indexable): Promise<any> {
+  //   return PUT({ name: this.apiName, path: '/message', body });
+  // }
 
   /**
    * completion

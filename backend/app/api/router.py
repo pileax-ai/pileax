@@ -58,8 +58,6 @@ class ApiRouter(APIRouter):
 
     def api_post(self, path: str, response_model: Type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
-            wrapped_func = api_response(response_model)(func)
-
             @wraps(func)
             async def wrapper(*args, **inner_kwargs):
                 result = func(*args, **inner_kwargs)
@@ -71,11 +69,11 @@ class ApiRouter(APIRouter):
                     return result
 
                 # case 2: general
-                wrapped = wrapped_func(*args, **inner_kwargs)
-                if inspect.isawaitable(wrapped):
-                    wrapped = await wrapped
+                async def wrapped_fun():
+                    return result
 
-                return wrapped
+                wrapped = api_response(response_model)(wrapped_fun)
+                return await wrapped()
 
             return self.post(path, response_model=Response[response_model], **kwargs)(
                 wrapper

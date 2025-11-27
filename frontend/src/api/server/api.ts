@@ -18,7 +18,7 @@ const urls: Indexable = {
   bookCollection: '/book/collection',
   chat: '/chat',
   chatConversation: '/chat/conversation',
-  file: '/file',
+  fileMeta: '/file/meta',
   llm: '/llm',
   note: '/note',
   knowledge: '/knowledge',

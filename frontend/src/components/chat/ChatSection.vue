@@ -45,7 +45,7 @@
                             :dense="dense"
                             :ref-type="refType"
                             align-right
-                            @like="onLike($event, index)" />
+                            @favorite="onFavorite($event, index)" />
           </template>
 
           <template v-if="isLoading">
@@ -300,7 +300,7 @@ async function onErrorDone(chat: Indexable) {
   scrollToBottom();
 }
 
-function onLike(item: Indexable, index: number) {
+function onFavorite(item: Indexable, index: number) {
   chats.value.splice(index, 1, item);
 }
 

@@ -98,17 +98,18 @@
           <div class="actions" >
             <q-spinner-dots size="32px" v-if="streaming" />
             <template v-else>
-              <o-copy-btn :value="chat.content" flat notify>
+              <o-copy-btn :value="chat.content" flat>
                 <o-tooltip position="bottom">复制</o-tooltip>
               </o-copy-btn>
               <q-btn icon="autorenew" flat>
                 <o-tooltip position="bottom">重新生成</o-tooltip>
               </q-btn>
-              <q-btn :icon="chat.like===1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
-                     flat @click="onLike(1)">
+              <q-btn :icon="chat.favorite===1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                     flat @click="onFavorite(1)">
                 <o-tooltip position="bottom">喜欢</o-tooltip>
               </q-btn>
-              <q-btn :icon="chat.like===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'" flat @click="onLike(-1)">
+              <q-btn :icon="chat.favorite===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'"
+                     flat @click="onFavorite(-1)">
                 <o-tooltip position="bottom">不喜欢</o-tooltip>
               </q-btn>
               <q-btn icon="west" flat @click="onInsert" v-if="refType === 'note'">
@@ -171,7 +172,7 @@ const props = defineProps({
     default: ''
   },
 })
-const emit = defineEmits(['like', 'send']);
+const emit = defineEmits(['favorite', 'send']);
 const insertContent = inject<(value: string) => void>('insertContent', null);
 
 const { account } = useAccount();
@@ -192,12 +193,12 @@ function onSend() {
   })
 }
 
-function onLike(like: number) {
+function onFavorite(value: number) {
   chatService.put({
     id: props.chat.id,
-    like: like
+    favorite: value
   }).then(res => {
-    emit('like', res);
+    emit('favorite', res);
   })
 }
 

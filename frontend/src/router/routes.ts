@@ -158,6 +158,11 @@ const routes: RouteRecordRaw[] = [
         name: 'system-files'
       },
       {
+        path: 'files/:mimetype',
+        component: () => import('pages/console/system/content/file/List.vue'),
+        name: 'system-files-mimetype'
+      },
+      {
         path: 'about',
         component: () => import('pages/console/system/about/About.vue'),
         name: 'system-about'

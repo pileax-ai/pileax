@@ -80,6 +80,7 @@ class ChatService(BaseService[Message]):
             nonlocal content, reasoning_content, total_tokens
 
             item = item_in.model_dump(by_alias=True)
+            item["tenant_id"] = self.tenant_id
             item["model_provider"] = tdm_credential.provider
             item["model_type"] = tdm_credential.model_type
             item["model_name"] = tdm_credential.model_name

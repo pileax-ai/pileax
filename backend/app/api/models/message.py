@@ -7,6 +7,7 @@ from app.api.models.enums import Status
 
 
 class Message(BaseSQLModel, BaseMixin, table=True):
+    tenant_id: uuid.UUID = uuid_field()
     app_id: uuid.UUID = uuid_field()
     conversation_id: uuid.UUID = uuid_field()
     model_provider: str | None = Field(default=None)
@@ -17,12 +18,13 @@ class Message(BaseSQLModel, BaseMixin, table=True):
     reasoning_content: int = Field(default=0, sa_column=Column(Integer, default=0))
     result: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
     total_tokens: int = Field(default=0, sa_column=Column(Integer, default=0))
-    favorite: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
+    favorite: int = Field(default=Status.PENDING, sa_column=Column(Integer, default=Status.PENDING))
     status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
 
 
 class MessageBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    favorite: int | None = None
 
 
 class MessageCreate(MessageBase):

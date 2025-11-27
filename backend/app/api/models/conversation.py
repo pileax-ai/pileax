@@ -7,6 +7,7 @@ from app.api.models.enums import Status
 
 
 class Conversation(BaseSQLModel, BaseMixin, table=True):
+    tenant_id: uuid.UUID = uuid_field()
     app_id: uuid.UUID = uuid_field()
     model_provider: str | None = Field(default=None)
     model_name: str | None = Field(default=None)
@@ -20,6 +21,7 @@ class Conversation(BaseSQLModel, BaseMixin, table=True):
 
 class ConversationBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    favorite: int | None = None
     name: str | None = None
     model_provider: str | None = None
     model_name: str | None = None

@@ -1,8 +1,8 @@
 """v0.0.2
 
-Revision ID: c4cb8035f139
+Revision ID: e2d587b4b8bd
 Revises:
-Create Date: 2025-11-23 16:48:20.889503
+Create Date: 2025-11-27 23:07:06.028448
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = 'c4cb8035f139'
+revision: str = 'e2d587b4b8bd'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -29,12 +29,12 @@ def upgrade() -> None:
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('app_model_config_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('app_model_config_id', app.api.models.base.UUIDString(length=36), nullable=True),
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('mode', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('description', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.Column('status', sa.Integer(), nullable=True),
+    sa.Column('status', sa.Integer(), server_default=sa.text('1'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
@@ -93,6 +93,23 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
+    op.create_table('conversation',
+    sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
+    sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
+    sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('app_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('model_provider', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('model_name', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('model_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
+    sa.Column('favorite', sa.Integer(), nullable=True),
+    sa.Column('status', sa.Integer(), nullable=True),
+    sa.Column('ref_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('ref_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id')
+    )
     op.create_table('file_meta',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
@@ -107,6 +124,26 @@ def upgrade() -> None:
     sa.Column('path', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('status', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id')
+    )
+    op.create_table('message',
+    sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
+    sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
+    sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('app_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('conversation_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('model_provider', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('model_name', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('model_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('message', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('content', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('reasoning_content', sa.Integer(), nullable=True),
+    sa.Column('result', sa.Integer(), nullable=True),
+    sa.Column('total_tokens', sa.Integer(), nullable=True),
+    sa.Column('favorite', sa.Integer(), nullable=True),
     sa.Column('status', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
@@ -251,7 +288,9 @@ def downgrade() -> None:
     op.drop_table('provider_credential')
     op.drop_table('provider')
     op.drop_table('note')
+    op.drop_table('message')
     op.drop_table('file_meta')
+    op.drop_table('conversation')
     op.drop_table('book_collection')
     op.drop_table('book_annotation')
     op.drop_table('book')

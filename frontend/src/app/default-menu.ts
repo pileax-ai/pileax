@@ -98,14 +98,14 @@ export const defaultConsoleMenus: MenuItem[] = [
             id: 'file-documents',
             name: '文档',
             action: 1,
-            path: '/system/files?category=documents',
+            path: '/system/files/application',
             meta: {icon: 'mdi-creation', class: 'dense'}
           },
           {
             id: 'file-images',
             name: '图片',
             action: 1,
-            path: '/system/files?category=images',
+            path: '/system/files/image',
             meta: {icon: 'mdi-creation', class: 'dense'}
           },
         ]
@@ -132,29 +132,6 @@ export const defaultConsoleMenus: MenuItem[] = [
         action: 1,
         path: '/system/config/agents',
         meta: {icon: 'assignment'}
-      },
-      {
-        id: 'config',
-        name: '配置',
-        action: 1,
-        path: '',
-        meta: {icon: 'tune'},
-        children: [
-          {
-            id: 'ai-providers',
-            name: 'AI提供商',
-            action: 1,
-            path: '/system/config/providers',
-            meta: {icon: 'mdi-creation'}
-          },
-          {
-            id: 'vector-database',
-            name: '向量数据库',
-            action: 1,
-            path: '/system/config/vector-databases',
-            meta: {icon: 'assignment'}
-          },
-        ]
       },
     ]
   },

@@ -18,7 +18,7 @@
         <section class="chat-list">
           <template v-for="(item, index) in chats" :key="index">
             <o-chat-message :chat="item"
-                            align-right @like="onLike($event, index)" />
+                            align-right @favorite="onFavorite($event, index)" />
           </template>
 
           <template v-if="isLoading">
@@ -69,6 +69,7 @@ import { ChatInput } from 'src/types/chat';
 const route = useRoute();
 const { provider } = useAi();
 const {
+  appId,
   conversation,
   conversationId,
   currentChat,
@@ -87,6 +88,7 @@ const scrollable = ref(true);
 
 function init() {
   start.value = route.name === 'chat-start';
+  appId.value = (route.params.appId || '') as string;
   conversationId.value = (route.params.id || '') as string;
   if (conversationId.value) {
     getConversation();
@@ -121,7 +123,7 @@ async function onSend(data: ChatInput, reset = false) {
   }
   else {
     start.value = false;
-    createSession(data);
+    createConversation(data);
   }
 }
 
@@ -129,14 +131,13 @@ function onStop() {
   cancelStream();
 }
 
-async function createSession(data: Indexable) {
+async function createConversation(data: Indexable) {
   const message = data.message;
   chatConversationService.save({
-    id: UUID(),
-    title: message,
+    appId: appId.value || null,
     name: message,
-    assistant: 'chat' // todo
   }).then(res => {
+    conversation.value = res;
     conversationId.value = res.id;
     start.value = false;
 
@@ -146,7 +147,7 @@ async function createSession(data: Indexable) {
     // replace router
     router.replace({
       name: 'chat-conversation',
-      params: { assistant: res.assistant, id: res.id }
+      params: { appId: res.appId, id: res.id }
     });
   })
 }
@@ -161,7 +162,12 @@ async function chatCompletion(data: ChatInput) {
     provider: provider.value.name,
     // model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
-  newChat.value = payload;
+  newChat.value = {
+    ...payload,
+    modelProvider: conversation.value?.modelProvider,
+    modelType: conversation.value?.modelType,
+    modelName: conversation.value?.modelName,
+  };
 
   await startStream('/chat/completions', payload,
     onProgress, onDone, onErrorDone);
@@ -188,7 +194,7 @@ async function onErrorDone(chat: Indexable) {
   scrollToBottom();
 }
 
-function onLike(item: Indexable, index: number) {
+function onFavorite(item: Indexable, index: number) {
   chats.value.splice(index, 1, item);
 }
 

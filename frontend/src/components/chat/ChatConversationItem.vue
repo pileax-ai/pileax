@@ -5,7 +5,7 @@
           v-close-popup="closable"
           @click="openConversation(item)">
     <q-item-section v-if="editable">
-      <q-input v-model="title" autofocus outlined dense
+      <q-input v-model="name" autofocus outlined dense
                @keyup.enter.stop="onBlur"
                @blur="onBlur" />
     </q-item-section>
@@ -73,7 +73,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['open', 'updated']);
 const clicked = ref(false);
-const title = ref('');
+const name = ref('');
 const editable = ref(false);
 
 const actions = computed(() => {
@@ -88,7 +88,7 @@ function onAction (action: Indexable) {
   switch (action.value) {
     case 'rename':
       editable.value = true;
-      title.value = props.item.title;
+      name.value = props.item.name;
       break;
     case 'closeOther':
       break;
@@ -102,10 +102,10 @@ function onAction (action: Indexable) {
 
 function onBlur() {
   editable.value = false;
-  console.log('input', title.value);
+  console.log('input', name.value);
   chatConversationService.save({
     id: props.item.id,
-    title: title.value
+    name: name.value
   }).then(res => {
     emit('updated', res);
   })

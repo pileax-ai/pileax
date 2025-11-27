@@ -105,7 +105,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onActivated} from 'vue';
+import { computed, ref, onActivated, watch } from 'vue'
+import { useRoute } from 'vue-router';
 
 import { getArrayItem, RefTypes, Status, TableViews } from 'src/app/metadata'
 import useCommon from 'core/hooks/useCommon';
@@ -130,8 +131,9 @@ const {
   view,
   initQuery,
 } = useQuery();
+const route = useRoute();
 
-const apiName = 'file';
+const apiName = 'fileMeta';
 const data = ref<Indexable>({});
 const columns = computed(() => {
   return [
@@ -151,6 +153,8 @@ function onPagination(pagination: Indexable) {
 }
 
 function init() {
+  condition.value['mimetype__icontains'] = route.params.mimetype;
+
   // tableView.value = 'grid';
   initQuery({
     api: apiName,

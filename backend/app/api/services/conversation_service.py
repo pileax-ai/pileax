@@ -28,6 +28,5 @@ class ConversationService(BaseService[Conversation]):
 
         item = item_in.model_dump(by_alias=True)
         item['tenantId'] = self.tenant_id
-        item['userId'] = self.user_id
 
         return super().save(Conversation(**item))

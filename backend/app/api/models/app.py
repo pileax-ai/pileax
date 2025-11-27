@@ -1,7 +1,6 @@
 import uuid
 
-from pydantic import field_validator
-from sqlmodel import Column, Field, Integer
+from sqlmodel import Field, Integer, text
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 from app.api.models.enums import Status
@@ -15,7 +14,11 @@ class App(BaseSQLModel, BaseMixin, table=True):
     mode: str = Field(..., max_length=255)
     description: str | None = Field(default=None, description="Note content")
     icon: str | None = Field(default=None)
-    status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
+    status: int = Field(
+        default=Status.ACTIVE,
+        sa_type=Integer,
+        sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
+    )
 
 
 class AppBase(BaseApiModel):
