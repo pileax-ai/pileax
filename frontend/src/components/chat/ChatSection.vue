@@ -2,7 +2,7 @@
   <section class="row col-12 justify-center chat-section"
            :class="{ 'dense': dense }">
     <q-scroll-area ref="scrollRef"
-                   class="o-scroll-wrapper"
+                   class="o-scroll-wrapper xxxx"
                    @scroll="onScroll">
       <o-chat-toc ref="tocRef" :chats="chats" v-show="toc" />
       <header class="row col-12 justify-between header" v-show="header">
@@ -43,6 +43,7 @@
           <template v-for="(item, index) in chats" :key="index">
             <o-chat-message :chat="item"
                             :dense="dense"
+                            :ref-type="refType"
                             align-right
                             @like="onLike($event, index)" />
           </template>
@@ -50,6 +51,7 @@
           <template v-if="isLoading">
             <o-chat-message :chat="newChat"
                             :dense="dense"
+                            :ref-type="refType"
                             align-right
                             :streaming="isLoading" />
           </template>
@@ -83,7 +85,7 @@
                       @stop="onStop" />
 
         <div class="row col-12 justify-center q-py-sm bg-secondary text-tips warning">
-          内容由 AI 生成，请仔细甄别 {{start}}
+          内容由 AI 生成，请仔细甄别
         </div>
       </footer>
     </q-scroll-area>
@@ -91,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, nextTick, onActivated, onBeforeMount } from 'vue'
+import { computed, ref, nextTick, onActivated, onBeforeMount, watch } from 'vue'
 import OChatInput from 'components/chat/OChatInput.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
 import ChatConversations from 'components/chat/ChatConversations.vue';
@@ -150,6 +152,7 @@ const props = defineProps({
     default: false
   },
 });
+const emit = defineEmits(['chats'])
 
 const { provider } = useAi();
 const {
@@ -245,6 +248,7 @@ async function createSession(data: ChatInput) {
     refType: props.refType,
     refId: props.refId,
   }).then(res => {
+    conversation.value = res
     conversationId.value = res.id;
     start.value = false;
 
@@ -264,7 +268,12 @@ async function chatCompletion(data: ChatInput) {
     conversationId: conversationId.value,
     stream: true,
   }
-  newChat.value = payload;
+  newChat.value = {
+    ...payload,
+    modelProvider: conversation.value?.modelProvider,
+    modelType: conversation.value?.modelType,
+    modelName: conversation.value?.modelName,
+  };
 
   await startStream('/chat/completions', payload,
     onProgress, onDone, onErrorDone);
@@ -337,6 +346,10 @@ function reset() {
   conversation.value = undefined;
   chats.value = [];
 }
+
+watch(chats, (newValue) => {
+  emit('chats', newValue)
+})
 
 onActivated(() => {
   init('activated');

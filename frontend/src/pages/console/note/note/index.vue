@@ -36,7 +36,7 @@ import { YiiEditor, ODocToc } from '@yiitap/vue';
 import 'katex/dist/katex.min.css'
 
 import { useRoute } from 'vue-router';
-import { computed, onActivated, onMounted, ref } from 'vue';
+import { computed, onActivated, onMounted, provide, ref } from 'vue'
 import { debounce } from 'quasar';
 
 import useNote from 'src/hooks/useNote';
@@ -107,6 +107,7 @@ const options = computed(() => {
       'OShortcut',
       'OSlash',
       'OSlashZh',
+      'OTrailingNode',
       'OVideo',
     ],
   }
@@ -254,6 +255,14 @@ function getTitle () {
   }
   return title || 'New page';
 }
+
+const insertContent = (value: string) => {
+  const html = chatContentToHtml(value)
+  editor.value?.commands.insertContent(html);
+  console.log('insert', value)
+}
+
+provide('insertContent', insertContent)
 
 onActivated(() => {
   id.value = route.params.id as string;

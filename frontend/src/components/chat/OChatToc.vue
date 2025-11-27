@@ -4,7 +4,7 @@
                 anchor="top end"
                 self="top right" min-width="240px">
     <template #trigger>
-      <div class="mini-view">
+      <div class="mini-view" v-if="miniView">
         <ul class="toc__list">
           <template v-for="(item, index) in chats" :key="index">
             <li class="toc__item"
@@ -16,6 +16,7 @@
           </template>
         </ul>
       </div>
+      <slot name="trigger" />
     </template>
 
     <div class="main-view o-scroll">
@@ -46,6 +47,10 @@ const props = defineProps({
   chats: {
     type: Array as PropType<Indexable[]>,
     required: true
+  },
+  miniView: {
+    type: Boolean,
+    default: true
   }
 });
 const emit = defineEmits(['action']);
@@ -66,9 +71,12 @@ function onScroll(event?: Event) {
 
 function onClick(item: Indexable) {
   selectedId.value = item.id
-  const element = document.querySelector(`[id="${item.id}"]`)
+  const element = document.querySelector(`[id="${item.id}"]`) as HTMLElement
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
   }
 }
 

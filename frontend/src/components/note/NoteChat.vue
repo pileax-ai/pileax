@@ -5,6 +5,11 @@
         <q-toolbar-title class="text-bold">
           <q-icon name="mdi-creation" />
         </q-toolbar-title>
+        <o-chat-toc ref="tocRef" :chats="chats" :mini-view="false">
+          <template #trigger>
+            <q-btn icon="toc" flat round dense />
+          </template>
+        </o-chat-toc>
         <q-btn icon="delete_sweep" flat round dense />
         <q-btn icon="close" flat round dense @click="emit('close')" />
       </q-toolbar>
@@ -12,11 +17,11 @@
 
     <q-page-container>
       <q-page class="bg-secondary">
-        <chat-section ref-type="chat"
+        <chat-section ref-type="note"
                       :ref-id="noteId"
                       description="基于笔记问答"
                       tag="基于笔记"
-                      dense>
+                      dense @chats="onChats">
         </chat-section>
       </q-page>
     </q-page-container>
@@ -25,6 +30,8 @@
 
 <script setup lang="ts">
 import ChatSection from 'components/chat/ChatSection.vue'
+import { ref } from 'vue'
+import OChatToc from 'components/chat/OChatToc.vue'
 
 const props = defineProps({
   noteId: {
@@ -33,6 +40,13 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['close']);
+
+const chats = ref<Indexable[]>([]);
+
+const onChats = (value: Indexable[]) => {
+  console.log('chats', value)
+  chats.value = value;
+}
 </script>
 
 <style lang="scss">

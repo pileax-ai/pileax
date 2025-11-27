@@ -111,7 +111,10 @@
               <q-btn :icon="chat.like===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'" flat @click="onLike(-1)">
                 <o-tooltip position="bottom">不喜欢</o-tooltip>
               </q-btn>
-              <q-btn icon="post_add" flat @click="onNote">
+              <q-btn icon="west" flat @click="onInsert" v-if="refType === 'note'">
+                <o-tooltip position="bottom">插入笔记</o-tooltip>
+              </q-btn>
+              <q-btn icon="post_add" flat @click="onNote" v-else>
                 <o-tooltip position="bottom">创建笔记</o-tooltip>
               </q-btn>
             </template>
@@ -130,13 +133,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue'
+import { onMounted, PropType, ref, inject } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
 import { chatService } from 'src/service/remote/chat';
 import useAccount from 'src/hooks/useAccount';
 import useDialog from 'core/hooks/useDialog';
 import { useNoteStore } from 'stores/note';
-import { loading } from 'vxe-table'
 import { Chat } from 'src/types/chat'
 
 const props = defineProps({
@@ -145,7 +147,7 @@ const props = defineProps({
     default: ''
   },
   chat: {
-    type: Object as PropType<Chat>,
+    type: Object as PropType<Indexable>,
     default: () => {}
   },
   streaming: {
@@ -164,8 +166,13 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  refType: {
+    type: String,
+    default: ''
+  },
 })
 const emit = defineEmits(['like', 'send']);
+const insertContent = inject<(value: string) => void>('insertContent', null);
 
 const { account } = useAccount();
 const { openDialog } = useDialog();
@@ -195,12 +202,19 @@ function onLike(like: number) {
 }
 
 function onNote() {
-  noteStore.setChatToNote(props.chat);
+  noteStore.setChatToNote(props.chat as Chat);
   openDialog({
     type: 'chat-note-select',
     data: props.chat
   })
 }
+
+function onInsert() {
+  if (insertContent) {
+    insertContent(props.chat.content)
+  }
+}
+
 
 onMounted(() => {
   userMessage.value = props.chat.message;

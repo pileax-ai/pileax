@@ -24,6 +24,9 @@ export interface ChatConversation {
   appId: string;
   userId?: number;
   name: string;
+  modelProvider?: string;
+  modelType?: string;
+  modelName?: string;
   favorite: number;
   createTime: string;
   updateTime: string;
