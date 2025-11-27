@@ -216,7 +216,7 @@ function onIntersection(entry: Indexable) {
   if (entry.isIntersecting) {
     scrollable.value = true;
   }
-  console.log('inter', scrollable.value);
+  // console.log('inter', scrollable.value);
 }
 
 onActivated(() => {

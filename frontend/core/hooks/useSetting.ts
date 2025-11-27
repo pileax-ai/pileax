@@ -53,7 +53,6 @@ export default function () {
     const themeSetting = appStore.setting.theme;
     themeSetting.name = name;
     appStore.setTheme(themeSetting);
-    console.log('theme', name);
     ipcService.setTheme(name as 'system' | 'light' | 'dark');
   }
 

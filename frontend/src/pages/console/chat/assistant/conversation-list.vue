@@ -44,7 +44,7 @@ watch(() => conversationTimer.value, (newValue) => {
 })
 
 onMounted(() => {
-  console.log('mounted: conversation list')
+  // console.log('mounted: conversation list')
 })
 </script>
 

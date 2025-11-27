@@ -34,7 +34,6 @@ api.interceptors.request.use(
     }
 
     // Auto refresh token
-    console.log('url', config.url)
     if (!config.url?.includes('refresh-token')) {
       refreshTokenThrottle()
     }
