@@ -127,3 +127,14 @@ class DbHelper:
     def apply_pagination(stmt, page_index: int, page_size: int):
         offset = (page_index - 1) * page_size
         return stmt.offset(offset).limit(page_size)
+
+    @staticmethod
+    def parse_json_fields(data: dict, fields: List[str]):
+        import json
+        for f in fields:
+            if isinstance(data.get(f), str):
+                try:
+                    data[f] = json.loads(data[f])
+                except:
+                    data[f] = None
+        return data

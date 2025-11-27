@@ -88,7 +88,7 @@ function onRouteChanged() {
   const { name, path } = route;
   switch (name) {
     case 'chat':
-    case 'chat-session':
+    case 'chat-conversation':
       activity = 'chat';
       break;
     case 'knowledge':

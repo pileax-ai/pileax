@@ -1,42 +1,43 @@
 import { computed, ref } from 'vue';
-import { ChatInput, ChatSession } from 'src/types/chat'
-import { chatSessionService } from 'src/service/remote/chat-session';
+import { ChatInput, ChatConversation } from 'src/types/chat'
+import { chatConversationService } from 'src/service/remote/chat-conversation';
 import { MenuItem } from 'core/types/menu';
 import { useChatStore } from 'stores/chat';
 import { useNaviStore } from 'stores/navi';
 
 export default function () {
-  const sessionId = ref('')
-  const session = ref<ChatSession>();
+  const appId = ref('')
+  const conversationId = ref('')
+  const conversation = ref<ChatConversation>();
   const chatStore = useChatStore();
   const naviStore = useNaviStore();
 
-  const sessionTimer = computed(() => {
-    return chatStore.sessionTimer;
+  const conversationTimer = computed(() => {
+    return chatStore.conversationTimer;
   })
 
   const currentChat = computed(() => {
     return chatStore.currentChat;
   })
 
-  function setCurrentSession(s: ChatSession) {
+  function setCurrentSession(s: ChatConversation) {
     const menuItem = {
       id: s.id,
-      parentId: s.assistant,
-      name: s.title,
-      path: `/a/chat/${s.assistant}/${s.id}`,
+      parentId: s.appId,
+      name: s.name,
+      path: `/a/chat/${s.appId}/${s.id}`,
       action: 1,
       meta: {
-        type: 'chat-session',
+        type: 'chat-conversation',
         icon: '🍃',
         iconClass: 'emoji'
       }
     } as MenuItem;
     naviStore.setCurrentMenu(menuItem);
   }
-  async function getSession() {
-    chatSessionService.get(sessionId.value).then(res => {
-      session.value = res;
+  async function getConversation() {
+    chatConversationService.get(conversationId.value).then(res => {
+      conversation.value = res;
       setCurrentSession(res);
     })
   }
@@ -46,11 +47,12 @@ export default function () {
 
   return {
     chatStore,
-    session,
-    sessionId,
-    sessionTimer,
+    appId,
+    conversation,
+    conversationId,
+    conversationTimer,
     currentChat,
-    getSession,
+    getConversation,
     setCurrentChat,
   };
 }

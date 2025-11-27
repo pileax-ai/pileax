@@ -1,6 +1,6 @@
 <template>
   <section class="knowledge-list fit" :style="`max-width: ${maxWidth}px`">
-    <section class="session-panel">
+    <section class="conversation-panel">
       <q-list>
         <template v-for="(group, groupName) in groupedList" :key="groupName">
           <template v-if="groupName === 'byMonth'">
@@ -52,7 +52,7 @@ import { router } from 'src/router';
 import useKnowledge from 'src/hooks/useKnowledge.js';
 import useNavi from 'src/hooks/useNavi.js';
 
-type GroupedSessions = {
+type GroupedConversations = {
   today: Knowledge[];
   yesterday: Knowledge[];
   last7Days: Knowledge[];
@@ -91,14 +91,14 @@ function openKnowledge(item: Knowledge) {
   router.push({name: 'knowledge', params: {id: item.id}});
 }
 
-function groupByTime(knowledgeList: Knowledge[]): GroupedSessions {
+function groupByTime(knowledgeList: Knowledge[]): GroupedConversations {
   const now = new Date();
   const todayStart = new Date(now.setHours(0, 0, 0, 0));
   const yesterdayStart = new Date(new Date().setDate(now.getDate() - 1));
   const sevenDaysAgo = new Date(new Date().setDate(now.getDate() - 7));
   const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
 
-  const result: GroupedSessions = {
+  const result: GroupedConversations = {
     today: [],
     yesterday: [],
     last7Days: [],
@@ -131,10 +131,10 @@ function groupByTime(knowledgeList: Knowledge[]): GroupedSessions {
 
   // Deduplicate
   result.last7Days = result.last7Days.filter(
-    (session) => !result.today.includes(session)
+    (conversation) => !result.today.includes(conversation)
   );
   result.last30Days = result.last30Days.filter(
-    (session) => !result.today.includes(session) && !result.last7Days.includes(session)
+    (conversation) => !result.today.includes(conversation) && !result.last7Days.includes(conversation)
   );
 
   return result;

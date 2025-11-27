@@ -31,7 +31,7 @@ const props = defineProps({
 });
 
 const finalName = computed(() => {
-  let name = props.name
+  let name = props.name?.toLowerCase()
   if (name?.indexOf('icon-') === 0) {
     name = name.substring(5)
   }

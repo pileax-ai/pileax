@@ -11,14 +11,14 @@
                             anchor="bottom left"
                             self="top left"
                             class="bg-accent"
-                            :menu-class="`chat-section-session-menu pi-menu ${dense ? 'dense' : ''}`"
+                            :menu-class="`chat-section-conversation-menu pi-menu ${dense ? 'dense' : ''}`"
                             min-width="200px"
                             :default-open="defaultOpen"
                             flat dropdown persistent>
-            <chat-sessions ref="sessionsRef"
+            <chat-conversations ref="conversationsRef"
                            :ref-type="refType"
                            :ref-id="refId"
-                           :active-id="sessionId"
+                           :active-id="conversationId"
                            @open="openSession" />
           </o-hover-menu-btn>
         </div>
@@ -94,15 +94,15 @@
 import { computed, ref, nextTick, onActivated, onBeforeMount } from 'vue'
 import OChatInput from 'components/chat/OChatInput.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
-import ChatSessions from 'components/chat/ChatSessions.vue';
+import ChatConversations from 'components/chat/ChatConversations.vue';
 
 import { chatService } from 'src/service/remote/chat';
-import { chatSessionService } from 'src/service/remote/chat-session';
+import { chatConversationService } from 'src/service/remote/chat-conversation';
 import { UUID } from 'core/utils/crypto';
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
-import useChatSession from 'src/hooks/useChatSession';
-import { ChatInput, ChatSession } from 'src/types/chat'
+import useChatConversation from 'src/hooks/useChatConversation';
+import { ChatInput, ChatConversation } from 'src/types/chat'
 import OChatToc from 'components/chat/OChatToc.vue'
 import ChatActions from 'components/chat/ChatActions.vue'
 import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
@@ -153,14 +153,14 @@ const props = defineProps({
 
 const { provider } = useAi();
 const {
-  session,
-  sessionId,
+  conversation,
+  conversationId,
   chatStore,
-} = useChatSession();
+} = useChatConversation();
 const { isLoading, startStream, cancelStream } = useStream();
 
 const scrollRef = ref<InstanceType<typeof QScrollArea>>();
-const sessionsRef = ref<InstanceType<typeof ChatSessions>>();
+const conversationsRef = ref<InstanceType<typeof ChatConversations>>();
 const tocRef = ref<InstanceType<typeof OChatToc>>();
 const start = ref(false);
 const chats = ref<Indexable[]>([]);
@@ -188,7 +188,7 @@ function getLatestSession() {
       updateTime: 'desc'
     }
   }
-  chatSessionService.query(query).then(res => {
+  chatConversationService.query(query).then(res => {
     const defaultSession = res.list.length
       ? res.list.at(0)
       : {};
@@ -196,11 +196,11 @@ function getLatestSession() {
   })
 }
 
-function openSession(item: ChatSession) {
+function openSession(item: ChatConversation) {
   if (item && item.id) {
     start.value = false;
-    session.value = item;
-    sessionId.value = item.id;
+    conversation.value = item;
+    conversationId.value = item.id;
     getAllChats();
   } else {
     reset();
@@ -208,7 +208,7 @@ function openSession(item: ChatSession) {
 }
 
 function getAllChats() {
-  chatService.getAll({id: sessionId.value}).then(res => {
+  chatService.getMessages(conversationId.value).then(res => {
     chats.value = res as Indexable[];
     scrollToBottom();
   })
@@ -224,7 +224,7 @@ async function onSend(data: ChatInput, reset = false) {
     chatStore.setCurrentChat(data);
   }
 
-  if (sessionId.value) {
+  if (conversationId.value) {
     chatCompletion(data);
   }
   else {
@@ -239,18 +239,18 @@ function onStop() {
 
 async function createSession(data: ChatInput) {
   const message = data.message;
-  chatSessionService.save({
+  chatConversationService.save({
     id: UUID(),
     title: message,
     name: message,
     refType: props.refType,
     refId: props.refId,
   }).then(res => {
-    sessionId.value = res.id;
+    conversationId.value = res.id;
     start.value = false;
 
-    // update session list
-    sessionsRef.value?.refresh();
+    // update conversation list
+    conversationsRef.value?.refresh();
 
     // replace router
     onSend(data);
@@ -262,7 +262,7 @@ async function chatCompletion(data: ChatInput) {
   const payload = {
     ...data,
     id: UUID(),
-    sessionId: sessionId.value,
+    conversationId: conversationId.value,
     stream: true,
     provider: provider.value.name,
     // model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
@@ -336,8 +336,8 @@ function onIntersection(entry: Indexable) {
 }
 
 function reset() {
-  sessionId.value = '';
-  session.value = undefined;
+  conversationId.value = '';
+  conversation.value = undefined;
   chats.value = [];
 }
 
@@ -464,7 +464,7 @@ defineExpose({
   }
 }
 
-.chat-section-session-menu {
+.chat-section-conversation-menu {
   box-shadow: none;
   outline: solid 1px var(--q-dark);
   .q-list {

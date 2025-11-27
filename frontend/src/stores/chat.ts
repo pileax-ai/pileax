@@ -6,14 +6,14 @@ import { ChatInput } from 'src/types/chat';
 export const useChatStore = defineStore('chat', {
   state: () => ({
     currentChat: undefined as undefined | ChatInput,
-    sessionTimer: 0
+    conversationTimer: 0
   }),
   actions: {
     setCurrentChat(value?: ChatInput) {
       this.currentChat = value;
     },
     setSessionTimer(value: number) {
-      this.sessionTimer = value;
+      this.conversationTimer = value;
     },
   },
   persist: {

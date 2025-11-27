@@ -6,7 +6,7 @@ export interface ChatInput {
 export interface Chat {
   id?: string;
   userId?: number;
-  sessionId?: string;
+  conversationId?: string;
   message: string;
   content: string;
   reasoning: string;
@@ -19,12 +19,11 @@ export interface Chat {
   updateTime?: string;
 }
 
-export interface ChatSession {
+export interface ChatConversation {
   id: string;
+  appId: string;
   userId?: number;
-  title: string;
   name: string;
-  assistant: string;
   favorite: number;
   createTime: string;
   updateTime: string;

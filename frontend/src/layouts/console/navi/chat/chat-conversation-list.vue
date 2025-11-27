@@ -1,10 +1,9 @@
 <template>
-  <section class="ai-assistant-list fit" :style="`max-width: ${maxWidth}px`">
-    <q-expansion-item label="聊天助手"
-                      header-class="o-navi-item text-readable"
-                      default-opened>
-      <q-btn icon="add" label="添加助手" class="bg-dark add" flat />
-    </q-expansion-item>
+  <section class="chat-conversation-list fit" :style="`max-width: ${maxWidth}px`">
+    <chat-conversations ref="conversationsRef"
+                   :max-width="maxWidth"
+                   :active-id="currentMenu.id"
+                   @open="openSession" />
   </section>
 </template>
 
@@ -37,10 +36,7 @@ watch(() => conversationTimer.value, (newValue) => {
 </script>
 
 <style lang="scss">
-.ai-assistant-list {
-  padding: 0 8px;
-  .add {
-    width: 100%;
-  }
+.chat-conversation-list {
+
 }
 </style>

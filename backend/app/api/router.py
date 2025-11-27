@@ -1,8 +1,10 @@
+import inspect
 from functools import wraps
 from typing import Generic, TypeVar, Optional, Any, Type, Callable
 from http import HTTPStatus
 from pydantic import Field, BaseModel
 from fastapi import APIRouter
+from starlette.responses import StreamingResponse
 
 T = TypeVar("T")
 
@@ -55,6 +57,32 @@ class ApiRouter(APIRouter):
         return decorator
 
     def api_post(self, path: str, response_model: Type[T], **kwargs):
+        def decorator(func: Callable[..., Any]):
+            wrapped_func = api_response(response_model)(func)
+
+            @wraps(func)
+            async def wrapper(*args, **inner_kwargs):
+                result = func(*args, **inner_kwargs)
+                if inspect.isawaitable(result):
+                    result = await result
+
+                # case 1: streaming
+                if isinstance(result, StreamingResponse):
+                    return result
+
+                # case 2: general
+                wrapped = wrapped_func(*args, **inner_kwargs)
+                if inspect.isawaitable(wrapped):
+                    wrapped = await wrapped
+
+                return wrapped
+
+            return self.post(path, response_model=Response[response_model], **kwargs)(
+                wrapper
+            )
+        return decorator
+
+    def api_post_old(self, path: str, response_model: Type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.post(path, response_model=Response[response_model], **kwargs)(
                 api_response(response_model)(func)

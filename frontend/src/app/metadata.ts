@@ -18,7 +18,7 @@ export const StatTypes = [
   { label: '订单', value: 'order', icon: 'list_alt', color: 'cyan' },
   { label: '话题', value: 'post', icon: 'forum', color: 'teal' },
   { label: '对话', value: 'chat', icon: 'table_view', color: 'teal' },
-  { label: '会话', value: 'chat_session', icon: 'forum', color: 'indigo' },
+  { label: '会话', value: 'chat_conversation', icon: 'forum', color: 'indigo' },
   { label: '交易记录', value: 'transaction', icon: 'list_alt', color: 'cyan' },
   { label: '奖励记录', value: 'reward_record', icon: 'emoji_events', color: 'deep-purple' },
   { label: '活跃用户', value: 'active_record', icon: 'accessibility', color: 'lime' },

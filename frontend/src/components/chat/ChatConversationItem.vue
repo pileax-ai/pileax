@@ -1,9 +1,9 @@
 <template>
-  <q-item class="chat-session-item o-navi-item"
+  <q-item class="chat-conversation-item o-navi-item"
           :class="{'active': activeId === item.id, 'clicked': clicked}"
           clickable
           v-close-popup="closable"
-          @click="openSession(item)">
+          @click="openConversation(item)">
     <q-item-section v-if="editable">
       <q-input v-model="title" autofocus outlined dense
                @keyup.enter.stop="onBlur"
@@ -20,7 +20,7 @@
       </q-item-section>
       <q-item-section>
         <q-item-label lines="1">
-          {{ item.title }}
+          {{ item.name }}
         </q-item-label>
       </q-item-section>
       <q-item-section class="more" side>
@@ -50,14 +50,14 @@
 
 <script setup lang="ts">
 import { computed, PropType, ref } from 'vue'
-import { chatSessionService } from 'src/service/remote/chat-session';
-import { ChatSession } from 'src/types/chat';
+import { chatConversationService } from 'src/service/remote/chat-conversation';
+import { ChatConversation } from 'src/types/chat';
 import { refresh } from 'core/hooks/useRouter'
 import { timeMulti } from 'core/utils/format'
 
 const props = defineProps({
   item: {
-    type: Object as PropType<ChatSession>,
+    type: Object as PropType<ChatConversation>,
     default: () => {
       return {};
     }
@@ -103,7 +103,7 @@ function onAction (action: Indexable) {
 function onBlur() {
   editable.value = false;
   console.log('input', title.value);
-  chatSessionService.save({
+  chatConversationService.save({
     id: props.item.id,
     title: title.value
   }).then(res => {
@@ -111,13 +111,13 @@ function onBlur() {
   })
 }
 
-function openSession(item: ChatSession) {
+function openConversation(item: ChatConversation) {
   emit('open', item);
 }
 
 function onToggleFavorite() {
   const favorite = props.item.favorite === 1 ? 0 : 1;
-  chatSessionService.save({
+  chatConversationService.save({
     id: props.item.id,
     favorite
   }).then(res => {
@@ -127,7 +127,7 @@ function onToggleFavorite() {
 </script>
 
 <style lang="scss">
-.chat-session-item {
+.chat-conversation-item {
   padding: 0 6px;
   min-height: 44px;
   .q-item__section--avatar {

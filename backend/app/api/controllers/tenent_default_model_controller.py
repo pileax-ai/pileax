@@ -12,7 +12,7 @@ class TenantDefaultModelController(BaseController[TenantDefaultModel, TenantDefa
         tenant_id: CurrentTenantId
     ):
         super().__init__(TenantDefaultModel, session, tenant_id, user_id)
-        self.service = TenantDefaultModelService(session)
+        self.service = TenantDefaultModelService(session, tenant_id, user_id)
 
     def save(self, item_in: TenantDefaultModelCreate) -> TenantDefaultModel:
         return self.service.create_update(item_in, self.tenant_id)

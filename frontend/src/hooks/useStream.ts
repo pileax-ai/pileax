@@ -61,14 +61,15 @@ export default function(): UseStreamReturn {
 
           const lines = rawData
             ?.split('\n\n')
-            .filter((line: string) => line.startsWith('data: '));
+            .filter((line: string) => line.startsWith('data: ') || line.startsWith('event: '));
 
+          let done = false;
           let text = '';
           let reasoningText = '';
-          let done = false;
           lines?.forEach((line: string) => {
             try {
-              if (line.includes('[DONE]')) {
+              if (line.includes('event: [DONE]')) {
+                console.log('DONE')
                 done = true;
                 return;
               }
@@ -80,6 +81,8 @@ export default function(): UseStreamReturn {
               } else {
                 text += event.content;
               }
+              // const message = line.replace('data: ', '').trim();
+              // text += message
             } catch (e) {
               console.warn('Parse error:', e);
             }

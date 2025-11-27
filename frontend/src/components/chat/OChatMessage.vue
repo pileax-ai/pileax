@@ -53,7 +53,7 @@
     <q-item-section avatar v-if="!dense">
       <q-avatar color="accent">
         <q-spinner-ios size="1.5rem" v-if="streaming" />
-        <o-svg-icon :name="chat.provider" size="2rem" v-else />
+        <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
       </q-avatar>
       <div class="line"></div>
     </q-item-section>
@@ -185,7 +185,7 @@ function onSend() {
 }
 
 function onLike(like: number) {
-  chatService.save({
+  chatService.put({
     id: props.chat.id,
     like: like
   }).then(res => {

@@ -1,6 +1,6 @@
 <template>
   <section class="row items-center text-tips chat-actions">
-    <q-btn icon="star_outline" flat v-if="session?.id" />
+    <q-btn icon="star_outline" flat v-if="conversation?.id" />
     <q-btn icon="more_horiz" flat>
       <q-menu ref="menu"
               anchor="bottom right"
@@ -18,7 +18,7 @@
                                     persist
                                     enabled-only />
         </section>
-        <q-list :style="{minWidth: '240px'}" v-if="session?.id">
+        <q-list :style="{minWidth: '240px'}" v-if="conversation?.id">
           <template v-for="(action, index) in actions" :key="`action-${index}`">
             <q-separator class="bg-accent" v-if="action.separator" />
             <o-common-item v-bind="action"
@@ -46,12 +46,11 @@
 
 <script setup lang="ts">
 import { computed, PropType, ref } from 'vue'
-import useChatSession from 'src/hooks/useChatSession';
 import { refresh } from 'core/hooks/useRouter';
 import OAiProviderSelectBtn from 'src/components/ai/OAiProviderSelectBtn.vue';
 
 const props = defineProps({
-  session: {
+  conversation: {
     type: Object as PropType<Indexable>,
     default: () => {}
   },

@@ -3,19 +3,19 @@
                 class="page-assistant-chat"
                 @side-width="onSideWidth">
     <template #vertical-side>
-      <chat-session-list />
+      <chat-conversation-list />
     </template>
     <template #horizontal-side>
       <o-assistant-chat enable-upload
-                        :loading="sessionRef?.isLoading"
-                        @send="sessionRef?.onSend"
-                        @stop="sessionRef?.onStop"
+                        :loading="conversationRef?.isLoading"
+                        @send="conversationRef?.onSend"
+                        @stop="conversationRef?.onStop"
                         @expand="pageRef?.expandHorizontalSide" />
     </template>
 
     <router-view v-slot="{ Component, route }">
       <keep-alive>
-        <component ref="sessionRef"
+        <component ref="conversationRef"
                    :is="Component"
                    :key="route.path" />
       </keep-alive>
@@ -28,12 +28,11 @@ import { ref } from 'vue';
 
 import OAssistantChat from 'components/chat/OAssistantChat.vue';
 import OSplitSidePage from 'core/page/template/OSplitSidePage.vue';
-import ChatSession from './session/index.vue';
-import ChatSessionList from './session-list.vue';
-import { ChatInput } from 'src/types/chat'
+import ChatConversation from './conversation/index.vue';
+import ChatConversationList from './conversation-list.vue';
 
 const pageRef = ref<InstanceType<typeof OSplitSidePage>>();
-const sessionRef = ref<InstanceType<typeof ChatSession>>();
+const conversationRef = ref<InstanceType<typeof ChatConversation>>();
 const sideWidth = ref(320);
 const sideHeight = ref(160);
 

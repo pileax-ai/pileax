@@ -67,7 +67,7 @@ def get_current_tenant(
     return tenant
 
 
-CurrentUserId = Annotated[User, Depends(get_user_id)]
+CurrentUserId = Annotated[UUID, Depends(get_user_id)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
-CurrentTenantId = Annotated[User, Depends(get_tenant_id)]
+CurrentTenantId = Annotated[UUID, Depends(get_tenant_id)]
 CurrentTenant = Annotated[Tenant, Depends(get_current_tenant)]

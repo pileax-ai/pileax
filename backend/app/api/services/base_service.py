@@ -14,9 +14,9 @@ class BaseService(Generic[ModelType]):
         self.session = session
         self.repo = repo_cls(model, session)
 
-    def get(self, id: UUID) -> ModelType:
+    def get(self, id: UUID, raise_exception = True) -> ModelType:
         obj = self.repo.get(id)
-        if not obj:
+        if not obj and raise_exception:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj
 

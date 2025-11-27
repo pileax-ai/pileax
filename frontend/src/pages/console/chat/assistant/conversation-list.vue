@@ -1,5 +1,5 @@
 <template>
-  <section class="assistant-chat-session-list">
+  <section class="assistant-chat-conversation-list">
     <header class="row justify-between items-center header">
       <div>话题</div>
       <div>
@@ -7,20 +7,20 @@
       </div>
     </header>
 
-    <chat-sessions ref="sessionsRef"
-                   :max-width="maxWidth"
-                   :active-id="currentMenu.id"
-                   @open="openSession" />
+    <chat-conversations ref="conversationsRef"
+                        :max-width="maxWidth"
+                        :active-id="currentMenu.id"
+                        @open="openConversation" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { ChatSession } from 'src/types/chat';
+import { ChatConversation } from 'src/types/chat';
 import { router } from 'src/router';
-import useChatSession from 'src/hooks/useChatSession';
+import useChatConversation from 'src/hooks/useChatConversation';
 import useNavi from 'src/hooks/useNavi';
-import ChatSessions from 'components/chat/ChatSessions.vue';
+import ChatConversations from 'components/chat/ChatConversations.vue';
 
 defineProps({
   maxWidth: {
@@ -28,27 +28,28 @@ defineProps({
     default: 300
   },
 });
-const { sessionTimer } = useChatSession();
+const { conversationTimer } = useChatConversation();
 const { currentMenu } = useNavi();
 
-const sessionsRef = ref<InstanceType<typeof ChatSessions>>();
+const conversationsRef = ref<InstanceType<typeof ChatConversations>>();
 
-function openSession(item: ChatSession) {
-  router.push({name: 'chat-session',
-    params: {assistant: item.assistant, id: item.id}});
+function openConversation(item: ChatConversation) {
+  console.log('open', item)
+  router.push({name: 'chat-conversation',
+    params: {appId: item.appId, id: item.id}});
 }
 
-watch(() => sessionTimer.value, (newValue) => {
-  sessionsRef.value?.refresh();
+watch(() => conversationTimer.value, (newValue) => {
+  conversationsRef.value?.refresh();
 })
 
 onMounted(() => {
-  console.log('mounted: session list')
+  console.log('mounted: conversation list')
 })
 </script>
 
 <style lang="scss">
-.assistant-chat-session-list {
+.assistant-chat-conversation-list {
   .header {
     position: absolute;
     top: 0;
@@ -60,7 +61,7 @@ onMounted(() => {
     background: var(--q-secondary);
   }
 
-  .chat-sessions {
+  .chat-conversations {
     position: absolute;
     top: 40px;
     bottom: 0;
