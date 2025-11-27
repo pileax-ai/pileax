@@ -15,7 +15,7 @@
             <span>
               {{ currentNote.icon }}
             </span>
-            <o-emoji-menu @select="setIcon" v-close-popup />
+            <o-emoji-menu @select="setIcon" />
           </div>
         </section>
         <section class="text-readable note-meta-wrapper">
@@ -151,8 +151,9 @@ async function createNote() {
   let content = '';
   let focusPosition = 'start';
   if (source.value === 'chat') {
-    content = chatContentToHtml(noteStore.chatContent, true);
-    focusPosition = 'end';
+    console.log('Create note', noteStore.chatContent)
+    // content = chatContentToHtml(noteStore.chatContent, true);
+    // focusPosition = 'end';
   }
   const note = await noteService.save({
     id: id.value,
@@ -169,11 +170,13 @@ function loadingNote(note: Note) {
   let content = note.content;
   let focusPosition = 'start';
   if (source.value ===  'chat') {
-    loading.value = false;
-    content += chatContentToHtml(noteStore.chatContent);
-    focusPosition = 'end';
+    console.log('Append note', noteStore.chatContent)
+    // loading.value = false;
+    // content += chatContentToHtml(noteStore.chatContent);
+    // focusPosition = 'end';
   }
   const emitUpdate = true;
+  console.log('loading note', note, content)
   loadNote(note, content, focusPosition, emitUpdate);
   notePage.value?.refreshChat(note.id);
 }
@@ -200,7 +203,7 @@ function onScroll() {
 
 function onUpdate({ json, html }: { json: any; html: string }) {
   // console.log('update', json)
-  // console.log('update', html);
+  console.log('update', html, id.value);
   noteJson.value = json;
   noteHtml.value = html;
 
@@ -267,8 +270,7 @@ onMounted(() => {
   }
 
   .o-scroll-wrapper {
-    padding-top: 50px;
-    z-index: -1;
+    top: 50px;
 
     .note-meta {
       //margin-top: 50px;

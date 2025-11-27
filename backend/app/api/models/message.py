@@ -19,8 +19,6 @@ class Message(BaseSQLModel, BaseMixin, table=True):
     total_tokens: int = Field(default=0, sa_column=Column(Integer, default=0))
     favorite: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
     status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
-    ref_id: str | None = Field(default=None)
-    ref_type: str | None = Field(default=None)
 
 
 class MessageBase(BaseApiModel):

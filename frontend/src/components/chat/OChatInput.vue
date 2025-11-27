@@ -12,23 +12,11 @@
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
-        <o-ai-provider-select-btn class="bg-dark"
-                                  round single persist enabled-only v-if="false">
+        <o-ai-model-select-btn type="chat" single icon-only>
           <o-tooltip position="left" transition>
-            {{provider.title}}
+            AI Model
           </o-tooltip>
-        </o-ai-provider-select-btn>
-        <o-ai-model-select-single-btn type="chat" />
-        <q-btn :class="`text-${reasoning ? 'white' : 'readable'}
-                            bg-${reasoning ? 'primary' : 'dark'} reasoning`"
-               @click="onToggleThink"
-               flat dense rounded>
-          <o-svg-icon name="reasoning" size="1.4rem" />
-          <span class="q-ml-xs">深度思考</span>
-          <o-tooltip position="right" transition>
-            先思考后回答，解决推理问题
-          </o-tooltip>
-        </q-btn>
+        </o-ai-model-select-btn>
       </div>
       <div>
         <q-btn icon="add" class="bg-dark" flat round v-if="enableUpload">
@@ -66,7 +54,7 @@ import { ref } from 'vue';
 import { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
-import OAiModelSelectSingleBtn from 'components/ai/OAiModelSelectSingleBtn.vue';
+import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';
 
 const props = defineProps({
   loading: {

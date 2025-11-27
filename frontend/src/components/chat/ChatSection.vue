@@ -241,7 +241,6 @@ async function createSession(data: ChatInput) {
   const message = data.message;
   chatConversationService.save({
     id: UUID(),
-    title: message,
     name: message,
     refType: props.refType,
     refId: props.refId,
@@ -264,8 +263,6 @@ async function chatCompletion(data: ChatInput) {
     id: UUID(),
     conversationId: conversationId.value,
     stream: true,
-    provider: provider.value.name,
-    // model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
   newChat.value = payload;
 

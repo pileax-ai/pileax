@@ -14,6 +14,8 @@ class Conversation(BaseSQLModel, BaseMixin, table=True):
     name: str = Field(..., max_length=255)
     favorite: int = Field(default=Status.PENDING, sa_column=Column(Integer, default=Status.PENDING))
     status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
+    ref_id: str | None = Field(default=None)
+    ref_type: str | None = Field(default="general")
 
 
 class ConversationBase(BaseApiModel):
@@ -22,6 +24,8 @@ class ConversationBase(BaseApiModel):
     model_provider: str | None = None
     model_name: str | None = None
     model_type: str | None = None
+    ref_id: str | None = None
+    ref_type: str | None = None
 
 
 class ConversationCreate(ConversationBase):

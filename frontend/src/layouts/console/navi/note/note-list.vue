@@ -47,14 +47,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue';
 import useDialog from 'core/hooks/useDialog';
 import useNote from 'src/hooks/useNote';
-import useCommon from 'core/hooks/useCommon'
+import useCommon from 'core/hooks/useCommon';
 const { t } = useCommon();
 
 import NoteTree from './note-tree.vue';
-import OContextMenu from 'core/components/menu/OContextMenu.vue'
+import OContextMenu from 'core/components/menu/OContextMenu.vue';
 
 defineProps({
   maxWidth: {

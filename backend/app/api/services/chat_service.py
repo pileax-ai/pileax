@@ -13,8 +13,6 @@ from app.api.repos.message_repository import MessageRepository
 from app.api.services.base_service import BaseService
 from starlette.responses import StreamingResponse
 
-from app.core.llm.utils.token import num_tokens_from_string
-
 
 class ChatService(BaseService[Message]):
     def __init__(self, session, tenant_id, user_id):

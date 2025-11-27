@@ -69,11 +69,11 @@ export const findMenuByPath = (path :string) => {
 
 export const menuLabel = (name :string) => {
   if (!name
-    || name.substr(0, 1).match(/^.*[A-Z]+.*$/)
-    || name.substr(0, 1).match(/^[\u4e00-\u9fa5]+$/)) {
+    || name.slice(0, 1).match(/^.*[A-Z]+.*$/)
+    || name.slice(0, 1).match(/^[\u4e00-\u9fa5]+$/)) {
     return name || '';
   } else {
-    const { t } = useI18n();
-    return t(name);
+    const { t, te } = useI18n();
+    return te(name) ? t(name) : name;
   }
 }

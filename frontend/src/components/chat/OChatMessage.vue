@@ -64,9 +64,9 @@
         <div class="row items-center">
           <q-avatar color="accent" size="36px" rounded>
             <q-spinner-ios size="1.5rem" v-if="streaming" />
-            <o-svg-icon :name="chat.provider" size="2rem" v-else />
+            <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
           </q-avatar>
-          <o-chip color="info" square dense>{{chat.provider}}</o-chip>
+          <o-chip color="info" square dense>{{chat.modelProvider}}</o-chip>
         </div>
       </section>
       <q-spinner-dots size="2rem"
@@ -196,7 +196,8 @@ function onLike(like: number) {
 function onNote() {
   noteStore.setChatContent(props.chat.content);
   openDialog({
-    type: 'chat-note-select'
+    type: 'chat-note-select',
+    data: props.chat
   })
 }
 

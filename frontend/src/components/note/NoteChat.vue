@@ -15,7 +15,8 @@
         <chat-section ref-type="chat"
                       :ref-id="noteId"
                       description="基于笔记问答"
-                      tag="基于笔记" dense>
+                      tag="基于笔记"
+                      dense>
         </chat-section>
       </q-page>
     </q-page-container>

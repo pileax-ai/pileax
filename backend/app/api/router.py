@@ -56,7 +56,7 @@ class ApiRouter(APIRouter):
             )
         return decorator
 
-    def api_post(self, path: str, response_model: Type[T], **kwargs):
+    def api_post_stream(self, path: str, response_model: Type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             wrapped_func = api_response(response_model)(func)
 
@@ -82,7 +82,7 @@ class ApiRouter(APIRouter):
             )
         return decorator
 
-    def api_post_old(self, path: str, response_model: Type[T], **kwargs):
+    def api_post(self, path: str, response_model: Type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.post(path, response_model=Response[response_model], **kwargs)(
                 api_response(response_model)(func)

@@ -3,7 +3,7 @@
                     :show="dialog.type === 'chat-note-select'"
                     position="top"
                     scrollable
-                    @close="onHide">
+                    @close="onHide" @show="onShow">
     <template #header>
       <q-input v-model="term"
                @update:model-value="onSearch"
@@ -99,6 +99,7 @@ const {
   openNote,
 } = useNote();
 
+const chat = ref<Indexable>({});
 const term = ref('');
 const selected = ref(0);
 const selectedNote = ref<Note>();
@@ -190,6 +191,10 @@ function onAppendNote() {
   if (selectedNote.value) {
     openNote(selectedNote.value, 'chat');
   }
+}
+
+function onShow() {
+  chat.value = dialog.value.data
 }
 
 onMounted( async () => {
