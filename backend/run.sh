@@ -3,9 +3,8 @@
 # ==============================================================================
 # Description: Run and build scripts
 # ==============================================================================
-PROMPT=INFO
+LEVEL=INFO
 APP="PileaX"
-
 
 ## Func
 ## -----------------------------------------------------------------------------
@@ -70,11 +69,12 @@ build_macos() {
 ## -----------------------------------------------------------------------------
 platform=$1
 
-if [ -z $platform ] then
+if [ -z $platform ]
+then
   platform=$(detect_os)
 fi
 
-echo "Build backend runnable for $platform"
+echo "$APP: Build backend runnable for $platform"
 case $platform in
   win)
     build_win

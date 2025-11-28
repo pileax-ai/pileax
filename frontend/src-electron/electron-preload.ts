@@ -38,8 +38,6 @@ const electronAPI = {
   },
   closeWindow: async () =>
     ipcRenderer.invoke('window-close'),
-  dbExecute: async (entity: string, method: string, params: any) =>
-    ipcRenderer.invoke('db-execute', entity, method, params),
   getPath: async (key: string) =>
     ipcRenderer.invoke('get-path', key),
   getServerInfo: async (): Promise<Indexable> =>

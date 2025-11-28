@@ -11,7 +11,6 @@ import {
   saveImageFile
 } from '../utils/file';
 import { PathManager } from '../app/pathManager'
-import { dbExecute } from '../db/service';
 import { serverInfo } from '../server/fastapi';
 import {
   openNewWindow,
@@ -117,18 +116,6 @@ export class Application {
     ipcMain.handle('get-server-info', () => {
       return serverInfo;
     });
-
-    ipcMain.handle('db-execute',
-      async (event, entity: string, method: string, params: any) => {
-        return new Promise((resolve, reject) => {
-          dbExecute(entity, method, params).then(result => {
-            resolve(result);
-          }).catch(err => {
-            console.error('db-execute', entity, method, params, err);
-            reject(err);
-          });
-        });
-      });
 
     ipcMain.handle('get-path',
       (event, key: string) => {

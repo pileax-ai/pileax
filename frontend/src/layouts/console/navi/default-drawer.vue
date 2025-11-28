@@ -6,7 +6,7 @@
             class="bg-secondary default-drawer">
     <header class="row col-12 items-center navi-header">
       <div class="row items-center justify-center cursor-pointer logo" @click="$router.push('/')">
-        <img src="/logo.png" :width="40" />
+        <img :src="$public('/logo.svg')" :width="40">
       </div>
       <div class="name">
         {{$t('app.name')}}

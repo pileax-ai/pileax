@@ -2,7 +2,7 @@
   <q-toolbar class="base-toolbar">
     <div class="row items-center cursor-pointer app" @click="$router.push('/')">
       <q-avatar size="40px">
-        <img src="/logo.svg">
+        <img :src="$public('/logo.svg')">
       </q-avatar>
       <span class="q-ml-sm">
         {{ $t('app.name') }}

@@ -67,7 +67,7 @@ async function startServer() {
           NODE_ENV: 'development',
           DB_DATABASE: `/${dbPath}`,
           PUBLIC_FILE_ROOT: publicPath,
-          WEB_API_CORS_ALLOW_ORIGINS: '*',
+          WEB_API_CORS_ALLOW_ORIGINS: process.env.APP_URL,
         },
         cwd: serverPath,
         stdio: 'pipe',
