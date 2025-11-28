@@ -10,12 +10,26 @@ from fastapi import FastAPI
 
 logger = logging.getLogger(__name__)
 
+EXT_NAMES = [
+    'ai',
+    'cors',
+    'database',
+    'docs',
+    'exception',
+    'logging',
+    'perf',
+    'router',
+    'static',
+]
+EXT_MODULES = [f"{__name__}.ext_{name}" for name in EXT_NAMES]
 
 def setup_extensions(app: FastAPI):
     extensions: List[Tuple[Any, int, str]] = []
 
-    for module_info in pkgutil.iter_modules(__path__):
-        module_name = f"{__name__}.{module_info.name}"
+    # Don't use pkgutil.iter_modules when pyinstaller used
+    # for module_info in pkgutil.iter_modules(__path__):
+    #     module_name = f"{__name__}.{module_info.name}"
+    for module_name in EXT_MODULES:
         ext = importlib.import_module(module_name)
         order = getattr(ext, "order", 0)
         if order >= 0:

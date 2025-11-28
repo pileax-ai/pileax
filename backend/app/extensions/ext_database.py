@@ -12,6 +12,7 @@ from sqlalchemy import event
 from sqlmodel import Session, create_engine
 
 from app.configs import app_config
+from app.libs.file_utils import get_root_dir
 
 logger = logging.getLogger(__name__)
 order = -1
@@ -62,7 +63,9 @@ def run_migrations():
     lock_file = get_migration_lock_file()
 
     with FileLock(lock_file):
-        alembic_cfg = Config("alembic.ini")
+        cfg_file_path = get_root_dir("alembic.ini")
+        logger.info(f"alembic init file: {cfg_file_path}")
+        alembic_cfg = Config(cfg_file_path)
 
         temp_engine = create_new_engine()
         with temp_engine.connect() as connection:

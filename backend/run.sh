@@ -48,7 +48,10 @@ build_macos() {
   --onedir \
   --name runnable \
   --add-data ".env:.env" \
+  --add-data "alembic.ini:." \
+  --add-data "alembic:alembic" \
   --collect-all passlib \
+  --additional-hooks-dir=hooks \
   --noconfirm \
   app/main.py
 }
