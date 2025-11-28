@@ -5,9 +5,8 @@ import random
 import re
 import time
 
-import litellm
-
 from app.core.nlp import is_chinese
+from app.libs.import_helper import ImportHelper
 from .base import Base, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, LLMErrorCode, ERROR_PREFIX
 from ..registry import register
 from ... import SupportedLiteLLMProvider, FACTORY_DEFAULT_BASE_URL, LITELLM_PROVIDER_PREFIX
@@ -157,7 +156,7 @@ class LiteLLMBase(Base):
         return completion_args
 
     def _chat(self, history, gen_conf, **kwargs):
-        # import litellm
+        litellm = ImportHelper.get_litellm()
         logger.info("[HISTORY]" + json.dumps(history, ensure_ascii=False, indent=2))
         if self.model_name.lower().find("qwen3") >= 0:
             kwargs["extra_body"] = {"enable_thinking": False}

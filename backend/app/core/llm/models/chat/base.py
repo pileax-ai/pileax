@@ -10,6 +10,7 @@ from enum import StrEnum
 
 from app.core.llm.utils.token import total_token_count_from_response, num_tokens_from_string
 from app.core.nlp import is_chinese
+from app.libs.import_helper import ImportHelper
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ LENGTH_NOTIFICATION_EN = "...\nThe answer is truncated by your chosen LLM due to
 
 class Base(ABC):
     def __init__(self, key, model_name, base_url, **kwargs):
-        from openai import OpenAI
+        OpenAI = ImportHelper.get_openai_client()
 
         timeout = int(os.environ.get("LM_TIMEOUT_SECONDS", 600))
         self.client = OpenAI(api_key=key, base_url=base_url, timeout=timeout)

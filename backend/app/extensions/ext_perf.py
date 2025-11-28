@@ -13,9 +13,8 @@ order = -1
 
 
 def is_enabled():
-    # is_pyinstaller = getattr(sys, "frozen", False)
-    # return not is_pyinstaller and app_config.DEBUG
-    return False
+    is_pyinstaller = getattr(sys, "frozen", False)
+    return not is_pyinstaller and app_config.DEBUG
 
 
 def setup_import_timer():
