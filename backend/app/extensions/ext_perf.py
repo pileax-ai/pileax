@@ -1,5 +1,6 @@
 import builtins
 import logging
+import sys
 import time
 
 from fastapi import FastAPI
@@ -12,6 +13,8 @@ order = -1
 
 
 def is_enabled():
+    # is_pyinstaller = getattr(sys, "frozen", False)
+    # return not is_pyinstaller and app_config.DEBUG
     return False
 
 

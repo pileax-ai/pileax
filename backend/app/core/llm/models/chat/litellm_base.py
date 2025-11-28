@@ -5,8 +5,7 @@ import random
 import re
 import time
 
-# import litellm
-# import openai
+import litellm
 
 from app.core.nlp import is_chinese
 from .base import Base, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, LLMErrorCode, ERROR_PREFIX
@@ -158,7 +157,7 @@ class LiteLLMBase(Base):
         return completion_args
 
     def _chat(self, history, gen_conf, **kwargs):
-        import litellm
+        # import litellm
         logger.info("[HISTORY]" + json.dumps(history, ensure_ascii=False, indent=2))
         if self.model_name.lower().find("qwen3") >= 0:
             kwargs["extra_body"] = {"enable_thinking": False}
