@@ -21,7 +21,7 @@ a = Analysis(
     hookspath=['hooks'],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['mypy', 'psycopg_binary'],
+    excludes=['mypy'],
     noarchive=False,
     optimize=0,
 )
