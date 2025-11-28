@@ -46,7 +46,7 @@ build_windows() {
       app/main.py
 }
 
-build_macos() {
+build_macos_old() {
   echo "Build for macos ..."
   source .venv/bin/activate
   uv sync
@@ -60,8 +60,18 @@ build_macos() {
   --add-data "conf:conf" \
   --collect-all passlib \
   --additional-hooks-dir=hooks \
+  --exclude-module mypy \
+  --exclude-module psycopg_binary \
   --noconfirm \
   app/main.py
+}
+
+build_macos() {
+  echo "Build for macos ..."
+  source .venv/bin/activate
+  uv sync
+  uv add --dev pyinstaller
+  uv run pyinstaller --noconfirm runnable.spec
 }
 
 

@@ -7,7 +7,6 @@ htmlcov
 .cache
 .venv
 .env
-runnable.spec
 /build/
 /.cache/log/
 /.cache/storage/
