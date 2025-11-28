@@ -35,10 +35,16 @@ jobs:
         run: |
           cd backend
           python -m venv .venv
-          source .venv/bin/activate 2>/dev/null
-          uv sync
-          uv add --dev pyinstaller
-          uv run pyinstaller --noconfirm runnable.spec
+
+          if [ -f ".venv/bin/python" ]; then
+            VENV_PY=".venv/bin/python"
+          else
+            VENV_PY=".venv/Scripts/python.exe"
+          fi
+
+          $VENV_PY -m uv sync
+          $VENV_PY -m uv add --dev pyinstaller
+          $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
 
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
