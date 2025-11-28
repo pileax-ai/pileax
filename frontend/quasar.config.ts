@@ -75,7 +75,7 @@ export default defineConfig((ctx) => {
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
       // publicPath: '/',
-      // analyze: true,
+      analyze: process.env.analyze,
       // env: {},
       // rawDefine: {}
       // ignorePublicFolder: true,
@@ -248,7 +248,28 @@ export default defineConfig((ctx) => {
       // extendElectronMainConf (esbuildConf) {},
       // extendElectronPreloadConf (esbuildConf) {},
 
-      // extendPackageJson (json) {},
+      extendPackageJson (json) {
+        if (ctx.prod) {
+          const electronDeps = [
+            '@electron/remote',
+            'electron',
+            'electron-log',
+            'electron-updater',
+            'fs-extra',
+            'get-port',
+          ];
+
+          const newDependencies: Indexable = {};
+          electronDeps.forEach(depName => {
+            if (json.dependencies && json.dependencies[depName]) {
+              newDependencies[depName] = json.dependencies[depName];
+            }
+          });
+
+          // Override dependencies use simplified newDependencies
+          json.dependencies = newDependencies;
+        }
+      },
 
       // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
       preloadScripts: [ 'electron-preload' ],

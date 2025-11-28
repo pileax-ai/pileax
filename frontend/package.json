@@ -19,6 +19,7 @@
     "build:electron": "node_modules/.bin/electron-rebuild && quasar build -m electron",
     "build:electron:linux": "node_modules/.bin/electron-rebuild && quasar build -m electron --target=linux",
     "build:electron:win": "node_modules/.bin/electron-rebuild && quasar build -m electron --target=win",
+    "build:electron:analyze": "export analyze=true && node_modules/.bin/electron-rebuild && quasar build -m electron",
     "build:tauri": "cd src-tauri && yarn tauri build",
     "postinstall": "quasar prepare"
   },
