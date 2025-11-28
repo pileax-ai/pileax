@@ -17,6 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Prepare env files
+        run: |
+          cp backend/.env.example backend/.env
+          cp frontend/env/.env.example frontend/env/.env
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -52,6 +57,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Prepare env files
+        run: |
+          cp backend/.env.example backend/.env
+          cp frontend/env/.env.example frontend/env/.env
 
       - name: Download backend artifact
         uses: actions/download-artifact@v4
