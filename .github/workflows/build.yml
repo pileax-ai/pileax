@@ -31,6 +31,7 @@ jobs:
         run: pip install uv
 
       - name: Build backend
+        shell: bash
         run: |
           cd backend
           python -m venv .venv
