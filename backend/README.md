@@ -54,14 +54,7 @@ alembic upgrade head
 ## Build
 ### Mac
 ```shell
-uv sync
-uv add --dev pyinstaller
-uv run pyinstaller \
-  --onedir \
-  --name runnable \
-  --add-data ".env:.env" \
-  --collect-all passlib \
-  app/main.py
+./run.sh macos
 ```
 The results are available in: ./dist/runnable
 

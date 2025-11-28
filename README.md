@@ -7,23 +7,35 @@
 yarn global add tsx dotenv-cli
 ```
 
-## Scripts
-
-### lint
-
-### Build
-
-#### Web
+## Dev
+### Web
 ```shell
-build
+yarn dev
 ```
 
-#### Desktop
+### Desktop
+```shell
+yarn dev:electron
+```
+
+
+## Build
+
+### Web
+```shell
+yarn build
+```
+Output: frontend/dist/spa
+
+### Desktop
 ```shell
 # macOS
 yarn build:desktop
+```
+Output: frontend/dist/electron
 
-# Linux
+```shell
+# Linux (deprecated)
 docker run --rm \
   -v ${PWD}:/project \
   -v $HOME/.cache/electron:/root/.cache/electron \
@@ -32,7 +44,7 @@ docker run --rm \
   electronuserland/builder \
   /bin/bash -c "yarn build:desktop:linux"
 
-# Windows
+# Windows (deprecated)
 docker run --rm \
   -v ${PWD}:/project \
   -v $HOME/.cache/electron:/root/.cache/electron \
@@ -50,7 +62,7 @@ tree -d -L 2 -I "node_modules|dist|public|types" pileax
 
 ```shell
 pileax
-├── frontend                # Quasar框架
+├── frontend                # Quasar
 │   ├── core
 │   ├── env
 │   ├── src
@@ -58,8 +70,8 @@ pileax
 │   └── src-tauri
 ├── packages
 │   └── icon
-└── server                  # Express
-    └── src
+└── backend                  # FastAPI
+    └── app
 ```
 
 ## Acknowledgements

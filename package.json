@@ -16,17 +16,16 @@
 		"dev": "cd frontend && yarn dev",
 		"dev:electron": "cd frontend && yarn dev:electron",
 		"dev:tauri": "cd frontend && yarn dev:tauri",
-    "dev:server": "cd server && yarn start:dev",
 		"build": "yarn build:frontend",
 		"build:frontend": "cd frontend && yarn build",
 		"build:electron": "cd frontend && yarn build:electron",
 		"build:electron:win": "cd frontend && yarn && yarn build:electron:win",
 		"build:electron:linux": "cd frontend && yarn && yarn build:electron:linux",
 		"build:tauri": "cd frontend && yarn build:tauri",
-		"build:server": "cd server && yarn && yarn build",
-    "build:desktop": "yarn build:server && yarn build:electron",
-    "build:desktop:linux": "yarn build:server && yarn build:electron:linux",
-    "build:desktop:win": "yarn build:server && yarn build:electron:win"
+    "build:backend": "cd backend && ./run.sh",
+    "build:desktop": "yarn build:backend && yarn build:electron",
+    "build:desktop:linux": "yarn build:backend && yarn build:electron:linux",
+    "build:desktop:win": "yarn build:backend && yarn build:electron:win"
   },
 	"engines": {
 		"node": ">=20.9.0",
