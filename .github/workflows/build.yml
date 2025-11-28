@@ -52,6 +52,7 @@ jobs:
         with:
           name: backend-${{ matrix.os }}
           path: backend/dist/runnable
+          include-hidden-files: true
 
   # ------------------------
   # 2. Build frontend Electron
@@ -88,7 +89,12 @@ jobs:
           yarn install
 
       - name: Build Electron app
+        shell: bash
         run: |
+          if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
+            chmod +x backend/dist/runnable/runnable
+          fi
+
           cd frontend
           node_modules/.bin/electron-rebuild
           yarn build:electron
