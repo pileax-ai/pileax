@@ -35,7 +35,7 @@ jobs:
         run: |
           cd backend
           python -m venv .venv
-          source .venv/bin/activate 2>/dev/null || .venv\Scripts\activate
+          source .venv/bin/activate 2>/dev/null
           uv sync
           uv add --dev pyinstaller
           uv run pyinstaller --noconfirm runnable.spec
