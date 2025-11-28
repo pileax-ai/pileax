@@ -6,26 +6,34 @@
 PROMPT=INFO
 APP="PileaX"
 
-## Usage
-## -----------------------------------------------------------------------------
-if [ $# -lt 1 ]
-then
-    echo "Usage: `basename "$0"` macos|win|linux"
-    exit 1
-fi
-
-## Params
-## -----------------------------------------------------------------------------
-platform=$1
-
-if [ -z $platform ]
-then
-  platform="macos"
-fi
 
 ## Func
 ## -----------------------------------------------------------------------------
-build_win() {
+detect_os() {
+    local uname_out
+    uname_out=$(uname -s 2>/dev/null || echo "")
+
+    case "$uname_out" in
+        Darwin)
+            echo "macos"
+            ;;
+        Linux)
+            echo "linux"
+            ;;
+        CYGWIN*|MINGW*|MSYS*)
+            # Git Bash / MinGW / MSYS / Cygwin
+            echo "windows"
+            ;;
+        "")
+            echo "windows"
+            ;;
+        *)
+            echo "unknown"
+            ;;
+    esac
+}
+
+build_windows() {
   echo "Build for windows ..."
   source .venv/bin/activate
 
@@ -57,8 +65,16 @@ build_macos() {
   app/main.py
 }
 
+
 ## Main
 ## -----------------------------------------------------------------------------
+platform=$1
+
+if [ -z $platform ] then
+  platform=$(detect_os)
+fi
+
+echo "Build backend runnable for $platform"
 case $platform in
   win)
     build_win
