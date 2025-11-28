@@ -50,6 +50,7 @@ build_macos() {
   --add-data ".env:.env" \
   --add-data "alembic.ini:." \
   --add-data "alembic:alembic" \
+  --add-data "conf:conf" \
   --collect-all passlib \
   --additional-hooks-dir=hooks \
   --noconfirm \

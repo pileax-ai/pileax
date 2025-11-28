@@ -12,7 +12,7 @@ order = -1
 
 
 def is_enabled():
-    return app_config.DEBUG
+    return False
 
 
 def setup_import_timer():
