@@ -1,0 +1,82 @@
+name: Build Desktop
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  # ------------------------
+  # 1. Build backend per OS
+  # ------------------------
+  backend:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Build backend
+        run: |
+          cd backend
+          python -m venv .venv
+          source .venv/bin/activate 2>/dev/null || .venv\Scripts\activate
+          uv sync
+          uv add --dev pyinstaller
+          uv run pyinstaller --noconfirm runnable.spec
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-${{ matrix.os }}
+          path: backend/dist/runnable
+
+  # ------------------------
+  # 2. Build frontend Electron
+  # ------------------------
+  frontend:
+    needs: backend
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download backend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-${{ matrix.os }}
+          path: backend/dist/runnable
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          yarn install
+
+      - name: Build Electron app
+        run: |
+          cd frontend
+          node_modules/.bin/electron-rebuild
+          yarn build:electron
+
+      - name: Upload Electron build
+        uses: actions/upload-artifact@v4
+        with:
+          name: pileax-${{ matrix.os }}
+          path: frontend/dist/electron

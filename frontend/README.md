@@ -31,8 +31,8 @@ yarn lint-fix
 
 ```bash
 yarn build
-yarn build-electron
-yarn build-tauri
+yarn build:electron
+yarn build:tauri
 ```
 
 ## Others
