@@ -42,6 +42,7 @@ jobs:
             VENV_PY=".venv/Scripts/python.exe"
           fi
 
+          $VENV_PY -m pip install uv
           $VENV_PY -m uv sync
           $VENV_PY -m uv add --dev pyinstaller
           $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
