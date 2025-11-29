@@ -7,18 +7,17 @@ Use [Icon Genie CLI](https://quasar.dev/icongenie/introduction) to generate icon
 
 ```shell
 yarn global add @quasar/icongenie
-```
-```shell
 icongenie generate -m electron -i /path/to/icon.png
 ```
 
 ### magick
+Keep 128x128 and 256x256 image in icon.ico:
 ```shell
 cd src-electron
-magick -background transparent icons/icon.svg -define icon:auto-resize=16,32,48,64,128,256 icon.ico
+magick -background transparent icons/icon.png -define icon:auto-resize=128,256 icon.ico
 ```
 
-### tray icon
+## tray icon
 ```shell
 magick -background transparent icons/icon.svg -resize 512x512 icons/tray-icon.png
 ```

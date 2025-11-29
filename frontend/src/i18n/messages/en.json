@@ -10,5 +10,7 @@
   "last30Days": "30 Days",
   "app.description": "PileaX Desc.",
   "app.name": "PileaX",
-  "app.slogan": "Seize investment opportunities and share the growth of wealth."
+  "app.slogan": "Seize investment opportunities and share the growth of wealth.",
+  "tray.openApp": "Open PileaX",
+  "tray.quit": "Quit"
 }

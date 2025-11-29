@@ -16,13 +16,14 @@ import {
 
 export default function () {
   const appStore = useAppStore();
+  const i18n = useI18n();
 
   const setLocale = (locale :string, updateI18n = false) => {
     if (updateI18n) {
-      const i18n = useI18n();
       i18n.locale.value = locale;
     }
     appStore.setLocale(locale);
+    setTray();
   }
 
   const setSetting = () => {
@@ -98,6 +99,13 @@ export default function () {
   const setPlatform = () => {
     const platform = Platform.is.platform;
     document.body.classList.add(`platform-${platform}`);
+  }
+
+  const setTray = () => {
+    window.electronAPI.updateTrayMenu({
+      openApp: i18n.t('tray.openApp'),
+      quit: i18n.t('tray.quit')
+    })
   }
 
   const setNavi = (key :string, value :never) => {
@@ -198,6 +206,7 @@ export default function () {
 
     setSetting,
     setLocale,
+    setTray,
     toggleNaviFlatten,
     toggleTheme,
     setTheme,

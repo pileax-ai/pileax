@@ -21,7 +21,7 @@ import {
   isWindowMaximized
 } from './window';
 
-let trayManager
+let trayManager: TrayManager
 
 export class Application {
   static initialize() {
@@ -132,6 +132,11 @@ export class Application {
     ipcMain.handle('migrate-library',
       async (event, options) => {
         return await pathManager.migrateLibrary(options);
+      });
+
+    ipcMain.handle('update-tray-menu',
+      async (event, options) => {
+        trayManager?.updateTrayMenu(options);
       });
   }
 }

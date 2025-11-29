@@ -33,6 +33,7 @@ import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue';
 import useSetting from 'core/hooks/useSetting';
 import { Locales } from 'core/constants/metadata';
 import {getArrayItem} from 'core/hooks/useCommon';
+import useCommon from 'core/hooks/useCommon';
 
 const props = defineProps({
   enableHover: {
@@ -71,8 +72,9 @@ const props = defineProps({
   },
 });
 
+const { t } = useCommon();
 const i18n = useI18n();
-const { locale, setLocale } = useSetting();
+const { locale, setLocale, setTray } = useSetting();
 
 const label = computed(() => {
   const localeLabel = getArrayItem(Locales, i18n.locale.value).label || $t('language');

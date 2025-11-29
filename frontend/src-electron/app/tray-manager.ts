@@ -1,8 +1,10 @@
-import { app, Tray, Menu, BrowserWindow, nativeImage } from 'electron'
+import { app, Tray, Menu, BrowserWindow, nativeImage } from 'electron';
 import path from 'path';
 import fs from 'fs';
-import * as electron from 'electron'
+import * as electron from 'electron';
+import os from 'os';
 
+const platform = process.platform || os.platform();
 const isProduction = process.env.NODE_ENV === 'production';
 
 export class TrayManager {
@@ -29,18 +31,21 @@ export class TrayManager {
   }
 
   getTrayIcon() {
+    const iconName = platform === 'win32' ? 'icon' : 'tray-icon';
     return isProduction
-      ? path.join(process.resourcesPath, 'icons/tray-icon.png')
-      : path.join(process.cwd(), 'src-electron/icons/tray-icon.png');
+      ? path.join(process.resourcesPath, `icons/${iconName}.png`)
+      : path.join(process.cwd(), `src-electron/icons/${iconName}.png`);
   }
 
-  updateTrayMenu() {
+  updateTrayMenu(labels: Indexable = {
+    openApp: '打开 PileaX',
+    quit: '退出',
+  }) {
     const menu = Menu.buildFromTemplate([
       {
-        label: '打开 PileaX',
+        label: labels.openApp,
         click: () => {
           const win = BrowserWindow.getAllWindows()[0];
-          console.log('win', win)
           if (win) {
             if (win.isMinimizable()) {
               win.restore();
@@ -56,7 +61,7 @@ export class TrayManager {
       },
       { type: 'separator' },
       {
-        label: '退出',
+        label: labels.quit,
         click: () => {
           app.quit()
         }

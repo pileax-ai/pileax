@@ -74,6 +74,8 @@ const electronAPI = {
   showSaveDialog: async (options: SaveDialogOptions) => {
     return dialog.showSaveDialog(options);
   },
+  updateTrayMenu: async (options: any) =>
+    ipcRenderer.invoke('update-tray-menu', options),
 };
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);

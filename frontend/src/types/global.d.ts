@@ -23,6 +23,7 @@ declare global {
       setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
       showDialog: (options: OpenDialogOptions) => Promise<any>;
       showSaveDialog: (options: SaveDialogOptions) => Promise<any>;
+      updateTrayMenu: (options: any) => Promise<any>;
     };
 
     ebook: {
