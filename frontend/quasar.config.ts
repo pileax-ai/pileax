@@ -296,6 +296,7 @@ export default defineConfig((ctx) => {
         // https://www.electron.build/configuration/configuration
 
         appId: 'ai.pileax.pileax',
+        productName: 'pileax',
         mac: {
           target: ['dmg']
         },
@@ -304,6 +305,10 @@ export default defineConfig((ctx) => {
         },
         win: {
           target: ['nsis']
+        },
+        nsis: {
+          oneClick: false,
+          allowToChangeInstallationDirectory: true
         },
         extraResources: [
           {
