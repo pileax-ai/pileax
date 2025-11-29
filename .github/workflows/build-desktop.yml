@@ -61,7 +61,7 @@ jobs:
           $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
 
       - name: Upload backend artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: backend-${{ matrix.os }}
           path: backend/dist/runnable
@@ -113,7 +113,7 @@ jobs:
           yarn build:electron
 
       - name: Upload Electron build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: pileax-${{ matrix.os }}
           path: |
