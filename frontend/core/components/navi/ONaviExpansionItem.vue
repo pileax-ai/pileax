@@ -87,7 +87,7 @@ function isActive(item: MenuItem) {
   }
 
   .q-item {
-    padding: 0 10px 0 0;
+    //padding: 0 10px 0 0;
     &.root {
       .q-item__section--main {
         padding: 0 !important;

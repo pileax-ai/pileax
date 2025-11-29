@@ -1,5 +1,5 @@
 <template>
-  <section class="o-navi-expansion-item">
+  <section class="o-book-toc-item">
     <q-expansion-item class="dense" :class="`level-${level}`"
                       :header-class="{ 'root': root, 'header-item': true }"
                       :header-style="{ 'paddingLeft': `${(level-1)*10}px` }"
@@ -67,7 +67,7 @@ const { tocItem } = useBook();
 </script>
 
 <style lang="scss">
-.o-navi-expansion-item {
+.o-book-toc-item {
   .separator {
     padding: 0 12px;
     margin: 16px 0 4px 0;

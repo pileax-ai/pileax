@@ -1,6 +1,6 @@
 <template>
   <section class="note-list fit" :style="`max-width: ${maxWidth}px`">
-    <section class="panel"
+    <section class="panel favorite"
              :class="{ 'top': favoriteTop, 'bottom': !favoriteTop }">
       <header class="row col-12 justify-between items-center section text-tips">
         <div>
@@ -134,6 +134,12 @@ onBeforeMount(() => {
     }
     &.bottom {
       order: 2;
+    }
+
+    &.favorite {
+      &:has(.empty) {
+        display: none;
+      }
     }
   }
 

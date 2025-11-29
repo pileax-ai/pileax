@@ -51,7 +51,7 @@ onBeforeMount(() => {
 .navi-list {
 
   .q-list {
-    padding: 8px;
+    padding: 0 8px 8px 8px;
 
     .q-item {
       border-radius: 4px;

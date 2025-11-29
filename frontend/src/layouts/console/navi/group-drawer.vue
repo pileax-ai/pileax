@@ -18,7 +18,7 @@
                        @click="onClickTab(item)"
                        v-if="!item.meta?.hidden">
                   <o-icon :name="item.meta?.icon" />
-                  <o-tooltip position="right" v-if="!leftDrawerMiniState">
+                  <o-tooltip position="right" transition v-if="!leftDrawerMiniState">
                     {{menuLabel(item.name)}}
                   </o-tooltip>
                 </q-tab>
@@ -29,7 +29,7 @@
               <div class="col-12">
                 <q-btn icon="settings" class="toggle-sidebar text-grey-6" round flat
                        @click="openDialog({type: 'settings'})">
-                  <o-tooltip position="right">
+                  <o-tooltip position="right" transition>
                     {{ $t('settings') }}
                   </o-tooltip>
                 </q-btn>
@@ -37,7 +37,7 @@
                 <q-btn :icon="leftDrawerMiniState ? 'mdi-backburger rotate-180' : 'mdi-menu-open'"
                        class="shadow-0 toggle-sidebar text-grey-6" square flat
                        @click="toggleLeftMiniState">
-                  <o-tooltip position="right">
+                  <o-tooltip position="right" transition>
                     {{leftDrawerMiniState ? $t('expand') : $t('collapse')}}
                   </o-tooltip>
                 </q-btn>
@@ -86,7 +86,7 @@ const {
 } = useNavi();
 
 const width = ref(DRAWER_DEFAULT_SIZE);
-const miniWidth = ref(68);
+const miniWidth = ref(48);
 const drawerOpen = ref(true);
 const sidebarFixed = ref(false);
 const selectedActivity = ref('');
@@ -147,19 +147,19 @@ onBeforeMount(() => {
 
   .activity-bar {
     position: relative;
-    width: 68px !important;
+    width: 48px !important;
     height: 100vh;
     z-index: 2002;
     background: #001529;
 
     .q-tab {
-      width: 48px;
-      height: 48px;
+      width: 38px;
+      height: 38px;
       min-height: unset;
       padding: 0;
-      margin: 0 0 5px 10px;
-      border-radius: 8px;
-      color: white;
+      margin: 0 0 15px 5px;
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.6);
 
       &:first-child {
         margin-top: 10px;
@@ -167,7 +167,7 @@ onBeforeMount(() => {
       }
 
       .q-icon {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
       }
 
       .iconfont {
@@ -191,7 +191,9 @@ onBeforeMount(() => {
     }
 
     .q-tab--active {
-      background: var(--q-primary);
+      color: white;
+      //background: var(--q-primary);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .q-tab__indicator {
@@ -206,8 +208,8 @@ onBeforeMount(() => {
       z-index: 1;
 
       .toggle-sidebar {
-        width: 68px;
-        height: 68px;
+        width: 48px;
+        height: 48px;
         margin: 0;
         border-radius: 0;
       }
@@ -217,7 +219,7 @@ onBeforeMount(() => {
 
   .fixed-sidebar {
     position: fixed;
-    left: 68px;
+    left: 48px;
     right: 0;
     top: 0;
     bottom: 20px;

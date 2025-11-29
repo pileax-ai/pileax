@@ -1,6 +1,7 @@
 <template>
   <q-tree ref="tree"
           :nodes="noteTree"
+          :class="{'empty': noteTree.length === 0}"
           node-key="key"
           v-model:selected="selected"
           @update:selected="onSelected"
@@ -32,7 +33,7 @@
           </q-item>
         </section>
         <section class="none-pointer-events cursor-pointer note-title" v-else>
-          <q-item>
+          <q-item v-if="prop.node.parent">
             <q-item-section class="text-tips" avatar>
               <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
               <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
@@ -43,6 +44,12 @@
               </q-item-label>
             </q-item-section>
           </q-item>
+          <q-btn icon="add"
+                 class="bg-dark full-width text-bold"
+                 @click="addNote()"
+                 flat v-else>
+            Add Note
+          </q-btn>
         </section>
       </section>
 

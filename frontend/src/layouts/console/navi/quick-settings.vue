@@ -74,7 +74,7 @@ const { account, logout } = useAccount();
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
-  return props.type === 'tab' ? [4, -2] : [-8, -8];
+  return props.type === 'tab' ? [4, -2] : [-5, -5];
 })
 
 const actions = computed(() => {
@@ -151,8 +151,8 @@ function onAction (action: Indexable, value: any) {
     padding: 10px 0;
     min-height: 30px;
     img {
-      width: 48px;
-      height: 48px;
+      width: 38px;
+      height: 38px;
     }
   }
 
