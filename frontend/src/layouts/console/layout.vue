@@ -76,7 +76,6 @@ const openedMenus = computed(() => naviStore.openedMenus);
 
 async function initConsole () {
   onRouteChanged();
-  naviStore.initMenu();
 
   // First
   await initWorkspace();

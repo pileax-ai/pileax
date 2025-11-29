@@ -9,7 +9,7 @@ import useSetting from 'core/hooks/useSetting';
 
 export const initApp = () => {
   initApi();
-  // initMenu();
+  initMenu();
   initSetting();
 };
 

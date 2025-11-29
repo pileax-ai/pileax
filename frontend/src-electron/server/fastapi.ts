@@ -50,8 +50,10 @@ async function startServer() {
         windowsHide: true
       };
       if (platform === 'win32') {
-        options.windowsVerbatimArguments = true;
-        options.shell = true;
+        options.shell = false;
+        options.detached = false;
+        options.windowsVerbatimArguments = false;
+        options.creationFlags = 0x08000000; // No window
       }
       serverProcess = spawn(serverEntry, [], options);
       serverProcess.unref();
