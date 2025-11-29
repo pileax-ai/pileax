@@ -10,7 +10,8 @@ import {
   saveBookFiles,
   saveImageFile
 } from '../utils/file';
-import { PathManager } from '../app/pathManager'
+import { PathManager } from './path-manager'
+import { TrayManager } from './tray-manager'
 import { serverInfo } from '../server/fastapi';
 import {
   openNewWindow,
@@ -19,6 +20,8 @@ import {
   minimizeWindow,
   isWindowMaximized
 } from './window';
+
+let trayManager
 
 export class Application {
   static initialize() {
@@ -51,6 +54,10 @@ export class Application {
       return logFilePath;
     };
     log.info('Init log: ', logFilePath);
+  }
+
+  static initTray(activate?: () => void) {
+    trayManager = new TrayManager(activate)
   }
 
   static initIpcMain() {

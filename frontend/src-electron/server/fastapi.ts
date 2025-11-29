@@ -4,7 +4,7 @@ import log from 'electron-log';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import os from 'os';
-import { PathManager } from '../app/pathManager'
+import { PathManager } from '../app/path-manager'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const platform = process.platform || os.platform();

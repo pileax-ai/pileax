@@ -316,6 +316,11 @@ export default defineConfig((ctx) => {
             to: 'backend',
             filter: ["**/*"]
           },
+          {
+            from: 'src-electron/icons/',
+            to: 'icons',
+            filter: ["**/*"]
+          },
         ]
       }
     },

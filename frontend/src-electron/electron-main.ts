@@ -6,7 +6,6 @@ import os from 'os';
 import * as remoteMain from '@electron/remote/main/index.js';
 import { Application } from './app/application';
 import { startServer, stopServer } from './server/fastapi';
-import { PathManager } from './app/pathManager';
 
 remoteMain.initialize();
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
@@ -16,7 +15,7 @@ let mainWindow: BrowserWindow | undefined;
 /**
  * Main window
  */
-async function createWindow() {
+const createWindow = async () => {
   if (mainWindow) {
     log.error('Avoid create again.')
     return;
@@ -28,7 +27,6 @@ async function createWindow() {
    * @see https://www.electronjs.org/docs/latest/api/browser-window
    */
   mainWindow = new BrowserWindow({
-    icon: path.resolve(currentDir, 'icons/icon.svg'), // tray icon
     width: 1200,
     height: 800,
     useContentSize: true,
@@ -70,6 +68,7 @@ async function createWindow() {
   });
 }
 
+
 app.whenReady().then(async () => {
   await startServer();
   await createWindow();
@@ -84,6 +83,12 @@ app.whenReady().then(async () => {
       return
     }
     callback({ cancel: false, responseHeaders });
+  });
+
+  Application.initTray(() => {
+    if (mainWindow === undefined && BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 });
 
