@@ -10,6 +10,12 @@
 
 .electron {
   &.platform-mac {
+    &.full-screen-page {
+      .o-console-section .console-header .console-toolbar {
+        padding-left: 75px !important;
+      }
+    }
+
     .quick-settings {
       &.group {
         margin-top: 36px;
@@ -42,14 +48,33 @@
       }
     }
 
-    &.full-screen-page {
-      .o-console-section .console-header .console-toolbar {
-        padding-left: 75px !important;
+    .full-page-layout {
+      .top-navi {
+        height: 100px;
+
+        .q-toolbar, .o-toolbar-extra {
+        }
+
+        .q-toolbar {
+          padding-top: 20px;
+        }
+      }
+
+      .o-title-bar-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
       }
     }
   }
 
   &:not(.platform-mac) {
+    &.full-screen-page {
+      .o-console-section .console-header .console-toolbar {
+        padding-left: 10px !important;
+      }
+    }
+
     .o-title-bar {
       display: flex !important;
     }
@@ -57,10 +82,21 @@
       display: flex !important;
     }
 
-    &.full-screen-page {
-      .o-console-section .console-header .console-toolbar {
-        padding-left: 10px !important;
+    .full-page-layout {
+      .top-navi {
+        height: 50px;
+
+        .q-toolbar {
+          min-height: unset;
+          padding: 0 0 0 20px;
+        }
+      }
+      .o-title-bar-overlay {
+        margin-top: -10px;
+        padding-left: 10px;
       }
     }
   }
+
+
 }

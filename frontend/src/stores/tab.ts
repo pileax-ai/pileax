@@ -36,7 +36,7 @@ export const useTabStore = defineStore('tab', {
         this.tab = tab;
       }
     },
-    addNewTab(path = '/') {
+    addNewTab(path = '/welcome') {
       const tab = {
         id: UUID(),
         name: '',
@@ -96,7 +96,7 @@ export const useTabStore = defineStore('tab', {
         this.tabs.splice(index, 1);
         if (this.tabs.length === 0) {
           this.tab = { id: '', name: '', path: '' };
-          this.router.push('/');
+          this.router.push('/welcome');
         } else {
           // Open sibling tab if current tab closed.
           if (id === this.tab.id) {

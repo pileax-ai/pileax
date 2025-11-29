@@ -1,5 +1,5 @@
 <template>
-  <q-toolbar class="base-toolbar">
+  <q-toolbar class="base-toolbar drag-region">
     <div class="row items-center cursor-pointer app" @click="$router.push('/')">
       <q-avatar size="40px">
         <img :src="$public('/logo.svg')">
@@ -9,7 +9,7 @@
       </span>
     </div>
 
-    <q-toolbar-title>
+    <q-toolbar-title class="no-drag-region">
       <q-tabs class="o-navi-tabs" align="left" shrink inline-label>
         <template v-for="(item, index) in topMenus" :key="`r-${index}`">
           <div v-if="!item.hidden">
@@ -24,10 +24,11 @@
       </q-tabs>
     </q-toolbar-title>
 
-    <div class="row items-center o-toolbar-extra">
+    <div class="row items-center o-toolbar-extra no-drag-region">
       <q-btn :label="$t('console')" class="bg-primary text-white" @click="onConsole" rounded flat v-if="isLogin" />
       <q-btn :label="$t('signin')" class="bg-primary text-white" to="/auth/signin" rounded flat v-else />
     </div>
+    <o-tool-bar-overlay class="col-auto" />
   </q-toolbar>
 </template>
 
@@ -38,6 +39,7 @@ import { onAction } from 'core/hooks/useRouter';
 import { menuLabel } from 'core/hooks/useMenu';
 import useAccount from 'src/hooks/useAccount';
 import { topMenus } from 'src/app/top-menu';
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const { account, isLogin } = useAccount();
 
