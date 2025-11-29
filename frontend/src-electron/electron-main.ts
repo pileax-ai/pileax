@@ -26,17 +26,13 @@ async function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    icon: path.resolve(currentDir, 'icons/icon.png'), // tray icon
+    icon: path.resolve(currentDir, 'icons/icon.svg'), // tray icon
     width: 1200,
     height: 800,
     useContentSize: true,
+    frame: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 8, y: 12 },
-    // titleBarOverlay: process.platform === 'win32' ? {
-    //   height: 40,
-    //   color: 'rgba(0, 0, 0, 0)',
-    //   symbolColor: 'rgba(0, 0, 0, 0)'
-    // } : undefined,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,

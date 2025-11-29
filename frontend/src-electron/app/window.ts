@@ -23,11 +23,6 @@ export const openNewWindow = async (id: string, url: string, titleBarHeight = 40
     useContentSize: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 12, y: 12 },
-    // titleBarOverlay: process.platform === 'win32' ? {
-    //   height: titleBarHeight,
-    //   color: 'rgba(0, 0, 0, 0)',
-    //   symbolColor: 'rgba(0, 0, 0, 0)'
-    // } : undefined,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
