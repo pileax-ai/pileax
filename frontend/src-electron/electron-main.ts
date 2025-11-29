@@ -24,6 +24,8 @@ async function createWindow() {
 
   /**
    * Initial window options
+   *
+   * @see https://www.electronjs.org/docs/latest/api/browser-window
    */
   mainWindow = new BrowserWindow({
     icon: path.resolve(currentDir, 'icons/icon.svg'), // tray icon
