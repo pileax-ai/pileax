@@ -1,8 +1,9 @@
 from functools import lru_cache
 from pathlib import Path
 
+from app.configs import app_config
 
-@lru_cache(maxsize=1)
+
 def get_root_dir(*paths: str) -> str:
     """
     获取项目根目录，自动缓存结果。
@@ -15,4 +16,4 @@ def get_root_dir(*paths: str) -> str:
 
 
 def get_cache_dir(*paths: str) -> str:
-    return get_root_dir(".cache", *paths)
+    return get_root_dir(app_config.CACHE_ROOT, *paths)

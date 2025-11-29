@@ -118,7 +118,11 @@ export class PathManager {
     return path.join(this.appLibraryPath(), 'metadata.db');
   }
 
-  appPublicRootPath(): string {
+  appCachePath(): string {
+    return path.join(this.appLibraryPath(), '.cache');
+  }
+
+  appPublicPath(): string {
     return path.join(this.appLibraryPath(), 'public');
   }
 

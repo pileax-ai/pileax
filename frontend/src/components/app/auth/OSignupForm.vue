@@ -101,7 +101,7 @@ import { getErrorMessage } from 'src/utils/request'
 const emit = defineEmits(['success']);
 const accountStore = useAccountStore();
 const form = reactive({
-  email: 'mekery@qq.com',
+  email: '',
   name: '',
   password: '',
   confirmPassword: ''

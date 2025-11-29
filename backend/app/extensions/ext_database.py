@@ -12,7 +12,7 @@ from sqlalchemy import event
 from sqlmodel import Session, create_engine
 
 from app.configs import app_config
-from app.libs.file_utils import get_root_dir
+from app.libs.file_utils import get_root_dir, get_cache_dir
 
 logger = logging.getLogger(__name__)
 order = -1
@@ -50,7 +50,7 @@ def auto_update_modified_time(session, flush_context, instances):
 
 def get_migration_lock_file():
     db_hash = hashlib.md5(str(app_config.SQLALCHEMY_DATABASE_URI).encode()).hexdigest()
-    dir_path = os.path.join(gettempdir(), "pileax")
+    dir_path = get_cache_dir("tmp", "alembic")
     os.makedirs(dir_path, exist_ok=True)
     return os.path.join(dir_path, f"alembic_{db_hash}.lock")
 

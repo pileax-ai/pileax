@@ -20,7 +20,8 @@ async function startServer() {
     const port = await getPort({ port: 3000 });
     const pathManager = new PathManager();
     const dbPath = pathManager.appDbFilePath();
-    const publicPath = pathManager.appPublicRootPath();
+    const cachePath = pathManager.appCachePath();
+    const publicPath = pathManager.appPublicPath();
     let serverPath: string;
     let serverEntry: string;
     let envPath: string;
@@ -38,6 +39,7 @@ async function startServer() {
           PORT: `${port}`,
           NODE_ENV: 'production',
           DB_DATABASE: `/${dbPath}`,
+          CACHE_ROOT: cachePath,
           PUBLIC_FILE_ROOT: publicPath,
           WEB_API_CORS_ALLOW_ORIGINS: '*',
         },
@@ -66,6 +68,7 @@ async function startServer() {
           PORT: `${port}`,
           NODE_ENV: 'development',
           DB_DATABASE: `/${dbPath}`,
+          CACHE_ROOT: cachePath,
           PUBLIC_FILE_ROOT: publicPath,
           WEB_API_CORS_ALLOW_ORIGINS: process.env.APP_URL,
         },

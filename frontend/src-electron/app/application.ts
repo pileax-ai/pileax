@@ -35,7 +35,7 @@ export class Application {
   }
 
   static initPath(pathManger: PathManager) {
-    const publicPath = pathManger.appPublicRootPath();
+    const publicPath = pathManger.appPublicPath();
     if (!fs.existsSync(publicPath)) {
       fs.mkdirSync(publicPath, { recursive: true });
       console.log(`📁 Create public dir: ${publicPath}`);

@@ -6,12 +6,13 @@ import sys
 from fastapi import FastAPI
 
 from app.configs import app_config
+from app.libs.file_utils import get_cache_dir
 
 order = 1
 
 def setup(app: FastAPI):
     app_name = app_config.APPLICATION_CODE
-    filename = f'./.cache/log/console.log'
+    filename = get_cache_dir("log", "console.log")
     format = f'%(asctime)s - %(levelname)s \t[{app_name}] %(process)d [%(name)s] %(funcName)s \t: %(message)s'
     datefmt = '%Y-%m-%d %H:%M:%S'
 

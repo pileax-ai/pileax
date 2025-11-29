@@ -38,7 +38,7 @@
             </template>
           </q-input>
         </o-field>
-        <q-checkbox v-model="remember" label="记住我" v-if="false" />
+        <q-checkbox v-model="remember" label="记住我" style="margin-top: -12px;" />
 
         <q-btn type="submit" :label="$t('signin')" class="bg-primary text-white col-12" flat />
       </q-form>
