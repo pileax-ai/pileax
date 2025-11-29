@@ -2,6 +2,19 @@ name: Build Desktop
 
 on:
   workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Choose target platforms'
+        required: false
+        default: 'ubuntu-latest,macos-latest,windows-latest'
+        type: choice
+        options:
+          - ubuntu-latest,macos-latest,windows-latest
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+          - ubuntu-latest,windows-latest
+          - macos-latest,windows-latest
 
 jobs:
 
@@ -11,7 +24,7 @@ jobs:
   backend:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: ${{ fromJSON(format('[{0}]', github.event.inputs.platforms)) }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -61,7 +74,7 @@ jobs:
     needs: backend
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: ${{ fromJSON(format('[{0}]', github.event.inputs.platforms)) }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -103,4 +116,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pileax-${{ matrix.os }}
-          path: frontend/dist/electron
+          path: |
+            frontend/dist/electron/Packaged/*.dmg
+            frontend/dist/electron/Packaged/*.exe
+            frontend/dist/electron/Packaged/*.AppImage
+          if-no-files-found: ignore

@@ -60,6 +60,7 @@ def run_migrations():
     Run migrations after app started.
     Use lock_file to ensure run once.
     """
+    logger.info(f"Running migrations: {str(app_config.SQLALCHEMY_DATABASE_URI)}")
     lock_file = get_migration_lock_file()
 
     with FileLock(lock_file):

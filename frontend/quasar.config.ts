@@ -296,7 +296,7 @@ export default defineConfig((ctx) => {
         // https://www.electron.build/configuration/configuration
 
         appId: 'ai.pileax.pileax',
-        productName: 'pileax',
+        productName: 'PileaX',
         mac: {
           target: ['dmg']
         },
