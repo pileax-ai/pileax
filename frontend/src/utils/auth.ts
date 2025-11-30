@@ -12,17 +12,6 @@ import { getItemObject, saveItemObject } from 'core/utils/storage'
 import { authService } from 'src/service/remote/auth'
 import { MenuItem } from 'core/types/menu'
 
-const FRONT_END_SALT = 'fNrV0BKheNDDEM5oqzuM';
-
-// -----------------------------------------------------------------------------
-// Common API
-// -----------------------------------------------------------------------------
-export const encryptPassword = (password: string) => {
-  if (!password) return password;
-  return sha1(`${FRONT_END_SALT}${password}`).toString();
-}
-
-
 // -----------------------------------------------------------------------------
 // Authentication Util
 // -----------------------------------------------------------------------------

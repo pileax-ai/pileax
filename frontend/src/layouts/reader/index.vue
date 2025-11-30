@@ -9,8 +9,6 @@
         </keep-alive>
       </transition>
     </router-view>
-
-    <FrameLayout v-show="$route.meta?.isIframe" />
   </Layout>
 </template>
 
@@ -19,7 +17,6 @@ import { computed } from 'vue';
 import useSetting from 'core/hooks/useSetting';
 
 import Layout from './layout.vue';
-import FrameLayout from './frame-layout.vue';
 
 const { pageTransition } = useSetting();
 const transitionName = computed(() => {

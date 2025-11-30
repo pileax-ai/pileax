@@ -391,50 +391,6 @@ kbd {
     }
   }
 
-  &.vxe-table {
-    color: unset!important;
-    .q-icon {
-      font-size: 1.2rem;
-    }
-    .vxe-tree--node-btn {
-      color: unset!important;
-    }
-    .vxe-table--header-wrapper {
-      color: var(--q-info);
-      background: transparent!important;
-    }
-    .vxe-body--column, .vxe-header--column {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)) !important;
-    }
-    .vxe-table--header-border-line, .vxe-table--border-line {
-      border: none!important;
-    }
-    table {
-      background: transparent!important;
-      th, td {
-        font-size: 12px !important;
-        .vxe-cell {
-          padding: 0 16px;
-        }
-      }
-      th {
-        font-weight: 600;
-      }
-      td {
-        padding: 7px 0 !important;
-      }
-
-      tr {
-        &:hover {
-          background: var(--q-accent);
-        }
-      }
-
-      tbody td {
-        height: 48px;
-      }
-    }
-  }
 }
 
 .o-tab-container {

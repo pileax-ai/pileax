@@ -15,8 +15,6 @@ import OSvgIcon from 'core/components/icon/OSvgIcon.vue';
 import OTooltip from 'core/components/misc/OTooltip.vue';
 import OViewItem from 'core/components/list/OViewItem.vue';
 
-import VXETable from 'vxe-table';
-import 'vxe-table/lib/style.css';
 import '@yiitap/vue/dist/vue.css';
 
 const globalComponents :Indexable = {
@@ -41,8 +39,6 @@ export default boot(async ({ app }) => {
   for (const key in globalComponents) {
     app.component(key, globalComponents[key])
   }
-
-  app.use(VXETable);
 
   app.config.globalProperties.$public = (path: string) => {
     return process.env.MODE === 'electron'

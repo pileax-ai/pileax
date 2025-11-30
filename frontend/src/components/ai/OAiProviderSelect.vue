@@ -37,7 +37,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { GET } from 'src/hooks/useRequest';
-import { getArrayItem, IndustryStandards} from 'src/app/metadata';
 
 const props = defineProps({
   modelValue: {
