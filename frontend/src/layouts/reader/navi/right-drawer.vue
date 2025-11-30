@@ -3,7 +3,6 @@
     v-model="drawerOpen"
     side="right"
     :default-width="width"
-    :breakpoint="200"
     :min-width="400"
     :max-width="1000"
     :overlay="rightDrawerHoverShow"
@@ -93,11 +92,11 @@ onBeforeMount(() => {
   }
 
   .drawer-separator {
-    width: 8px;
-    background: var(--q-accent);
+    width: 1px;
+    background: var(--q-dark);
 
     &:hover, &.is-resizing {
-      background: var(--q-accent)!important;
+      background: var(--q-dark)!important;
     }
   }
 

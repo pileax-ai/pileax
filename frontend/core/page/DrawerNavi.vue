@@ -6,7 +6,8 @@
 
     <q-scroll-area style="" ref="tagsScroll"
                    class="o-scroll-wrapper"
-                   :class="{'with-header': header}">
+                   :class="{'with-header': header}"
+                   :thumb-style="{width: '4px'}">
       <slot name="content" />
     </q-scroll-area>
 
