@@ -111,6 +111,8 @@ onBeforeMount(() => {
     cursor: col-resize;
     user-select: none;
     width: 1px;
+    transform: translateX(0.5px);
+    transition: all 0.2s ease-in-out;
 
     &.left {
       right: 0;
@@ -122,6 +124,7 @@ onBeforeMount(() => {
 
     &:hover, &.is-resizing {
       //background: var(--q-primary);
+      width: 2px;
     }
   }
   .drawer-handle {

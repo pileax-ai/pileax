@@ -134,11 +134,6 @@ onMounted(() => {
   .q-splitter--vertical {
     height: calc(100vh - 40px);
 
-    .q-splitter__before {
-      overflow: hidden;
-      //transition: width 0.3s ease-in-out;
-    }
-
     &:has(.toggle-activator:hover) {
       .toggle-v {
         visibility: visible;
@@ -147,19 +142,31 @@ onMounted(() => {
       }
     }
 
+    .q-splitter__before {
+      overflow: hidden;
+      //transition: width 0.3s ease-in-out;
+    }
+
     .q-splitter__separator-area {
       left: -16px !important;
       right: -16px !important;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        width: 2px;
+        top: 0;
+        bottom: 0;
+        background: var(--q-dark);
+        opacity: 0;
+        transform: translateX(0.5px);
+        transition: opacity 0.3s ease;
+      }
     }
   }
 
   .q-splitter--horizontal {
-    height: calc(100vh - 40px);
-
-    .q-splitter__before {
-      overflow: hidden;
-    }
-
     &:has(.toggle-activator:hover) {
       .toggle-h {
         visibility: visible;
@@ -168,9 +175,33 @@ onMounted(() => {
       }
     }
 
+    .q-splitter__before {
+      overflow: hidden;
+    }
+
     .q-splitter__separator-area {
       top: -16px !important;
       bottom: -16px !important;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 15px;
+        height: 2px;
+        left: 0;
+        right: 0;
+        background: var(--q-dark);
+        opacity: 0;
+        transform: translateY(0.5px);
+        transition: opacity 0.3s ease;
+      }
+    }
+  }
+
+  .q-splitter--active > .q-splitter__separator, .q-splitter__separator:hover {
+    .q-splitter__separator-area {
+      &:before, &:after {
+        opacity: 1 !important;
+      }
     }
   }
 

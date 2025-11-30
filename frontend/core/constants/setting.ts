@@ -6,7 +6,7 @@ export const THEMES :Indexable = {
   'light': {
     'secondary': '#ffffff',
     'accent': '#f5f7f9',
-    'dark': '#eceff1',
+    'dark': '#e1e0dd',
     'info': '#272A3E',
   },
   // 'classic': {
