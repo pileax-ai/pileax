@@ -9,6 +9,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { YiiEditor } from '@yiitap/vue';
 import '@yiitap/vue/dist/vue.css';
 import MarkdownIt from 'markdown-it';
+import useSetting from 'core/hooks/useSetting';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -22,21 +23,34 @@ const props = defineProps({
 })
 const emit = defineEmits(['send']);
 
+const { darkMode, locale } = useSetting();
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>();
 const options = computed(() => {
   return {
     editable: false,
+    locale: locale.value,
+    darkMode: darkMode.value,
     content: '',
     pageView: 'full',
     extensions: [
+      'Emoji',
+      'InlineMath',
+      'Markdown',
+      'OAiBlock',
+      'OBlockMath',
       'OBlockquote',
       'OCallout',
       'OCodeBlock',
-      'OColon',
+      // 'OColon',
       'OColorHighlighter',
+      'ODetails',
+      'OHeading',
       'OImage',
-      'OParagraph',
       'OLink',
+      'OParagraph',
+      'OShortcut',
+      'OSlash',
+      'OSlashZh',
       'OVideo',
     ],
   }

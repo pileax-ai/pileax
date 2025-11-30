@@ -24,11 +24,18 @@
                 <o-icon name="icon-deepseek" />
               </q-btn>
             </section>
-            <locale-hover-btn class="bg-accent text-readable "
-                              icon-right="mdi-chevron-down"
-                              anchor="bottom left"
-                              self="top left"
-                              flat show-label />
+            <section class="row">
+              <q-btn :icon="darkMode ? 'light_mode' : 'dark_mode'"
+                     class="bg-accent text-readable q-mr-sm"
+                     style="width: 36px;"
+                     flat
+                     @click="toggleTheme" />
+              <locale-hover-btn class="bg-accent text-readable "
+                                icon-right="mdi-chevron-down"
+                                anchor="bottom left"
+                                self="top left"
+                                flat show-label />
+            </section>
             <div class="copyright">
               {{`©${(new Date()).getFullYear()}`}} {{$t('app.name')}} AI.
             </div>
@@ -58,7 +65,10 @@
 </template>
 
 <script setup lang="ts">
-import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
+import useSetting from 'core/hooks/useSetting';
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
+
+const { darkMode, toggleTheme } = useSetting();
 </script>
 
 <style lang="scss">

@@ -5,10 +5,11 @@
 .page-auth {
   position: relative;
   overflow: hidden;
+  background: var(--q-secondary);
 
   .auth-form-wrapper {
     width: 480px;
-    background: #ffffff;
+    background: var(--q-secondary);
     border-radius: 10px;
     padding-bottom: 80px;
 

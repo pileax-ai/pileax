@@ -39,6 +39,7 @@ import { useRoute } from 'vue-router';
 import { computed, onActivated, onMounted, provide, ref } from 'vue'
 import { debounce } from 'quasar';
 
+import useSetting from 'core/hooks/useSetting';
 import useNote from 'src/hooks/useNote';
 import { Note } from 'src/types/note';
 import OEmojiMenu from 'components/icon/OEmojiMenu.vue';
@@ -49,6 +50,7 @@ import { chatContentToHtml } from 'src/utils/note'
 import { router } from 'src/router'
 
 const route = useRoute();
+const { darkMode, locale } = useSetting();
 const {
   noteStore,
   currentNote,
@@ -77,6 +79,8 @@ const ready = ref(false);
 const options = computed(() => {
   return {
     aiOption: aiOption.value,
+    locale: locale.value,
+    darkMode: darkMode.value,
     title: true,
     content: '',
     showMainMenu: false,

@@ -55,7 +55,7 @@ $hheight: 80px;
   height: 100%;
   padding: 0 24px;
   z-index: 101;
-  background: rgba(#fff, 0.7) !important;
+  background: var(--q-secondary);
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
 

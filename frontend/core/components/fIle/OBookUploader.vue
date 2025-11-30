@@ -101,6 +101,7 @@ const updateFiles = async (files: File[]) => {
     <div>success: ${upload.success}</div>`
   notifyInfo(message, {
       icon: 'check_circle',
+      position: 'top-right',
       timeout: 5000,
       progress: true,
       html: true

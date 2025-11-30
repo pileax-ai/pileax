@@ -298,7 +298,7 @@ defineExpose({
 
   .scroll-bottom {
     position: fixed;
-    right: 0;
+    right: 1rem;
     bottom: -4px;
     .btn-wrapper {
       width: 42px;

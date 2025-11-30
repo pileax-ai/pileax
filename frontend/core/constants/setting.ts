@@ -18,7 +18,7 @@ export const THEMES :Indexable = {
   'dark': {
     'secondary': '#272A3E',
     'accent': '#222336',
-    'dark': '#272A3E',
+    'dark': '#141824',
     'info': '#B3BDD2',
   },
 };

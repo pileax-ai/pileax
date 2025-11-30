@@ -3,6 +3,89 @@
 // --------------------------------------------------
 
 // --------------------------------------------------
+// Quasar notification
+// CSS: https://github.com/quasarframework/quasar/blob/dev/ui/src/plugins/notify/Notify.sass
+// --------------------------------------------------
+.q-notification {
+  //animation: unset !important;
+  //transition: unset !important;
+}
+
+.o-animation-top, .o-animation-center {
+  animation: pop-in 0.25s ease forwards !important;
+
+  &.q-notification[class*="leave-to"] {
+    animation: pop-out 0.25s ease !important;
+  }
+  &.q-notification[class*="leave-active"] {
+    top: unset !important;
+  }
+}
+
+
+.o-animation-top-right {
+  animation: slide-in-right 0.35s cubic-bezier(.25,.8,.25,1) forwards !important;
+
+  &.q-notification[class*="leave-to"] {
+    animation: slide-out-right 0.3s ease !important;
+  }
+  &.q-notification[class*="leave-active"] {
+    top: unset !important;
+  }
+}
+
+// --------------------------------------------------
+// slide right
+// --------------------------------------------------
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(80px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slide-out-right {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(80px) scale(0.95);
+  }
+}
+
+// --------------------------------------------------
+// pop
+// --------------------------------------------------
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pop-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+
+// --------------------------------------------------
 // Fade
 // --------------------------------------------------
 .fade-transition {

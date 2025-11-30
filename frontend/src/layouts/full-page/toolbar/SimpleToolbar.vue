@@ -26,6 +26,6 @@ import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 <style lang="scss">
 .simple-toolbar {
-
+  background: var(--q-secondary);
 }
 </style>

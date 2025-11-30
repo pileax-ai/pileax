@@ -9,44 +9,51 @@ import { Notify } from 'quasar'
 // ------------------------------------------------------------
 // Notify
 // ------------------------------------------------------------
+/**
+ * Success
+ * @see https://quasar.dev/quasar-plugins/notify#positioning
+ */
 export function notifySuccess (message :string, {
   position = 'top',
   timeout = 1500,
-  progress = false} = {}
+  progress = false,
+  defaultAnimation = false} = {}
 ) {
   Notify.create({
     progress: progress,
-    color: 'green',
-    icon: 'check_circle',
+    type: 'positive',
     message: message,
     timeout: timeout,
-    position: position as 'top'
+    position: position as 'top',
+    classes: defaultAnimation ? '' : `o-animation-${position}`,
   })
 }
 
 export function notifyWarning (message :string, {
   position = 'top',
   timeout = 2500,
-  progress = false} = {}
+  progress = false,
+  defaultAnimation = false} = {}
 ) {
   Notify.create({
     progress: progress,
-    color: 'deep-orange',
-    icon: 'info',
+    type: 'warning',
+    textColor: 'black',
     message: message,
     timeout: timeout,
     position: position as 'top',
-    classes: 'o-notify-warning'
+    classes: defaultAnimation ? 'o-notify-warning' : `o-notify-warning o-animation-${position}`,
   })
 }
 
-export function notifyInfo (message :string, {
+export function notifyInfo(message :string, {
   position = 'top',
   icon = 'info',
   color = 'primary',
   timeout = 1000,
   html = false,
-  progress = false} = {}
+  progress = false,
+  defaultAnimation = false} = {}
 ) {
   Notify.create({
     progress: progress,
@@ -55,22 +62,24 @@ export function notifyInfo (message :string, {
     html: html,
     message: message,
     timeout: timeout,
-    position: position as 'top'
+    position: position as 'top',
+    classes: defaultAnimation ? '' : `o-animation-${position}`,
   })
 }
 
 export function notifyError (message :string, {
   position = 'top',
   timeout = 2500,
-  progress = false} = {}
+  progress = false,
+  defaultAnimation = false} = {}
 ) {
   Notify.create({
     progress: progress,
-    color: 'red',
-    icon: 'warning',
+    type: 'negative',
     message: message,
     timeout: timeout,
-    position: position as 'top'
+    position: position as 'top',
+    classes: defaultAnimation ? '' : `o-animation-${position}`,
   })
 }
 
@@ -80,25 +89,7 @@ export function notifyDone (timeout = 1500) {
     color: 'black',
     icon: 'done',
     timeout: timeout,
-    // timeout: 100000,
     position: 'center',
-    classes: 'o-notify-done'
+    classes: 'o-notify-done o-animation-center'
   })
-}
-
-export function notifyIfDev (message :string, {
-  position = 'top',
-  timeout = 2500,
-  progress = false} = {}
-) {
-  if (process.env.DEV) {
-    Notify.create({
-      progress: progress,
-      color: 'light-blue',
-      icon: 'info',
-      message: message,
-      timeout: timeout,
-      position: position as 'top'
-    })
-  }
 }

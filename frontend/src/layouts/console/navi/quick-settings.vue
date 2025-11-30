@@ -148,8 +148,9 @@ function onAction (action: Indexable, value: any) {
   &.group {
     width: 100%;
     text-align: center;
-    padding: 10px 0;
+    padding: 5px 0;
     min-height: 30px;
+    border-radius: 0;
     img {
       width: 38px;
       height: 38px;

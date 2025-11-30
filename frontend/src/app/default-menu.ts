@@ -19,6 +19,13 @@ export const defaultConsoleMenus: MenuItem[] = [
         meta: {icon: 'rocket'}
       },
       {
+        id: 'test',
+        name: 'Test',
+        path: '/test',
+        action: 1,
+        meta: {icon: 'network_check', hidden: !!process.env.PROD}
+      },
+      {
         id: 'chat',
         name: '随便聊聊',
         path: '/chat',

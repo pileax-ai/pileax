@@ -25,7 +25,7 @@
       </template>
     </q-input>
     <q-separator class="bg-accent" />
-    <q-list class="q-py-sm">
+    <section class="q-py-sm">
       <template v-for="(item, index) in filterMenus" :key="index">
         <o-common-item :icon="item.icon"
                        :label="menuLabel(item.name)"
@@ -40,7 +40,7 @@
           </template>
         </o-common-item>
       </template>
-    </q-list>
+    </section>
   </o-hover-menu-btn>
 </template>
 
@@ -96,7 +96,7 @@ const filterMenus = computed(() => {
 
   .q-item {
     min-height: 32px;
-    border-radius: 0!important;
+    //border-radius: 0!important;
     .side-label {
       padding-right: 8px;
     }

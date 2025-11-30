@@ -77,6 +77,12 @@ kbd {
   text-transform: unset;
 }
 
+.q-card, .q-menu, .q-tab-panels, .q-table__container {
+  &.q-dark, &:has(.q-dark) {
+    background: var(--q-secondary);
+  }
+}
+
 
 // --------------------------------------------------------------------------------
 // Page
@@ -465,8 +471,8 @@ kbd {
 }
 
 .o-notify-done {
-  min-width: 80px;
-  min-height: 80px;
+  min-width: 100px;
+  min-height: 100px;
   background: rgba(#000, 0.75) !important;
 
   .q-notification__content {

@@ -25,8 +25,11 @@
                                clickable>
                 </o-common-item>
               </div>
+              <div>
+                服务信息: {{serverInfo || 'N/A'}}
+              </div>
             </section>
-            ABC: {{serverInfo || 'N/A'}}
+
           </o-common-card>
         </section>
 
@@ -73,7 +76,6 @@ import { GET } from 'src/hooks/useRequest';
 import { electronIpc } from 'src/api/ipc/electron';
 
 import OCommonPage from 'core/page/template/OCommonPage.vue';
-import { MenuItem } from 'core/types/menu';
 
 const route = useRoute();
 const { favoriteMenus, starMenus, clearStarMenus, unstarMenu } = useNavi();
@@ -92,7 +94,6 @@ function init() {
   }).catch((err: Error) => {
     console.error('Request：', err);
   })
-
 }
 
 onMounted(() => {
