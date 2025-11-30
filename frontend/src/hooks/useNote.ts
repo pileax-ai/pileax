@@ -169,7 +169,7 @@ export default function () {
     }, { refresh: true });
   }
 
-  function buildNoteTree(items: Note[], id: string | null = null) {
+  function buildNoteTree(items: Note[], id: string | null = null, addEmptyNode = false) {
     const list: any[] = items
       .filter(item => item['parent'] === id)
       .map((item) => {
@@ -181,10 +181,10 @@ export default function () {
           parent: item.parent,
           data: item,
           allowDrop: true,
-          children: buildNoteTree(items, item.id)
+          children: buildNoteTree(items, item.id, addEmptyNode)
         };
       });
-    if (list.length == 0) {
+    if (list.length == 0 && addEmptyNode) {
       list.push({
         key: UUID(),
         type: 'action',
@@ -199,7 +199,7 @@ export default function () {
     return list;
   }
 
-  function buildFavoriteTree(items: Note[]) {
+  function buildFavoriteTree(items: Note[], addEmptyNode = false) {
     const list: any[] = items
       .filter(item => item.favorite === 1)
       .map((item) => {

@@ -112,11 +112,11 @@ const selected = ref('');
 const noteTree = computed(() => {
   switch (props.scope) {
     case 'all':
-      return buildNoteTree(notes.value);
+      return buildNoteTree(notes.value, null, true);
     case 'favorite':
-      return buildFavoriteTree(notes.value);
+      return buildFavoriteTree(notes.value,  true);
     default:
-      return buildNoteTree(notes.value);
+      return buildNoteTree(notes.value, null, true);
   }
 });
 

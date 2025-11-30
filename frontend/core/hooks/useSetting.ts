@@ -102,10 +102,12 @@ export default function () {
   }
 
   const setTray = () => {
-    window.electronAPI.updateTrayMenu({
-      openApp: i18n.t('tray.openApp'),
-      quit: i18n.t('tray.quit')
-    })
+    if (process.env.MODE === 'electron') {
+      window.electronAPI.updateTrayMenu({
+        openApp: i18n.t('tray.openApp'),
+        quit: i18n.t('tray.quit')
+      })
+    }
   }
 
   const setNavi = (key :string, value :never) => {

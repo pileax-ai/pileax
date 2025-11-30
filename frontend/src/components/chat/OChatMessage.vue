@@ -244,10 +244,28 @@ onMounted(() => {
     }
 
     .actions {
-      margin-top: 4px;
+      position: sticky;
+      bottom: 0;
+      margin-top: -10px;
+      padding: 10px 0;
       visibility: hidden;
-      &.editable {
+      opacity: 0;
+      transition: opacity .3s ease, visibility .3s ease;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: var(--q-secondary);
+        opacity: 0.8;
+      }
+
+      &.editable, &:hover {
         visibility: visible;
+        opacity: 1;
       }
 
       .q-btn {
@@ -344,7 +362,7 @@ onMounted(() => {
         .line {
           margin-top: 4px;
           width: 50%;
-          height: calc(100% - 60px);
+          height: calc(100% - 72px);
           border-radius: 0 0 0 8px;
           border-left: solid 2px var(--q-dark);
           border-bottom: solid 2px var(--q-dark);
@@ -368,6 +386,7 @@ onMounted(() => {
   &:hover {
     .actions {
       visibility: visible;
+      opacity: 1;
     }
   }
 

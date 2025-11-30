@@ -14,32 +14,34 @@
           <q-icon name="search" />
         </template>
         <template v-slot:append>
-          <section class="row">
-            <kbd>⌘</kbd>
-            <kbd>P</kbd>
-          </section>
+          <q-btn icon="close" round flat v-close-popup />
         </template>
       </q-input>
     </template>
 
     <section class="row col-12 search-container">
-      <div class="group">
-        <q-item-label class="text-readable" v-if="term">
-          Results
-        </q-item-label>
-        <q-item-label class="text-readable" v-else>
-          Recent Notes
-        </q-item-label>
+      <div class="row col-12 items-center justify-between group">
+        <div class="text-readable">选择位置</div>
+        <q-btn-toggle
+          v-model="currentTab"
+          :options="tabs"
+          color="accent"
+          text-color="readable"
+          toggle-color="cyan"
+          toggle-text-color="white"
+          size="14px"
+          unelevated
+        />
       </div>
-      <section class="row col-12 justify-center search-results">
+      <section class="row col-12 justify-center search-results" v-if="term">
         <q-list class="col-12" v-if="results.length">
           <template v-for="(item, index) in results" :key="index">
-            <q-item :class="{'bg-dark': index === selected, 'active': item.id === selectedNote?.id}"
+            <q-item :class="{'active': item.id === selectedNote?.id}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
                 <q-icon :name="item.icon || '✍'" size="1.2rem" />
               </q-item-section>
-              <q-item-section class="text-bold">
+              <q-item-section>
                 {{item.title}}
               </q-item-section>
               <q-item-section class="time" side>
@@ -50,30 +52,58 @@
         </q-list>
         <o-no-data image v-else />
       </section>
+      <section class="row col-12 note-tree-view" v-else>
+        <q-tree v-model:selected="selected"
+                :nodes="noteTree"
+                node-key="key"
+                @update:selected="onSelectNode">
+          <template v-slot:default-header="prop">
+            <section class="row justify-between items-center full-width note-item"
+                     @click.stop="onSelected(prop.node.data)">
+              <section class="none-pointer-events note-title">
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
+                    <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
+                    <span v-else>{{ NoteDefaultIcon }}</span>
+                  </q-item-section>
+                  <q-item-section class="label">
+                    <q-item-label lines="1">
+                      {{prop.node.label}}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </section>
+            </section>
+          </template>
+        </q-tree>
+      </section>
     </section>
 
     <template #footer>
-      <section class="row col-12 justify-between">
-        <div class="row items-center text-tips">
-          <div class="row items-center">
-            <kbd>↑↓</kbd> <span class="q-ml-xs">Select</span>
+      <section class="row col-12 items-center full-height justify-between">
+        <template v-if="selectedNote">
+          <div class="row items-center text-tips">
+              <span v-if="currentTab === 'add'">
+                创建子笔记<q-chip square dense>{{chat.message}}</q-chip>于
+              </span>
+              <span v-else>
+                添加内容<q-chip square dense>{{chat.message}}</q-chip>至
+              </span>
+              <q-chip square dense>
+                <q-icon :name="selectedNote.icon || '✍'" size="1.2rem" />
+                <div class="q-ml-sm ellipsis">
+                  {{ selectedNote.title }}
+                </div>
+              </q-chip>
           </div>
-          <div class="row items-center q-ml-lg">
-            <kbd>↵</kbd> <span class="q-ml-xs">Open</span>
+          <div class="row items-center text-tips actions">
+            <q-btn label="确定" class="bg-primary text-white"
+                   flat @click="onConfirm" />
           </div>
-        </div>
-        <div class="row items-center text-tips actions">
-          <q-btn label="创建于" class="bg-cyan text-white"
-                 flat @click="onAddNote" />
-          <q-btn label="添加至" class="bg-primary text-white"
-                 flat @click="onAppendNote" />
-
-          <q-chip v-if="selectedNote">
-            <q-icon :name="selectedNote.icon || '✍'" size="1.2rem" />
-            <div class="q-ml-sm ellipsis">
-              {{ selectedNote.title }}
-            </div>
-          </q-chip>
+        </template>
+        <div class="text-tips" v-else>
+          <q-chip square dense>{{chat.message}}</q-chip>
         </div>
       </section>
     </template>
@@ -88,12 +118,13 @@ import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
 import ONoData from 'core/components/misc/ONoData.vue';
 import {timeMulti} from 'core/utils/format';
 import { Note } from 'src/types/note';
+import { NoteDefaultIcon } from 'core/constants/constant'
 
 const { dialog, onHide, onOk } = useDialog();
 const {
   notes,
   recentNotes,
-  getAllNotes,
+  buildNoteTree,
   getRecentNotes,
   addNote,
   openNote,
@@ -101,9 +132,22 @@ const {
 
 const chat = ref<Indexable>({});
 const term = ref('');
-const selected = ref(0);
+const selected = ref('');
 const selectedNote = ref<Note>();
 const results = ref<Note[]>([]);
+
+
+const currentTab = ref('add');
+const tabs = computed(() => {
+  return [
+    { label: '创建笔记', value: 'add' },
+    { label: '添加内容', value: 'append' },
+  ];
+});
+
+const noteTree = computed(() => {
+  return buildNoteTree(notes.value);
+});
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -152,44 +196,23 @@ function onSearch (val: string | number | null) {
     : recentNotes.value;
 }
 
-function onKeyup (e: KeyboardEvent) {
-  if (results.value.length > 0) {
-    switch (e.code) {
-      case 'ArrowDown':
-        selected.value += 1;
-        break
-      case 'ArrowUp':
-        selected.value -= 1;
-        break;
-      case 'Enter':
-        onSelected(results.value[selected.value]);
-        break;
-      default:
-    }
-    if (selected.value >= results.value.length) {
-      selected.value = 0;
-    }
-    if (selected.value < 0) {
-      selected.value = results.value.length - 1;
-    }
-  } else {
-    selected.value = 0;
-  }
-}
 
-function onSelected (item: Note) {
+function onSelected (item?: Note) {
   selectedNote.value = item;
 }
 
-function onAddNote() {
-  if (selectedNote.value) {
-    addNote(selectedNote.value?.id, 'chat');
-  }
+
+function onSelectNode (key: string) {
+  selectedNote.value = notes.value.find((item) => item.id === key);
 }
 
-function onAppendNote() {
+function onConfirm() {
   if (selectedNote.value) {
-    openNote(selectedNote.value, 'chat');
+    if (currentTab.value === 'add') {
+      addNote(selectedNote.value?.id, 'chat');
+    } else {
+      openNote(selectedNote.value, 'chat');
+    }
   }
 }
 
@@ -200,12 +223,6 @@ function onShow() {
 onMounted( async () => {
   await getRecentNotes();
   results.value = recentNotes.value;
-
-  window.addEventListener('keyup', onKeyup);
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keyup', onKeyup);
 })
 </script>
 
@@ -213,7 +230,8 @@ onUnmounted(() => {
 .chat-note-select-dialog {
   .search-container {
     .group {
-      padding: 0 12px;
+      padding: 12px;
+      border-bottom: solid 1px var(--q-accent);
       .q-item__label {
         padding: 10px 0;
       }
@@ -250,26 +268,59 @@ onUnmounted(() => {
       }
 
       .q-item__section--avatar {
-        min-width: 32px;
-        padding-right: 0!important;
+        min-width: unset;
+        padding-right: 8px!important;
+      }
+    }
+  }
+
+  .note-tree-view {
+    padding: 12px;
+
+    .q-tree {
+      width: 100%;
+
+      &__node-header {
+        padding: 0 4px;
+        &:hover {
+          cursor: pointer;
+          background: var(--q-accent) !important;
+          border-radius: 4px;
+        }
+      }
+
+      .q-item {
+        height: 36px;
+        min-height: unset;
+        padding: 8px 0;
+
+        &__section--avatar {
+          min-width: unset;
+          padding-right: 8px;
+        }
+
       }
     }
   }
 
   .actions {
-    .q-btn {
-      padding: 0 16px;
-      margin-right: 8px;
-      height: 28px;
-      min-height: unset;
-    }
-
     .q-chip {
       margin: 0;
       max-width: 200px;
       .q-icon {
         margin-top: -2px;
       }
+    }
+
+    .q-btn {
+      min-width: 80px;
+    }
+  }
+
+  .q-footer {
+    height: 60px;
+    .q-chip {
+      margin: 0 4px;
     }
   }
 }

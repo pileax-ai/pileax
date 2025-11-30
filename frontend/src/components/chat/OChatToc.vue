@@ -10,7 +10,7 @@
             <li class="toc__item"
                 :class="[
                   selectedId === item.id ? 'selected' : '',
-                  `toc__item--${item.like}`,
+                  `toc__item--${item.favorite}`,
                 ]">
             </li>
           </template>
@@ -24,7 +24,7 @@
       <ul class="toc__list">
         <li
           class="toc__item ellipsis"
-          :class="`toc__item--${item.like}`"
+          :class="`toc__item--${item.favorite}`"
           v-for="(item, index) in chats"
           :key="index"
         >
@@ -128,7 +128,8 @@ defineExpose({
   .toc__item {
     max-width: 300px;
     font-size: 0.9rem;
-    padding: 2px 4px;
+    padding: 4px 4px;
+    margin: 4px 0;
     .heading {
       color: var(--q-info) !important;
 
@@ -146,7 +147,6 @@ defineExpose({
       font-weight: 800;
       background: var(--q-dark);
       border-radius: 4px;
-      //outline: solid 2px var(--q-dark);
     }
   }
 }

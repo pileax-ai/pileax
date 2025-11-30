@@ -38,7 +38,7 @@
       </section>
 
       <transition name="fade">
-        <section class="row col-12 justify-center q-pb-lg scroll-bottom" v-if="chats.length && showScrollBtn">
+        <section class="q-pb-lg scroll-bottom" v-if="chats.length && showScrollBtn">
           <div class="row col-12 justify-end btn-wrapper">
             <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500, true)" />
           </div>
@@ -298,11 +298,10 @@ defineExpose({
 
   .scroll-bottom {
     position: fixed;
-    left: 0;
     right: 0;
     bottom: -4px;
     .btn-wrapper {
-      width: 100%;
+      width: 42px;
       max-width: 800px;
     }
   }

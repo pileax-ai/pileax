@@ -41,13 +41,13 @@
           </div>
           <div class="col-auto">
             <div class="text-tips">
-              <locale-hover-btn anchor="center right"
-                                self="center left"
-                                :offset="[4, 0]"
-                                outline enable-hover />
               <q-btn :icon="darkMode ? 'light_mode' : 'dark_mode'"
                      outline
                      @click="toggleTheme" />
+              <locale-hover-btn anchor="center right"
+                                self="center left"
+                                :offset="[10, 0]"
+                                outline enable-hover />
             </div>
           </div>
         </div>
