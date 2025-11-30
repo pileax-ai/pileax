@@ -76,7 +76,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import useDialog from 'core/hooks/useDialog';
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
 import ONoData from 'core/components/misc/ONoData.vue';
-import { tenantBookCollectionService } from 'src/service/remote/tenant-book-collection'
+import { tenantBookCollectionService } from 'src/api/service/remote/tenant-book-collection'
 import { notifyDone } from 'core/utils/control'
 
 const { dialog, onHide, onOk } = useDialog();

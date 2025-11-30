@@ -111,7 +111,7 @@ import { useRoute } from 'vue-router';
 import { getArrayItem, RefTypes, Status, TableViews } from 'src/app/metadata'
 import useCommon from 'core/hooks/useCommon';
 import useQuery from 'src/hooks/useQuery';
-import { aiProviderService } from 'src/service/remote/ai-provider';
+import { aiProviderService } from 'src/api/service/remote/ai-provider';
 
 import Item from './Item.vue';
 import ItemCard from './ItemCard.vue';

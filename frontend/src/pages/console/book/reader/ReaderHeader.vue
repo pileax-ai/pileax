@@ -70,7 +70,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import useBook from 'src/hooks/useBook';
 import useReader from 'src/hooks/useReader';
-import { nextPage, prevPage } from 'src/service/book';
+import { nextPage, prevPage } from 'src/api/service/ebook/book';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 

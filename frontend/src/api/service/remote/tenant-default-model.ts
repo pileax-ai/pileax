@@ -3,10 +3,10 @@
  *
  * @version 1.0
  */
-import { RemoteBaseService } from './base'
+import { BaseService } from './base'
 import { GET } from 'src/hooks/useRequest'
 
-export class TenantDefaultModelService extends RemoteBaseService {
+export class TenantDefaultModelService extends BaseService {
   protected apiName = 'tenantDefaultModel';
 
   findByType(type: string): Promise<any> {

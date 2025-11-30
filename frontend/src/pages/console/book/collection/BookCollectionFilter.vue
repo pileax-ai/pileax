@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { bookCollectionService } from 'src/service/remote/book-collection'
+import { bookCollectionService } from 'src/api/service/remote/book-collection'
 import useCrud from 'src/hooks/useCrud';
 
 const apiName = 'bookCollection';

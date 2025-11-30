@@ -55,10 +55,10 @@ import ReaderSide from 'components/reader/ReaderSide.vue';
 import 'js/reader.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
-import { nextPage, prevPage, openBook } from 'src/service/book'
-import { bookAnnotationService } from 'src/service/remote/book-annotation'
-import { userBookService } from 'src/service/remote/user-book'
-import { findBookAnnotation, renderAnnotations } from 'src/service/book-annotation'
+import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'
+import { bookAnnotationService } from 'src/api/service/remote/book-annotation'
+import { userBookService } from 'src/api/service/remote/user-book'
+import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute();

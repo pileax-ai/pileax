@@ -43,7 +43,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import {
   addAnnotation,
   removeAnnotation
-} from 'src/service/book-annotation';
+} from 'src/api/service/ebook/book-annotation';
 import useCommon from 'core/hooks/useCommon';
 import useBook from 'src/hooks/useBook';
 import useReader from 'src/hooks/useReader';

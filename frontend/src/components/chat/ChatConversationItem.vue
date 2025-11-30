@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { computed, PropType, ref } from 'vue'
-import { chatConversationService } from 'src/service/remote/chat-conversation';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation';
 import { ChatConversation } from 'src/types/chat';
 import { refresh } from 'core/hooks/useRouter'
 import { timeMulti } from 'core/utils/format'

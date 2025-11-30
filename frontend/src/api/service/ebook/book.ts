@@ -3,14 +3,14 @@
  *
  * @version 1.0
  */
-import 'src/js/reader.js';
+import 'js/reader.js';
 import { notifyWarning } from 'core/utils/control';
 import useDialog from 'core/hooks/useDialog';
 import useApi from 'src/hooks/useApi';
 import useReader from 'src/hooks/useReader';
 import useBook from 'src/hooks/useBook';
-import { bookService } from 'src/service/remote/book';
-import { userBookService } from 'src/service/remote/user-book';
+import { bookService } from 'src/api/service/remote/book';
+import { userBookService } from 'src/api/service/remote/user-book';
 import { BookOperation, ReadingMode } from 'src/types/reading';
 import { base64ToFile, getFileSHA1 } from 'src/utils/book';
 import { getErrorMessage } from 'src/utils/request'

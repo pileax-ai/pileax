@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { ChatInput, ChatConversation } from 'src/types/chat'
-import { chatConversationService } from 'src/service/remote/chat-conversation';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation';
 import { MenuItem } from 'core/types/menu';
 import { useChatStore } from 'stores/chat';
 import { useNaviStore } from 'stores/navi';

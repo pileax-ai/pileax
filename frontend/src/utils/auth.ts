@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import sha1 from 'crypto-js/sha1';
 
 import { getItemObject, saveItemObject } from 'core/utils/storage'
-import { authService } from 'src/service/remote/auth'
+import { authService } from 'src/api/service/remote/auth'
 import { MenuItem } from 'core/types/menu'
 
 // -----------------------------------------------------------------------------

@@ -5,7 +5,7 @@
  */
 import { GET } from 'src/hooks/useRequest';
 
-export class RemoteProviderModelService {
+export class ProviderModelService {
   private apiName = 'providerModel';
 
   findAll(): Promise<any> {
@@ -19,4 +19,4 @@ export class RemoteProviderModelService {
 
 }
 
-export const providerModelService = new RemoteProviderModelService();
+export const providerModelService = new ProviderModelService();

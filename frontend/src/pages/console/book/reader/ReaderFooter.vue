@@ -61,7 +61,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import useSetting from 'core/hooks/useSetting';
 import useBook from 'src/hooks/useBook';
-import { changeStyle, goToHref, goToPercent, nextPage, prevPage } from 'src/service/book'
+import { changeStyle, goToHref, goToPercent, nextPage, prevPage } from 'src/api/service/ebook/book'
 
 const { setTheme, theme } = useSetting();
 const { store, progress, search } = useBook();

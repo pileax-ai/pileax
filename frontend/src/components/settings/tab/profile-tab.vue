@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { userService } from 'src/service/remote/user';
+import { userService } from 'src/api/service/remote/user';
 import useAccount from 'src/hooks/useAccount';
 import SettingCard from './setting-card.vue';
 

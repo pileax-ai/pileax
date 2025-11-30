@@ -98,8 +98,8 @@ import OChatInput from 'components/chat/OChatInput.vue';
 import OChatMessage from 'components/chat/OChatMessage.vue';
 import ChatConversations from 'components/chat/ChatConversations.vue';
 
-import { chatService } from 'src/service/remote/chat';
-import { chatConversationService } from 'src/service/remote/chat-conversation';
+import { chatService } from 'src/api/service/remote/chat';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation';
 import { UUID } from 'core/utils/crypto';
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';

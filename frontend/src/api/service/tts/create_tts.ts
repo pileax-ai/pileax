@@ -1,6 +1,6 @@
-import { TTSMode, TTSOptions, TTSPlayer } from 'src/service/tts/tts_player'
-import { BrowserTTSPlayer } from 'src/service/tts/browser_tts_player'
-import { EdgeTTSPlayer } from 'src/service/tts/edge_tts_player'
+import { TTSMode, TTSOptions, TTSPlayer } from 'src/api/service/tts/tts_player'
+import { BrowserTTSPlayer } from 'src/api/service/tts/browser_tts_player'
+import { EdgeTTSPlayer } from 'src/api/service/tts/edge_tts_player'
 
 /**
  * Create TTS Player

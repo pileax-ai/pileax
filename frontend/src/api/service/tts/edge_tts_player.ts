@@ -1,5 +1,5 @@
-import { TTSOptions } from 'src/service/tts/tts_player'
-import { BaseTTSPlayer } from 'src/service/tts/base_tts_player';
+import { TTSOptions } from 'src/api/service/tts/tts_player'
+import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
 
 /**
  * TTS Player

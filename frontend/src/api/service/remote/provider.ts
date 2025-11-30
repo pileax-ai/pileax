@@ -4,9 +4,9 @@
  * @version 1.0
  */
 import { GET } from 'src/hooks/useRequest';
-import { RemoteBaseService } from './base'
+import { BaseService } from './base'
 
-export class RemoteProviderService extends RemoteBaseService {
+export class ProviderService extends BaseService {
   protected apiName = 'provider';
 
   override get(id: string): Promise<any> {
@@ -15,4 +15,4 @@ export class RemoteProviderService extends RemoteBaseService {
 
 }
 
-export const providerService = new RemoteProviderService();
+export const providerService = new ProviderService();

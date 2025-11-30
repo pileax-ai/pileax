@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import {computed, onActivated, ref, watch} from 'vue';
-import { joinQueryAnnotation } from 'src/service/book-annotation';
+import { joinQueryAnnotation } from 'src/api/service/ebook/book-annotation';
 import AnnotationFilterBtn from './AnnotationFilterBtn.vue';
 import AnnotationListItem from './AnnotationListItem.vue';
 import AnnotationDetails from './AnnotationDetails.vue';

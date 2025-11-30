@@ -65,9 +65,9 @@ import AddedProviderCard from './children/AddedProviderCard.vue';
 import ProviderCard from './children/ProviderCard.vue';
 import ProviderApiKey from './children/ProviderApiKey.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue';
-import { llmService } from 'src/service/remote/llm';
-import { providerService } from 'src/service/remote/provider'
-import { providerCredentialService } from 'src/service/remote/provider-credential'
+import { llmService } from 'src/api/service/remote/llm';
+import { providerService } from 'src/api/service/remote/provider'
+import { providerCredentialService } from 'src/api/service/remote/provider-credential'
 import { notifyDone } from 'core/utils/control'
 import ONoData from 'core/components/misc/ONoData.vue'
 
@@ -119,7 +119,7 @@ const getAllProviders = () => {
 }
 
 const getAddedProviders = () => {
-  providerService.findAll().then(res => {
+  providerService.getAll().then(res => {
     myProviders.value = res
   })
 }
@@ -156,7 +156,7 @@ const onDelete = (credential: Indexable) => {
 }
 
 const onActiveCredential = (credential: Indexable, item: Indexable) => {
-  providerService.put({
+  providerService.update({
     id: item.id,
     credentialId: credential.id
   }).then(res => {

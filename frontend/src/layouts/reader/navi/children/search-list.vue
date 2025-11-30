@@ -39,7 +39,7 @@ import OBookSearchItem from 'src/components/book/OBookSearchItem.vue';
 
 import { computed, onMounted, ref } from 'vue'
 import useBook from 'src/hooks/useBook';
-import { search, clearSearch } from 'src/service/book'
+import { search, clearSearch } from 'src/api/service/ebook/book'
 
 const { store } = useBook();
 

@@ -28,8 +28,8 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { userBookService } from 'src/service/remote/user-book'
-import { bookExtensions } from 'src/service/book'
+import { userBookService } from 'src/api/service/remote/user-book'
+import { bookExtensions } from 'src/api/service/ebook/book'
 const emit = defineEmits(['filter']);
 
 const bookType = ref('');

@@ -47,14 +47,14 @@
 <script setup lang="ts">
 import { onActivated, ref } from 'vue'
 import OAiModelSelectBtn from 'src/components/ai/OAiModelSelectBtn.vue';
-import { providerModelService, tdmService } from 'src/service/remote';
+import { providerModelService, tdmService } from 'src/api/service/remote';
 import useAi from 'src/hooks/useAi';
 
 const { initAiSettings } = useAi();
 const models = ref<Indexable[]>();
 
 const getAllModels = () => {
-  providerModelService.findAll().then(res => {
+  providerModelService.getAll().then(res => {
     models.value = res
   })
 }

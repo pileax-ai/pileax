@@ -10,7 +10,7 @@ import {
   getSelectionRange
 } from './utils';
 import defaultSetting from 'src/app/default-reader-setting';
-import { postMessage } from 'src/service/book';
+import { postMessage } from 'src/api/service/ebook/book.js';
 
 // --------------------------------------------------------------------------------
 // Ebook Logic

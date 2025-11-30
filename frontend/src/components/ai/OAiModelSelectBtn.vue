@@ -52,7 +52,7 @@
 import { computed, onMounted, PropType, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import { providerModelService, tdmService } from 'src/service/remote';
+import { providerModelService, tdmService } from 'src/api/service/remote';
 import { notifyDone } from 'core/utils/control'
 import useAi from 'src/hooks/useAi'
 

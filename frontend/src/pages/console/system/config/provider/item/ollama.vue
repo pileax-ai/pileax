@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { onMounted, PropType, ref, watch } from 'vue'
-import { configService } from 'src/service/remote/config';
+import { configService } from 'src/api/service/remote/config';
 import { GET } from 'src/hooks/useRequest'
 import { notifyWarning } from 'core/utils/control'
 

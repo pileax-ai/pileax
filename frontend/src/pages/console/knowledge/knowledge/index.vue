@@ -39,7 +39,7 @@ import { computed, onActivated, onMounted, ref } from 'vue';
 
 import useKnowledge from 'src/hooks/useKnowledge.js';
 import { useRoute } from 'vue-router'
-import { knowledgeService } from 'src/service/remote/knowledge'
+import { knowledgeService } from 'src/api/service/remote/knowledge'
 
 const route = useRoute();
 const { knowledgeId, knowledge, setCurrentKnowledge } = useKnowledge();

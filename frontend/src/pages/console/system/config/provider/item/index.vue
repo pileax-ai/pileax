@@ -65,7 +65,7 @@ import { onMounted, PropType, ref } from 'vue'
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
 import OViewItem from 'core/components/list/OViewItem.vue';
 import Ollama from './ollama.vue';
-import { configService } from 'src/service/remote/config';
+import { configService } from 'src/api/service/remote/config';
 import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
 import { ConnectionStatus, getArrayItem } from 'src/app/metadata'

@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
-import { removeBook } from 'src/service/book';
+import { removeBook } from 'src/api/service/ebook/book';
 import { timeMulti } from 'core/utils/format';
 import { ipcService } from 'src/api/ipc';
 

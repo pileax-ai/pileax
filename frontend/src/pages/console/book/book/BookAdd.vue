@@ -82,9 +82,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { uploadBook } from 'src/service/book';
-import { bookService } from 'src/service/remote/book';
-import { userBookService } from 'src/service/remote/user-book';
+import { uploadBook } from 'src/api/service/ebook/book';
+import { bookService } from 'src/api/service/remote/book';
+import { userBookService } from 'src/api/service/remote/user-book';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';

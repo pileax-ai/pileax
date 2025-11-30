@@ -1,11 +1,11 @@
-import { GET, POST, DELETE } from 'src/hooks/useRequest';
+import { GET, POST } from 'src/hooks/useRequest';
 
 /**
  * Remote workspace service
  *
  * @version 1.0
  */
-export class RemoteWorkspaceService {
+export class WorkspaceService {
   private apiName = 'workspace';
 
   async save(data: Indexable): Promise<any> {
@@ -21,4 +21,4 @@ export class RemoteWorkspaceService {
 
 }
 
-export const workspaceService = new RemoteWorkspaceService();
+export const workspaceService = new WorkspaceService();

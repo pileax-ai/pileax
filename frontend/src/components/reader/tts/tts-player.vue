@@ -47,7 +47,7 @@
 import { computed, ref, watch } from 'vue';
 import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
-import { ttsStart, ttsPrepare, ttsNext, ttsStop } from 'src/service/book'
+import { ttsStart, ttsPrepare, ttsNext, ttsStop } from 'src/api/service/ebook/book'
 import { sleep } from 'openai/core'
 const emit = defineEmits(['close']);
 

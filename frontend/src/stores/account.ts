@@ -6,8 +6,8 @@ import {
   clearUserCache,
   getItemObject,
 } from 'core/utils/storage'
-import { authService } from 'src/service/remote/auth'
-import { workspaceService } from 'src/service/remote/workspace'
+import { authService } from 'src/api/service/remote/auth'
+import { workspaceService } from 'src/api/service/remote/workspace'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({

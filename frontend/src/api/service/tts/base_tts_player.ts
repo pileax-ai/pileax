@@ -1,4 +1,4 @@
-import { TTSOptions, TTSPlayer } from 'src/service/tts/tts_player'
+import { TTSOptions, TTSPlayer } from 'src/api/service/tts/tts_player'
 
 /**
  * TTS Player

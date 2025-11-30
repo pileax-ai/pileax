@@ -1,8 +1,8 @@
 import { computed } from 'vue';
 import { useQuasar } from 'quasar';
 import useApi from 'src/hooks/useApi';
-import { userBookService } from 'src/service/remote/user-book'
-import { tenantBookCollectionService } from 'src/service/remote/tenant-book-collection'
+import { userBookService } from 'src/api/service/remote/user-book'
+import { tenantBookCollectionService } from 'src/api/service/remote/tenant-book-collection'
 
 export default function () {
   const $q = useQuasar();

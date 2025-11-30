@@ -136,7 +136,7 @@
 <script setup lang="ts">
 import { onMounted, PropType, ref, inject } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
-import { chatService } from 'src/service/remote/chat';
+import { chatService } from 'src/api/service/remote/chat';
 import useAccount from 'src/hooks/useAccount';
 import useDialog from 'core/hooks/useDialog';
 import { useNoteStore } from 'stores/note';
@@ -194,7 +194,7 @@ function onSend() {
 }
 
 function onFavorite(value: number) {
-  chatService.put({
+  chatService.update({
     id: props.chat.id,
     favorite: value
   }).then(res => {

@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { uploadBook } from 'src/service/book';
+import { uploadBook } from 'src/api/service/ebook/book';
 import { notifyInfo } from 'core/utils/control'
 
 defineProps({

@@ -101,7 +101,7 @@ import {computed, ref, onActivated} from 'vue';
 import { TableViews } from 'src/app/metadata';
 import useCommon from 'core/hooks/useCommon';
 import useQuery from 'src/hooks/useQuery';
-import { aiProviderService } from 'src/service/remote/ai-provider';
+import { aiProviderService } from 'src/api/service/remote/ai-provider';
 
 import Item from './item/index.vue';
 import ProviderCard from './ProviderCard.vue';

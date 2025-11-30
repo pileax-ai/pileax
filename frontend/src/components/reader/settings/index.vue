@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import useReaderSetting from 'src/hooks/useReaderSetting';
-import { changeStyle } from 'src/service/book';
+import { changeStyle } from 'src/api/service/ebook/book';
 
 import GeneralTab from './general/index.vue';
 import KeyBindingsTab from './key-bindings/index.vue';

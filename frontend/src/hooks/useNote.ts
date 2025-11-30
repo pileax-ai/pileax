@@ -5,7 +5,7 @@ import { Note } from 'src/types/note';
 import { MenuItem } from 'core/types/menu';
 import { UUID } from 'core/utils/crypto';
 import { router } from 'src/router';
-import { noteService } from 'src/service/note';
+import { noteService } from 'src/api/service/remote/note';
 
 export default function () {
   const naviStore = useNaviStore();
@@ -43,7 +43,7 @@ export default function () {
   }
 
   async function getAllNotes() {
-    const notes = await noteService.getAll({});
+    const notes = await noteService.getAll();
     noteStore.setNotes(notes);
   }
 

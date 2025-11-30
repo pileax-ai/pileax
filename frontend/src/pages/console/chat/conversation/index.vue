@@ -80,8 +80,8 @@ import OChatToc from 'components/chat/OChatToc.vue';
 import ChatActions from 'components/chat/ChatActions.vue';
 
 import { router } from 'src/router';
-import { chatService } from 'src/service/remote/chat';
-import { chatConversationService } from 'src/service/remote/chat-conversation';
+import { chatService } from 'src/api/service/remote/chat';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation';
 import { UUID } from 'core/utils/crypto';
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
