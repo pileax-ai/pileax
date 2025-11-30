@@ -1,25 +1,24 @@
 <template>
-  <q-page class="o-note-page">
-    <q-splitter v-model="width"
-                :limits="[0, 50]"
-                separator-class="bg-accent"
-                :separator-style="`width: ${width ? 6 : 0}px;`"
-                reverse
-                @update:modelValue="onWidthChanged">
-      <template #before>
-        <slot></slot>
-      </template>
+  <o-split-page class="o-note-page"
+                v-model:show="showSide"
+                :init-size="400"
+                :max-size="800"
+                @size="onWidthChanged"
+                reverse>
+    <template #before>
+      <slot></slot>
+    </template>
 
-      <template #after>
-        <note-chat @close="toggleSide" :note-id="noteId" v-if="noteId" />
-        <slot name="side"></slot>
-      </template>
-    </q-splitter>
-  </q-page>
+    <template #after>
+      <note-chat @close="toggleSide" :note-id="noteId" v-if="noteId" />
+      <slot name="side"></slot>
+    </template>
+  </o-split-page>
 </template>
 
 <script setup lang="ts">
 import { onActivated, ref } from 'vue'
+import OSplitPage from 'core/page/template/OSplitPage.vue';
 import NoteChat from 'components/note/NoteChat.vue';
 import useNote from 'src/hooks/useNote'
 
@@ -30,12 +29,12 @@ const props = defineProps({
   }
 });
 const { noteStore } = useNote();
+const showSide = ref(false);
 const width = ref(0);
 const noteId = ref('');
 
 function toggleSide() {
-  width.value = width.value ? 0 : 30;
-  noteStore.setChatWidth(width.value);
+  showSide.value = !showSide.value;
 }
 
 function refreshChat(id: string) {
@@ -58,8 +57,5 @@ defineExpose({
 
 <style lang="scss">
 .o-note-page {
-  .q-splitter {
-    height: 100vh;
-  }
 }
 </style>
