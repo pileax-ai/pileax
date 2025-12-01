@@ -3,7 +3,9 @@ import { IpcApi } from 'src/api/ipc';
 
 declare global {
   interface Window {
-    electronAPI: IpcApi;
+    electronIpcAPI: IpcApi;
+    localIpcAPI: IpcApi;
+    tauriIpcAPI: IpcApi;
 
     ebook: {
       open: (bookElement: any, data: any,

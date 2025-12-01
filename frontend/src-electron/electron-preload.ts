@@ -32,9 +32,9 @@ import type { OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { dialog } from '@electron/remote';
 
 // Electron API
-const electronAPI = {
+const electronIpcAPI = {
   hi: (message: string) => {
-    console.log('hi', message);
+    return message;
   },
   closeWindow: async () =>
     ipcRenderer.invoke('window-close'),
@@ -78,4 +78,4 @@ const electronAPI = {
     ipcRenderer.invoke('update-tray-menu', options),
 };
 
-contextBridge.exposeInMainWorld('electronAPI', electronAPI);
+contextBridge.exposeInMainWorld('electronIpcAPI', electronIpcAPI);

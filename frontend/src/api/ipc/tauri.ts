@@ -1,29 +1,19 @@
-import { IpcApi, IpcService, ipcServiceKeys } from 'src/api/ipc/index'
+import { IpcService, ipcServiceKeys } from 'src/api/ipc/index'
 
-export class TauriIpc implements IpcService {
-  hi!: IpcApi['hi'];
-  closeWindow!: IpcApi['closeWindow'];
-  getPath!: IpcApi['getPath'];
-  getServerInfo!: IpcApi['getServerInfo'];
-  isWindowMaximized!: IpcApi['isWindowMaximized'];
-  maximizeWindow!: IpcApi['maximizeWindow'];
-  minimizeWindow!: IpcApi['minimizeWindow'];
-  migrateLibrary!: IpcApi['migrateLibrary'];
-  openNewWindow!: IpcApi['openNewWindow'];
-  reload!: IpcApi['reload'];
-  saveImageFile!: IpcApi['saveImageFile'];
-  setTheme!: IpcApi['setTheme'];
-  showDialog!: IpcApi['showDialog'];
-  updateTrayMenu!: IpcApi['updateTrayMenu'];
+export const createTauriIpc = (): IpcService => {
+  const api = window.tauriIpcAPI;
 
-  private api = window.electronAPI;
-
-  constructor() {
-    for (const key of ipcServiceKeys) {
-      const fn = this.api[key];
-      (this as any)[key] = typeof fn === "function"
-        ? fn.bind(this.api)
-        : fn;
+  const handler: ProxyHandler<any> = {
+    get: (_, prop: string) => {
+      if (ipcServiceKeys.includes(prop as any)) {
+        const fn = api[prop as keyof typeof api];
+        return typeof fn === "function" ? fn.bind(api) : fn;
+      }
+      throw new Error(`IPC method ${prop} not found`);
     }
-  }
+  };
+
+  return new Proxy({}, handler) as IpcService;
 }
+
+export const tauriIpc = createTauriIpc();

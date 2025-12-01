@@ -1,5 +1,9 @@
 import { IpcApi, IpcService, ipcServiceKeys } from 'src/api/ipc/index'
 
+/**
+ * Solution 1: Class
+ */
+/*
 export class ElectronIpc implements IpcService {
   hi!: IpcApi['hi'];
   closeWindow!: IpcApi['closeWindow'];
@@ -26,4 +30,25 @@ export class ElectronIpc implements IpcService {
         : fn;
     }
   }
+}*/
+
+/**
+ * Solution 2: Factory
+ */
+export const createElectronIpc = (): IpcService => {
+  const api = window.electronIpcAPI;
+
+  const handler: ProxyHandler<any> = {
+    get: (_, prop: string) => {
+      if (ipcServiceKeys.includes(prop as any)) {
+        const fn = api[prop as keyof typeof api];
+        return typeof fn === "function" ? fn.bind(api) : fn;
+      }
+      throw new Error(`IPC method ${prop} not found`);
+    }
+  };
+
+  return new Proxy({}, handler) as IpcService;
 }
+
+export const electronIpc = createElectronIpc();

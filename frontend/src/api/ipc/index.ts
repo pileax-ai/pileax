@@ -1,6 +1,6 @@
-import { ElectronIpc } from 'src/api/ipc/electron';
-import { LocalIpc } from 'src/api/ipc/local';
-import { TauriIpc } from 'src/api/ipc/tauri';
+import { electronIpc } from 'src/api/ipc/electron';
+import { localIpc } from 'src/api/ipc/local';
+import { tauriIpc } from 'src/api/ipc/tauri';
 
 export type IpcApi = {
   hi: (message: string) => void;
@@ -9,8 +9,8 @@ export type IpcApi = {
   getServerInfo: () => Promise<Indexable>;
   isWindowMaximized: () => Promise<boolean>;
   maximizeWindow: () => Promise<any>;
-  minimizeWindow: () => Promise<any>;
   migrateLibrary: (options: any) => Promise<any>;
+  minimizeWindow: () => Promise<any>;
   openNewWindow: (id: string, url: string, titleBarHeight: number) => Promise<any>;
   reload: (force: boolean) => Promise<any>;
   saveImageFile: (metadata: any) => Promise<any>;
@@ -26,8 +26,8 @@ export const ipcServiceKeys = [
   'getServerInfo',
   'isWindowMaximized',
   'maximizeWindow',
-  'minimizeWindow',
   'migrateLibrary',
+  'minimizeWindow',
   'openNewWindow',
   'reload',
   'saveImageFile',
@@ -54,17 +54,17 @@ export const createIpcService = (): { ipcProvider: 'electron' | 'tauri' | 'local
   if (process.env.MODE === 'electron') {
     return {
       ipcProvider: 'electron',
-      ipcService: new ElectronIpc()
+      ipcService: electronIpc
     };
   } else if (window.__TAURI_INTERNALS__) {
     return {
       ipcProvider: 'tauri',
-      ipcService: new TauriIpc()
+      ipcService: tauriIpc
     };
   } else {
     return {
       ipcProvider: 'local',
-      ipcService: new LocalIpc()
+      ipcService: localIpc
     };
   }
 }
