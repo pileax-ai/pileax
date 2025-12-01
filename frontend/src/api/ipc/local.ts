@@ -1,4 +1,4 @@
-import { IpcService } from 'src/api/ipc/index'
+import { IpcApi, IpcService, ipcServiceKeys } from 'src/api/ipc/index'
 
 const mock = (args?: any) => {
   return new Promise((resolve, reject) => {
@@ -7,47 +7,27 @@ const mock = (args?: any) => {
 }
 
 export class LocalIpc implements IpcService {
-  public hi(message: string) {
-    return mock(message);
-  }
+  hi!: IpcApi['hi'];
+  getServerInfo!: IpcApi['getServerInfo'];
+  isWindowMaximized!: IpcApi['isWindowMaximized'];
+  maximizeWindow!: IpcApi['maximizeWindow'];
+  minimizeWindow!: IpcApi['minimizeWindow'];
+  migrateLibrary!: IpcApi['migrateLibrary'];
+  reload!: IpcApi['reload'];
+  setTheme!: IpcApi['setTheme'];
+  showDialog!: IpcApi['showDialog'];
+  updateTrayMenu!: IpcApi['updateTrayMenu'];
 
-  public getServerInfo(): Promise<Indexable> {
-    return new Promise((resolve, reject) => {
-      resolve({} as Indexable);
-    });
-  }
-
-  public isWindowMaximized(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      resolve(false);
-    });
-  }
-
-  public maximizeWindow() {
-    return mock();
-  }
-
-  public minimizeWindow() {
-    return mock();
-  }
-
-  public migrateLibrary(options: Indexable) {
-    return mock(options);
-  }
-
-  public reload(force: boolean) {
-    return mock(force);
-  }
-
-  public setTheme(theme: 'system' | 'light' | 'dark') {
-    return mock(theme);
-  }
-
-  public showDialog(options: Indexable) {
-    return mock(options);
-  }
-
-  public updateTrayMenu(options: Indexable) {
-    return mock(options);
+  constructor() {
+    this.hi = mock as any;
+    this.getServerInfo = mock as any;
+    this.isWindowMaximized = mock as any;
+    this.maximizeWindow = mock as any;
+    this.minimizeWindow = mock as any;
+    this.migrateLibrary = mock as any;
+    this.reload = mock as any;
+    this.setTheme = mock as any;
+    this.showDialog = mock as any;
+    this.updateTrayMenu = mock as any;
   }
 }

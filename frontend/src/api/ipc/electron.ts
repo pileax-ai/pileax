@@ -1,43 +1,25 @@
-import { IpcService } from 'src/api/ipc/index'
+import { IpcApi, IpcService, ipcServiceKeys } from 'src/api/ipc/index'
 
 export class ElectronIpc implements IpcService {
-  public hi(message: string) {
-    return window.electronAPI.hi(message);
-  }
+  hi!: IpcApi['hi'];
+  getServerInfo!: IpcApi['getServerInfo'];
+  isWindowMaximized!: IpcApi['isWindowMaximized'];
+  maximizeWindow!: IpcApi['maximizeWindow'];
+  minimizeWindow!: IpcApi['minimizeWindow'];
+  migrateLibrary!: IpcApi['migrateLibrary'];
+  reload!: IpcApi['reload'];
+  setTheme!: IpcApi['setTheme'];
+  showDialog!: IpcApi['showDialog'];
+  updateTrayMenu!: IpcApi['updateTrayMenu'];
 
-  public isWindowMaximized() {
-    return window.electronAPI.isWindowMaximized();
-  }
+  private api = window.electronAPI;
 
-  public maximizeWindow() {
-    return window.electronAPI.maximizeWindow();
-  }
-
-  public minimizeWindow() {
-    return window.electronAPI.minimizeWindow();
-  }
-
-  public migrateLibrary(options: Indexable) {
-    return window.electronAPI.migrateLibrary(options);
-  }
-
-  public reload(force: boolean) {
-    return window.electronAPI.reload(force);
-  }
-
-  public getServerInfo() {
-    return window.electronAPI.getServerInfo();
-  }
-
-  public showDialog(options: Indexable) {
-    return window.electronAPI.showDialog(options);
-  }
-
-  public setTheme(theme: 'system' | 'light' | 'dark') {
-    return window.electronAPI.setTheme(theme);
-  }
-
-  public updateTrayMenu(options: Indexable) {
-    return window.electronAPI.updateTrayMenu(options);
+  constructor() {
+    for (const key of ipcServiceKeys) {
+      const fn = this.api[key];
+      (this as any)[key] = typeof fn === "function"
+        ? fn.bind(this.api)
+        : fn;
+    }
   }
 }
