@@ -5,6 +5,7 @@
 import { useApiStore } from 'stores/api';
 import { useNaviStore } from 'stores/navi';
 import useSetting from 'core/hooks/useSetting';
+import { ipcService } from 'src/api/ipc';
 
 export const initApp = () => {
   initApi();
@@ -15,7 +16,7 @@ export const initApp = () => {
 export const reloadApp = async () => {
   await initApi()
   if (process.env.MODE === 'electron') {
-    await window.electronAPI.reload(true);
+    await ipcService.reload(true);
   }
 }
 

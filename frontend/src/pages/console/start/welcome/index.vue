@@ -73,7 +73,7 @@ import { useRoute } from 'vue-router';
 import { onAction } from 'core/hooks/useRouter';
 import useNavi from 'src/hooks/useNavi';
 import { GET } from 'src/hooks/useRequest';
-import { electronIpc } from 'src/api/ipc/electron';
+import { ipcService } from 'src/api/ipc';
 
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 
@@ -83,7 +83,7 @@ const serverInfo = ref({});
 
 function init() {
   console.log('env', process.env.VITE_APP_NAME, window.__TAURI_INTERNALS__);
-  electronIpc.getServerInfo().then((res: any) => {
+  ipcService.getServerInfo().then((res: any) => {
     serverInfo.value = res;
   }).catch((err: any) => {
     console.error('Electron IPC：', err);

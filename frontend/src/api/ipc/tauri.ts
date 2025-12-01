@@ -1,37 +1,43 @@
 import { IpcService } from 'src/api/ipc/index'
 
 export class TauriIpc implements IpcService {
-  public async getServerInfo(): Promise<Indexable> {
-    return new Promise((resolve, reject) => {
-      window.electronAPI?.getServerInfo().then((res: any) => {
-        resolve(res);
-      }).catch((err: any) => {
-        reject(err);
-      })
-    });
+  public hi(message: string) {
+    return window.electronAPI.hi(message);
   }
 
-  public openNewWindow(id: string, url: string, titleBarHeight = 40) {
-    return window.electronAPI.openNewWindow(id, url);
+  public getServerInfo() {
+    return window.electronAPI.getServerInfo();
   }
 
-  public minimizeWindow() {
-    window.electronAPI.minimizeWindow();
+  public isWindowMaximized() {
+    return window.electronAPI.isWindowMaximized();
   }
 
   public maximizeWindow() {
-    window.electronAPI.maximizeWindow();
+    return window.electronAPI.maximizeWindow();
   }
 
-  public closeWindow() {
-    window.electronAPI.closeWindow();
+  public minimizeWindow() {
+    return window.electronAPI.minimizeWindow();
   }
 
-  public async isWindowMaximized() {
-    return await window.electronAPI.isWindowMaximized();
+  public migrateLibrary(options: Indexable) {
+    return window.electronAPI.migrateLibrary(options);
+  }
+
+  public reload(force: boolean) {
+    return window.electronAPI.reload(force);
   }
 
   public setTheme(theme: 'system' | 'light' | 'dark') {
     return window.electronAPI.setTheme(theme);
+  }
+
+  public showDialog(options: Indexable) {
+    return window.electronAPI.showDialog(options);
+  }
+
+  public updateTrayMenu(options: Indexable) {
+    return window.electronAPI.updateTrayMenu(options);
   }
 }

@@ -55,9 +55,10 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { QInput } from 'quasar'
+import { QInput } from 'quasar';
 import { reloadApp } from 'src/app/init';
-import { notifyWarning } from 'core/utils/control'
+import { notifyWarning } from 'core/utils/control';
+import { ipcService } from 'src/api/ipc';
 
 const props = defineProps({
   modelValue: {
@@ -99,7 +100,7 @@ const style = computed(() => {
 
 const onSelectLocation = () => {
   loading.value = true
-  window.electronAPI.showDialog({
+  ipcService.showDialog({
     properties: ['openDirectory']
   }).then(async (result: any) => {
     console.log('openDirectory', result)
@@ -130,7 +131,7 @@ const onOk = async () => {
   }
   console.log('options', options)
   migrating.value = true;
-  window.electronAPI.migrateLibrary(options).then((res: Indexable) => {
+  ipcService.migrateLibrary(options).then((res: Indexable) => {
     console.log('migrateLibrary', res)
     migrateResult.value = res
     migrating.value = false;

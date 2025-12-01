@@ -1,7 +1,7 @@
 import { Dark, Platform, setCssVar } from 'quasar';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ipcService } from 'src/api/ipc'
+import { ipcService } from 'src/api/ipc';
 
 import { THEMES, THEME_COLORS } from 'core/constants/setting';
 import { useAppStore } from 'stores/app';
@@ -103,7 +103,7 @@ export default function () {
 
   const setTray = () => {
     if (process.env.MODE === 'electron') {
-      window.electronAPI.updateTrayMenu({
+      ipcService.updateTrayMenu({
         openApp: i18n.t('tray.openApp'),
         quit: i18n.t('tray.quit')
       })

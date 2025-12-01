@@ -53,6 +53,16 @@
             </section>
           </o-common-card>
         </section>
+
+        <section class="col-12">
+          <o-common-card title="IPC Service" header>
+            <section class="row col-12 items-center q-col-gutter-md q-pa-md">
+              <div v-for="(item, index) in ipcCases" :key="index">
+                <q-btn :label="item.label" @click="ipcCall(item.label,item.args)" />
+              </div>
+            </section>
+          </o-common-card>
+        </section>
       </section>
     </section>
   </o-common-page>
@@ -63,6 +73,18 @@ import { computed, ref, onMounted } from 'vue';
 
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 import { notifyDone, notifyError, notifyInfo, notifySuccess, notifyWarning } from 'core/utils/control'
+import { ipcService, ipcMethod } from 'src/api/ipc';
+
+const ipcCases = computed(() => {
+  return [
+    { label: 'hi', args: 'hi' },
+    { label: 'isWindowMaximized', args: '' },
+    { label: 'maximizeWindow', args: '' },
+    { label: 'minimizeWindow', args: '' },
+    { label: 'showDialog', args: { properties: ['openDirectory'] } },
+    { label: 'setTheme', args: 'dark' },
+  ]
+})
 
 const notify = (type: string, position = 'top') => {
   switch (type) {
@@ -90,6 +112,12 @@ const notify = (type: string, position = 'top') => {
       });
       break;
   }
+}
+
+const ipcCall = async (name: string, args?: any) => {
+  const res = await ipcMethod(ipcService, name, args);
+  console.log(name, res)
+  notifyInfo(`${res}`)
 }
 </script>
 

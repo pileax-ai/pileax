@@ -1,39 +1,43 @@
 import { IpcService } from 'src/api/ipc/index'
 
 export class ElectronIpc implements IpcService {
-  public async getServerInfo(): Promise<Indexable> {
-    return new Promise((resolve, reject) => {
-      window.electronAPI?.getServerInfo().then((res: any) => {
-        resolve(res);
-      }).catch((err: any) => {
-        reject(err);
-      })
-    });
+  public hi(message: string) {
+    return window.electronAPI.hi(message);
   }
 
-  public openNewWindow(id: string, url: string, titleBarHeight = 40) {
-    return window.electronAPI.openNewWindow(id, url, titleBarHeight);
-  }
-
-  public minimizeWindow() {
-    window.electronAPI.minimizeWindow();
+  public isWindowMaximized() {
+    return window.electronAPI.isWindowMaximized();
   }
 
   public maximizeWindow() {
-    window.electronAPI.maximizeWindow();
+    return window.electronAPI.maximizeWindow();
   }
 
-  public closeWindow() {
-    window.electronAPI.closeWindow();
+  public minimizeWindow() {
+    return window.electronAPI.minimizeWindow();
   }
 
-  public async isWindowMaximized() {
-    return await window.electronAPI.isWindowMaximized();
+  public migrateLibrary(options: Indexable) {
+    return window.electronAPI.migrateLibrary(options);
+  }
+
+  public reload(force: boolean) {
+    return window.electronAPI.reload(force);
+  }
+
+  public getServerInfo() {
+    return window.electronAPI.getServerInfo();
+  }
+
+  public showDialog(options: Indexable) {
+    return window.electronAPI.showDialog(options);
   }
 
   public setTheme(theme: 'system' | 'light' | 'dark') {
     return window.electronAPI.setTheme(theme);
   }
-}
 
-export const electronIpc = new ElectronIpc();
+  public updateTrayMenu(options: Indexable) {
+    return window.electronAPI.updateTrayMenu(options);
+  }
+}
