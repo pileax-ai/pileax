@@ -133,7 +133,7 @@ function onAction (action: Indexable, item: MenuItem) {
       tabStore.togglePinTab(item.id);
       break;
     case 'refresh':
-      refresh();
+      ipcService.reload();
       break;
   }
 }

@@ -40,12 +40,18 @@ export const openUrl = (url :string) => {
  * todo: refresh
  */
 export const refresh = (_router?: Router) => {
-  const { replace, currentRoute } = router;
-  const { query, params = {}, name, fullPath } = unref(currentRoute.value);
+  const r = _router ?? router;
+  const { replace, currentRoute } = r;
+  const route = unref(currentRoute.value);
+  const { name, params = {}, query = {}, fullPath } = route;
+  console.log('refresh', name, params)
 
   return new Promise((resolve) => {
-    console.log('refresh', currentRoute);
-    replace({ name: name, params, query }).then(() => resolve(true));
+    if (name) {
+      replace({ name, params, query }).then(() => resolve(true));
+    } else {
+      replace(fullPath).then(() => resolve(true));
+    }
   });
 }
 

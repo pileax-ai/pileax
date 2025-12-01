@@ -103,7 +103,7 @@ const getView = async (bookElement, file) => {
 // --------------------------------------------------------------------------------
 // Ebook Reader
 // --------------------------------------------------------------------------------
-class Reader {
+class Ebook {
   annotations = new Map();
   annotationsByValue = new Map();
   #footnoteHandler = new FootnoteHandler();
@@ -297,7 +297,7 @@ class Reader {
 
 const openBook = async (bookElement, data,
                         { cfi = '', importing = false, userStyle }) => {
-  const reader = new Reader();
+  const reader = new Ebook();
   globalThis.reader = reader;
 
   try {

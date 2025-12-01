@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import 'js/reader.js';
+import 'js/ebook.js';
 import { bookAnnotationService } from 'src/api/service/remote/book-annotation';
 
 // ---------------------------------------------------------

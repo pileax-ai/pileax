@@ -52,7 +52,7 @@ import ReaderFooter from './ReaderFooter.vue';
 import OReaderPage from 'components/page/OReaderPage.vue';
 import ReaderSide from 'components/reader/ReaderSide.vue';
 
-import 'js/reader.js'
+import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'

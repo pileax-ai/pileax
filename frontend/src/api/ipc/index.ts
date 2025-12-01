@@ -1,5 +1,5 @@
 import { electronIpc } from 'src/api/ipc/electron';
-import { localIpc } from 'src/api/ipc/local';
+import { webIpc } from 'src/api/ipc/web';
 import { tauriIpc } from 'src/api/ipc/tauri';
 
 export type IpcApi = {
@@ -11,8 +11,8 @@ export type IpcApi = {
   maximizeWindow: () => Promise<any>;
   migrateLibrary: (options: any) => Promise<any>;
   minimizeWindow: () => Promise<any>;
-  openNewWindow: (id: string, url: string, titleBarHeight: number) => Promise<any>;
-  reload: (force: boolean) => Promise<any>;
+  openNewWindow: (id: string, url: string, titleBarHeight?: number) => Promise<any>;
+  reload: (force?: boolean) => Promise<any>;
   saveImageFile: (metadata: any) => Promise<any>;
   setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
   showDialog: (options: Indexable) => Promise<any>;
@@ -50,7 +50,7 @@ export const ipcMethod = <K extends keyof IpcService>(
   throw new Error(`Method "${method}" not found`);
 };
 
-export const createIpcService = (): { ipcProvider: 'electron' | 'tauri' | 'local', ipcService: IpcService } => {
+export const createIpcService = (): { ipcProvider: 'electron' | 'tauri' | 'web', ipcService: IpcService } => {
   if (process.env.MODE === 'electron') {
     return {
       ipcProvider: 'electron',
@@ -63,8 +63,8 @@ export const createIpcService = (): { ipcProvider: 'electron' | 'tauri' | 'local
     };
   } else {
     return {
-      ipcProvider: 'local',
-      ipcService: localIpc
+      ipcProvider: 'web',
+      ipcService: webIpc
     };
   }
 }

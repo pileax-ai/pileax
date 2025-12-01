@@ -1,4 +1,5 @@
-import { IpcService, ipcServiceKeys } from 'src/api/ipc/index'
+import { IpcService, ipcServiceKeys } from 'src/api/ipc/index';
+import { refresh } from 'core/hooks/useRouter';
 
 const mock = (args?: any) => {
   return new Promise((resolve, reject) => {
@@ -6,7 +7,26 @@ const mock = (args?: any) => {
   });
 }
 
-window.localIpcAPI = {
+const openNewWindow = (id: string, url: string, titleBarHeight: number) => {
+  return new Promise((resolve, reject) => {
+    window.open(url, '_blank', 'noopener');
+    resolve(id);
+  });
+}
+
+const reload = (force: boolean = false): Promise<any> => {
+  if (force) {
+    window.location.reload();
+    return new Promise((resolve, reject) => {
+      window.location.reload();
+      resolve(force);
+    });
+  } else {
+    return refresh();
+  }
+}
+
+window.webIpcAPI = {
   hi: mock as any,
   closeWindow: mock as any,
   getPath: mock as any,
@@ -15,16 +35,16 @@ window.localIpcAPI = {
   maximizeWindow: mock as any,
   migrateLibrary: mock as any,
   minimizeWindow: mock as any,
-  openNewWindow: mock as any,
-  reload: mock as any,
+  openNewWindow: openNewWindow as any,
+  reload: reload as any,
   saveImageFile: mock as any,
   setTheme: mock as any,
   showDialog: mock as any,
   updateTrayMenu: mock as any
 }
 
-export const createLocalIpc = (): IpcService => {
-  const api = window.localIpcAPI;
+export const createWebIpc = (): IpcService => {
+  const api = window.webIpcAPI;
 
   const handler: ProxyHandler<any> = {
     get: (_, prop: string) => {
@@ -39,4 +59,4 @@ export const createLocalIpc = (): IpcService => {
   return new Proxy({}, handler) as IpcService;
 }
 
-export const localIpc = createLocalIpc();
+export const webIpc = createWebIpc();

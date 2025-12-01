@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import 'js/reader.js';
+import 'js/ebook.js';
 import { notifyWarning } from 'core/utils/control';
 import useDialog from 'core/hooks/useDialog';
 import useApi from 'src/hooks/useApi';
