@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import 'js/ebook.js';
+import { ebookRender } from 'src/api/service/ebook';
 import { bookAnnotationService } from 'src/api/service/remote/book-annotation';
 
 // ---------------------------------------------------------
@@ -11,17 +11,17 @@ import { bookAnnotationService } from 'src/api/service/remote/book-annotation';
 // ---------------------------------------------------------
 const addAnnotation = async (annotation: any) => {
   console.log('annotation', annotation);
-  window.ebook.addAnnotation(annotation);
+  ebookRender.addAnnotation(annotation);
   await bookAnnotationService.save(annotation);
 }
 
 const removeAnnotation = async (annotation: any) => {
-  window.ebook.removeAnnotation(annotation.value);
+  ebookRender.removeAnnotation(annotation.value);
   await bookAnnotationService.delete(annotation.id);
 }
 
 const renderAnnotations = (annotations: []) => {
-  window.ebook.renderAnnotations(annotations);
+  ebookRender.renderAnnotations(annotations);
 }
 
 // ---------------------------------------------------------

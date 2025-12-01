@@ -3,12 +3,12 @@
  *
  * @version 1.0
  */
-import 'js/ebook.js';
 import { notifyWarning } from 'core/utils/control';
 import useDialog from 'core/hooks/useDialog';
 import useApi from 'src/hooks/useApi';
 import useReader from 'src/hooks/useReader';
 import useBook from 'src/hooks/useBook';
+import { ebookRender } from 'src/api/service/ebook';
 import { bookService } from 'src/api/service/remote/book';
 import { userBookService } from 'src/api/service/remote/user-book';
 import { BookOperation, ReadingMode } from 'src/types/reading';
@@ -45,10 +45,10 @@ export const bookMimeTypes = {
 export const bookExtensions = ['epub', 'mobi', 'azw3', 'fb2', 'cbz']
 
 // ---------------------------------------------------------
-// From Reader
+// From Ebook Render
 // ---------------------------------------------------------
 /**
- * Reader postMessage
+ * Ebook postMessage
  * @param name
  * @param data
  */
@@ -121,48 +121,48 @@ const onRelocated = (data: Indexable) => {
 }
 
 // ---------------------------------------------------------
-// To Reader
+// To Ebook Render
 // ---------------------------------------------------------
 const changeStyle = (newStyle: Indexable) => {
-  window.ebook.changeStyle(newStyle);
+  ebookRender.changeStyle(newStyle);
 }
 
 const search = (text: string, opts: Indexable) => {
   store.startSearch(text);
-  window.ebook.search(text, opts);
+  ebookRender.search(text, opts);
 }
 
 const clearSearch = () => {
   store.clearSearch();
-  window.ebook.clearSearch();
+  ebookRender.clearSearch();
 }
 
 const goToHref = (href: string, manual = false) => {
   if (manual) {
     setManual();
   }
-  window.ebook.goToHref(href);
+  ebookRender.goToHref(href);
 }
 
 const goToPercent = (percent: number) => {
-  window.ebook.goToPercent(percent);
+  ebookRender.goToPercent(percent);
 }
 
 const prevPage = () => {
   setManual();
-  window.ebook.prevPage();
+  ebookRender.prevPage();
 }
 
 const nextPage = () => {
   setManual();
-  window.ebook.nextPage();
+  ebookRender.nextPage();
 }
 
-const ttsStart = () => window.ebook.ttsStart();
-const ttsStop = () => window.ebook.ttsStop();
-const ttsPrepare = () => window.ebook.ttsPrepare();
-const ttsNext = () => window.ebook.ttsNext();
-const ttsPrev = () => window.ebook.ttsPrev();
+const ttsStart = () => ebookRender.ttsStart();
+const ttsStop = () => ebookRender.ttsStop();
+const ttsPrepare = () => ebookRender.ttsPrepare();
+const ttsNext = () => ebookRender.ttsNext();
+const ttsPrev = () => ebookRender.ttsPrev();
 
 const setManual = (operation = BookOperation.Manual) => {
   // console.log('operation', operation)
@@ -192,7 +192,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
       };
 
       console.log('openBook', cfi)
-      window.ebook.open(bookElement, data,
+      ebookRender.open(bookElement, data,
         { cfi, userStyle: style.value });
       setManual(BookOperation.Load);
       resolve(data);
@@ -212,7 +212,7 @@ const uploadBook = async (file: File) => {
       sha1: sha1,
       filePath: ''
     }
-    window.ebook.open(document.body, data, { importing: true});
+    ebookRender.open(document.body, data, { importing: true});
 
     // Register waiter, resolve/reject in onMetadata/onOpenFailed
     uploadBookWaiters.set(sha1, { resolve, reject });
@@ -283,21 +283,6 @@ const saveBookProgress = (progress: any) => {
     readingPercentage: progress.percentage
   }
   userBookService.updateReadingProgress(params)
-}
-
-/**
- * Save tenant book to database
- * @param params Book params
- */
-const updateTenantBook = async (params: any) => {
-  userBookService.update({
-    ...params,
-    id: tenantBookId.value
-  }).then((res: any) => {
-    setQueryTimer(Date.now());
-  }).catch((err: any) => {
-    console.error('保存数据库失败', err);
-  })
 }
 
 const parseAuthor = (data: any) => {
@@ -371,26 +356,6 @@ const buildBook = (metadata: any, fileInfo: any) => {
   };
 }
 
-const getBook = async (id: string): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    bookService.get(id).then((res: any) => {
-      resolve(res);
-    }).catch((err: any) => {
-      reject(err);
-    })
-  });
-}
-
-const removeBook = async (id: string) => {
-  return new Promise((resolve, reject) => {
-    bookService.delete(id).then((res: any) => {
-      resolve(res);
-    }).catch((err: any) => {
-      reject(err);
-    })
-  });
-}
-
 export {
   goToHref,
   goToPercent,
@@ -406,8 +371,6 @@ export {
   ttsPrev,
   setManual,
 
-  getBook,
   openBook,
   uploadBook,
-  removeBook,
 }

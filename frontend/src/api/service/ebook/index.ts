@@ -1,3 +1,5 @@
+import 'js/ebook.js';
+
 export type EbookApi = {
   open: (bookElement: any, data: any,
          { cfi, importing, userStyle }:
@@ -22,10 +24,14 @@ export type EbookApi = {
 }
 
 export const createEbookRender = (): EbookApi => {
-  const api = window.ebook;
+  let api: any = null;
 
   const handler: ProxyHandler<any> = {
     get: (_, prop: string) => {
+      if (!api) {
+        api = window.ebook;
+        if (!api) throw new Error('window.ebook not loaded');
+      }
       const fn = api[prop as keyof typeof api];
       return typeof fn === "function" ? fn.bind(api) : fn;
     }

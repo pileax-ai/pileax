@@ -56,7 +56,6 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
 import { computed, onMounted, ref } from 'vue';
-import { removeBook } from 'src/api/service/ebook/book';
 import { timeMulti } from 'core/utils/format';
 import { ipcService } from 'src/api/ipc';
 
@@ -106,7 +105,6 @@ const actions = computed(() => {
 function onAction (action :any) {
   switch (action.value) {
     case 'remove':
-      onRemoveBook();
       break;
     case 'title':
       break;
@@ -120,16 +118,6 @@ function openBook() {
   ipcService.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
 }
 
-async function onRemoveBook() {
-  $q.dialog({
-    title: '确认',
-    message: '你确定删除吗？',
-    cancel: true
-  }).onOk( async () => {
-    await removeBook(props.data.id);
-    emit('close');
-  })
-}
 </script>
 
 <style lang="scss">
