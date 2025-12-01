@@ -58,11 +58,6 @@ const coverPath = computed(() => {
 })
 
 function getCover() {
-  // window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-  //   coverUrl.value = res.url;
-  // }).catch((err: any) => {
-  //   console.error('打开文件失败：', err);
-  // })
   coverUrl.value = getCoverUrl(props.data);
 }
 

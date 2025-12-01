@@ -5,7 +5,6 @@ import { TauriIpc } from 'src/api/ipc/tauri';
 export type IpcApi = {
   hi: (message: string) => void;
   closeWindow: () => Promise<any>;
-  dbExecute: (entity: string, method: string, params: any) => Promise<any>;
   getPath: (key: string) => Promise<string>;
   getServerInfo: () => Promise<Indexable>;
   isWindowMaximized: () => Promise<boolean>;
@@ -13,27 +12,25 @@ export type IpcApi = {
   minimizeWindow: () => Promise<any>;
   migrateLibrary: (options: any) => Promise<any>;
   openNewWindow: (id: string, url: string, titleBarHeight: number) => Promise<any>;
-  readBookCover: (filePath: string) => Promise<any>;
-  readBookFile: (filePath: string) => Promise<any>;
-  readFile: (filePath: string) => Promise<any>;
-  readImage: (filePath: string) => Promise<any>;
   reload: (force: boolean) => Promise<any>;
-  saveBookFiles: (metadata: any) => Promise<any>;
   saveImageFile: (metadata: any) => Promise<any>;
   setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
   showDialog: (options: Indexable) => Promise<any>;
-  showSaveDialog: (options: Indexable) => Promise<any>;
   updateTrayMenu: (options: any) => Promise<any>;
 }
 
 export const ipcServiceKeys = [
   'hi',
+  'closeWindow',
+  'getPath',
   'getServerInfo',
   'isWindowMaximized',
   'maximizeWindow',
   'minimizeWindow',
   'migrateLibrary',
+  'openNewWindow',
   'reload',
+  'saveImageFile',
   'setTheme',
   'showDialog',
   'updateTrayMenu',

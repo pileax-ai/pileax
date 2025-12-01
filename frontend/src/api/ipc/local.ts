@@ -8,12 +8,16 @@ const mock = (args?: any) => {
 
 export class LocalIpc implements IpcService {
   hi!: IpcApi['hi'];
+  closeWindow!: IpcApi['closeWindow'];
+  getPath!: IpcApi['getPath'];
   getServerInfo!: IpcApi['getServerInfo'];
   isWindowMaximized!: IpcApi['isWindowMaximized'];
   maximizeWindow!: IpcApi['maximizeWindow'];
   minimizeWindow!: IpcApi['minimizeWindow'];
   migrateLibrary!: IpcApi['migrateLibrary'];
+  openNewWindow!: IpcApi['openNewWindow'];
   reload!: IpcApi['reload'];
+  saveImageFile!: IpcApi['saveImageFile'];
   setTheme!: IpcApi['setTheme'];
   showDialog!: IpcApi['showDialog'];
   updateTrayMenu!: IpcApi['updateTrayMenu'];

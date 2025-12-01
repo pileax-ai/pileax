@@ -47,6 +47,7 @@ import html2canvas from 'html2canvas';
 import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
 import { notifyDone } from 'core/utils/control';
+import { ipcService } from 'src/api/ipc'
 
 const props = defineProps({
   show: {
@@ -103,11 +104,11 @@ function download(base64Image: any) {
 }
 
 function saveToDisk(base64Image: any) {
-  window.electronAPI.showDialog({
+  ipcService.showDialog({
     properties: ['openDirectory']
   }).then(async (result: any) => {
     if (!result.canceled && result.filePaths.length > 0) {
-      await window.electronAPI.saveImageFile({
+      await ipcService.saveImageFile({
         filePath: result.filePaths[0],
         data: base64Image
       });
@@ -119,11 +120,6 @@ function saveToDisk(base64Image: any) {
 }
 
 function init() {
-  // window.electronAPI.readBookCover(coverPath.value).then((res: any) => {
-  //   coverUrl.value = res.url;
-  // }).catch((err: any) => {
-  //   console.error('打开文件失败：', err);
-  // })
   coverUrl.value = getCoverUrl(book.value);
 }
 

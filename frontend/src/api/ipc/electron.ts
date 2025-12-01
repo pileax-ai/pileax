@@ -2,13 +2,17 @@ import { IpcApi, IpcService, ipcServiceKeys } from 'src/api/ipc/index'
 
 export class ElectronIpc implements IpcService {
   hi!: IpcApi['hi'];
+  closeWindow!: IpcApi['closeWindow'];
+  getPath!: IpcApi['getPath'];
   getServerInfo!: IpcApi['getServerInfo'];
   isWindowMaximized!: IpcApi['isWindowMaximized'];
   maximizeWindow!: IpcApi['maximizeWindow'];
   minimizeWindow!: IpcApi['minimizeWindow'];
   migrateLibrary!: IpcApi['migrateLibrary'];
+  openNewWindow!: IpcApi['openNewWindow'];
   reload!: IpcApi['reload'];
   setTheme!: IpcApi['setTheme'];
+  saveImageFile!: IpcApi['saveImageFile'];
   showDialog!: IpcApi['showDialog'];
   updateTrayMenu!: IpcApi['updateTrayMenu'];
 

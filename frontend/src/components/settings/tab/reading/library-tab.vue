@@ -28,8 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue';
 import LibraryDialog from 'src/components/modal/LibraryDialog.vue';
+import { ipcService } from 'src/api/ipc';
 
 const currentLocation = ref();
 const showLibraryDialog = ref(false);
@@ -39,7 +40,7 @@ const onChangeLibrary = () => {
 }
 
 const onLibraryChanged = async () => {
-  currentLocation.value = await window.electronAPI.getPath('library')
+  currentLocation.value = await ipcService.getPath('library')
 }
 
 onMounted(() => {
