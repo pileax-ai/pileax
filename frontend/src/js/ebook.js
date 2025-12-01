@@ -533,6 +533,14 @@ const ttsStart = async () => {
 };
 const ttsStop = () => reader.view.initTTS(true);
 const ttsPrepare = () => reader.view.tts.prepare();
+const ttsCurrentDetails = async () => {
+  await initTts();
+  return reader.view.tts.currentDetail();
+}
+const ttsCollectDetails = async (count = 1, includeCurrent = false, offset = 1) => {
+  await initTts();
+  return reader.view.tts.collectDetails(count, { includeCurrent, offset });
+}
 
 const ttsNext = async () => {
   const result = reader.view.tts.next(true);
@@ -560,6 +568,8 @@ window.ebook = {
   open: openBook,
   nextPage: () => reader.view.next(),
   prevPage: () => reader.view.prev(),
+  nextSection: nextSection,
+  prevSection: prevSection,
   goToHref: goToHref,
   goToPercent: goToPercent,
   addAnnotation: addAnnotation,

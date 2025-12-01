@@ -1,5 +1,6 @@
-import { TTSOptions } from 'src/api/service/tts/tts_player'
+import { TTSOptions } from 'src/api/service/tts'
 import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
+import { prepareTextForVoice, recommendVoices } from 'src/api/service/tts/utils/utterance_util'
 
 /**
  * TTS Player
@@ -18,12 +19,27 @@ export class BrowserTTSPlayer extends BaseTTSPlayer {
     this.loadVoices();
   }
 
+  private getVoice() {
+    const voices = recommendVoices(this.voices);
+    let voice = voices.find(v =>
+      v.name === this.options.voiceName || v.lang === this.options.lang
+    );
+    if (!voice) {
+      voice = this.voices.find(v =>
+        v.name === this.options.voiceName || v.lang === this.options.lang
+      );
+    }
+    return voice;
+  }
+
   private loadVoices() {
-    this.voices = this.synthesis.getVoices();
+    const load = () => {
+      this.voices = this.synthesis.getVoices();
+    };
+
+    load();
     if (this.voices.length === 0) {
-      this.synthesis.addEventListener('voiceschanged', () => {
-        this.voices = this.synthesis.getVoices();
-      });
+      this.synthesis.addEventListener('voiceschanged', load);
     }
   }
 
@@ -41,57 +57,51 @@ export class BrowserTTSPlayer extends BaseTTSPlayer {
 
   async speak(text: string): Promise<void> {
     await this.stop();
+
     return new Promise((resolve, reject) => {
-      this.utterance = new SpeechSynthesisUtterance(text);
-      this.utterance.lang = this.options.lang || 'en-US';
-      this.utterance.rate = this.options.rate || 1;
-      this.utterance.pitch = this.options.pitch || 1;
-      this.utterance.volume = Math.min(Math.max(this.options.volume ?? 1, 0), 1);
+      this.state = 'playing';
 
-      const voice = this.voices.find(v =>
-        v.name === this.options.voiceName || v.lang === this.options.lang
-      );
-      if (voice) this.utterance.voice = voice;
+      const voice = this.getVoice()
+      text = prepareTextForVoice(text, voice);
 
-      this.utterance.onend = () => resolve();
-      this.utterance.onerror = (e) => reject(e);
+      const u = new SpeechSynthesisUtterance(text);
+      this.utterance = u;
+
+      u.lang = this.options.lang || 'en-US';
+      u.rate = this.options.rate || 1;
+      u.pitch = this.options.pitch || 1;
+      u.volume = Math.min(Math.max(this.options.volume ?? 1, 0), 1);
+      if (voice) u.voice = voice;
+
+      u.onstart = () => this.emit('start', text);
+      u.onend = () => {
+        this.state = 'idle';
+        resolve();
+      };
+      u.onerror = (err) => {
+        this.state = 'idle';
+        reject(err);
+      };
+
+      console.log('speak', text, voice);
       this.synthesis.speak(this.utterance);
     });
   }
 
-  async play(): Promise<void> {
-    this.isContinuous = true;
-    let text = await this.getText();
-    while (this.isContinuous) {
-      try {
-        await this.speak(text);
-        const nextText = await this.getNextText();
-        if (!nextText) {
-          this.isContinuous = false;
-          return;
-        }
-        text = nextText;
-      } catch (err) {
-        this.isContinuous = false;
-        throw err;
-      }
-    }
-  }
-
   async stop(): Promise<void> {
+    this.state = 'stopped';
     if (this.synthesis.speaking) {
       this.synthesis.cancel();
     }
-    return Promise.resolve();
   }
 
   async pause(): Promise<void> {
+    this.state = 'paused';
     this.synthesis.pause();
-    return Promise.resolve();
   }
 
   async resume(): Promise<void> {
+    this.state = 'playing';
     this.synthesis.resume();
-    return Promise.resolve();
   }
 }

@@ -18,25 +18,33 @@
           <img :src="coverUrl" alt="Cover" />
         </div>
       </q-responsive>
-      <section class="row col-12">
-        <div class="row col-12">
-          {{ book.title }}
-        </div>
+      <section class="col-12 text-bold text-center">
+        {{ tocItem.label }}
       </section>
       <section class="row col-12 justify-around items-center control">
         <div>
           <q-btn icon="fast_rewind"
-                 flat round />
+                 @click="onPrevChapter"
+                 flat round :disable="!previousTocItem">
+            <o-tooltip position="bottom" v-if="previousTocItem">
+              {{ previousTocItem?.label }}
+            </o-tooltip>
+          </q-btn>
         </div>
         <div>
-          <q-btn icon="stop_circle" class="play text-primary"
-                 flat round @click="onStop" v-if="ttsPlaying" />
+          <q-btn icon="pause_circle" class="play text-primary"
+                 flat round @click="onPause" v-if="ttsPlaying" />
           <q-btn icon="play_circle" class="play text-primary"
                  flat round @click="onPlay" v-else />
         </div>
         <div>
           <q-btn icon="fast_forward"
-                 flat round />
+                 @click="onNextChapter"
+                 flat round :disable="!nextTocItem">
+            <o-tooltip position="bottom" v-if="nextTocItem">
+              {{ nextTocItem?.label }}
+            </o-tooltip>
+          </q-btn>
         </div>
       </section>
     </q-scroll-area>
@@ -44,18 +52,32 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue'
 import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
-import { ttsStart, ttsPrepare, ttsNext, ttsStop } from 'src/api/service/ebook/book'
-import { sleep } from 'openai/core'
+import {
+  ttsStart,
+  ttsStop,
+  ttsPrepare,
+  ttsNext,
+  ttsPrev
+} from 'src/api/service/ebook/book';
+import { useTTS } from 'src/hooks/useTTS'
+import { ebookRender } from 'src/api/service/ebook'
 const emit = defineEmits(['close']);
 
 const { getCoverUrl } = useApi();
 const {
   store,
   book,
+  tocItem,
+  previousTocItem,
+  nextTocItem,
 } = useBook();
+
+const {
+  ttsPlayer
+} = useTTS()
 
 const coverUrl = computed(() => {
   return getCoverUrl(book.value);
@@ -70,73 +92,49 @@ const ttsPlaying = computed({
   }
 });
 
-async function onStop() {
+async function onPause() {
   ttsPlaying.value = false;
-  await ttsStop();
+  await ttsPlayer.stop();
 }
 
 async function onPlay() {
   ttsPlaying.value = true;
-  const start = await ttsStart();
-  console.log('start', start);
-  await sleep(3000);
-
-  for (let i = 0; i < 3; i++) {
-    const next = await ttsNext();
-    console.log('next', next);
-    await sleep(3000)
-  }
-  // console.log('next', next);
-  // speakWithEdgeTTS(next);
+  await ttsPlayer.play();
 }
 
-async function onPlay0() {
-  const start = await ttsStart();
-  console.log('start', start);
-  await sleep(3000);
-
-  for (let i = 0; i < 10; i++) {
-    const next = await ttsNext();
-    console.log('next', next);
-    await sleep(3000)
-  }
-  // console.log('next', next);
-  // speakWithEdgeTTS(next);
+const onNextChapter = async () => {
+  await onPause();
+  ebookRender.nextSection();
+  setTimeout(async () => {
+    await onPlay();
+  }, 1000)
 }
 
-function speak(text: string, lang = 'zh-CN') {
-  const msg = new SpeechSynthesisUtterance(text);
-  msg.lang = lang;
-  msg.rate = 1;
-  msg.pitch = 1;
-
-  const voices = speechSynthesis.getVoices();
-  msg.voice = voices.find(v => v.lang === lang) || null;
-
-  speechSynthesis.speak(msg);
+const onPrevChapter = async () => {
+  await onPause();
+  ebookRender.prevSection();
+  setTimeout(async () => {
+    await onPlay();
+  }, 1000)
 }
 
-function speakWithEdgeTTS(text: string) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  const voices = window.speechSynthesis.getVoices();
+onMounted(async () => {
+  await ttsPlayer.initialize(
+    ttsStart,
+    ttsNext,
+    ttsPrev,
+    'browser', {
+      lang: 'zh-CN',
+      rate: 1.0,
+      pitch: 1.0,
+      volume: 1.0
+    }
+  )
+})
 
-  // 选择 Edge 浏览器中可用的中文语音（如 Microsoft Xiaoxiao）
-  const voice = voices.find(v =>
-    v.name.includes('Microsoft Xiaoxiao') ||
-    (v.lang === 'zh-CN' && v.name.includes('Microsoft'))
-  );
-  console.log('voice', voice);
-
-  if (voice) {
-    utterance.voice = voice;
-    utterance.lang = 'zh-CN';
-    utterance.rate = 1;
-    speechSynthesis.speak(utterance);
-  } else {
-    console.warn('没有找到 Microsoft 中文语音，使用默认');
-    speak(text);
-  }
-}
+onBeforeUnmount(() => {
+  ttsPlayer.stop()
+})
 </script>
 
 <style lang="scss">

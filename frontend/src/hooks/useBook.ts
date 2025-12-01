@@ -21,6 +21,14 @@ export default function () {
   const tocItem = computed(() => {
     return store.tocItem;
   });
+  const previousTocItem = computed(() => {
+    const idx = tocItem.value.id;
+    return idx > 0 ? toc.value[idx - 1] : null;
+  });
+  const nextTocItem = computed(() => {
+    const idx = tocItem.value.id;
+    return idx < toc.value.length - 1 ? toc.value[idx + 1] : null;
+  });
   const progress = computed(() => {
     return store.progress;
   });
@@ -108,6 +116,8 @@ export default function () {
     selection,
     toc,
     tocItem,
+    previousTocItem,
+    nextTocItem,
     keyword,
     annotationTimer,
     operation,
