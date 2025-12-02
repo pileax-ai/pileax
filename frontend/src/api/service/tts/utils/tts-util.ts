@@ -25,7 +25,7 @@ export const getEdgeTTSAudio = async (text: string, controller?: AbortController
 
   const body = {
     text: text.replace(/<[^>]+>/g, ""),
-    voice: 'zh-CN-XiaoxiaoNeural',
+    voice: 'zh-CN-YunxiNeural',
     rate: '+0%'
   };
 

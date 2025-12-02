@@ -1,13 +1,13 @@
 import { TTSOptions } from 'src/api/service/tts'
-import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
-import { prepareTextForVoice, recommendVoices } from 'src/api/service/tts/utils/utterance_util'
+import { BaseTTSClient } from 'src/api/service/tts/base-tts';
+import { prepareTextForVoice, recommendVoices } from 'src/api/service/tts/utils/utterance-util'
 
 /**
- * TTS Player
+ * TTS Client
  *
  * @version 1.0
  */
-export class BrowserTTSPlayer extends BaseTTSPlayer {
+export class BrowserTTSClient extends BaseTTSClient {
   private synthesis: SpeechSynthesis;
   private utterance: SpeechSynthesisUtterance | null = null;
   private voices: SpeechSynthesisVoice[] = [];
@@ -18,7 +18,7 @@ export class BrowserTTSPlayer extends BaseTTSPlayer {
     this.loadVoices();
   }
 
-  override async init(...args: Parameters<BaseTTSPlayer['init']>): Promise<void> {
+  override async init(...args: Parameters<BaseTTSClient['init']>): Promise<void> {
     await super.init(...args);
     if (this.voices.length === 0) {
       await new Promise<void>(resolve => {

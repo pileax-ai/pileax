@@ -78,8 +78,8 @@ const {
 } = useBook();
 
 const {
+  ttsClient,
   ttsController,
-  ttsPlayer,
   ttsState,
 } = useTTS()
 
@@ -130,12 +130,12 @@ onMounted(async () => {
     }
   )
 
-  ttsPlayer.value?.on('start', onStart);
+  ttsClient.value?.on('start', onStart);
   window.addEventListener("pagehide", ttsController.stop);
 })
 
 onUnmounted(() => {
-  ttsPlayer.value?.off('start', onStart);
+  ttsClient.value?.off('start', onStart);
   window.addEventListener("pagehide", ttsController.stop)
 })
 </script>

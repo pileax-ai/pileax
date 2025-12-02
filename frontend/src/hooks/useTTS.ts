@@ -73,7 +73,7 @@ export function useTTS() {
     }
   };
 
-  const ttsPlayer = computed(() => ttsManager.player)
+  const ttsClient = computed(() => ttsManager.client)
 
   const ttsState = reactive({
     isPlaying,
@@ -97,8 +97,8 @@ export function useTTS() {
   }
 
   return {
+    ttsClient,
     ttsController,
-    ttsPlayer,
     ttsState,
   };
 }

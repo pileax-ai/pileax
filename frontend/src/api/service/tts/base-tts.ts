@@ -1,11 +1,11 @@
-import { TTSOptions, TTSPlayer } from 'src/api/service/tts'
+import { TTSOptions, TTSClient } from 'src/api/service/tts'
 
 /**
- * TTS Player
+ * TTS Client
  *
  * @version 1.0
  */
-export interface TTSPlayerEventMap {
+export interface TTSClientEventMap {
   start: [text: string];
   end: [text: string];
   error: [error: any];
@@ -15,11 +15,11 @@ export interface TTSPlayerEventMap {
   statechange: [state: 'idle' | 'playing' | 'paused' | 'stopped'];
   sentence: [sentence: string]; // 可选
 }
-export type TTSPlayerEvent = keyof TTSPlayerEventMap;
-export type TTSPlayerEventHandler<K extends TTSPlayerEvent> =
-  (...args: TTSPlayerEventMap[K]) => void;
+export type TTSClientEvent = keyof TTSClientEventMap;
+export type TTSClientEventHandler<K extends TTSClientEvent> =
+  (...args: TTSClientEventMap[K]) => void;
 
-export abstract class BaseTTSPlayer implements TTSPlayer {
+export abstract class BaseTTSClient implements TTSClient {
   public options: TTSOptions;
   public state: 'idle' | 'playing' | 'paused' | 'stopped' = 'idle';
 
@@ -31,7 +31,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   protected preloadQueue: Map<string, AudioBuffer> = new Map();
 
   private events: Partial<{
-    [K in TTSPlayerEvent]: Set<TTSPlayerEventHandler<any>>
+    [K in TTSClientEvent]: Set<TTSClientEventHandler<any>>
   }> = {};
   private continuous = false;
 
@@ -52,9 +52,9 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   }
 
   // Events
-  on<K extends keyof TTSPlayerEventMap>(
+  on<K extends keyof TTSClientEventMap>(
     event: K,
-    handler: TTSPlayerEventHandler<K>
+    handler: TTSClientEventHandler<K>
   ) {
     if (!this.events[event]) {
       this.events[event] = new Set();
@@ -62,16 +62,16 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
     this.events[event]!.add(handler);
   }
 
-  off<K extends keyof TTSPlayerEventMap>(
+  off<K extends keyof TTSClientEventMap>(
     event: K,
-    handler: TTSPlayerEventHandler<K>
+    handler: TTSClientEventHandler<K>
   ) {
     this.events[event]?.delete(handler);
   }
 
-  protected emit<K extends keyof TTSPlayerEventMap>(
+  protected emit<K extends keyof TTSClientEventMap>(
     event: K,
-    ...args: TTSPlayerEventMap[K]
+    ...args: TTSClientEventMap[K]
   ) {
     this.events[event]?.forEach(handler => handler(...args));
   }

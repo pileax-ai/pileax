@@ -1,16 +1,16 @@
-import { BrowserTTSPlayer } from 'src/api/service/tts/browser_tts_player';
-import { EdgeTTSPlayer } from 'src/api/service/tts/edge_tts_player';
-import { ttsManager } from './tts_manager';
+import { BrowserTTSClient } from 'src/api/service/tts/browser-tts';
+import { EdgeTTSClient } from 'src/api/service/tts/edge-tts';
+import { ttsManager } from './tts-manager';
 
 /**
- * TTS Player
+ * TTS Client
  *
  * @version 1.0
  */
 export type TTSMode = 'browser' | 'edge' | 'local';
 
-export type TTSPlayerEvent =
-  | 'start'       
+export type TTSClientEvent =
+  | 'start'
   | 'end'
   | 'error'
   | 'pause'
@@ -29,8 +29,9 @@ export interface TTSOptions {
   provider?: 'browser' | 'edge' | 'local';
 }
 
-export interface TTSPlayer {
+export interface TTSClient {
   options: TTSOptions;
+
   init(
     getText: () => Promise<string>,
     getResumeText: () => Promise<string>,
@@ -50,19 +51,19 @@ export interface TTSPlayer {
   restart(): Promise<void>;
 
   // events
-  on(event: TTSPlayerEvent, handler: (...args: any[]) => void): void;
-  off(event: TTSPlayerEvent, handler: (...args: any[]) => void): void;
+  on(event: TTSClientEvent, handler: (...args: any[]) => void): void;
+  off(event: TTSClientEvent, handler: (...args: any[]) => void): void;
 
   state: 'idle' | 'playing' | 'paused' | 'stopped';
 }
 
 
-export function createTTSPlayer(mode: TTSMode, options: TTSOptions): TTSPlayer {
+export function createTTSClient(mode: TTSMode, options: TTSOptions): TTSClient {
   switch (mode) {
     case 'browser':
-      return new BrowserTTSPlayer(options);
+      return new BrowserTTSClient(options);
     case 'edge':
-      return new EdgeTTSPlayer(options);
+      return new EdgeTTSClient(options);
     default:
       throw new Error(`Unsupported TTS mode: ${mode as string}`);
   }

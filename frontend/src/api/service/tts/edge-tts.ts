@@ -1,14 +1,14 @@
 import { TTSOptions } from 'src/api/service/tts'
-import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
+import { BaseTTSClient } from 'src/api/service/tts/base-tts';
 import { sleep } from 'core/utils/misc'
-import { generateTextId, getEdgeTTSAudio } from 'src/api/service/tts/utils/tts_util'
+import { generateTextId, getEdgeTTSAudio } from 'src/api/service/tts/utils/tts-util'
 
 /**
- * TTS Player
+ * TTS Client
  *
  * @version 1.0
  */
-export class EdgeTTSPlayer extends BaseTTSPlayer {
+export class EdgeTTSClient extends BaseTTSClient {
   private audioContext: AudioContext;
   private audioBuffer: AudioBuffer | null = null;
   private sourceNode: AudioBufferSourceNode | null = null;

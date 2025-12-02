@@ -1,7 +1,7 @@
-import { createTTSPlayer, TTSMode, TTSOptions, TTSPlayer } from './index';
+import { createTTSClient, TTSMode, TTSOptions, TTSClient } from './index';
 
 export class TTSManager {
-  public player: TTSPlayer | null = null;
+  public client: TTSClient | null = null;
 
   private mode: TTSMode = 'browser';
   private options: TTSOptions = {};
@@ -22,52 +22,52 @@ export class TTSManager {
     if (mode) this.mode = mode;
     if (options) this.options = { ...this.options, ...options };
 
-    this.player = createTTSPlayer(this.mode, this.options);
-    await this.player.init(getText, getResumeText, getNextText, getPrevText);
+    this.client = createTTSClient(this.mode, this.options);
+    await this.client.init(getText, getResumeText, getNextText, getPrevText);
     this.isInitialized = true;
   }
 
   async speak(text: string): Promise<void> {
     this.ensureInitialized();
-    return this.player!.speak(text);
+    return this.client!.speak(text);
   }
 
   async play(): Promise<void> {
     this.ensureInitialized();
-    return this.player!.play();
+    return this.client!.play();
 
   }
 
   async stop(): Promise<void> {
-    if (this.player) {
-      return this.player.stop(true);
+    if (this.client) {
+      return this.client.stop(true);
     }
     return Promise.resolve();
   }
 
   async pause(): Promise<void> {
     this.ensureInitialized();
-    return this.player!.pause();
+    return this.client!.pause();
   }
 
   async resume(): Promise<void> {
     this.ensureInitialized();
-    return this.player!.resume();
+    return this.client!.resume();
   }
 
   async prev(): Promise<void> {
     this.ensureInitialized();
-    return this.player!.prev();
+    return this.client!.prev();
   }
 
   async next(): Promise<void> {
     this.ensureInitialized();
-    return this.player!.next();
+    return this.client!.next();
   }
 
   async restart(): Promise<void> {
     this.ensureInitialized();
-    return this.player!.restart();
+    return this.client!.restart();
   }
 
   setMode(mode: TTSMode): void {
@@ -89,13 +89,13 @@ export class TTSManager {
   }
 
   isPlaying(): boolean {
-    return this.player && 'isPlaying' in this.player
-      ? (this.player as any).isPlaying
+    return this.client && 'isPlaying' in this.client
+      ? (this.client as any).isPlaying
       : false;
   }
 
   private ensureInitialized(): void {
-    if (!this.isInitialized || !this.player) {
+    if (!this.isInitialized || !this.client) {
       throw new Error('TTSManager not initialized. Call initialize() first.');
     }
   }
