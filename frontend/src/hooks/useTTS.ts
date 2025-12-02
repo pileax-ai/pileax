@@ -1,4 +1,4 @@
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue'
 import { ttsManager, TTSMode, TTSOptions } from 'src/api/service/tts';
 
 export function useTTS() {
@@ -68,6 +68,8 @@ export function useTTS() {
     }
   };
 
+  const ttsPlayer = computed(() => ttsManager.player)
+
   const ttsState = reactive({
     isPlaying,
     isPaused,
@@ -75,7 +77,7 @@ export function useTTS() {
     options,
   })
 
-  const ttsPlayer = {
+  const ttsController = {
     initialize,
     play,
     stop,
@@ -90,7 +92,8 @@ export function useTTS() {
   }
 
   return {
+    ttsController,
+    ttsPlayer,
     ttsState,
-    ttsPlayer
   };
 }

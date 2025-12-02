@@ -30,7 +30,7 @@
               {{ previousTocItem?.label }}
             </o-tooltip>
           </q-btn>
-          <q-btn icon="fast_rewind" @click="ttsPlayer.prev()" flat round v-if="ttsState.isPlaying">
+          <q-btn icon="fast_rewind" @click="ttsController.prev()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
               后退
             </o-tooltip>
@@ -40,10 +40,10 @@
           <q-btn :icon="playIcon"
                  class="play text-primary"
                  flat round
-                 @click="ttsPlayer.togglePlayPause()" />
+                 @click="ttsController.togglePlayPause()" />
         </div>
         <div class="row action justify-end">
-          <q-btn icon="fast_forward" @click="ttsPlayer.next()" flat round v-if="ttsState.isPlaying">
+          <q-btn icon="fast_forward" @click="ttsController.next()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
               前进
             </o-tooltip>
@@ -78,8 +78,9 @@ const {
 } = useBook();
 
 const {
+  ttsController,
+  ttsPlayer,
   ttsState,
-  ttsPlayer
 } = useTTS()
 
 const coverUrl = computed(() => {
@@ -94,9 +95,9 @@ const playIcon = computed(() => {
 
 const onNextChapter = async () => {
   try {
-    await ttsPlayer.stop();
+    await ttsController.stop();
     await ebookRender.nextSection();
-    await ttsPlayer.play();
+    await ttsController.play();
   } catch (err) {
     console.debug('nextChapter err')
   }
@@ -104,16 +105,21 @@ const onNextChapter = async () => {
 
 const onPrevChapter = async () => {
   try {
-    await ttsPlayer.stop();
+    await ttsController.stop();
     await ebookRender.prevSection();
-    await ttsPlayer.play();
+    await ttsController.play();
   } catch (err) {
     console.debug('prevChapter err')
   }
 }
 
+const onStart = (text: string) => {
+  // todo: show playing text
+  console.log('start', text)
+}
+
 onMounted(async () => {
-  await ttsPlayer.initialize(
+  await ttsController.initialize(
     ebookRender.ttsStart,
     ebookRender.ttsNext,
     ebookRender.ttsPrev,
@@ -122,11 +128,14 @@ onMounted(async () => {
       lang: 'zh-CN'
     }
   )
-  window.addEventListener("pagehide", ttsPlayer.stop);
+
+  ttsPlayer.value?.on('start', onStart);
+  window.addEventListener("pagehide", ttsController.stop);
 })
 
 onUnmounted(() => {
-  window.addEventListener("pagehide", ttsPlayer.stop)
+  ttsPlayer.value?.off('start', onStart);
+  window.addEventListener("pagehide", ttsController.stop)
 })
 </script>
 

@@ -1,7 +1,8 @@
 import { createTTSPlayer, TTSMode, TTSOptions, TTSPlayer } from './index';
 
 export class TTSManager {
-  private player: TTSPlayer | null = null;
+  public player: TTSPlayer | null = null;
+
   private mode: TTSMode = 'browser';
   private options: TTSOptions = {};
   private isInitialized = false;
