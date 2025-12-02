@@ -17,6 +17,7 @@ export type EbookApi = {
   search: (text: string, opts: Indexable) => void;
   clearSearch: () => void;
   ttsStart: () => Promise<string>;
+  ttsResume: () => Promise<string>,
   ttsStop: () => Promise<void>;
   ttsPrepare: () => Promise<void>;
   ttsNext: (move: boolean) => Promise<string>;

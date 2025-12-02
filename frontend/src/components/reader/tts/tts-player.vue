@@ -115,15 +115,16 @@ const onPrevChapter = async () => {
 
 const onStart = (text: string) => {
   // todo: show playing text
-  console.log('start', text)
+  // console.log('start', text)
 }
 
 onMounted(async () => {
   await ttsController.initialize(
     ebookRender.ttsStart,
+    ebookRender.ttsResume,
     ebookRender.ttsNext,
     ebookRender.ttsPrev,
-    'browser', {
+    'edge', {
       ...ttsState.options,
       lang: 'zh-CN'
     }

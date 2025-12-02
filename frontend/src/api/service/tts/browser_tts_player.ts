@@ -53,6 +53,10 @@ export class BrowserTTSPlayer extends BaseTTSPlayer {
     });
   }
 
+  async preload(text: string): Promise<void> {
+    return Promise.resolve();
+  }
+
   async stop(reset = true): Promise<void> {
     if (reset) {
       this.stopContinuous()

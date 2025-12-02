@@ -14,6 +14,7 @@ export function useTTS() {
 
   const initialize = async (
     getText: () => Promise<string>,
+    getResumeText: () => Promise<string>,
     getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
     mode?: TTSMode,
@@ -24,6 +25,7 @@ export function useTTS() {
 
     await ttsManager.initialize(
       getText,
+      getResumeText,
       getNextText,
       getPrevText,
       currentMode.value,
@@ -35,7 +37,7 @@ export function useTTS() {
     isPlaying.value = true;
     isPaused.value = false;
     await ttsManager.play();
-    isPlaying.value = false;
+    // isPlaying.value = false;
   };
 
   const stop = async () => {
@@ -57,10 +59,13 @@ export function useTTS() {
   const togglePlayPause = async () => {
     try {
       if (isPlaying.value && !isPaused.value) {
+        console.log('toggle: pause')
         await pause();
       } else if (isPlaying.value && isPaused.value) {
+        console.log('toggle: resume')
         await resume();
       } else {
+        console.log('toggle: play')
         await play();
       }
     } catch (err) {

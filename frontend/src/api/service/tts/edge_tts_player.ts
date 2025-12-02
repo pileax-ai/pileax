@@ -13,28 +13,46 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
   private sourceNode: AudioBufferSourceNode | null = null;
   private startTime: number = 0;
   private pauseOffset: number = 0;
+  private currentController: AbortController | null = null;
 
   constructor(options: TTSOptions) {
     super(options);
     this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   }
 
+  async preload(text: string): Promise<void> {
+    const audioData = await this.fetchAudio(text);
+    const audioBuffer = await this.audioContext.decodeAudioData(audioData);
+    this.preloadQueue.set(text, audioBuffer);
+  }
+
   async speak(text: string): Promise<void> {
     await this.stop(false);
 
-    const audioData = await this.fetchAudio(text);
-    this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
+    try {
+      this.audioBuffer = null;
+      const audioData = await this.fetchAudio(text);
+      this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
 
-    return this.playBuffer(0);
+      await this.playBuffer(0);
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject();
+    }
   }
 
   private async fetchAudio(text: string): Promise<ArrayBuffer> {
+    if (this.currentController) {
+      this.currentController.abort();
+    }
+
+    this.currentController = new AbortController();
     const body = {
       text: text.replace(/<[^>]+>/g, ""),
       voice: 'zh-CN-XiaoxiaoNeural',
       rate: '+0%'
     };
-    const res = await edgeService.tts(body, 'arraybuffer');
+    const res = await edgeService.tts(body, 'arraybuffer', this.currentController);
     return res.data;
   }
 
@@ -50,6 +68,7 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
       this.state = 'playing';
 
       this.sourceNode.onended = () => {
+        // this.audioBuffer = null;
         this.state = 'idle';
         resolve();
       };
@@ -60,7 +79,14 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
     if (reset) {
       this.stopContinuous()
     }
-    console.log('stop', this.sourceNode)
+
+    // 1. Abort request
+    if (this.currentController) {
+      this.currentController.abort();
+      this.currentController = null;
+    }
+
+    // 2. Stop playing
     if (this.sourceNode) {
       this.sourceNode.stop();
       this.sourceNode.disconnect();
@@ -70,6 +96,14 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
   }
 
   async pause(): Promise<void> {
+    this.stopContinuous();
+
+    // 1. Abort request
+    if (this.currentController) {
+      this.currentController.abort();
+      this.currentController = null;
+    }
+
     if (!this.sourceNode) return;
     this.pauseOffset = this.audioContext.currentTime - this.startTime;
     this.sourceNode.stop();
@@ -78,8 +112,16 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
   }
 
   async resume(): Promise<void> {
-    if (!this.audioBuffer) return;
-    this.state = 'playing';
-    return this.playBuffer(this.pauseOffset);
+    if (this.audioBuffer) {
+      console.log('resume: next')
+      this.state = 'playing';
+      await this.playBuffer(this.pauseOffset);
+      this.playNext();
+      console.log('resume: next do')
+    } else {
+      console.log('resume: resume')
+      this.playResume();
+    }
+    return Promise.resolve();
   }
 }

@@ -531,8 +531,8 @@ const ttsStart = async () => {
   await initTTS();
   return reader.view.tts.from(reader.view.lastLocation.range);
 };
+const ttsResume = () => reader.view.tts.resume();
 const ttsStop = () => reader.view.initTTS(true);
-const ttsPrepare = () => reader.view.tts.prepare();
 const ttsCurrentDetails = async () => {
   await initTts();
   return reader.view.tts.currentDetail();
@@ -579,8 +579,8 @@ window.ebook = {
   search: search,
   clearSearch: clearSearch,
   ttsStart: ttsStart,
+  ttsResume: ttsResume,
   ttsStop: ttsStop,
-  ttsPrepare: ttsPrepare,
   ttsNext: ttsNext,
   ttsPrev: ttsPrev,
   ttsNextSection: ttsNextSection,

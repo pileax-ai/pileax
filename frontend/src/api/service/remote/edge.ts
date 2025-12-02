@@ -13,11 +13,12 @@ export class EdgeService {
     return GET({ name: this.apiName, path: '/voices', });
   }
 
-  tts(body: Indexable, responseType = 'arraybuffer'): Promise<any> {
+  tts(body: Indexable, responseType = 'arraybuffer', controller?: AbortController): Promise<any> {
     return request({
       url: '/edge/tts',
       method: 'POST',
       data: body,
+      signal: controller?.signal,
       timeout: 30000,
       headers: {
         'Content-Type': 'application/json',
