@@ -33,6 +33,7 @@ export class TTSManager {
   async play(): Promise<void> {
     this.ensureInitialized();
     return this.player!.play();
+
   }
 
   async stop(): Promise<void> {

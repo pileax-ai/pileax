@@ -23,15 +23,14 @@
       </section>
       <section class="row col-12 justify-around items-center control">
         <div class="row action justify-start">
-          <q-btn icon="fast_rewind"
+          <q-btn icon="skip_previous"
                  @click="onPrevChapter"
                  flat round :disable="!previousTocItem">
             <o-tooltip position="bottom" v-if="previousTocItem">
               {{ previousTocItem?.label }}
             </o-tooltip>
           </q-btn>
-          <q-btn @click="ttsPlayer.prev()" flat round v-if="ttsState.isPlaying">
-            <q-icon name="play_arrow" class="rotate-180" />
+          <q-btn icon="fast_rewind" @click="ttsPlayer.prev()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
               后退
             </o-tooltip>
@@ -44,13 +43,12 @@
                  @click="ttsPlayer.togglePlayPause()" />
         </div>
         <div class="row action justify-end">
-          <q-btn @click="ttsPlayer.next()" flat round v-if="ttsState.isPlaying">
-            <q-icon name="play_arrow" />
+          <q-btn icon="fast_forward" @click="ttsPlayer.next()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
               前进
             </o-tooltip>
           </q-btn>
-          <q-btn icon="fast_forward"
+          <q-btn icon="skip_next"
                  @click="onNextChapter"
                  flat round :disable="!nextTocItem">
             <o-tooltip position="bottom" v-if="nextTocItem">
@@ -89,21 +87,29 @@ const coverUrl = computed(() => {
 })
 
 const playIcon = computed(() => {
-  return ttsState.value.isPlaying
-    ? ttsState.value.isPaused ? 'play_circle' : 'pause_circle'
+  return ttsState.isPlaying
+    ? ttsState.isPaused ? 'play_circle' : 'pause_circle'
     : 'play_circle'
 })
 
 const onNextChapter = async () => {
-  await ttsPlayer.stop();
-  await ebookRender.nextSection();
-  await ttsPlayer.play();
+  try {
+    await ttsPlayer.stop();
+    await ebookRender.nextSection();
+    await ttsPlayer.play();
+  } catch (err) {
+    console.debug('nextChapter err')
+  }
 }
 
 const onPrevChapter = async () => {
-  await ttsPlayer.stop();
-  await ebookRender.prevSection();
-  await ttsPlayer.play();
+  try {
+    await ttsPlayer.stop();
+    await ebookRender.prevSection();
+    await ttsPlayer.play();
+  } catch (err) {
+    console.debug('prevChapter err')
+  }
 }
 
 onMounted(async () => {
@@ -112,10 +118,8 @@ onMounted(async () => {
     ebookRender.ttsNext,
     ebookRender.ttsPrev,
     'browser', {
-      lang: 'zh-CN',
-      rate: 1.0,
-      pitch: 1.0,
-      volume: 1.0
+      ...ttsState.options,
+      lang: 'zh-CN'
     }
   )
   window.addEventListener("pagehide", ttsPlayer.stop);
@@ -146,10 +150,10 @@ onUnmounted(() => {
       min-width: 84px;
     }
     .play {
-      min-width: 56px;
-      min-height: 56px;
+      min-width: 80px;
+      min-height: 80px;
       .q-icon {
-        font-size: 56px;
+        font-size: 64px;
       }
     }
   }

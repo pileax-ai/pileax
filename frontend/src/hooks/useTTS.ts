@@ -31,19 +31,6 @@ export function useTTS() {
     );
   };
 
-  const speak = async (text: string) => {
-    try {
-      isPlaying.value = true;
-      isPaused.value = false;
-      await ttsManager.speak(text);
-    } catch (error) {
-      console.error('TTS speak error:', error);
-      throw error;
-    } finally {
-      isPlaying.value = false;
-    }
-  };
-
   const play = async () => {
     isPlaying.value = true;
     isPaused.value = false;
@@ -68,16 +55,20 @@ export function useTTS() {
   };
 
   const togglePlayPause = async () => {
-    if (isPlaying.value && !isPaused.value) {
-      await pause();
-    } else if (isPlaying.value && isPaused.value) {
-      await resume();
-    } else {
-      await play();
+    try {
+      if (isPlaying.value && !isPaused.value) {
+        await pause();
+      } else if (isPlaying.value && isPaused.value) {
+        await resume();
+      } else {
+        await play();
+      }
+    } catch (err) {
+      console.debug('togglePlayPause err')
     }
   };
 
-  const ttsState = ref({
+  const ttsState = reactive({
     isPlaying,
     isPaused,
     currentMode,
@@ -86,7 +77,6 @@ export function useTTS() {
 
   const ttsPlayer = {
     initialize,
-    speak,
     play,
     stop,
     pause,

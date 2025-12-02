@@ -73,10 +73,15 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
 
   // Play logic
   async play(): Promise<void> {
+    const text = await this.getText();
+    await this.playContinuous(text);
+  }
+
+  async playContinuous(text: string): Promise<void> {
     this.continuous = true;
     this.state = 'playing';
 
-    let current = await this.getText();
+    let current = text;
     while (this.continuous) {
       try {
         this.emit('start', current);
@@ -90,11 +95,9 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
         }
         current = next;
       } catch (err) {
-        console.log('hOHOHOHOOOH')
-        // console.error(err)
         this.state = 'idle';
-        // this.emit('error', err);
-        // throw err;
+        this.emit('error', err);
+        throw err;
       }
     }
   }
@@ -109,20 +112,32 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   abstract resume(): Promise<void>;
 
   async prev(): Promise<void> {
-    await this.stop();
-    const text = await this.getPrevText();
-    await this.speak(text);
+    try {
+      await this.stop();
+      const text = await this.getPrevText();
+      await this.playContinuous(text);
+    } catch (err) {
+      console.debug('prev err')
+    }
   }
 
   async next(): Promise<void> {
-    await this.stop();
-    const text = await this.getNextText(true);
-    await this.speak(text);
+    try {
+      await this.stop();
+      const text = await this.getNextText(true);
+      await this.playContinuous(text);
+    } catch (err) {
+      console.debug('next err')
+    }
   }
 
   async restart(): Promise<void> {
-    await this.stop();
-    const text = await this.getText();
-    await this.speak(text);
+    try {
+      await this.stop();
+      const text = await this.getText();
+      await this.playContinuous(text);
+    } catch (err) {
+      console.debug('restart err')
+    }
   }
 }

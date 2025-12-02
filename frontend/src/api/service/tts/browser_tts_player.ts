@@ -104,7 +104,7 @@ export class BrowserTTSPlayer extends BaseTTSPlayer {
     // voice
     const voice = this.getVoice()
     text = prepareTextForVoice(text, voice);
-    console.log('text', text)
+    // console.log('text', text)
 
     // utterance
     const u = new SpeechSynthesisUtterance(text);
