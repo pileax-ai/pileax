@@ -13,6 +13,7 @@ EXT_NAMES = [
     'book_collection',
     'chat',
     'chat_conversation',
+    'edge',
     'file_meta',
     'file_upload',
     'llm',

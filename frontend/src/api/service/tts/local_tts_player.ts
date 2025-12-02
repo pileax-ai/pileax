@@ -111,7 +111,11 @@ export class LocalTTSPlayer extends BaseTTSPlayer {
     }
   }
 
-  async stop(): Promise<void> {
+  async stop(reset = true): Promise<void> {
+    if (reset) {
+      this.stopContinuous()
+    }
+
     this.isPlaying = false;
 
     if (this.sourceNode) {

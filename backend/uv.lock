@@ -199,6 +199,7 @@ source = { editable = "." }
 dependencies = [
     { name = "alembic" },
     { name = "bcrypt" },
+    { name = "edge-tts" },
     { name = "email-validator" },
     { name = "emails" },
     { name = "fastapi", extra = ["standard"] },
@@ -234,6 +235,7 @@ dev = [
 requires-dist = [
     { name = "alembic", specifier = ">=1.12.1,<2.0.0" },
     { name = "bcrypt", specifier = "==4.0.1" },
+    { name = "edge-tts", specifier = ">=7.2.3" },
     { name = "email-validator", specifier = ">=2.1.0.post1,<3.0.0.0" },
     { name = "emails", specifier = ">=0.6,<1.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.114.2,<1.0.0" },
@@ -539,6 +541,21 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b5/4a/263763cb2ba3816dd94b08ad3a33d5fdae34ecb856678773cc40a3605829/dnspython-2.7.0.tar.gz", hash = "sha256:ce9c432eda0dc91cf618a5cedf1a4e142651196bbcd2c80e89ed5a907e5cfaf1", size = 345197, upload-time = "2024-10-05T20:14:59.362Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/68/1b/e0a87d256e40e8c888847551b20a017a6b98139178505dc7ffb96f04e954/dnspython-2.7.0-py3-none-any.whl", hash = "sha256:b4c34b7d10b51bcc3a5071e7b8dee77939f1e878477eeecc965e9835f63c6c86", size = 313632, upload-time = "2024-10-05T20:14:57.687Z" },
+]
+
+[[package]]
+name = "edge-tts"
+version = "7.2.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "certifi" },
+    { name = "tabulate" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e8/d0/db9a841ac29f119ca8e3d2a22325849997c571a4f31f728042c5fdbdff33/edge_tts-7.2.3.tar.gz", hash = "sha256:b85e271181cd52656934069237bfc3853335a17f7e51a4f7116e2936d32e62d2", size = 27308, upload-time = "2025-08-28T21:13:53.376Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c3/c6/9387c3f9decdd9780dfe21b7d9c0831aafd5d6813baf4f17b50afc7b7d77/edge_tts-7.2.3-py3-none-any.whl", hash = "sha256:62c87df25dedb6cd565cbdf87c639e01c466095b1e8f48ab8fa9efbb2123f53c", size = 30349, upload-time = "2025-08-28T21:13:52.145Z" },
 ]
 
 [[package]]
@@ -2721,6 +2738,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ce/20/08dfcd9c983f6a6f4a1000d934b9e6d626cff8d2eeb77a89a68eef20a2b7/starlette-0.46.2.tar.gz", hash = "sha256:7f7361f34eed179294600af672f565727419830b54b7b084efe44bb82d2fccd5", size = 2580846, upload-time = "2025-04-13T13:56:17.942Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8b/0c/9d30a4ebeb6db2b25a841afbb80f6ef9a854fc3b41be131d249a977b4959/starlette-0.46.2-py3-none-any.whl", hash = "sha256:595633ce89f8ffa71a015caed34a5b2dc1c0cdb3f0f1fbd1e69339cf2abeec35", size = 72037, upload-time = "2025-04-13T13:56:16.21Z" },
+]
+
+[[package]]
+name = "tabulate"
+version = "0.9.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ec/fe/802052aecb21e3797b8f7902564ab6ea0d60ff8ca23952079064155d1ae1/tabulate-0.9.0.tar.gz", hash = "sha256:0095b12bf5966de529c0feb1fa08671671b3368eec77d7ef7ab114be2c068b3c", size = 81090, upload-time = "2022-10-06T17:21:48.54Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/40/44/4a5f08c96eb108af5cb50b41f76142f0afa346dfa99d5296fe7202a11854/tabulate-0.9.0-py3-none-any.whl", hash = "sha256:024ca478df22e9340661486f85298cff5f6dcdba14f3813e8830015b9ed1948f", size = 35252, upload-time = "2022-10-06T17:21:44.262Z" },
 ]
 
 [[package]]

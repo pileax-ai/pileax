@@ -53,7 +53,7 @@ export const bookExtensions = ['epub', 'mobi', 'azw3', 'fb2', 'cbz']
  * @param data
  */
 export const postMessage = (name :string, data :any) => {
-  console.log('postMessage', name, data);
+  // console.log('postMessage', name, data);
   switch (name) {
     case 'onAnnotationClick':
       setSelection({
@@ -161,7 +161,7 @@ const nextPage = () => {
 const ttsStart = () => ebookRender.ttsStart();
 const ttsStop = () => ebookRender.ttsStop();
 const ttsPrepare = () => ebookRender.ttsPrepare();
-const ttsNext = () => ebookRender.ttsNext();
+const ttsNext = (move = true) => ebookRender.ttsNext(move);
 const ttsPrev = () => ebookRender.ttsPrev();
 
 const setManual = (operation = BookOperation.Manual) => {

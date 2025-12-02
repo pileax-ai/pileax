@@ -542,9 +542,9 @@ const ttsCollectDetails = async (count = 1, includeCurrent = false, offset = 1) 
   return reader.view.tts.collectDetails(count, { includeCurrent, offset });
 }
 
-const ttsNext = async () => {
-  const result = reader.view.tts.next(true);
-  if (result) return result;
+const ttsNext = async (move = true) => {
+  const result = reader.view.tts.next(true, move);
+  if (result || !move) return result;
   return await ttsNextSection();
 };
 const ttsPrev = () => {

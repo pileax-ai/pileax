@@ -63,6 +63,19 @@
             </section>
           </o-common-card>
         </section>
+        <section class="col-12">
+          <o-common-card title="Remote API" header>
+            <section class="row col-12 items-center q-col-gutter-md q-pa-md">
+              <div style="width: 100px;">Edge</div>
+              <div>
+                <q-btn color="blue" label="getVoices" @click="getEdgeVoices" :loading="loading.edgeVoices" />
+              </div>
+              <div>
+                <q-btn color="indigo" label="tts" @click="edgeTTS" :loading="loading.edgeTTS" />
+              </div>
+            </section>
+          </o-common-card>
+        </section>
       </section>
     </section>
   </o-common-page>
@@ -74,6 +87,13 @@ import { computed, ref, onMounted } from 'vue';
 import OCommonPage from 'core/page/template/OCommonPage.vue';
 import { notifyDone, notifyError, notifyInfo, notifySuccess, notifyWarning } from 'core/utils/control'
 import { ipcService, ipcMethod } from 'src/api/ipc';
+import { edgeService } from 'src/api/service/remote/edge';
+import { api as request } from 'boot/axios'
+
+const loading = ref<Indexable>({
+  edgeVoices: false,
+  edgeTTS: false,
+})
 
 const ipcCases = computed(() => {
   return [
@@ -118,6 +138,33 @@ const ipcCall = async (name: string, args?: any) => {
   const res = await ipcMethod(ipcService, name, args);
   console.log(name, res)
   notifyInfo(`${res}`)
+}
+
+const getEdgeVoices = () => {
+  loading.value.edgeVoices = true;
+  edgeService.getVoices().then(res => {
+    console.log('voices', res)
+  }).finally(() => {
+    loading.value.edgeVoices = false;
+  })
+}
+
+const edgeTTS = async () => {
+  const body = {
+    text: '这是一个测试',
+    voice: 'zh-CN-XiaoxiaoNeural',
+    rate: '+0%'
+  }
+
+  try {
+    loading.value.edgeTTS = true;
+    const res = await edgeService.tts(body, 'blob');
+    const blob = res.data;
+    console.log('blob', blob);
+  } finally {
+    loading.value.edgeTTS = false;
+  }
+
 }
 </script>
 

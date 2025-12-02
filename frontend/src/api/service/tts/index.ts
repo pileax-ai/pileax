@@ -33,12 +33,12 @@ export interface TTSPlayer {
   options: TTSOptions;
   init(
     getText: () => Promise<string>,
-    getNextText: () => Promise<string>,
+    getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>
   ): Promise<void>;
 
   play(): Promise<void>;
-  stop(): Promise<void>;
+  stop(reset: boolean): Promise<void>;
   pause(): Promise<void>;
   resume(): Promise<void>;
   speak(text: string): Promise<void>;

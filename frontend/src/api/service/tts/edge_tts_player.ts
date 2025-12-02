@@ -1,5 +1,6 @@
 import { TTSOptions } from 'src/api/service/tts'
 import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
+import { edgeService } from 'src/api/service/remote/edge'
 
 /**
  * TTS Player
@@ -19,7 +20,7 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
   }
 
   async speak(text: string): Promise<void> {
-    await this.stop();
+    await this.stop(false);
 
     const audioData = await this.fetchAudio(text);
     this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
@@ -27,17 +28,14 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
     return this.playBuffer(0);
   }
 
-  private async fetchAudio(content: string): Promise<ArrayBuffer> {
-    const response = await fetch('EDGE_TTS_ENDPOINT', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: content,
-        ...this.options
-      })
-    });
-
-    return response.arrayBuffer();
+  private async fetchAudio(text: string): Promise<ArrayBuffer> {
+    const body = {
+      text: text.replace(/<[^>]+>/g, ""),
+      voice: 'zh-CN-XiaoxiaoNeural',
+      rate: '+0%'
+    };
+    const res = await edgeService.tts(body, 'arraybuffer');
+    return res.data;
   }
 
   async playBuffer(startOffset: number = 0): Promise<void> {
@@ -58,9 +56,11 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
     });
   }
 
-  async stop(): Promise<void> {
-    this.stopContinuous();
-
+  async stop(reset = true): Promise<void> {
+    if (reset) {
+      this.stopContinuous()
+    }
+    console.log('stop', this.sourceNode)
     if (this.sourceNode) {
       this.sourceNode.stop();
       this.sourceNode.disconnect();

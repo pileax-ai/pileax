@@ -32,10 +32,10 @@
           </q-btn>
         </div>
         <div>
-          <q-btn icon="pause_circle" class="play text-primary"
-                 flat round @click="onPause" v-if="ttsPlaying" />
-          <q-btn icon="play_circle" class="play text-primary"
-                 flat round @click="onPlay" v-else />
+          <q-btn :icon="playIcon"
+                 class="play text-primary"
+                 flat round
+                 @click="ttsPlayer.togglePlayPause()" />
         </div>
         <div>
           <q-btn icon="fast_forward"
@@ -52,23 +52,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
-import {
-  ttsStart,
-  ttsStop,
-  ttsPrepare,
-  ttsNext,
-  ttsPrev
-} from 'src/api/service/ebook/book';
 import { useTTS } from 'src/hooks/useTTS'
 import { ebookRender } from 'src/api/service/ebook'
 const emit = defineEmits(['close']);
 
 const { getCoverUrl } = useApi();
 const {
-  store,
   book,
   tocItem,
   previousTocItem,
@@ -76,53 +68,37 @@ const {
 } = useBook();
 
 const {
+  ttsState,
   ttsPlayer
 } = useTTS()
 
 const coverUrl = computed(() => {
   return getCoverUrl(book.value);
 })
-const tts = computed(() => store.tts);
-const ttsPlaying = computed({
-  get() {
-    return tts.value.playing;
-  },
-  set(val: boolean) {
-    store.setTTSItem('playing', val);
-  }
-});
 
-async function onPause() {
-  ttsPlaying.value = false;
+const playIcon = computed(() => {
+  return ttsState.value.isPlaying
+    ? ttsState.value.isPaused ? 'play_circle' : 'pause_circle'
+    : 'play_circle'
+})
+
+const onNextChapter = async () => {
   await ttsPlayer.stop();
-}
-
-async function onPlay() {
-  ttsPlaying.value = true;
+  await ebookRender.nextSection();
   await ttsPlayer.play();
 }
 
-const onNextChapter = async () => {
-  await onPause();
-  ebookRender.nextSection();
-  setTimeout(async () => {
-    await onPlay();
-  }, 1000)
-}
-
 const onPrevChapter = async () => {
-  await onPause();
-  ebookRender.prevSection();
-  setTimeout(async () => {
-    await onPlay();
-  }, 1000)
+  await ttsPlayer.stop();
+  await ebookRender.prevSection();
+  await ttsPlayer.play();
 }
 
 onMounted(async () => {
   await ttsPlayer.initialize(
-    ttsStart,
-    ttsNext,
-    ttsPrev,
+    ebookRender.ttsStart,
+    ebookRender.ttsNext,
+    ebookRender.ttsPrev,
     'browser', {
       lang: 'zh-CN',
       rate: 1.0,
@@ -130,10 +106,11 @@ onMounted(async () => {
       volume: 1.0
     }
   )
+  window.addEventListener("pagehide", ttsPlayer.stop);
 })
 
-onBeforeUnmount(() => {
-  ttsPlayer.stop()
+onUnmounted(() => {
+  window.addEventListener("pagehide", ttsPlayer.stop)
 })
 </script>
 

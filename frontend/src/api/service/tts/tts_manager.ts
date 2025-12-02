@@ -12,7 +12,7 @@ export class TTSManager {
 
   async initialize(
     getText: () => Promise<string>,
-    getNextText: () => Promise<string>,
+    getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
     mode?: TTSMode,
     options?: TTSOptions
@@ -37,7 +37,7 @@ export class TTSManager {
 
   async stop(): Promise<void> {
     if (this.player) {
-      return this.player.stop();
+      return this.player.stop(true);
     }
     return Promise.resolve();
   }

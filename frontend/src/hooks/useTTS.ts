@@ -1,4 +1,3 @@
-// src/composables/useTTS.ts
 import { ref, reactive } from 'vue';
 import { ttsManager, TTSMode, TTSOptions } from 'src/api/service/tts';
 
@@ -15,7 +14,7 @@ export function useTTS() {
 
   const initialize = async (
     getText: () => Promise<string>,
-    getNextText: () => Promise<string>,
+    getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
     mode?: TTSMode,
     customOptions?: TTSOptions
@@ -78,14 +77,14 @@ export function useTTS() {
     }
   };
 
-  const ttsState = {
+  const ttsState = ref({
     isPlaying,
     isPaused,
     currentMode,
     options,
-  }
+  })
 
-  const ttsMethod = {
+  const ttsPlayer = {
     initialize,
     speak,
     play,
@@ -100,12 +99,8 @@ export function useTTS() {
     setOptions: ttsManager.setOptions.bind(ttsManager),
   }
 
-  const ttsPlayer = {
-    ...ttsState,
-    ...ttsMethod
-  }
-
   return {
+    ttsState,
     ttsPlayer
   };
 }

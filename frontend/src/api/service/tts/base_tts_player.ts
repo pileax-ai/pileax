@@ -24,7 +24,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   public state: 'idle' | 'playing' | 'paused' | 'stopped' = 'idle';
 
   protected getText!: () => Promise<string>;
-  protected getNextText!: () => Promise<string>;
+  protected getNextText!: (move: boolean) => Promise<string>;
   protected getPrevText!: () => Promise<string>;
 
   private events: Partial<{
@@ -38,7 +38,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
 
   async init(
     getText: () => Promise<string>,
-    getNextText: () => Promise<string>,
+    getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>
   ): Promise<void> {
     this.getText = getText;
@@ -81,21 +81,20 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
       try {
         this.emit('start', current);
         await this.speak(current);
-        console.log('play', current, this.continuous)
         this.emit('end', current);
 
-        const next = await this.getNextText();
+        const next = await this.getNextText(true);
         if (!next) {
           this.continuous = false;
           break;
         }
         current = next;
-        console.log('next', next, this.continuous)
       } catch (err) {
-        console.error(err)
+        console.log('hOHOHOHOOOH')
+        // console.error(err)
         this.state = 'idle';
-        this.emit('error', err);
-        throw err;
+        // this.emit('error', err);
+        // throw err;
       }
     }
   }
@@ -117,7 +116,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
 
   async next(): Promise<void> {
     await this.stop();
-    const text = await this.getNextText();
+    const text = await this.getNextText(true);
     await this.speak(text);
   }
 
