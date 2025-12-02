@@ -1,7 +1,7 @@
 import { TTSOptions } from 'src/api/service/tts'
 import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
-import { edgeService } from 'src/api/service/remote/edge'
 import { sleep } from 'core/utils/misc'
+import { generateTextId, getEdgeTTSAudio } from 'src/api/service/tts/utils/tts_util'
 
 /**
  * TTS Player
@@ -18,23 +18,37 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
 
   constructor(options: TTSOptions) {
     super(options);
+    this.preloadEnabled = true;
     this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   }
 
   async preload(text: string): Promise<void> {
-    const audioData = await this.fetchAudio(text);
-    const audioBuffer = await this.audioContext.decodeAudioData(audioData);
-    this.preloadQueue.set(text, audioBuffer);
+    console.log('preload', text)
+    try {
+      const id = generateTextId(text);
+      const audioData = await getEdgeTTSAudio(text);
+      const audioBuffer = await this.audioContext.decodeAudioData(audioData);
+      this.preloadQueue.set(id, audioBuffer);
+    } catch (err) {
+      console.debug('preload err')
+    }
   }
 
   async speak(text: string): Promise<void> {
     await this.stop(false);
-
     this.audioBuffer = null;
-    const audioData = await this.fetchAudio(text);
-    this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
+
+    const id = generateTextId(text);
+    if (this.preloadQueue.has(id)) {
+      this.audioBuffer = this.preloadQueue.get(id);
+    } else {
+      const audioData = await this.fetchAudio(text);
+      this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
+    }
 
     await this.playBuffer(0);
+    this.preloadQueue.delete(id);
+
     return Promise.resolve();
   }
 
@@ -44,13 +58,7 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
     }
 
     this.currentController = new AbortController();
-    const body = {
-      text: text.replace(/<[^>]+>/g, ""),
-      voice: 'zh-CN-XiaoxiaoNeural',
-      rate: '+0%'
-    };
-    const res = await edgeService.tts(body, 'arraybuffer', this.currentController);
-    return res.data;
+    return getEdgeTTSAudio(text, this.currentController);
   }
 
   async playBuffer(startOffset: number = 0): Promise<void> {

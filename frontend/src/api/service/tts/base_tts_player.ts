@@ -128,8 +128,8 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   }
 
   private async preloadNext() {
-    // const nextText = await this.getNextText(false);
-    // this.preload(nextText);
+    const nextText = await this.getNextText(false);
+    this.preload(nextText);
   }
 
   stopContinuous() {
@@ -138,7 +138,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
 
   abstract speak(text: string): Promise<void>;
   abstract preload(text: string): Promise<void>;
-  abstract stop(): Promise<void>;
+  abstract stop(reset = true): Promise<void>;
   abstract pause(): Promise<void>;
   abstract resume(): Promise<void>;
 

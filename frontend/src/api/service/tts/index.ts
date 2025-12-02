@@ -10,14 +10,14 @@ import { ttsManager } from './tts_manager';
 export type TTSMode = 'browser' | 'edge' | 'local';
 
 export type TTSPlayerEvent =
-  | 'start'       // 一段文本开始播放
-  | 'end'         // 一段文本播放结束
-  | 'error'       // 出现错误
-  | 'pause'       // 暂停播放
-  | 'resume'      // 恢复播放
-  | 'stop'        // 手动停止
-  | 'sentence'    // （可选）句子级事件（Browser TTS 可支持）
-  | 'statechange' // 任意 state 改变时触发
+  | 'start'       
+  | 'end'
+  | 'error'
+  | 'pause'
+  | 'resume'
+  | 'stop'
+  | 'sentence'
+  | 'statechange'
 
 export interface TTSOptions {
   lang?: string;
