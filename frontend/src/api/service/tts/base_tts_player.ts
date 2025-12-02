@@ -93,6 +93,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   }
 
   async playContinuous(text: string): Promise<void> {
+    // console.log('playContinuous call')
     this.continuous = true;
     this.state = 'playing';
 
@@ -115,6 +116,8 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
             break;
           }
           current = next;
+        } else {
+          break;
         }
       } catch (err) {
         this.state = 'idle';
@@ -152,6 +155,7 @@ export abstract class BaseTTSPlayer implements TTSPlayer {
   async next(): Promise<void> {
     try {
       await this.stop();
+
       const text = await this.getNextText(true);
       await this.playContinuous(text);
     } catch (err) {

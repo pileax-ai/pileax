@@ -1,6 +1,7 @@
 import { TTSOptions } from 'src/api/service/tts'
 import { BaseTTSPlayer } from 'src/api/service/tts/base_tts_player';
 import { edgeService } from 'src/api/service/remote/edge'
+import { sleep } from 'core/utils/misc'
 
 /**
  * TTS Player
@@ -29,16 +30,12 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
   async speak(text: string): Promise<void> {
     await this.stop(false);
 
-    try {
-      this.audioBuffer = null;
-      const audioData = await this.fetchAudio(text);
-      this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
+    this.audioBuffer = null;
+    const audioData = await this.fetchAudio(text);
+    this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
 
-      await this.playBuffer(0);
-      return Promise.resolve();
-    } catch (err) {
-      return Promise.reject();
-    }
+    await this.playBuffer(0);
+    return Promise.resolve();
   }
 
   private async fetchAudio(text: string): Promise<ArrayBuffer> {
@@ -68,7 +65,7 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
       this.state = 'playing';
 
       this.sourceNode.onended = () => {
-        // this.audioBuffer = null;
+        console.log('onended', this.continuous, new Date().getTime() / 1000)
         this.state = 'idle';
         resolve();
       };
@@ -77,22 +74,28 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
 
   async stop(reset = true): Promise<void> {
     if (reset) {
+      console.log('stop reset', reset, new Date().getTime() / 1000)
       this.stopContinuous()
     }
 
     // 1. Abort request
     if (this.currentController) {
-      this.currentController.abort();
+      await this.currentController.abort();
       this.currentController = null;
     }
 
     // 2. Stop playing
     if (this.sourceNode) {
-      this.sourceNode.stop();
-      this.sourceNode.disconnect();
+      await this.sourceNode.stop();
+      await this.sourceNode.disconnect();
       this.sourceNode = null;
     }
     this.pauseOffset = 0;
+
+    // wait for onended triggered
+    await sleep(10);
+
+    return Promise.resolve();
   }
 
   async pause(): Promise<void> {
@@ -113,13 +116,10 @@ export class EdgeTTSPlayer extends BaseTTSPlayer {
 
   async resume(): Promise<void> {
     if (this.audioBuffer) {
-      console.log('resume: next')
       this.state = 'playing';
       await this.playBuffer(this.pauseOffset);
       this.playNext();
-      console.log('resume: next do')
     } else {
-      console.log('resume: resume')
       this.playResume();
     }
     return Promise.resolve();
