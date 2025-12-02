@@ -22,7 +22,7 @@
         {{ tocItem.label }}
       </section>
       <section class="row col-12 justify-around items-center control">
-        <div>
+        <div class="row action justify-start">
           <q-btn icon="fast_rewind"
                  @click="onPrevChapter"
                  flat round :disable="!previousTocItem">
@@ -30,14 +30,26 @@
               {{ previousTocItem?.label }}
             </o-tooltip>
           </q-btn>
+          <q-btn @click="ttsPlayer.prev()" flat round v-if="ttsState.isPlaying">
+            <q-icon name="play_arrow" class="rotate-180" />
+            <o-tooltip position="bottom">
+              后退
+            </o-tooltip>
+          </q-btn>
         </div>
-        <div>
+        <div class="action">
           <q-btn :icon="playIcon"
                  class="play text-primary"
                  flat round
                  @click="ttsPlayer.togglePlayPause()" />
         </div>
-        <div>
+        <div class="row action justify-end">
+          <q-btn @click="ttsPlayer.next()" flat round v-if="ttsState.isPlaying">
+            <q-icon name="play_arrow" />
+            <o-tooltip position="bottom">
+              前进
+            </o-tooltip>
+          </q-btn>
           <q-btn icon="fast_forward"
                  @click="onNextChapter"
                  flat round :disable="!nextTocItem">
@@ -130,6 +142,9 @@ onUnmounted(() => {
 
   .control {
     padding: 2rem 0;
+    .action {
+      min-width: 84px;
+    }
     .play {
       min-width: 56px;
       min-height: 56px;

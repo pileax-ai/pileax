@@ -158,12 +158,6 @@ const nextPage = () => {
   ebookRender.nextPage();
 }
 
-const ttsStart = () => ebookRender.ttsStart();
-const ttsStop = () => ebookRender.ttsStop();
-const ttsPrepare = () => ebookRender.ttsPrepare();
-const ttsNext = (move = true) => ebookRender.ttsNext(move);
-const ttsPrev = () => ebookRender.ttsPrev();
-
 const setManual = (operation = BookOperation.Manual) => {
   // console.log('operation', operation)
   setOperation(operation);
@@ -364,11 +358,6 @@ export {
   changeStyle,
   search,
   clearSearch,
-  ttsStart,
-  ttsStop,
-  ttsPrepare,
-  ttsNext,
-  ttsPrev,
   setManual,
 
   openBook,
