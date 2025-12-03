@@ -21,7 +21,7 @@
       <section class="col-12 text-bold text-center">
         {{ tocItem.label }}
       </section>
-      <section class="row col-12 justify-around items-center control">
+      <section class="row col-12 justify-between items-center player-control">
         <div class="row action justify-start">
           <q-btn icon="skip_previous"
                  @click="onPrevChapter"
@@ -57,6 +57,24 @@
           </q-btn>
         </div>
       </section>
+
+      <section class="row col-12 justify-between items-center player-settings">
+        <tss-select-btn icon="mdi-account-tie-voice-outline"
+                        label="人声"
+                        anchor="top left"
+                        self="bottom left"
+                        :min-width="playerWidth" />
+        <tss-select-btn icon="mdi-timer-outline"
+                        label="定时关闭"
+                        anchor="top middle"
+                        self="bottom middle"
+                        :min-width="playerWidth" />
+        <tss-select-btn icon="speed"
+                        label="语速"
+                        anchor="top right"
+                        self="bottom right"
+                        :min-width="playerWidth" />
+      </section>
     </q-scroll-area>
   </section>
 </template>
@@ -65,8 +83,9 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
-import { useTTS } from 'src/hooks/useTTS'
+import useTTS from 'src/hooks/useTTS'
 import { ebookRender } from 'src/api/service/ebook'
+import TssSelectBtn from 'components/reader/tts/tss-select-btn.vue'
 const emit = defineEmits(['close']);
 
 const { getCoverUrl } = useApi();
@@ -78,6 +97,7 @@ const {
 } = useBook();
 
 const {
+  tts,
   ttsClient,
   ttsController,
   ttsState,
@@ -91,6 +111,10 @@ const playIcon = computed(() => {
   return ttsState.isPlaying
     ? ttsState.isPaused ? 'play_circle' : 'pause_circle'
     : 'play_circle'
+})
+
+const playerWidth = computed(() => {
+  return `${tts.playerWidth - 30}px`;
 })
 
 const onNextChapter = async () => {
@@ -159,8 +183,8 @@ onUnmounted(() => {
     }
   }
 
-  .control {
-    padding: 2rem 0;
+  .player-control {
+    padding: 2rem 15px;
     .action {
       min-width: 84px;
     }
@@ -171,6 +195,10 @@ onUnmounted(() => {
         font-size: 64px;
       }
     }
+  }
+
+  .player-settings {
+    padding: 0 15px;
   }
 }
 </style>

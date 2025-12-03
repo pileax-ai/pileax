@@ -326,7 +326,7 @@ onBeforeMount(() => {
 
   .side-fixed {
     position: fixed;
-    left: 8px;
+    left: 0;
     right: 0;
     top: 0;
     bottom: 0;

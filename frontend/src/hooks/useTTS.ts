@@ -1,7 +1,10 @@
 import { ref, reactive, computed } from 'vue'
 import { ttsManager, TTSMode, TTSOptions } from 'src/api/service/tts';
+import { useReaderStoreWithOut } from 'stores/reader'
 
-export function useTTS() {
+export default function useTTS() {
+  const store = useReaderStoreWithOut();
+
   const isPlaying = ref(false);
   const isPaused = ref(false);
   const currentMode = ref<TTSMode>('browser');
@@ -80,13 +83,42 @@ export function useTTS() {
     console.log('after toggle', ttsClient.value?.state)
   };
 
-  const ttsClient = computed(() => ttsManager.client)
+  const setProvider = (value: any) => {
+    store.setTTSItem('provider', value);
+  }
+
+  const setRate = (value: any) => {
+    store.setTTSItem('rate', value);
+  }
+
+  const setPitch = (value: any) => {
+    store.setTTSItem('pitch', value);
+  }
+
+  const setVolume = (value: any) => {
+    store.setTTSItem('volume', value);
+  }
+
+  const ttsClient = computed(() => ttsManager.client);
+  const ttsOptions = computed(() => store.tts);
+  const ttsDrawer = computed(() => store.rightDrawer);
+  const ttsPlayerWidth = computed(() => ttsDrawer.value.width);
 
   const ttsState = reactive({
     isPlaying,
     isPaused,
     currentMode,
     options,
+  })
+
+  const tts = reactive({
+    options: ttsOptions,
+    drawer: ttsDrawer,
+    playerWidth: ttsPlayerWidth,
+    setProvider,
+    setRate,
+    setPitch,
+    setVolume
   })
 
   const ttsController = {
@@ -105,6 +137,7 @@ export function useTTS() {
   }
 
   return {
+    tts,
     ttsClient,
     ttsController,
     ttsState,

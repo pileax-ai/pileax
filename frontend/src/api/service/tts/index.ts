@@ -20,13 +20,13 @@ export type TTSClientEvent =
   | 'statechange'
 
 export interface TTSOptions {
+  provider?: 'browser' | 'edge' | 'local';
+  voiceName?: string;
+  voiceGender?: 'male' | 'female';
   lang?: string;
   rate?: number;
   pitch?: number;
   volume?: number;
-  voiceName?: string;
-  voiceGender?: 'male' | 'female';
-  provider?: 'browser' | 'edge' | 'local';
 }
 
 export interface TTSClient {

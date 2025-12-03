@@ -22,7 +22,7 @@
             :class="menuClass"
             @before-show="onBeforeShow"
             @before-hide="menu = false">
-      <div :style="{minWidth: minWidth, maxHeight: maxHeight}">
+      <div :style="{minWidth: minWidthAlt, maxHeight: maxHeight}">
         <q-list no-border link inset-delimiter
                 @mouseenter="enableHover && (listOver = true)"
                 @mouseleave="enableHover && (listOver = false)">
@@ -102,6 +102,7 @@ const emit = defineEmits(['before-show']);
 const menu = ref(false);
 const menuOver = ref(false);
 const listOver = ref(false);
+const minWidthAlt = ref('160px');
 
 const onBeforeShow = () => {
   menu.value = true
@@ -120,12 +121,18 @@ watch(listOver, () => {
   toggleMenu();
 })
 
+watch(() => props.minWidth, (newValue) => {
+  minWidthAlt.value = newValue;
+})
+
 onMounted(() => {
   menu.value = props.defaultOpen;
+  minWidthAlt.value = props.minWidth;
 })
 
 onActivated(() => {
   menu.value = props.defaultOpen;
+  minWidthAlt.value = props.minWidth;
 });
 
 onDeactivated(() => {

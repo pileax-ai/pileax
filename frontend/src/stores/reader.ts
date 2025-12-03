@@ -19,7 +19,15 @@ export const useReaderStore = defineStore('reader', {
       hoverShow: false,
       width: 300,
       split: false,
-      tts: false
+    } as Indexable,
+    tts: {
+      provider: 'browser',
+      voiceName: '',
+      voiceGender: 'female',
+      lang: 'zh-CN',
+      rate: '1.0',
+      pitch: '1.0',
+      volume: '1.0',
     } as Indexable,
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
@@ -53,6 +61,9 @@ export const useReaderStore = defineStore('reader', {
     },
     setRightDrawerItem(kv: KeyValue) {
       this.rightDrawer[kv.key] = kv.value;
+    },
+    setTTSItem(kv: KeyValue) {
+      this.tts[kv.key] = kv.value;
     },
     setQueryTimer(time: number) {
       this.queryTimer = time;
