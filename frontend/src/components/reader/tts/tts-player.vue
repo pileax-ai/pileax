@@ -151,8 +151,8 @@ onMounted(async () => {
       ebookRender.ttsResume,
       ebookRender.ttsNext,
       ebookRender.ttsPrev,
-      'browser', {
-        ...ttsState.options,
+      {
+        ...tts.options,
         lang: 'zh-CN'
       }
     )

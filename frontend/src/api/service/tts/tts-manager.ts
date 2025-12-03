@@ -3,7 +3,6 @@ import { createTTSClient, TTSMode, TTSOptions, TTSClient } from './index';
 export class TTSManager {
   public client: TTSClient | null = null;
 
-  private mode: TTSMode = 'browser';
   private options: TTSOptions = {};
   private isInitialized = false;
 
@@ -16,13 +15,11 @@ export class TTSManager {
     getResumeText: () => Promise<string>,
     getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
-    mode?: TTSMode,
     options?: TTSOptions
   ): Promise<void> {
-    if (mode) this.mode = mode;
     if (options) this.options = { ...this.options, ...options };
 
-    this.client = createTTSClient(this.mode, this.options);
+    this.client = createTTSClient(this.options);
     await this.client.init(getText, getResumeText, getNextText, getPrevText);
     this.isInitialized = true;
   }

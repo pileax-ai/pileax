@@ -7,7 +7,6 @@ import { ttsManager } from './tts-manager';
  *
  * @version 1.0
  */
-export type TTSMode = 'browser' | 'edge' | 'local';
 
 export type TTSClientEvent =
   | 'start'
@@ -58,14 +57,14 @@ export interface TTSClient {
 }
 
 
-export function createTTSClient(mode: TTSMode, options: TTSOptions): TTSClient {
-  switch (mode) {
+export function createTTSClient(options: TTSOptions): TTSClient {
+  switch (options.provider) {
     case 'browser':
       return new BrowserTTSClient(options);
     case 'edge':
       return new EdgeTTSClient(options);
     default:
-      throw new Error(`Unsupported TTS mode: ${mode as string}`);
+      throw new Error(`Unsupported TTS provider: ${options.provider}`);
   }
 }
 

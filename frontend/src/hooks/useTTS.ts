@@ -7,7 +7,6 @@ export default function useTTS() {
 
   const isPlaying = ref(false);
   const isPaused = ref(false);
-  const currentMode = ref<TTSMode>('browser');
   const options = reactive<TTSOptions>({
     lang: 'zh-CN',
     rate: 1.0,
@@ -20,10 +19,8 @@ export default function useTTS() {
     getResumeText: () => Promise<string>,
     getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
-    mode?: TTSMode,
     customOptions?: TTSOptions
   ) => {
-    if (mode) currentMode.value = mode;
     if (customOptions) Object.assign(options, customOptions);
 
     await ttsManager.initialize(
@@ -31,7 +28,6 @@ export default function useTTS() {
       getResumeText,
       getNextText,
       getPrevText,
-      currentMode.value,
       options
     );
   };
@@ -107,7 +103,6 @@ export default function useTTS() {
   const ttsState = reactive({
     isPlaying,
     isPaused,
-    currentMode,
     options,
   })
 
