@@ -83,7 +83,8 @@ export class EdgeTTSClient extends BaseTTSClient {
   async stop(reset = true): Promise<void> {
     if (reset) {
       console.log('stop reset', reset, new Date().getTime() / 1000)
-      this.stopContinuous()
+      this.stopContinuous();
+      this.state = 'stopped';
     }
 
     // 1. Abort request
@@ -108,6 +109,7 @@ export class EdgeTTSClient extends BaseTTSClient {
 
   async pause(): Promise<void> {
     this.stopContinuous();
+    this.state = 'paused';
 
     // 1. Abort request
     if (this.currentController) {
@@ -124,12 +126,12 @@ export class EdgeTTSClient extends BaseTTSClient {
 
   async resume(): Promise<void> {
     if (this.audioBuffer) {
-      this.state = 'playing';
       await this.playBuffer(this.pauseOffset);
       this.playNext();
     } else {
       this.playResume();
     }
+    this.state = 'playing';
     return Promise.resolve();
   }
 }

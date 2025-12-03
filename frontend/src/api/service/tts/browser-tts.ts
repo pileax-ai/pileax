@@ -59,9 +59,9 @@ export class BrowserTTSClient extends BaseTTSClient {
 
   async stop(reset = true): Promise<void> {
     if (reset) {
-      this.stopContinuous()
+      this.stopContinuous();
+      this.state = 'stopped';
     }
-    this.state = 'stopped';
     if (this.synthesis.speaking) {
       this.synthesis.cancel();
     }

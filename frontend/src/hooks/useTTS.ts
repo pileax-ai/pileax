@@ -33,6 +33,15 @@ export function useTTS() {
     );
   };
 
+  const reload = () => {
+    if (ttsClient.value.state === 'playing') {
+      isPlaying.value = true;
+    } else if (ttsClient.value.state === 'paused' || ttsClient.value.state === 'idle') {
+      isPlaying.value = true;
+      isPaused.value = true;
+    }
+  }
+
   const play = async () => {
     isPlaying.value = true;
     isPaused.value = false;
@@ -59,18 +68,16 @@ export function useTTS() {
   const togglePlayPause = async () => {
     try {
       if (isPlaying.value && !isPaused.value) {
-        console.log('toggle: pause')
         await pause();
       } else if (isPlaying.value && isPaused.value) {
-        console.log('toggle: resume')
         await resume();
       } else {
-        console.log('toggle: play')
         await play();
       }
     } catch (err) {
       console.debug('togglePlayPause err')
     }
+    console.log('after toggle', ttsClient.value?.state)
   };
 
   const ttsClient = computed(() => ttsManager.client)
@@ -84,6 +91,7 @@ export function useTTS() {
 
   const ttsController = {
     initialize,
+    reload,
     play,
     stop,
     pause,

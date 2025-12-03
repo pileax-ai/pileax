@@ -119,24 +119,29 @@ const onStart = (text: string) => {
 }
 
 onMounted(async () => {
-  await ttsController.initialize(
-    ebookRender.ttsStart,
-    ebookRender.ttsResume,
-    ebookRender.ttsNext,
-    ebookRender.ttsPrev,
-    'edge', {
-      ...ttsState.options,
-      lang: 'zh-CN'
-    }
-  )
+  if (ttsClient.value) {
+    ttsController.reload();
+  } else {
+    await ttsController.initialize(
+      ebookRender.ttsStart,
+      ebookRender.ttsResume,
+      ebookRender.ttsNext,
+      ebookRender.ttsPrev,
+      'browser', {
+        ...ttsState.options,
+        lang: 'zh-CN'
+      }
+    )
+  }
 
+  // events
   ttsClient.value?.on('start', onStart);
   window.addEventListener("pagehide", ttsController.stop);
 })
 
 onUnmounted(() => {
   ttsClient.value?.off('start', onStart);
-  window.addEventListener("pagehide", ttsController.stop)
+  window.removeEventListener("pagehide", ttsController.stop)
 })
 </script>
 
