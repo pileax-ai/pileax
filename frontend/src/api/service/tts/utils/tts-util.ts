@@ -4,7 +4,7 @@ import { SHA1 } from 'core/utils/crypto';
 const requestQueue = new Map<string, AbortController>();
 
 
-export const normalizeText = (text: string) => {
+export const getPlainText = (text: string) => {
   return text.replace(/<[^>]+>/g, "");
 }
 
@@ -24,7 +24,7 @@ export const getEdgeTTSAudio = async (text: string, controller?: AbortController
   }
 
   const body = {
-    text: text.replace(/<[^>]+>/g, ""),
+    text: getPlainText(text),
     voice: 'zh-CN-XiaoyiNeural',
     rate: '+0%'
   };

@@ -62,6 +62,7 @@
     "vue-i18n": "^11.2.2",
     "vue-router": "^4.0.12",
     "vue3-count-to": "^1.1.2",
+    "vue3-marquee": "^4.2.2",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {

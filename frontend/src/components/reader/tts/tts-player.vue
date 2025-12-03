@@ -82,18 +82,31 @@
           <o-tooltip position="bottom">语速</o-tooltip>
         </tss-rate-btn>
       </section>
+      <section class="marquee">
+        <vue3-marquee :duration="marqueeDuration"
+                      gradient
+                      pause-on-hover
+                      animate-on-overflow-only>
+          <span>{{ speakingText }}</span>
+        </vue3-marquee>
+      </section>
     </q-scroll-area>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { Vue3Marquee } from 'vue3-marquee';
+import TssProviderBtn from './options/tss-provider-btn.vue';
+import TssRateBtn from './options/tss-rate-btn.vue';
+
 import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
-import useTTS from 'src/hooks/useTTS'
-import { ebookRender } from 'src/api/service/ebook'
-import TssProviderBtn from './options/tss-provider-btn.vue'
-import TssRateBtn from './options/tss-rate-btn.vue'
+import useTTS from 'src/hooks/useTTS';
+import { ebookRender } from 'src/api/service/ebook';
+import { getPlainText } from 'src/api/service/tts/utils/tts-util'
+import { ssmlUtils } from 'src/api/service/tts/utils/ssml-util'
+
 const emit = defineEmits(['close']);
 
 const { getCoverUrl } = useApi();
@@ -111,6 +124,8 @@ const {
   ttsState,
 } = useTTS()
 
+const speakingText = ref('')
+const marqueeDuration = ref(20)
 const coverUrl = computed(() => {
   return getCoverUrl(book.value);
 })
@@ -145,13 +160,13 @@ const onPrevChapter = async () => {
   }
 }
 
-const onStart = (text: string) => {
-  // todo: show playing text
-  // console.log('start', text)
+const onStart = (ssml: string) => {
+  const data = ssmlUtils.parseSSML(ssml);
+  speakingText.value = data.text;
+  marqueeDuration.value = data.duration;
 }
 
 const onTTSProviderChanged = async (item: Indexable) => {
-  console.log('provide', item)
   if (ttsState.isPlaying) {
     await ttsController.pause();
   }
@@ -250,6 +265,10 @@ onUnmounted(() => {
         }
       }
     }
+  }
+
+  .marquee {
+    padding: 20px 24px;
   }
 }
 </style>
