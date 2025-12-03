@@ -28,7 +28,6 @@ export class TTSManager {
     // initialize
     if (options) this.options = { ...this.options, ...options };
     this.client = createTTSClient(this.options);
-    console.log('client', this.client)
     await this.client.init(getText, getResumeText, getNextText, getPrevText);
     this.isInitialized = true;
   }
@@ -76,19 +75,13 @@ export class TTSManager {
     return this.client!.restart();
   }
 
-  setMode(mode: TTSMode): void {
-    this.mode = mode;
-    this.isInitialized = false;
-  }
 
-  setOptions(options: TTSOptions): void {
+  async setOptions(options: TTSOptions): Promise<TTSOptions> {
     this.options = { ...this.options, ...options };
-    this.isInitialized = false;
+    this.options = await this.client!.updateOptions(options);
+    return this.options;
   }
 
-  getMode(): TTSMode {
-    return this.mode;
-  }
 
   getOptions(): TTSOptions {
     return { ...this.options };

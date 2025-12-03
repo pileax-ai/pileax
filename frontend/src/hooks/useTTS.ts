@@ -1,6 +1,7 @@
 import { ref, reactive, computed } from 'vue'
 import { ttsManager, TTSMode, TTSOptions } from 'src/api/service/tts';
 import { useReaderStoreWithOut } from 'stores/reader'
+import { debounce } from 'quasar'
 
 export default function useTTS() {
   const store = useReaderStoreWithOut();
@@ -66,6 +67,10 @@ export default function useTTS() {
     await ttsManager.resume();
   };
 
+  const updateOption = debounce(() => {
+    ttsManager.setOptions(ttsOptions.value);
+  }, 1000)
+
   const togglePlayPause = async () => {
     try {
       if (isPlaying.value && !isPaused.value) {
@@ -83,11 +88,11 @@ export default function useTTS() {
 
   const setProvider = (value: any) => {
     store.setTTSItem('provider', value);
-
   }
 
   const setRate = (value: any) => {
     store.setTTSItem('rate', value);
+    updateOption();
   }
 
   const setPitch = (value: any) => {
@@ -130,7 +135,6 @@ export default function useTTS() {
     prev: ttsManager.prev.bind(ttsManager),
     next: ttsManager.next.bind(ttsManager),
     restart: ttsManager.restart.bind(ttsManager),
-    setMode: ttsManager.setMode.bind(ttsManager),
     setOptions: ttsManager.setOptions.bind(ttsManager),
   }
 

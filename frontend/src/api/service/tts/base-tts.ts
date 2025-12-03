@@ -142,6 +142,7 @@ export abstract class BaseTTSClient implements TTSClient {
   abstract stop(reset = true): Promise<void>;
   abstract pause(): Promise<void>;
   abstract resume(): Promise<void>;
+  abstract updateOptions(options: TTSOptions): Promise<TTSOptions>;
   abstract dispose(): Promise<void>;
 
   async prev(): Promise<void> {

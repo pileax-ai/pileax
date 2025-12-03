@@ -85,6 +85,17 @@ export class BrowserTTSClient extends BaseTTSClient {
     return Promise.resolve();
   }
 
+  async updateOptions(options: TTSOptions): Promise<TTSOptions> {
+    this.options = {
+      ...this.options,
+      ...options
+    }
+    await this.applyOptions();
+    this.playNext();
+
+    return this.options;
+  }
+
   async dispose(): Promise<void> {
     this.state = 'disposed';
     await this.synthesis.cancel();
@@ -131,5 +142,16 @@ export class BrowserTTSClient extends BaseTTSClient {
     if (voice) u.voice = voice;
 
     return u;
+  }
+
+  private async applyOptions() {
+    if (this.synthesis.speaking && this.utterance) {
+      await this.synthesis.cancel();
+      const currentText = this.utterance?.text;
+      if (currentText) {
+        await this.speak(currentText);
+      }
+    }
+    return Promise.resolve();
   }
 }

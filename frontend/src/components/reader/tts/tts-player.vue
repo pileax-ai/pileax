@@ -196,15 +196,19 @@ onUnmounted(() => {
 
 <style lang="scss">
 .tts-player {
-  .cover {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    padding: 1rem 0;
-
-    img {
+  .q-responsive {
+    min-height: 320px;
+    max-height: 50vh;
+    .cover {
+      width: 100%;
       height: 100%;
-      border-radius: 4px;
+      text-align: center;
+      padding: 1rem 0;
+
+      img {
+        height: 100%;
+        border-radius: 4px;
+      }
     }
   }
 
@@ -224,6 +228,28 @@ onUnmounted(() => {
 
   .player-settings {
     padding: 0 15px;
+
+    .q-btn {
+      padding: 4px 14px !important;
+      &:first-of-type {
+        .q-btn__content {
+          align-items: start!important;
+
+          .label {
+            margin: 0!important;
+          }
+        }
+      }
+    }
+    &:last-of-type {
+      .q-btn__content {
+        align-items: end!important;
+
+        .label {
+          margin: 0!important;
+        }
+      }
+    }
   }
 }
 </style>
