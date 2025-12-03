@@ -15,11 +15,20 @@ export class TTSManager {
     getResumeText: () => Promise<string>,
     getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
-    options?: TTSOptions
+    options?: TTSOptions,
+    reset?: boolean
   ): Promise<void> {
-    if (options) this.options = { ...this.options, ...options };
+    // reset
+    if (reset && this.client) {
+      await this.client.dispose();
+      this.client = null;
+      this.isInitialized = false;
+    }
 
+    // initialize
+    if (options) this.options = { ...this.options, ...options };
     this.client = createTTSClient(this.options);
+    console.log('client', this.client)
     await this.client.init(getText, getResumeText, getNextText, getPrevText);
     this.isInitialized = true;
   }

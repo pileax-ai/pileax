@@ -62,14 +62,15 @@ export const useReaderStore = defineStore('reader', {
     setRightDrawerItem(kv: KeyValue) {
       this.rightDrawer[kv.key] = kv.value;
     },
-    setTTSItem(kv: KeyValue) {
-      this.tts[kv.key] = kv.value;
-    },
     setQueryTimer(time: number) {
       this.queryTimer = time;
     },
     setSettingItem(key: string, value: any) {
       this.settings[key] = value;
+    },
+    setTTSItem(key: string, value: any) {
+      console.log('setTTSItem', key, value)
+      this.tts[key] = value;
     },
   },
   persist: {

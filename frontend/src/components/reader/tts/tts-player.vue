@@ -59,21 +59,28 @@
       </section>
 
       <section class="row col-12 justify-between items-center player-settings">
-        <tss-select-btn icon="mdi-account-tie-voice-outline"
-                        label="人声"
-                        anchor="top left"
-                        self="bottom left"
-                        :min-width="playerWidth" />
-        <tss-select-btn icon="mdi-timer-outline"
-                        label="定时关闭"
-                        anchor="top middle"
-                        self="bottom middle"
-                        :min-width="playerWidth" />
-        <tss-select-btn icon="speed"
-                        label="语速"
-                        anchor="top right"
-                        self="bottom right"
-                        :min-width="playerWidth" />
+        <tss-provider-btn icon="mdi-account-tie-voice-outline"
+                          label="TTS"
+                          anchor="top left"
+                          self="bottom left"
+                          :min-width="playerWidth"
+                          @select="onTTSProviderChanged">
+          <o-tooltip position="bottom">TTS</o-tooltip>
+        </tss-provider-btn>
+        <tss-provider-btn icon="mdi-timer-outline"
+                          label="定时关闭"
+                          anchor="top middle"
+                          self="bottom middle"
+                          :min-width="playerWidth" v-if="false">
+          <o-tooltip position="bottom">定时关闭</o-tooltip>
+        </tss-provider-btn>
+        <tss-rate-btn icon="speed"
+                      label="语速"
+                      anchor="top right"
+                      self="bottom right"
+                      :min-width="playerWidth">
+          <o-tooltip position="bottom">语速</o-tooltip>
+        </tss-rate-btn>
       </section>
     </q-scroll-area>
   </section>
@@ -85,7 +92,8 @@ import useBook from 'src/hooks/useBook';
 import useApi from 'src/hooks/useApi';
 import useTTS from 'src/hooks/useTTS'
 import { ebookRender } from 'src/api/service/ebook'
-import TssSelectBtn from 'components/reader/tts/tss-select-btn.vue'
+import TssProviderBtn from './options/tss-provider-btn.vue'
+import TssRateBtn from './options/tss-rate-btn.vue'
 const emit = defineEmits(['close']);
 
 const { getCoverUrl } = useApi();
@@ -142,6 +150,26 @@ const onStart = (text: string) => {
   // console.log('start', text)
 }
 
+const onTTSProviderChanged = async (item: Indexable) => {
+  console.log('provide', item)
+  if (ttsState.isPlaying) {
+    await ttsController.pause();
+  }
+
+  await ttsController.initialize(
+    ebookRender.ttsStart,
+    ebookRender.ttsResume,
+    ebookRender.ttsNext,
+    ebookRender.ttsPrev,
+    tts.options,
+    true
+  );
+
+  if (ttsState.isPaused) {
+    await ttsController.resume();
+  }
+}
+
 onMounted(async () => {
   if (ttsClient.value) {
     ttsController.reload();
@@ -151,10 +179,7 @@ onMounted(async () => {
       ebookRender.ttsResume,
       ebookRender.ttsNext,
       ebookRender.ttsPrev,
-      {
-        ...tts.options,
-        lang: 'zh-CN'
-      }
+      tts.options
     )
   }
 

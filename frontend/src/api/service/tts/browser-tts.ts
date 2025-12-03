@@ -76,7 +76,19 @@ export class BrowserTTSClient extends BaseTTSClient {
 
   async resume(): Promise<void> {
     this.state = 'playing';
-    this.synthesis.resume();
+
+    if (!this.synthesis.speaking && !this.synthesis.pending) {
+      this.playResume();
+    } else {
+      await this.synthesis.resume();
+    }
+    return Promise.resolve();
+  }
+
+  async dispose(): Promise<void> {
+    this.state = 'disposed';
+    await this.synthesis.cancel();
+    this.utterance = null;
     return Promise.resolve();
   }
 

@@ -134,4 +134,12 @@ export class EdgeTTSClient extends BaseTTSClient {
     this.state = 'playing';
     return Promise.resolve();
   }
+
+  async dispose(): Promise<void> {
+    this.state = 'disposed';
+    this.audioContext = null;
+    this.audioBuffer = null;
+    this.sourceNode = null;
+    return Promise.resolve();
+  }
 }

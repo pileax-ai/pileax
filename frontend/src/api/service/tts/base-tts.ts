@@ -84,6 +84,7 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async playResume(): Promise<void> {
     const text = await this.getResumeText();
+    console.log('playResume', text)
     await this.playContinuous(text);
   }
 
@@ -141,6 +142,7 @@ export abstract class BaseTTSClient implements TTSClient {
   abstract stop(reset = true): Promise<void>;
   abstract pause(): Promise<void>;
   abstract resume(): Promise<void>;
+  abstract dispose(): Promise<void>;
 
   async prev(): Promise<void> {
     try {

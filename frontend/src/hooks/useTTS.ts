@@ -19,7 +19,8 @@ export default function useTTS() {
     getResumeText: () => Promise<string>,
     getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>,
-    customOptions?: TTSOptions
+    customOptions?: TTSOptions,
+    reset = false
   ) => {
     if (customOptions) Object.assign(options, customOptions);
 
@@ -28,7 +29,8 @@ export default function useTTS() {
       getResumeText,
       getNextText,
       getPrevText,
-      options
+      options,
+      reset
     );
   };
 
@@ -81,6 +83,7 @@ export default function useTTS() {
 
   const setProvider = (value: any) => {
     store.setTTSItem('provider', value);
+
   }
 
   const setRate = (value: any) => {

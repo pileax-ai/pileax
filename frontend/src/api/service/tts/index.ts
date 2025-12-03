@@ -48,12 +48,13 @@ export interface TTSClient {
   prev(): Promise<void>;
   next(): Promise<void>;
   restart(): Promise<void>;
+  dispose(): Promise<void>;
 
   // events
   on(event: TTSClientEvent, handler: (...args: any[]) => void): void;
   off(event: TTSClientEvent, handler: (...args: any[]) => void): void;
 
-  state: 'idle' | 'playing' | 'paused' | 'stopped';
+  state: 'idle' | 'playing' | 'paused' | 'stopped' | 'disposed';
 }
 
 
