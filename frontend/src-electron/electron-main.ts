@@ -6,11 +6,12 @@ import os from 'os';
 import * as remoteMain from '@electron/remote/main/index.js';
 import { Application } from './app/application';
 import { startServer, stopServer } from './server/fastapi';
+import { WindowManager } from './app/window-manager'
 
 remoteMain.initialize();
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const platform = process.platform || os.platform();
-let mainWindow: BrowserWindow | undefined;
+let mainWindow = WindowManager.getMainWindow();
 
 /**
  * Main window
@@ -67,7 +68,6 @@ const createWindow = async () => {
     mainWindow = undefined;
   });
 }
-
 
 app.whenReady().then(async () => {
   await startServer();

@@ -13,13 +13,7 @@ import { pathManager } from './path-manager';
 import { logManager } from './log-manager';
 import { TrayManager } from './tray-manager';
 import { serverInfo } from '../server/fastapi';
-import {
-  openNewWindow,
-  closeWindow,
-  maximizeWindow,
-  minimizeWindow,
-  isWindowMaximized
-} from './window';
+import { WindowManager, windowManager } from './window-manager';
 
 let trayManager: TrayManager
 
@@ -68,23 +62,23 @@ export class Application {
 
     ipcMain.handle('open-new-window',
       (event, id: string, url: string, titleBarHeight = 40) => {
-      openNewWindow(id, url, titleBarHeight);
+        windowManager.openNewWindow(id, url, titleBarHeight);
     });
 
     ipcMain.handle('window-close', () => {
-      closeWindow();
+      WindowManager.closeWindow();
     });
 
     ipcMain.handle('window-minimize', () => {
-      minimizeWindow();
+      WindowManager.minimizeWindow();
     });
 
     ipcMain.handle('window-maximize', () => {
-      maximizeWindow();
+      WindowManager.maximizeWindow();
     });
 
     ipcMain.handle('window-is-maximized', () => {
-      return isWindowMaximized();
+      return WindowManager.isWindowMaximized();
     });
 
     ipcMain.handle('read-file',
