@@ -36,6 +36,7 @@ class TokenPayload(SQLModel):
 class UserSimple(BaseModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     name: str | None = None
+    email: str | None = None
     avatar: str | None = None
     bio: str | None = None
 

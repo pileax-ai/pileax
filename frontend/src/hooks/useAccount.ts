@@ -14,6 +14,14 @@ export default function () {
     return accountStore.account.id !== undefined;
   });
 
+  // workspace
+  const workspace = computed(() => {
+    return accountStore.workspace;
+  });
+  const workspaces = computed(() => {
+    return accountStore.workspaces;
+  });
+
   const initWorkspace = async () => {
     if (isLogin.value) {
       await accountStore.getWorkspaces()
@@ -40,6 +48,8 @@ export default function () {
     accountStore,
     account,
     isLogin,
+    workspace,
+    workspaces,
 
     logout,
     setAccount,

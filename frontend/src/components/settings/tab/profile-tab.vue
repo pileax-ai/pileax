@@ -22,10 +22,32 @@
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card title="安全" small header class="text-readable">
+    <o-common-card icon="o_security" title="安全" small header padding>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item icon="vpn_key" label="Passkeys" />
+          <o-common-item label="Email" :sublabel="account.email" />
+          <o-common-item label="Password" sublabel="Change your login password.">
+            <div>
+              <q-btn label="修改密码" class="bg-accent text-tips" flat />
+            </div>
+          </o-common-item>
+          <o-common-item label="Passkeys" sublabel="Securely sign-in on-device biometric authentication.">
+            <div>
+              <q-btn label="Add passkey" class="bg-accent text-tips" flat />
+            </div>
+          </o-common-item>
+        </q-list>
+      </section>
+    </o-common-card>
+    <o-common-card icon="o_assignment_ind" title="User ID" small header padding>
+      <section class="col-12">
+        <q-list no-border link>
+          <o-common-item label="UserID">
+            <div class="row items-center text-readable">
+              <span class="q-mr-sm">{{account.id}}</span>
+              <o-copy-btn :value="account.id" flat dense />
+            </div>
+          </o-common-item>
         </q-list>
       </section>
     </o-common-card>
@@ -57,6 +79,7 @@ onMounted(() => {
 <style lang="scss">
 .profile-tab {
   .profile {
+    padding: 8px 0;
     .q-field {
       max-width: 320px;
     }

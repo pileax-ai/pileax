@@ -80,6 +80,8 @@ import AppearanceTab from 'src/components/settings/tab/appearance-tab.vue';
 import GeneralTab from 'src/components/settings/tab/general-tab.vue';
 import ProfileTab from 'src/components/settings/tab/profile-tab.vue';
 import ReadingTab from 'src/components/settings/tab/reading-tab.vue';
+import WorkspaceTab from 'src/components/settings/tab/workspace-tab.vue';
+import WorkspaceMemberTab from 'src/components/settings/tab/workspace-member-tab.vue';
 
 const props = defineProps({
   show: {
@@ -113,19 +115,24 @@ const style = computed(() => {
       height: '90vh',
       maxHeight: '90vh',
       width: '90vw',
-      maxWidth: '90vw',
+      maxWidth: '1555px',
     }
 })
 
 const tabs = computed(() => {
   return [
-    { label: '个人资料', value: 'profile', icon: 'person', group: '账户', component: ProfileTab },
-    { label: '通用', value: 'general', icon: 'settings', group: '设置', component: GeneralTab },
-    { label: '外观', value: 'appearance', icon: 'palette', component: AppearanceTab },
-    { label: '阅读', value: 'reading', icon: 'chrome_reader_mode', component: ReadingTab },
-    { label: 'AI模型提供商', value: 'ai', icon: 'mdi-creation', group: 'AI', component: AiTab },
-    { label: t('about'), value: 'about', icon: 'info', group: t('about'), component: AboutTab },
-    { label: '隐私政策', value: 'about', icon: 'policy', component: AboutTab },
+    { label: '个人资料', value: 'profile', icon: 'o_person', group: '账户', component: ProfileTab },
+    { label: '通用', value: 'general', icon: 'o_settings', component: GeneralTab },
+    { label: '外观', value: 'appearance', icon: 'o_palette', component: AppearanceTab },
+    { label: '阅读', value: 'reading', icon: 'o_chrome_reader_mode', component: ReadingTab },
+    { label: '空间', value: 'workspace', icon: 'o_workspaces', group: '空间', component: WorkspaceTab },
+    { label: '成员', value: 'workspace-member', icon: 'o_groups', component: WorkspaceMemberTab },
+    { label: 'AI模型提供商', value: 'ai', icon: 'mdi-creation-outline', component: AiTab },
+    { label: '操作日志', value: 'about', icon: 'o_article', group: t('system'), component: AboutTab },
+    { label: '服务日志', value: 'about', icon: 'o_view_headline', component: AboutTab },
+    { label: t('about'), value: 'about', icon: 'o_info', group: t('help'), component: AboutTab },
+    { label: '快捷键', value: 'shortcut', icon: 'o_keyboard', component: AboutTab },
+    { label: '隐私政策', value: 'about', icon: 'o_policy', component: AboutTab },
   ];
 });
 
@@ -210,7 +217,7 @@ onMounted(() => {
     min-height: 52px;
 
     .q-toolbar__title {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       padding-left: 16px;
     }
 

@@ -1,6 +1,6 @@
 <template>
   <setting-card title="显示" class="appearance-tab">
-    <o-common-card :title="$t('settings')" small>
+    <o-common-card :title="$t('theme')" small header padding>
       <section class="col-12">
         <q-list no-border link>
           <!-- Theme -->
@@ -19,9 +19,12 @@
               <q-toggle v-model="themeGray" @update:model-value="setThemeGray" />
             </o-common-item>
           </section>
-
-          <!-- Navi -->
-          <q-separator class="bg-accent q-my-md" />
+        </q-list>
+      </section>
+    </o-common-card>
+    <o-common-card title="布局" small header>
+      <section class="col-12">
+        <q-list no-border link>
           <o-common-item label="导航"
                          sublabel="页面导航布局">
             <navi-select class="row items-center" item-class="q-ml-md" />
