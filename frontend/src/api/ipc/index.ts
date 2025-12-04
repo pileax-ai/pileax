@@ -8,6 +8,10 @@ export type IpcApi = {
   getPath: (key: string) => Promise<string>;
   getServerInfo: () => Promise<Indexable>;
   isWindowMaximized: () => Promise<boolean>;
+  logInit: (maxLines?: number) => Promise<string>;
+  logStart: (maxLines?: number) => Promise<void>;
+  logStop: () => Promise<void>;
+  onLogUpdate: (callback: (data: string) => void) => void;
   maximizeWindow: () => Promise<any>;
   migrateLibrary: (options: any) => Promise<any>;
   minimizeWindow: () => Promise<any>;
@@ -25,6 +29,10 @@ export const ipcServiceKeys = [
   'getPath',
   'getServerInfo',
   'isWindowMaximized',
+  'logInit',
+  'logStart',
+  'logStop',
+  'onLogUpdate',
   'maximizeWindow',
   'migrateLibrary',
   'minimizeWindow',

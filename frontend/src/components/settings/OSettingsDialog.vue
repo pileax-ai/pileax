@@ -52,7 +52,7 @@
           </q-header>
           <q-page-container>
             <q-page class="bg-secondary">
-              <q-scroll-area class="o-scroll-wrapper">
+              <q-scroll-area ref="scrollRef" class="o-scroll-wrapper">
                 <q-tab-panels v-model="currentTab" class="fit col-12" vertical keep-alive>
                   <template v-for="(item, index) of tabs" :key="index">
                     <q-tab-panel :name="item.value">
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
+import { computed, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
 import useDialog from 'core/hooks/useDialog';
 import useCommon from 'core/hooks/useCommon';
 
@@ -85,6 +85,10 @@ import ShortcutTab from './tab/shortcut-tab.vue';
 import UserLogTab from './tab/user-log-tab.vue';
 import WorkspaceTab from './tab/workspace-tab.vue';
 import WorkspaceMemberTab from './tab/workspace-member-tab.vue';
+import { QScrollArea } from 'quasar'
+
+
+const scrollRef = useTemplateRef<QScrollArea>('scrollRef');
 
 const props = defineProps({
   show: {
@@ -149,6 +153,12 @@ function onMinimized() {
   isMaximized.value = !isMaximized.value;
 }
 
+function scrollToBottom(duration = 0) {
+  const scrollTarget = scrollRef.value?.getScrollTarget();
+  const scrollHeight = scrollTarget?.scrollHeight || 0;
+  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
+}
+
 watch(() => type.value, (newValue) => {
   if (newValue === 'settings') {
     modal.value.show();
@@ -163,6 +173,8 @@ onMounted(() => {
     currentTab.value = dialog.value.tab || 'profile';
   }
 })
+
+provide('scrollToBottom', scrollToBottom)
 </script>
 
 <style lang="scss">

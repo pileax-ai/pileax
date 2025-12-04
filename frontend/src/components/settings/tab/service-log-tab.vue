@@ -1,6 +1,6 @@
 <template>
-  <setting-card class="profile-tab">
-    <o-common-card small>
+  <setting-card class="service-log-tab">
+    <o-common-card small v-if="false">
       <section class="col-12">
         <q-list no-border link>
           <q-item class="profile">
@@ -12,48 +12,104 @@
             <q-item-section>
               <q-item-label caption>Display Name</q-item-label>
               <q-item-label>
-                <q-input v-model="name" class="pi-field"
-                         debounce="800"
-                         @update:modelValue="onUpdateName"
-                         standout dense autofocus />
               </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
       </section>
     </o-common-card>
+
+    <section ref="logRef" class="log">
+      <template v-for="(line, index) in logLines" :key="index">
+        <div class="log-line" :class="{
+          'text-tips': line.level === 'debug',
+          'text-amber': line.level === 'warn',
+          'text-red': line.level === 'error',
+        }">
+          {{ line.text }}
+        </div>
+      </template>
+    </section>
   </setting-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { userService } from 'src/api/service/remote/user';
+import { inject, nextTick, onActivated, onBeforeMount, onBeforeUnmount, ref } from 'vue'
 import useAccount from 'src/hooks/useAccount';
 import SettingCard from './setting-card.vue';
+import { ipcService } from 'src/api/ipc';
+
+const scrollToBottom = inject<() => void>('scrollToBottom');
 
 const { account, setAccount } = useAccount();
-const name = ref('');
-const avatar = ref('');
+const logLines = ref<Indexable[]>([])
 
-function onUpdateName() {
-  console.log('name', name.value);
-  setAccount({ ...account.value, name: name.value });
-  userService.save({ id: account.value.id, name: name.value });
+const parseLogLevel = (line: string): string => {
+  line = line.trim();
+  const levels = ['DEBUG', 'INFO', 'WARN', 'ERROR']
+  let level = 'info'
+  for (const l of levels) {
+    if (line.includes(`${l}`) || line.includes(`[${l.toLowerCase()}]`)) {
+      level = l;
+      break;
+    }
+  }
+
+  return level;
 }
 
-onMounted(() => {
-  name.value = account.value.name;
-  avatar.value = account.value.avatar;
+const parseLine = (text: string) => {
+  const level = parseLogLevel(text).toLowerCase()
+  return {
+    text,
+    level
+  } as Indexable
+}
+
+const parseLog = (text: string) => {
+  logLines.value = text.split('\n').map(line => {
+    return parseLine(line);
+  })
+
+  nextTick(() => {
+    scrollToBottom!()
+  })
+}
+
+onBeforeMount(() => {
+  ipcService.logInit(1000).then(res => {
+    parseLog(res);
+
+    ipcService.logStart(1000);
+  })
+  ipcService.onLogUpdate((data) => {
+    parseLog(data);
+  })
+})
+
+onBeforeUnmount(() => {
+  ipcService.logStop();
+})
+
+onActivated(() => {
+  scrollToBottom!();
 })
 </script>
 
-<style lang="scss">
-.profile-tab {
-  .profile {
-    padding: 8px 0;
-    .q-field {
-      max-width: 320px;
-    }
+<style lang="scss" scoped>
+.service-log-tab {
+  .log {
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
+  }
+  .log-line {
+    white-space: pre-wrap;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
   }
 }
 </style>

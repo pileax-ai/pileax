@@ -26,12 +26,20 @@ const reload = (force: boolean = false): Promise<any> => {
   }
 }
 
+const onLoadUpdate = (callback: (data: string) => void) => {
+
+}
+
 window.webIpcAPI = {
   hi: mock as any,
   closeWindow: mock as any,
   getPath: mock as any,
   getServerInfo: mock as any,
   isWindowMaximized: mock as any,
+  logInit: mock as any,
+  logStart: mock as any,
+  logStop: mock as any,
+  onLogUpdate: onLoadUpdate as any,
   maximizeWindow: mock as any,
   migrateLibrary: mock as any,
   minimizeWindow: mock as any,

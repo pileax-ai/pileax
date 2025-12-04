@@ -67,6 +67,8 @@ const createWindow = async () => {
   mainWindow.on('closed', () => {
     mainWindow = undefined;
   });
+
+  WindowManager.setMainWindow(mainWindow);
 }
 
 app.whenReady().then(async () => {
@@ -112,11 +114,3 @@ app.on('window-all-closed', async () => {
 // App initialization
 Application.initialize();
 
-ipcMain.handle('reload',
-  async (event, force: boolean) => {
-    if (force) {
-      mainWindow?.webContents.reloadIgnoringCache()
-    } else {
-      mainWindow?.reload()
-    }
-  });

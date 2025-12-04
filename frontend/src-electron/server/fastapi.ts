@@ -79,17 +79,17 @@ async function startServer() {
       })
     }
 
-    serverProcess.stdout?.on('data', (data) => {
+    serverProcess.stdout?.on('data', (data: string) => {
       console.log(`Server: ${data}`)
-      log.info(`Server: ${data}`)
+      log.info(`[Server] ${data.slice(22)}`)
     })
 
     serverProcess.stderr?.on('data', (data) => {
-      log.error(`Server Error: ${data}`)
+      log.error(`[Server Error] ${data}`)
     })
 
     serverProcess.on('error', (code) => {
-      log.error(`Server error with code ${code}`);
+      log.error(`[Server error with code] ${code}`);
       serverProcess = undefined;
     })
 

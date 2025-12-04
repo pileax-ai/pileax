@@ -54,16 +54,83 @@ export class Application {
   }
 
   static initIpcMain() {
+
+    ipcMain.handle('get-path',
+      (event, key: string) => {
+        return pathManager.getPath(key);
+      });
+
+    ipcMain.handle('get-server-info', () => {
+      return serverInfo;
+    });
+
+    ipcMain.handle("log:init", (event, maxLines = 100) => {
+      return logManager.readLastLines(maxLines)
+    });
+    ipcMain.handle("log:start", (_, maxLines = 100) =>
+      logManager.startWatch(maxLines));
+    ipcMain.handle("log:stop", () => logManager.stopWatch());
+
+    ipcMain.handle('open-new-window',
+      (event, id: string, url: string, titleBarHeight = 40) => {
+        windowManager.openNewWindow(id, url, titleBarHeight);
+      });
+
+    ipcMain.handle('migrate-library',
+      async (event, options) => {
+        return await pathManager.migrateLibrary(options);
+      });
+
+    ipcMain.handle('read-book-file',
+      async (event, filePath) => {
+        return await readBookFile(filePath);
+      });
+
+    ipcMain.handle('read-book-cover',
+      async (event, filePath) => {
+        return await readBookCover(filePath);
+      });
+
+    ipcMain.handle('read-file',
+      async (event, filePath) => {
+        return await readFile(filePath);
+      });
+
+    ipcMain.handle('read-image',
+      async (event, filePath) => {
+        return await readImage(filePath);
+      });
+
+    ipcMain.handle('reload',
+      async (event, force: boolean) => {
+        const mainWindow = WindowManager.getMainWindow();
+        if (force) {
+          mainWindow?.webContents.reloadIgnoringCache()
+        } else {
+          mainWindow?.reload()
+        }
+      });
+
+    ipcMain.handle('save-book-files',
+      async (event, metadata) => {
+        return await saveBookFiles(metadata);
+      });
+
+    ipcMain.handle('save-image-file',
+      async (event, metadata) => {
+        return await saveImageFile(metadata);
+      });
+
     ipcMain.handle('set-theme',
       (event, theme: 'system' | 'light' | 'dark') => {
       console.log('set-theme', theme);
       nativeTheme.themeSource = theme;
     });
 
-    ipcMain.handle('open-new-window',
-      (event, id: string, url: string, titleBarHeight = 40) => {
-        windowManager.openNewWindow(id, url, titleBarHeight);
-    });
+    ipcMain.handle('update-tray-menu',
+      async (event, options) => {
+        trayManager?.updateTrayMenu(options);
+      });
 
     ipcMain.handle('window-close', () => {
       WindowManager.closeWindow();
@@ -80,54 +147,5 @@ export class Application {
     ipcMain.handle('window-is-maximized', () => {
       return WindowManager.isWindowMaximized();
     });
-
-    ipcMain.handle('read-file',
-      async (event, filePath) => {
-        return await readFile(filePath);
-      });
-
-    ipcMain.handle('read-image',
-      async (event, filePath) => {
-        return await readImage(filePath);
-      });
-
-    ipcMain.handle('read-book-file',
-      async (event, filePath) => {
-        return await readBookFile(filePath);
-      });
-
-    ipcMain.handle('read-book-cover',
-      async (event, filePath) => {
-        return await readBookCover(filePath);
-      });
-
-    ipcMain.handle('save-book-files',
-      async (event, metadata) => {
-        return await saveBookFiles(metadata);
-      });
-
-    ipcMain.handle('save-image-file',
-      async (event, metadata) => {
-        return await saveImageFile(metadata);
-      });
-
-    ipcMain.handle('get-server-info', () => {
-      return serverInfo;
-    });
-
-    ipcMain.handle('get-path',
-      (event, key: string) => {
-        return pathManager.getPath(key);
-      });
-
-    ipcMain.handle('migrate-library',
-      async (event, options) => {
-        return await pathManager.migrateLibrary(options);
-      });
-
-    ipcMain.handle('update-tray-menu',
-      async (event, options) => {
-        trayManager?.updateTrayMenu(options);
-      });
   }
 }

@@ -46,6 +46,15 @@ const electronIpcAPI = {
     ipcRenderer.invoke('open-new-window', id, url, titleBarHeight),
   isWindowMaximized: async () =>
     ipcRenderer.invoke('window-is-maximized'),
+  logInit: async (maxLines = 100): Promise<string> =>
+    ipcRenderer.invoke('log:init', maxLines),
+  logStart: async (maxLines = 100): Promise<void> =>
+    ipcRenderer.invoke('log:start', maxLines),
+  logStop: async (): Promise<void> =>
+    ipcRenderer.invoke('log:stop'),
+  onLogUpdate: (callback: (data: string) => void) => {
+    ipcRenderer.on('log:update', (_, data: string) => callback(data))
+  },
   maximizeWindow: async () =>
     ipcRenderer.invoke('window-maximize'),
   minimizeWindow: async () =>

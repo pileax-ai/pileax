@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron';
 import { pathManager } from './path-manager';
 import fs from 'fs-extra';
 import log from 'electron-log';
+import { WindowManager } from 'app/src-electron/app/window-manager'
 
 export interface MigrateResult {
   success: boolean
@@ -29,6 +30,7 @@ export class LogManager {
   }
 
   readLastLines(maxLines = 100): string {
+    console.log('readLastLines', maxLines)
     const stats = fs.statSync(this.logFilePath);
     const fileSize = stats.size;
     const bufferSize = 4096;
@@ -51,7 +53,11 @@ export class LogManager {
     return lines.slice(-maxLines).join('\n');
   }
 
-  startWatch(win: BrowserWindow) {
+  /**
+   * Watch and send latest 10KB content
+   * Looks like: tail -f
+   */
+  startWatchTail() {
     if (this.watcher) {
       return;
     }
@@ -60,8 +66,9 @@ export class LogManager {
       const stats = fs.statSync(this.logFilePath);
       const size = stats.size;
 
-      // Read latest 8KB
-      const start = Math.max(0, size - 8192);
+      // Read latest 10KB
+      const BUFFER_SIZE = 10240;
+      const start = Math.max(0, size - BUFFER_SIZE);
 
       const stream = fs.createReadStream(this.logFilePath, {
         encoding: 'utf-8',
@@ -73,8 +80,25 @@ export class LogManager {
         chunk += part.toString();
       });
       stream.on('end', () => {
-        win?.webContents.send('log:update', chunk);
+        const lines = chunk.split('\n');
+        if (start > 0) {
+          lines.shift();
+        }
+        WindowManager.getMainWindow()?.webContents.send('log:update', lines.join('\n'));
       });
+    });
+  }
+
+  /**
+   * Watch and send last maxLines lines.
+   */
+  startWatch(maxLines = 100) {
+    if (this.watcher) {
+      return;
+    }
+
+    this.watcher = fs.watch(this.logFilePath, { encoding: 'utf-8' }, () => {
+      WindowManager.getMainWindow()?.webContents.send('log:update', this.readLastLines(maxLines));
     });
   }
 
