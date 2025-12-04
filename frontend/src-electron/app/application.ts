@@ -1,6 +1,5 @@
 import { ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
-import log from 'electron-log';
 
 import {
   readFile,
@@ -11,6 +10,7 @@ import {
   saveImageFile
 } from '../utils/file';
 import { pathManager } from './path-manager';
+import { logManager } from './log-manager';
 import { TrayManager } from './tray-manager';
 import { serverInfo } from '../server/fastapi';
 import {
@@ -46,12 +46,13 @@ export class Application {
   }
 
   static initLog() {
-    const logFilePath = pathManager.appLogFilePath();
-    log.initialize();
-    log.transports.file.resolvePathFn = () => {
-      return logFilePath;
-    };
-    log.info('Init log: ', logFilePath);
+    logManager.init();
+    // const logFilePath = pathManager.appLogFilePath();
+    // log.initialize();
+    // log.transports.file.resolvePathFn = () => {
+    //   return logFilePath;
+    // };
+    // log.info('Init log: ', logFilePath);
   }
 
   static initTray(activate?: () => void) {
