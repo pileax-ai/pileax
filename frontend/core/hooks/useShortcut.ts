@@ -2,7 +2,7 @@ import useDialog from 'core/hooks/useDialog';
 import { getKeys } from 'core/utils/keyboard';
 
 export default function () {
-  const { openNoteSearchDialog } = useDialog();
+  const { openNoteSearchDialog, openSettingsDialog } = useDialog();
 
   function addKeyBindings() {
     window.addEventListener('keydown', onKeydown);
@@ -20,6 +20,11 @@ export default function () {
       case 'Cmd+P':
         event.preventDefault();
         openNoteSearchDialog();
+        break;
+      case 'Ctrl+G':
+      case 'Cmd+G':
+        event.preventDefault();
+        openSettingsDialog();
         break;
       default:
     }

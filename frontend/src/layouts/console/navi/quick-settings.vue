@@ -2,7 +2,7 @@
   <q-btn class="quick-settings no-drag-region"
          :class="type" flat>
     <img :src="account.avatar || $public('/logo.png')" alt="Logo" />
-    <q-menu class="quick-settings-menu pi-menu shadow-5"
+    <q-menu class="quick-settings-menu pi-menu show-side-icon"
             transition-show="jump-down"
             anchor="top left"
             self="top left"
@@ -25,19 +25,42 @@
       <q-list :style="{minWidth: '300px'}">
         <template v-for="(action, index) in actions" :key="`action-${index}`">
           <q-separator class="bg-dark" v-if="action.separator" />
-          <o-common-item v-bind="action"
-                         @click="onAction(action, '')"
-                         closable>
-            <template #side>
+
+          <o-hover-menu menu-class="pi-menu"
+                        anchor="center right"
+                        self="center left"
+                        :offset="[10, 0]"
+                        v-if="action.value === 'workspace'">
+            <template #trigger>
+              <o-common-item v-bind="action"
+                             clickable
+                             :closable="false" />
             </template>
+
+            <template v-for="(item, index) in workspaces" :key="index">
+              <o-common-item icon="code"
+                             :label="item.name"
+                             :class="{ 'active': item.id === workspace.id }"
+                             clickable
+                             right-side
+                             @click="onChangeWorkspace(item)">
+                <template #side>
+                  <q-icon name="done" v-if="item.id === workspace.id" />
+                </template>
+              </o-common-item>
+            </template>
+          </o-hover-menu>
+          <o-common-item v-bind="action"
+                         @click="onAction(action)"
+                         :closable="action.clickable" v-else>
           </o-common-item>
         </template>
 
         <q-separator class="bg-dark" />
-        <div class="row col-12 items-center">
+        <footer class="row col-12 items-center">
           <div class="col">
             <o-common-item icon="logout" label="退出登录" clickable
-                           @click="onAction({value: 'logout'}, '')" />
+                           @click="onAction({value: 'logout'})" />
           </div>
           <div class="col-auto">
             <div class="text-tips">
@@ -50,7 +73,7 @@
                                 outline enable-hover />
             </div>
           </div>
-        </div>
+        </footer>
       </q-list>
     </q-menu>
   </q-btn>
@@ -62,6 +85,7 @@ import useDialog from 'core/hooks/useDialog';
 import useSetting from 'core/hooks/useSetting';
 import useAccount from 'src/hooks/useAccount';
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
+import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 
 const props = defineProps({
   type: {
@@ -70,7 +94,7 @@ const props = defineProps({
   },
 });
 
-const { account, logout } = useAccount();
+const { account, logout, workspace, workspaces } = useAccount();
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
@@ -80,64 +104,75 @@ const offset = computed(() => {
 const actions = computed(() => {
   return [
     {
-      label: "账户管理",
+      label: "个人资料",
       value: "profile",
-      icon: "account_circle",
+      icon: "o_account_circle",
       clickable: true,
       separator: true,
     },
     {
       label: "设置",
       value: "general",
-      icon: "settings",
+      icon: "o_settings",
       sideLabel: "⌘G",
       clickable: true,
     },
     {
       label: "AI配置",
       value: "ai",
-      icon: "mdi-creation",
+      icon: "mdi-creation-outline",
       clickable: true,
     },
     {
-      label: "使用统计",
-      value: "usage",
-      icon: "data_usage",
-      sideLabel: "⌘⇧",
-      clickable: true,
+      label: "空间",
+      value: "workspace",
+      icon: "o_workspaces",
+      sideIcon: 'chevron_right',
       separator: true,
     },
     {
       label: "系统日志",
       value: "log",
-      icon: "view_headline",
-      sideLabel: "⌘⇧",
+      icon: "o_view_headline",
       clickable: true,
       separator: true,
     },
     {
       label: "帮助",
       value: "help",
-      icon: "support",
+      icon: "o_support",
       sideIcon: "open_in_new",
+      clickable: true,
+    },
+    {
+      label: "关于",
+      value: "about",
+      icon: "o_info",
       clickable: true,
     },
   ];
 });
 
-function onAction (action: Indexable, value: any) {
+const onAction = (action: Indexable) => {
   switch (action.value) {
-    case 'profile':
-    case 'general':
+    case 'about':
     case 'ai':
-    case 'usage':
+    case 'general':
     case 'log':
+    case 'profile':
+    case 'usage':
       openDialog({type: 'settings', tab: action.value});
+      break;
+    case 'help':
       break;
     case 'logout':
       logout()
       break;
   }
+}
+
+const onChangeWorkspace = (item: Indexable) => {
+  console.log('workspace', item)
 }
 </script>
 
@@ -191,20 +226,23 @@ function onAction (action: Indexable, value: any) {
       }
     }
 
-    .q-btn {
-      min-width: unset;
-      min-height: unset;
-      width: 28px;
-      height: 28px;
-      padding: 0;
-      margin-left: 6px;
-      border-radius: 6px;
-      opacity: 0.8;
+    footer {
+      .q-btn {
+        min-width: unset;
+        min-height: unset;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        margin-left: 6px;
+        border-radius: 6px;
+        opacity: 0.8;
 
-      .q-icon {
-        font-size: 1rem;
+        .q-icon {
+          font-size: 1rem;
+        }
       }
     }
+
   }
 }
 </style>

@@ -43,7 +43,7 @@ const props = defineProps({
       return [0, 0];
     }
   },
-  minWidth: { type: String, default: '160px' },
+  minWidth: { type: String, default: '240px' },
   maxWidth: { type: String, default: '300px' },
   menuClass: { type: String, default: '' },
 });
@@ -52,9 +52,9 @@ const menu = ref(false);
 const menuOver = ref(false);
 const listOver = ref(false);
 
-function toggleMenu() {
+const toggleMenu = debounce(() => {
   menu.value = menuOver.value || listOver.value;
-}
+}, 200)
 
 watch(menuOver, () => {
   toggleMenu();
@@ -65,7 +65,7 @@ watch(listOver, () => {
 })
 
 onMounted(() => {
-  toggleMenu = debounce(toggleMenu, 100); // todo: Cannot assign to because it is a function.
+  //
 });
 </script>
 

@@ -12,15 +12,11 @@ export default function () {
   }
 
   function openNoteSearchDialog() {
-    openDialog({
-      type: 'note-search'
-    });
+    openDialog({ type: 'note-search' });
   }
 
-  function openSettingsDialog(tab: string) {
-    openDialog({
-      type: 'settings'
-    });
+  function openSettingsDialog(tab = 'general') {
+    openDialog({ type: 'settings', tab: tab });
   }
 
   function onHide() {
