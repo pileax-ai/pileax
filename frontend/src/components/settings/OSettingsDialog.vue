@@ -74,14 +74,17 @@ import {computed, onMounted, ref, watch} from 'vue';
 import useDialog from 'core/hooks/useDialog';
 import useCommon from 'core/hooks/useCommon';
 
-import AboutTab from 'src/components/settings/tab/about-tab.vue';
-import AiTab from 'components/settings/tab/ai-tab.vue';
-import AppearanceTab from 'src/components/settings/tab/appearance-tab.vue';
-import GeneralTab from 'src/components/settings/tab/general-tab.vue';
-import ProfileTab from 'src/components/settings/tab/profile-tab.vue';
-import ReadingTab from 'src/components/settings/tab/reading-tab.vue';
-import WorkspaceTab from 'src/components/settings/tab/workspace-tab.vue';
-import WorkspaceMemberTab from 'src/components/settings/tab/workspace-member-tab.vue';
+import AboutTab from './tab/about-tab.vue';
+import AiTab from './tab/ai-tab.vue';
+import AppearanceTab from './tab/appearance-tab.vue';
+import GeneralTab from './tab/general-tab.vue';
+import ProfileTab from './tab/profile-tab.vue';
+import ReadingTab from './tab/reading-tab.vue';
+import ServiceLogTab from './tab/service-log-tab.vue';
+import ShortcutTab from './tab/shortcut-tab.vue';
+import UserLogTab from './tab/user-log-tab.vue';
+import WorkspaceTab from './tab/workspace-tab.vue';
+import WorkspaceMemberTab from './tab/workspace-member-tab.vue';
 
 const props = defineProps({
   show: {
@@ -128,10 +131,10 @@ const tabs = computed(() => {
     { label: '空间', value: 'workspace', icon: 'o_workspaces', group: '空间', component: WorkspaceTab },
     { label: '成员', value: 'workspace-member', icon: 'o_groups', component: WorkspaceMemberTab },
     { label: 'AI模型提供商', value: 'ai', icon: 'mdi-creation-outline', component: AiTab },
-    { label: '操作日志', value: 'about', icon: 'o_article', group: t('system'), component: AboutTab },
-    { label: '服务日志', value: 'about', icon: 'o_view_headline', component: AboutTab },
+    { label: '操作日志', value: 'user-log', icon: 'o_article', group: t('system'), component: UserLogTab },
+    { label: '服务日志', value: 'service-log', icon: 'o_view_headline', component: ServiceLogTab },
     { label: t('about'), value: 'about', icon: 'o_info', group: t('help'), component: AboutTab },
-    { label: '快捷键', value: 'shortcut', icon: 'o_keyboard', component: AboutTab },
+    { label: '快捷键', value: 'shortcut', icon: 'o_keyboard', component: ShortcutTab },
     { label: '隐私政策', value: 'about', icon: 'o_policy', component: AboutTab },
   ];
 });
