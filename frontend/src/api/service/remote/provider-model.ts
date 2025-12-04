@@ -8,7 +8,7 @@ import { GET } from 'src/hooks/useRequest';
 export class ProviderModelService {
   private apiName = 'providerModel';
 
-  findAll(): Promise<any> {
+  getAll(): Promise<any> {
     return GET({ name: this.apiName, path: '/all' });
   }
 

@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 FACTORY_NAMES = [
-    "Tongyi-Qianwen",
+    "Tongyi",
     "Bedrock",
     "Moonshot",
     "xAI",

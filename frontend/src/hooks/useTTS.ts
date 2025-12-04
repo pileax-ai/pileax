@@ -1,5 +1,5 @@
 import { ref, reactive, computed } from 'vue'
-import { ttsManager, TTSMode, TTSOptions } from 'src/api/service/tts';
+import { ttsManager, TTSOptions } from 'src/api/service/tts';
 import { useReaderStoreWithOut } from 'stores/reader'
 import { debounce } from 'quasar'
 
@@ -10,9 +10,9 @@ export default function useTTS() {
   const isPaused = ref(false);
   const options = reactive<TTSOptions>({
     lang: 'zh-CN',
-    rate: 1.0,
-    pitch: 1.0,
-    volume: 1.0,
+    rate: '1.0',
+    pitch: '1.0',
+    volume: '1.0',
   });
 
   const initialize = async (
@@ -36,9 +36,9 @@ export default function useTTS() {
   };
 
   const reload = () => {
-    if (ttsClient.value.state === 'playing') {
+    if (ttsClient.value?.state === 'playing') {
       isPlaying.value = true;
-    } else if (ttsClient.value.state === 'paused' || ttsClient.value.state === 'idle') {
+    } else if (ttsClient.value?.state === 'paused' || ttsClient.value?.state === 'idle') {
       isPlaying.value = true;
       isPaused.value = true;
     }
