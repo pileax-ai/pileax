@@ -10,8 +10,8 @@ import {
   saveBookFiles,
   saveImageFile
 } from '../utils/file';
-import { PathManager } from './path-manager'
-import { TrayManager } from './tray-manager'
+import { pathManager } from './path-manager';
+import { TrayManager } from './tray-manager';
 import { serverInfo } from '../server/fastapi';
 import {
   openNewWindow,
@@ -25,20 +25,18 @@ let trayManager: TrayManager
 
 export class Application {
   static initialize() {
-    const pathManager = new PathManager();
-    Application.initPath(pathManager);
-    Application.initLog(pathManager);
+    Application.initPath();
+    Application.initLog();
     Application.initIpcMain();
   }
 
   static reload() {
-    const pathManager = new PathManager();
-    Application.initPath(pathManager);
-    Application.initLog(pathManager);
+    Application.initPath();
+    Application.initLog();
   }
 
-  static initPath(pathManger: PathManager) {
-    const publicPath = pathManger.appPublicPath();
+  static initPath() {
+    const publicPath = pathManager.appPublicPath();
     if (!fs.existsSync(publicPath)) {
       fs.mkdirSync(publicPath, { recursive: true });
       console.log(`📁 Create public dir: ${publicPath}`);
@@ -47,8 +45,8 @@ export class Application {
     }
   }
 
-  static initLog(pathManger: PathManager) {
-    const logFilePath = pathManger.appLogFilePath();
+  static initLog() {
+    const logFilePath = pathManager.appLogFilePath();
     log.initialize();
     log.transports.file.resolvePathFn = () => {
       return logFilePath;
@@ -61,8 +59,6 @@ export class Application {
   }
 
   static initIpcMain() {
-    const pathManager = new PathManager();
-
     ipcMain.handle('set-theme',
       (event, theme: 'system' | 'light' | 'dark') => {
       console.log('set-theme', theme);

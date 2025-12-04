@@ -188,3 +188,5 @@ export class PathManager {
     return result
   }
 }
+
+export const pathManager = new PathManager();

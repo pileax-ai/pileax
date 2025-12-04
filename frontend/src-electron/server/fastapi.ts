@@ -4,7 +4,7 @@ import log from 'electron-log';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import os from 'os';
-import { PathManager } from '../app/path-manager'
+import { pathManager } from '../app/path-manager'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const platform = process.platform || os.platform();
@@ -18,7 +18,6 @@ async function startServer() {
   try {
     const isProduction = process.env.NODE_ENV === 'production';
     const port = await getPort({ port: 3000 });
-    const pathManager = new PathManager();
     const dbPath = pathManager.appDbFilePath();
     const cachePath = pathManager.appCachePath();
     const publicPath = pathManager.appPublicPath();
