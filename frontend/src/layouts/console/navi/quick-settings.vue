@@ -1,7 +1,12 @@
 <template>
-  <q-btn class="quick-settings no-drag-region"
+  <q-btn class="quick-settings text-readable no-drag-region"
          :class="type" flat>
-    <img :src="account.avatar || $public('/logo.png')" alt="Logo" />
+    <o-icon :name="workspace.icon" v-if="workspace.icon" />
+    <o-icon name="🍃" v-else />
+    <div class="label q-ml-sm">{{workspace.name}}</div>
+    <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
+
+
     <q-menu class="quick-settings-menu pi-menu show-side-icon"
             transition-show="jump-down"
             anchor="top left"
@@ -15,8 +20,11 @@
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label class="text-bold">
+            <q-item-label style="font-size: 1.2rem;">
               {{ account.name }}
+            </q-item-label>
+            <q-item-label caption>
+              {{ workspace.name }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -183,8 +191,46 @@ const onSwitchWorkspace = (item: Indexable) => {
 </script>
 
 <style lang="scss">
+.tab-navi .top-header .q-btn.quick-settings {
+  width: unset!important;
+
+
+  .q-icon {
+    font-size: 1.6rem !important;
+
+    &.dropdown {
+      font-size: 1.2rem !important;
+    }
+  }
+}
+
 .quick-settings {
   line-height: 0;
+  .q-btn__content {
+    flex-wrap: nowrap;
+    //white-space: nowrap;
+    //overflow: hidden;
+
+    .label {
+      display: inline-block;
+      width: 80%;
+      height: 30px;
+      line-height: 30px;
+      white-space: nowrap;        /* 不换行 */
+      overflow: hidden;           /* 超出隐藏 */
+      text-overflow: ellipsis;    /* 使用省略号 */
+    }
+  }
+
+  .q-icon.dropdown {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .q-icon.dropdown {
+      visibility: visible;
+    }
+  }
 
   &.group {
     width: 100%;
@@ -199,7 +245,7 @@ const onSwitchWorkspace = (item: Indexable) => {
   }
 
   &.tab {
-    padding: 0;
+    padding: 0 12px !important;
     img {
       width: 28px;
       height: 28px;

@@ -32,6 +32,10 @@ export default function () {
     }
   }
 
+  const setWorkspace = (value: Indexable) => {
+    accountStore.setWorkspace(value)
+  }
+
   const switchWorkspace = (workspace: Indexable) => {
     accountStore.switchWorkspace(workspace);
     tabStore.updateTenant(workspace.id);
@@ -66,6 +70,7 @@ export default function () {
     logout,
     setAccount,
     initWorkspace,
+    setWorkspace,
     switchWorkspace,
     switchWorkspaceByTab,
   };

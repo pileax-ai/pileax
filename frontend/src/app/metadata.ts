@@ -41,7 +41,7 @@ export const RefTypes = [
 ];
 
 export const WorkspaceTypes = [
-  { label: '个人', value: 'personal', color: 'grey', icon: 'description' },
-  { label: '团队', value: 'team', color: 'blue', icon: 'book' },
+  { label: '个人', value: 'personal', color: 'blue' },
+  { label: '团队', value: 'team', color: 'indigo' },
 ];
 

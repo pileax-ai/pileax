@@ -12,7 +12,8 @@
         <template #prepend>
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" />
-            <o-general-icon-menu @emoji="onSelectEmoji"
+            <o-general-icon-menu anchor="center left" self="center right"
+                                 @emoji="onSelectEmoji"
                                  @icon="onSelectIcon" />
           </div>
         </template>
@@ -73,6 +74,7 @@ function load () {
     GET({name: apiName, query: {id: props.id}}).then((data) => {
       form.value.name = data.name;
       form.value.type = data.type;
+      form.value.icon = data.icon;
     })
   } else {
     form.value.type = 'team';

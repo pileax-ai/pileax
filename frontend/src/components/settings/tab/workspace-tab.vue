@@ -10,7 +10,7 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label caption>Display Name</q-item-label>
+              <q-item-label caption>Workspace Name</q-item-label>
               <q-item-label>
                 <q-input v-model="name" class="pi-field"
                          debounce="800"
@@ -36,6 +36,19 @@
                  :pagination="{rowsPerPage: 100}"
                  hide-bottom
                  flat>
+
+          <template #body-cell-icon="props">
+            <q-td :props="props">
+              <o-icon :name="props.value" size="2rem" v-if="props.value" />
+              <o-icon name="🍃" size="2rem" v-else />
+            </q-td>
+          </template>
+
+          <template #body-cell-type="props">
+            <q-td :props="props">
+              <o-chip v-bind="getArrayItem(WorkspaceTypes, props.value)" square />
+            </q-td>
+          </template>
 
           <template #body-cell-actions="props">
             <q-td :props="props">
@@ -70,8 +83,10 @@ import useAccount from 'src/hooks/useAccount';
 import SettingCard from './setting-card.vue';
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import WorkspaceAdd from './workspace/WorkspaceAdd.vue'
+import { workspaceService } from 'src/api/service/remote/workspace'
+import { getArrayItem, WorkspaceTypes } from 'src/app/metadata'
 
-const { account, workspace, workspaces, setAccount, initWorkspace } = useAccount();
+const { account, workspace, workspaces, setAccount, initWorkspace, setWorkspace } = useAccount();
 const name = ref('');
 const avatar = ref('');
 const side = reactive<Indexable>({
@@ -87,12 +102,13 @@ const workspaceItem = ref<Indexable>();
 
 function onUpdateName() {
   console.log('name', name.value);
-  setAccount({ ...account.value, name: name.value });
-  userService.save({ id: account.value.id, name: name.value });
+  setWorkspace({ ...workspace.value, name: name.value });
+  workspaceService.update({ id: workspace.value.id, name: name.value });
 }
 
 const columns = computed(() => {
   return [
+    { field: 'icon', label: '图标', align: 'left', name: 'icon' },
     { field: 'name', label: '名称', align: 'left', name: 'name', classes: 'text-bold' },
     { field: 'type', label: '类型', align: 'left', name: 'type' },
     { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime' },

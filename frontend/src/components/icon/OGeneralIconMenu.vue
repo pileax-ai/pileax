@@ -1,8 +1,8 @@
 <template>
   <q-menu class="o-general-icon-menu shadow-5"
           ref="menuRef"
-          anchor="bottom middle"
-          self="top middle"
+          :anchor="anchor"
+          :self="self"
           :offset="[0, 8]">
     <q-tabs v-model="currentTab"
             align="left"
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, PropType, ref } from 'vue'
 import { OEmojiSelect } from '@yiitap/vue';
 import { emojiGroups } from '@yiitap/util-emoji';
 import OIconSelect from 'components/icon/OIconSelect.vue'
@@ -36,9 +36,13 @@ import OSplitPage from 'core/page/template/OSplitPage.vue'
 import { QMenu } from 'quasar'
 
 const props = defineProps({
-  dense: {
-    type: Boolean,
-    default: false
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: 'bottom middle'
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: 'top middle'
   },
 });
 const emit = defineEmits(['emoji', 'icon']);

@@ -12,7 +12,7 @@
          v-else-if="name.indexOf('http') === 0" />
     <q-icon :name="name" class="o-icon" :size="size" :color="color" v-bind="$attrs"
             v-else-if="isIcon(name)" />
-    <span v-else>{{name}}</span>
+    <span class="o-icon" :style="{ fontSize: size }" v-else>{{name}}</span>
   </template>
 </template>
 

@@ -70,6 +70,9 @@ export const useAccountStore = defineStore('account', {
     getWorkspace(id: string) {
       return this.workspaces.find(item => item.id === id);
     },
+    setWorkspace(value: Indexable) {
+      this.workspace = value;
+    },
     switchWorkspace(value: Indexable, redirect = '/welcome') {
       console.log('setWorkspace', value);
       this.workspace = value;
