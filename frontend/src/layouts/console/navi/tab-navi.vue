@@ -15,6 +15,11 @@
         </q-btn>
       </div>
     </header>
+    <header class="row col-12 justify-between top-header" v-else>
+      <div class="row col items-center header-left drag-region">
+        <quick-settings type="tab" />
+      </div>
+    </header>
     <section class="col-12 activity-bar" :class="{ 'no-header': !header }">
       <nav class="row col-12 desktop-only">
         <q-tabs v-model="selectedActivity"
@@ -126,7 +131,7 @@ onBeforeMount(() => {
     }
 
     .header-left {
-      padding: 0 6px;
+      padding-right: 6px;
     }
 
     .sidebar-toggle {

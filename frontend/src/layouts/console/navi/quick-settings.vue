@@ -111,11 +111,18 @@ const { account, workspace, workspaces, logout, switchWorkspace } = useAccount()
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
-  return props.type === 'tab' ? [4, -2] : [-5, -5];
+  return props.type === 'tab' ? [-4, -4] : [-5, -5];
 })
 
 const actions = computed(() => {
   return [
+    {
+      label: "空间",
+      value: "workspace",
+      icon: "o_workspaces",
+      sideIcon: 'chevron_right',
+      separator: true,
+    },
     {
       label: "个人资料",
       value: "profile",
@@ -135,13 +142,6 @@ const actions = computed(() => {
       value: "ai",
       icon: "mdi-creation-outline",
       clickable: true,
-    },
-    {
-      label: "空间",
-      value: "workspace",
-      icon: "o_workspaces",
-      sideIcon: 'chevron_right',
-      separator: true,
     },
     {
       label: "系统日志",
@@ -245,7 +245,7 @@ const onSwitchWorkspace = (item: Indexable) => {
   }
 
   &.tab {
-    padding: 0 12px !important;
+    padding: 0 8px !important;
     img {
       width: 28px;
       height: 28px;
