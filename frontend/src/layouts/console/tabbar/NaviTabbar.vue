@@ -63,19 +63,20 @@ import { useRoute } from 'vue-router';
 import { useElementSize } from '@vueuse/core';
 import { useAppStore } from 'stores/app';
 import { useTabStore } from 'stores/tab';
-import { electronIpc } from 'src/api/ipc/electron';
+import useAccount from 'src/hooks/useAccount';
 import useNavi from 'src/hooks/useNavi';
 
 import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue';
 import NaviTab from './NaviTab.vue';
-import { MenuItem } from 'core/types/menu';
+import { MenuItem, TabItem } from 'core/types/menu';
 import draggable from 'vuedraggable';
-import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue';
 
 const route = useRoute();
 const appStore = useAppStore();
 const tabStore = useTabStore();
+const { switchWorkspaceByTab } = useAccount();
 const {
   leftDrawerShow,
   toggleLeftDrawer,
@@ -118,7 +119,7 @@ const pageLoading = computed(() => {
 
 function onTabsSorted(event: any) {
   const newTabs = [...pinnedTabs.value, ...unpinnedTabs.value];
-  tabStore.updateTabs(newTabs);
+  tabStore.updateTabs(newTabs as TabItem[]);
 }
 
 async function onAdd() {
@@ -126,7 +127,11 @@ async function onAdd() {
 }
 
 function onTabChanged(id: string) {
-  tabStore.openTab(id, route.path);
+  const tab = tabStore.openTab(id, route.path);
+  console.log('open tab', tab);
+  if (tab) {
+    switchWorkspaceByTab(tab)
+  }
 }
 
 </script>

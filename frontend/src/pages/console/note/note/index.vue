@@ -159,7 +159,7 @@ async function createNote() {
   if (source.value === 'chat') {
     loading.value = false;
     emitUpdate = true;
-    content = chatContentToHtml(noteStore.chatToNote.content, noteStore.chatToNote.message);
+    content = chatContentToHtml(noteStore.value.chatToNote.content, noteStore.value.chatToNote.message);
     focusPosition = 'end';
   }
   noteService.save({
@@ -181,7 +181,7 @@ function loadingNote(note: Note) {
   if (source.value ===  'chat') {
     loading.value = false;
     emitUpdate = true;
-    const appendHtml = chatContentToHtml(noteStore.chatToNote.content)
+    const appendHtml = chatContentToHtml(noteStore.value.chatToNote.content)
     console.log('appendHtml', appendHtml)
     content += appendHtml;
     focusPosition = 'end';
@@ -194,7 +194,7 @@ function loadNote(note: Note, content: string, focus: string,
                   emitUpdate = false) {
   setCurrentNote(note);
   setContent(content, emitUpdate, focus);
-  noteStore.setChatToNote({});
+  noteStore.value.setChatToNote({});
   router.replace({ query: {} });
 }
 

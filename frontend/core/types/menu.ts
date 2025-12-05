@@ -30,6 +30,7 @@ export interface MenuItem {
 
 export interface TabItem {
   id: string;
+  tenantId: string;
   name: string;
   path: string;
   icon?: string,

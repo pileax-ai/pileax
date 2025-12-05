@@ -58,7 +58,7 @@ export const useAccountStore = defineStore('account', {
           // Default workspace
           if (!this.workspace?.id && this.workspaces.length) {
             const defaultWorkspace = this.workspaces[0];
-            this.setWorkspace(defaultWorkspace!)
+            this.switchWorkspace(defaultWorkspace!)
             tenantManager.setDefaultTenant(defaultWorkspace! as TenantInfo)
           }
           resolve(res)
@@ -67,10 +67,16 @@ export const useAccountStore = defineStore('account', {
         })
       });
     },
-    setWorkspace(value: Indexable) {
+    getWorkspace(id: string) {
+      return this.workspaces.find(item => item.id === id);
+    },
+    switchWorkspace(value: Indexable, redirect = '/welcome') {
       console.log('setWorkspace', value);
       this.workspace = value;
       tenantManager.switchTenant(value.id);
+      if (redirect) {
+        this.router.push(redirect);
+      }
     }
   },
   persist: {

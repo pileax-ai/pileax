@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { RouteLocationNormalized } from 'vue-router';
 import { CODE } from 'core/app';
-import { MenuItem } from 'core/types/menu';
+import { MenuItem, TabItem } from 'core/types/menu'
 import { GET } from 'src/hooks/useRequest';
 import { flattenMenu, nestMenu } from 'core/hooks/useMenu';
 import { defaultConsoleMenus } from 'src/app/default-menu';
@@ -85,7 +85,7 @@ export const useNaviStore = defineStore('navi', {
         this.addOpenedMenu(menu);
       }
       const tabStore = useTabStore();
-      tabStore.updateTab(menu);
+      tabStore.updateTab(menu as TabItem);
     },
     addOpenedMenu(menu: MenuItem) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path);

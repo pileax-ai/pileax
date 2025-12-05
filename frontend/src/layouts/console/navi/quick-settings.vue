@@ -91,7 +91,6 @@ import useSetting from 'core/hooks/useSetting';
 import useAccount from 'src/hooks/useAccount';
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
-import { tenantManager } from 'core/tab/tenant-manager'
 
 const props = defineProps({
   type: {
@@ -100,7 +99,7 @@ const props = defineProps({
   },
 });
 
-const { account, workspace, workspaces, logout, setWorkspace } = useAccount();
+const { account, workspace, workspaces, logout, switchWorkspace } = useAccount();
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
@@ -179,7 +178,7 @@ const onAction = (action: Indexable) => {
 }
 
 const onSwitchWorkspace = (item: Indexable) => {
-  setWorkspace(item);
+  switchWorkspace(item);
 }
 </script>
 

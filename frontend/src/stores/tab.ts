@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia';
 import { CODE } from 'core/app';
-import { MenuItem } from 'core/types/menu';
+import { MenuItem, TabItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto';
 import { store } from 'stores/index';
+import { tenantManager } from 'core/tab/tenant-manager'
 
 export const useTabStore = defineStore('tab', {
   state: () => ({
-    tabs: [] as MenuItem[],
-    tab: {} as MenuItem,
+    tabs: [] as TabItem[],
+    tab: {} as TabItem,
   }),
   getters: {
     pinnedTabs: (state) => state.tabs.filter(t => t.pinned),
@@ -17,13 +18,14 @@ export const useTabStore = defineStore('tab', {
     findIndex(id: string) {
       return this.tabs.findIndex(t => t.id === id);
     },
-    updateTabs(tabs: MenuItem[]) {
+    updateTabs(tabs: TabItem[]) {
       this.tabs = tabs;
     },
-    updateTab(menu: MenuItem) {
+    updateTab(menu: TabItem) {
       const tab = { ...menu };
       if (this.tab.id) {
         tab.id = this.tab.id;
+        tab.tenantId = this.tab.tenantId;
         tab.pinned = this.tab.pinned;
         const index = this.findIndex(this.tab.id);
         if (index >= 0) {
@@ -32,19 +34,29 @@ export const useTabStore = defineStore('tab', {
         }
       } else {
         tab.id = UUID();
+        tab.tenantId = tenantManager.getCurrentTenantId();
         this.tabs.push(tab);
         this.tab = tab;
+      }
+    },
+    updateTenant(tenantId: string) {
+      console.log('updateTenant', tenantId)
+      this.tab.tenantId = tenantId;
+      const index = this.findIndex(this.tab.id);
+      if (index >= 0) {
+        this.tabs.splice(index, 1, this.tab);
       }
     },
     addNewTab(path = '/welcome') {
       const tab = {
         id: UUID(),
+        tenantId: tenantManager.getCurrentTenantId(),
         name: '',
         path: path
       }
       this.newTab(tab);
     },
-    newTab(tab: MenuItem) {
+    newTab(tab: TabItem) {
       this.tabs.push(tab);
       this.tab = tab;
       this.router.push(tab.path);
@@ -58,8 +70,10 @@ export const useTabStore = defineStore('tab', {
           if (tab.path !== path) {
             this.router.push(tab.path);
           }
+          return tab;
         }
       }
+      return null;
     },
     togglePinTab(id: string) {
       const tab = this.tabs.find(t => t.id === id);
@@ -95,7 +109,7 @@ export const useTabStore = defineStore('tab', {
 
         this.tabs.splice(index, 1);
         if (this.tabs.length === 0) {
-          this.tab = { id: '', name: '', path: '' };
+          this.tab = { id: '', tenantId: tenantManager.getCurrentTenantId(), name: '', path: '' };
           this.router.push('/welcome');
         } else {
           // Open sibling tab if current tab closed.
