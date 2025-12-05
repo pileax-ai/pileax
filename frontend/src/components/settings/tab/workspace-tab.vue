@@ -24,43 +24,66 @@
     </o-common-card>
     <o-common-card title="管理空间" small header>
       <template #right>
-        <q-btn icon="add" label="添加空间" class="bg-primary text-white" flat />
+        <q-btn icon="add" label="添加空间"
+               class="bg-primary text-white"
+               flat @click="onAddWorkspace()" />
       </template>
       <section class="col-12">
         <q-table class="col-12 o-table"
                  row-key="index"
                  :columns="columns"
                  :rows="workspaces"
-                 :pagination="{rowsPerPage: 10}"
+                 :pagination="{rowsPerPage: 100}"
                  hide-bottom
                  flat>
 
           <template #body-cell-actions="props">
             <q-td :props="props">
-              <q-btn label="当前空间"
-                     class="bg-accent text-tips"
-                     disable flat dense
-                     v-if="props.row.id === workspace.id" />
-              <q-btn label="切换空间"
-                     class="bg-accent text-readable"
-                     flat dense v-else />
+              <q-btn color="primary" icon="edit" @click="onEditWorkspace(props.row)" flat dense>
+                <o-tooltip :message="$t('edit')"/>
+              </q-btn>
             </q-td>
           </template>
         </q-table>
       </section>
     </o-common-card>
+
+
+    <o-side-dialog v-bind="side"
+                   :seamless="false"
+                   scrollable
+                   @show="side.show = true"
+                   @close="onSideClose">
+      <template #content>
+        <workspace-add :id="workspaceItemId"
+                       :data="workspaceItem"
+                       @success="onClose" />
+      </template>
+    </o-side-dialog>
   </setting-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, reactive } from 'vue'
 import { userService } from 'src/api/service/remote/user';
 import useAccount from 'src/hooks/useAccount';
 import SettingCard from './setting-card.vue';
+import OSideDialog from 'core/components/dialog/OSideDialog.vue'
+import WorkspaceAdd from './workspace/WorkspaceAdd.vue'
 
-const { account, workspace, workspaces, setAccount } = useAccount();
+const { account, workspace, workspaces, setAccount, initWorkspace } = useAccount();
 const name = ref('');
 const avatar = ref('');
+const side = reactive<Indexable>({
+  show: false,
+  title: 'Workspace',
+  icon: 'workspaces',
+  position: 'standard',
+  style: {width: '30vw', minWidth: '600px'},
+  contentClass: 'card'
+})
+const workspaceItemId = ref('');
+const workspaceItem = ref<Indexable>();
 
 function onUpdateName() {
   console.log('name', name.value);
@@ -76,6 +99,28 @@ const columns = computed(() => {
     { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 80px' }
   ];
 });
+
+const onAddWorkspace = () => {
+  workspaceItemId.value = '';
+  side.show = true;
+  side.icon = 'add';
+}
+
+const onEditWorkspace = (item: Indexable) => {
+  workspaceItemId.value = item.id;
+  side.show = true;
+  side.icon = 'edit';
+}
+
+const onClose = () => {
+  side.show = false;
+  initWorkspace();
+}
+
+const onSideClose = () => {
+  side.show = false
+  workspaceItemId.value = ''
+}
 
 onMounted(() => {
   name.value = workspace.value.name;

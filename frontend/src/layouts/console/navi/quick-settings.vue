@@ -27,21 +27,26 @@
           <q-separator class="bg-dark" v-if="action.separator" />
 
           <o-hover-menu menu-class="pi-menu"
-                        anchor="center right"
-                        self="center left"
-                        :offset="[10, 0]"
+                        anchor="top right" self="top left"
+                        :offset="[12, 8]"
                         v-if="action.value === 'workspace'">
             <template #trigger>
               <o-common-item v-bind="action"
-                             clickable
                              :closable="false" />
             </template>
 
+            <o-common-item icon="o_workspaces"
+                           label="管理空间"
+                           clickable closable
+                           right-side
+                           @click="onAction({value: 'workspace'})" />
+            <q-separator class="bg-dark" />
+
             <template v-for="(item, index) in workspaces" :key="index">
-              <o-common-item icon="code"
+              <o-common-item :icon="item.icon || '🍃'"
                              :label="item.name"
                              :class="{ 'active': item.id === workspace.id }"
-                             clickable
+                             clickable closable
                              right-side
                              @click="onChangeWorkspace(item)">
                 <template #side>
@@ -69,7 +74,7 @@
                      @click="toggleTheme" />
               <locale-hover-btn anchor="center right"
                                 self="center left"
-                                :offset="[10, 0]"
+                                :offset="[12, 0]"
                                 outline enable-hover />
             </div>
           </div>
@@ -161,6 +166,7 @@ const onAction = (action: Indexable) => {
     case 'log':
     case 'profile':
     case 'usage':
+    case 'workspace':
       openDialog({type: 'settings', tab: action.value});
       break;
     case 'help':

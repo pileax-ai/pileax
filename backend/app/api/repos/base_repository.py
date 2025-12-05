@@ -17,22 +17,42 @@ class BaseRepository(Generic[ModelType]):
     def get(self, id: uuid.UUID) -> ModelType | None:
         return self.session.get(self.model, id)
 
-    def create(self, obj: ModelType) -> ModelType:
+    def create(self, obj: ModelType, commit: bool = True) -> ModelType:
         self.session.add(obj)
-        self.session.commit()
-        self.session.refresh(obj)
+
+        if commit:
+            self.session.commit()
+            try:
+                self.session.refresh(obj)
+            except:
+                self.session.flush()
+                self.session.refresh(obj)
+        else:
+            self.session.flush()
+            self.session.refresh(obj)
+
         return obj
 
     def delete(self, obj: ModelType) -> None:
         self.session.delete(obj)
         self.session.commit()
 
-    def update(self, obj: ModelType, new_data: dict) -> ModelType:
+    def update(self, obj: ModelType, new_data: dict, commit: bool = True) -> ModelType:
         for key, value in new_data.items():
             setattr(obj, key, value)
         self.session.add(obj)
-        self.session.commit()
-        self.session.refresh(obj)
+
+        if commit:
+            self.session.commit()
+            try:
+                self.session.refresh(obj)
+            except:
+                self.session.flush()
+                self.session.refresh(obj)
+        else:
+            self.session.flush()
+            self.session.refresh(obj)
+
         return obj
 
     """

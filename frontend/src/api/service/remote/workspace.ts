@@ -1,16 +1,13 @@
 import { GET, POST } from 'src/hooks/useRequest';
+import { BaseService } from 'src/api/service/remote/base'
 
 /**
  * Remote workspace service
  *
  * @version 1.0
  */
-export class WorkspaceService {
-  private apiName = 'workspace';
-
-  async save(data: Indexable): Promise<any> {
-    return POST({ name: this.apiName, body: data });
-  }
+export class WorkspaceService extends BaseService {
+  protected apiName = 'workspace';
 
   async getWorkspaces(): Promise<any> {
     return GET({

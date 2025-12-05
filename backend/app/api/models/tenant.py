@@ -3,7 +3,7 @@ import uuid
 
 from sqlmodel import Field, Column, String, Integer
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 from app.api.models.enums import Status
 
 
@@ -19,7 +19,9 @@ class TenantType(enum.StrEnum):
 
 
 class Tenant(BaseSQLModel, BaseMixin, table=True):
+    user_id: uuid.UUID = uuid_field()
     name: str = Field(..., max_length=100)
+    icon: str | None = Field(default=None)
     plan: str = Field(
         default=TenantPlan.BASIC,
         max_length=32,
@@ -41,11 +43,13 @@ class Tenant(BaseSQLModel, BaseMixin, table=True):
 class TenantBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     name: str | None = None
+    icon: str | None = None
     plan: str | None = None
 
 
 class TenantCreate(BaseApiModel):
     name: str
+    icon: str | None = None
     plan: str
     type: str
 

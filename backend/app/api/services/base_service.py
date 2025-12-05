@@ -20,25 +20,25 @@ class BaseService(Generic[ModelType]):
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj
 
-    def save(self, obj: ModelType) -> ModelType:
+    def save(self, obj: ModelType, commit: bool = True) -> ModelType:
         id = obj.id
         newObj = self.repo.get(id)
         if not newObj:
-            return self.create(obj)
+            return self.create(obj, commit)
         update_dict = obj.model_dump(exclude_unset=True, exclude_none=True)
-        return self.update(id, update_dict)
+        return self.update(id, update_dict, commit)
 
-    def create(self, obj: ModelType) -> ModelType:
-        return self.repo.create(obj)
+    def create(self, obj: ModelType, commit: bool = True) -> ModelType:
+        return self.repo.create(obj, commit)
 
-    def update(self, id: UUID, new_data: dict) -> ModelType:
+    def update(self, id: UUID, new_data: dict, commit: bool = True) -> ModelType:
         obj = self.get(id)
-        return self.repo.update(obj, new_data)
+        return self.repo.update(obj, new_data, commit)
 
-    def update_by_owner(self, user_id: UUID, tenant_id: UUID, id: UUID, new_data: dict) -> ModelType:
+    def update_by_owner(self, user_id: UUID, tenant_id: UUID, id: UUID, new_data: dict, commit: bool = True) -> ModelType:
         obj = self.get(id)
         self._check_owner(user_id, tenant_id, obj)
-        return self.repo.update(obj, new_data)
+        return self.repo.update(obj, new_data, commit)
 
     def delete(self, id: UUID):
         obj = self.get(id)

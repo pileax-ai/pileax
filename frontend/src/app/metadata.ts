@@ -40,3 +40,8 @@ export const RefTypes = [
   { label: '图书', value: 'book', color: 'blue', icon: 'book' },
 ];
 
+export const WorkspaceTypes = [
+  { label: '个人', value: 'personal', color: 'grey', icon: 'description' },
+  { label: '团队', value: 'team', color: 'blue', icon: 'book' },
+];
+

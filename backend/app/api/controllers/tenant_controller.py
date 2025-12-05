@@ -15,7 +15,10 @@ class TenantController(BaseController[Tenant, TenantCreate, TenantUpdate]):
         tenant_id: CurrentTenantId
     ):
         super().__init__(Tenant, session, tenant_id, user_id)
-        self.service = TenantService(session)
+        self.service = TenantService(session, user_id)
 
     def get_user_tenants(self) -> Any:
         return self.service.get_user_tenants(self.user_id)
+
+    def save(self, item_in: TenantCreate) -> Tenant:
+        return self.service.save(item_in)
