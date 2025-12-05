@@ -11,7 +11,7 @@ export default function () {
   });
 
   const isLogin = computed(() => {
-    return accountStore.account.id !== undefined;
+    return accountStore.accountId !== undefined;
   });
 
   // workspace
@@ -24,7 +24,7 @@ export default function () {
 
   const initWorkspace = async () => {
     if (isLogin.value) {
-      await accountStore.getWorkspaces()
+      await accountStore.initWorkspaces()
     }
   }
 

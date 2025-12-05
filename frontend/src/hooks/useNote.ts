@@ -6,27 +6,35 @@ import { MenuItem } from 'core/types/menu';
 import { UUID } from 'core/utils/crypto';
 import { router } from 'src/router';
 import { noteService } from 'src/api/service/remote/note';
+import { useAccountStore } from 'stores/account'
 
 export default function () {
   const naviStore = useNaviStore();
-  const noteStore = useNoteStore();
+  const accountStore = useAccountStore();
+  // const noteStore = useNoteStore();
   const recentNotes = ref<Note[]>([]);
 
+  const noteStore = computed(() => {
+    const currentTenantId = accountStore.workspaceId;
+    console.log('userNote, tenant id', currentTenantId);
+    return useNoteStore(currentTenantId);
+  })
+
   const currentNote = computed(() => {
-    return noteStore.currentNote;
+    return noteStore.value.currentNote;
   });
 
   const notes = computed(() => {
-    return noteStore.notes;
+    return noteStore.value.notes;
   });
 
   const currentNoteId = computed(() => {
-    return noteStore.noteId;
+    return noteStore.value.noteId;
   });
 
   function setCurrentNote(note: Note | null) {
     if (!note) return;
-    noteStore.setCurrentNote(note);
+    noteStore.value.setCurrentNote(note);
     const menu = {
       id: note.id,
       name: note.title,
@@ -44,7 +52,7 @@ export default function () {
 
   async function getAllNotes() {
     const notes = await noteService.getAll();
-    noteStore.setNotes(notes);
+    noteStore.value.setNotes(notes);
   }
 
   function refreshNote(note: Note) {

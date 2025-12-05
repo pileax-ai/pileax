@@ -65,5 +65,5 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def find_all_by_tenant(self) -> List[ModelType]:
         return self.service.find_all({
-            'tenantId': self.tenant_id,
+            'tenant_id': self.tenant_id,
         })

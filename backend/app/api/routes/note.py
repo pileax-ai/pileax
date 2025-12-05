@@ -39,4 +39,4 @@ def query(query: PaginationQuery, controller: NoteController = Depends()) -> Any
 
 @router.api_get("/all", response_model=List[NotePublic])
 def find_all(controller: NoteController = Depends()) -> Any:
-    return controller.find_all_by_owner()
+    return controller.find_all_by_tenant()

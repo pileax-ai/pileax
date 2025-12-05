@@ -9,6 +9,7 @@ export interface MenuItemMeta {
   hidden?: boolean,
   collapse?: boolean,
 }
+
 export interface MenuItem {
   id: string;
   parentId?: string;
@@ -25,4 +26,13 @@ export interface MenuItem {
   favorite?: number,
   pinned?: boolean,
   isShow?: number,
+}
+
+export interface TabItem {
+  id: string;
+  name: string;
+  path: string;
+  icon?: string,
+  meta?: MenuItemMeta,
+  pinned?: boolean,
 }

@@ -2,9 +2,10 @@ import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
 import { Note } from 'src/types/note';
-import { Chat } from 'src/types/chat'
+import { Chat } from 'src/types/chat';
+import { defineTenantStore } from 'core/tab/tenant-store-factory'
 
-export const useNoteStore = defineStore('note', {
+export const useNoteStore = defineTenantStore('note', {
   state: () => ({
     currentNote: {} as Note,
     notes: [] as Note[],
@@ -37,6 +38,3 @@ export const useNoteStore = defineStore('note', {
   }
 });
 
-export const useNoteStoreWithOut = () => {
-  return useNoteStore(store);
-}

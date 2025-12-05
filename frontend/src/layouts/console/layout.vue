@@ -50,7 +50,7 @@ import TabDrawer from './navi/tab-drawer.vue';
 import GroupDrawer from './navi/group-drawer.vue';
 import NaviTabbar from './tabbar/NaviTabbar.vue';
 import ModalEntry from 'components/modal/ModalEntry.vue';
-import useAi from 'src/hooks/useAi'
+import useAi from 'src/hooks/useAi';
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -80,6 +80,10 @@ async function initConsole () {
   // First
   await initWorkspace();
   initAiSettings();
+}
+
+function initNote() {
+
 }
 
 function onRouteChanged() {
