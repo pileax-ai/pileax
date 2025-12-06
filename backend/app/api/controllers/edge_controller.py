@@ -5,7 +5,7 @@ import edge_tts
 from fastapi import HTTPException
 from starlette.responses import StreamingResponse
 
-from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
+from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
 from app.api.models.edge import EdgeTTS
 
 
@@ -14,7 +14,7 @@ class EdgeController:
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentTenantId
+        tenant_id: CurrentWorkspaceId
     ):
         pass
 

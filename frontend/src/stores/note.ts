@@ -1,9 +1,9 @@
 import { CODE } from 'core/app';
 import { Note } from 'src/types/note';
 import { Chat } from 'src/types/chat';
-import { defineTenantStore } from 'core/tab/tenant-store-factory'
+import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
-export const useNoteStore = defineTenantStore('note', {
+export const useNoteStore = defineWorkspaceStore('note', {
   state: () => ({
     currentNote: {} as Note,
     notes: [] as Note[],

@@ -23,12 +23,12 @@ EXT_NAMES = [
     'provider_model',
     'system',
     'tenant',
-    'tenant_book',
-    'tenant_book_collection',
     'tenant_default_model',
-    'tenant_member',
     'user',
     'workspace',
+    'workspace_book',
+    'workspace_book_collection',
+    'workspace_member',
 ]
 EXT_MODULES = [f"{__name__}.{name}" for name in EXT_NAMES]
 

@@ -39,4 +39,4 @@ def query(query: PaginationQuery, controller: FileMetaController = Depends()) ->
 
 @router.api_post("/all", response_model=List[FileMetaPublic])
 def find_all(controller: FileMetaController = Depends()) -> Any:
-    return controller.find_all_by_owner()
+    return controller.find_all_by_workspace()

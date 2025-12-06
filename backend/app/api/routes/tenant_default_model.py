@@ -39,7 +39,7 @@ def query(query: PaginationQuery, controller: TenantDefaultModelController = Dep
 
 @router.api_get("/all", response_model=List[TenantDefaultModelPublic])
 def find_all(controller: TenantDefaultModelController = Depends()) -> Any:
-    return controller.find_all_by_tenant()
+    return controller.find_all()
 
 
 @router.api_get("/by-type", response_model=TenantDefaultModelPublic)

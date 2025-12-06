@@ -1,8 +1,8 @@
 import { CODE } from 'core/app';
 import { ChatInput } from 'src/types/chat';
-import { defineTenantStore } from 'core/tab/tenant-store-factory';
+import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory';
 
-export const useChatStore = defineTenantStore('chat', {
+export const useChatStore = defineWorkspaceStore('chat', {
   state: () => ({
     chatMap: new Map<string, ChatInput>(),
     conversationTimer: 0

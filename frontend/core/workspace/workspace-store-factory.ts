@@ -1,5 +1,5 @@
 import { defineStore, DefineStoreOptions, Store } from 'pinia'
-import { tenantManager } from './tenant-manager';
+import { workspaceManager } from './workspace-manager';
 
 // 简单的缓存
 const storeCache = new Map<string, any>();
@@ -14,11 +14,11 @@ interface PersistConfig {
 
 export const createStore = (
   storeId: string,
-  factory: (tenantId: string) => any
+  factory: (workspaceId: string) => any
 ) => {
-  return (tenantId?: string) => {
-    const targetTenantId = tenantId || tenantManager.getCurrentTenantId();
-    const storeKey = `${storeId}_${targetTenantId}`;
+  return (workspaceId?: string) => {
+    const targetWorkspaceId = workspaceId || workspaceManager.getCurrentWorkspaceId();
+    const storeKey = `${storeId}_${targetWorkspaceId}`;
 
     // 使用缓存
     if (storeCache.has(storeKey)) {
@@ -27,11 +27,11 @@ export const createStore = (
 
     // 定义store
     const useStore = defineStore(storeKey, () => {
-      const state = factory(targetTenantId);
+      const state = factory(targetWorkspaceId);
 
       return {
         ...state,
-        $tenantId: targetTenantId,
+        $workspaceId: targetWorkspaceId,
         $storeId: storeId,
         $storeKey: storeKey
       };
@@ -45,7 +45,7 @@ export const createStore = (
   };
 }
 
-export const defineTenantStore = <
+export const defineWorkspaceStore = <
   Id extends string,
   S extends object,
   G extends object = {},
@@ -54,22 +54,22 @@ export const defineTenantStore = <
   storeId: Id,
   options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>  // 移除id属性，因为我们会自动生成
 ) => {
-  return (tenantId?: string): Store<Id, S, G, A> & {
-    $tenantId: string;
+  return (workspaceId?: string): Store<Id, S, G, A> & {
+    $workspaceId: string;
     $storeId: string;
   } => {
-    const targetTenantId = tenantId || tenantManager.getCurrentTenantId();
-    const tenantStoreId = `${storeId}_${targetTenantId}` as Id;
-    const storeKey = `${storeId}_${targetTenantId}`;
+    const targetWorkspaceId = workspaceId || workspaceManager.getCurrentWorkspaceId();
+    const workspaceStoreId = `${storeId}_${targetWorkspaceId}` as Id;
+    const storeKey = `${storeId}_${targetWorkspaceId}`;
 
     if (storeCache.has(storeKey)) {
       return storeCache.get(storeKey) as any;
     }
 
     // 处理persist配置
-    const tenantOptions: DefineStoreOptions<Id, S, G, A> = {
+    const workspaceOptions: DefineStoreOptions<Id, S, G, A> = {
       ...options,
-      id: tenantStoreId,  // 在这里添加id
+      id: workspaceStoreId,  // 在这里添加id
     } as DefineStoreOptions<Id, S, G, A>;
 
     // 处理persist
@@ -80,7 +80,7 @@ export const defineTenantStore = <
       if (originalPersist && typeof originalPersist === 'object') {
         Object.keys(originalPersist).forEach(key => {
           if (key === 'key') {
-            newPersist[key] = `tenant_${targetTenantId}_${originalPersist[key] || storeId}`;
+            newPersist[key] = `workspace_${targetWorkspaceId}_${originalPersist[key] || storeId}`;
           } else {
             newPersist[key] = originalPersist[key];
           }
@@ -89,33 +89,33 @@ export const defineTenantStore = <
 
       // 确保key被正确设置
       if (originalPersist && originalPersist.key && !newPersist.key) {
-        newPersist.key = `tenant_${targetTenantId}_${originalPersist.key}`;
+        newPersist.key = `workspace_${targetWorkspaceId}_${originalPersist.key}`;
       } else if (!newPersist.key) {
-        newPersist.key = `tenant_${targetTenantId}_${storeId}`;
+        newPersist.key = `workspace_${targetWorkspaceId}_${storeId}`;
       }
 
-      tenantOptions.persist = newPersist;
+      workspaceOptions.persist = newPersist;
     }
 
     // 创建store实例
-    const useStore = defineStore(tenantStoreId, tenantOptions);
+    const useStore = defineStore(workspaceStoreId, workspaceOptions);
     const storeInstance = useStore();
 
     // 添加租户信息
-    const storeWithTenant = storeInstance as any;
-    storeWithTenant.$tenantId = targetTenantId;
-    storeWithTenant.$storeId = storeId;
+    const storeWithWorkspace = storeInstance as any;
+    storeWithWorkspace.$workspaceId = targetWorkspaceId;
+    storeWithWorkspace.$storeId = storeId;
 
-    storeCache.set(storeKey, storeWithTenant);
+    storeCache.set(storeKey, storeWithWorkspace);
 
-    return storeWithTenant;
+    return storeWithWorkspace;
   };
 }
 
 // 清理租户缓存
-export const clearTenantCache = (tenantId: string): void => {
+export const clearWorkspaceCache = (workspaceId: string): void => {
   const keys = Array.from(storeCache.keys()).filter(key =>
-    key.endsWith(`_${tenantId}`)
+    key.endsWith(`_${workspaceId}`)
   );
 
   keys.forEach(key => {

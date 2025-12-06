@@ -14,7 +14,7 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        filters = DbHelper.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'tenant_id', 'user_id'])
+        filters = DbHelper.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'workspace_id', 'user_id'])
 
         # 2. stmt
         stmt = (select(BookAnnotation, Book)

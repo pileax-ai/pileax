@@ -5,7 +5,7 @@ import { LoginParams } from 'src/api/models/account';
 import { clearUserCache, } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import { workspaceService } from 'src/api/service/remote/workspace'
-import { TenantInfo, tenantManager } from 'core/tab/tenant-manager'
+import { WorkspaceInfo, workspaceManager } from 'core/workspace/workspace-manager'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
@@ -53,13 +53,13 @@ export const useAccountStore = defineStore('account', {
       return new Promise((resolve, reject) => {
         workspaceService.getWorkspaces().then(res => {
           this.workspaces = res;
-          tenantManager.setTenants(res);
+          workspaceManager.setWorkspaces(res);
 
           // Default workspace
           if (!this.workspace?.id && this.workspaces.length) {
             const defaultWorkspace = this.workspaces[0];
             this.switchWorkspace(defaultWorkspace!)
-            tenantManager.setDefaultTenant(defaultWorkspace! as TenantInfo)
+            workspaceManager.setDefaultWorkspace(defaultWorkspace! as WorkspaceInfo)
           }
           resolve(res)
         }).catch((err: any) => {
@@ -76,7 +76,7 @@ export const useAccountStore = defineStore('account', {
     switchWorkspace(value: Indexable, redirect = '/welcome') {
       // console.log('setWorkspace', value);
       this.workspace = value;
-      tenantManager.switchTenant(value.id);
+      workspaceManager.switchWorkspace(value.id);
       if (redirect) {
         this.router.push(redirect);
       }

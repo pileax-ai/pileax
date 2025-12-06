@@ -36,11 +36,11 @@ export default function () {
 
   const switchWorkspace = (workspace: Indexable) => {
     accountStore.switchWorkspace(workspace);
-    tabStore.updateTenant(workspace.id);
+    tabStore.updateWorkspace(workspace.id);
   }
 
   const switchWorkspaceByTab = (tab: TabItem) => {
-    const workspace = accountStore.getWorkspace(tab.tenantId);
+    const workspace = accountStore.getWorkspace(tab.workspaceId);
     if (workspace) {
       accountStore.switchWorkspace(workspace, '');
     }

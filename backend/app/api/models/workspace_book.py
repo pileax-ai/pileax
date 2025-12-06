@@ -12,14 +12,14 @@ class ReadStatus(enum.IntEnum):
     CURRENTLY_READING = 2
     FINISHED = 3
 
-class TenantBook(BaseSQLModel, BaseMixin, table=True):
-    __tablename__ = "tenant_book"
+class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
+    __tablename__ = "workspace_book"
 
     __table_args__ = (
-        UniqueConstraint("tenant_id", "book_id", name="unique_tenant_book"),
+        UniqueConstraint("workspace_id", "book_id", name="unique_workspace_book"),
     )
 
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     rating: int | None = Field(default=0, ge=0, le=5)
@@ -38,36 +38,36 @@ class TenantBook(BaseSQLModel, BaseMixin, table=True):
     )
 
 
-class TenantBookBase(BaseApiModel):
+class WorkspaceBookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     user_id: uuid.UUID | None = None
     book_id: uuid.UUID | None = None
-    tenant_id: uuid.UUID | None = None
+    workspace_id: uuid.UUID | None = None
     rating: int | None = 0
     reading_position: str | None = ""
     reading_percentage: float | None = 0.0
     reading_status: int | None = None
 
 
-class TenantBookCreate(TenantBookBase):
+class WorkspaceBookCreate(WorkspaceBookBase):
     pass
 
 
-class TenantBookUpdate(TenantBookBase):
+class WorkspaceBookUpdate(WorkspaceBookBase):
     id: uuid.UUID
 
-class TenantBookUpdateReadingProgress(BaseApiModel):
+class WorkspaceBookUpdateReadingProgress(BaseApiModel):
     id: uuid.UUID
     reading_position: str
     reading_percentage: float
     reading_status: int | None = None
 
 
-class TenantBookPublic(TenantBookCreate, BaseMixin):
+class WorkspaceBookPublic(WorkspaceBookCreate, BaseMixin):
     pass
 
 
-class TenantBookDetails(TenantBookPublic):
+class WorkspaceBookDetails(WorkspaceBookPublic):
     owner: uuid.UUID
     title: str
     path: str | None = None
@@ -83,5 +83,5 @@ class TenantBookDetails(TenantBookPublic):
     book_rating: int
 
 
-class TenantCollectionBookDetails(TenantBookDetails):
+class WorkspaceCollectionBookDetails(WorkspaceBookDetails):
     tid: uuid.UUID | None = None

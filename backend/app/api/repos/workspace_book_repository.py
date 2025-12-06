@@ -4,32 +4,32 @@ from uuid import UUID
 
 from app.api.models.book import Book
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.tenant_book import TenantBook
+from app.api.models.workspace_book import WorkspaceBook
 from app.api.repos.base_repository import BaseRepository
 from app.libs.db_helper import DbHelper
 
 
-class TenantBookRepository(BaseRepository[TenantBook]):
+class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
     def __init__(self, model, session):
         super().__init__(model, session)
 
-    def get_extension_stats(self, tenant_id: UUID):
+    def get_extension_stats(self, workspace_id: UUID):
         stmt = (
             select(Book.extension.label("type"), func.count().label("count"))
-            .select_from(TenantBook)
-            .join(Book, Book.id == TenantBook.book_id, isouter=True)
-            .where(TenantBook.tenant_id == str(tenant_id))
+            .select_from(WorkspaceBook)
+            .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
+            .where(WorkspaceBook.workspace_id == str(workspace_id))
             .group_by(Book.extension)
         )
         # print(stmt.compile(compile_kwargs={"literal_binds": True}))
         result = self.session.exec(stmt)
         return [{"type": row.type, "count": row.count} for row in result.all()]
 
-    def get_status_stats(self, tenant_id: UUID):
+    def get_status_stats(self, workspace_id: UUID):
         stmt = (
-            select(TenantBook.reading_status.label("status"), func.count().label("count"))
-            .where(TenantBook.tenant_id == str(tenant_id))
-            .group_by(TenantBook.reading_status)
+            select(WorkspaceBook.reading_status.label("status"), func.count().label("count"))
+            .where(WorkspaceBook.workspace_id == str(workspace_id))
+            .group_by(WorkspaceBook.reading_status)
         )
         print(stmt.compile(compile_kwargs={"literal_binds": True}))
         result = self.session.exec(stmt)
@@ -37,9 +37,9 @@ class TenantBookRepository(BaseRepository[TenantBook]):
 
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
-            select(TenantBook, Book)
-            .join(Book, Book.id == TenantBook.book_id)
-            .where(TenantBook.id == id)
+            select(WorkspaceBook, Book)
+            .join(Book, Book.id == WorkspaceBook.book_id)
+            .where(WorkspaceBook.id == id)
         )
         result = self.session.exec(stmt).first()
         if result:
@@ -50,25 +50,25 @@ class TenantBookRepository(BaseRepository[TenantBook]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            TenantBook: ['tenant_id', 'user_id', 'reading_status'],
+            WorkspaceBook: ['workspace_id', 'user_id', 'reading_status'],
             Book: ['title', 'extension'],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(TenantBook, Book)
-            .join(Book, Book.id == TenantBook.book_id)
+        stmt = (select(WorkspaceBook, Book)
+            .join(Book, Book.id == WorkspaceBook.book_id)
         )
         count_stmt = (select(func.count())
-            .select_from(TenantBook)
-            .join(Book, Book.id == TenantBook.book_id)
+            .select_from(WorkspaceBook)
+            .join(Book, Book.id == WorkspaceBook.book_id)
         )
         if filters:
             stmt = stmt.where(*filters)
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        stmt = DbHelper.apply_sort(stmt, [TenantBook, Book], query.sort)
+        stmt = DbHelper.apply_sort(stmt, [WorkspaceBook, Book], query.sort)
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
@@ -87,9 +87,9 @@ class TenantBookRepository(BaseRepository[TenantBook]):
         )
 
     @staticmethod
-    def build_details(tenant_book: TenantBook, book: Book) -> dict:
+    def build_details(workspace_book: WorkspaceBook, book: Book) -> dict:
         return {
-            **tenant_book.model_dump(),
+            **workspace_book.model_dump(),
             "owner": book.user_id,
             "title": book.title,
             "path": book.path,

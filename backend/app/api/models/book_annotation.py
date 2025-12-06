@@ -8,10 +8,10 @@ from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_fiel
 class BookAnnotation(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "book_annotation"
 
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
-    tenant_book_id: uuid.UUID = uuid_field()
+    workspace_book_id: uuid.UUID = uuid_field()
     type: str | None = Field(default=None)
     value: str | None = Field(default=None)
     note: str | None = Field(default=None)
@@ -32,7 +32,7 @@ class BookAnnotationBase(BaseApiModel):
 
 class BookAnnotationCreate(BookAnnotationBase):
     book_id: uuid.UUID | None = None
-    tenant_book_id: uuid.UUID | None = None
+    workspace_book_id: uuid.UUID | None = None
 
 
 class BookAnnotationUpdate(BookAnnotationBase):
@@ -40,7 +40,7 @@ class BookAnnotationUpdate(BookAnnotationBase):
 
 
 class BookAnnotationPublic(BookAnnotationCreate, BaseMixin):
-    tenant_id: uuid.UUID
+    workspace_id: uuid.UUID
     pass
 
 

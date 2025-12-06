@@ -7,7 +7,7 @@
 import { Platform, Cookies } from 'quasar'
 import packageInfo from '../../package.json'
 import { getItem, getItemObject } from 'core/utils/storage'
-import { getAuthorization, getTenantId } from 'src/utils/auth'
+import { getAuthorization, getWorkspaceId } from 'src/utils/auth'
 
 export const getCommonHeaders = () => {
   const platform = Platform.is;
@@ -18,7 +18,7 @@ export const getCommonHeaders = () => {
     'x-locale': getItem('locale') || 'en',
     'x-os': platform.platform,
     'x-os-version': platform.versionNumber,
-    'x-tenant-id': getTenantId(),
+    'x-workspace-id': getWorkspaceId(),
   }
 }
 

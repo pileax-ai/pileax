@@ -7,32 +7,21 @@ from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_fiel
 from app.api.models.enums import Status
 
 
-class TenantPlan(enum.StrEnum):
-    BASIC = "basic"
-    TEAM = "team"
-    ENTERPRISE = "enterprise"
-
-
-class TenantType(enum.StrEnum):
+class WorkspaceType(enum.StrEnum):
     PERSONAL = "personal"
-    ORGANIZATION = "organization"
+    TEAM = "team"
 
 
-class Tenant(BaseSQLModel, BaseMixin, table=True):
+class Workspace(BaseSQLModel, BaseMixin, table=True):
+    tenant_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     name: str = Field(..., max_length=100)
     icon: str | None = Field(default=None)
-    plan: str = Field(
-        default=TenantPlan.BASIC,
-        max_length=32,
-        sa_column=Column(String(32), default=TenantPlan.BASIC)
-    )
     type: str = Field(
-        default=TenantType.PERSONAL,
+        default=WorkspaceType.PERSONAL,
         max_length=32,
-        sa_column=Column(String(32), default=TenantType.PERSONAL)
+        sa_column=Column(String(32), default=WorkspaceType.PERSONAL)
     )
-    public_key: str | None = Field(default=None, max_length=255)
     status: int = Field(
         default=Status.ACTIVE,
         sa_type=Integer,
@@ -40,23 +29,21 @@ class Tenant(BaseSQLModel, BaseMixin, table=True):
     )
 
 
-class TenantBase(BaseApiModel):
+class WorkspaceBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     name: str | None = None
     icon: str | None = None
-    plan: str | None = None
 
 
-class TenantCreate(BaseApiModel):
+class WorkspaceCreate(BaseApiModel):
     name: str
     icon: str | None = None
-    plan: str
     type: str
 
 
-class TenantUpdate(TenantBase):
+class WorkspaceUpdate(WorkspaceBase):
     id: uuid.UUID
 
 
-class TenantPublic(TenantCreate, BaseMixin):
+class WorkspacePublic(WorkspaceCreate, BaseMixin):
     pass

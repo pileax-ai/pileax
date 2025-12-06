@@ -7,7 +7,7 @@ from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_fiel
 
 
 class Note(BaseSQLModel, BaseMixin, table=True):
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     parent: uuid.UUID | None = uuid_field(default_none=True)
     title: str = Field(..., max_length=255, description="Note title")
@@ -49,5 +49,5 @@ class NoteUpdate(NoteBase):
 
 
 class NotePublic(NoteCreate, BaseMixin):
-    tenant_id: uuid.UUID
+    workspace_id: uuid.UUID
     pass

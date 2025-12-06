@@ -1,5 +1,5 @@
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
+from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
 from app.api.models.app import App, AppCreate, AppUpdate
 
 class AppController(BaseController[App, AppCreate, AppUpdate]):
@@ -7,6 +7,6 @@ class AppController(BaseController[App, AppCreate, AppUpdate]):
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentTenantId
+        workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(App, session, tenant_id, user_id)
+        super().__init__(App, session, workspace_id, user_id)

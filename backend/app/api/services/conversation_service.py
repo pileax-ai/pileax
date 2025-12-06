@@ -7,11 +7,11 @@ from app.api.services.base_service import BaseService
 
 
 class ConversationService(BaseService[Conversation]):
-    def __init__(self, session, tenant_id, user_id):
+    def __init__(self, session, workspace, user_id):
         super().__init__(Conversation, session, ConversationRepository)
-        self.tenant_id = tenant_id
+        self.workspace = workspace
         self.user_id = user_id
-        self.app_service = AppService(session, self.tenant_id, self.user_id)
+        self.app_service = AppService(session, self.workspace.tenant_id, self.user_id)
         self.tdm_repository = TenantDefaultModelRepository(TenantDefaultModel, session)
 
     def save(self, item_in: ConversationCreate) -> Conversation:
@@ -21,12 +21,13 @@ class ConversationService(BaseService[Conversation]):
             item_in.app_id = app.id
 
         # default model
-        tdm_credential = self.tdm_repository.get_default_model_credential(self.tenant_id, item_in.model_type)
+        # todo
+        tdm_credential = self.tdm_repository.get_default_model_credential(self.workspace.tenant_id, item_in.model_type)
         if tdm_credential:
             item_in.model_provider = tdm_credential.provider
             item_in.model_name = tdm_credential.model_name
 
         item = item_in.model_dump(by_alias=True)
-        item['tenantId'] = self.tenant_id
+        item['workspaceId'] = self.workspace.id
 
         return super().save(Conversation(**item))

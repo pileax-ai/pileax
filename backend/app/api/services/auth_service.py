@@ -1,8 +1,6 @@
 import base64
 import secrets
 
-from datetime import timedelta
-
 from fastapi import HTTPException, status
 
 from app.api.models.auth import Token, Signin, LoginUpdate, TokenPublic
@@ -10,6 +8,7 @@ from app.api.models.enums import Status
 from app.api.models.user import User
 from app.api.services.tenant_service import TenantService
 from app.api.services.user_service import UserService
+from app.api.services.workspace_service import WorkspaceService
 from app.configs import app_config
 from app.libs.helper import get_current_time
 from app.libs.jwt_service import JWTService
@@ -37,7 +36,10 @@ class AuthService:
         user = self.service.create(obj)
 
         # Create default tenant
-        TenantService(self.session).create_default(user)
+        tenant = TenantService(self.session).create_default(user)
+
+        # Create default workspace
+        WorkspaceService(self.session).create_default(user, tenant)
 
         return user
 

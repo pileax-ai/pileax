@@ -1,5 +1,5 @@
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import CurrentTenantId, SessionDep, CurrentUserId
+from app.api.deps import CurrentWorkspaceId, SessionDep, CurrentUserId
 from app.api.models.note import Note, NoteCreate, NoteUpdate
 
 
@@ -8,6 +8,6 @@ class NoteController(BaseController[Note, NoteCreate, NoteUpdate]):
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentTenantId,
+        workspace_id: CurrentWorkspaceId,
     ):
-        super().__init__(Note, session, tenant_id, user_id)
+        super().__init__(Note, session, workspace_id, user_id)

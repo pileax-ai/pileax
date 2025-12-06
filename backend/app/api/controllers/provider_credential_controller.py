@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import HTTPException
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
+from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
 from app.api.models.provider import Provider
 from app.api.models.provider_credential import ProviderCredential, ProviderCredentialCreate, ProviderCredentialUpdate, \
     ProviderCredentialPublic
@@ -20,9 +20,10 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentTenantId
+        workspace: CurrentWorkspace
     ):
-        super().__init__(ProviderCredential, session, tenant_id, user_id)
+        super().__init__(ProviderCredential, session, workspace.id, user_id)
+        self.workspace = workspace
         self.service = ProviderCredentialService(session)
         self.provider_service = ProviderService(session)
 
@@ -39,12 +40,12 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
         # Save provider credential
         item = item_in.model_dump(by_alias=True)
         item["credential"] = item_in.credential.model_dump_json(by_alias=True)
-        item['tenantId'] = self.tenant_id
+        item['tenantId'] = self.workspace.tenant_id
         item_out = self.service.save(ProviderCredential(**item))
 
         # Save provider
         self.provider_service.save(Provider(
-            tenant_id=self.tenant_id,
+            tenant_id=self.workspace.tenant_id,
             provider=provider,
             credential_id=item_out.id
         ))
@@ -75,7 +76,7 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
 
         # update credential_id in provider
         provider = self.provider_service.find_one({
-            "tenant_id": self.tenant_id,
+            "tenant_id": self.workspace.tenant_id,
             "credential_id": id
         })
         if provider is None:
@@ -83,7 +84,7 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
 
         # get new credential id
         new_provider_credential = self.service.find_one({
-            "tenant_id": self.tenant_id,
+            "tenant_id": self.workspace.tenant_id,
             "provider": provider_credential.provider
         })
         credential_id = new_provider_credential.id if new_provider_credential else None

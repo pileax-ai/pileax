@@ -9,7 +9,7 @@ from app.api.models.enums import Status
 class FileMeta(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "file_meta"
 
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     mimetype: str | None = Field(default="")
     size: int | None = Field(default=0, ge=0)
@@ -45,5 +45,5 @@ class FileMetaUpdate(BaseApiModel):
 
 
 class FileMetaPublic(FileMetaCreate, BaseMixin):
-    tenant_id: uuid.UUID
+    workspace_id: uuid.UUID
     pass

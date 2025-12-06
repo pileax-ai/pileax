@@ -2,7 +2,6 @@ import { computed, ref } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { useAiStore } from 'stores/ai';
 import { useTabStore } from 'stores/tab';
-import { tenantManager } from 'core/tab/tenant-manager'
 import { TabItem } from 'core/types/menu'
 
 export default function () {
@@ -38,11 +37,11 @@ export default function () {
 
   const switchWorkspace = (workspace: Indexable) => {
     accountStore.switchWorkspace(workspace);
-    tabStore.updateTenant(workspace.id);
+    tabStore.updateWorkspace(workspace.id);
   }
 
   const switchWorkspaceByTab = (tab: TabItem) => {
-    const workspace = accountStore.getWorkspace(tab.tenantId);
+    const workspace = accountStore.getWorkspace(tab.workspaceId);
     if (workspace) {
       accountStore.switchWorkspace(workspace, '');
     }

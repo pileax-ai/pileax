@@ -1,13 +1,13 @@
 from uuid import UUID
 
 from app.api.models.query import PaginationQuery
-from app.api.models.tenant_book_collection import TenantBookCollection
-from app.api.repos.tenant_book_collection_repository import TenantBookCollectionRepository
+from app.api.models.workspace_book_collection import WorkspaceBookCollection
+from app.api.repos.workspace_book_collection_repository import WorkspaceBookCollectionRepository
 from app.api.services.base_service import BaseService
 
-class TenantBookCollectionService(BaseService[TenantBookCollection]):
+class WorkspaceBookCollectionService(BaseService[WorkspaceBookCollection]):
     def __init__(self, session):
-        super().__init__(TenantBookCollection, session, TenantBookCollectionRepository)
+        super().__init__(WorkspaceBookCollection, session, WorkspaceBookCollectionRepository)
 
     def get_all(self, tenant_id: UUID) -> list:
         return self.repo.get_all(tenant_id)

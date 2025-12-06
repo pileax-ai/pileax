@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
+from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
 from app.libs.provider_helper import ProviderHelper
 
 
@@ -9,7 +9,7 @@ class LLMController():
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentTenantId
+        tenant_id: CurrentWorkspaceId
     ):
         pass
 

@@ -5,12 +5,12 @@ from fastapi import UploadFile
 
 from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
-from app.api.controllers.tenant_book_controller import TenantBookController
-from app.api.deps import SessionDep, CurrentUserId, CurrentTenantId
+from app.api.controllers.workspace_book_controller import WorkspaceBookController
+from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
 from app.api.models.book import Book, BookCreate, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
-from app.api.models.tenant_book import TenantBookCreate
-from app.api.repos.tenant_book_repository import TenantBookRepository
+from app.api.models.workspace_book import WorkspaceBookCreate
+from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.book_service import BookService
 from app.libs.book_uploader import BookUploader
 
@@ -20,12 +20,12 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentTenantId
+        workspace: CurrentWorkspace
     ):
-        super().__init__(Book, session, tenant_id, user_id)
+        super().__init__(Book, session, workspace.id, user_id)
         self.service = BookService(session)
-        self.fm_controller = FileMetaController(session, tenant_id, user_id)
-        self.tb_controller = TenantBookController(session, tenant_id, user_id)
+        self.fm_controller = FileMetaController(session, workspace.id, user_id)
+        self.tb_controller = WorkspaceBookController(session, workspace.id, user_id)
 
     def get_by_uuid(self, uuid: str) -> Book:
         return self.service.get_by_uuid(uuid)
@@ -57,8 +57,8 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book_in.path = sha1
         book = self.save(book_in)
 
-        # save tenant_book
-        tenant_book_in = TenantBookCreate(book_id=book_id)
-        tenant_book = self.tb_controller.save(tenant_book_in)
+        # save workspace_book
+        workspace_book_in = WorkspaceBookCreate(book_id=book_id)
+        workspace_book = self.tb_controller.save(workspace_book_in)
 
-        return TenantBookRepository.build_details(tenant_book, book)
+        return WorkspaceBookRepository.build_details(workspace_book, book)

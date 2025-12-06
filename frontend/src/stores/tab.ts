@@ -3,7 +3,7 @@ import { CODE } from 'core/app';
 import { MenuItem, TabItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto';
 import { store } from 'stores/index';
-import { tenantManager } from 'core/tab/tenant-manager'
+import { workspaceManager } from 'core/workspace/workspace-manager'
 
 export const useTabStore = defineStore('tab', {
   state: () => ({
@@ -29,7 +29,7 @@ export const useTabStore = defineStore('tab', {
         this.updateTabMetaWithCurrent();
       } else {
         tab.id = UUID();
-        tab.tenantId = tenantManager.getCurrentTenantId();
+        tab.workspaceId = workspaceManager.getCurrentWorkspaceId();
         this.tabs.push(tab);
         this.tab = tab;
       }
@@ -50,8 +50,8 @@ export const useTabStore = defineStore('tab', {
           : t
       );
     },
-    updateTenant(tenantId: string) {
-      this.tab.tenantId = tenantId;
+    updateWorkspace(workspaceId: string) {
+      this.tab.workspaceId = workspaceId;
       const index = this.findIndex(this.tab.id);
       if (index >= 0) {
         this.tabs.splice(index, 1, this.tab);
@@ -60,7 +60,7 @@ export const useTabStore = defineStore('tab', {
     addNewTab(path = '/welcome') {
       const tab = {
         id: UUID(),
-        tenantId: tenantManager.getCurrentTenantId(),
+        workspaceId: workspaceManager.getCurrentWorkspaceId(),
         name: '',
         path: path
       }
@@ -119,7 +119,7 @@ export const useTabStore = defineStore('tab', {
 
         this.tabs.splice(index, 1);
         if (this.tabs.length === 0) {
-          this.tab = { id: '', tenantId: tenantManager.getCurrentTenantId(), name: '', path: '' };
+          this.tab = { id: '', workspaceId: workspaceManager.getCurrentWorkspaceId(), name: '', path: '' };
           this.router.push('/welcome');
         } else {
           // Open sibling tab if current tab closed.

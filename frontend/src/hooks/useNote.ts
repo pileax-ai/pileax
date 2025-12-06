@@ -15,8 +15,8 @@ export default function () {
   const recentNotes = ref<Note[]>([]);
 
   const noteStore = computed(() => {
-    const currentTenantId = accountStore.workspaceId;
-    return useNoteStore(currentTenantId);
+    const currentWorkspaceId = accountStore.workspaceId;
+    return useNoteStore(currentWorkspaceId);
   })
 
   const currentNote = computed(() => {

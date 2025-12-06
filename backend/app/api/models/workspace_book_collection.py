@@ -5,37 +5,37 @@ from sqlmodel import Field, UniqueConstraint
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
 
-class TenantBookCollection(BaseSQLModel, BaseMixin, table=True):
-    __tablename__ = "tenant_book_collection"
+class WorkspaceBookCollection(BaseSQLModel, BaseMixin, table=True):
+    __tablename__ = "workspace_book_collection"
 
     __table_args__ = (
-        UniqueConstraint("tenant_book_id", "book_collection_id", name="unique_tenant_book_collection"),
+        UniqueConstraint("workspace_book_id", "book_collection_id", name="unique_workspace_book_collection"),
     )
 
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     book_collection_id: uuid.UUID = uuid_field()
-    tenant_book_id: uuid.UUID = uuid_field()
+    workspace_book_id: uuid.UUID = uuid_field()
 
 
-class TenantBookCollectionBase(BaseApiModel):
+class WorkspaceBookCollectionBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
-    tenant_book_id: uuid.UUID
+    workspace_book_id: uuid.UUID
     book_collection_id: uuid.UUID
-    tenant_id: uuid.UUID | None = None
+    workspace_id: uuid.UUID | None = None
 
 
-class TenantBookCollectionCreate(TenantBookCollectionBase):
+class WorkspaceBookCollectionCreate(WorkspaceBookCollectionBase):
     pass
 
 
-class TenantBookCollectionUpdate(TenantBookCollectionBase):
+class WorkspaceBookCollectionUpdate(WorkspaceBookCollectionBase):
     id: uuid.UUID
 
 
-class TenantBookCollectionPublic(TenantBookCollectionCreate, BaseMixin):
+class WorkspaceBookCollectionPublic(WorkspaceBookCollectionCreate, BaseMixin):
     pass
 
-class TenantBookCollectionDetails(TenantBookCollectionPublic):
+class WorkspaceBookCollectionDetails(WorkspaceBookCollectionPublic):
     owner: uuid.UUID
     title: str
     path: str | None = None
