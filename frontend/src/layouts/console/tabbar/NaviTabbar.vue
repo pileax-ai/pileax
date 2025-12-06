@@ -20,9 +20,6 @@
               indicator-color="transparent"
               narrow-indicator
               class="text-info bg-accent tabs">
-        <!--        <template v-for="(item, index) in tabs" :key="index">-->
-        <!--          <navi-tab :item="item" :minimized="minimized" />-->
-        <!--        </template>-->
         <draggable :list="pinnedTabs"
                    item-key="id"
                    class="row no-wrap"
@@ -128,7 +125,7 @@ async function onAdd() {
 
 function onTabChanged(id: string) {
   const tab = tabStore.openTab(id, route.path);
-  console.log('open tab', tab);
+  // console.log('open tab', tab);
   if (tab) {
     switchWorkspaceByTab(tab)
   }

@@ -5,13 +5,9 @@ import { ChatInput } from 'src/types/chat';
 
 export const useKnowledgeStore = defineStore('knowledge', {
   state: () => ({
-    currentChat: undefined as undefined | ChatInput,
     queryTimer: 0
   }),
   actions: {
-    setCurrentChat(value?: ChatInput) {
-      this.currentChat = value;
-    },
     setQueryTimer(value: number) {
       this.queryTimer = value;
     },

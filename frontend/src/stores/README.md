@@ -4,7 +4,6 @@
 - [x] account
 - [ ] api
 - [ ] app
-- [ ] chat
 - [ ] component
 - [ ] knowledge
 - [ ] navi
@@ -13,5 +12,6 @@
 ## Tenant independent stores
 - [ ] ai
 - [ ] book
+- [x] chatx
 - [x] note
-- [x] reader
+- [ ] reader

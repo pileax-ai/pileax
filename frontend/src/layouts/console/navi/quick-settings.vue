@@ -111,7 +111,7 @@ const { account, workspace, workspaces, logout, switchWorkspace } = useAccount()
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
-  return props.type === 'tab' ? [-4, -4] : [-5, -5];
+  return props.type === 'tab' ? [-2, -2] : [-5, -5];
 })
 
 const actions = computed(() => {

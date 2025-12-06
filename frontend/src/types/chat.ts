@@ -1,4 +1,5 @@
 export interface ChatInput {
+  id: string;
   message: string;
   reasoning: boolean;
 }

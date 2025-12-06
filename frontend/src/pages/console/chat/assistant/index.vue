@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
 
 import OAssistantChat from 'components/chat/OAssistantChat.vue';
 import OSplitSidePage from 'core/page/template/OSplitSidePage.vue';

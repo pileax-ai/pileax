@@ -98,7 +98,7 @@ function onCommand (command: Indexable) {
       favoriteTop.value = false;
       break;
   }
-  noteStore.setFavoriteTop(favoriteTop.value);
+  noteStore.value.setFavoriteTop(favoriteTop.value);
 }
 
 function onSearch () {
@@ -108,7 +108,7 @@ function onSearch () {
 }
 
 onBeforeMount(() => {
-  favoriteTop.value = noteStore.favoriteTop;
+  favoriteTop.value = noteStore.value.favoriteTop;
   getAllNotes();
 })
 

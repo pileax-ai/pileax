@@ -48,10 +48,10 @@ class ProviderService(BaseService[Provider]):
 
     def find_all_provider(self, tenant_id: UUID) -> List[Provider]:
         providers = super().find_all({
-            'tenantId': tenant_id,
+            'tenant_id': tenant_id,
         })
         credentials = self.credential_service.find_all({
-            'tenantId': tenant_id,
+            'tenant_id': tenant_id,
         })
 
         all_providers = []
@@ -65,7 +65,7 @@ class ProviderService(BaseService[Provider]):
 
     def find_all_model(self, tenant_id: UUID):
         providers = super().find_all({
-            'tenantId': tenant_id,
+            'tenant_id': tenant_id,
         })
 
         all_models = []

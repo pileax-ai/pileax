@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onActivated, onMounted, ref, watch } from 'vue';
 import { ChatConversation } from 'src/types/chat';
 import { router } from 'src/router';
 import useChatConversation from 'src/hooks/useChatConversation';
@@ -45,6 +45,11 @@ watch(() => conversationTimer.value, (newValue) => {
 
 onMounted(() => {
   // console.log('mounted: conversation list')
+})
+
+onActivated(() => {
+  console.log('activated: conversation list')
+  conversationsRef.value?.refresh();
 })
 </script>
 

@@ -74,7 +74,7 @@ export const useAccountStore = defineStore('account', {
       this.workspace = value;
     },
     switchWorkspace(value: Indexable, redirect = '/welcome') {
-      console.log('setWorkspace', value);
+      // console.log('setWorkspace', value);
       this.workspace = value;
       tenantManager.switchTenant(value.id);
       if (redirect) {

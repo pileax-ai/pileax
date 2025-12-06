@@ -139,7 +139,7 @@ import OChatMessageView from 'components/chat/OChatMessageView.vue';
 import { chatService } from 'src/api/service/remote/chat';
 import useAccount from 'src/hooks/useAccount';
 import useDialog from 'core/hooks/useDialog';
-import { useNoteStore } from 'stores/note';
+import useNote from 'src/hooks/useNote';
 import { Chat } from 'src/types/chat'
 
 const props = defineProps({
@@ -173,11 +173,11 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['favorite', 'send']);
-const insertContent = inject<(value: string) => void>('insertContent', null);
+const insertContent = inject<(value: string) => void>('insertContent', '');
 
 const { account } = useAccount();
 const { openDialog } = useDialog();
-const noteStore = useNoteStore();
+const { noteStore } = useNote();
 const editable = ref(false);
 const userMessage = ref('');
 
@@ -203,7 +203,7 @@ function onFavorite(value: number) {
 }
 
 function onNote() {
-  noteStore.setChatToNote(props.chat as Chat);
+  noteStore.value.setChatToNote(props.chat as Chat);
   openDialog({
     type: 'chat-note-select',
     data: props.chat

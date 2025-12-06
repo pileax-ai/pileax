@@ -42,11 +42,11 @@ function refreshChat(id: string) {
 }
 
 function onWidthChanged(value: number) {
-  noteStore.setChatWidth(value);
+  noteStore.value.setChatWidth(value);
 }
 
 onActivated(() => {
-  width.value = noteStore.chatWidth;
+  width.value = noteStore.value.chatWidth;
 })
 
 defineExpose({

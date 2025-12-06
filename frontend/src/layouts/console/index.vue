@@ -6,7 +6,7 @@
                   mode="out-in">
         <keep-alive>
           <component :is="Component"
-                     :key="route.meta?.keep ? route.name : route.path"
+                     :key="`${workspaceId}.${route.meta?.keep ? String(route.name) : route.path}`"
                      v-if="!route.meta?.isIframe" />
         </keep-alive>
       </transition>
@@ -19,6 +19,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import useSetting from 'core/hooks/useSetting';
+import useWorkspace from 'src/hooks/useWorkspace'
+
+const { workspaceId } = useWorkspace();
 
 import Layout from './layout.vue';
 import FrameLayout from './frame-layout.vue';

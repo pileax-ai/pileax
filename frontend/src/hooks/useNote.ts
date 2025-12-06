@@ -6,7 +6,7 @@ import { MenuItem } from 'core/types/menu';
 import { UUID } from 'core/utils/crypto';
 import { router } from 'src/router';
 import { noteService } from 'src/api/service/remote/note';
-import { useAccountStore } from 'stores/account'
+import { useAccountStore } from 'stores/account';
 
 export default function () {
   const naviStore = useNaviStore();
@@ -16,7 +16,6 @@ export default function () {
 
   const noteStore = computed(() => {
     const currentTenantId = accountStore.workspaceId;
-    console.log('userNote, tenant id', currentTenantId);
     return useNoteStore(currentTenantId);
   })
 

@@ -222,9 +222,9 @@ async function onSend(data: ChatInput, reset = false) {
   scrollToBottom();
 
   if (reset) {
-    chatStore.setCurrentChat(undefined);
+    chatStore.value.removeChat(data.id);
   } else {
-    chatStore.setCurrentChat(data);
+    chatStore.value.addChat(data);
   }
 
   if (conversationId.value) {
@@ -261,7 +261,7 @@ async function createSession(data: ChatInput) {
 }
 
 async function chatCompletion(data: ChatInput) {
-  chatStore.setCurrentChat(undefined);
+  chatStore.value.removeChat(data.id);
   const payload = {
     ...data,
     id: UUID(),

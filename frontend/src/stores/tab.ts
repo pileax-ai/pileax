@@ -22,16 +22,11 @@ export const useTabStore = defineStore('tab', {
       this.tabs = tabs;
     },
     updateTab(menu: TabItem) {
+      // console.log('updateTab', menu)
       const tab = { ...menu };
       if (this.tab.id) {
-        tab.id = this.tab.id;
-        tab.tenantId = this.tab.tenantId;
-        tab.pinned = this.tab.pinned;
-        const index = this.findIndex(this.tab.id);
-        if (index >= 0) {
-          this.tabs.splice(index, 1, tab);
-          this.tab = tab;
-        }
+        this.updateCurrentTabMeta(tab);
+        this.updateTabMetaWithCurrent();
       } else {
         tab.id = UUID();
         tab.tenantId = tenantManager.getCurrentTenantId();
@@ -39,8 +34,23 @@ export const useTabStore = defineStore('tab', {
         this.tab = tab;
       }
     },
+    updateCurrentTabMeta(tab: TabItem) {
+      const { meta, name, path } = tab;
+      this.tab = { ...this.tab, meta, name, path };
+      const index = this.findIndex(this.tab.id);
+      if (index >= 0) {
+        this.tabs.splice(index, 1, this.tab);
+      }
+    },
+    updateTabMetaWithCurrent() {
+      const { id, meta, name, path } = this.tab;
+      this.tabs = this.tabs.map(t =>
+        t.id !== id && t.path === path
+          ? { ...t, meta, name }
+          : t
+      );
+    },
     updateTenant(tenantId: string) {
-      console.log('updateTenant', tenantId)
       this.tab.tenantId = tenantId;
       const index = this.findIndex(this.tab.id);
       if (index >= 0) {

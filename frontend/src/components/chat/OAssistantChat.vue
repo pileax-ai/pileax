@@ -93,8 +93,8 @@
 import { ref } from 'vue';
 import { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
-import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';
+import { UUID } from 'core/utils/crypto'
 
 const props = defineProps({
   loading: {
@@ -146,6 +146,7 @@ function onSend() {
   if (message === '') return;
 
   emit('send', {
+    id: UUID(),
     message: message,
     reasoning: reasoning.value
   } as ChatInput);

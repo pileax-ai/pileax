@@ -1,5 +1,3 @@
-import { defineStore } from 'pinia';
-import { store } from 'stores/index';
 import { CODE } from 'core/app';
 import { Note } from 'src/types/note';
 import { Chat } from 'src/types/chat';

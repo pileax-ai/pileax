@@ -94,7 +94,6 @@ const {
   appId,
   conversation,
   conversationId,
-  currentChat,
   chatStore,
   getConversation,
 } = useChatConversation();
@@ -117,8 +116,10 @@ function init() {
     getAllChats();
 
     // Resend after replace router
-    if (currentChat.value) {
-      onSend(currentChat.value, true);
+    const chatId = (route.query.id || '') as string;
+    const currentChat = chatStore.value.getChat(chatId);
+    if (currentChat) {
+      onSend(currentChat, true);
     }
   }
 }
@@ -135,9 +136,9 @@ async function onSend(data: ChatInput, reset = false) {
   scrollToBottom();
 
   if (reset) {
-    chatStore.setCurrentChat(undefined);
+    chatStore.value.removeChat(data.id);
   } else {
-    chatStore.setCurrentChat(data);
+    chatStore.value.addChat(data);
   }
 
   if (conversationId.value) {
@@ -156,22 +157,26 @@ function onStop() {
 async function createSession(data: Indexable) {
   const message = data.message;
   chatConversationService.save({
-    id: UUID(),
+    appId: appId.value || null,
     name: message
   }).then(res => {
     conversationId.value = res.id;
     start.value = false;
 
     // update conversation list
-    chatStore.setSessionTimer(Date.now());
+    chatStore.value.setSessionTimer(Date.now());
 
     // replace router
-    router.replace({name: 'chat-conversation', params: {id: conversationId.value}});
+    router.replace({
+      name: 'chat-conversation',
+      params: {id: conversationId.value },
+      query: { id: data.id }
+    });
   })
 }
 
 async function chatCompletion(data: ChatInput) {
-  chatStore.setCurrentChat(undefined);
+  chatStore.value.removeChat(data.id);
   const payload = {
     ...data,
     id: UUID(),

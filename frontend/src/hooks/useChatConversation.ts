@@ -2,22 +2,25 @@ import { computed, ref } from 'vue';
 import { ChatInput, ChatConversation } from 'src/types/chat'
 import { chatConversationService } from 'src/api/service/remote/chat-conversation';
 import { MenuItem } from 'core/types/menu';
+import { useAccountStore } from 'stores/account';
 import { useChatStore } from 'stores/chat';
 import { useNaviStore } from 'stores/navi';
+import { useNoteStore } from 'stores/note'
 
 export default function () {
   const appId = ref('')
   const conversationId = ref('')
   const conversation = ref<ChatConversation>();
-  const chatStore = useChatStore();
   const naviStore = useNaviStore();
+  const accountStore = useAccountStore();
 
-  const conversationTimer = computed(() => {
-    return chatStore.conversationTimer;
+  const chatStore = computed(() => {
+    const currentTenantId = accountStore.workspaceId;
+    return useChatStore(currentTenantId);
   })
 
-  const currentChat = computed(() => {
-    return chatStore.currentChat;
+  const conversationTimer = computed(() => {
+    return chatStore.value.conversationTimer;
   })
 
   function setCurrentSession(s: ChatConversation) {
@@ -41,9 +44,6 @@ export default function () {
       setCurrentSession(res);
     })
   }
-  function setCurrentChat(value?: ChatInput) {
-    chatStore.setCurrentChat(value);
-  }
 
   return {
     chatStore,
@@ -51,8 +51,6 @@ export default function () {
     conversation,
     conversationId,
     conversationTimer,
-    currentChat,
     getConversation,
-    setCurrentChat,
   };
 }

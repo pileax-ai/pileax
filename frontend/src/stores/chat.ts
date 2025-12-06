@@ -1,16 +1,22 @@
-import { defineStore } from 'pinia';
-import { store } from 'stores/index';
 import { CODE } from 'core/app';
 import { ChatInput } from 'src/types/chat';
+import { defineTenantStore } from 'core/tab/tenant-store-factory';
 
-export const useChatStore = defineStore('chat', {
+export const useChatStore = defineTenantStore('chat', {
   state: () => ({
-    currentChat: undefined as undefined | ChatInput,
+    chatMap: new Map<string, ChatInput>(),
     conversationTimer: 0
   }),
   actions: {
-    setCurrentChat(value?: ChatInput) {
-      this.currentChat = value;
+    addChat(value: ChatInput) {
+      console.log('addChat', value, this.chatMap)
+      this.chatMap.set(value.id, value);
+    },
+    getChat(id: string) {
+      return this.chatMap.get(id);
+    },
+    removeChat(id: string) {
+      this.chatMap.delete(id);
     },
     setSessionTimer(value: number) {
       this.conversationTimer = value;
@@ -19,9 +25,20 @@ export const useChatStore = defineStore('chat', {
   persist: {
     key: `${CODE}.chat`,
     storage: sessionStorage,
+    serializer: {
+      serialize: (state) => {
+        return JSON.stringify({
+          ...state,
+          chatMap: Array.from(state.chatMap.entries())
+        })
+      },
+      deserialize: (value) => {
+        const obj = JSON.parse(value)
+        return {
+          ...obj,
+          chatMap: new Map(obj.chatMap)
+        }
+      }
+    }
   }
 });
-
-export const useNoteStoreWithOut = () => {
-  return useChatStore(store);
-}
