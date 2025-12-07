@@ -1,10 +1,12 @@
-from typing import Optional, TypeVar, Generic, Any, Type, List
+from typing import Optional, TypeVar, Generic, Any, Type, List, Dict
 
 from pydantic import BaseModel
 from sqlmodel import SQLModel
 from uuid import UUID
 
+from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
+from app.api.models.workspace import Workspace
 from app.api.repos.base_repository import BaseRepository
 from app.api.services.base_service import BaseService
 
@@ -18,17 +20,22 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self,
         model: Type[ModelType],
         session,
-        workspace_id: Optional[UUID] = None,
         user_id: Optional[UUID] = None,
+        workspace_id: Optional[UUID] = None,
+        workspace: Optional[Workspace] = None,
     ):
         self.model = model
         self.session = session
         self.user_id = user_id
         self.workspace_id = workspace_id
+        self.workspace = workspace
         self.service = BaseService[ModelType](model, session, BaseRepository[ModelType])
 
     def save(self, item_in: CreateSchemaType) -> Any:
         item = item_in.model_dump(by_alias=True)
+        if hasattr(self.model, 'tenant_id') and item.get('tenant_id') is None:
+            if self.workspace:
+                item['tenant_id'] = self.workspace.tenant_id
         if hasattr(self.model, 'workspace_id') and item.get('workspace_id') is None:
             item['workspaceId'] = self.workspace_id
         if hasattr(self.model, 'user_id'):
@@ -40,14 +47,13 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def update(self, item_in: UpdateSchemaType) -> Any:
         return self.service.update_by_owner(
-            self.user_id,
-            self.workspace_id,
+            Owner(workspace_id=self.workspace_id, user_id=self.user_id),
             item_in.id,
             item_in.model_dump(exclude_unset=True, exclude_none=True)
         )
 
     def delete(self, id: UUID) -> Any:
-        return self.service.delete_by_owner(self.user_id, self.workspace_id, id)
+        return self.service.delete_by_owner(Owner(workspace_id=self.workspace_id, user_id=self.user_id), id)
 
     def query(self, query: PaginationQuery, filter_by_user=False) -> Any:
         if filter_by_user:
@@ -55,13 +61,12 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         else:
             if query.condition.get('workspaceId') is None:
                 query.condition['workspaceId'] = self.workspace_id
+        if hasattr(self.model, 'tenant_id') and self.workspace:
+            query.condition['tenantId'] = self.workspace.tenant_id
         return self.service.query(query)
 
-    def find_all(self) -> List[ModelType]:
-        return self.service.find_all()
-
-    def find_all_by_owner(self) -> List[ModelType]:
-        return self.service.find_all_by_owner(self.user_id)
+    def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
+        return self.service.find_all(condition)
 
     def find_all_by_workspace(self) -> List[ModelType]:
         return self.service.find_all({

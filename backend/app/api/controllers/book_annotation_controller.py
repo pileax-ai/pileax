@@ -14,7 +14,7 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
         user_id: CurrentUserId,
         workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(BookAnnotation, session, workspace_id, user_id)
+        super().__init__(BookAnnotation, session, user_id, workspace_id)
         self.service = BookAnnotationService(session)
 
     def find_all_by_book(self, id: str) -> List[BookAnnotation]:

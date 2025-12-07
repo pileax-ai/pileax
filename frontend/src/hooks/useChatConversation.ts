@@ -15,8 +15,8 @@ export default function () {
   const accountStore = useAccountStore();
 
   const chatStore = computed(() => {
-    const currentTenantId = accountStore.workspaceId;
-    return useChatStore(currentTenantId);
+    const currentWorkspaceId = accountStore.workspaceId;
+    return useChatStore(currentWorkspaceId);
   })
 
   const conversationTimer = computed(() => {

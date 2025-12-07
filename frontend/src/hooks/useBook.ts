@@ -15,8 +15,8 @@ export default function () {
   const bookId = computed(() => {
     return store.bookId;
   });
-  const tenantBookId = computed(() => {
-    return store.tenantBookId;
+  const workspaceBookId = computed(() => {
+    return store.workspaceBookId;
   });
   const tocItem = computed(() => {
     return store.tocItem;
@@ -59,8 +59,8 @@ export default function () {
     store.setBookId(value);
   }
 
-  function setTenantBookId(value: string) {
-    store.setTenantBookId(value);
+  function setWorkspaceBookId(value: string) {
+    store.setWorkspaceBookId(value);
   }
 
   function setTocItem(item :BookTocItem) {
@@ -111,7 +111,7 @@ export default function () {
     store,
     book,
     bookId,
-    tenantBookId,
+    workspaceBookId,
     progress,
     selection,
     toc,
@@ -126,7 +126,7 @@ export default function () {
 
     setBook,
     setBookId,
-    setTenantBookId,
+    setWorkspaceBookId,
     setTocItem,
     setKeyword,
     setProgress,

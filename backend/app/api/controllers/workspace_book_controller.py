@@ -4,8 +4,8 @@ from uuid import UUID
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookCreate, WorkspaceBookUpdate, WorkspaceBookUpdateReadingProgress, \
-    ReadStatus
+from app.api.models.user_book import ReadStatus
+from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookCreate, WorkspaceBookUpdate, WorkspaceBookUpdateReadingProgress
 from app.api.services.workspace_book_service import WorkspaceBookService
 
 
@@ -14,9 +14,9 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
+        workspace_id: CurrentWorkspaceId,
     ):
-        super().__init__(WorkspaceBook, session, workspace_id, user_id)
+        super().__init__(WorkspaceBook, session, user_id, workspace_id)
         self.service = WorkspaceBookService(session)
 
     def save(self, item: WorkspaceBookCreate) -> WorkspaceBook:
@@ -41,6 +41,8 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
         return self.service.get_details(id)
 
     def query_details(self, query: PaginationQuery):
+        if query.condition.get('workspaceId') is None:
+            query.condition['workspaceId'] = self.workspace_id
         return self.service.query_details(query)
 
     def get_stats(self):

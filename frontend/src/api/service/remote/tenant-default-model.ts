@@ -6,8 +6,8 @@
 import { BaseService } from './base'
 import { GET } from 'src/hooks/useRequest'
 
-export class TenantDefaultModelService extends BaseService {
-  protected apiName = 'tenantDefaultModel';
+export class WorkspaceDefaultModelService extends BaseService {
+  protected apiName = 'workspaceDefaultModel';
 
   findByType(type: string): Promise<any> {
     const query = { model_type: type }
@@ -15,4 +15,4 @@ export class TenantDefaultModelService extends BaseService {
   }
 }
 
-export const tdmService = new TenantDefaultModelService();
+export const tdmService = new WorkspaceDefaultModelService();

@@ -14,7 +14,7 @@ class TenantDefaultModelController(BaseController[TenantDefaultModel, TenantDefa
         workspace: CurrentWorkspace
     ):
         super().__init__(TenantDefaultModel, session, workspace.id, user_id)
-        self.service = TenantDefaultModelService(session, workspace.id, user_id)
+        self.service = TenantDefaultModelService(session, workspace.tenant_id, user_id)
         self.workspace = workspace
 
     def save(self, item_in: TenantDefaultModelCreate) -> TenantDefaultModel:

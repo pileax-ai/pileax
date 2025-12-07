@@ -25,6 +25,7 @@ EXT_NAMES = [
     'tenant',
     'tenant_default_model',
     'user',
+    'user_book',
     'workspace',
     'workspace_book',
     'workspace_book_collection',

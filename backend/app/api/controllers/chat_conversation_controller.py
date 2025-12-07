@@ -12,8 +12,8 @@ class ChatConversationController(BaseController[Conversation, ConversationCreate
         user_id: CurrentUserId,
         workspace: CurrentWorkspace
     ):
-        super().__init__(Conversation, session, workspace.id, user_id)
-        self.service = ConversationService(session, workspace, user_id)
+        super().__init__(Conversation, session, user_id, workspace.id)
+        self.service = ConversationService(session, user_id, workspace)
 
 
     def save(self, item_in: ConversationCreate) -> Conversation:

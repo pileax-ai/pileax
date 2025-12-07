@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { userBookService } from 'src/api/service/remote/user-book'
+import { workspaceBookService } from 'src/api/service/remote'
 import { bookExtensions } from 'src/api/service/ebook/book'
 const emit = defineEmits(['filter']);
 
@@ -119,7 +119,7 @@ function onAction (action: Indexable) {
 
 
 function refresh() {
-  userBookService.getStats().then(res => {
+  workspaceBookService.getStats().then(res => {
     // list.value = res
   })
 }

@@ -9,4 +9,4 @@ class AppController(BaseController[App, AppCreate, AppUpdate]):
         user_id: CurrentUserId,
         workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(App, session, workspace_id, user_id)
+        super().__init__(App, session, user_id, workspace_id)

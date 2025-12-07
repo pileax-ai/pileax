@@ -83,8 +83,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { uploadBook } from 'src/api/service/ebook/book';
-import { bookService } from 'src/api/service/remote/book';
-import { userBookService } from 'src/api/service/remote/user-book';
+import { bookService, workspaceBookService } from 'src/api/service/remote';
 import BookGridItem from './BookGridItem.vue';
 import BookListItem from './BookListItem.vue';
 import BookDetails from './BookDetails.vue';
@@ -138,7 +137,7 @@ async function onAddReady(file: File, icon: string) {
 
 
 function addBook(book: any) {
-  userBookService.save({
+  workspaceBookService.save({
     bookId: book.id
   }).then(res => {
     emit('close');

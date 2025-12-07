@@ -1,8 +1,6 @@
-import { computed } from 'vue';
 import { useQuasar } from 'quasar';
 import useApi from 'src/hooks/useApi';
-import { userBookService } from 'src/api/service/remote/user-book'
-import { tenantBookCollectionService } from 'src/api/service/remote/tenant-book-collection'
+import { workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
 
 export default function () {
   const $q = useQuasar();
@@ -33,7 +31,7 @@ export default function () {
   }
 
   const updateBook = (data: Indexable) => {
-    return userBookService.update(data)
+    return workspaceBookService.update(data)
   }
 
   const removeBook = (book: Indexable) => {
@@ -43,7 +41,7 @@ export default function () {
         message: '你确定从书架中移除吗？',
         cancel: true
       }).onOk( () => {
-        userBookService.delete(book.id).then(res => {
+        workspaceBookService.delete(book.id).then(res => {
           console.log('remove', res)
           resolve(res)
         }).catch(err => {
@@ -62,7 +60,7 @@ export default function () {
         message: '你确定从书单中移除吗？',
         cancel: true
       }).onOk( () => {
-        tenantBookCollectionService.delete(tid).then(res => {
+        workspaceBookCollectionService.delete(tid).then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)

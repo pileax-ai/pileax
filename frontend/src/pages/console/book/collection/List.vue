@@ -221,7 +221,7 @@ function doQuery() {
 
 function initData() {
   initQuery({
-    api: 'tenantBookCollection',
+    api: 'workspaceBookCollection',
     path: '/query/book/details',
     title: 'Book'
   });

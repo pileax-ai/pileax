@@ -6,11 +6,6 @@ from sqlmodel import Field, UniqueConstraint
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
-class ReadStatus(enum.IntEnum):
-    NOT_STARTED = 0
-    WANT_TO_READ = 1
-    CURRENTLY_READING = 2
-    FINISHED = 3
 
 class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "workspace_book"
@@ -22,20 +17,6 @@ class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
     workspace_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
-    rating: int | None = Field(default=0, ge=0, le=5)
-    reading_position: str | None = Field(default="")
-    reading_percentage: float | None = Field(default=0.0, ge=0.0, le=100.0)
-    reading_status: int = Field(
-        default=ReadStatus.NOT_STARTED, ge=0, le=3,
-        sa_type=Integer,
-        sa_column_kwargs={"server_default": text(str(ReadStatus.NOT_STARTED))}
-    )
-    reading_status_time: str | None = Field(default=None)
-    tags: str = Field(
-        default="[]",
-        sa_type=String,
-        sa_column_kwargs={"server_default": "[]"}
-    )
 
 
 class WorkspaceBookBase(BaseApiModel):
@@ -43,10 +24,6 @@ class WorkspaceBookBase(BaseApiModel):
     user_id: uuid.UUID | None = None
     book_id: uuid.UUID | None = None
     workspace_id: uuid.UUID | None = None
-    rating: int | None = 0
-    reading_position: str | None = ""
-    reading_percentage: float | None = 0.0
-    reading_status: int | None = None
 
 
 class WorkspaceBookCreate(WorkspaceBookBase):
@@ -58,9 +35,6 @@ class WorkspaceBookUpdate(WorkspaceBookBase):
 
 class WorkspaceBookUpdateReadingProgress(BaseApiModel):
     id: uuid.UUID
-    reading_position: str
-    reading_percentage: float
-    reading_status: int | None = None
 
 
 class WorkspaceBookPublic(WorkspaceBookCreate, BaseMixin):
@@ -81,6 +55,11 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
     extension: str | None = None
     scope: int
     book_rating: int
+    user_book_id: uuid.UUID | None = None
+    rating: int | None = 0
+    reading_position: str | None = ""
+    reading_percentage: float | None = 0.0
+    reading_status: int | None = None
 
 
 class WorkspaceCollectionBookDetails(WorkspaceBookDetails):

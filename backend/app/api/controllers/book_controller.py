@@ -20,15 +20,16 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        workspace: CurrentWorkspace
+        workspace: CurrentWorkspace,
     ):
-        super().__init__(Book, session, workspace.id, user_id)
+        super().__init__(Book, session, user_id, workspace.id)
+        self.workspace = workspace
         self.service = BookService(session)
-        self.fm_controller = FileMetaController(session, workspace.id, user_id)
-        self.tb_controller = WorkspaceBookController(session, workspace.id, user_id)
+        self.fm_controller = FileMetaController(session, user_id, workspace.id)
+        self.wb_controller = WorkspaceBookController(session, user_id, workspace.id)
 
     def get_by_uuid(self, uuid: str) -> Book:
-        return self.service.get_by_uuid(uuid)
+        return self.service.get_by_uuid(uuid, self.workspace.tenant_id)
 
 
     async def upload(self, book_str: str, files: List[UploadFile]) -> Any:
@@ -55,10 +56,11 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
             self.fm_controller.save(FileMetaCreate(**meta))
         book_in.id = book_id
         book_in.path = sha1
+        book_in.tenant_id = self.workspace.tenant_id
         book = self.save(book_in)
 
         # save workspace_book
         workspace_book_in = WorkspaceBookCreate(book_id=book_id)
-        workspace_book = self.tb_controller.save(workspace_book_in)
+        workspace_book = self.wb_controller.save(workspace_book_in)
 
         return WorkspaceBookRepository.build_details(workspace_book, book)

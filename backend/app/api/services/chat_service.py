@@ -15,15 +15,15 @@ from starlette.responses import StreamingResponse
 
 
 class ChatService(BaseService[Message]):
-    def __init__(self, session, tenant_id, user_id):
+    def __init__(self, session, user_id, workspace):
         super().__init__(Message, session, MessageRepository)
-        self.tenant_id = tenant_id
         self.user_id = user_id
-        self.tdm_service = TenantDefaultModelService(session, tenant_id, user_id)
+        self.workspace = workspace
+        self.tdm_service = TenantDefaultModelService(session, workspace.tenant_id, user_id)
 
     def completions(self, item_in: MessageCreate) -> Any:
         # default model
-        tdm_credential = self.tdm_service.get_default_model_credential(self.tenant_id, LLMType.CHAT)
+        tdm_credential = self.tdm_service.get_default_model_credential(self.workspace.tenant_id, LLMType.CHAT)
 
         # message
         messages = self.find_by_conversation(item_in.conversation_id)
@@ -80,7 +80,7 @@ class ChatService(BaseService[Message]):
             nonlocal content, reasoning_content, total_tokens
 
             item = item_in.model_dump(by_alias=True)
-            item["tenant_id"] = self.tenant_id
+            item["workspace_id"] = self.workspace_id
             item["model_provider"] = tdm_credential.provider
             item["model_type"] = tdm_credential.model_type
             item["model_name"] = tdm_credential.model_name

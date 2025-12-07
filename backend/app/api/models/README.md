@@ -3,13 +3,13 @@
 ## Tenant Level
 - [x] app
 - [x] book
+- [x] book_annotation
 - [x] provider
 - [x] provider_credential
 - [x] tenant_default_model
 - [x] workspace
 
 ## Workspace Level
-- [x] book_annotation
 - [x] book_collection
 - [x] conversation
 - [x] file_meta
@@ -19,4 +19,4 @@
 - [x] workspace_default_model
 
 ## User Level
-By user_id
+- [x] user_book: reading info

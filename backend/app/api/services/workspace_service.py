@@ -17,7 +17,7 @@ class WorkspaceService(BaseService[Workspace]):
         self.user_id = user_id
 
     def create_default(self, user: User, tenant: Tenant) -> WorkspaceMember:
-        # Workspace, user user id as id
+        # Workspace
         workspace = Workspace(
             user_id=user.id,
             tenant_id=tenant.id,

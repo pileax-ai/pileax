@@ -28,9 +28,10 @@ const urls: Indexable = {
   providerModel: '/provider/model',
   systemConfig: '/system/config',
   systemHealthCheck: '/system/health-check',
-  tenantBook: '/tenant/book',
-  tenantBookCollection: '/tenant/book/collection',
-  tenantDefaultModel: '/tenant/default-model',
+  userBook: '/user/book',
+  workspaceBook: '/workspace/book',
+  workspaceBookCollection: '/workspace/book/collection',
+  workspaceDefaultModel: '/tenant/default-model',
   user: '/user',
   workspace: '/workspace',
 };

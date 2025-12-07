@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, Session
 from fastapi import HTTPException, status
 from uuid import UUID
 
+from app.api.models.owner import Owner
 from app.api.repos.base_repository import BaseRepository
 from app.api.models.query import PaginationQuery
 
@@ -35,18 +36,18 @@ class BaseService(Generic[ModelType]):
         obj = self.get(id)
         return self.repo.update(obj, new_data, commit)
 
-    def update_by_owner(self, user_id: UUID, tenant_id: UUID, id: UUID, new_data: dict, commit: bool = True) -> ModelType:
+    def update_by_owner(self, ower: Owner, id: UUID, new_data: dict, commit: bool = True) -> ModelType:
         obj = self.get(id)
-        self._check_owner(user_id, tenant_id, obj)
+        self._check_owner(ower, obj)
         return self.repo.update(obj, new_data, commit)
 
     def delete(self, id: UUID):
         obj = self.get(id)
         return self.repo.delete(obj)
 
-    def delete_by_owner(self, user_id: UUID, tenant_id: UUID, id: UUID):
+    def delete_by_owner(self, ower: Owner, id: UUID):
         obj = self.get(id)
-        self._check_owner(user_id, tenant_id, obj)
+        self._check_owner(ower, obj)
         return self.repo.delete(obj)
 
     def query(self, query: PaginationQuery):
@@ -61,19 +62,29 @@ class BaseService(Generic[ModelType]):
     def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
         return self.repo.find_all(condition)
 
-    def find_all_by_owner(self, owner: UUID) -> List[ModelType]:
-        return self.repo.find_all({"user_id": owner})
-
     def exists(self, **filters: Any) -> bool:
         return self.repo.exists(**filters)
 
-    def _check_owner(self, user_id: UUID, tenant_id: UUID, obj: ModelType):
+    def _check_owner(self, owner: Owner, obj: ModelType):
         if not obj:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"{self.repo.model.__name__} not found"
             )
-        if str(getattr(obj, "user_id", None)) != str(user_id) and str(getattr(obj, "tenant_id", None)) != str(tenant_id):
+
+        if owner.tenant_id and hasattr(obj, "tenant_id") and str(getattr(obj, "tenant_id")) != str(owner.tenant_id):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
+
+        if owner.workspace_id and hasattr(obj, "workspace_id") and str(getattr(obj, "workspace_id")) != str(owner.workspace_id):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
+
+        if owner.user_id and hasattr(obj, "user_id") and str(getattr(obj, "user_id")) != str(owner.user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access denied"

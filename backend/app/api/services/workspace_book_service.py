@@ -6,6 +6,7 @@ from uuid import UUID
 from sqlalchemy import delete
 from sqlmodel import select
 
+from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
 from app.api.models.workspace_book import WorkspaceBook
 from app.api.models.workspace_book_collection import WorkspaceBookCollection
@@ -18,9 +19,9 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
         self.session = session
 
     def delete_by_owner(self, user_id: UUID, workspace_id: UUID, id: UUID) -> Any:
-        super().delete_by_owner(user_id, workspace_id, id)
+        super().delete_by_owner(Owner(user_id=user_id, workspace_id=workspace_id), id)
 
-        # Delete workspace_book_collection
+        # Delete from workspace_book_collection
         stmt = delete(WorkspaceBookCollection).where(WorkspaceBookCollection.workspace_book_id == id)
         self.session.exec(stmt)
         self.session.commit()

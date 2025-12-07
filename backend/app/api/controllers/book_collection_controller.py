@@ -13,7 +13,7 @@ class BookCollectionController(BaseController[BookCollection, BookCollectionCrea
         user_id: CurrentUserId,
         workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(BookCollection, session, workspace_id, user_id)
+        super().__init__(BookCollection, session, user_id, workspace_id)
         self.service = BookCollectionService(session)
 
     def find_all(self) -> List[BookCollection]:

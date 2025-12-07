@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: 4f9cf408a686
+Revision ID: 7ea2db79ef16
 Revises:
-Create Date: 2025-12-07 00:35:10.891952
+Create Date: 2025-12-07 09:42:41.337270
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '4f9cf408a686'
+revision: str = '7ea2db79ef16'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,8 +27,8 @@ def upgrade() -> None:
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('app_model_config_id', app.api.models.base.UUIDString(length=36), nullable=True),
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('mode', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
@@ -59,16 +59,16 @@ def upgrade() -> None:
     sa.Column('scope', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('tenant_id', 'uuid', name='unique_tenant_book'),
     sa.UniqueConstraint('uuid')
     )
     op.create_table('book_annotation',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('book_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('workspace_book_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('value', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('note', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
@@ -235,6 +235,22 @@ def upgrade() -> None:
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('id')
     )
+    op.create_table('user_book',
+    sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
+    sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
+    sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('book_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('rating', sa.Integer(), nullable=True),
+    sa.Column('reading_position', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('reading_percentage', sa.Float(), nullable=True),
+    sa.Column('reading_status', sa.Integer(), server_default=sa.text('0'), nullable=False),
+    sa.Column('reading_status_time', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('tags', sa.String(), server_default='[]', nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('user_id', 'book_id', name='unique_user_book')
+    )
     op.create_table('workspace',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
@@ -255,12 +271,6 @@ def upgrade() -> None:
     sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('book_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('rating', sa.Integer(), nullable=True),
-    sa.Column('reading_position', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.Column('reading_percentage', sa.Float(), nullable=True),
-    sa.Column('reading_status', sa.Integer(), server_default=sa.text('0'), nullable=False),
-    sa.Column('reading_status_time', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.Column('tags', sa.String(), server_default='[]', nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_id', 'book_id', name='unique_workspace_book')
@@ -312,6 +322,7 @@ def downgrade() -> None:
     op.drop_table('workspace_book_collection')
     op.drop_table('workspace_book')
     op.drop_table('workspace')
+    op.drop_table('user_book')
     op.drop_table('user')
     op.drop_table('tenant_default_model')
     op.drop_table('tenant')

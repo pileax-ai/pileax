@@ -5,7 +5,7 @@ import { BookOperation, BookTocItem, ReadingMode } from 'src/types/reading';
 
 export const useBookStore = defineStore('book', {
   state: () => ({
-    tenantBookId: '',
+    workspaceBookId: '',
     bookId: '',
     book: {} as Indexable,
     toc: [] as BookTocItem[],
@@ -35,8 +35,8 @@ export const useBookStore = defineStore('book', {
     setBookId(value: string) {
       this.bookId = value;
     },
-    setTenantBookId(value: string) {
-      this.tenantBookId = value;
+    setWorkspaceBookId(value: string) {
+      this.workspaceBookId = value;
     },
     setBook(value: any) {
       this.book = value;

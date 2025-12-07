@@ -9,7 +9,6 @@ class TenantService(BaseService[Tenant]):
         super().__init__(Tenant, session, BaseRepository)
 
     def create_default(self, user: User) -> Tenant:
-        # Tenant, user user id as id
         tenant = Tenant(
             user_id=user.id,
             name=user.name,

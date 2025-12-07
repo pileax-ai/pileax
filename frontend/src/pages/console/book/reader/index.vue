@@ -56,13 +56,12 @@ import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'
-import { bookAnnotationService } from 'src/api/service/remote/book-annotation'
-import { userBookService } from 'src/api/service/remote/user-book'
+import { bookAnnotationService, workspaceBookService } from 'src/api/service/remote'
 import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute();
-const { store, setBook, setBookId, setTenantBookId } = useBook();
+const { store, setBook, setBookId, setWorkspaceBookId } = useBook();
 
 const bookRef = ref(null);
 const showShareDialog = ref(false);
@@ -84,25 +83,25 @@ function prepareOpen() {
   }
 }
 
-async function openWithBook(tenantBookId: string) {
+async function openWithBook(workspaceBookId: string) {
   store.setReadingMode(ReadingMode.Read);
-  await open(tenantBookId);
+  await open(workspaceBookId);
 }
 
 async function openWithAnnotation(annotationId: string) {
   const annotation = await bookAnnotationService.get(annotationId);
-  const tenantBookId = annotation.tenantBookId;
+  const workspaceBookId = annotation.workspaceBookId;
   const cfi = annotation.value;
   store.setReadingMode(ReadingMode.Preview);
-  await open(tenantBookId, cfi);
+  await open(workspaceBookId, cfi);
 }
 
-async function open(tenantBookId: string, initialCfi = '') {
-  console.log('open', tenantBookId)
-  const book: Indexable = await userBookService.getDetails(tenantBookId);
+async function open(workspaceBookId: string, initialCfi = '') {
+  console.log('open', workspaceBookId)
+  const book: Indexable = await workspaceBookService.getDetails(workspaceBookId);
   if (book) {
     setBookId(book.bookId);
-    setTenantBookId(tenantBookId);
+    setWorkspaceBookId(workspaceBookId);
     setBook(book);
 
     const filePath = `${book.path}/${book.fileName}`;
@@ -113,13 +112,13 @@ async function open(tenantBookId: string, initialCfi = '') {
     loading.value = false;
 
     setTimeout(() => {
-      prepareAnnotations(tenantBookId);
+      prepareAnnotations(workspaceBookId);
     }, 300);
   }
 }
 
-async function prepareAnnotations(tenantBookId: string) {
-  const annotations = await findBookAnnotation(tenantBookId);
+async function prepareAnnotations(workspaceBookId: string) {
+  const annotations = await findBookAnnotation(workspaceBookId);
   renderAnnotations(annotations);
 }
 

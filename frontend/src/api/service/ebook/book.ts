@@ -9,8 +9,7 @@ import useApi from 'src/hooks/useApi';
 import useReader from 'src/hooks/useReader';
 import useBook from 'src/hooks/useBook';
 import { ebookRender } from 'src/api/service/ebook';
-import { bookService } from 'src/api/service/remote/book';
-import { userBookService } from 'src/api/service/remote/user-book';
+import { bookService, userBookService, workspaceBookService } from 'src/api/service/remote';
 import { BookOperation, ReadingMode } from 'src/types/reading';
 import { base64ToFile, getFileSHA1 } from 'src/utils/book';
 import { getErrorMessage } from 'src/utils/request'
@@ -20,7 +19,7 @@ const { openDialog } = useDialog();
 const { setQueryTimer, style } = useReader();
 const {
   store,
-  tenantBookId,
+  workspaceBookId,
   bookId,
   operation,
   setProgress,
@@ -245,7 +244,7 @@ const savingBookRemote = async (metadata: any) => {
     // Book uploaded, add to shelf
     const remoteBook = await bookService.getByUuid(metadata.sha1);
     try {
-      await userBookService.save({bookId: remoteBook.id})
+      await workspaceBookService.save({bookId: remoteBook.id})
     } catch (err) {
       const message = getErrorMessage(err);
       if (message?.indexOf('UNIQUE') >= 0) {
@@ -272,7 +271,7 @@ const saveBookProgress = (progress: any) => {
   console.log('saveBookProgress', progress);
   if (!progress.cfi || !progress.percentage) return;
   const params = {
-    id: tenantBookId.value,
+    book_id: bookId.value,
     readingPosition: progress.cfi,
     readingPercentage: progress.percentage
   }

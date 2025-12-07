@@ -9,7 +9,7 @@
 - [ ] navi
 - [ ] tab
 
-## Tenant independent stores
+## Workspace independent stores
 - [ ] ai
 - [ ] book
 - [x] chatx

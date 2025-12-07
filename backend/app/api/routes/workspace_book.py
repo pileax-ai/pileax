@@ -6,8 +6,7 @@ from fastapi import Depends
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.router import ApiRouter
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.workspace_book import WorkspaceBookCreate, WorkspaceBookUpdate, WorkspaceBookPublic, WorkspaceBookDetails, \
-    WorkspaceBookUpdateReadingProgress
+from app.api.models.workspace_book import WorkspaceBookCreate, WorkspaceBookUpdate, WorkspaceBookPublic, WorkspaceBookDetails
 
 router = ApiRouter(prefix="/workspace/book", tags=["WorkspaceBook"])
 
@@ -25,10 +24,6 @@ def get(id: uuid.UUID, controller: WorkspaceBookController = Depends()) -> Any:
 @router.api_put("", response_model=WorkspaceBookPublic)
 def update(item_in: WorkspaceBookUpdate, controller: WorkspaceBookController = Depends()) -> Any:
     return controller.update(item_in)
-
-@router.api_put("/reading/progress", response_model=WorkspaceBookPublic)
-def update_reading_progress(item_in: WorkspaceBookUpdateReadingProgress, controller: WorkspaceBookController = Depends()) -> Any:
-    return controller.update_reading_progress(item_in)
 
 
 @router.api_delete("")

@@ -226,7 +226,7 @@ function openBook(item: any) {
 
 function initData() {
   initQuery({
-    api: 'tenantBook',
+    api: 'workspaceBook',
     path: '/query/details',
     title: 'Book'
   });

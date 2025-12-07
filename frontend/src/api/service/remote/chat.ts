@@ -6,7 +6,7 @@
 import { GET, POST, PUT } from 'src/hooks/useRequest'
 import { BaseService } from 'src/api/service/remote/base'
 
-export class RemoteChatService extends BaseService {
+export class ChatService extends BaseService {
   protected apiName = 'chat';
 
   // override put(body: Indexable): Promise<any> {
@@ -33,4 +33,4 @@ export class RemoteChatService extends BaseService {
 
 }
 
-export const chatService = new RemoteChatService();
+export const chatService = new ChatService();

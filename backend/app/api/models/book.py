@@ -1,11 +1,16 @@
 import uuid
 
+from sqlalchemy import UniqueConstraint
 from sqlmodel import Field
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 
 
 class Book(BaseSQLModel, BaseMixin, table=True):
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "uuid", name="unique_tenant_book"),
+    )
+
     tenant_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     uuid: str = Field(..., min_length=32, max_length=64, unique=True, description="Book sha1 hash")
@@ -34,6 +39,7 @@ class BookBase(BaseApiModel):
 
 
 class BookCreate(BookBase):
+    tenant_id: uuid.UUID | None = None
     uuid: str = Field(min_length=32, max_length=64)
     path: str
     file_name: str

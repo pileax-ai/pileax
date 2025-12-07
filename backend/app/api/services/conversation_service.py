@@ -7,10 +7,10 @@ from app.api.services.base_service import BaseService
 
 
 class ConversationService(BaseService[Conversation]):
-    def __init__(self, session, workspace, user_id):
+    def __init__(self, session, user_id, workspace):
         super().__init__(Conversation, session, ConversationRepository)
-        self.workspace = workspace
         self.user_id = user_id
+        self.workspace = workspace
         self.app_service = AppService(session, self.workspace.tenant_id, self.user_id)
         self.tdm_repository = TenantDefaultModelRepository(TenantDefaultModel, session)
 

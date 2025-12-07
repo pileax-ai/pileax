@@ -7,8 +7,8 @@ from app.api.models.enums import Status
 
 
 class App(BaseSQLModel, BaseMixin, table=True):
-    user_id: uuid.UUID = uuid_field()
     tenant_id: uuid.UUID = uuid_field()
+    user_id: uuid.UUID = uuid_field()
     app_model_config_id: uuid.UUID | None = uuid_field(default_none=True)
     name: str = Field(..., max_length=255)
     mode: str = Field(..., max_length=255)

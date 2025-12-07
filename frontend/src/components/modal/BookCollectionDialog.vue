@@ -76,7 +76,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import useDialog from 'core/hooks/useDialog';
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
 import ONoData from 'core/components/misc/ONoData.vue';
-import { tenantBookCollectionService } from 'src/api/service/remote/tenant-book-collection'
+import { workspaceBookCollectionService } from 'src/api/service/remote/workspace-book-collection'
 import { notifyDone } from 'core/utils/control'
 
 const { dialog, onHide, onOk } = useDialog();
@@ -91,7 +91,7 @@ const book = computed(() => {
 })
 
 function inCollection(item: Indexable) {
-  return records.value.findIndex(e => e.bookCollectionId === item.id && e.tenantBookId === book.value.id) >= 0
+  return records.value.findIndex(e => e.bookCollectionId === item.id && e.workspaceBookId === book.value.id) >= 0
 }
 
 function titleSearchFilter (term: string) {
@@ -156,9 +156,9 @@ function onSelected (item: Indexable) {
   }
   const body = {
     bookCollectionId: item.id,
-    tenantBookId: book.value.id
+    workspaceBookId: book.value.id
   }
-  tenantBookCollectionService.save(body).then(res => {
+  workspaceBookCollectionService.save(body).then(res => {
     notifyDone()
   })
 
@@ -166,15 +166,15 @@ function onSelected (item: Indexable) {
 }
 
 function initData() {
-  tenantBookCollectionService.getAll().then(res => {
+  workspaceBookCollectionService.getAll().then(res => {
     list.value = res
     results.value = res
   })
 
-  tenantBookCollectionService.query({
+  workspaceBookCollectionService.query({
     pageSize: 1000,
     condition: {
-      tenantBookId: book.value.id
+      workspaceBookId: book.value.id
     }
   }).then(res => {
     records.value = res.list

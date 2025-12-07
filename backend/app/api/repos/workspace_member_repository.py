@@ -21,14 +21,14 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
         )
         result = self.session.exec(stmt).first()
         if result:
-            tenant_member, user = result
-            return self._build_details(tenant_member, user)
+            workspace_member, user = result
+            return self._build_details(workspace_member, user)
         return None
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceMember: ['tenant_id', 'user_id'],
+            WorkspaceMember: ['workspace_id', 'user_id'],
             User: ['name'],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
@@ -55,8 +55,8 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
         # 5. Query
         total = self.session.exec(count_stmt).one()
         rows = [
-            self._build_details(tenant_member, user)
-            for tenant_member, user in self.session.exec(stmt).all()
+            self._build_details(workspace_member, user)
+            for workspace_member, user in self.session.exec(stmt).all()
         ]
 
         return QueryResult(
@@ -66,9 +66,9 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
             pageIndex=query.pageIndex,
         )
 
-    def _build_details(self, tenant_member: WorkspaceMember, user: User) -> dict:
+    def _build_details(self, workspace_member: WorkspaceMember, user: User) -> dict:
         return {
-            **tenant_member.model_dump(),
+            **workspace_member.model_dump(),
             "user_name": user.name,
             "user_email": user.email,
             "last_active_time": user.last_active_time,
