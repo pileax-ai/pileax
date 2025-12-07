@@ -35,18 +35,18 @@ export const useTabStore = defineStore('tab', {
       }
     },
     updateCurrentTabMeta(tab: TabItem) {
-      const { meta, name, path } = tab;
-      this.tab = { ...this.tab, meta, name, path };
+      const { icon, meta, name, path } = tab;
+      this.tab = { ...this.tab, icon, meta, name, path };
       const index = this.findIndex(this.tab.id);
       if (index >= 0) {
         this.tabs.splice(index, 1, this.tab);
       }
     },
     updateTabMetaWithCurrent() {
-      const { id, meta, name, path } = this.tab;
+      const { id, icon, meta, name, path } = this.tab;
       this.tabs = this.tabs.map(t =>
         t.id !== id && t.path === path
-          ? { ...t, meta, name }
+          ? { ...t, icon, meta, name }
           : t
       );
     },

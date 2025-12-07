@@ -13,6 +13,8 @@ export default function () {
   const accountStore = useAccountStore();
   // const noteStore = useNoteStore();
   const recentNotes = ref<Note[]>([]);
+  const noteTitle = ref('');
+  const noteIcon = ref('');
 
   const noteStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId;
@@ -34,6 +36,13 @@ export default function () {
   function setCurrentNote(note: Note | null) {
     if (!note) return;
     noteStore.value.setCurrentNote(note);
+    refreshNote(note);
+
+    if (note.title === noteTitle.value && note.icon === noteIcon.value) {
+      return
+    }
+    noteTitle.value = note.title || '';
+    noteIcon.value = note.icon || '';
     const menu = {
       id: note.id,
       name: note.title,
@@ -46,7 +55,6 @@ export default function () {
       }
     } as MenuItem;
     naviStore.setCurrentMenu(menu);
-    refreshNote(note);
   }
 
   async function getAllNotes() {
