@@ -8,10 +8,10 @@ from app.api.models.base import BaseSQLModel, BaseMixin, uuid_field, BaseApiMode
 
 class Provider(BaseSQLModel, BaseMixin, table=True):
     __table_args__ = (
-        UniqueConstraint("tenant_id", "provider", name="unique_tenant_provider"),
+        UniqueConstraint("workspace_id", "provider", name="unique_workspace_provider"),
     )
 
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     provider: str = Field(...)
     credential_id: uuid.UUID | None = uuid_field(default_none=True)
 

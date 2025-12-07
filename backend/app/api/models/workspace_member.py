@@ -33,10 +33,14 @@ class WorkspaceMemberBase(BaseApiModel):
 
 
 class WorkspaceMemberCreate(BaseApiModel):
-    tenant_id: uuid.UUID
     user_id: uuid.UUID
     role: str
     invited_by: uuid.UUID
+
+
+class WorkspaceMemberInvite(BaseApiModel):
+    email: str
+    role: str
 
 
 class WorkspaceMemberUpdate(WorkspaceMemberBase):
@@ -44,7 +48,7 @@ class WorkspaceMemberUpdate(WorkspaceMemberBase):
 
 
 class WorkspaceMemberPublic(WorkspaceMemberCreate, BaseMixin):
-    pass
+    status: int
 
 
 class WorkspaceMemberPublicDetails(WorkspaceMemberPublic):

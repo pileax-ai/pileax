@@ -9,10 +9,10 @@ class ProviderCredential(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "provider_credential"
 
     __table_args__ = (
-        UniqueConstraint("tenant_id", "provider", "name", name="unique_tenant_provider_name"),
+        UniqueConstraint("workspace_id", "provider", "name", name="unique_workspace_provider_name"),
     )
 
-    tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     provider: str | None = Field(default=None)
     name: str = Field(..., max_length=255)
     credential: dict = Field(..., sa_type=JSONString)

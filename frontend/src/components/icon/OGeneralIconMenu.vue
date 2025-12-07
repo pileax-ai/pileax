@@ -3,7 +3,7 @@
           ref="menuRef"
           :anchor="anchor"
           :self="self"
-          :offset="[0, 8]">
+          :offset="offset">
     <q-tabs v-model="currentTab"
             align="left"
             inline-label>
@@ -43,6 +43,12 @@ const props = defineProps({
   self: {
     type: String as PropType<PositionType>,
     default: 'top middle'
+  },
+  offset: {
+    type: Array as PropType<number[]>,
+    default: () => {
+      return [0, 0];
+    }
   },
 });
 const emit = defineEmits(['emoji', 'icon']);

@@ -14,8 +14,8 @@ class ProviderModelController:
         self.service = ProviderService(session)
 
     def find_all(self):
-        return self.service.find_all_model(self.workspace.tenant_id)
+        return self.service.find_all_model(self.workspace.id)
 
     def find_by_type(self, model_type: str):
-        models = self.service.find_model_by_type(self.workspace.tenant_id, model_type)
+        models = self.service.find_model_by_type(self.workspace.id, model_type)
         return models

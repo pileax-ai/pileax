@@ -3,14 +3,14 @@ import logging
 import re
 from functools import partial
 
-from app.api.models.tenant_default_model import TenantDefaultModelCredential
+from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.core.llm.services.tenant_llm_service import TenantLLMService
 
 logger = logging.getLogger(__name__)
 
 
 class LLMService:
-    def __init__(self, model_config: TenantDefaultModelCredential, **kwargs):
+    def __init__(self, model_config: ProviderDefaultModelCredential, **kwargs):
         self.mdl = TenantLLMService.model_instance(model_config)
         self.model_name = model_config.model_name
         self.is_tools = False

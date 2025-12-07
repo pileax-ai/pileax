@@ -4,7 +4,7 @@ from typing import List, Any
 from uuid import UUID
 
 from app.api.models.enums import Status
-from app.api.services.tenent_default_model_service import TenantDefaultModelService
+from app.api.services.provider_model_service import ProviderDefaultModelService
 from app.constants.enums import LLMType
 from app.core.llm.services.llm_service import LLMService
 
@@ -15,15 +15,15 @@ from starlette.responses import StreamingResponse
 
 
 class ChatService(BaseService[Message]):
-    def __init__(self, session, user_id, workspace):
+    def __init__(self, session, user_id, workspace_id):
         super().__init__(Message, session, MessageRepository)
         self.user_id = user_id
-        self.workspace = workspace
-        self.tdm_service = TenantDefaultModelService(session, workspace.tenant_id, user_id)
+        self.workspace_id = workspace_id
+        self.pdm_service = ProviderDefaultModelService(session, workspace_id, user_id)
 
     def completions(self, item_in: MessageCreate) -> Any:
         # default model
-        tdm_credential = self.tdm_service.get_default_model_credential(self.workspace.tenant_id, LLMType.CHAT)
+        pdm_credential = self.pdm_service.get_default_model_credential(self.workspace_id, LLMType.CHAT)
 
         # message
         messages = self.find_by_conversation(item_in.conversation_id)
@@ -36,7 +36,7 @@ class ChatService(BaseService[Message]):
         history.append({"role": "user", "content": item_in.message})
 
         # Chat completions
-        llm_service = LLMService(tdm_credential)
+        llm_service = LLMService(pdm_credential)
         generator = llm_service.chat_streamly(None, history, {"temperature": 0.9, 'max_tokens': 50})
 
         content = ""
@@ -81,9 +81,9 @@ class ChatService(BaseService[Message]):
 
             item = item_in.model_dump(by_alias=True)
             item["workspace_id"] = self.workspace_id
-            item["model_provider"] = tdm_credential.provider
-            item["model_type"] = tdm_credential.model_type
-            item["model_name"] = tdm_credential.model_name
+            item["model_provider"] = pdm_credential.provider
+            item["model_type"] = pdm_credential.model_type
+            item["model_name"] = pdm_credential.model_name
             item["content"] = content
             item["reasoning_content"] = reasoning_content
             item["total_tokens"] = total_tokens

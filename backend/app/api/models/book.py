@@ -1,9 +1,10 @@
 import uuid
 
-from sqlalchemy import UniqueConstraint
+from sqlalchemy import UniqueConstraint, Integer, text
 from sqlmodel import Field
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.enums import Scope
 
 
 class Book(BaseSQLModel, BaseMixin, table=True):
@@ -25,7 +26,10 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     description: str | None = Field(default=None)
     publisher: str | None = Field(default=None)
     published: str | None = Field(default=None)
-    scope: int | None = Field(default=9, ge=0, le=9, description="View scope: 0.offline; 1.owner only; 9.all users")
+    scope: int | None = Field(
+        default=Scope.WORKSPACE,
+        sa_type=Integer,
+        sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))})
 
 
 class BookBase(BaseApiModel):

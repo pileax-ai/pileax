@@ -1,13 +1,13 @@
 from fastapi import HTTPException
 
-from app.api.models.tenant_default_model import TenantDefaultModelCredential
+from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.constants.enums import LLMType
 from app.core.llm.models import ChatModel
 
 
 class TenantLLMService:
     @classmethod
-    def model_instance(cls, model_config: TenantDefaultModelCredential, **kwargs):
+    def model_instance(cls, model_config: ProviderDefaultModelCredential, **kwargs):
         provider = model_config.provider
         model_type = model_config.model_type
         model_name = model_config.model_name

@@ -6,9 +6,20 @@ from fastapi import Depends
 from app.api.controllers.workspace_member_controller import WorkspaceMemberController
 from app.api.router import ApiRouter
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.workspace_member import WorkspaceMemberCreate, WorkspaceMemberUpdate, WorkspaceMemberPublic, WorkspaceMemberPublicDetails
+from app.api.models.workspace_member import WorkspaceMemberPublic, \
+    WorkspaceMemberPublicDetails, WorkspaceMemberInvite
 
 router = ApiRouter(prefix="/workspace/member", tags=["WorkspaceMember"])
+
+
+@router.api_post("/invite", response_model=WorkspaceMemberPublic)
+def invite(item_in: WorkspaceMemberInvite, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.invite(item_in)
+
+
+@router.api_post("/accept", response_model=WorkspaceMemberPublic)
+def invite(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.accept(id)
 
 
 @router.api_get("/details", response_model=WorkspaceMemberPublicDetails)

@@ -5,8 +5,16 @@
         <q-list no-border link>
           <q-item class="profile">
             <q-item-section avatar>
-              <q-avatar size="80px">
-                <img :src="avatar || $public('/logo.png')" alt="Avatar" />
+              <q-avatar size="80px"
+                        :class="{ 'editable': editable }"
+                        square>
+                <o-icon :name="workspace.icon || '🍃'" size="64px" />
+
+                <o-general-icon-menu anchor="top right" self="top left"
+                                     :offset="[8, 0]"
+                                     @emoji="onSelectEmoji"
+                                     @icon="onSelectIcon"
+                                     v-if="editable" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -15,7 +23,8 @@
                 <q-input v-model="name" class="pi-field"
                          debounce="800"
                          @update:modelValue="onUpdateName"
-                         standout dense autofocus />
+                         standout dense autofocus
+                         :readonly="!editable" />
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -52,7 +61,8 @@
 
           <template #body-cell-actions="props">
             <q-td :props="props">
-              <q-btn color="primary" icon="edit" @click="onEditWorkspace(props.row)" flat dense>
+              <q-btn color="primary" icon="edit" @click="onEditWorkspace(props.row)"
+                     flat dense v-if="props.row.userId === account.id">
                 <o-tooltip :message="$t('edit')"/>
               </q-btn>
             </q-td>
@@ -77,16 +87,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, reactive } from 'vue'
-import { userService } from 'src/api/service/remote/user';
+import { onMounted, ref, computed, reactive, onActivated } from 'vue'
 import useAccount from 'src/hooks/useAccount';
 import SettingCard from './setting-card.vue';
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import WorkspaceAdd from './workspace/WorkspaceAdd.vue'
 import { workspaceService } from 'src/api/service/remote/workspace'
 import { getArrayItem, WorkspaceTypes } from 'src/app/metadata'
+import { timeMulti } from 'core/utils/format'
+import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 
-const { account, workspace, workspaces, setAccount, initWorkspace, setWorkspace } = useAccount();
+const { account, workspace, workspaces, initWorkspace, setWorkspace } = useAccount();
 const name = ref('');
 const avatar = ref('');
 const side = reactive<Indexable>({
@@ -99,11 +110,27 @@ const side = reactive<Indexable>({
 })
 const workspaceItemId = ref('');
 const workspaceItem = ref<Indexable>();
+const editable = computed(() => {
+  return workspace.value.userId === account.value.id
+})
 
 function onUpdateName() {
-  console.log('name', name.value);
-  setWorkspace({ ...workspace.value, name: name.value });
-  workspaceService.update({ id: workspace.value.id, name: name.value });
+  updateCurrent({name: name.value});
+}
+
+function onSelectEmoji(options: Indexable) {
+  updateCurrent({icon: options.emoji});
+}
+
+function onSelectIcon(options: Indexable) {
+  updateCurrent({icon: options.name});
+}
+
+function updateCurrent(data: Indexable) {
+  workspaceService.update({ ...data, id: workspace.value.id  }).then(res => {
+    setWorkspace(res);
+    initWorkspace();
+  });
 }
 
 const columns = computed(() => {
@@ -111,7 +138,7 @@ const columns = computed(() => {
     { field: 'icon', label: '图标', align: 'left', name: 'icon' },
     { field: 'name', label: '名称', align: 'left', name: 'name', classes: 'text-bold' },
     { field: 'type', label: '类型', align: 'left', name: 'type' },
-    { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime' },
+    { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
     { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 80px' }
   ];
 });
@@ -141,13 +168,24 @@ const onSideClose = () => {
 onMounted(() => {
   name.value = workspace.value.name;
   avatar.value = workspace.value.avatar;
+  initWorkspace();
+})
+
+onActivated(() => {
+  initWorkspace();
 })
 </script>
 
 <style lang="scss">
 .workspace-tab {
   .profile {
-    padding: 8px 0;
+    padding: 0;
+
+    .q-avatar.editable:hover {
+      cursor: pointer;
+      background: var(--q-accent);
+    }
+
     .q-field {
       max-width: 320px;
     }

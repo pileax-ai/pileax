@@ -15,16 +15,17 @@ class ProviderController(BaseController[Provider, ProviderCreate, ProviderUpdate
         user_id: CurrentUserId,
         workspace: CurrentWorkspace
     ):
+        super().__init__(Provider, session, user_id, workspace.id)
         self.user_id = user_id
         self.workspace = workspace
         self.service = ProviderService(session)
         self.credential_service = ProviderCredentialService(session)
 
     def delete(self, id: UUID) -> Any:
-        return self.service.delete_provider(id, self.workspace.tenant_id, self.user_id)
+        return self.service.delete_provider(id, self.workspace.id, self.user_id)
 
     def find_all(self) -> List[Provider]:
-        return self.service.find_all_provider(self.workspace.tenant_id)
+        return self.service.find_all_provider(self.workspace.id)
 
     def find_all_model(self):
-        return self.service.find_all_model(self.workspace.tenant_id)
+        return self.service.find_all_model(self.workspace.id)

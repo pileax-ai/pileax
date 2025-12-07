@@ -21,6 +21,7 @@ import { userBookService } from './user-book';
 import { workspaceService } from './workspace';
 import { workspaceBookService } from './workspace-book';
 import { workspaceBookCollectionService } from './workspace-book-collection';
+import { workspaceMemberService } from './workspace-member';
 
 export {
   BaseService,
@@ -41,4 +42,5 @@ export {
   workspaceService,
   workspaceBookService,
   workspaceBookCollectionService,
+  workspaceMemberService,
 }

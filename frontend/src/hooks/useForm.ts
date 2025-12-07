@@ -5,12 +5,14 @@ import { BaseValidation } from '@vuelidate/core';
 
 export default function () {
   const apiName = ref('');
+  const apiPath = ref('');
   const form = ref<Indexable>({});
   const loading = ref(false);
   const vuelidate: Ref<BaseValidation | null> = ref(null);
 
-  function initForm(api: string) {
+  function initForm(api: string, path = '') {
     apiName.value = api;
+    apiPath.value = path;
   }
 
   function validate(v$: any) {
@@ -26,7 +28,7 @@ export default function () {
   function submit (body: Indexable, callback: (res: any) => any, error?: (err: any) => any) {
     loading.value = true;
     if (body.id) {
-      PUT({name: apiName.value, body: body}).then(res => {
+      PUT({name: apiName.value, path: apiPath.value, body: body}).then(res => {
         postSubmit(res as Indexable, callback);
       }).catch(err => {
         loading.value = false;
@@ -34,7 +36,7 @@ export default function () {
       })
     } else {
       delete body.id
-      POST({name: apiName.value, body: body}).then(res => {
+      POST({name: apiName.value, path: apiPath.value, body: body}).then(res => {
         postSubmit(res as Indexable, callback);
       }).catch(err => {
         loading.value = false;

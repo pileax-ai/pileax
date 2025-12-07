@@ -3,7 +3,7 @@ import uuid
 from sqlmodel import Field, Integer, text
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
-from app.api.models.enums import Status
+from app.api.models.enums import Status, Scope
 
 
 class App(BaseSQLModel, BaseMixin, table=True):
@@ -19,6 +19,10 @@ class App(BaseSQLModel, BaseMixin, table=True):
         sa_type=Integer,
         sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
     )
+    scope: int | None = Field(
+        default=Scope.WORKSPACE,
+        sa_type=Integer,
+        sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))})
 
 
 class AppBase(BaseApiModel):

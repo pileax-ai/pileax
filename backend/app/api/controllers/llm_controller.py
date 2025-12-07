@@ -9,7 +9,7 @@ class LLMController():
         self,
         session: SessionDep,
         user_id: CurrentUserId,
-        tenant_id: CurrentWorkspaceId
+        workspace_id: CurrentWorkspaceId
     ):
         pass
 

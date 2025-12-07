@@ -46,4 +46,4 @@ class WorkspaceUpdate(WorkspaceBase):
 
 
 class WorkspacePublic(WorkspaceCreate, BaseMixin):
-    pass
+    user_id: uuid.UUID | None = None

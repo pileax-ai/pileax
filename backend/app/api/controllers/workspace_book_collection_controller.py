@@ -12,7 +12,7 @@ class WorkspaceBookCollectionController(BaseController[WorkspaceBookCollection, 
         user_id: CurrentUserId,
         workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(WorkspaceBookCollection, session, workspace_id, user_id)
+        super().__init__(WorkspaceBookCollection, session, user_id, workspace_id)
         self.service = WorkspaceBookCollectionService(session)
 
     def get_all(self):

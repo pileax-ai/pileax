@@ -9,6 +9,7 @@ class BookAnnotation(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "book_annotation"
 
     tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
     type: str | None = Field(default=None)

@@ -55,6 +55,22 @@ class BaseRepository(Generic[ModelType]):
 
         return obj
 
+    def update_obj(self, obj: ModelType, commit: bool = True) -> ModelType:
+        self.session.add(obj)
+
+        if commit:
+            self.session.commit()
+            try:
+                self.session.refresh(obj)
+            except:
+                self.session.flush()
+                self.session.refresh(obj)
+        else:
+            self.session.flush()
+            self.session.refresh(obj)
+
+        return obj
+
     """
     Pagination query
     """

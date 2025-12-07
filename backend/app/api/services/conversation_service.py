@@ -1,7 +1,7 @@
 from app.api.models.conversation import Conversation, ConversationCreate
-from app.api.models.tenant_default_model import TenantDefaultModel
+from app.api.models.provider_default_model import ProviderDefaultModel
 from app.api.repos.conversation_repository import ConversationRepository
-from app.api.repos.tenent_default_model_repository import TenantDefaultModelRepository
+from app.api.repos.provider_default_model_repository import ProviderDefaultModelRepository
 from app.api.services.app_service import AppService
 from app.api.services.base_service import BaseService
 
@@ -12,7 +12,7 @@ class ConversationService(BaseService[Conversation]):
         self.user_id = user_id
         self.workspace = workspace
         self.app_service = AppService(session, self.workspace.tenant_id, self.user_id)
-        self.tdm_repository = TenantDefaultModelRepository(TenantDefaultModel, session)
+        self.pdm_repository = ProviderDefaultModelRepository(ProviderDefaultModel, session)
 
     def save(self, item_in: ConversationCreate) -> Conversation:
         # default app
@@ -22,10 +22,10 @@ class ConversationService(BaseService[Conversation]):
 
         # default model
         # todo
-        tdm_credential = self.tdm_repository.get_default_model_credential(self.workspace.tenant_id, item_in.model_type)
-        if tdm_credential:
-            item_in.model_provider = tdm_credential.provider
-            item_in.model_name = tdm_credential.model_name
+        pdm_credential = self.pdm_repository.get_default_model_credential(self.workspace.id, item_in.model_type)
+        if pdm_credential:
+            item_in.model_provider = pdm_credential.provider
+            item_in.model_name = pdm_credential.model_name
 
         item = item_in.model_dump(by_alias=True)
         item['workspaceId'] = self.workspace.id

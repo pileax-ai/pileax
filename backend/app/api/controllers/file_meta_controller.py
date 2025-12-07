@@ -6,7 +6,7 @@ class FileMetaController(BaseController[FileMeta, FileMetaCreate, FileMetaUpdate
     def __init__(
         self,
         session: SessionDep,
-        workspace_id: CurrentWorkspaceId,
         user_id: CurrentUserId,
+        workspace_id: CurrentWorkspaceId,
     ):
-        super().__init__(FileMeta, session, workspace_id, user_id)
+        super().__init__(FileMeta, session, user_id, workspace_id)

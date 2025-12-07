@@ -31,7 +31,8 @@ const urls: Indexable = {
   userBook: '/user/book',
   workspaceBook: '/workspace/book',
   workspaceBookCollection: '/workspace/book/collection',
-  workspaceDefaultModel: '/tenant/default-model',
+  workspaceMember: '/workspace/member',
+  workspaceDefaultModel: '/provider/default-model',
   user: '/user',
   workspace: '/workspace',
 };

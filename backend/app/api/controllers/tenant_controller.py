@@ -14,7 +14,7 @@ class TenantController(BaseController[Tenant, TenantCreate, TenantUpdate]):
         user_id: CurrentUserId,
         workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(Tenant, session, workspace_id, user_id)
+        super().__init__(Tenant, session, user_id, workspace_id)
         self.service = TenantService(session, user_id)
 
     def get_user_workspaces(self) -> Any:

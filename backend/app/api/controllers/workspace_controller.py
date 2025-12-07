@@ -14,7 +14,7 @@ class WorkspaceController(BaseController[Workspace, WorkspaceCreate, WorkspaceUp
         user_id: CurrentUserId,
         workspace_id: CurrentWorkspaceId
     ):
-        super().__init__(Workspace, session, workspace_id, user_id)
+        super().__init__(Workspace, session, user_id, workspace_id)
         self.service = WorkspaceService(session, user_id)
 
     def get_user_workspaces(self) -> Any:
