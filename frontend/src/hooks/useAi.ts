@@ -8,7 +8,7 @@ export default function() {
 
   const aiStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId;
-    return useAiStore();
+    return useAiStore(currentWorkspaceId);
   });
 
   const provider = computed(() => {
@@ -31,6 +31,14 @@ export default function() {
     aiStore.value.updateLocalDefaultModels(item)
   }
 
+  const setLocalModel = (type: string, value: Indexable) => {
+    aiStore.value.setLocalModel(type, value)
+  }
+
+  const getLocalModel = (type: string) => {
+    return aiStore.value.getLocalModel(type)
+  }
+
   return {
     aiStore,
     provider,
@@ -38,5 +46,7 @@ export default function() {
     initAiSettings,
     getDefaultModels,
     updateLocalDefaultModels,
+    setLocalModel,
+    getLocalModel,
   }
 }
