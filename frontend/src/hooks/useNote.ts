@@ -13,8 +13,6 @@ export default function () {
   const accountStore = useAccountStore();
   // const noteStore = useNoteStore();
   const recentNotes = ref<Note[]>([]);
-  const noteTitle = ref('');
-  const noteIcon = ref('');
 
   const noteStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId;
@@ -34,27 +32,28 @@ export default function () {
   });
 
   function setCurrentNote(note: Note | null) {
+    console.log('setCurrentNote', note)
     if (!note) return;
+
+    if (note.title !== currentNote.value.title || note.icon !== currentNote.value.icon) {
+      console.log('Update Menu')
+
+      const menu = {
+        id: note.id,
+        name: note.title,
+        path: `/note/${note.id}`,
+        action: 1,
+        meta: {
+          type: 'note',
+          icon: note.icon || '✍',
+          iconClass: 'emoji'
+        }
+      } as MenuItem;
+      naviStore.setCurrentMenu(menu);
+    }
+
     noteStore.value.setCurrentNote(note);
     refreshNote(note);
-
-    if (note.title === noteTitle.value && note.icon === noteIcon.value) {
-      return
-    }
-    noteTitle.value = note.title || '';
-    noteIcon.value = note.icon || '';
-    const menu = {
-      id: note.id,
-      name: note.title,
-      path: `/note/${note.id}`,
-      action: 1,
-      meta: {
-        type: 'note',
-        icon: note.icon || '✍',
-        iconClass: 'emoji'
-      }
-    } as MenuItem;
-    naviStore.setCurrentMenu(menu);
   }
 
   async function getAllNotes() {

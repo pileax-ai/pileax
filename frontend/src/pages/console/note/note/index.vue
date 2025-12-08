@@ -211,9 +211,8 @@ function onScroll() {
 }
 
 function onUpdate({ json, html }: { json: any; html: string }) {
+  console.log('update', html, ready.value, loading.value);
   if (!ready.value) return;
-  // console.log('update', json)
-  // console.log('update', html);
   noteJson.value = json;
   noteHtml.value = html;
 
