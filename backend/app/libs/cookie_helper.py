@@ -1,6 +1,7 @@
 from fastapi import Request, Response
 
 from app.api.models.auth import Token
+from app.configs import app_config
 from app.constants import COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, COOKIE_NAME_CSRF_TOKEN
 
 
@@ -18,7 +19,7 @@ class CookieHelper:
             domain="",
             secure=False,
             samesite=samesite,
-            max_age=3600,
+            max_age=app_config.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
             path="/",
         )
 
@@ -31,7 +32,7 @@ class CookieHelper:
             domain="",
             secure=False,
             samesite=samesite,
-            max_age=3600,
+            max_age=app_config.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 3600,
             path="/",
         )
 

@@ -32,6 +32,9 @@ class MessageCreate(MessageBase):
     conversation_id: uuid.UUID
     message: str | None = None
     stream: bool | None = None
+    model_provider: str | None = None
+    model_name: str | None = None
+    model_type: str | None = None
 
 
 class MessageUpdate(MessageBase):
