@@ -68,7 +68,7 @@ const iconRight = computed(() => {
 function onSelect(value: Indexable) {
   menu.value = false;
   if (props.persist) {
-    aiStore.setProvider(value);
+    aiStore.value.setProvider(value);
   }
 
   emit('select', value);

@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
 import { CODE } from 'core/app';
 import { pdmService } from 'src/api/service/remote'
+import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
-export const useAiStore = defineStore('ai', {
+export const useAiStore = defineWorkspaceStore('ai', {
   state: () => ({
     provider: {} as Indexable,
     defaultModels: [] as Indexable[],
