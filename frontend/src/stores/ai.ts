@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { CODE } from 'core/app';
-import { tdmService } from 'src/api/service/remote'
+import { pdmService } from 'src/api/service/remote'
 
 export const useAiStore = defineStore('ai', {
   state: () => ({
@@ -12,7 +12,7 @@ export const useAiStore = defineStore('ai', {
       this.provider = value;
     },
     getDefaultModels() {
-      tdmService.getAll().then(res => {
+      pdmService.getAll().then(res => {
         this.defaultModels = res
       })
     },

@@ -43,7 +43,7 @@
 import { computed, onMounted, PropType, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import { providerModelService, tdmService } from 'src/api/service/remote';
+import { providerModelService, pdmService } from 'src/api/service/remote';
 import { notifyDone } from 'core/utils/control'
 import useAi from 'src/hooks/useAi'
 
@@ -73,7 +73,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['selected']);
 
-const { defaultModels, getDefaultModels, updateLocalDefaultModels } = useAi();
+const { defaultModels, updateLocalDefaultModels } = useAi();
 const typeModels = ref<Indexable[]>([])
 
 const defaultModel = computed(() => {
@@ -91,7 +91,7 @@ const onSelect = (item: Indexable) => {
     modelName: item.llm_name,
     modelType: item.model_type
   }
-  tdmService.save(body).then(res => {
+  pdmService.save(body).then(res => {
     notifyDone()
     updateLocalDefaultModels(res)
   })

@@ -15,7 +15,7 @@ import { noteService } from './note';
 import { providerService } from './provider';
 import { providerCredentialService } from './provider-credential';
 import { providerModelService } from './provider-model';
-import { tdmService } from './tenant-default-model';
+import { pdmService } from './provider-default-model';
 import { userService } from './user';
 import { userBookService } from './user-book';
 import { workspaceService } from './workspace';
@@ -33,10 +33,10 @@ export {
   chatConversationService,
   edgeService,
   noteService,
+  pdmService,
   providerService,
   providerCredentialService,
   providerModelService,
-  tdmService,
   userService,
   userBookService,
   workspaceService,

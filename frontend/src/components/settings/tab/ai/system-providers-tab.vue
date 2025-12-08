@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { onActivated, ref } from 'vue'
 import OAiModelSelectBtn from 'src/components/ai/OAiModelSelectBtn.vue';
-import { providerModelService, tdmService } from 'src/api/service/remote';
+import { providerModelService, pdmService } from 'src/api/service/remote';
 import useAi from 'src/hooks/useAi';
 
 const { initAiSettings } = useAi();

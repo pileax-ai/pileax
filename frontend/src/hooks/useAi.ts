@@ -14,10 +14,7 @@ export default function() {
   })
 
   const initAiSettings = () => {
-    if (defaultModels.value.length === 0) {
-      console.log('init default models', defaultModels.value)
-      getDefaultModels()
-    }
+    getDefaultModels()
   }
 
   const getDefaultModels = () => {

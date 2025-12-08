@@ -25,6 +25,7 @@ const urls: Indexable = {
   knowledge: '/knowledge',
   provider: '/provider',
   providerCredential: '/provider/credential',
+  providerDefaultModel: '/provider/default-model',
   providerModel: '/provider/model',
   systemConfig: '/system/config',
   systemHealthCheck: '/system/health-check',
@@ -32,7 +33,6 @@ const urls: Indexable = {
   workspaceBook: '/workspace/book',
   workspaceBookCollection: '/workspace/book/collection',
   workspaceMember: '/workspace/member',
-  workspaceDefaultModel: '/provider/default-model',
   user: '/user',
   workspace: '/workspace',
 };
