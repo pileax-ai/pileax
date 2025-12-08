@@ -74,7 +74,7 @@ const aiOption = ref<AiOption>({
 const pageView = ref('page');
 const showToc = ref(true);
 const loading = ref(false);
-const ready = ref(false);
+const editorReady = ref(false);
 
 const options = computed(() => {
   return {
@@ -122,9 +122,9 @@ const editor = computed(() => {
 })
 
 function initEditor() {
-  ready.value = false;
+  editorReady.value = false;
   editor.value?.on('create', () => {
-    ready.value = true;
+    editorReady.value = true;
   })
 }
 
@@ -145,7 +145,9 @@ function onAction(action: Indexable) {
 }
 
 async function getAndLoadNote() {
+  loading.value = true;
   noteService.get(id.value).then((note: any) => {
+    loading.value = false;
     loadingNote(note as Note);
   }).catch((err) => {
     createNote();
@@ -169,20 +171,19 @@ async function createNote() {
     content: content
   }).then(note => {
     loadNote(note, content, focusPosition, emitUpdate);
-  });
+  }).finally(() => {
+    loading.value = false;
+  })
 }
 
 function loadingNote(note: Note) {
-  loading.value = true;
   parent.value = note.parent;
   let content = note.content;
   let focusPosition = 'start';
   let emitUpdate = false;
   if (source.value ===  'chat') {
-    loading.value = false;
     emitUpdate = true;
     const appendHtml = chatContentToHtml(noteStore.value.chatToNote.content)
-    console.log('appendHtml', appendHtml)
     content += appendHtml;
     focusPosition = 'end';
   }
@@ -194,7 +195,7 @@ function loadNote(note: Note, content: string, focus: string,
                   emitUpdate = false) {
   setCurrentNote(note);
   setContent(content, emitUpdate, focus);
-  noteStore.value.setChatToNote({});
+  noteStore.value.resetChatToNote();
   router.replace({ query: {} });
 }
 
@@ -207,15 +208,18 @@ function setContent (content: string, emitUpdate = false, focus = 'start') {
 
 function onScroll() {
   const event: Event | undefined = undefined;
-  tocRef.value?.onScroll(event)
+  tocRef.value?.onScroll(event as any)
 }
 
 function onUpdate({ json, html }: { json: any; html: string }) {
-  console.log('update', html, ready.value, loading.value);
-  if (!ready.value) return;
+  // When editor created, there is one update which is no meaning.
+  // Ignore this update.
+  if (!editorReady.value) return;
+  // console.log('update', html, editorReady.value, loading.value);
   noteJson.value = json;
   noteHtml.value = html;
 
+  // When editor is loading content, NO need to update to your server.
   if (loading.value) {
     loading.value = false;
   } else {
@@ -268,6 +272,7 @@ const insertContent = (value: string) => {
 provide('insertContent', insertContent)
 
 onActivated(() => {
+  console.log('onActivated')
   id.value = route.params.id as string;
   parent.value = route.query.parent as string;
   source.value = route.query.source as string;
@@ -275,6 +280,7 @@ onActivated(() => {
 })
 
 onMounted(() => {
+  console.log('onMounted')
   initEditor();
 })
 </script>

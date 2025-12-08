@@ -27,6 +27,9 @@ export const useNoteStore = defineWorkspaceStore('note', {
     setChatToNote(value: Chat) {
       this.chatToNote = value;
     },
+    resetChatToNote() {
+      this.chatToNote = {} as Chat;
+    },
     setChatWidth(value: number) {
       this.chatWidth = value;
     },
