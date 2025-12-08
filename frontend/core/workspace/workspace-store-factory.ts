@@ -80,7 +80,7 @@ export const defineWorkspaceStore = <
       if (originalPersist && typeof originalPersist === 'object') {
         Object.keys(originalPersist).forEach(key => {
           if (key === 'key') {
-            newPersist[key] = `workspace_${targetWorkspaceId}_${originalPersist[key] || storeId}`;
+            newPersist[key] = `${originalPersist[key] || storeId}.ws_${targetWorkspaceId}`;
           } else {
             newPersist[key] = originalPersist[key];
           }
@@ -89,9 +89,9 @@ export const defineWorkspaceStore = <
 
       // 确保key被正确设置
       if (originalPersist && originalPersist.key && !newPersist.key) {
-        newPersist.key = `workspace_${targetWorkspaceId}_${originalPersist.key}`;
+        newPersist.key = `${originalPersist.key}.ws_${targetWorkspaceId}`;
       } else if (!newPersist.key) {
-        newPersist.key = `workspace_${targetWorkspaceId}_${storeId}`;
+        newPersist.key = `${storeId}.ws_${targetWorkspaceId}`;
       }
 
       workspaceOptions.persist = newPersist;

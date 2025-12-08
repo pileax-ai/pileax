@@ -10,8 +10,8 @@
 - [ ] tab
 
 ## Workspace independent stores
-- [ ] ai
+- [x] ai
 - [ ] book
-- [x] chatx
+- [x] chat
 - [x] note
 - [ ] reader

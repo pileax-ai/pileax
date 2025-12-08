@@ -22,7 +22,7 @@ export const useTabStore = defineStore('tab', {
       this.tabs = tabs;
     },
     updateTab(menu: TabItem) {
-      console.log('updateTab', menu)
+      // console.log('updateTab', menu)
       const tab = { ...menu };
       if (this.tab.id) {
         this.updateCurrentTabMeta(tab);

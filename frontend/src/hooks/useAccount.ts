@@ -1,12 +1,10 @@
 import { computed, ref } from 'vue';
 import { useAccountStore } from 'stores/account';
-import { useAiStore } from 'stores/ai';
 import { useTabStore } from 'stores/tab';
 import { TabItem } from 'core/types/menu'
 
 export default function () {
   const accountStore = useAccountStore();
-  const aiStore = useAiStore();
   const tabStore = useTabStore();
 
   const account = computed(() => {
@@ -56,7 +54,6 @@ export default function () {
 
     // Todo: reset stores
     accountStore.$reset();
-    aiStore.$reset();
   }
 
   return {
