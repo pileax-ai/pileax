@@ -2,7 +2,7 @@
   <section class="column col-12 fit o-assistant-chat">
     <header class="row col-auto justify-between text-tips">
       <div class="row">
-        <o-ai-model-select-btn type="chat" single icon-only>
+        <o-ai-model-select-btn type="chat" single icon-only local>
           <o-tooltip position="left" transition>
             AI Model
           </o-tooltip>
@@ -42,7 +42,7 @@
     <footer class="row col-auto justify-between text-tips">
       <div class="row items-center">
         <o-badge color="grey">
-          {{provider.title}}
+          {{localDefaultModel.provider}}
         </o-badge>
       </div>
       <div class="row">
@@ -90,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue'
 import { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';
@@ -116,10 +116,14 @@ const props = defineProps({
 })
 const emit = defineEmits(['send', 'stop', 'expand']);
 
-const { provider } = useAi();
+const { localModels } = useAi();
 const input = ref();
 const reasoning = ref(false);
 const expanded = ref(false);
+
+const localDefaultModel = computed(() => {
+  return localModels.value['chat'] || {}
+})
 
 function onToggleExpand() {
   expanded.value = !expanded.value;
@@ -148,7 +152,9 @@ function onSend() {
   emit('send', {
     id: UUID(),
     message: message,
-    reasoning: reasoning.value
+    modelProvider: localDefaultModel.value.provider,
+    modelType: localDefaultModel.value.modelType,
+    modelName: localDefaultModel.value.modelName,
   } as ChatInput);
   reset();
 }

@@ -51,9 +51,6 @@ export default function () {
 
   function logout() {
     accountStore.logout();
-
-    // Todo: reset stores
-    accountStore.$reset();
   }
 
   return {

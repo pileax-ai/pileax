@@ -3,7 +3,11 @@ import re
 from typing import List, Any
 from uuid import UUID
 
+from fastapi import HTTPException
+
 from app.api.models.enums import Status
+from app.api.models.provider_default_model import ProviderDefaultModelCredential
+from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_model_service import ProviderDefaultModelService
 from app.constants.enums import LLMType
 from app.core.llm.services.llm_service import LLMService
@@ -20,10 +24,28 @@ class ChatService(BaseService[Message]):
         self.user_id = user_id
         self.workspace_id = workspace_id
         self.pdm_service = ProviderDefaultModelService(session, workspace_id, user_id)
+        self.pc_service = ProviderCredentialService(session)
 
     def completions(self, item_in: MessageCreate) -> Any:
+        pdm_credential = None
+
+        # user specific model
+        if item_in.model_provider:
+            provider_credential = self.pc_service.find_one({'provider': item_in.model_provider})
+            if provider_credential:
+                pdm_credential = ProviderDefaultModelCredential(
+                    provider=provider_credential.provider,
+                    model_name=item_in.model_name,
+                    model_type=item_in.model_type,
+                    credential=provider_credential.credential,
+                )
         # default model
-        pdm_credential = self.pdm_service.get_default_model_credential(self.workspace_id, LLMType.CHAT)
+        if pdm_credential is None:
+            pdm_credential = self.pdm_service.get_default_model_credential(self.workspace_id, LLMType.CHAT)
+
+        if pdm_credential is None:
+            raise HTTPException(status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet.")
+
 
         # message
         messages = self.find_by_conversation(item_in.conversation_id)

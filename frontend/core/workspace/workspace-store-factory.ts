@@ -1,7 +1,7 @@
 import { defineStore, DefineStoreOptions, Store } from 'pinia'
 import { workspaceManager } from './workspace-manager';
 
-// 简单的缓存
+// Simple store cache
 const storeCache = new Map<string, any>();
 
 interface PersistConfig {
@@ -20,12 +20,12 @@ export const createStore = (
     const targetWorkspaceId = workspaceId || workspaceManager.getCurrentWorkspaceId();
     const storeKey = `${storeId}_${targetWorkspaceId}`;
 
-    // 使用缓存
+    // Get from cache
     if (storeCache.has(storeKey)) {
       return storeCache.get(storeKey);
     }
 
-    // 定义store
+    // Define store
     const useStore = defineStore(storeKey, () => {
       const state = factory(targetWorkspaceId);
 
@@ -37,7 +37,6 @@ export const createStore = (
       };
     });
 
-    // 创建并缓存实例
     const storeInstance = useStore();
     storeCache.set(storeKey, storeInstance);
 
@@ -52,7 +51,7 @@ export const defineWorkspaceStore = <
   A extends object = {}
 >(
   storeId: Id,
-  options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>  // 移除id属性，因为我们会自动生成
+  options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>
 ) => {
   return (workspaceId?: string): Store<Id, S, G, A> & {
     $workspaceId: string;

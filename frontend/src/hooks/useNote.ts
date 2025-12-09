@@ -11,7 +11,6 @@ import { useAccountStore } from 'stores/account';
 export default function () {
   const naviStore = useNaviStore();
   const accountStore = useAccountStore();
-  // const noteStore = useNoteStore();
   const recentNotes = ref<Note[]>([]);
 
   const noteStore = computed(() => {

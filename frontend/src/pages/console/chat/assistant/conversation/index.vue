@@ -66,7 +66,6 @@ import useChatConversation from 'src/hooks/useChatConversation';
 import { ChatInput } from 'src/types/chat';
 
 const route = useRoute();
-const { provider } = useAi();
 const {
   appId,
   conversation,
@@ -132,11 +131,14 @@ function onStop() {
   cancelStream();
 }
 
-async function createConversation(data: Indexable) {
-  const message = data.message;
+async function createConversation(data: ChatInput) {
+  const { message, modelProvider, modelType, modelName } = data;
   chatConversationService.save({
     appId: appId.value || null,
     name: message,
+    modelProvider,
+    modelName,
+    modelType
   }).then(res => {
     conversation.value = res;
     conversationId.value = res.id;
@@ -160,8 +162,6 @@ async function chatCompletion(data: ChatInput) {
     ...data,
     conversationId: conversationId.value,
     stream: true,
-    provider: provider.value.name,
-    // model: data.reasoning ? 'deepseek-reasoner' : 'deepseek-chat'
   }
   newChat.value = {
     ...payload,

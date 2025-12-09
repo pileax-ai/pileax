@@ -1,7 +1,9 @@
 export interface ChatInput {
   id: string;
   message: string;
-  reasoning: boolean;
+  modelProvider?: string;
+  modelType?: string;
+  modelName?: string;
 }
 
 export interface Chat {

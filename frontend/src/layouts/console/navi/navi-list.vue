@@ -10,9 +10,12 @@
                                root
                                show-item-icon separator />
       </q-list>
-      <note-list :max-width="maxWidth" v-show="activity === 'note'" />
-      <ai-assistant-list :max-width="maxWidth" v-show="activity === 'chat'" />
-<!--      <knowledge-list :max-width="maxWidth" v-show="activity === 'knowledge'" />-->
+
+      <template v-if="workspace?.id">
+        <note-list :max-width="maxWidth" v-show="activity === 'note'" />
+        <ai-assistant-list :max-width="maxWidth" v-show="activity === 'chat'" />
+        <!--      <knowledge-list :max-width="maxWidth" v-show="activity === 'knowledge'" />-->
+      </template>
     </template>
   </drawer-navi>
 </template>
@@ -26,6 +29,7 @@ import NoteList from './note/note-list.vue';
 import AiAssistantList from './chat/ai-assistant-list.vue';
 import KnowledgeList from './knowledge/knowledge-list.vue';
 
+import useAccount from 'src/hooks/useAccount';
 import useNavi from 'src/hooks/useNavi';
 
 const props = defineProps({
@@ -35,6 +39,7 @@ const props = defineProps({
   },
 });
 
+const { workspace } = useAccount();
 const { activity, findTopConsoleMenu } = useNavi();
 
 const activeMenu = computed(() => {

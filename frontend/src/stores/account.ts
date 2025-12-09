@@ -59,7 +59,6 @@ export const useAccountStore = defineStore('account', {
           if (!this.workspace?.id && this.workspaces.length) {
             const defaultWorkspace = this.workspaces[0];
             this.switchWorkspace(defaultWorkspace!)
-            workspaceManager.setDefaultWorkspace(defaultWorkspace! as WorkspaceInfo)
           }
           resolve(res)
         }).catch((err: any) => {
@@ -74,7 +73,6 @@ export const useAccountStore = defineStore('account', {
       this.workspace = value;
     },
     switchWorkspace(value: Indexable, redirect = '/welcome') {
-      // console.log('setWorkspace', value);
       this.workspace = value;
       workspaceManager.switchWorkspace(value.id);
       if (redirect) {

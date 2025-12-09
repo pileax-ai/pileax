@@ -1,8 +1,12 @@
+import { PREFIX } from 'core/utils/storage';
+
 export interface WorkspaceInfo {
   id: string;
   name: string;
   icon?: string;
 }
+
+const cacheKey = `${PREFIX}workspace`
 
 export class WorkspaceManager {
   private static instance: WorkspaceManager;
@@ -22,7 +26,7 @@ export class WorkspaceManager {
   }
 
   private init(): void {
-    const savedWorkspace = sessionStorage.getItem('current_workspace');
+    const savedWorkspace = sessionStorage.getItem(cacheKey);
     if (savedWorkspace) {
       this.currentWorkspaceId = savedWorkspace;
     }
@@ -47,17 +51,6 @@ export class WorkspaceManager {
     console.log('setWorkspaces', this.workspaces)
   }
 
-  setDefaultWorkspace(value: WorkspaceInfo) {
-    if (!this.workspaces.has(value.id)) {
-      console.warn(`租户 ${value.id} 不存在`);
-      return;
-    }
-    this.workspaces.set('default', value);
-    this.currentWorkspaceId = 'default';
-    sessionStorage.setItem('current_workspace', 'default');
-    console.log(`Default workspace: ${value.id}`);
-  }
-
   switchWorkspace(workspaceId: string): void {
     if (workspaceId === this.currentWorkspaceId) {
       return;
@@ -71,7 +64,7 @@ export class WorkspaceManager {
     this.currentWorkspaceId = workspaceId;
 
     // Todo: Persist to sessionStorage
-    sessionStorage.setItem('current_workspace', workspaceId);
+    sessionStorage.setItem(cacheKey, workspaceId);
 
     console.log(`租户已切换: ${oldWorkspaceId} → ${workspaceId}`);
   }

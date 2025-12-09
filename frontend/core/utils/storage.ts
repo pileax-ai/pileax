@@ -4,7 +4,7 @@
  * @author Xman
  * @version 1.0
  */
-import { Cookies, LocalStorage } from 'quasar';
+import { Cookies, LocalStorage, SessionStorage } from 'quasar'
 import { CODE } from 'core/app';
 
 export const COOKIE_OPTIONS = {
@@ -88,10 +88,24 @@ export function removeAll(prefix = PREFIX) {
 }
 
 export function removeUserData(prefix = PREFIX) {
-  const keys = ['account', 'ai', 'note', 'user'];
+  const userKeys = ['account', 'ai', 'chat', 'note', 'tab', 'user', 'workspace'];
 
-  for (const key of keys) {
-    LocalStorage.remove(`${prefix}${key}`);
+  // localStorage
+  let keys = Object.keys(localStorage)
+  for (const k of keys) {
+    console.log('localStorage', k)
+    if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
+      LocalStorage.remove(k);
+    }
+  }
+
+  // sessionStorage
+  keys = Object.keys(sessionStorage)
+  for (const k of keys) {
+    console.log('sessionStorage', k)
+    if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
+      SessionStorage.remove(k);
+    }
   }
 }
 

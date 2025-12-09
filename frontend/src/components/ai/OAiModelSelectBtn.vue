@@ -10,14 +10,14 @@
               flat
               @before-show="onBeforeShow">
     <template #icon>
-      <o-icon :name="`icon-${defaultModel.logo}`" v-if="defaultModel?.id" />
+      <o-icon :name="`icon-${defaultModel.logo}`" v-if="defaultModel?.logo" />
       <q-icon :name="icon" v-else-if="icon" />
     </template>
     <template #label>
       <slot name="label" />
 
       <template v-if="!iconOnly">
-        <span v-if="defaultModel?.id">{{ defaultModel.modelName }}</span>
+        <span v-if="defaultModel?.modelName">{{ defaultModel.modelName }}</span>
         <span v-else>{{ label }}</span>
       </template>
     </template>
@@ -101,10 +101,20 @@ const props = defineProps({
     type: Boolean,
     required: false
   },
+  local: {
+    type: Boolean,
+    required: false
+  },
 });
 const emit = defineEmits(['selected']);
 
-const { defaultModels, updateLocalDefaultModels } = useAi();
+const {
+  localModels,
+  defaultModels,
+  updateLocalDefaultModels,
+  getLocalModel,
+  setLocalModel
+} = useAi();
 const singleModels = ref<Indexable[]>([])
 
 const typeModels = computed(() => {
@@ -114,12 +124,20 @@ const typeModels = computed(() => {
 })
 
 const defaultModel = computed(() => {
-  const dm = defaultModels.value.find(m => m.modelType === props.type) || {}
-  const m = typeModels.value.find(m => m.llm_name === dm.modelName && m.provider === dm.provider) || {}
-  return {
-    ...m,
-    ...dm,
+  if (props.local && localDefaultModel.value) {
+    return localDefaultModel.value
+  } else {
+    const dm = defaultModels.value.find(m => m.modelType === props.type) || {}
+    const m = typeModels.value.find(m => m.llm_name === dm.modelName && m.provider === dm.provider) || {}
+    return {
+      ...m,
+      ...dm,
+    }
   }
+})
+
+const localDefaultModel = computed(() => {
+  return localModels.value[props.type]
 })
 
 const onSelect = (item: Indexable) => {
@@ -128,10 +146,16 @@ const onSelect = (item: Indexable) => {
     modelName: item.llm_name,
     modelType: item.model_type
   }
-  pdmService.save(body).then(res => {
-    notifyDone()
-    updateLocalDefaultModels(res)
-  })
+  if (props.local) {
+    setLocalModel(props.type, {...body,
+      logo: item.logo
+    })
+  } else {
+    pdmService.save(body).then(res => {
+      notifyDone()
+      updateLocalDefaultModels(res)
+    })
+  }
 }
 
 const initData = async () => {

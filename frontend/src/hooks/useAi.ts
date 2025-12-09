@@ -15,6 +15,10 @@ export default function() {
     return aiStore.value.provider;
   })
 
+  const localModels = computed(() => {
+    return aiStore.value.localModels;
+  })
+
   const defaultModels = computed(() => {
     return aiStore.value.defaultModels;
   })
@@ -42,6 +46,7 @@ export default function() {
   return {
     aiStore,
     provider,
+    localModels,
     defaultModels,
     initAiSettings,
     getDefaultModels,

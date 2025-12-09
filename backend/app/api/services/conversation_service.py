@@ -20,12 +20,13 @@ class ConversationService(BaseService[Conversation]):
             app = self.app_service.create_default_app(item_in.model_type)
             item_in.app_id = app.id
 
-        # default model
-        # todo
-        pdm_credential = self.pdm_repository.get_default_model_credential(self.workspace.id, item_in.model_type)
-        if pdm_credential:
-            item_in.model_provider = pdm_credential.provider
-            item_in.model_name = pdm_credential.model_name
+        # user specific model
+        if item_in.model_provider is None and item_in.model_name is None:
+            # use default model
+            pdm_credential = self.pdm_repository.get_default_model_credential(self.workspace.id, item_in.model_type)
+            if pdm_credential:
+                item_in.model_provider = pdm_credential.provider
+                item_in.model_name = pdm_credential.model_name
 
         item = item_in.model_dump(by_alias=True)
         item['workspaceId'] = self.workspace.id
