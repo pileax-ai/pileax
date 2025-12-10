@@ -22,7 +22,7 @@ export const useTabStore = defineStore('tab', {
       this.tabs = tabs;
     },
     updateTab(menu: TabItem) {
-      // console.log('updateTab', menu)
+      console.log('updateTab', menu)
       const tab = { ...menu };
       if (this.tab.id) {
         this.updateCurrentTabMeta(tab);
@@ -61,7 +61,7 @@ export const useTabStore = defineStore('tab', {
       const tab = {
         id: UUID(),
         workspaceId: workspaceManager.getCurrentWorkspaceId(),
-        name: '',
+        name: 'quickstart',
         path: path
       }
       this.newTab(tab);
@@ -80,6 +80,7 @@ export const useTabStore = defineStore('tab', {
           if (tab.path !== path) {
             this.router.push(tab.path);
           }
+
           return tab;
         }
       }

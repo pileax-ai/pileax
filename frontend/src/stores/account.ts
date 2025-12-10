@@ -74,10 +74,17 @@ export const useAccountStore = defineStore('account', {
       this.workspace = value;
     },
     switchWorkspace(value: Indexable, redirect = '/welcome') {
-      this.workspace = value;
-      workspaceManager.switchWorkspace(value.id);
       if (redirect) {
         this.router.push(redirect);
+
+        // switch after redirect completed
+        setTimeout(() => {
+          this.workspace = value;
+          workspaceManager.switchWorkspace(value.id);
+        }, 100)
+      } else {
+        this.workspace = value;
+        workspaceManager.switchWorkspace(value.id);
       }
     }
   },

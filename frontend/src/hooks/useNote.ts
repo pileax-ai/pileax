@@ -34,23 +34,23 @@ export default function () {
     // console.log('setCurrentNote', note)
     if (!note) return;
 
-    if (note.title !== currentNote.value.title || note.icon !== currentNote.value.icon) {
-      const menu = {
-        id: note.id,
-        name: note.title,
-        path: `/note/${note.id}`,
-        action: 1,
-        meta: {
-          type: 'note',
-          icon: note.icon || '✍',
-          iconClass: 'emoji'
-        }
-      } as MenuItem;
-      naviStore.setCurrentMenu(menu);
-    }
-
+    // update current note
     noteStore.value.setCurrentNote(note);
     refreshNote(note);
+
+    // update menu/tab
+    const menu = {
+      id: note.id,
+      name: note.title,
+      path: `/note/${note.id}`,
+      action: 1,
+      meta: {
+        type: 'note',
+        icon: note.icon || '✍',
+        iconClass: 'emoji'
+      }
+    } as MenuItem;
+    naviStore.setCurrentMenu(menu);
   }
 
   async function getAllNotes() {

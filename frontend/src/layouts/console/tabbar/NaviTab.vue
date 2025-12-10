@@ -43,7 +43,6 @@
 import { computed, PropType } from 'vue'
 import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
-import { refresh } from 'core/hooks/useRouter';
 import { ipcService } from 'src/api/ipc';
 import { NoteDefaultIcon } from 'core/constants/constant';
 import { MenuItem } from 'core/types/menu';
@@ -58,6 +57,7 @@ const props = defineProps({
     default: false
   },
 });
+const emits = defineEmits(['close'])
 
 const tabStore = useTabStore();
 
@@ -103,6 +103,7 @@ function itemAction(action: Indexable, item: MenuItem) {
 
 function onClose(item: MenuItem) {
   tabStore.closeTab(item.id);
+  emits('close')
 }
 
 function onNewWindow(item: MenuItem) {

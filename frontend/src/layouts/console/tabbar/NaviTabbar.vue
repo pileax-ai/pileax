@@ -26,7 +26,7 @@
                    ghost-class="ghost"
                    @end="onTabsSorted">
           <template #item="{ element }">
-            <navi-tab :item="element" :minimized="minimized" />
+            <navi-tab :item="element" :minimized="minimized" @close="onTabClosed" />
           </template>
         </draggable>
         <draggable :list="unpinnedTabs"
@@ -35,7 +35,7 @@
                    ghost-class="ghost"
                    @end="onTabsSorted">
           <template #item="{ element }">
-            <navi-tab :item="element" :minimized="minimized" />
+            <navi-tab :item="element" :minimized="minimized" @close="onTabClosed" />
           </template>
         </draggable>
         <q-btn icon="add" color="info" size="0.8rem"
@@ -124,11 +124,16 @@ async function onAdd() {
 }
 
 function onTabChanged(id: string) {
-  const tab = tabStore.openTab(id, route.path);
-  // console.log('open tab', tab);
-  if (tab) {
-    switchWorkspaceByTab(tab)
+  // console.log('onTabChanged', id);
+  const openedTab = tabStore.openTab(id, route.path);
+  if (openedTab) {
+    switchWorkspaceByTab(openedTab)
   }
+}
+
+function onTabClosed() {
+  // console.log('onTabClose', tab.value);
+  switchWorkspaceByTab(tab.value)
 }
 
 </script>
