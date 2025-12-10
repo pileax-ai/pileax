@@ -8,6 +8,7 @@ from app.api.models.enums import Status
 
 class Conversation(BaseSQLModel, BaseMixin, table=True):
     workspace_id: uuid.UUID = uuid_field()
+    user_id: uuid.UUID = uuid_field()
     app_id: uuid.UUID = uuid_field()
     model_provider: str | None = Field(default=None)
     model_name: str | None = Field(default=None)

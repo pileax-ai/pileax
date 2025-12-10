@@ -8,6 +8,7 @@ from app.api.models.enums import Status, Scope
 
 class App(BaseSQLModel, BaseMixin, table=True):
     tenant_id: uuid.UUID = uuid_field()
+    workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     app_model_config_id: uuid.UUID | None = uuid_field(default_none=True)
     name: str = Field(..., max_length=255)

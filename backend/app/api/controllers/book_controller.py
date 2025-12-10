@@ -57,6 +57,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book_in.id = book_id
         book_in.path = sha1
         book_in.tenant_id = self.workspace.tenant_id
+        book_in.tenant_id = self.workspace.tenant_id
         book = self.save(book_in)
 
         # save workspace_book

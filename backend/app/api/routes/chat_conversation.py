@@ -34,4 +34,4 @@ def delete(id: uuid.UUID, controller: ChatConversationController = Depends()) ->
 
 @router.api_post("/query", response_model=QueryResult[ConversationPublic])
 def query(query: PaginationQuery, controller: ChatConversationController = Depends()) -> Any:
-    return controller.query(query)
+    return controller.query(query, filter_by_user=True)

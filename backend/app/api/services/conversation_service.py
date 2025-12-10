@@ -29,6 +29,7 @@ class ConversationService(BaseService[Conversation]):
                 item_in.model_name = pdm_credential.model_name
 
         item = item_in.model_dump(by_alias=True)
+        item['userId'] = self.user_id
         item['workspaceId'] = self.workspace.id
 
         return super().save(Conversation(**item))

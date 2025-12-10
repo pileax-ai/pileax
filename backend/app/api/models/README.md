@@ -11,15 +11,15 @@
 
 ## Workspace Level
 - [x] book_collection
-- [x] conversation
 - [x] file_meta
 - [x] provider
 - [x] provider_credential
 - [x] provider_default_model
 - [x] note
-- [ ] workspace_app
 - [x] workspace_book
 - [x] workspace_book_collection
 
 ## User Level
+- [x] conversation
+- [x] message
 - [x] user_book: reading info

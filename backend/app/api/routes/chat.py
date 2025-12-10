@@ -29,7 +29,7 @@ def delete(id: uuid.UUID, controller: ChatController = Depends()) -> Any:
 
 @router.api_post("/query", response_model=QueryResult[MessagePublic])
 def query(query: PaginationQuery, controller: ChatController = Depends()) -> Any:
-    return controller.query(query)
+    return controller.query(query, filter_by_user=True)
 
 
 @router.api_post("/completions", response_model=MessagePublic)
@@ -38,5 +38,5 @@ def completions(item_in: MessageCreate, controller: ChatController = Depends()) 
 
 
 @router.api_get("/messages", response_model=List[MessagePublic])
-def find_by_conversation(conversation_id: str, controller: ChatController = Depends()) -> Any:
+def find_by_conversation(conversation_id: uuid.UUID, controller: ChatController = Depends()) -> Any:
     return controller.find_by_conversation(conversation_id)

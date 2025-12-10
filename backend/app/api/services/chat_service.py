@@ -102,6 +102,7 @@ class ChatService(BaseService[Message]):
             nonlocal content, reasoning_content, total_tokens
 
             item = item_in.model_dump(by_alias=True)
+            item["user_id"] = self.user_id
             item["workspace_id"] = self.workspace_id
             item["model_provider"] = pdm_credential.provider
             item["model_type"] = pdm_credential.model_type
@@ -118,4 +119,7 @@ class ChatService(BaseService[Message]):
         )
 
     def find_by_conversation(self, conversation_id: UUID) -> List[Message]:
-        return super().find_all({'conversation_id': conversation_id})
+        return super().find_all({
+            'conversation_id': conversation_id,
+            'user_id': self.user_id,
+        })

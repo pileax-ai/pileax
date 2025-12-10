@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: 0df4c900b7ff
+Revision ID: d264dcaf82bf
 Revises:
-Create Date: 2025-12-07 22:59:18.756723
+Create Date: 2025-12-10 16:15:29.981278
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '0df4c900b7ff'
+revision: str = 'd264dcaf82bf'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -28,6 +28,7 @@ def upgrade() -> None:
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('app_model_config_id', app.api.models.base.UUIDString(length=36), nullable=True),
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
@@ -44,6 +45,7 @@ def upgrade() -> None:
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('uuid', sqlmodel.sql.sqltypes.AutoString(length=64), nullable=False),
     sa.Column('title', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
@@ -100,6 +102,7 @@ def upgrade() -> None:
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('app_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('model_provider', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('model_name', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
@@ -134,7 +137,8 @@ def upgrade() -> None:
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('tenant_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
+    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('app_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('conversation_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('model_provider', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
@@ -266,17 +270,6 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
-    op.create_table('workspace_app',
-    sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
-    sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
-    sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('app_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('workspace_id', 'app_id', name='unique_workspace_app')
-    )
     op.create_table('workspace_book',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
@@ -299,18 +292,6 @@ def upgrade() -> None:
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_book_id', 'book_collection_id', name='unique_workspace_book_collection')
     )
-    op.create_table('workspace_default_model',
-    sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
-    sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
-    sa.Column('id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('workspace_id', app.api.models.base.UUIDString(length=36), nullable=False),
-    sa.Column('provider', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-    sa.Column('model_name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-    sa.Column('model_type', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('workspace_id', 'model_type', name='unique_workspace_model_type')
-    )
     op.create_table('workspace_member',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),
     sa.Column('update_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Updated time'),
@@ -331,10 +312,8 @@ def downgrade() -> None:
     """Downgrade schema."""
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('workspace_member')
-    op.drop_table('workspace_default_model')
     op.drop_table('workspace_book_collection')
     op.drop_table('workspace_book')
-    op.drop_table('workspace_app')
     op.drop_table('workspace')
     op.drop_table('user_book')
     op.drop_table('user')

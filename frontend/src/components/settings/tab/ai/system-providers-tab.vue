@@ -60,7 +60,8 @@ const getAllModels = () => {
 }
 
 const initData = () => {
-  getAllModels()
+  getAllModels();
+  initAiSettings();
 }
 
 onActivated(() => {

@@ -11,7 +11,7 @@
             transition-show="jump-down"
             anchor="top left"
             self="top left"
-            :offset="offset">
+            :offset="offset" @before-show="onBeforeShow">
       <header>
         <q-item>
           <q-item-section avatar>
@@ -107,7 +107,7 @@ const props = defineProps({
   },
 });
 
-const { account, workspace, workspaces, logout, switchWorkspace } = useAccount();
+const { account, workspace, workspaces, logout, initWorkspace, switchWorkspace } = useAccount();
 const { openDialog } = useDialog();
 const { darkMode, toggleTheme } = useSetting();
 const offset = computed(() => {
@@ -183,6 +183,10 @@ const onAction = (action: Indexable) => {
       logout()
       break;
   }
+}
+
+const onBeforeShow = () => {
+  initWorkspace();
 }
 
 const onSwitchWorkspace = (item: Indexable) => {
