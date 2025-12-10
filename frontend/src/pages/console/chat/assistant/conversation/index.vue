@@ -97,7 +97,7 @@ function init() {
     if (currentChat) {
       onSend(currentChat, true);
     }
-    router.replace({ query: {} });
+    router.replace({...route, query: {} });
   }
 }
 

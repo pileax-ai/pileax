@@ -196,7 +196,7 @@ function loadNote(note: Note, content: string, focus: string,
   setCurrentNote(note);
   setContent(content, emitUpdate, focus);
   noteStore.value.resetChatToNote();
-  router.replace({ query: {} });
+  router.replace({ ...route, query: {} });
 }
 
 function setContent (content: string, emitUpdate = false, focus = 'start') {
