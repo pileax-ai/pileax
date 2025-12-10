@@ -31,12 +31,10 @@ export default function () {
   });
 
   function setCurrentNote(note: Note | null) {
-    console.log('setCurrentNote', note)
+    // console.log('setCurrentNote', note)
     if (!note) return;
 
     if (note.title !== currentNote.value.title || note.icon !== currentNote.value.icon) {
-      console.log('Update Menu')
-
       const menu = {
         id: note.id,
         name: note.title,

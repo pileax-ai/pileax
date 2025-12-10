@@ -66,7 +66,7 @@ export class WorkspaceManager {
     // Todo: Persist to sessionStorage
     sessionStorage.setItem(cacheKey, workspaceId);
 
-    console.log(`租户已切换: ${oldWorkspaceId} → ${workspaceId}`);
+    console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`);
   }
 
   // Remove workspace

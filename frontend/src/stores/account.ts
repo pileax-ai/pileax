@@ -59,8 +59,9 @@ export const useAccountStore = defineStore('account', {
           if (!this.workspace?.id && this.workspaces.length) {
             const defaultWorkspace = this.workspaces[0];
             this.switchWorkspace(defaultWorkspace!)
+            resolve(defaultWorkspace)
           }
-          resolve(res)
+          resolve({})
         }).catch((err: any) => {
           reject(err);
         })

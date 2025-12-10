@@ -25,7 +25,12 @@ export default function () {
 
   const initWorkspace = async () => {
     if (isLogin.value) {
-      await accountStore.initWorkspaces()
+      accountStore.initWorkspaces().then(res => {
+        const defaultWorkspaceId = (res as Indexable).id;
+        if (defaultWorkspaceId) {
+          tabStore.updateWorkspace(defaultWorkspaceId);
+        }
+      })
     }
   }
 

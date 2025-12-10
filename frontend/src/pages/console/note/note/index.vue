@@ -272,7 +272,6 @@ const insertContent = (value: string) => {
 provide('insertContent', insertContent)
 
 onActivated(() => {
-  console.log('onActivated')
   id.value = route.params.id as string;
   parent.value = route.query.parent as string;
   source.value = route.query.source as string;
@@ -280,7 +279,6 @@ onActivated(() => {
 })
 
 onMounted(() => {
-  console.log('onMounted')
   initEditor();
 })
 </script>
