@@ -15,7 +15,7 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     tenant_id: uuid.UUID = uuid_field()
     workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
-    uuid: str = Field(..., min_length=32, max_length=64, unique=True, description="Book sha1 hash")
+    uuid: str = Field(..., min_length=32, max_length=64, description="Book sha1 hash")
     title: str = Field(..., max_length=255, description="Book title")
     path: str = Field(..., description="Book file path")
     file_name: str | None = Field(default=None)
@@ -60,3 +60,22 @@ class BookUpdate(BookBase):
 class BookPublic(BookCreate, BaseMixin):
     tenant_id: uuid.UUID
     pass
+
+class BookDetails(BaseApiModel, BaseMixin):
+    title: str
+    path: str | None = None
+    file_name: str | None = None
+    cover_name: str | None = None
+    author: str | None = None
+    language: str | None = None
+    description: str | None = None
+    publisher: str | None = None
+    published: str | None = None
+    extension: str | None = None
+    scope: int
+    rating: int
+    user_book_id: uuid.UUID | None = None
+    rating: int | None = 0
+    reading_position: str | None = ""
+    reading_percentage: float | None = 0.0
+    reading_status: int | None = None

@@ -35,6 +35,7 @@ import useReader from 'src/hooks/useReader';
 import LeftDrawer from './navi/left-drawer.vue';
 import RightDrawer from './navi/right-drawer.vue';
 import ReaderModalEntry from 'core/components/modal/ReaderModalEntry.vue';
+import { workspaceManager } from 'core/workspace/workspace-manager'
 
 const appStore = useAppStore();
 const {
@@ -54,6 +55,7 @@ const theme = computed(() => {
 
 function init () {
   console.log('init')
+  workspaceManager.loadWorkspace();
 }
 
 function onLeftDrawerEnter() {

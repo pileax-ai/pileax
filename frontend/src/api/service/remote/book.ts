@@ -9,11 +9,16 @@ import { BaseService } from 'src/api/service/remote/base'
 export class BookService extends BaseService {
   protected apiName = 'book';
 
-  async getByUuid(uuid: string): Promise<any> {
+  getByUuid(uuid: string): Promise<any> {
     return GET({ name: this.apiName, path: '/uuid',  query: {uuid: uuid} });
   }
 
-  async upload(file: File, cover: File, book: Indexable) {
+
+  getDetails(id: string): Promise<any> {
+    return GET({ name: this.apiName, path: '/details', query: {id: id} });
+  }
+
+  upload(file: File, cover: File, book: Indexable): Promise<any> {
     const formData = new FormData();
     formData.append('files', file);
     formData.append('files', cover);

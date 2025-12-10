@@ -56,7 +56,7 @@ import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'
-import { bookAnnotationService, workspaceBookService } from 'src/api/service/remote'
+import { bookAnnotationService, bookService } from 'src/api/service/remote'
 import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 
@@ -83,25 +83,24 @@ function prepareOpen() {
   }
 }
 
-async function openWithBook(workspaceBookId: string) {
+async function openWithBook(bookId: string) {
   store.setReadingMode(ReadingMode.Read);
-  await open(workspaceBookId);
+  await open(bookId);
 }
 
 async function openWithAnnotation(annotationId: string) {
   const annotation = await bookAnnotationService.get(annotationId);
-  const workspaceBookId = annotation.workspaceBookId;
+  const bookId = annotation.bookId;
   const cfi = annotation.value;
   store.setReadingMode(ReadingMode.Preview);
-  await open(workspaceBookId, cfi);
+  await open(bookId, cfi);
 }
 
-async function open(workspaceBookId: string, initialCfi = '') {
-  console.log('open', workspaceBookId)
-  const book: Indexable = await workspaceBookService.getDetails(workspaceBookId);
+async function open(bookId: string, initialCfi = '') {
+  console.log('open', bookId)
+  const book: Indexable = await bookService.getDetails(bookId);
   if (book) {
-    setBookId(book.bookId);
-    setWorkspaceBookId(workspaceBookId);
+    setBookId(bookId);
     setBook(book);
 
     const filePath = `${book.path}/${book.fileName}`;
@@ -112,13 +111,13 @@ async function open(workspaceBookId: string, initialCfi = '') {
     loading.value = false;
 
     setTimeout(() => {
-      prepareAnnotations(workspaceBookId);
+      prepareAnnotations(bookId);
     }, 300);
   }
 }
 
-async function prepareAnnotations(workspaceBookId: string) {
-  const annotations = await findBookAnnotation(workspaceBookId);
+async function prepareAnnotations(bookId: string) {
+  const annotations = await findBookAnnotation(bookId);
   renderAnnotations(annotations);
 }
 

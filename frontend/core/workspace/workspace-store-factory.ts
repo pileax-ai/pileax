@@ -111,6 +111,12 @@ export const defineWorkspaceStore = <
   };
 }
 
+export const createWorkspaceStoreWithOut = <T extends (...args: any[]) => any>(
+  storeFn: T
+) => {
+  return () => storeFn() as ReturnType<T>;
+};
+
 // 清理租户缓存
 export const clearWorkspaceCache = (workspaceId: string): void => {
   const keys = Array.from(storeCache.keys()).filter(key =>

@@ -26,18 +26,19 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
         self.session.exec(stmt)
         self.session.commit()
 
-    def get_workspace_book(self, workspace_id: UUID, book_id: UUID) -> WorkspaceBook:
+    def get_workspace_book(self, user_id: UUID, workspace_id: UUID, book_id: UUID) -> WorkspaceBook:
         stmt = (
             select(WorkspaceBook)
+            .where(WorkspaceBook.user_id == user_id)
             .where(WorkspaceBook.workspace_id == workspace_id)
             .where(WorkspaceBook.book_id == book_id)
         )
         book = self.session.exec(stmt).first()
         return book
 
-    def get_stats(self, workspace_id: UUID) -> dict:
+    def get_stats(self, user_id: UUID, workspace_id: UUID) -> dict:
         extension_stat = self.repo.get_extension_stats(workspace_id)
-        status_stat = self.repo.get_status_stats(workspace_id)
+        status_stat = self.repo.get_status_stats(user_id, workspace_id)
 
         return extension_stat + status_stat
 

@@ -20,7 +20,7 @@ import {computed, onBeforeMount, ref, watch} from 'vue';
 import useBook from 'src/hooks/useBook';
 import { findBookAnnotation } from 'src/api/service/ebook/book-annotation';
 
-const { workspaceBookId, annotationTimer } = useBook();
+const { bookId, annotationTimer } = useBook();
 const list = ref([]);
 
 const props = defineProps({
@@ -31,7 +31,7 @@ const props = defineProps({
 });
 
 function query() {
-  findBookAnnotation(workspaceBookId.value).then(res => {
+  findBookAnnotation(bookId.value).then(res => {
     list.value = res as [];
     console.log('list', list.value);
   });

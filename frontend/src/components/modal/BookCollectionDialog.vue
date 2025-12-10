@@ -49,7 +49,12 @@
             </q-item>
           </template>
         </q-list>
-        <o-no-data image v-else />
+        <o-no-data message="" image v-else>
+          <q-btn label="Add Collection"
+                 class="bg-primary text-white"
+                 to="/book/collection"
+                 flat />
+        </o-no-data>
       </section>
     </section>
 

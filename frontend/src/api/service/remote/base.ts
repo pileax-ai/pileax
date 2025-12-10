@@ -28,7 +28,10 @@ export abstract class BaseService {
     return POST({ name: this.apiName, path: '/query', body });
   }
 
-  getAll(query?: Indexable): Promise<any> {
+  getAll(book_id: string): Promise<any> {
+    const query = {
+      book_id
+    }
     return GET({ name: this.apiName, path: '/all', query });
   }
 

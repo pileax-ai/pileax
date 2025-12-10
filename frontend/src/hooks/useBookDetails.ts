@@ -1,6 +1,6 @@
 import { useQuasar } from 'quasar';
 import useApi from 'src/hooks/useApi';
-import { workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
+import { userBookService, workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
 
 export default function () {
   const $q = useQuasar();
@@ -32,6 +32,10 @@ export default function () {
 
   const updateBook = (data: Indexable) => {
     return workspaceBookService.update(data)
+  }
+
+  const updateUserBook = (data: Indexable) => {
+    return userBookService.update(data)
   }
 
   const removeBook = (book: Indexable) => {
@@ -76,5 +80,6 @@ export default function () {
     removeBook,
     updateBook,
     removeBookFromCollection,
+    updateUserBook
   }
 }

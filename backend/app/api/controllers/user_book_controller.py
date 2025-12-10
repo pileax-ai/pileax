@@ -19,8 +19,8 @@ class UserBookController(BaseController[UserBook, UserBookCreate, UserBookUpdate
         self.service = UserBookService(session)
 
     def save(self, item: UserBookCreate) -> UserBook:
-        book = self.service.get_workspace_book(self.workspace_id, item.book_id)
-        if book is not None:
+        book = self.service.get_user_book(self.user_id, item.book_id)
+        if book:
             return book
         return super().save(item)
 

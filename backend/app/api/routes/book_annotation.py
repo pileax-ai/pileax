@@ -44,5 +44,5 @@ def query_details(query: PaginationQuery, controller: BookAnnotationController =
 
 
 @router.api_get("/all", response_model=List[BookAnnotationPublic])
-def find_all_by_book(id: str, controller: BookAnnotationController = Depends()) -> Any:
-    return controller.find_all_by_book(id)
+def find_all_by_book(book_id: UUID, controller: BookAnnotationController = Depends()) -> Any:
+    return controller.find_all_by_book(book_id)

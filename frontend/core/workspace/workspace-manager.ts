@@ -1,4 +1,4 @@
-import { PREFIX } from 'core/utils/storage';
+import { getItemObject, getSessionItem, saveSessionItem } from 'core/utils/storage'
 
 export interface WorkspaceInfo {
   id: string;
@@ -6,7 +6,7 @@ export interface WorkspaceInfo {
   icon?: string;
 }
 
-const cacheKey = `${PREFIX}workspace`
+const cacheKey = `workspace`
 
 export class WorkspaceManager {
   private static instance: WorkspaceManager;
@@ -26,9 +26,9 @@ export class WorkspaceManager {
   }
 
   private init(): void {
-    const savedWorkspace = sessionStorage.getItem(cacheKey);
+    const savedWorkspace = getSessionItem(cacheKey);
     if (savedWorkspace) {
-      this.currentWorkspaceId = savedWorkspace;
+      this.currentWorkspaceId = savedWorkspace as string;
     }
 
     console.log(`Init workspace manager，current workspace: ${this.currentWorkspaceId}`);
@@ -64,9 +64,17 @@ export class WorkspaceManager {
     this.currentWorkspaceId = workspaceId;
 
     // Todo: Persist to sessionStorage
-    sessionStorage.setItem(cacheKey, workspaceId);
+    saveSessionItem(cacheKey, workspaceId);
 
     console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`);
+  }
+
+  loadWorkspace(): void {
+    const account = getItemObject('account') as Indexable;
+    const workspace = account.workspace;
+    const workspaceId = workspace?.id || '';
+    saveSessionItem(cacheKey, workspaceId);
+    console.log('Load workspace', workspaceId)
   }
 
   // Remove workspace

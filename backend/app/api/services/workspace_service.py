@@ -12,9 +12,9 @@ from app.api.services.workspace_member_service import WorkspaceMemberService
 
 
 class WorkspaceService(BaseService[Workspace]):
-    def __init__(self, session, user_id = None):
+    def __init__(self, session, workspace_id: uuid.UUID | None = None):
         super().__init__(Workspace, session, BaseRepository)
-        self.user_id = user_id
+        self.workspace_id = workspace_id
 
     def create_default(self, user: User, tenant: Tenant) -> WorkspaceMember:
         # Workspace
@@ -36,18 +36,22 @@ class WorkspaceService(BaseService[Workspace]):
 
         return WorkspaceMemberService(self.session).create(workspace_member)
 
-    def save(self, item_in: WorkspaceCreate) -> Workspace:
+    def save(self, item_in: WorkspaceCreate, commit: bool = True) -> Workspace:
+        # Current workspace
+        current_workspace = self.get(self.workspace_id)
+
         # Workspace
         item = item_in.model_dump(by_alias=True)
-        item['user_id'] = self.user_id
+        item['tenant_id'] = current_workspace.tenant_id
+        item['user_id'] = current_workspace.user_id
         workspace = self.create(Workspace(**item), commit=False)
 
         # Workspace member
         workspace_member = WorkspaceMember(
-            user_id=self.user_id,
+            user_id=workspace.user_id,
             workspace_id=workspace.id,
             role=WorkspaceMemberRole.OWNER,
-            invited_by=self.user_id,
+            invited_by=workspace.user_id,
         )
         WorkspaceMemberService(self.session).create(workspace_member)
 

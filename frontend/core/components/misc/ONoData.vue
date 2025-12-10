@@ -1,7 +1,11 @@
 <template>
   <div class="o-no-data">
     <img :src="$public('/images/ui/page/no-data.svg')" v-if="image" />
-    <div class="q-pt-lg text-tips">{{ message }}</div>
+    <div class="q-pt-lg text-tips" v-if="message">{{ message }}</div>
+
+    <div>
+      <slot></slot>
+    </div>
   </div>
 </template>
 

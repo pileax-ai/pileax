@@ -24,7 +24,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['edit', 'close']);
 
-const { downloadBook, removeBook, updateBook } = useBookDetails();
+const { downloadBook, removeBook, updateBook, updateUserBook } = useBookDetails();
 const { openDialog } = useDialog();
 
 const actions = computed(() => {
@@ -96,8 +96,8 @@ function onAction (action :any) {
 }
 
 function updateReadingStatus(status: number) {
-  updateBook({
-    id: props.data.id,
+  updateUserBook({
+    id: props.data.userBookId,
     readingStatus: status
   }).then(res => {
     notifyDone()

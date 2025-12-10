@@ -8,7 +8,7 @@ import { debounce, throttle } from 'quasar'
 import { jwtDecode } from 'jwt-decode';
 import sha1 from 'crypto-js/sha1';
 
-import { getItemObject, saveItemObject } from 'core/utils/storage'
+import { getItemObject, getSessionItem, saveItemObject } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import { MenuItem } from 'core/types/menu'
 
@@ -43,10 +43,16 @@ export const getAuthorization = () => {
   return `${token.token_type} ${token.access_token}`;
 }
 
-export const getWorkspaceId = () => {
-  const account = getItemObject('account') as Indexable;
-  const workspace = account.workspace
-  return workspace?.id || '';
+export const getWorkspaceId = (): string => {
+  let workspaceId = getSessionItem('workspace') as string;
+
+  if (!workspaceId) {
+    const account = getItemObject('account') as Indexable;
+    const workspace = account.workspace;
+    workspaceId = workspace?.id;
+  }
+
+  return workspaceId;
 }
 
 

@@ -26,13 +26,18 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         result = self.session.exec(stmt)
         return [{"type": row.type, "count": row.count} for row in result.all()]
 
-    def get_status_stats(self, workspace_id: UUID):
+    def get_status_stats(self, user_id: UUID, workspace_id: UUID):
         stmt = (
-            select(WorkspaceBook.reading_status.label("status"), func.count().label("count"))
-            .where(WorkspaceBook.workspace_id == str(workspace_id))
-            .group_by(WorkspaceBook.reading_status)
+            select(UserBook.reading_status.label("status"), func.count().label("count"))
+            .select_from(WorkspaceBook)
+            .join(UserBook, UserBook.book_id == WorkspaceBook.book_id, isouter=True)
+            .filter(
+                WorkspaceBook.workspace_id == str(workspace_id),
+                UserBook.user_id == str(user_id)
+            )
+            .group_by(UserBook.reading_status)
         )
-        print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
         result = self.session.exec(stmt)
         return [{"status": row.status, "count": row.count} for row in result.all()]
 
@@ -52,9 +57,9 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceBook: ['workspace_id', 'user_id'],
+            WorkspaceBook: ['workspace_id'],
             Book: ['title', 'extension'],
-            UserBook: ['reading_status'],
+            UserBook: ['reading_status', 'user_id'],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
@@ -92,7 +97,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         )
 
     @staticmethod
-    def build_details(workspace_book: WorkspaceBook, book: Book, user_book: UserBook) -> dict:
+    def build_details(workspace_book: WorkspaceBook, book: Book, user_book: UserBook | None = None) -> dict:
 
         return {
             **workspace_book.model_dump(),

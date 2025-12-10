@@ -140,7 +140,6 @@ export function saveCookieItem (name: string, value: any, prefix = PREFIX, optio
 export function saveCookieItemObject (name: string, value: any, prefix = PREFIX, options = COOKIE_OPTIONS) {
   return Cookies.set(prefix + name, JSON.stringify(value), options as any);
 }
-
 /**
  * 删除
  */
@@ -159,6 +158,43 @@ export function removeAllCookies (prefix = PREFIX, options = COOKIE_OPTIONS) {
     }
   }
 }
+
+// ================================================================================
+// Session
+// ================================================================================
+/**
+ * 获取
+ */
+export function getSessionItem (name: string, prefix = PREFIX) {
+  let item = SessionStorage.getItem(prefix + name);
+  item = (item === 'undefined') ? '' : item;
+  return item;
+}
+
+/**
+ * 获取 JSON 对象
+ * @param name
+ * @returns {string|*}
+ */
+export function getSessionItemObject (name: string, prefix = PREFIX) {
+  const item = getSessionItem(name, prefix);
+  return item || {};
+}
+
+/**
+ * 保存
+ */
+export function saveSessionItem (name: string, value: any, prefix = PREFIX) {
+  return SessionStorage.set(prefix + name, value);
+}
+export function saveSessionItemObject (name: string, value: any, prefix = PREFIX) {
+  return SessionStorage.set(prefix + name, JSON.stringify(value));
+}
+
+
+// ================================================================================
+// Common
+// ================================================================================
 
 export function clearUserCache () {
   removeUserData();

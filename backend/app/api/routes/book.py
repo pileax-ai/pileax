@@ -8,7 +8,7 @@ from app.api.models.workspace_book import WorkspaceBookDetails
 from app.api.router import ApiRouter
 
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.book import BookCreate, BookUpdate, BookPublic
+from app.api.models.book import BookCreate, BookUpdate, BookPublic, BookDetails
 
 router = ApiRouter(prefix="/book", tags=["Book"])
 
@@ -21,6 +21,11 @@ def save(item_in: BookCreate, controller: BookController = Depends()) -> Any:
 @router.api_get("", response_model=BookPublic)
 def get(id: UUID, controller: BookController = Depends()) -> Any:
     return controller.get(id)
+
+
+@router.api_get("/details", response_model=BookDetails)
+def get_details(id: UUID, controller: BookController = Depends()) -> Any:
+    return controller.get_details(id)
 
 
 @router.api_get("/uuid", response_model=BookPublic)
@@ -40,7 +45,7 @@ def delete(id: UUID, controller: BookController = Depends()) -> Any:
 
 @router.api_post("/query", response_model=QueryResult[BookPublic])
 def query(query: PaginationQuery, controller: BookController = Depends()) -> Any:
-    return controller.query(query)
+    return controller.query_by_tenant(query)
 
 
 @router.api_post("/upload", response_model=WorkspaceBookDetails)

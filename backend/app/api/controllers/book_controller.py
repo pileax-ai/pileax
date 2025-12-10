@@ -7,7 +7,7 @@ from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
-from app.api.models.book import Book, BookCreate, BookUpdate
+from app.api.models.book import Book, BookCreate, BookUpdate, BookDetails
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.workspace_book import WorkspaceBookCreate
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
@@ -31,6 +31,8 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
     def get_by_uuid(self, uuid: str) -> Book:
         return self.service.get_by_uuid(uuid, self.workspace.tenant_id)
 
+    def get_details(self, id: uuid.UUID) -> BookDetails:
+        return self.service.get_details(id, self.user_id)
 
     async def upload(self, book_str: str, files: List[UploadFile]) -> Any:
         """

@@ -17,4 +17,7 @@ class BookCollectionController(BaseController[BookCollection, BookCollectionCrea
         self.service = BookCollectionService(session)
 
     def find_all(self) -> List[BookCollection]:
-        return self.service.find_all({"workspace_id": self.workspace_id})
+        return self.service.find_all({
+            "user_id": self.user_id,
+            "workspace_id": self.workspace_id,
+        })
