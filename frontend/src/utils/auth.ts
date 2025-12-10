@@ -4,7 +4,7 @@
  * @author Xman
  * @version 1.0
  */
-import { throttle } from 'quasar'
+import { debounce, throttle } from 'quasar'
 import { jwtDecode } from 'jwt-decode';
 import sha1 from 'crypto-js/sha1';
 
@@ -97,11 +97,11 @@ export const isTokenNeedRefresh = (): boolean => {
   return exp - currentTime < 5 * 60 // 5 minutes
 }
 
-export const refreshTokenThrottle = throttle(() => {
+export const refreshTokenThrottle = debounce(() => {
   if (!isTokenNeedRefresh()) return
 
   refreshToken()
-}, 10 * 1000)
+}, 500)
 
 export const refreshToken = (retry = false) => {
   console.log('Refresh token', retry)
