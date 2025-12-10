@@ -16,12 +16,12 @@ export default boot(({ router, store }) => {
 
   router.afterEach((to, from) => {
     stopPageLoading(appStore);
+    naviStore.updateMenu(to);
 
-    const timeout = appStore.setting.pageTransition.enable ? 200 : 0;
-    setTimeout(() => {
-      naviStore.updateMenu(to);
-      // naviStore.updateTab(to);
-    }, timeout);
+    // const timeout = appStore.setting.pageTransition.enable ? 200 : 0;
+    // setTimeout(() => {
+    //   naviStore.updateMenu(to);
+    // }, timeout);
   });
 })
 
