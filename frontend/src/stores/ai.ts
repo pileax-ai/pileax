@@ -1,4 +1,4 @@
-import { CODE } from 'core/app';
+import { CODE } from 'core/app'
 import { pdmService } from 'src/api/service/remote'
 import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
@@ -10,13 +10,13 @@ export const useAiStore = defineWorkspaceStore('ai', {
   }),
   actions: {
     setProvider(value: Indexable) {
-      this.provider = value;
+      this.provider = value
     },
     setLocalModel(type: string, value: Indexable) {
-      this.localModels[type] = value;
+      this.localModels[type] = value
     },
     getLocalModel(type: string) {
-      return this.localModels[type];
+      return this.localModels[type]
     },
     getDefaultModels() {
       pdmService.getAll().then(res => {
@@ -35,4 +35,4 @@ export const useAiStore = defineWorkspaceStore('ai', {
   persist: {
     key: `${CODE}.ai`
   }
-});
+})

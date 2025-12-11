@@ -16,13 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
-import { computed } from 'vue';
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 
-import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue';
-import ONaviItem from 'core/components/navi/ONaviItem.vue';
-import type { MenuItem } from 'core/types/menu';
-import { useNaviStore } from 'stores/navi';
+import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue'
+import ONaviItem from 'core/components/navi/ONaviItem.vue'
+import type { MenuItem } from 'core/types/menu'
+import { useNaviStore } from 'stores/navi'
 
 const props = defineProps({
   level: { type: Number, default: 0 },
@@ -30,15 +30,15 @@ const props = defineProps({
   list: {
     type: Array as PropType<MenuItem[]>,
     default: () => {
-      return [];
+      return []
     }
   },
   collapse: { type: Boolean, default: false },
   showItemIcon: { type: Boolean, default: false },
-});
+})
 
-const naviStore = useNaviStore();
-const currentMenu = computed(() => naviStore.currentMenu);
+const naviStore = useNaviStore()
+const currentMenu = computed(() => naviStore.currentMenu)
 </script>
 
 <style lang="scss">

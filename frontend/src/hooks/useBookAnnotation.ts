@@ -1,8 +1,8 @@
-import { useQuasar } from 'quasar';
+import { useQuasar } from 'quasar'
 import { bookAnnotationService } from 'src/api/service/remote'
 
 export default function () {
-  const $q = useQuasar();
+  const $q = useQuasar()
 
   const removeBookAnnotation = (bookAnnotation: Indexable) => {
     return new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ export default function () {
           resolve(res)
         }).catch(err => {
           reject(err)
-        });
+        })
       }).onCancel(() => {
         reject(new Error('Use cancelled'))
       })

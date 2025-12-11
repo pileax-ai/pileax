@@ -91,39 +91,39 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import type { BaseValidation } from '@vuelidate/core';
+import type { BaseValidation } from '@vuelidate/core'
 import useVuelidate from '@vuelidate/core'
-import {maxLength, minLength, required, email, sameAs} from '@vuelidate/validators';
-import { notifyError } from 'core/utils/control';
-import { useAccountStore } from 'stores/account';
+import {maxLength, minLength, required, email, sameAs} from '@vuelidate/validators'
+import { notifyError } from 'core/utils/control'
+import { useAccountStore } from 'stores/account'
 import type { Ref } from 'vue-demi'
 import { getErrorMessage } from 'src/utils/request'
 
-const emit = defineEmits(['success']);
-const accountStore = useAccountStore();
+const emit = defineEmits(['success'])
+const accountStore = useAccountStore()
 const form = reactive({
   email: '',
   name: '',
   password: '',
   confirmPassword: ''
-});
-const passwordRef = computed(() => form.password);
-const type = ref<'text' | 'password'>('password');
+})
+const passwordRef = computed(() => form.password)
+const type = ref<'text' | 'password'>('password')
 const rules = {
   email: { required, email },
   name: { required, minLength: minLength(1), maxLength: maxLength(100) },
   password: { required },
   confirmPassword: { sameAsPassword: sameAs(passwordRef) }
-};
-const v$ = useVuelidate(rules, form);
-const vuelidate: Ref<BaseValidation | null> = ref(null);
+}
+const v$ = useVuelidate(rules, form)
+const vuelidate: Ref<BaseValidation | null> = ref(null)
 
 async function onSubmit() {
-  vuelidate.value = v$.value;
-  v$.value.$touch();
+  vuelidate.value = v$.value
+  v$.value.$touch()
   if (v$.value.$error) {
     console.log('submit', v$.value)
-    return;
+    return
   }
 
   try {
@@ -131,8 +131,8 @@ async function onSubmit() {
       email: form.email,
       name: form.name,
       password: form.password
-    });
-    emit('success', account);
+    })
+    emit('success', account)
   } catch (err) {
     let message = getErrorMessage(err)
     if (message.includes('UNIQUE constraint')) {

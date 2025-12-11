@@ -31,22 +31,22 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
-import { computed } from 'vue';
-import useBook from 'src/hooks/useBook';
+import type { PropType } from 'vue'
+import { computed } from 'vue'
+import useBook from 'src/hooks/useBook'
 
 const props = defineProps({
   data: {
     type: Array as PropType<Indexable[]>,
     default: () => {
-      return [];
+      return []
     }
   },
   separator: { type: Boolean, default: false },
-});
-const emit = defineEmits(['navi']);
+})
+const emit = defineEmits(['navi'])
 
-const { store } = useBook();
+const { store } = useBook()
 const currentItem = computed(() => {
   return store.search.current || {}
 })
@@ -58,7 +58,7 @@ function onClick(topItem: Indexable, topIndex: number,
     topIndex: topIndex,
     item: item,
     itemIndex: itemIndex
-  });
+  })
 }
 </script>
 

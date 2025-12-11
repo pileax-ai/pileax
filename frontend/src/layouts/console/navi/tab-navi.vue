@@ -44,12 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue'
 
-import NaviList from './navi-list.vue';
-import { menuLabel } from 'core/hooks/useMenu';
-import useNavi from 'src/hooks/useNavi';
-import useDialog from 'core/hooks/useDialog';
+import NaviList from './navi-list.vue'
+import { menuLabel } from 'core/hooks/useMenu'
+import useNavi from 'src/hooks/useNavi'
+import useDialog from 'core/hooks/useDialog'
 import QuickSettings from 'layouts/console/navi/quick-settings.vue'
 
 const props = defineProps({
@@ -61,38 +61,38 @@ const props = defineProps({
     type: Number,
     default: 300
   },
-});
+})
 
-const { openDialog } = useDialog();
+const { openDialog } = useDialog()
 const {
   consoleMenus,
   activity,
   leftDrawerHoverShow,
   toggleLeftDrawer,
   setActivity,
-} = useNavi();
+} = useNavi()
 
 const selectedActivity = computed({
   get: () => activity.value,
   set: (newValue: string) => {
-    setActivity(newValue);
+    setActivity(newValue)
   }
-});
+})
 
 function initActivity() {
-  selectedActivity.value = activity.value;
+  selectedActivity.value = activity.value
 }
 
 watch(() => activity.value, (newValue) => {
-  selectedActivity.value = activity.value;
+  selectedActivity.value = activity.value
 })
 
 watch(() => consoleMenus.value, (newValue) => {
-  initActivity();
+  initActivity()
 })
 
 onBeforeMount(() => {
-  initActivity();
+  initActivity()
 })
 </script>
 

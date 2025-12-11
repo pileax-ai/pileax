@@ -95,27 +95,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { Vue3Marquee } from 'vue3-marquee';
-import TssProviderBtn from './options/tss-provider-btn.vue';
-import TssRateBtn from './options/tss-rate-btn.vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { Vue3Marquee } from 'vue3-marquee'
+import TssProviderBtn from './options/tss-provider-btn.vue'
+import TssRateBtn from './options/tss-rate-btn.vue'
 
-import useBook from 'src/hooks/useBook';
-import useApi from 'src/hooks/useApi';
-import useTTS from 'src/hooks/useTTS';
-import { ebookRender } from 'src/api/service/ebook';
+import useBook from 'src/hooks/useBook'
+import useApi from 'src/hooks/useApi'
+import useTTS from 'src/hooks/useTTS'
+import { ebookRender } from 'src/api/service/ebook'
 import { getPlainText } from 'src/api/service/tts/utils/tts-util'
 import { ssmlUtils } from 'src/api/service/tts/utils/ssml-util'
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
-const { getCoverUrl } = useApi();
+const { getCoverUrl } = useApi()
 const {
   book,
   tocItem,
   previousTocItem,
   nextTocItem,
-} = useBook();
+} = useBook()
 
 const {
   tts,
@@ -127,7 +127,7 @@ const {
 const speakingText = ref('')
 const marqueeDuration = ref(20)
 const coverUrl = computed(() => {
-  return getCoverUrl(book.value);
+  return getCoverUrl(book.value)
 })
 
 const playIcon = computed(() => {
@@ -137,14 +137,14 @@ const playIcon = computed(() => {
 })
 
 const playerWidth = computed(() => {
-  return `${tts.playerWidth - 30}px`;
+  return `${tts.playerWidth - 30}px`
 })
 
 const onNextChapter = async () => {
   try {
-    await ttsController.stop();
-    await ebookRender.nextSection();
-    await ttsController.play();
+    await ttsController.stop()
+    await ebookRender.nextSection()
+    await ttsController.play()
   } catch (err) {
     console.debug('nextChapter err')
   }
@@ -152,23 +152,23 @@ const onNextChapter = async () => {
 
 const onPrevChapter = async () => {
   try {
-    await ttsController.stop();
-    await ebookRender.prevSection();
-    await ttsController.play();
+    await ttsController.stop()
+    await ebookRender.prevSection()
+    await ttsController.play()
   } catch (err) {
     console.debug('prevChapter err')
   }
 }
 
 const onStart = (ssml: string) => {
-  const data = ssmlUtils.parseSSML(ssml);
-  speakingText.value = data.text;
-  marqueeDuration.value = data.duration;
+  const data = ssmlUtils.parseSSML(ssml)
+  speakingText.value = data.text
+  marqueeDuration.value = data.duration
 }
 
 const onTTSProviderChanged = async (item: Indexable) => {
   if (ttsState.isPlaying) {
-    await ttsController.pause();
+    await ttsController.pause()
   }
 
   await ttsController.initialize(
@@ -178,16 +178,16 @@ const onTTSProviderChanged = async (item: Indexable) => {
     ebookRender.ttsPrev,
     tts.options,
     true
-  );
+  )
 
   if (ttsState.isPaused) {
-    await ttsController.resume();
+    await ttsController.resume()
   }
 }
 
 onMounted(async () => {
   if (ttsClient.value) {
-    ttsController.reload();
+    ttsController.reload()
   } else {
     await ttsController.initialize(
       ebookRender.ttsStart,
@@ -199,12 +199,12 @@ onMounted(async () => {
   }
 
   // events
-  ttsClient.value?.on('start', onStart);
-  window.addEventListener("pagehide", ttsController.stop);
+  ttsClient.value?.on('start', onStart)
+  window.addEventListener("pagehide", ttsController.stop)
 })
 
 onUnmounted(() => {
-  ttsClient.value?.off('start', onStart);
+  ttsClient.value?.off('start', onStart)
   window.removeEventListener("pagehide", ttsController.stop)
 })
 </script>

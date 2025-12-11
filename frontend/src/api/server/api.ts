@@ -4,8 +4,8 @@
  * @version 1.0
  */
 
-import { api as request } from 'src/boot/axios';
-import type { RequestOptions } from 'core/types/request';
+import { api as request } from 'src/boot/axios'
+import type { RequestOptions } from 'core/types/request'
 
 /**
  * API Url Registration
@@ -35,35 +35,35 @@ const urls: Indexable = {
   workspaceMember: '/workspace/member',
   user: '/user',
   workspace: '/workspace',
-};
+}
 
 // 排序
 export const orderedUrls = () => {
   const ordered = Object.keys(urls).sort().reduce(
     (obj: Indexable, key: string) => {
-      obj[key] = urls[key];
-      return obj;
+      obj[key] = urls[key]
+      return obj
     },
     {}
-  );
-  console.log('ordered', ordered);
-  return ordered;
+  )
+  console.log('ordered', ordered)
+  return ordered
 }
 
 export const getUrl = (options: RequestOptions) => {
-  const name = options.name;
-  const path = options.path;
-  let url = '';
+  const name = options.name
+  const path = options.path
+  let url = ''
   if (name.indexOf('http') === 0 || name.indexOf('/') === 0) {
-    url = name;
+    url = name
   } else {
-    url = urls[name] ? urls[name] : '';
+    url = urls[name] ? urls[name] : ''
   }
   if (path) {
-    url += path;
+    url += path
   }
 
-  return url;
+  return url
 }
 
 export const getRequest = (options: RequestOptions) => {

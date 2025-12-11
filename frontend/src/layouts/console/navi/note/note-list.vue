@@ -47,29 +47,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue';
-import useDialog from 'core/hooks/useDialog';
-import useNote from 'src/hooks/useNote';
-import useCommon from 'core/hooks/useCommon';
-const { t } = useCommon();
+import { computed, onBeforeMount, ref } from 'vue'
+import useDialog from 'core/hooks/useDialog'
+import useNote from 'src/hooks/useNote'
+import useCommon from 'core/hooks/useCommon'
+const { t } = useCommon()
 
-import NoteTree from './note-tree.vue';
-import OContextMenu from 'core/components/menu/OContextMenu.vue';
+import NoteTree from './note-tree.vue'
+import OContextMenu from 'core/components/menu/OContextMenu.vue'
 
 defineProps({
   maxWidth: {
     type: Number,
     default: 300
   },
-});
-const { openDialog } = useDialog();
+})
+const { openDialog } = useDialog()
 const {
   noteStore,
   getAllNotes,
   addNote,
-} = useNote();
+} = useNote()
 
-const favoriteTop = ref(true);
+const favoriteTop = ref(true)
 const panelCommands = computed(() => {
   return [
     {
@@ -86,30 +86,30 @@ const panelCommands = computed(() => {
       clickable: favoriteTop.value,
       class: !favoriteTop.value ? 'text-tips' : ''
     },
-  ];
+  ]
 })
 
 function onCommand (command: Indexable) {
   switch (command.value) {
     case 'moveUp':
-      favoriteTop.value = true;
-      break;
+      favoriteTop.value = true
+      break
     case 'moveDown':
-      favoriteTop.value = false;
-      break;
+      favoriteTop.value = false
+      break
   }
-  noteStore.value.setFavoriteTop(favoriteTop.value);
+  noteStore.value.setFavoriteTop(favoriteTop.value)
 }
 
 function onSearch () {
   openDialog({
     type: 'note-search'
-  });
+  })
 }
 
 onBeforeMount(() => {
-  favoriteTop.value = noteStore.value.favoriteTop;
-  getAllNotes();
+  favoriteTop.value = noteStore.value.favoriteTop
+  getAllNotes()
 })
 
 </script>

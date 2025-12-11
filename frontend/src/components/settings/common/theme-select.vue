@@ -21,10 +21,10 @@ const props = defineProps({
     type: String,
     default: ''
   }
-});
+})
 
-import useSetting from 'core/hooks/useSetting';
-const { themeList, theme, setTheme } = useSetting();
+import useSetting from 'core/hooks/useSetting'
+const { themeList, theme, setTheme } = useSetting()
 
 </script>
 

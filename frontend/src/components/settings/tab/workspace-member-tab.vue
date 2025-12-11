@@ -73,16 +73,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed, reactive, onActivated } from 'vue'
-import { workspaceMemberService } from 'src/api/service/remote';
-import useAccount from 'src/hooks/useAccount';
-import SettingCard from './setting-card.vue';
+import { workspaceMemberService } from 'src/api/service/remote'
+import useAccount from 'src/hooks/useAccount'
+import SettingCard from './setting-card.vue'
 import { timeMulti } from 'core/utils/format'
 import WorkspaceMemberInvite from './workspace/WorkspaceMemberInvite.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import { getArrayItem, WorkspaceMemberRoles, WorkspaceMemberStatus, WorkspaceTypes } from 'src/app/metadata'
 
-const { workspace } = useAccount();
-const rows = ref<Indexable[]>([]);
+const { workspace } = useAccount()
+const rows = ref<Indexable[]>([])
 const side = reactive<Indexable>({
   show: false,
   title: 'Invite member',
@@ -100,8 +100,8 @@ const columns = computed(() => {
     { field: 'status', label: '状态', align: 'left', name: 'status' },
     { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
     { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 80px' }
-  ];
-});
+  ]
+})
 
 const initData = () => {
   const body = {
@@ -113,8 +113,8 @@ const initData = () => {
 }
 
 const onInvite = () => {
-  side.show = true;
-  side.icon = 'person_add';
+  side.show = true
+  side.icon = 'person_add'
 }
 
 const onDelete = (item: Indexable) => {
@@ -122,8 +122,8 @@ const onDelete = (item: Indexable) => {
 }
 
 const onClose = () => {
-  side.show = false;
-  initData();
+  side.show = false
+  initData()
 }
 
 const onSideClose = () => {
@@ -131,11 +131,11 @@ const onSideClose = () => {
 }
 
 onMounted(() => {
-  initData();
+  initData()
 })
 
 onActivated(() => {
-  initData();
+  initData()
 })
 </script>
 

@@ -28,16 +28,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onBeforeMount } from 'vue';
-import { useAppStore } from 'stores/app';
-import useReader from 'src/hooks/useReader';
+import { computed, ref, onBeforeMount } from 'vue'
+import { useAppStore } from 'stores/app'
+import useReader from 'src/hooks/useReader'
 
-import LeftDrawer from './navi/left-drawer.vue';
-import RightDrawer from './navi/right-drawer.vue';
-import ReaderModalEntry from 'core/components/modal/ReaderModalEntry.vue';
+import LeftDrawer from './navi/left-drawer.vue'
+import RightDrawer from './navi/right-drawer.vue'
+import ReaderModalEntry from 'core/components/modal/ReaderModalEntry.vue'
 import { workspaceManager } from 'core/workspace/workspace-manager'
 
-const appStore = useAppStore();
+const appStore = useAppStore()
 const {
   leftDrawerShow,
   leftDrawerHoverShow,
@@ -45,46 +45,46 @@ const {
   rightDrawerHoverShow,
   setLeftDrawerHoverShow,
   setRightDrawerHoverShow
-} = useReader();
+} = useReader()
 
-const rightDrawerRef = ref(null);
+const rightDrawerRef = ref(null)
 
 const theme = computed(() => {
-  return appStore.setting.theme.name;
-});
+  return appStore.setting.theme.name
+})
 
 function init () {
   console.log('init')
-  workspaceManager.loadWorkspace();
+  workspaceManager.loadWorkspace()
 }
 
 function onLeftDrawerEnter() {
-  setLeftDrawerHoverShow(true);
+  setLeftDrawerHoverShow(true)
 }
 
 function onLeftDrawerLeave() {
   if (leftDrawerHoverShow.value) {
-    setLeftDrawerHoverShow(false);
+    setLeftDrawerHoverShow(false)
   }
 }
 
 function onRightDrawerEnter() {
-  setRightDrawerHoverShow(true);
+  setRightDrawerHoverShow(true)
 }
 
 function onRightDrawerLeave(event: MouseEvent) {
-  const rect = rightDrawerRef.value?.$el.getBoundingClientRect();
-  const screenWidth = rect.width;
-  const left = event.clientX;
-  const offset = screenWidth - left; // offset: 206, Todo
+  const rect = rightDrawerRef.value?.$el.getBoundingClientRect()
+  const screenWidth = rect.width
+  const left = event.clientX
+  const offset = screenWidth - left // offset: 206, Todo
 
   if (rightDrawerHoverShow.value && offset > 206) {
-    setRightDrawerHoverShow(false);
+    setRightDrawerHoverShow(false)
   }
 }
 
 onBeforeMount(() => {
-  init();
+  init()
 })
 </script>
 

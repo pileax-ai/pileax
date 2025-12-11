@@ -1,17 +1,17 @@
-import { computed, ref } from 'vue';
-import { useKnowledgeStore } from 'stores/knowledge';
-import { useNaviStore } from 'stores/navi';
+import { computed, ref } from 'vue'
+import { useKnowledgeStore } from 'stores/knowledge'
+import { useNaviStore } from 'stores/navi'
 import type { Knowledge } from 'src/types/knowledge'
 import type { MenuItem } from 'core/types/menu'
 
 export default function () {
-  const knowledgeStore = useKnowledgeStore();
-  const naviStore = useNaviStore();
-  const knowledgeId = ref('');
-  const knowledge = ref<Knowledge>();
+  const knowledgeStore = useKnowledgeStore()
+  const naviStore = useNaviStore()
+  const knowledgeId = ref('')
+  const knowledge = ref<Knowledge>()
 
   const queryTimer = computed(() => {
-    return knowledgeStore.queryTimer;
+    return knowledgeStore.queryTimer
   })
 
   function setCurrentKnowledge(k: Knowledge) {
@@ -25,8 +25,8 @@ export default function () {
         icon: '🍃',
         iconClass: 'emoji'
       }
-    } as MenuItem;
-    naviStore.setCurrentMenu(menuItem);
+    } as MenuItem
+    naviStore.setCurrentMenu(menuItem)
   }
 
   return {
@@ -35,5 +35,5 @@ export default function () {
     knowledge,
     setCurrentKnowledge,
     queryTimer
-  };
+  }
 }

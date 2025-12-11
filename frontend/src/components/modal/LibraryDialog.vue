@@ -55,10 +55,10 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { QInput } from 'quasar';
-import { reloadApp } from 'src/app/init';
-import { notifyWarning } from 'core/utils/control';
-import { ipcService } from 'src/api/ipc';
+import { QInput } from 'quasar'
+import { reloadApp } from 'src/app/init'
+import { notifyWarning } from 'core/utils/control'
+import { ipcService } from 'src/api/ipc'
 
 const props = defineProps({
   modelValue: {
@@ -70,14 +70,14 @@ const props = defineProps({
     default: ''
   }
 })
-const emit = defineEmits(['changed', 'update:modelValue']);
+const emit = defineEmits(['changed', 'update:modelValue'])
 
-const modal = ref();
-const location = ref();
+const modal = ref()
+const location = ref()
 const locationRef = ref<InstanceType<typeof QInput>>()
-const type = ref('move');
-const loading = ref(false);
-const migrating = ref(false);
+const type = ref('move')
+const loading = ref(false)
+const migrating = ref(false)
 const migrateResult = ref<Indexable>({
   success: true
 })
@@ -95,8 +95,8 @@ const style = computed(() => {
     minWidth: '600px',
     maxWidth: '800px',
     padding: '0px'
-  };
-});
+  }
+})
 
 const onSelectLocation = () => {
   loading.value = true
@@ -105,14 +105,14 @@ const onSelectLocation = () => {
   }).then(async (result: any) => {
     console.log('openDirectory', result)
     location.value = result.filePaths[0]
-    loading.value = false;
+    loading.value = false
   }).catch((err: any) => {
-    loading.value = false;
+    loading.value = false
   })
 }
 
 const onHide = () => {
-  emit('update:modelValue', false);
+  emit('update:modelValue', false)
 }
 
 const onShow = () => {
@@ -130,15 +130,15 @@ const onOk = async () => {
     type: type.value
   }
   console.log('options', options)
-  migrating.value = true;
+  migrating.value = true
   ipcService.migrateLibrary(options).then((res: Indexable) => {
     console.log('migrateLibrary', res)
     migrateResult.value = res
-    migrating.value = false;
+    migrating.value = false
 
-    postMigrate(res, options);
+    postMigrate(res, options)
   }).catch((err: any) => {
-    migrating.value = false;
+    migrating.value = false
   })
 }
 
@@ -154,9 +154,9 @@ const postMigrate = async (result: Indexable, options: Indexable) => {
 
 watch(() => props.modelValue, (newValue) => {
   if (newValue) {
-    modal.value.show();
+    modal.value.show()
   } else {
-    modal.value.hide();
+    modal.value.hide()
   }
 })
 </script>

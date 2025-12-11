@@ -29,18 +29,18 @@ const props = defineProps({
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['next']);
+})
+const emit = defineEmits(['next'])
 
-import useSetting from 'core/hooks/useSetting';
-import useReaderSetting from 'src/hooks/useReaderSetting';
-const { themeList, theme, setTheme } = useSetting();
-const { setReaderTheme } = useReaderSetting();
+import useSetting from 'core/hooks/useSetting'
+import useReaderSetting from 'src/hooks/useReaderSetting'
+const { themeList, theme, setTheme } = useSetting()
+const { setReaderTheme } = useReaderSetting()
 
 function select(value: string) {
-  console.log('theme', value);
-  setTheme(value);
-  setReaderTheme(value);
+  console.log('theme', value)
+  setTheme(value)
+  setReaderTheme(value)
 }
 </script>
 

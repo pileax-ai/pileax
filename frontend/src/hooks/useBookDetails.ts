@@ -1,33 +1,33 @@
-import { useQuasar } from 'quasar';
-import useApi from 'src/hooks/useApi';
+import { useQuasar } from 'quasar'
+import useApi from 'src/hooks/useApi'
 import { userBookService, workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
 
 export default function () {
-  const $q = useQuasar();
-  const { getBookUrl } = useApi();
+  const $q = useQuasar()
+  const { getBookUrl } = useApi()
 
   const downloadBook = (book: Indexable) => {
-    const url = getBookUrl(book);
+    const url = getBookUrl(book)
     fetch(url)
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok')
         }
-        return response.blob();
+        return response.blob()
       })
       .then(blob => {
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = book.title;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(blobUrl);
+        const blobUrl = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = blobUrl
+        a.download = book.title
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        URL.revokeObjectURL(blobUrl)
       })
       .catch(error => {
-        console.error('Download error:', error);
-      });
+        console.error('Download error:', error)
+      })
   }
 
   const updateBook = (data: Indexable) => {
@@ -49,7 +49,7 @@ export default function () {
           resolve(res)
         }).catch(err => {
           reject(err)
-        });
+        })
       }).onCancel(() => {
         reject(new Error('Use cancelled'))
       })
@@ -67,7 +67,7 @@ export default function () {
           resolve(res)
         }).catch(err => {
           reject(err)
-        });
+        })
       }).onCancel(() => {
         reject(new Error('Use cancelled'))
       })

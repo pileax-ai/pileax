@@ -64,23 +64,23 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, PropType, ref } from 'vue';
-import { GET } from 'src/hooks/useRequest';
-import useAi from 'src/hooks/useAi';
+import { onMounted, onUnmounted, PropType, ref } from 'vue'
+import { GET } from 'src/hooks/useRequest'
+import useAi from 'src/hooks/useAi'
 
 const props = defineProps({
   enabledOnly: {
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['select']);
+})
+const emit = defineEmits(['select'])
 
-const { provider } = useAi();
-const term = ref('');
-const selected = ref(0);
-const providers = ref<Indexable[]>([]);
-const results = ref<Indexable[]>([]);
+const { provider } = useAi()
+const term = ref('')
+const selected = ref(0)
+const providers = ref<Indexable[]>([])
+const results = ref<Indexable[]>([])
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -115,66 +115,66 @@ function contentSearchFilter (term: string) {
 }
 
 function search (val: string) {
-  const a = providers.value.filter(titleSearchFilter(val));
-  const b = providers.value.filter(contentSearchFilter(val));
-  const c = a.concat(b);
+  const a = providers.value.filter(titleSearchFilter(val))
+  const b = providers.value.filter(contentSearchFilter(val))
+  const c = a.concat(b)
   return c.filter((item, index) => {
-    return c.indexOf(item) === index;
-  });
+    return c.indexOf(item) === index
+  })
 }
 
 function onSearch (val: string | number | null) {
-  results.value = val ? search(val as string) : providers.value;
+  results.value = val ? search(val as string) : providers.value
 }
 
 function onKeyup (e: KeyboardEvent) {
   if (results.value.length > 0) {
     switch (e.code) {
       case 'ArrowDown':
-        selected.value += 1;
+        selected.value += 1
         break
       case 'ArrowUp':
-        selected.value -= 1;
-        break;
+        selected.value -= 1
+        break
       case 'Enter':
-        onSelected(results.value[selected.value] || {});
-        break;
+        onSelected(results.value[selected.value] || {})
+        break
       default:
     }
     if (selected.value >= results.value.length) {
-      selected.value = 0;
+      selected.value = 0
     }
     if (selected.value < 0) {
-      selected.value = results.value.length - 1;
+      selected.value = results.value.length - 1
     }
   } else {
-    selected.value = 0;
+    selected.value = 0
   }
 }
 
 function onSelected (item: Indexable) {
-  emit('select', item);
+  emit('select', item)
 }
 
 function init() {
   GET({name: 'aiProvider', path: '/all'}).then(res => {
-    let list = (res as Indexable).list;
+    let list = (res as Indexable).list
     if (props.enabledOnly) {
-      list = list.filter((e: Indexable) => e.enabled);
+      list = list.filter((e: Indexable) => e.enabled)
     }
-    providers.value = list;
-    results.value = list;
+    providers.value = list
+    results.value = list
   })
 }
 
 onMounted( async () => {
-  init();
+  init()
 
-  window.addEventListener('keyup', onKeyup);
+  window.addEventListener('keyup', onKeyup)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keyup', onKeyup);
+  window.removeEventListener('keyup', onKeyup)
 })
 </script>
 

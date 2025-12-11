@@ -29,18 +29,18 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import SettingCard from './setting-card.vue';
+import SettingCard from './setting-card.vue'
 import AllProvidersTab from './ai/all-providers-tab.vue'
 import SystemProvidersTab from './ai/system-providers-tab.vue'
 
-const currentTab = ref('model-providers');
+const currentTab = ref('model-providers')
 
 const tabs = computed(() => {
   return [
     { label: 'Model Providers', value: 'model-providers', component: AllProvidersTab },
     { label: 'System Settings', value: 'system-settings', component: SystemProvidersTab },
-  ];
-});
+  ]
+})
 </script>
 
 <style lang="scss">

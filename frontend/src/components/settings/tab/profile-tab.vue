@@ -56,23 +56,23 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { userService } from 'src/api/service/remote/user';
-import useAccount from 'src/hooks/useAccount';
-import SettingCard from './setting-card.vue';
+import { userService } from 'src/api/service/remote/user'
+import useAccount from 'src/hooks/useAccount'
+import SettingCard from './setting-card.vue'
 
-const { account, setAccount } = useAccount();
-const name = ref('');
-const avatar = ref('');
+const { account, setAccount } = useAccount()
+const name = ref('')
+const avatar = ref('')
 
 function onUpdateName() {
-  console.log('name', name.value);
-  setAccount({ ...account.value, name: name.value });
-  userService.save({ id: account.value.id, name: name.value });
+  console.log('name', name.value)
+  setAccount({ ...account.value, name: name.value })
+  userService.save({ id: account.value.id, name: name.value })
 }
 
 onMounted(() => {
-  name.value = account.value.name;
-  avatar.value = account.value.avatar;
+  name.value = account.value.name
+  avatar.value = account.value.avatar
 })
 </script>
 

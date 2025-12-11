@@ -51,88 +51,88 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, nextTick, onActivated } from 'vue';
-import { useRoute } from 'vue-router';
-import OScrollSection from 'core/page/section/OScrollSection.vue';
-import OChatMessage from 'components/chat/OChatMessage.vue';
-import OChatToc from 'components/chat/OChatToc.vue';
+import { computed, ref, onMounted, nextTick, onActivated } from 'vue'
+import { useRoute } from 'vue-router'
+import OScrollSection from 'core/page/section/OScrollSection.vue'
+import OChatMessage from 'components/chat/OChatMessage.vue'
+import OChatToc from 'components/chat/OChatToc.vue'
 
-import { router } from 'src/router';
-import { chatService } from 'src/api/service/remote/chat';
-import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import useAi from 'src/hooks/useAi';
-import useStream from 'src/hooks/useStream';
-import useChatConversation from 'src/hooks/useChatConversation';
-import type { ChatInput } from 'src/types/chat';
+import { router } from 'src/router'
+import { chatService } from 'src/api/service/remote/chat'
+import { chatConversationService } from 'src/api/service/remote/chat-conversation'
+import useAi from 'src/hooks/useAi'
+import useStream from 'src/hooks/useStream'
+import useChatConversation from 'src/hooks/useChatConversation'
+import type { ChatInput } from 'src/types/chat'
 
-const route = useRoute();
+const route = useRoute()
 const {
   appId,
   conversation,
   conversationId,
   chatStore,
   getConversation,
-} = useChatConversation();
-const { isLoading, startStream, cancelStream } = useStream();
+} = useChatConversation()
+const { isLoading, startStream, cancelStream } = useStream()
 
-const scrollRef = ref<InstanceType<typeof OScrollSection>>();
-const start = ref(true);
-const chats = ref<Indexable[]>([]);
+const scrollRef = ref<InstanceType<typeof OScrollSection>>()
+const start = ref(true)
+const chats = ref<Indexable[]>([])
 const newChat = ref<Indexable>({})
-const showScrollBtn = ref(false);
-const tocRef = ref<InstanceType<typeof OChatToc>>();
-const scrollable = ref(true);
+const showScrollBtn = ref(false)
+const tocRef = ref<InstanceType<typeof OChatToc>>()
+const scrollable = ref(true)
 
 function init() {
-  start.value = route.name === 'chat-start';
-  appId.value = (route.params.appId || '') as string;
-  conversationId.value = (route.params.id || '') as string;
+  start.value = route.name === 'chat-start'
+  appId.value = (route.params.appId || '') as string
+  conversationId.value = (route.params.id || '') as string
   if (conversationId.value) {
-    getConversation();
-    getAllChats();
+    getConversation()
+    getAllChats()
 
     // Resend after replace router
-    const chatId = (route.query.id || '') as string;
-    const currentChat = chatStore.value.getChat(chatId);
+    const chatId = (route.query.id || '') as string
+    const currentChat = chatStore.value.getChat(chatId)
     if (currentChat) {
-      onSend(currentChat, true);
+      onSend(currentChat, true)
     }
-    router.replace({...route, query: {} });
+    router.replace({...route, query: {} })
   }
 }
 
 function getAllChats() {
   chatService.getMessages(conversationId.value).then(res => {
-    chats.value = res as Indexable[];
-    scrollToBottom();
+    chats.value = res as Indexable[]
+    scrollToBottom()
   })
 }
 
 async function onSend(data: ChatInput, reset = false) {
-  newChat.value = data;
-  scrollToBottom();
+  newChat.value = data
+  scrollToBottom()
 
   if (reset) {
-    chatStore.value.removeChat(data.id);
+    chatStore.value.removeChat(data.id)
   } else {
-    chatStore.value.addChat(data);
+    chatStore.value.addChat(data)
   }
 
   if (conversationId.value) {
-    chatCompletion(data);
+    chatCompletion(data)
   }
   else {
-    start.value = false;
-    createConversation(data);
+    start.value = false
+    createConversation(data)
   }
 }
 
 function onStop() {
-  cancelStream();
+  cancelStream()
 }
 
 async function createConversation(data: ChatInput) {
-  const { message, modelProvider, modelType, modelName } = data;
+  const { message, modelProvider, modelType, modelName } = data
   chatConversationService.save({
     appId: appId.value || null,
     name: message,
@@ -140,24 +140,24 @@ async function createConversation(data: ChatInput) {
     modelName,
     modelType
   }).then(res => {
-    conversation.value = res;
-    conversationId.value = res.id;
-    start.value = false;
+    conversation.value = res
+    conversationId.value = res.id
+    start.value = false
 
     // update conversation list
-    chatStore.value.setSessionTimer(Date.now());
+    chatStore.value.setSessionTimer(Date.now())
 
     // replace router
     router.replace({
       name: 'chat-conversation',
       params: { appId: res.appId, id: res.id },
       query: { id: data.id }
-    });
+    })
   })
 }
 
 async function chatCompletion(data: ChatInput) {
-  chatStore.value.removeChat(data.id);
+  chatStore.value.removeChat(data.id)
   const payload = {
     ...data,
     conversationId: conversationId.value,
@@ -168,66 +168,66 @@ async function chatCompletion(data: ChatInput) {
     modelProvider: conversation.value?.modelProvider,
     modelType: conversation.value?.modelType,
     modelName: conversation.value?.modelName,
-  };
+  }
 
   await startStream('/chat/completions', payload,
-    onProgress, onDone, onErrorDone);
+    onProgress, onDone, onErrorDone)
 }
 
 async function onProgress(reasoningText: string, text: string) {
-  newChat.value.content = text;
-  newChat.value.reasoningContent = reasoningText;
-  scrollToBottom();
+  newChat.value.content = text
+  newChat.value.reasoningContent = reasoningText
+  scrollToBottom()
 }
 
 async function onDone(reasoningText: string, text: string) {
-  newChat.value.content = text;
-  newChat.value.reasoningContent = reasoningText;
+  newChat.value.content = text
+  newChat.value.reasoningContent = reasoningText
   chats.value.push({...newChat.value})
-  newChat.value = {};
-  scrollToBottom();
+  newChat.value = {}
+  scrollToBottom()
 }
 
 async function onErrorDone(chat: Indexable) {
-  newChat.value = chat;
+  newChat.value = chat
   chats.value.push({...newChat.value})
-  newChat.value = {};
-  scrollToBottom();
+  newChat.value = {}
+  scrollToBottom()
 }
 
 function onFavorite(item: Indexable, index: number) {
-  chats.value.splice(index, 1, item);
+  chats.value.splice(index, 1, item)
 }
 
 function onNewChat() {
-  router.replace({name: 'chat-start'});
+  router.replace({name: 'chat-start'})
 }
 
 async function scrollToBottom(duration = 0, manual = false) {
-  if (!scrollable.value && !manual) return;
-  await nextTick();
+  if (!scrollable.value && !manual) return
+  await nextTick()
   setTimeout(() => {
-    scrollRef.value?.scrollToBottom(duration);
+    scrollRef.value?.scrollToBottom(duration)
   }, 0)
 }
 
 function onScroll(info: Indexable, direction: string) {
-  tocRef.value?.onScroll();
+  tocRef.value?.onScroll()
   if (direction === 'up') {
-    scrollable.value = false;
+    scrollable.value = false
   }
 }
 
 function onIntersection(entry: Indexable) {
-  showScrollBtn.value = !entry.isIntersecting;
+  showScrollBtn.value = !entry.isIntersecting
   if (entry.isIntersecting) {
-    scrollable.value = true;
+    scrollable.value = true
   }
   // console.log('inter', scrollable.value);
 }
 
 onActivated(() => {
-  init();
+  init()
 })
 
 defineExpose({

@@ -7,16 +7,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import useNavi from 'src/hooks/useNavi';
-import OFrame from 'core/page/section/OFrame.vue';
+import { computed } from 'vue'
+import useNavi from 'src/hooks/useNavi'
+import OFrame from 'core/page/section/OFrame.vue'
 
-const { menus, openedMenus } = useNavi();
+const { menus, openedMenus } = useNavi()
 
 // Cache opened iframe only
 const iframeMenus = computed(() => {
-  return openedMenus.value.filter(e => e.action === 2);
-});
+  return openedMenus.value.filter(e => e.action === 2)
+})
 </script>
 
 <style lang="scss">

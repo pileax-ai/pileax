@@ -40,11 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, onMounted, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import { providerModelService, pdmService } from 'src/api/service/remote';
+import { providerModelService, pdmService } from 'src/api/service/remote'
 import { notifyDone } from 'core/utils/control'
 import useAi from 'src/hooks/useAi'
 
@@ -68,13 +68,13 @@ const props = defineProps({
   offset: {
     type: Array as PropType<number[]>,
     default: () => {
-      return [0, 4];
+      return [0, 4]
     }
   },
-});
-const emit = defineEmits(['selected']);
+})
+const emit = defineEmits(['selected'])
 
-const { defaultModels, updateLocalDefaultModels } = useAi();
+const { defaultModels, updateLocalDefaultModels } = useAi()
 const typeModels = ref<Indexable[]>([])
 
 const defaultModel = computed(() => {

@@ -45,12 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
-import useNavi from 'src/hooks/useNavi';
+import {computed, ref} from 'vue'
+import useNavi from 'src/hooks/useNavi'
 
-import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue';
-import { menuLabel } from 'core/hooks/useMenu';
-import { NoteDefaultIcon } from 'core/constants/constant';
+import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
+import { menuLabel } from 'core/hooks/useMenu'
+import { NoteDefaultIcon } from 'core/constants/constant'
 
 const props = defineProps({
   enableHover: {
@@ -68,18 +68,18 @@ const props = defineProps({
   offset: {
     type: Array,
     default: function () {
-      return [-4, 8];
+      return [-4, 8]
     }
   },
-});
-const term = ref('');
+})
+const term = ref('')
 
-const { openedMenus, currentMenu, closeOpenedMenu } = useNavi();
+const { openedMenus, currentMenu, closeOpenedMenu } = useNavi()
 const filterMenus = computed(() => {
   return term.value
       ? openedMenus.value.filter(e => e.name.toLowerCase().indexOf(term.value.toLowerCase()) >= 0)
-      : openedMenus.value;
-});
+      : openedMenus.value
+})
 </script>
 
 <style lang="scss">

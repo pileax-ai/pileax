@@ -96,21 +96,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue';
-import useReader from 'src/hooks/useReader';
-import ReaderSide from 'src/components/reader/ReaderSide.vue';
-import AiAgentManager from 'components/reader/agent/ai-agent-manager.vue';
-import WebServiceManager from 'components/reader/service/web-service-manager.vue';
-import ReaderSettings from 'src/components/reader/settings/index.vue';
-import TtsPlayer from 'src/components/reader/tts/tts-player.vue';
-import OToolBar from 'core/components/electron/OToolBar.vue';
+import { computed, onBeforeMount, ref, watch } from 'vue'
+import useReader from 'src/hooks/useReader'
+import ReaderSide from 'src/components/reader/ReaderSide.vue'
+import AiAgentManager from 'components/reader/agent/ai-agent-manager.vue'
+import WebServiceManager from 'components/reader/service/web-service-manager.vue'
+import ReaderSettings from 'src/components/reader/settings/index.vue'
+import TtsPlayer from 'src/components/reader/tts/tts-player.vue'
+import OToolBar from 'core/components/electron/OToolBar.vue'
 
 const props = defineProps({
   main: {
     type: Boolean,
     default: false
   }
-});
+})
 
 const {
   mainService,
@@ -122,24 +122,24 @@ const {
   setRightDrawerTTS,
   closeRightDrawer,
   toggleRightDrawer
-} = useReader();
+} = useReader()
 
-const currentTab = ref(0);
-const addAiAgentStatus = ref(false);
-const addServiceStatus = ref(false);
-const settingsStatus = ref(false);
+const currentTab = ref(0)
+const addAiAgentStatus = ref(false)
+const addServiceStatus = ref(false)
+const settingsStatus = ref(false)
 const ttsStatus = computed({
   get() {
-    return rightDrawer.value.tts;
+    return rightDrawer.value.tts
   },
   set(val: boolean) {
-    setRightDrawerTTS(val);
+    setRightDrawerTTS(val)
   }
-});
+})
 
 const defaultTab = computed(() => {
-  return { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' };
-});
+  return { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' }
+})
 const tabs = computed(() => {
   return props.main
     ? [
@@ -149,7 +149,7 @@ const tabs = computed(() => {
     : [
       defaultTab.value,
       ...secondaryService.value
-    ];
+    ]
 })
 
 const components = computed(() => {
@@ -158,10 +158,10 @@ const components = computed(() => {
       value: item.value,
       component: ReaderSide,
       item: item
-    };
-  });
-});
-const showTTS = computed(() => rightDrawer.value.tts);
+    }
+  })
+})
+const showTTS = computed(() => rightDrawer.value.tts)
 
 const actions = computed(() => {
   return [
@@ -199,80 +199,80 @@ const actions = computed(() => {
       show: rightDrawerShow.value,
       separator: true
     },
-  ];
-});
+  ]
+})
 
 function onAction (action :any) {
   switch (action.value) {
     case 'ai':
-      showAiAgent(true);
-      break;
+      showAiAgent(true)
+      break
     case 'close':
-      onClose();
-      break;
+      onClose()
+      break
     case 'pin':
-      onPin();
-      break;
+      onPin()
+      break
     case 'service':
-      showAddService(true);
-      break;
+      showAddService(true)
+      break
     case 'split':
-      setRightDrawerSplit(!rightDrawer.value.split);
-      break;
+      setRightDrawerSplit(!rightDrawer.value.split)
+      break
   }
 }
 
 function onClose() {
   setTimeout(() => {
     if (props.main) {
-      closeRightDrawer();
+      closeRightDrawer()
     } else {
-      setRightDrawerSplit(false);
+      setRightDrawerSplit(false)
     }
-  }, 10);
+  }, 10)
 }
 
 function onPin() {
-  const show = rightDrawerShow.value;
-  toggleRightDrawer();
+  const show = rightDrawerShow.value
+  toggleRightDrawer()
   if (show) {
-    setRightDrawerHoverShow(true);
+    setRightDrawerHoverShow(true)
   }
 }
 
 function showAiAgent(value :boolean) {
-  addAiAgentStatus.value = value;
+  addAiAgentStatus.value = value
 }
 
 function showAddService(value :boolean) {
-  addServiceStatus.value = value;
+  addServiceStatus.value = value
 }
 
 function toggleSettings() {
-  settingsStatus.value = !settingsStatus.value;
+  settingsStatus.value = !settingsStatus.value
 }
 
 function toggleTTS() {
-  ttsStatus.value = !ttsStatus.value;
+  ttsStatus.value = !ttsStatus.value
 }
 
 function onAddService(item :any) {
-  addServiceStatus.value = false;
-  const exist = tabs.value.find((e) => e.value === item.value);
+  addServiceStatus.value = false
+  const exist = tabs.value.find((e) => e.value === item.value)
   if (!exist) {
     if (props.main) {
-      mainService.value.push(item);
+      mainService.value.push(item)
     } else {
-      secondaryService.value.push(item);
+      secondaryService.value.push(item)
     }
 
     console.log('tabs', tabs.value)
-    currentTab.value = tabs.value.length - 1;
+    currentTab.value = tabs.value.length - 1
   }
 }
 
 function onRemoveService() {
-  currentTab.value = 0;
+  currentTab.value = 0
 }
 
 watch(() => showTTS.value, (newValue) => {
@@ -280,7 +280,7 @@ watch(() => showTTS.value, (newValue) => {
 }, { deep: true })
 
 onBeforeMount(() => {
-  currentTab.value = 0;
+  currentTab.value = 0
 })
 </script>
 

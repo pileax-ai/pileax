@@ -30,13 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import VueQrcode from '@chenfengyuan/vue-qrcode';
-import OHoverMenu from 'core/components/menu/OHoverMenu.vue';
+import { computed, ref } from 'vue'
+import VueQrcode from '@chenfengyuan/vue-qrcode'
+import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 
-const platform = ref('android');
-const modal = ref(false);
-const apkImg = ref('');
+const platform = ref('android')
+const modal = ref(false)
+const apkImg = ref('')
 
 function onDownload(type :string) {
   console.log('download', type)

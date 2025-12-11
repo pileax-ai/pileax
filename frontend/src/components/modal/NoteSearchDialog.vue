@@ -67,24 +67,24 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import useDialog from 'core/hooks/useDialog';
-import useNote from 'src/hooks/useNote';
-import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
-import ONoData from 'core/components/misc/ONoData.vue';
-import {timeMulti} from 'core/utils/format';
+import useDialog from 'core/hooks/useDialog'
+import useNote from 'src/hooks/useNote'
+import OCommandDialog from 'core/components/dialog/OCommandDialog.vue'
+import ONoData from 'core/components/misc/ONoData.vue'
+import {timeMulti} from 'core/utils/format'
 
-const { dialog, onHide, onOk } = useDialog();
+const { dialog, onHide, onOk } = useDialog()
 const {
   notes,
   recentNotes,
   openNote,
   getAllNotes,
   getRecentNotes,
-} = useNote();
+} = useNote()
 
-const term = ref('');
-const selected = ref(0);
-const results = ref<Indexable[]>([]);
+const term = ref('')
+const selected = ref(0)
+const results = ref<Indexable[]>([])
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -119,59 +119,59 @@ function contentSearchFilter (term: string) {
 }
 
 function searchNote (val: string) {
-  const a = notes.value.filter(titleSearchFilter(val));
-  const b = notes.value.filter(contentSearchFilter(val));
-  const c = a.concat(b);
+  const a = notes.value.filter(titleSearchFilter(val))
+  const b = notes.value.filter(contentSearchFilter(val))
+  const c = a.concat(b)
   return c.filter((item, index) => {
-    return c.indexOf(item) === index;
-  });
+    return c.indexOf(item) === index
+  })
 }
 
 function onSearch (val: string | number | null) {
   results.value = val
     ? searchNote(val as string)
-    : recentNotes.value;
+    : recentNotes.value
 }
 
 function onKeyup (e: KeyboardEvent) {
   if (results.value.length > 0) {
     switch (e.code) {
       case 'ArrowDown':
-        selected.value += 1;
+        selected.value += 1
         break
       case 'ArrowUp':
-        selected.value -= 1;
-        break;
+        selected.value -= 1
+        break
       case 'Enter':
-        onSelected(results.value[selected.value]);
-        break;
+        onSelected(results.value[selected.value])
+        break
       default:
     }
     if (selected.value >= results.value.length) {
-      selected.value = 0;
+      selected.value = 0
     }
     if (selected.value < 0) {
-      selected.value = results.value.length - 1;
+      selected.value = results.value.length - 1
     }
   } else {
-    selected.value = 0;
+    selected.value = 0
   }
 }
 
 function onSelected (item: Indexable) {
-  openNote(item);
-  onHide();
+  openNote(item)
+  onHide()
 }
 
 onMounted( async () => {
-  await getRecentNotes();
-  results.value = recentNotes.value;
+  await getRecentNotes()
+  results.value = recentNotes.value
 
-  window.addEventListener('keyup', onKeyup);
+  window.addEventListener('keyup', onKeyup)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keyup', onKeyup);
+  window.removeEventListener('keyup', onKeyup)
 })
 </script>
 

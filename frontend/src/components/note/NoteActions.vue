@@ -61,24 +61,24 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
-import useNote from 'src/hooks/useNote';
-import { timeMulti } from 'core/utils/format';
+import useNote from 'src/hooks/useNote'
+import { timeMulti } from 'core/utils/format'
 
-const emit = defineEmits(['action']);
+const emit = defineEmits(['action'])
 
 const {
   currentNote,
   saveNote,
   toggleFavorite
-} = useNote();
+} = useNote()
 
 const styles = ref({
   font: 'default',
   smallText: false,
   fullWidth: false,
   toc: true,
-});
-const font = ref('default');
+})
+const font = ref('default')
 
 const actions = computed(() => {
   return [
@@ -146,23 +146,23 @@ const actions = computed(() => {
       icon: "open_in_browser",
       clickable: true,
     },
-  ];
-});
+  ]
+})
 
 function onAction (action: Indexable, value: any) {
   switch (action.value) {
     case 'close':
-      break;
+      break
     case 'closeOther':
-      break;
+      break
     case 'closeToRight':
-      break;
+      break
     case 'smallText':
     case 'fullWidth':
     case 'toc':
-      onStyles();
+      onStyles()
       emit('action', { ...action, actionValue: value })
-      break;
+      break
   }
 }
 
@@ -175,12 +175,12 @@ function onStyles() {
 }
 
 function onFont(value: string) {
-  font.value = value;
+  font.value = value
 }
 
 onBeforeMount(() => {
   try {
-    styles.value = JSON.parse(currentNote.value.styles || '');
+    styles.value = JSON.parse(currentNote.value.styles || '')
   } catch (err) {
     // console.warn(err);
   }

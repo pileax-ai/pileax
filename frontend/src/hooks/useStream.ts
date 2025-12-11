@@ -1,6 +1,6 @@
-import { ref, type Ref } from 'vue';
-import { isCancel } from 'axios';
-import { api as request } from 'src/boot/axios';
+import { ref, type Ref } from 'vue'
+import { isCancel } from 'axios'
+import { api as request } from 'src/boot/axios'
 
 interface StreamEvent {
   type: string;
@@ -24,11 +24,11 @@ interface UseStreamReturn {
 }
 
 export default function(): UseStreamReturn {
-  const reasoningContent = ref('');
-  const content = ref('');
-  const isLoading = ref(false);
-  const error = ref<Error | null>(null);
-  const controller = ref<AbortController | null>(null);
+  const reasoningContent = ref('')
+  const content = ref('')
+  const isLoading = ref(false)
+  const error = ref<Error | null>(null)
+  const controller = ref<AbortController | null>(null)
 
   const startStream = async (
     url: string,
@@ -37,11 +37,11 @@ export default function(): UseStreamReturn {
     onDone?: (reasoningContent: string, content: string) => void,
     onErrorDone?: (chat: Indexable) => void,
   ) => {
-    isLoading.value = true;
-    error.value = null;
-    reasoningContent.value = '';
-    content.value = '';
-    controller.value = new AbortController();
+    isLoading.value = true
+    error.value = null
+    reasoningContent.value = ''
+    content.value = ''
+    controller.value = new AbortController()
 
     try {
       const res = await request({
@@ -55,65 +55,65 @@ export default function(): UseStreamReturn {
         },
         responseType: 'text', // stream
         onDownloadProgress: (progressEvent) => {
-          const rawData = progressEvent.event.target?.responseText;
+          const rawData = progressEvent.event.target?.responseText
           // console.log('=============', rawData)
-          if (!rawData) return;
+          if (!rawData) return
 
           const lines = rawData
             ?.split('\n\n')
-            .filter((line: string) => line.startsWith('data: ') || line.startsWith('event: '));
+            .filter((line: string) => line.startsWith('data: ') || line.startsWith('event: '))
 
-          let done = false;
-          let text = '';
-          let reasoningText = '';
+          let done = false
+          let text = ''
+          let reasoningText = ''
           lines?.forEach((line: string) => {
             try {
               if (line.includes('event: [DONE]')) {
                 console.log('DONE')
-                done = true;
-                return;
+                done = true
+                return
               }
 
-              const jsonStr = line.replace('data: ', '').trim();
-              const event = JSON.parse(jsonStr) as StreamEvent;
+              const jsonStr = line.replace('data: ', '').trim()
+              const event = JSON.parse(jsonStr) as StreamEvent
               if (event.type === 'reasoning') {
-                reasoningText += event.content;
+                reasoningText += event.content
               } else {
-                text += event.content;
+                text += event.content
               }
               // const message = line.replace('data: ', '').trim();
               // text += message
             } catch (e) {
-              console.warn('Parse error:', e);
+              console.warn('Parse error:', e)
             }
-          });
-          content.value = text;
-          reasoningContent.value = reasoningText;
-          onProgress?.(reasoningContent.value, content.value);
+          })
+          content.value = text
+          reasoningContent.value = reasoningText
+          onProgress?.(reasoningContent.value, content.value)
           if (done) {
-            onDone?.(reasoningContent.value, content.value);
+            onDone?.(reasoningContent.value, content.value)
           }
         }
-      });
+      })
 
       // may error
-      const data = JSON.parse(res.data);
-      const chat = data.data;
+      const data = JSON.parse(res.data)
+      const chat = data.data
       if (chat.result === -1) {
-        onErrorDone?.(chat);
+        onErrorDone?.(chat)
       }
     } catch (err) {
       if (!isCancel(err)) {
-        error.value = err as Error;
+        error.value = err as Error
       }
     } finally {
-      isLoading.value = false;
+      isLoading.value = false
     }
-  };
+  }
 
   const cancelStream = () => {
-    controller.value?.abort();
-  };
+    controller.value?.abort()
+  }
 
   return {
     reasoningContent,
@@ -122,5 +122,5 @@ export default function(): UseStreamReturn {
     error,
     startStream,
     cancelStream
-  };
+  }
 }

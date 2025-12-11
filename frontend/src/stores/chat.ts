@@ -1,6 +1,6 @@
-import { CODE } from 'core/app';
-import type { ChatInput } from 'src/types/chat';
-import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory';
+import { CODE } from 'core/app'
+import type { ChatInput } from 'src/types/chat'
+import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
 export const useChatStore = defineWorkspaceStore('chat', {
   state: () => ({
@@ -10,16 +10,16 @@ export const useChatStore = defineWorkspaceStore('chat', {
   actions: {
     addChat(value: ChatInput) {
       console.log('addChat', value, this.chatMap)
-      this.chatMap.set(value.id, value);
+      this.chatMap.set(value.id, value)
     },
     getChat(id: string) {
-      return this.chatMap.get(id);
+      return this.chatMap.get(id)
     },
     removeChat(id: string) {
-      this.chatMap.delete(id);
+      this.chatMap.delete(id)
     },
     setSessionTimer(value: number) {
-      this.conversationTimer = value;
+      this.conversationTimer = value
     },
   },
   persist: {
@@ -41,4 +41,4 @@ export const useChatStore = defineWorkspaceStore('chat', {
       }
     }
   }
-});
+})

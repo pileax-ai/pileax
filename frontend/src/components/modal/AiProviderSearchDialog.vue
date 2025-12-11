@@ -11,12 +11,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import useDialog from 'core/hooks/useDialog';
-import OCommonDialog from 'core/components/dialog/OCommonDialog.vue';
-import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
+import { ref } from 'vue'
+import useDialog from 'core/hooks/useDialog'
+import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
+import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue'
 
-const { dialog, onHide } = useDialog();
+const { dialog, onHide } = useDialog()
 </script>
 
 <style lang="scss">

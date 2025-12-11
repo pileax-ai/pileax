@@ -1,4 +1,4 @@
-import type { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu'
 
 /**
  * Reader default menus
@@ -25,4 +25,4 @@ export const defaultReaderMenus: MenuItem[] = [
     action: 1,
     meta: {icon: 'search'},
   },
-];
+]

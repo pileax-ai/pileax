@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const props = defineProps({
   data: {
@@ -52,8 +52,8 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
-const emit = defineEmits(['add']);
+})
+const emit = defineEmits(['add'])
 </script>
 
 <style lang="scss">

@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import { store } from 'stores/index';
-import { CODE } from 'core/app';
+import { defineStore } from 'pinia'
+import { store } from 'stores/index'
+import { CODE } from 'core/app'
 
 export const useComponentStore = defineStore('component', {
   state: () => ({
@@ -12,7 +12,7 @@ export const useComponentStore = defineStore('component', {
       showOk: true,
       showCancel: false,
       onOk: () => {
-        return;
+        return
       },
     } as Indexable,
   }),
@@ -21,14 +21,14 @@ export const useComponentStore = defineStore('component', {
   },
   actions: {
     setDialog(dialog :Indexable) {
-      this.dialog = dialog;
+      this.dialog = dialog
     },
   },
   persist: {
     key: `${CODE}.component`
   }
-});
+})
 
 export const useComponentStoreWithOut = () => {
-  return useComponentStore(store);
+  return useComponentStore(store)
 }

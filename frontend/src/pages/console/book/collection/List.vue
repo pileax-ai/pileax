@@ -111,73 +111,73 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, ref, watch } from 'vue';
-import OConsoleSection from 'core/page/section/OConsoleSection.vue';
-import BookGridItem from '../book/BookGridItem.vue';
-import BookListItem from '../book/BookListItem.vue';
-import BookDetails from './BookDetails.vue';
-import BookCollectionContextMenu from './BookCollectionContextMenu.vue';
-import BookCollectionEdit from './BookCollectionEdit.vue';
-import BookCollectionFilter from './BookCollectionFilter.vue';
-import BookCollectionMoreBtn from './BookCollectionMoreBtn.vue';
-import OBookUploader from 'core/components/fIle/OBookUploader.vue';
-import OSplitPage from 'core/page/template/OSplitPage.vue';
+import { onActivated, ref, watch } from 'vue'
+import OConsoleSection from 'core/page/section/OConsoleSection.vue'
+import BookGridItem from '../book/BookGridItem.vue'
+import BookListItem from '../book/BookListItem.vue'
+import BookDetails from './BookDetails.vue'
+import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
+import BookCollectionEdit from './BookCollectionEdit.vue'
+import BookCollectionFilter from './BookCollectionFilter.vue'
+import BookCollectionMoreBtn from './BookCollectionMoreBtn.vue'
+import OBookUploader from 'core/components/fIle/OBookUploader.vue'
+import OSplitPage from 'core/page/template/OSplitPage.vue'
 
-import useReader from 'src/hooks/useReader';
-import useLoadMore from 'src/hooks/useLoadMore';
-import { ipcService } from 'src/api/ipc';
-import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
+import useReader from 'src/hooks/useReader'
+import useLoadMore from 'src/hooks/useLoadMore'
+import { ipcService } from 'src/api/ipc'
+import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 
-const { queryTimer } = useReader();
-const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
+const { queryTimer } = useReader()
+const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
-const pageRef = ref<InstanceType<typeof OSplitPage>>();
-const filterRef = ref<InstanceType<typeof BookCollectionFilter>>();
-const collectionId = ref('');
-const editCollectionId = ref('');
-const addMenu = ref(false);
-const data = ref<Indexable>({});
-const showFilter = ref(true);
-const bookView = ref('grid');
-const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
+const pageRef = ref<InstanceType<typeof OSplitPage>>()
+const filterRef = ref<InstanceType<typeof BookCollectionFilter>>()
+const collectionId = ref('')
+const editCollectionId = ref('')
+const addMenu = ref(false)
+const data = ref<Indexable>({})
+const showFilter = ref(true)
+const bookView = ref('grid')
+const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 
 function onAction(item: Indexable) {
   switch (item.action) {
     case 'filter':
       collectionId.value = item.value
       doQuery()
-      break;
+      break
     case 'add':
       onEdit()
-      break;
+      break
     case 'edit':
       onEdit(item.value, 'edit', item.label)
-      break;
+      break
   }
 }
 
 function onView(value: string) {
-  bookView.value = value;
+  bookView.value = value
 }
 
 function onSort(value: Indexable) {
-  sort.value = value;
-  doQuery();
+  sort.value = value
+  doQuery()
 }
 
 function onDetails(item: any) {
-  data.value = item;
-  query.value.openSide('480px', 'details');
+  data.value = item
+  query.value.openSide('480px', 'details')
 }
 
 function onEdit(id = '', icon = 'add', title = 'Add Collection') {
   editCollectionId.value = id
-  query.value.openSide('480px', 'edit', icon, title);
+  query.value.openSide('480px', 'edit', icon, title)
 }
 
 function onEditBook(item: Indexable) {
   data.value = item
-  query.value.openSide('480px', 'edit-book', 'edit_note', 'Edit');
+  query.value.openSide('480px', 'edit-book', 'edit_note', 'Edit')
 }
 
 function onClose(options: Indexable) {
@@ -192,31 +192,31 @@ function onClose(options: Indexable) {
       switch (options.action) {
         case 'edit':
           rows.value.splice(index, 1, options.item)
-          break;
+          break
         case 'remove':
           rows.value.splice(index, 1)
-          break;
+          break
       }
     }
   } else {
-    doQuery();
+    doQuery()
   }
-  query.value.closeSide(false, false);
+  query.value.closeSide(false, false)
 }
 
 async function onUploadCompleted() {
-  addMenu.value = false;
-  doQuery();
+  addMenu.value = false
+  doQuery()
 }
 
 function openBook(item: any) {
   ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
-    READER_TITLE_BAR_HEIGHT);
+    READER_TITLE_BAR_HEIGHT)
 }
 
 function doQuery() {
   condition.value['bookCollectionId'] = collectionId.value
-  query.value.onQuery();
+  query.value.onQuery()
 }
 
 function initData() {
@@ -224,7 +224,7 @@ function initData() {
     api: 'workspaceBookCollection',
     path: '/query/book/details',
     title: 'Book'
-  });
+  })
 }
 
 function onFullScreen(value: boolean) {
@@ -237,7 +237,7 @@ function onToggleFiler() {
 }
 
 watch(() => queryTimer.value, (newValue) => {
-  doQuery();
+  doQuery()
 })
 
 onActivated(() => {
@@ -247,7 +247,7 @@ onActivated(() => {
       collectionId.value = collectionList[0]!.id
       condition.value['bookCollectionId'] = collectionId.value
     }
-    initData();
+    initData()
   })
 })
 </script>

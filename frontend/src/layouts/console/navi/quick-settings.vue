@@ -93,11 +93,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import useDialog from 'core/hooks/useDialog';
-import useSetting from 'core/hooks/useSetting';
-import useAccount from 'src/hooks/useAccount';
-import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
+import { computed } from 'vue'
+import useDialog from 'core/hooks/useDialog'
+import useSetting from 'core/hooks/useSetting'
+import useAccount from 'src/hooks/useAccount'
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 
 const props = defineProps({
@@ -105,13 +105,13 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
+})
 
-const { account, workspace, workspaces, logout, initWorkspace, switchWorkspace } = useAccount();
-const { openDialog } = useDialog();
-const { darkMode, toggleTheme } = useSetting();
+const { account, workspace, workspaces, logout, initWorkspace, switchWorkspace } = useAccount()
+const { openDialog } = useDialog()
+const { darkMode, toggleTheme } = useSetting()
 const offset = computed(() => {
-  return props.type === 'tab' ? [-2, -2] : [-5, -5];
+  return props.type === 'tab' ? [-2, -2] : [-5, -5]
 })
 
 const actions = computed(() => {
@@ -163,8 +163,8 @@ const actions = computed(() => {
       icon: "o_info",
       clickable: true,
     },
-  ];
-});
+  ]
+})
 
 const onAction = (action: Indexable) => {
   switch (action.value) {
@@ -175,22 +175,22 @@ const onAction = (action: Indexable) => {
     case 'profile':
     case 'usage':
     case 'workspace':
-      openDialog({type: 'settings', tab: action.value});
-      break;
+      openDialog({type: 'settings', tab: action.value})
+      break
     case 'help':
-      break;
+      break
     case 'logout':
       logout()
-      break;
+      break
   }
 }
 
 const onBeforeShow = () => {
-  initWorkspace();
+  initWorkspace()
 }
 
 const onSwitchWorkspace = (item: Indexable) => {
-  switchWorkspace(item);
+  switchWorkspace(item)
 }
 </script>
 

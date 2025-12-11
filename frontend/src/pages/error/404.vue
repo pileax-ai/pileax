@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import OSinglePage from 'core/page/template/OSinglePage.vue';
+import OSinglePage from 'core/page/template/OSinglePage.vue'
 </script>
 
 <style lang="scss">

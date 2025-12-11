@@ -71,112 +71,112 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, nextTick, onActivated } from 'vue';
-import { useRoute } from 'vue-router';
-import OCommonPage from 'core/page/template/OCommonPage.vue';
-import OChatInput from 'components/chat/OChatInput.vue';
-import OChatMessage from 'components/chat/OChatMessage.vue';
-import OChatToc from 'components/chat/OChatToc.vue';
-import ChatActions from 'components/chat/ChatActions.vue';
+import { computed, ref, onMounted, nextTick, onActivated } from 'vue'
+import { useRoute } from 'vue-router'
+import OCommonPage from 'core/page/template/OCommonPage.vue'
+import OChatInput from 'components/chat/OChatInput.vue'
+import OChatMessage from 'components/chat/OChatMessage.vue'
+import OChatToc from 'components/chat/OChatToc.vue'
+import ChatActions from 'components/chat/ChatActions.vue'
 
-import { router } from 'src/router';
-import { chatService } from 'src/api/service/remote/chat';
-import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import { UUID } from 'core/utils/crypto';
-import useAi from 'src/hooks/useAi';
-import useStream from 'src/hooks/useStream';
-import useChatConversation from 'src/hooks/useChatConversation';
+import { router } from 'src/router'
+import { chatService } from 'src/api/service/remote/chat'
+import { chatConversationService } from 'src/api/service/remote/chat-conversation'
+import { UUID } from 'core/utils/crypto'
+import useAi from 'src/hooks/useAi'
+import useStream from 'src/hooks/useStream'
+import useChatConversation from 'src/hooks/useChatConversation'
 import type { ChatInput } from 'src/types/chat'
 
-const route = useRoute();
-const { provider } = useAi();
+const route = useRoute()
+const { provider } = useAi()
 const {
   appId,
   conversation,
   conversationId,
   chatStore,
   getConversation,
-} = useChatConversation();
-const { isLoading, startStream, cancelStream } = useStream();
+} = useChatConversation()
+const { isLoading, startStream, cancelStream } = useStream()
 
-const pageRef = ref<InstanceType<typeof OCommonPage>>();
-const start = ref(true);
-const chats = ref<Indexable[]>([]);
+const pageRef = ref<InstanceType<typeof OCommonPage>>()
+const start = ref(true)
+const chats = ref<Indexable[]>([])
 const newChat = ref<Indexable>({})
-const showScrollBtn = ref(false);
-const tocRef = ref<InstanceType<typeof OChatToc>>();
-const scrollable = ref(true);
+const showScrollBtn = ref(false)
+const tocRef = ref<InstanceType<typeof OChatToc>>()
+const scrollable = ref(true)
 
 function init() {
-  start.value = route.name === 'chat-start';
-  appId.value = (route.params.appId || '') as string;
-  conversationId.value = (route.params.id || '') as string;
+  start.value = route.name === 'chat-start'
+  appId.value = (route.params.appId || '') as string
+  conversationId.value = (route.params.id || '') as string
   if (conversationId.value) {
-    getConversation();
-    getAllChats();
+    getConversation()
+    getAllChats()
 
     // Resend after replace router
-    const chatId = (route.query.id || '') as string;
-    const currentChat = chatStore.value.getChat(chatId);
+    const chatId = (route.query.id || '') as string
+    const currentChat = chatStore.value.getChat(chatId)
     if (currentChat) {
-      onSend(currentChat, true);
+      onSend(currentChat, true)
     }
   }
 }
 
 function getAllChats() {
   chatService.getMessages(conversationId.value).then(res => {
-    chats.value = res as Indexable[];
-    scrollToBottom();
+    chats.value = res as Indexable[]
+    scrollToBottom()
   })
 }
 
 async function onSend(data: ChatInput, reset = false) {
-  newChat.value = data;
-  scrollToBottom();
+  newChat.value = data
+  scrollToBottom()
 
   if (reset) {
-    chatStore.value.removeChat(data.id);
+    chatStore.value.removeChat(data.id)
   } else {
-    chatStore.value.addChat(data);
+    chatStore.value.addChat(data)
   }
 
   if (conversationId.value) {
-    chatCompletion(data);
+    chatCompletion(data)
   }
   else {
-    start.value = false;
-    createSession(data);
+    start.value = false
+    createSession(data)
   }
 }
 
 function onStop() {
-  cancelStream();
+  cancelStream()
 }
 
 async function createSession(data: Indexable) {
-  const message = data.message;
+  const message = data.message
   chatConversationService.save({
     appId: appId.value || null,
     name: message
   }).then(res => {
-    conversationId.value = res.id;
-    start.value = false;
+    conversationId.value = res.id
+    start.value = false
 
     // update conversation list
-    chatStore.value.setSessionTimer(Date.now());
+    chatStore.value.setSessionTimer(Date.now())
 
     // replace router
     router.replace({
       name: 'chat-conversation',
       params: {id: conversationId.value },
       query: { id: data.id }
-    });
+    })
   })
 }
 
 async function chatCompletion(data: ChatInput) {
-  chatStore.value.removeChat(data.id);
+  chatStore.value.removeChat(data.id)
   const payload = {
     ...data,
     id: UUID(),
@@ -185,66 +185,66 @@ async function chatCompletion(data: ChatInput) {
     stream: true,
     provider: provider.value.name,
   }
-  newChat.value = payload;
+  newChat.value = payload
 
   await startStream('/chat/completions', payload,
-    onProgress, onDone, onErrorDone);
+    onProgress, onDone, onErrorDone)
 }
 
 async function onProgress(reasoningText: string, text: string) {
-  newChat.value.content = text;
-  newChat.value.reasoningContent = reasoningText;
-  scrollToBottom();
+  newChat.value.content = text
+  newChat.value.reasoningContent = reasoningText
+  scrollToBottom()
 }
 
 async function onDone(reasoningText: string, text: string) {
-  newChat.value.content = text;
-  newChat.value.reasoningContent = reasoningText;
+  newChat.value.content = text
+  newChat.value.reasoningContent = reasoningText
   chats.value.push({...newChat.value})
-  newChat.value = {};
-  scrollToBottom();
+  newChat.value = {}
+  scrollToBottom()
 }
 
 async function onErrorDone(chat: Indexable) {
-  newChat.value = chat;
+  newChat.value = chat
   chats.value.push({...newChat.value})
-  newChat.value = {};
-  scrollToBottom();
+  newChat.value = {}
+  scrollToBottom()
 }
 
 function onLike(item: Indexable, index: number) {
-  chats.value.splice(index, 1, item);
+  chats.value.splice(index, 1, item)
 }
 
 function onNewChat() {
-  router.replace({name: 'chat-start'});
+  router.replace({name: 'chat-start'})
 }
 
 async function scrollToBottom(duration = 0, manual = false) {
-  if (!scrollable.value && !manual) return;
-  await nextTick();
+  if (!scrollable.value && !manual) return
+  await nextTick()
   setTimeout(() => {
-    pageRef.value?.scrollToBottom(duration);
+    pageRef.value?.scrollToBottom(duration)
   }, 0)
 }
 
 function onScroll(info: Indexable, direction: string) {
-  tocRef.value?.onScroll();
+  tocRef.value?.onScroll()
   if (direction === 'up') {
-    scrollable.value = false;
+    scrollable.value = false
   }
 }
 
 function onIntersection(entry: Indexable) {
-  showScrollBtn.value = !entry.isIntersecting;
+  showScrollBtn.value = !entry.isIntersecting
   if (entry.isIntersecting) {
-    scrollable.value = true;
+    scrollable.value = true
   }
-  console.log('inter', scrollable.value);
+  console.log('inter', scrollable.value)
 }
 
 onActivated(() => {
-  init();
+  init()
 })
 </script>
 

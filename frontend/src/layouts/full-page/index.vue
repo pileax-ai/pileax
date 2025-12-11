@@ -16,15 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import BaseToolbar from './toolbar/BaseToolbar.vue';
-import SimpleToolbar from './toolbar/SimpleToolbar.vue';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import BaseToolbar from './toolbar/BaseToolbar.vue'
+import SimpleToolbar from './toolbar/SimpleToolbar.vue'
 
-const route = useRoute();
+const route = useRoute()
 
 const showSimpleToolbar = computed(() => {
-  return route.name == 'signin' || route.name == 'signup';
+  return route.name == 'signin' || route.name == 'signup'
 })
 </script>
 

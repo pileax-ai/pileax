@@ -31,17 +31,17 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, ref} from 'vue'
 
-import OQuerySection from 'core/page/section/OQuerySection.vue';
-import { openPath } from 'core/hooks/useRouter';
+import OQuerySection from 'core/page/section/OQuerySection.vue'
+import { openPath } from 'core/hooks/useRouter'
 
-const appInfo = __APP_INFO__;
-const rows = appInfo.package.dependencies;
+const appInfo = __APP_INFO__
+const rows = appInfo.package.dependencies
 
 const pagination = ref({
   rowsPerPage: 1000
-});
+})
 
 const columns = computed(() => {
   return [
@@ -50,12 +50,12 @@ const columns = computed(() => {
     { field: 'description', label: '描述', align: 'left', name: 'description', style: 'width: 60%;', classes: 'ellipsis' },
     { field: 'license', label: 'License', align: 'left', name: 'license' },
     { field: 'actions', label: '操作', name: 'actions', align: 'right' }
-  ];
-});
+  ]
+})
 
 function openLink(row :Indexable) {
-  const link = row.homepage || row.repository.url;
-  openPath(link);
+  const link = row.homepage || row.repository.url
+  openPath(link)
 }
 
 </script>

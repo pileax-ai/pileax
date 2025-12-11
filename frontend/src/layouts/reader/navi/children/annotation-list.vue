@@ -16,33 +16,33 @@
 <script setup lang="ts">
 import DrawerNavi from 'core/page/DrawerNavi.vue'
 import OBookAnnotationItem from 'src/components/book/OBookAnnotationItem.vue'
-import {computed, onBeforeMount, ref, watch} from 'vue';
-import useBook from 'src/hooks/useBook';
-import { findBookAnnotation } from 'src/api/service/ebook/book-annotation';
+import {computed, onBeforeMount, ref, watch} from 'vue'
+import useBook from 'src/hooks/useBook'
+import { findBookAnnotation } from 'src/api/service/ebook/book-annotation'
 
-const { bookId, annotationTimer } = useBook();
-const list = ref([]);
+const { bookId, annotationTimer } = useBook()
+const list = ref([])
 
 const props = defineProps({
   width: {
     type: Number,
     default: 300
   },
-});
+})
 
 function query() {
   findBookAnnotation(bookId.value).then(res => {
-    list.value = res as [];
-    console.log('list', list.value);
-  });
+    list.value = res as []
+    console.log('list', list.value)
+  })
 }
 
 watch(() => annotationTimer.value, (newValue) => {
-  query();
+  query()
 })
 
 onBeforeMount(() => {
-  query();
+  query()
 })
 </script>
 

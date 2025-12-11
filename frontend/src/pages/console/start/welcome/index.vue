@@ -68,37 +68,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { onAction } from 'core/hooks/useRouter';
-import useNavi from 'src/hooks/useNavi';
-import { GET } from 'src/hooks/useRequest';
-import { ipcService } from 'src/api/ipc';
+import { computed, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { onAction } from 'core/hooks/useRouter'
+import useNavi from 'src/hooks/useNavi'
+import { GET } from 'src/hooks/useRequest'
+import { ipcService } from 'src/api/ipc'
 
-import OCommonPage from 'core/page/template/OCommonPage.vue';
+import OCommonPage from 'core/page/template/OCommonPage.vue'
 
-const route = useRoute();
-const { favoriteMenus, starMenus, clearStarMenus, unstarMenu } = useNavi();
-const serverInfo = ref({});
+const route = useRoute()
+const { favoriteMenus, starMenus, clearStarMenus, unstarMenu } = useNavi()
+const serverInfo = ref({})
 
 function init() {
-  console.log('env', process.env.VITE_APP_NAME, window.__TAURI_INTERNALS__);
+  console.log('env', process.env.VITE_APP_NAME, window.__TAURI_INTERNALS__)
   ipcService.getServerInfo().then((res: any) => {
-    serverInfo.value = res;
+    serverInfo.value = res
   }).catch((err: any) => {
-    console.error('Electron IPC：', err);
+    console.error('Electron IPC：', err)
   })
 
   GET({name: 'systemHealthCheck'}).then(res => {
     console.log('res', res)
   }).catch((err: Error) => {
-    console.error('Request：', err);
+    console.error('Request：', err)
   })
 }
 
 onMounted(() => {
-  init();
-});
+  init()
+})
 </script>
 
 <style lang="scss">

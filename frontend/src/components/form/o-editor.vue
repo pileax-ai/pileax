@@ -41,8 +41,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
-import { useQuasar } from 'quasar';
+import {computed, onMounted, ref, watch} from 'vue'
+import { useQuasar } from 'quasar'
 
 const props = defineProps({
   modelValue: {
@@ -73,14 +73,14 @@ const props = defineProps({
     type: String,
     default: '640px'
   },
-});
-const emit = defineEmits(['update:modelValue']);
+})
+const emit = defineEmits(['update:modelValue'])
 
-const $q = useQuasar();
+const $q = useQuasar()
 
-const editor = ref();
-const view = ref('desktop');
-const content = ref('');
+const editor = ref()
+const view = ref('desktop')
+const content = ref('')
 const toolbar  = computed(() => {
   return !props.enableToolbar ? [] : [
     ['bold', 'italic', 'strike', 'underline'],
@@ -133,7 +133,7 @@ const toolbar  = computed(() => {
     ['media'],
     ['viewsource'] // fullscreen
   ]
-});
+})
 const fonts = computed(() => {
   return {
     arial: 'Arial',
@@ -145,58 +145,58 @@ const fonts = computed(() => {
     times_new_roman: 'Times New Roman',
     verdana: 'Verdana'
   }
-});
+})
 
 function init () {
-  content.value = props.modelValue;
+  content.value = props.modelValue
 }
 function onUpdate () {
-  emit('update:modelValue', content.value);
+  emit('update:modelValue', content.value)
 }
 
 function onUploadImage (link) {
-  editor.value.runCmd('insertHTML',  '<p><img src="' + link + '" /></p>', true);
+  editor.value.runCmd('insertHTML',  '<p><img src="' + link + '" /></p>', true)
 }
 
 function onUploadVideo (link) {
-  editor.value.runCmd('insertHTML',  '<p><video controls><source src="' + link + '" /></video></p>', true);
+  editor.value.runCmd('insertHTML',  '<p><video controls><source src="' + link + '" /></video></p>', true)
 }
 
 const fileMeta = computed(() => {
   {
-    let accept = '*';
-    let maxSize = 0;
+    let accept = '*'
+    let maxSize = 0
     switch (props.type) {
       case 'image':
-        accept = '.png, .jpg, .jpeg, .gif';
-        maxSize = 20 * 1024 * 1024; // 20M
-        break;
+        accept = '.png, .jpg, .jpeg, .gif'
+        maxSize = 20 * 1024 * 1024 // 20M
+        break
       case 'video':
-        accept = '.webm, .mp4, .m4v, .ogv, .ogg';
-        maxSize = 500 * 1024 * 1024; // 500M
-        break;
+        accept = '.webm, .mp4, .m4v, .ogv, .ogg'
+        maxSize = 500 * 1024 * 1024 // 500M
+        break
       case 'audio':
-        accept = '.mp3, .wav, .oga';
-        maxSize = 50 * 1024 * 1024; // 50M
-        break;
+        accept = '.mp3, .wav, .oga'
+        maxSize = 50 * 1024 * 1024 // 50M
+        break
       case 'model':
-        accept = '.gltf, .glb';
-        maxSize = 100 * 1024 * 1024; // 100M
-        break;
+        accept = '.gltf, .glb'
+        maxSize = 100 * 1024 * 1024 // 100M
+        break
       default:
-        accept = '*';
-        break;
+        accept = '*'
+        break
     }
-    return { accept, maxSize };
+    return { accept, maxSize }
   }
 })
 
 watch(() => props.modelValue, (newValue) => {
-  content.value = newValue;
-});
+  content.value = newValue
+})
 
 onMounted(() => {
-  init();
+  init()
 })
 </script>
 

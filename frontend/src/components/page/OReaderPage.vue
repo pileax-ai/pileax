@@ -20,40 +20,40 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, onUnmounted, ref} from 'vue';
-import { vOnClickOutside } from '@vueuse/components';
-import useReaderSetting from 'src/hooks/useReaderSetting';
+import {computed, onMounted, onUnmounted, ref} from 'vue'
+import { vOnClickOutside } from '@vueuse/components'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 
 const props = defineProps({
   contentClass: {
     type: String,
     default: 'bg-accent'
   }
-});
+})
 
-const { settings } = useReaderSetting();
-const footnoteDialog = ref(null);
+const { settings } = useReaderSetting()
+const footnoteDialog = ref(null)
 
 function onClickOutside() {
-  footnoteDialog.value?.close();
+  footnoteDialog.value?.close()
 }
 
 function onDialogShow() {
-  console.log('show');
+  console.log('show')
 }
 
 function onDialogClose() {
-  console.log('close');
+  console.log('close')
 }
 
 onMounted(() => {
-  footnoteDialog.value?.addEventListener('footnote-dialog-shown', onDialogShow);
-  footnoteDialog.value?.addEventListener('close', onDialogClose);
+  footnoteDialog.value?.addEventListener('footnote-dialog-shown', onDialogShow)
+  footnoteDialog.value?.addEventListener('close', onDialogClose)
 })
 
 onUnmounted(() => {
-  footnoteDialog.value?.removeEventListener('footnote-dialog-shown', onDialogShow);
-  footnoteDialog.value?.removeEventListener('close', onDialogClose);
+  footnoteDialog.value?.removeEventListener('footnote-dialog-shown', onDialogShow)
+  footnoteDialog.value?.removeEventListener('close', onDialogClose)
 })
 </script>
 

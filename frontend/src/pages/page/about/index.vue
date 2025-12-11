@@ -71,17 +71,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import OSinglePage from 'core/page/template/OSinglePage.vue';
-import ContentWide from 'core/page/content/ContentWide.vue';
+import { computed, ref } from 'vue'
+import OSinglePage from 'core/page/template/OSinglePage.vue'
+import ContentWide from 'core/page/content/ContentWide.vue'
 
-const slide = ref('1');
+const slide = ref('1')
 const slides = computed(() => {
   return [
     { label: 'Slide 1', value: '1', img: 'images/slide/1.jpg' },
     { label: 'Slide 2', value: '2', img: 'images/slide/2.jpg' },
     { label: 'Slide 3', value: '3', img: 'images/slide/4.jpg' },
-  ];
+  ]
 })
 </script>
 

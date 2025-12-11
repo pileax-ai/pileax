@@ -22,38 +22,38 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref, watch} from 'vue';
-import { DRAWER_DEFAULT_SIZE } from 'core/constants/style';
+import {onBeforeMount, ref, watch} from 'vue'
+import { DRAWER_DEFAULT_SIZE } from 'core/constants/style'
 
-import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue';
-import TabNavi from './tab-navi.vue';
-import useNavi from 'src/hooks/useNavi';
+import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue'
+import TabNavi from './tab-navi.vue'
+import useNavi from 'src/hooks/useNavi'
 
-const emit = defineEmits(['leave']);
+const emit = defineEmits(['leave'])
 
-const { leftDrawerShow, leftDrawerHoverShow } = useNavi();
-const width = ref(DRAWER_DEFAULT_SIZE);
-const drawerOpen = ref(true);
-const overlay = ref(false);
+const { leftDrawerShow, leftDrawerHoverShow } = useNavi()
+const width = ref(DRAWER_DEFAULT_SIZE)
+const drawerOpen = ref(true)
+const overlay = ref(false)
 
 watch(() => leftDrawerShow.value, (newValue) => {
-  overlay.value = !newValue;
-  const timeout = newValue ? 0 : 1000;
+  overlay.value = !newValue
+  const timeout = newValue ? 0 : 1000
   setTimeout(() => {
-    drawerOpen.value = newValue;
+    drawerOpen.value = newValue
   }, timeout)
 })
 
 watch(() => leftDrawerHoverShow.value, (newValue) => {
-  drawerOpen.value = newValue;
+  drawerOpen.value = newValue
 })
 
 function onResize(value: number) {
-  width.value = value;
+  width.value = value
 }
 
 onBeforeMount(() => {
-  drawerOpen.value = leftDrawerShow.value;
+  drawerOpen.value = leftDrawerShow.value
 })
 
 </script>

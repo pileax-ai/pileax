@@ -40,13 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
+import type { PropType } from 'vue'
 import { computed } from 'vue'
-import { useTabStore } from 'stores/tab';
-import { menuLabel } from 'core/hooks/useMenu';
-import { ipcService } from 'src/api/ipc';
-import { NoteDefaultIcon } from 'core/constants/constant';
-import type { MenuItem } from 'core/types/menu';
+import { useTabStore } from 'stores/tab'
+import { menuLabel } from 'core/hooks/useMenu'
+import { ipcService } from 'src/api/ipc'
+import { NoteDefaultIcon } from 'core/constants/constant'
+import type { MenuItem } from 'core/types/menu'
 
 const props = defineProps({
   item: {
@@ -57,10 +57,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 const emits = defineEmits(['close'])
 
-const tabStore = useTabStore();
+const tabStore = useTabStore()
 
 const actions = computed(() => {
   return [
@@ -72,71 +72,71 @@ const actions = computed(() => {
     { label: 'Close Other Tabs', value: 'closeOther', icon: 'playlist_remove' },
     { label: 'Close Tabs to the Left', value: 'closeToLeft', icon: 'keyboard_tab', iconClass: 'rotate-180' },
     { label: 'Close Tabs to the Right', value: 'closeToRight', icon: 'keyboard_tab' },
-  ];
-});
+  ]
+})
 
 function itemAction(action: Indexable, item: MenuItem) {
-  action.clickable = true;
-  action.closable = true;
-  let disabled = false;
+  action.clickable = true
+  action.closable = true
+  let disabled = false
   switch (action.value) {
     case 'pin':
-      action.label = item.pinned ? 'Unpin Tab' : 'Pin Tab';
-      action.icon = item.pinned ? 'mdi-pin-off-outline' : 'mdi-pin-outline';
-      break;
+      action.label = item.pinned ? 'Unpin Tab' : 'Pin Tab'
+      action.icon = item.pinned ? 'mdi-pin-off-outline' : 'mdi-pin-outline'
+      break
     case 'closeOther':
-      disabled = !tabStore.canCloseOther(item.id);
-      break;
+      disabled = !tabStore.canCloseOther(item.id)
+      break
     case 'closeToRight':
-      disabled = !tabStore.canCloseRight(item.id);
-      break;
+      disabled = !tabStore.canCloseRight(item.id)
+      break
     case 'closeToLeft':
-      disabled = !tabStore.canCloseLeft(item.id);
-      break;
+      disabled = !tabStore.canCloseLeft(item.id)
+      break
   }
   if (disabled) {
-    action.clickable = false;
-    action.closable = false;
-    action.disabled = 'disabled';
+    action.clickable = false
+    action.closable = false
+    action.disabled = 'disabled'
   }
-  return action;
+  return action
 }
 
 function onClose(item: MenuItem) {
-  tabStore.closeTab(item.id);
+  tabStore.closeTab(item.id)
   emits('close')
 }
 
 function onNewWindow(item: MenuItem) {
-  ipcService.openNewWindow(item.id, item.path);
+  ipcService.openNewWindow(item.id, item.path)
 }
 
 function onAction (action: Indexable, item: MenuItem) {
   switch (action.value) {
     case 'close':
-      tabStore.closeTab(item.id);
-      break;
+      tabStore.closeTab(item.id)
+      break
     case 'closeOther':
-      tabStore.closeOtherTabs(item.id);
-      break;
+      tabStore.closeOtherTabs(item.id)
+      break
     case 'closeToLeft':
-      tabStore.closeLeftTabs(item.id);
-      break;
+      tabStore.closeLeftTabs(item.id)
+      break
     case 'closeToRight':
-      tabStore.closeRightTabs(item.id);
-      break;
+      tabStore.closeRightTabs(item.id)
+      break
     case 'duplicate':
-      tabStore.duplicateTab(item.id);
-      break;
+      tabStore.duplicateTab(item.id)
+      break
     case 'newWindow':
-      onNewWindow(item);
-      break;
+      onNewWindow(item)
+      break
     case 'pin':
-      tabStore.togglePinTab(item.id);
-      break;
+      tabStore.togglePinTab(item.id)
+      break
     case 'refresh':
-      ipcService.reload();
-      break;
+      ipcService.reload()
+      break
   }
 }
 </script>

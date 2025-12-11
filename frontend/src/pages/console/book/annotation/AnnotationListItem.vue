@@ -37,36 +37,36 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
-import { timeMulti } from 'core/utils/format';
-import useApi from 'src/hooks/useApi';
+import {computed, onMounted, ref, watch} from 'vue'
+import { timeMulti } from 'core/utils/format'
+import useApi from 'src/hooks/useApi'
 
 const props = defineProps({
   data: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   },
-});
-const emit = defineEmits(['details']);
+})
+const emit = defineEmits(['details'])
 
-const { getCoverUrl } = useApi();
-const coverUrl = ref('');
+const { getCoverUrl } = useApi()
+const coverUrl = ref('')
 const coverPath = computed(() => {
-  return `${props.data.path}/${props.data.coverName}`;
+  return `${props.data.path}/${props.data.coverName}`
 })
 
 function getCover() {
-  coverUrl.value = getCoverUrl(props.data);
+  coverUrl.value = getCoverUrl(props.data)
 }
 
 watch(() => coverPath.value, (newValue) => {
-  getCover();
+  getCover()
 })
 
 onMounted(() => {
-  getCover();
+  getCover()
 })
 
 </script>

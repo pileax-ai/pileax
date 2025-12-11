@@ -57,43 +57,43 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, reactive, ref } from 'vue';
-import { getItemObject, saveItemObject } from 'core/utils/storage';
-import { notifyError } from 'core/utils/control';
-import { useAccountStore } from 'stores/account';
+import { onBeforeMount, reactive, ref } from 'vue'
+import { getItemObject, saveItemObject } from 'core/utils/storage'
+import { notifyError } from 'core/utils/control'
+import { useAccountStore } from 'stores/account'
 import { getErrorMessage } from 'src/utils/request'
 
-const emit = defineEmits(['success']);
-const type = ref<'text' | 'password'>('password');
-const remember = ref(false);
+const emit = defineEmits(['success'])
+const type = ref<'text' | 'password'>('password')
+const remember = ref(false)
 const form = reactive({
   username: '',
   password: ''
-});
+})
 
-const accountStore = useAccountStore();
+const accountStore = useAccountStore()
 
 async function onSubmit () {
   try {
-    const account = await accountStore.login(form);
-    emit('success');
+    const account = await accountStore.login(form)
+    emit('success')
 
     if (remember.value) {
       saveItemObject('login-remember', {
         remember: true,
         username: form.username
-      });
+      })
     }
   } catch (err) {
-    const message = getErrorMessage(err);
-    notifyError(message);
+    const message = getErrorMessage(err)
+    notifyError(message)
   }
 }
 
 onBeforeMount(() => {
-  const rememberMe = getItemObject('login-remember');
-  remember.value = rememberMe.remember || false;
-  form.username = rememberMe.username || '';
+  const rememberMe = getItemObject('login-remember')
+  remember.value = rememberMe.remember || false
+  form.username = rememberMe.username || ''
 })
 </script>
 

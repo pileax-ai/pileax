@@ -21,8 +21,8 @@ defineProps({
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['close']);
+})
+const emit = defineEmits(['close'])
 </script>
 
 <style lang="scss">

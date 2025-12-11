@@ -3,10 +3,10 @@
  *
  * @version 1.0
  */
-import { GET, POST, DELETE } from 'src/hooks/useRequest';
+import { GET, POST, DELETE } from 'src/hooks/useRequest'
 
 export class RemoteAuthService {
-  private apiName = 'auth';
+  private apiName = 'auth'
 
   async signup(body: Indexable): Promise<any> {
     return POST({
@@ -14,13 +14,13 @@ export class RemoteAuthService {
       path: '/signup',
       body,
       withCredentials: true
-    });
+    })
   }
 
   async signin(params: Indexable): Promise<any> {
-    const formData = new FormData();
-    formData.append('username', params.username);
-    formData.append('password', params.password);
+    const formData = new FormData()
+    formData.append('username', params.username)
+    formData.append('password', params.password)
 
     return POST({
       name: this.apiName,
@@ -30,7 +30,7 @@ export class RemoteAuthService {
         'Content-Type': 'multipart/form-data',
       },
       withCredentials: true
-    });
+    })
   }
 
   refreshToken(): Promise<any> {
@@ -38,9 +38,9 @@ export class RemoteAuthService {
       name: this.apiName,
       path: '/refresh-token',
       withCredentials: true
-    });
+    })
   }
 
 }
 
-export const authService = new RemoteAuthService();
+export const authService = new RemoteAuthService()

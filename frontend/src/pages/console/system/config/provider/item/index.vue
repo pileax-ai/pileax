@@ -60,13 +60,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { onMounted, ref } from 'vue'
 
-import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
-import OViewItem from 'core/components/list/OViewItem.vue';
-import Ollama from './ollama.vue';
-import { configService } from 'src/api/service/remote/config';
+import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
+import OViewItem from 'core/components/list/OViewItem.vue'
+import Ollama from './ollama.vue'
+import { configService } from 'src/api/service/remote/config'
 import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
 import { ConnectionStatus, getArrayItem } from 'src/app/metadata'
@@ -81,22 +81,22 @@ const props = defineProps({
     type: Object as PropType<Indexable>,
     default: () => {}
   }
-});
-const emit = defineEmits(['success']);
+})
+const emit = defineEmits(['success'])
 
-const config = ref<Indexable[]>([]);
-const extendConfig = ref<Indexable[]>([]);
-const configData = ref<Indexable[]>([]);
-const models = ref<Indexable[]>([]);
-const showPwd = ref(false);
-const loading = ref(false);
-const testable = ref(false);
-const testing = ref(false);
-const connectionStatus = ref(0);
+const config = ref<Indexable[]>([])
+const extendConfig = ref<Indexable[]>([])
+const configData = ref<Indexable[]>([])
+const models = ref<Indexable[]>([])
+const showPwd = ref(false)
+const loading = ref(false)
+const testable = ref(false)
+const testing = ref(false)
+const connectionStatus = ref(0)
 
 function load () {
-  config.value = props.data.config || [];
-  getConfig();
+  config.value = props.data.config || []
+  getConfig()
 }
 
 function getConfig() {
@@ -107,20 +107,20 @@ function getConfig() {
     }
   }
   configService.query(query).then((res: Indexable[]) => {
-    if (res.length === 0) return;
-    testable.value = true;
-    configData.value = res;
+    if (res.length === 0) return
+    testable.value = true
+    configData.value = res
     for (const item of config.value) {
-      const foundConfig = res.find(e => e.key === item.key);
+      const foundConfig = res.find(e => e.key === item.key)
       if (foundConfig) {
-        item.value = foundConfig.value;
+        item.value = foundConfig.value
       }
     }
   })
 }
 
 function onSubmit () {
-  loading.value = true;
+  loading.value = true
   const data = [
     ...config.value,
     ...extendConfig.value
@@ -129,35 +129,35 @@ function onSubmit () {
       ...item,
       owner: props.data.name,
       scope: 'system'
-    } as Indexable;
-    delete newItem.values;
-    return newItem;
+    } as Indexable
+    delete newItem.values
+    return newItem
   })
   configService.saveAll(data).then(res => {
-    emit('success');
-    testable.value = true;
-    loading.value = false;
+    emit('success')
+    testable.value = true
+    loading.value = false
   }).catch(err => {
-    loading.value = false;
+    loading.value = false
   })
 }
 
 function getModels() {
-  const query = { provider: props.data.name };
-  testing.value = true;
+  const query = { provider: props.data.name }
+  testing.value = true
   GET({ name: 'aiProvider', path: '/models', query: query }).then(res => {
-    models.value = res as Indexable[];
-    connectionStatus.value = 1;
-    testing.value = false;
+    models.value = res as Indexable[]
+    connectionStatus.value = 1
+    testing.value = false
   }).catch(err => {
-    connectionStatus.value = -1;
-    testing.value = false;
+    connectionStatus.value = -1
+    testing.value = false
     notifyWarning('当前大模型无法连通，请检查配置！')
   })
 }
 
 onMounted(() => {
-  load();
+  load()
 })
 </script>
 

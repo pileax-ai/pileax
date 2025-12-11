@@ -38,9 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
-import { onMounted, ref, watch } from 'vue';
-import { configService } from 'src/api/service/remote/config';
+import type { PropType} from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { configService } from 'src/api/service/remote/config'
 import { notifyDone } from 'core/utils/control'
 
 const props = defineProps({
@@ -48,17 +48,17 @@ const props = defineProps({
     type: Object as PropType<Indexable>,
     default: () => {}
   },
-});
-const emit = defineEmits(['select']);
+})
+const emit = defineEmits(['select'])
 
-const loading = ref(false);
-const showPwd = ref(false);
-const config = ref<Indexable[]>([]);
+const loading = ref(false)
+const showPwd = ref(false)
+const config = ref<Indexable[]>([])
 
 function initConfig() {
-  config.value = props.provider.config || [];
-  console.log('config', config.value);
-  getConfig();
+  config.value = props.provider.config || []
+  console.log('config', config.value)
+  getConfig()
 }
 
 function getConfig() {
@@ -70,39 +70,39 @@ function getConfig() {
   }
   configService.query(query).then((res: Indexable[]) => {
     for (const item of config.value) {
-      const foundConfig = res.find(e => e.key === item.key);
+      const foundConfig = res.find(e => e.key === item.key)
       if (foundConfig) {
-        item.value = foundConfig.value;
+        item.value = foundConfig.value
       }
     }
   })
 }
 
 function onSave() {
-  loading.value = true;
+  loading.value = true
   const data = config.value.map((item: Indexable) => {
     const newItem = {
       ...item,
       owner: props.provider.name,
       scope: 'system'
-    } as Indexable;
-    delete newItem.values;
-    return newItem;
+    } as Indexable
+    delete newItem.values
+    return newItem
   })
   configService.saveAll(data).then(res => {
-    notifyDone();
-    loading.value = false;
+    notifyDone()
+    loading.value = false
   }).catch(err => {
-    loading.value = false;
+    loading.value = false
   })
 }
 
 watch(() => props.provider, (newValue) => {
-  initConfig();
+  initConfig()
 })
 
 onMounted(() => {
-  initConfig();
+  initConfig()
 })
 </script>
 

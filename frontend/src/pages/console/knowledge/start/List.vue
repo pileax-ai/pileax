@@ -60,18 +60,18 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onActivated} from 'vue';
+import {computed, ref, onActivated} from 'vue'
 
-import useCommon from 'core/hooks/useCommon';
-import useQuery from 'src/hooks/useQuery';
+import useCommon from 'core/hooks/useCommon'
+import useQuery from 'src/hooks/useQuery'
 
-import Item from './Item.vue';
-import ItemCard from './ItemCard.vue';
-import useKnowledge from 'src/hooks/useKnowledge';
+import Item from './Item.vue'
+import ItemCard from './ItemCard.vue'
+import useKnowledge from 'src/hooks/useKnowledge'
 import { formatFileSize } from 'core/utils/format'
 
-const { knowledgeStore } = useKnowledge();
-const { confirm } = useCommon();
+const { knowledgeStore } = useKnowledge()
+const { confirm } = useCommon()
 const {
   id,
   condition,
@@ -81,10 +81,10 @@ const {
   tableView,
   view,
   initQuery,
-} = useQuery();
+} = useQuery()
 
-const apiName = 'knowledge';
-const data = ref<Indexable>({});
+const apiName = 'knowledge'
+const data = ref<Indexable>({})
 const columns = computed(() => {
   return [
     { field: 'path', label: '预览', align: 'left', name: 'path' },
@@ -95,31 +95,31 @@ const columns = computed(() => {
     { field: 'status', label: '状态', align: 'left', name: 'status' },
     { field: 'updateTime', label: '时间', align: 'left', name: 'updateTime', sortable: true },
     { field: 'actions', label: '操作', name: 'actions', align: 'right' }
-  ];
-});
+  ]
+})
 
 function init() {
-  tableView.value = 'grid';
+  tableView.value = 'grid'
   initQuery({
     api: apiName,
     path: '/query',
     columnList: columns.value as Indexable[],
     title: '知识库'
-  });
+  })
 }
 
 function onEdit(value: Indexable) {
-  data.value = value;
-  query.value.onDetails(value.id);
+  data.value = value
+  query.value.onDetails(value.id)
 }
 
 function onClose() {
-  knowledgeStore.setQueryTimer(Date.now());
-  query.value.closeSide();
+  knowledgeStore.setQueryTimer(Date.now())
+  query.value.closeSide()
 }
 
 onActivated(() => {
-  init();
+  init()
 })
 </script>
 

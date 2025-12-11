@@ -30,10 +30,10 @@
 import { computed, onMounted, ref } from 'vue'
 import { workspaceBookService } from 'src/api/service/remote'
 import { bookExtensions } from 'src/api/service/ebook/book'
-const emit = defineEmits(['filter']);
+const emit = defineEmits(['filter'])
 
-const bookType = ref('');
-const readingStatus = ref('');
+const bookType = ref('')
+const readingStatus = ref('')
 
 const actions = computed(() => {
   return [
@@ -96,7 +96,7 @@ const actions = computed(() => {
       filterValue: 3,
     },
   ] as Indexable[]
-});
+})
 
 function isActive(action: Indexable) {
   return (action.filter === 'extension' && action.value === bookType.value)
@@ -107,14 +107,14 @@ function onAction (action: Indexable) {
   switch (action.filter) {
     case 'extension':
       bookType.value = action.value
-      break;
+      break
     case 'reading_status':
       readingStatus.value = action.value
-      break;
+      break
     default:
-      break;
+      break
   }
-  emit('filter', action);
+  emit('filter', action)
 }
 
 

@@ -1,27 +1,27 @@
-import { computed, ref } from 'vue';
-import type { ChatConversation } from 'src/types/chat';
+import { computed, ref } from 'vue'
+import type { ChatConversation } from 'src/types/chat'
 import { ChatInput } from 'src/types/chat'
-import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import type { MenuItem } from 'core/types/menu';
-import { useAccountStore } from 'stores/account';
-import { useChatStore } from 'stores/chat';
-import { useNaviStore } from 'stores/navi';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation'
+import type { MenuItem } from 'core/types/menu'
+import { useAccountStore } from 'stores/account'
+import { useChatStore } from 'stores/chat'
+import { useNaviStore } from 'stores/navi'
 import { useNoteStore } from 'stores/note'
 
 export default function () {
   const appId = ref('')
   const conversationId = ref('')
-  const conversation = ref<ChatConversation>();
-  const naviStore = useNaviStore();
-  const accountStore = useAccountStore();
+  const conversation = ref<ChatConversation>()
+  const naviStore = useNaviStore()
+  const accountStore = useAccountStore()
 
   const chatStore = computed(() => {
-    const currentWorkspaceId = accountStore.workspaceId;
-    return useChatStore(currentWorkspaceId);
+    const currentWorkspaceId = accountStore.workspaceId
+    return useChatStore(currentWorkspaceId)
   })
 
   const conversationTimer = computed(() => {
-    return chatStore.value.conversationTimer;
+    return chatStore.value.conversationTimer
   })
 
   function setCurrentSession(s: ChatConversation) {
@@ -36,13 +36,13 @@ export default function () {
         icon: '🍃',
         iconClass: 'emoji'
       }
-    } as MenuItem;
-    naviStore.setCurrentMenu(menuItem);
+    } as MenuItem
+    naviStore.setCurrentMenu(menuItem)
   }
   async function getConversation() {
     chatConversationService.get(conversationId.value).then(res => {
-      conversation.value = res;
-      setCurrentSession(res);
+      conversation.value = res
+      setCurrentSession(res)
     })
   }
 
@@ -53,5 +53,5 @@ export default function () {
     conversationId,
     conversationTimer,
     getConversation,
-  };
+  }
 }

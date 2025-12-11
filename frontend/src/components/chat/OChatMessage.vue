@@ -134,13 +134,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { onMounted, ref, inject } from 'vue'
-import OChatMessageView from 'components/chat/OChatMessageView.vue';
-import { chatService } from 'src/api/service/remote/chat';
-import useAccount from 'src/hooks/useAccount';
-import useDialog from 'core/hooks/useDialog';
-import useNote from 'src/hooks/useNote';
+import OChatMessageView from 'components/chat/OChatMessageView.vue'
+import { chatService } from 'src/api/service/remote/chat'
+import useAccount from 'src/hooks/useAccount'
+import useDialog from 'core/hooks/useDialog'
+import useNote from 'src/hooks/useNote'
 import type { Chat } from 'src/types/chat'
 
 const props = defineProps({
@@ -173,21 +173,21 @@ const props = defineProps({
     default: ''
   },
 })
-const emit = defineEmits(['favorite', 'send']);
-const insertContent = inject<(value: string) => void>('insertContent', '');
+const emit = defineEmits(['favorite', 'send'])
+const insertContent = inject<(value: string) => void>('insertContent', '')
 
-const { account } = useAccount();
-const { openDialog } = useDialog();
-const { noteStore } = useNote();
-const editable = ref(false);
-const userMessage = ref('');
+const { account } = useAccount()
+const { openDialog } = useDialog()
+const { noteStore } = useNote()
+const editable = ref(false)
+const userMessage = ref('')
 
 function onEdit() {
-  editable.value = true;
+  editable.value = true
 }
 
 function onSend() {
-  editable.value = false;
+  editable.value = false
   emit('send', {
     message: userMessage,
     reasoning: props.chat.reasoning
@@ -199,12 +199,12 @@ function onFavorite(value: number) {
     id: props.chat.id,
     favorite: value
   }).then(res => {
-    emit('favorite', res);
+    emit('favorite', res)
   })
 }
 
 function onNote() {
-  noteStore.value.setChatToNote(props.chat as Chat);
+  noteStore.value.setChatToNote(props.chat as Chat)
   openDialog({
     type: 'chat-note-select',
     data: props.chat
@@ -219,7 +219,7 @@ function onInsert() {
 
 
 onMounted(() => {
-  userMessage.value = props.chat.message;
+  userMessage.value = props.chat.message
 })
 </script>
 

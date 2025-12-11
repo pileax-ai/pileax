@@ -1,11 +1,11 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router'
 import {
   FullPageLayout,
   PageLayout,
   ConsoleLayout,
   ReaderLayout,
   IframePage
-} from './utils';
+} from './utils'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -186,7 +186,7 @@ const routes: RouteRecordRaw[] = [
       },
     ]
   },
-];
+]
 
 export const commonRoutes: RouteRecordRaw[] = [
   { // Always leave this as last one
@@ -202,5 +202,5 @@ export const commonRoutes: RouteRecordRaw[] = [
   }
 ]
 
-const allRoutes = routes.concat(commonRoutes);
-export default allRoutes;
+const allRoutes = routes.concat(commonRoutes)
+export default allRoutes

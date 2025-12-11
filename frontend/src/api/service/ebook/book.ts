@@ -3,20 +3,20 @@
  *
  * @version 1.0
  */
-import { notifyWarning } from 'core/utils/control';
-import useDialog from 'core/hooks/useDialog';
-import useApi from 'src/hooks/useApi';
-import useReader from 'src/hooks/useReader';
-import useBook from 'src/hooks/useBook';
-import { ebookRender } from 'src/api/service/ebook';
-import { bookService, userBookService, workspaceBookService } from 'src/api/service/remote';
-import { BookOperation, ReadingMode } from 'src/types/reading';
-import { base64ToFile, getFileSHA1 } from 'src/utils/book';
+import { notifyWarning } from 'core/utils/control'
+import useDialog from 'core/hooks/useDialog'
+import useApi from 'src/hooks/useApi'
+import useReader from 'src/hooks/useReader'
+import useBook from 'src/hooks/useBook'
+import { ebookRender } from 'src/api/service/ebook'
+import { bookService, userBookService, workspaceBookService } from 'src/api/service/remote'
+import { BookOperation, ReadingMode } from 'src/types/reading'
+import { base64ToFile, getFileSHA1 } from 'src/utils/book'
 import { getErrorMessage } from 'src/utils/request'
 
-const { getBookByPath } = useApi();
-const { openDialog } = useDialog();
-const { setQueryTimer, style } = useReader();
+const { getBookByPath } = useApi()
+const { openDialog } = useDialog()
+const { setQueryTimer, style } = useReader()
 const {
   store,
   workspaceBookId,
@@ -28,7 +28,7 @@ const {
   setOperation,
   setSearch,
   readingMode,
-} = useBook();
+} = useBook()
 
 export const uploadBookWaiters = new Map()
 export const bookMimeTypes = {
@@ -58,108 +58,108 @@ export const postMessage = (name :string, data :any) => {
       setSelection({
         ...data,
         text: data.annotation.note,
-      });
-      break;
+      })
+      break
     case 'onClickView':
-      setSelection({});
-      break;
+      setSelection({})
+      break
     case 'onKeydown':
-      onKeydown(data);
-      break;
+      onKeydown(data)
+      break
     case 'onImageClick':
       openDialog({
         type: 'image-viewer',
         message: data
-      });
-      break;
+      })
+      break
     case 'onMetadata':
-      onMetadata(data);
-      break;
+      onMetadata(data)
+      break
     case 'onOpenFailed':
-      onOpenFailed(data);
-      break;
+      onOpenFailed(data)
+      break
     case 'onRelocated':
-      onRelocated(data);
-      break;
+      onRelocated(data)
+      break
     case 'onSetToc':
-      setToc(data);
-      break;
+      setToc(data)
+      break
     case 'onSelectionEnd':
-      setSelection(data);
-      break;
+      setSelection(data)
+      break
     case 'onSearch':
-      setSearch(data);
-      break;
+      setSearch(data)
+      break
     default:
-      break;
+      break
   }
 }
 
 const onKeydown = (data: Indexable) => {
-  const keys = ['ArrowLeft', 'ArrowRight', 'h', 'l'];
+  const keys = ['ArrowLeft', 'ArrowRight', 'h', 'l']
   if (keys.indexOf(data.key) >= 0) {
-    setManual();
+    setManual()
   }
 }
 
 const onRelocated = (data: Indexable) => {
   if (operation.value === BookOperation.Manual) {
-    setProgress(data);
+    setProgress(data)
 
     // Only save reading progress in Read mode.
     if (readingMode.value === ReadingMode.Read) {
-      saveBookProgress(data);
+      saveBookProgress(data)
     }
   } else if (operation.value === BookOperation.Load) {
-    setProgress(data);
+    setProgress(data)
   }
-  store.setTempProgress(data);
+  store.setTempProgress(data)
 
   // Todo: 可能没保存最终进度
-  setManual(BookOperation.None);
+  setManual(BookOperation.None)
 }
 
 // ---------------------------------------------------------
 // To Ebook Render
 // ---------------------------------------------------------
 const changeStyle = (newStyle: Indexable) => {
-  ebookRender.changeStyle(newStyle);
+  ebookRender.changeStyle(newStyle)
 }
 
 const search = (text: string, opts: Indexable) => {
-  store.startSearch(text);
-  ebookRender.search(text, opts);
+  store.startSearch(text)
+  ebookRender.search(text, opts)
 }
 
 const clearSearch = () => {
-  store.clearSearch();
-  ebookRender.clearSearch();
+  store.clearSearch()
+  ebookRender.clearSearch()
 }
 
 const goToHref = (href: string, manual = false) => {
   if (manual) {
-    setManual();
+    setManual()
   }
-  ebookRender.goToHref(href);
+  ebookRender.goToHref(href)
 }
 
 const goToPercent = (percent: number) => {
-  ebookRender.goToPercent(percent);
+  ebookRender.goToPercent(percent)
 }
 
 const prevPage = () => {
-  setManual();
-  ebookRender.prevPage();
+  setManual()
+  ebookRender.prevPage()
 }
 
 const nextPage = () => {
-  setManual();
-  ebookRender.nextPage();
+  setManual()
+  ebookRender.nextPage()
 }
 
 const setManual = (operation = BookOperation.Manual) => {
   // console.log('operation', operation)
-  setOperation(operation);
+  setOperation(operation)
 }
 
 
@@ -171,29 +171,29 @@ const setManual = (operation = BookOperation.Manual) => {
  * @param cfi
  */
 const openBook = async (bookElement: any, filePath: string, cfi = '') => {
-  const bookUrl = getBookByPath(filePath);
+  const bookUrl = getBookByPath(filePath)
   return new Promise((resolve, reject) => {
     fetch(bookUrl)
       .then((res: any) => res.blob())
       .then((blob) => {
 
-      const file = new File([blob], new URL(bookUrl, window.location.origin).pathname);
+      const file = new File([blob], new URL(bookUrl, window.location.origin).pathname)
       const data = {
         saving: 'local',
         file: file,
         filePath: filePath
-      };
+      }
 
       console.log('openBook', cfi)
       ebookRender.open(bookElement, data,
-        { cfi, userStyle: style.value });
-      setManual(BookOperation.Load);
-      resolve(data);
+        { cfi, userStyle: style.value })
+      setManual(BookOperation.Load)
+      resolve(data)
     }).catch((err: any) => {
-      console.error('打开文件失败：', err);
-      reject(err);
+      console.error('打开文件失败：', err)
+      reject(err)
     })
-  });
+  })
 }
 
 const uploadBook = async (file: File) => {
@@ -205,71 +205,71 @@ const uploadBook = async (file: File) => {
       sha1: sha1,
       filePath: ''
     }
-    ebookRender.open(document.body, data, { importing: true});
+    ebookRender.open(document.body, data, { importing: true})
 
     // Register waiter, resolve/reject in onMetadata/onOpenFailed
-    uploadBookWaiters.set(sha1, { resolve, reject });
+    uploadBookWaiters.set(sha1, { resolve, reject })
   })
 
 }
 
 const onMetadata = async (metadata: any) => {
-  const sha1 = metadata.sha1;
+  const sha1 = metadata.sha1
   const waiter = uploadBookWaiters.get(sha1)
   try {
-    const book = await savingBookRemote(metadata);
+    const book = await savingBookRemote(metadata)
     if (waiter) {
-      waiter.resolve(book);
-      uploadBookWaiters.delete(sha1);
+      waiter.resolve(book)
+      uploadBookWaiters.delete(sha1)
     }
   } catch (err) {
     if (waiter) {
-      waiter.reject();
-      uploadBookWaiters.delete(sha1);
+      waiter.reject()
+      uploadBookWaiters.delete(sha1)
     }
   }
 }
 
 const onOpenFailed = (metadata: Indexable) => {
-  const sha1 = metadata.sha1;
+  const sha1 = metadata.sha1
   const waiter = uploadBookWaiters.get(sha1)
   if (waiter) {
-    waiter.reject(metadata.err);
-    uploadBookWaiters.delete(sha1);
+    waiter.reject(metadata.err)
+    uploadBookWaiters.delete(sha1)
   }
 }
 
 const savingBookRemote = async (metadata: any) => {
   try {
     // Book uploaded, add to shelf
-    const remoteBook = await bookService.getByUuid(metadata.sha1);
+    const remoteBook = await bookService.getByUuid(metadata.sha1)
     try {
       await workspaceBookService.save({bookId: remoteBook.id})
     } catch (err) {
-      const message = getErrorMessage(err);
+      const message = getErrorMessage(err)
       if (message?.indexOf('UNIQUE') >= 0) {
-        notifyWarning('书已存在');
+        notifyWarning('书已存在')
       }
     }
     return remoteBook
   } catch (err) {
     // New upload
-    const coverFile = base64ToFile(metadata.cover, 'cover');
+    const coverFile = base64ToFile(metadata.cover, 'cover')
     const book = buildBook(metadata, {
       path: metadata.sha1,
       fileName: metadata.file.name,
-    });
+    })
     try {
-      return await bookService.upload(metadata.file, coverFile, book);
+      return await bookService.upload(metadata.file, coverFile, book)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
   }
 }
 
 const saveBookProgress = (progress: any) => {
-  console.log('saveBookProgress', progress);
-  if (!progress.cfi || !progress.percentage) return;
+  console.log('saveBookProgress', progress)
+  if (!progress.cfi || !progress.percentage) return
   const params = {
     book_id: bookId.value,
     readingPosition: progress.cfi,
@@ -279,49 +279,49 @@ const saveBookProgress = (progress: any) => {
 }
 
 const parseAuthor = (data: any) => {
-  if (!data) return 'Author';
-  console.log('parseAuthor', data);
-  let author = data;
+  if (!data) return 'Author'
+  console.log('parseAuthor', data)
+  let author = data
   if (Array.isArray(data)) {
-    console.log('parseAuthor array', data);
+    console.log('parseAuthor array', data)
     const arr = data.map(item => {
-      return (typeof item === 'object') ? item['name'] : item;
-    });
-    author = arr.join(',');
+      return (typeof item === 'object') ? item['name'] : item
+    })
+    author = arr.join(',')
   } else if (typeof data === 'object') {
-    console.log('parseAuthor object', data);
-    author = data['name'] ?? 'unknown';
+    console.log('parseAuthor object', data)
+    author = data['name'] ?? 'unknown'
   }
 
-  return author;
+  return author
 }
 
 const parseBookField = (data: any) => {
-  if (!data) return '';
-  console.log('parseBookField', data);
-  let value = data;
+  if (!data) return ''
+  console.log('parseBookField', data)
+  let value = data
   if (Array.isArray(data)) {
-    console.log('parse array', data);
+    console.log('parse array', data)
     const arr = data.map(item => {
-      return (typeof item === 'object') ? item['name'] : item;
-    });
-    value = arr.join(',');
+      return (typeof item === 'object') ? item['name'] : item
+    })
+    value = arr.join(',')
   } else if (typeof data === 'object') {
-    console.log('parse object', data);
-    value = data['name'] ?? 'unknown';
+    console.log('parse object', data)
+    value = data['name'] ?? 'unknown'
   }
 
-  return value;
+  return value
 }
 
 const parseLanguage = (data: any) => {
-  if (!data) return '';
-  let author = data;
+  if (!data) return ''
+  let author = data
   if (Array.isArray(data)) {
-    author = data.join(',');
+    author = data.join(',')
   }
 
-  return author;
+  return author
 }
 
 const parseBookExtension = (file: File) => {
@@ -332,7 +332,7 @@ const parseBookExtension = (file: File) => {
 
   // 2. Fallback: use file name
   const fileName = file.name
-  return fileName.includes('.') ? fileName.split('.').pop() : '';
+  return fileName.includes('.') ? fileName.split('.').pop() : ''
 }
 
 const buildBook = (metadata: any, fileInfo: any) => {
@@ -346,7 +346,7 @@ const buildBook = (metadata: any, fileInfo: any) => {
     publisher: parseBookField(metadata.publisher),
     published: metadata.published ?? '',
     description: metadata.description ?? '',
-  };
+  }
 }
 
 export {

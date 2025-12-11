@@ -1,4 +1,4 @@
-import type { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu'
 
 /**
  * App default menus
@@ -142,4 +142,4 @@ export const defaultConsoleMenus: MenuItem[] = [
       },
     ]
   },
-];
+]

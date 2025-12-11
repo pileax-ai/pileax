@@ -49,11 +49,11 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, onMounted, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import { providerModelService, pdmService } from 'src/api/service/remote';
+import { providerModelService, pdmService } from 'src/api/service/remote'
 import { notifyDone } from 'core/utils/control'
 import useAi from 'src/hooks/useAi'
 
@@ -73,7 +73,7 @@ const props = defineProps({
   models: {
     type: Array as PropType<Indexable[]>,
     default: () => {
-      return [];
+      return []
     }
   },
   single: {
@@ -95,7 +95,7 @@ const props = defineProps({
   offset: {
     type: Array as PropType<number[]>,
     default: () => {
-      return [0, 4];
+      return [0, 4]
     }
   },
   enableHover: {
@@ -106,8 +106,8 @@ const props = defineProps({
     type: Boolean,
     required: false
   },
-});
-const emit = defineEmits(['selected']);
+})
+const emit = defineEmits(['selected'])
 
 const {
   localModels,
@@ -115,7 +115,7 @@ const {
   updateLocalDefaultModels,
   getLocalModel,
   setLocalModel
-} = useAi();
+} = useAi()
 const singleModels = ref<Indexable[]>([])
 
 const typeModels = computed(() => {

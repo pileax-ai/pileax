@@ -55,10 +55,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { timeMulti } from 'core/utils/format';
-import useApi from 'src/hooks/useApi';
-import { ipcService } from 'src/api/ipc';
+import { onMounted, ref } from 'vue'
+import { timeMulti } from 'core/utils/format'
+import useApi from 'src/hooks/useApi'
+import { ipcService } from 'src/api/ipc'
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import BookContextMenu from 'pages/console/book/book/BookContextMenu.vue'
 
@@ -66,39 +66,39 @@ const props = defineProps({
   data: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   },
   add: {
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['add', 'close', 'edit']);
+})
+const emit = defineEmits(['add', 'close', 'edit'])
 
-const { getCoverUrl } = useApi();
-const coverUrl = ref('');
+const { getCoverUrl } = useApi()
+const coverUrl = ref('')
 
 function onEdit() {
-  emit('edit', props.data);
+  emit('edit', props.data)
 }
 
 function onClose(args: Indexable) {
-  emit('close', args);
+  emit('close', args)
 }
 
 function openBook() {
-  const item = props.data;
+  const item = props.data
   ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
-    READER_TITLE_BAR_HEIGHT);
+    READER_TITLE_BAR_HEIGHT)
 }
 
 function init() {
-  coverUrl.value = getCoverUrl(props.data);
+  coverUrl.value = getCoverUrl(props.data)
 }
 
 onMounted(() => {
-  init();
+  init()
 })
 
 </script>

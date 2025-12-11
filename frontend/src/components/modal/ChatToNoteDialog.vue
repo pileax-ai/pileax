@@ -112,15 +112,15 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import useDialog from 'core/hooks/useDialog';
-import useNote from 'src/hooks/useNote';
-import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
-import ONoData from 'core/components/misc/ONoData.vue';
-import {timeMulti} from 'core/utils/format';
-import type { Note } from 'src/types/note';
+import useDialog from 'core/hooks/useDialog'
+import useNote from 'src/hooks/useNote'
+import OCommandDialog from 'core/components/dialog/OCommandDialog.vue'
+import ONoData from 'core/components/misc/ONoData.vue'
+import {timeMulti} from 'core/utils/format'
+import type { Note } from 'src/types/note'
 import { NoteDefaultIcon } from 'core/constants/constant'
 
-const { dialog, onHide, onOk } = useDialog();
+const { dialog, onHide, onOk } = useDialog()
 const {
   notes,
   recentNotes,
@@ -128,26 +128,26 @@ const {
   getRecentNotes,
   addNote,
   openNote,
-} = useNote();
+} = useNote()
 
-const chat = ref<Indexable>({});
-const term = ref('');
-const selected = ref('');
-const selectedNote = ref<Note>();
-const results = ref<Note[]>([]);
+const chat = ref<Indexable>({})
+const term = ref('')
+const selected = ref('')
+const selectedNote = ref<Note>()
+const results = ref<Note[]>([])
 
 
-const currentTab = ref('add');
+const currentTab = ref('add')
 const tabs = computed(() => {
   return [
     { label: '创建笔记', value: 'add' },
     { label: '添加内容', value: 'append' },
-  ];
-});
+  ]
+})
 
 const noteTree = computed(() => {
-  return buildNoteTree(notes.value);
-});
+  return buildNoteTree(notes.value)
+})
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -182,36 +182,36 @@ function contentSearchFilter (term: string) {
 }
 
 function searchNote (val: string) {
-  const a = notes.value.filter(titleSearchFilter(val));
-  const b = notes.value.filter(contentSearchFilter(val));
-  const c = a.concat(b);
+  const a = notes.value.filter(titleSearchFilter(val))
+  const b = notes.value.filter(contentSearchFilter(val))
+  const c = a.concat(b)
   return c.filter((item, index) => {
-    return c.indexOf(item) === index;
-  });
+    return c.indexOf(item) === index
+  })
 }
 
 function onSearch (val: string | number | null) {
   results.value = val
     ? searchNote(val as string)
-    : recentNotes.value;
+    : recentNotes.value
 }
 
 
 function onSelected (item?: Note) {
-  selectedNote.value = item;
+  selectedNote.value = item
 }
 
 
 function onSelectNode (key: string) {
-  selectedNote.value = notes.value.find((item) => item.id === key);
+  selectedNote.value = notes.value.find((item) => item.id === key)
 }
 
 function onConfirm() {
   if (selectedNote.value) {
     if (currentTab.value === 'add') {
-      addNote(selectedNote.value?.id, 'chat');
+      addNote(selectedNote.value?.id, 'chat')
     } else {
-      openNote(selectedNote.value, 'chat');
+      openNote(selectedNote.value, 'chat')
     }
   }
 }
@@ -221,8 +221,8 @@ function onShow() {
 }
 
 onMounted( async () => {
-  await getRecentNotes();
-  results.value = recentNotes.value;
+  await getRecentNotes()
+  results.value = recentNotes.value
 })
 </script>
 

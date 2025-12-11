@@ -45,23 +45,23 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, ref } from 'vue'
-import { refresh } from 'core/hooks/useRouter';
-import OAiProviderSelectBtn from 'src/components/ai/OAiProviderSelectBtn.vue';
+import { refresh } from 'core/hooks/useRouter'
+import OAiProviderSelectBtn from 'src/components/ai/OAiProviderSelectBtn.vue'
 
 const props = defineProps({
   conversation: {
     type: Object as PropType<Indexable>,
     default: () => {}
   },
-});
-const emit = defineEmits(['action']);
+})
+const emit = defineEmits(['action'])
 
-const font = ref('default');
-const enableSmallText = ref(false);
-const enableFullWidth = ref(false);
-const enableToc = ref(true);
+const font = ref('default')
+const enableSmallText = ref(false)
+const enableFullWidth = ref(false)
+const enableToc = ref(true)
 
 const actions = computed(() => {
   return [
@@ -71,24 +71,24 @@ const actions = computed(() => {
     { label: 'Open in new tab', value: 'delete', icon: 'open_in_new', sideLabel: '⌘⇧', clickable: true, separator: true },
     { label: 'Open in new window', value: 'delete', icon: 'open_in_browser', clickable: true },
     { label: 'Delete', value: 'delete', icon: 'delete_outline', clickable: true, separator: true },
-  ];
-});
+  ]
+})
 
 function onAction (action: Indexable, value: any) {
   switch (action.value) {
     case 'close':
-      break;
+      break
     case 'closeOther':
-      break;
+      break
     case 'closeToRight':
-      break;
+      break
     case 'reload':
-      refresh();
-      break;
+      refresh()
+      break
     case 'fullWidth':
     case 'toc':
       emit('action', { ...action, actionValue: value })
-      break;
+      break
   }
 }
 

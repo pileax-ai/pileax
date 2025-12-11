@@ -30,8 +30,8 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import SettingTab from 'components/reader/settings/setting-tab.vue';
-const emit = defineEmits(['close']);
+import SettingTab from 'components/reader/settings/setting-tab.vue'
+const emit = defineEmits(['close'])
 
 const fonts = computed(() => {
   return [
@@ -70,8 +70,8 @@ const fonts = computed(() => {
       type: "service",
       url: "https://dict.eudic.net/dicts/en/{word}",
     },
-  ];
-});
+  ]
+})
 </script>
 
 <style lang="scss">

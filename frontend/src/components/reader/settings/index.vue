@@ -50,36 +50,36 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import useReaderSetting from 'src/hooks/useReaderSetting';
-import { changeStyle } from 'src/api/service/ebook/book';
+import useReaderSetting from 'src/hooks/useReaderSetting'
+import { changeStyle } from 'src/api/service/ebook/book'
 
-import GeneralTab from './general/index.vue';
-import KeyBindingsTab from './key-bindings/index.vue';
-import FontTab from './font/index.vue';
-import BackgroundTab from './background/index.vue';
+import GeneralTab from './general/index.vue'
+import KeyBindingsTab from './key-bindings/index.vue'
+import FontTab from './font/index.vue'
+import BackgroundTab from './background/index.vue'
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
-const { settings } = useReaderSetting();
-const currentTab = ref('general');
+const { settings } = useReaderSetting()
+const currentTab = ref('general')
 const tabs = computed(() => {
   return [
     { label: '通用', value: 'general', icon: 'public', component: GeneralTab },
     { label: '快捷键', value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
-  ];
+  ]
 })
-const fontStatus = ref(false);
-const backgroundStatus = ref(false);
+const fontStatus = ref(false)
+const backgroundStatus = ref(false)
 
 function onNext(value: string) {
-  console.log('next', value);
+  console.log('next', value)
   switch (value) {
     case 'background':
-      backgroundStatus.value = true;
-      break;
+      backgroundStatus.value = true
+      break
     case 'font':
-      fontStatus.value = true;
-      break;
+      fontStatus.value = true
+      break
   }
 }
 
@@ -87,7 +87,7 @@ watch(
   () => settings.value,
   (newValue) => {
     // console.log('settings', newValue);
-    changeStyle(newValue);
+    changeStyle(newValue)
   },
   { deep: true }
 )

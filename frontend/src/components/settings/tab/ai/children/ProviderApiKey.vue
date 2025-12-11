@@ -55,20 +55,20 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
-import { onMounted, ref } from 'vue';
-import useVuelidate from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import type { PropType} from 'vue'
+import { onMounted, ref } from 'vue'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
-import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
+import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
 import { ConnectionStatus, getArrayItem } from 'src/app/metadata'
 import { notifyWarning } from 'core/utils/control'
-import useForm from 'src/hooks/useForm';
+import useForm from 'src/hooks/useForm'
 import { getErrorMessage } from 'src/utils/request'
 
-const apiName = 'providerCredential';
+const apiName = 'providerCredential'
 const props = defineProps({
   id: {
     type: String,
@@ -78,36 +78,36 @@ const props = defineProps({
     type: Object as PropType<Indexable>,
     default: () => {}
   }
-});
-const emit = defineEmits(['success']);
-const { form, loading, actions } = useForm();
+})
+const emit = defineEmits(['success'])
+const { form, loading, actions } = useForm()
 
-const isPwd = ref(true);
-const models = ref<Indexable[]>([]);
-const testable = ref(false);
-const testing = ref(false);
-const connectionStatus = ref(0);
+const isPwd = ref(true)
+const models = ref<Indexable[]>([])
+const testable = ref(false)
+const testing = ref(false)
+const connectionStatus = ref(0)
 
 const rules = {
   name: { required },
   apiKey: { required },
-};
-const v$ = useVuelidate(rules, form);
+}
+const v$ = useVuelidate(rules, form)
 
 function load () {
-  actions.initForm(apiName);
+  actions.initForm(apiName)
   if (props.id) {
     GET({name: apiName, query: {id: props.id}}).then((data) => {
-      form.value.name = data.name;
-      form.value.apiKey = data.credential.apiKey;
-      form.value.baseUrl = data.credential.baseUrl;
+      form.value.name = data.name
+      form.value.apiKey = data.credential.apiKey
+      form.value.baseUrl = data.credential.baseUrl
     })
   }
 }
 
 function onSubmit () {
   if (!actions.validate(v$)) {
-    return;
+    return
   }
   const body = {
     id: props.id,
@@ -122,7 +122,7 @@ function onSubmit () {
   actions.submit(
     body,
     (data) => {
-      emit('success');
+      emit('success')
     },
     (err) => {
       if (err.response.status === 403) {
@@ -133,25 +133,25 @@ function onSubmit () {
         console.error(err)
       }
     }
-  );
+  )
 }
 
 function getModels() {
-  const query = { provider: props.data.name };
-  testing.value = true;
+  const query = { provider: props.data.name }
+  testing.value = true
   GET({ name: 'aiProvider', path: '/models', query: query }).then(res => {
-    models.value = res as Indexable[];
-    connectionStatus.value = 1;
-    testing.value = false;
+    models.value = res as Indexable[]
+    connectionStatus.value = 1
+    testing.value = false
   }).catch(err => {
-    connectionStatus.value = -1;
-    testing.value = false;
+    connectionStatus.value = -1
+    testing.value = false
     notifyWarning('当前大模型无法连通，请检查配置！')
   })
 }
 
 onMounted(() => {
-  load();
+  load()
 })
 </script>
 

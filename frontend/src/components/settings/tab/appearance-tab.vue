@@ -36,16 +36,16 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref} from 'vue';
-import useSetting from 'core/hooks/useSetting';
+import {onBeforeMount, ref} from 'vue'
+import useSetting from 'core/hooks/useSetting'
 
-import SettingCard from './setting-card.vue';
-import ThemeSelect from '../common/theme-select.vue';
-import ThemeColorSelect from '../common/theme-color-select.vue';
-import NaviSelect from '../common/navi-select.vue';
-import TabbarPositionToggle from '../common/tabbar-position-toggle.vue';
-import TabbarStyleToggle from '../common/tabbar-style-toggle.vue';
-import BreadcrumbStyleToggle from '../common/breadcrumb-style-toggle.vue';
+import SettingCard from './setting-card.vue'
+import ThemeSelect from '../common/theme-select.vue'
+import ThemeColorSelect from '../common/theme-color-select.vue'
+import NaviSelect from '../common/navi-select.vue'
+import TabbarPositionToggle from '../common/tabbar-position-toggle.vue'
+import TabbarStyleToggle from '../common/tabbar-style-toggle.vue'
+import BreadcrumbStyleToggle from '../common/breadcrumb-style-toggle.vue'
 
 const {
   setting,
@@ -58,18 +58,18 @@ const {
   setThemeWeak,
   setTabBar,
   setBreadcrumb,
-} = useSetting();
+} = useSetting()
 
-const themeGray = ref(false);
-const themeWeak = ref(false);
-const tabBarSetting = ref({});
-const breadcrumbSetting = ref({});
+const themeGray = ref(false)
+const themeWeak = ref(false)
+const tabBarSetting = ref({})
+const breadcrumbSetting = ref({})
 
 onBeforeMount(() => {
-  themeGray.value = theme.value.gray;
-  themeWeak.value = theme.value.weak;
-  tabBarSetting.value = tabBar.value;
-  breadcrumbSetting.value = breadcrumb.value;
+  themeGray.value = theme.value.gray
+  themeWeak.value = theme.value.weak
+  tabBarSetting.value = tabBar.value
+  breadcrumbSetting.value = breadcrumb.value
 })
 </script>
 

@@ -18,25 +18,25 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
+import type { PropType } from 'vue'
 
-import useBook from 'src/hooks/useBook';
-import type { BookTocItem } from 'src/types/reading';
+import useBook from 'src/hooks/useBook'
+import type { BookTocItem } from 'src/types/reading'
 
 const props = defineProps({
   item: {
     type: Object as PropType<BookTocItem>,
     default: () => {
-      return {};
+      return {}
     }
   },
-});
+})
 
-const { store, setTocItem } = useBook();
+const { store, setTocItem } = useBook()
 
 function onClick() {
-  store.setAnnotationId(props.item.id);
-  window.ebook.goToHref(props.item.value);
+  store.setAnnotationId(props.item.id)
+  window.ebook.goToHref(props.item.value)
 }
 </script>
 

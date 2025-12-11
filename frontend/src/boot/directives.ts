@@ -1,5 +1,5 @@
-import { boot } from 'quasar/wrappers';
+import { boot } from 'quasar/wrappers'
 
 export default boot(({ app }) => {
-  console.log('directives');
-});
+  console.log('directives')
+})

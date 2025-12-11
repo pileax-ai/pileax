@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { GET } from 'src/hooks/useRequest';
+import { GET } from 'src/hooks/useRequest'
 
 const props = defineProps({
   modelValue: {
@@ -51,18 +51,18 @@ const props = defineProps({
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['update:modelValue']);
-const list = ref([]);
+})
+const emit = defineEmits(['update:modelValue'])
+const list = ref([])
 const value = computed({
   get() {
     return props.modelValue
   },
   set(value) {
-    const metadata = list.value.find((e: Indexable) => e.provider === value);
-    emit('update:modelValue', value, metadata);
+    const metadata = list.value.find((e: Indexable) => e.provider === value)
+    emit('update:modelValue', value, metadata)
   }
-});
+})
 
 const options = computed(() => {
   return list.value.map((item: Indexable) => {
@@ -79,8 +79,8 @@ const filterFn = function (val: string,
                            abort: () => void) {
   update(() => {
     //
-  });
-  abort();
+  })
+  abort()
 }
 
 const abortFilterFn = function () {
@@ -89,7 +89,7 @@ const abortFilterFn = function () {
 
 onMounted(() => {
   GET({name: 'aiProvider', path: '/all'}).then(res => {
-    list.value = res as [];
+    list.value = res as []
   })
 })
 </script>

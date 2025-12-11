@@ -6,18 +6,18 @@
 </template>
 
 <script setup lang="ts">
-import {computed, PropType} from 'vue';
-import AiAgent from './agent/ai-agent.vue';
-import WebService from './service/web-service.vue';
+import {computed, PropType} from 'vue'
+import AiAgent from './agent/ai-agent.vue'
+import WebService from './service/web-service.vue'
 
 const props = defineProps({
   item: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   }
-});
+})
 </script>
 
 <style lang="scss">

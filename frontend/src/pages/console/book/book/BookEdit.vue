@@ -37,44 +37,44 @@
 </template>
 
 <script setup lang="ts">
-import useVuelidate from '@vuelidate/core';
-import {maxLength, minLength, required} from '@vuelidate/validators';
-import { onMounted, ref} from 'vue';
+import useVuelidate from '@vuelidate/core'
+import {maxLength, minLength, required} from '@vuelidate/validators'
+import { onMounted, ref} from 'vue'
 
-import OFileUploader from 'core/components/fIle/OFileUploader.vue';
-import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
+import OFileUploader from 'core/components/fIle/OFileUploader.vue'
+import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 
-import { GET } from 'src/hooks/useRequest';
-import useForm from 'src/hooks/useForm';
+import { GET } from 'src/hooks/useRequest'
+import useForm from 'src/hooks/useForm'
 import OField from 'core/components/form/field/OField.vue'
 
-const apiName = 'book';
+const apiName = 'book'
 const props = defineProps({
   data: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   }
-});
-const emit = defineEmits(['close', 'success']);
-const { form, loading, actions } = useForm();
-const id = ref('');
-const status = ref(true);
+})
+const emit = defineEmits(['close', 'success'])
+const { form, loading, actions } = useForm()
+const id = ref('')
+const status = ref(true)
 
 const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },
   author: { required, minLength: minLength(1), maxLength: maxLength(100) },
-};
-const v$ = useVuelidate(rules, form);
+}
+const v$ = useVuelidate(rules, form)
 
 function load () {
-  actions.initForm(apiName);
+  actions.initForm(apiName)
 
   id.value = props.data.bookId
   if (id.value) {
     GET({name: apiName, query: {id: id.value}}).then((data) => {
-      form.value = data as Indexable;
+      form.value = data as Indexable
     })
   }
 }
@@ -85,7 +85,7 @@ function onLogoReady() {
 
 function onSubmit () {
   if (!actions.validate(v$)) {
-    return;
+    return
   }
 
   const body = {
@@ -94,7 +94,7 @@ function onSubmit () {
     author: form.value.author,
     publisher: form.value.publisher,
     description: form.value.description,
-  };
+  }
 
   actions.submit(body,(data) => {
     emit('close', {
@@ -106,12 +106,12 @@ function onSubmit () {
         publisher: data.publisher,
         title: data.title,
       }
-    });
-  });
+    })
+  })
 }
 
 onMounted(() => {
-  load();
+  load()
 })
 </script>
 

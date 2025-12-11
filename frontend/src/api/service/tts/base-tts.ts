@@ -20,23 +20,23 @@ export type TTSClientEventHandler<K extends TTSClientEvent> =
   (...args: TTSClientEventMap[K]) => void;
 
 export abstract class BaseTTSClient implements TTSClient {
-  public options: TTSOptions;
-  public state: 'idle' | 'playing' | 'paused' | 'stopped' | 'disposed' = 'idle';
+  public options: TTSOptions
+  public state: 'idle' | 'playing' | 'paused' | 'stopped' | 'disposed' = 'idle'
 
-  protected getText!: () => Promise<string>;
-  protected getResumeText!: () => Promise<string>;
-  protected getNextText!: (move: boolean) => Promise<string>;
-  protected getPrevText!: () => Promise<string>;
-  protected preloadEnabled: boolean = false;
-  protected preloadQueue: Map<string, AudioBuffer> = new Map();
+  protected getText!: () => Promise<string>
+  protected getResumeText!: () => Promise<string>
+  protected getNextText!: (move: boolean) => Promise<string>
+  protected getPrevText!: () => Promise<string>
+  protected preloadEnabled: boolean = false
+  protected preloadQueue: Map<string, AudioBuffer> = new Map()
 
   private events: Partial<{
     [K in TTSClientEvent]: Set<TTSClientEventHandler<any>>
-  }> = {};
-  private continuous = false;
+  }> = {}
+  private continuous = false
 
   protected constructor(options: TTSOptions) {
-    this.options = options;
+    this.options = options
   }
 
   async init(
@@ -45,10 +45,10 @@ export abstract class BaseTTSClient implements TTSClient {
     getNextText: (move: boolean) => Promise<string>,
     getPrevText: () => Promise<string>
   ): Promise<void> {
-    this.getText = getText;
-    this.getResumeText = getResumeText;
-    this.getNextText = getNextText;
-    this.getPrevText = getPrevText;
+    this.getText = getText
+    this.getResumeText = getResumeText
+    this.getNextText = getNextText
+    this.getPrevText = getPrevText
   }
 
   // Events
@@ -57,84 +57,84 @@ export abstract class BaseTTSClient implements TTSClient {
     handler: TTSClientEventHandler<K>
   ) {
     if (!this.events[event]) {
-      this.events[event] = new Set();
+      this.events[event] = new Set()
     }
-    this.events[event]!.add(handler);
+    this.events[event]!.add(handler)
   }
 
   off<K extends keyof TTSClientEventMap>(
     event: K,
     handler: TTSClientEventHandler<K>
   ) {
-    this.events[event]?.delete(handler);
+    this.events[event]?.delete(handler)
   }
 
   protected emit<K extends keyof TTSClientEventMap>(
     event: K,
     ...args: TTSClientEventMap[K]
   ) {
-    this.events[event]?.forEach(handler => handler(...args));
+    this.events[event]?.forEach(handler => handler(...args))
   }
 
   // Play logic
   async play(): Promise<void> {
-    const text = await this.getText();
-    await this.playContinuous(text);
+    const text = await this.getText()
+    await this.playContinuous(text)
   }
 
   async playResume(): Promise<void> {
-    const text = await this.getResumeText();
+    const text = await this.getResumeText()
     console.log('playResume', text)
-    await this.playContinuous(text);
+    await this.playContinuous(text)
   }
 
   async playNext(): Promise<void> {
-    const text = await this.getNextText(true);
-    await this.playContinuous(text);
+    const text = await this.getNextText(true)
+    await this.playContinuous(text)
   }
 
   async playContinuous(text: string): Promise<void> {
     // console.log('playContinuous call')
-    this.continuous = true;
-    this.state = 'playing';
+    this.continuous = true
+    this.state = 'playing'
 
-    let current = text;
+    let current = text
     while (this.continuous) {
       console.log('playContinuous')
       try {
         if (this.preloadEnabled) {
-          this.preloadNext();
+          this.preloadNext()
         }
 
-        this.emit('start', current);
-        await this.speak(current);
-        this.emit('end', current);
+        this.emit('start', current)
+        await this.speak(current)
+        this.emit('end', current)
 
         if (this.continuous) {
-          const next = await this.getNextText(true);
+          const next = await this.getNextText(true)
           if (!next) {
-            this.continuous = false;
-            break;
+            this.continuous = false
+            break
           }
-          current = next;
+          current = next
         } else {
-          break;
+          break
         }
       } catch (err) {
-        this.state = 'idle';
-        this.emit('error', err);
-        throw err;
+        this.state = 'idle'
+        this.emit('error', err)
+        throw err
       }
     }
   }
 
   private async preloadNext() {
-    const nextText = await this.getNextText(false);
-    this.preload(nextText);
+    const nextText = await this.getNextText(false)
+    this.preload(nextText)
   }
 
   stopContinuous() {
-    this.continuous = false;
+    this.continuous = false
   }
 
   abstract speak(text: string): Promise<void>;
@@ -147,9 +147,9 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async prev(): Promise<void> {
     try {
-      await this.stop(true);
-      const text = await this.getPrevText();
-      await this.playContinuous(text);
+      await this.stop(true)
+      const text = await this.getPrevText()
+      await this.playContinuous(text)
     } catch (err) {
       console.debug('prev err')
     }
@@ -157,10 +157,10 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async next(): Promise<void> {
     try {
-      await this.stop(true);
+      await this.stop(true)
 
-      const text = await this.getNextText(true);
-      await this.playContinuous(text);
+      const text = await this.getNextText(true)
+      await this.playContinuous(text)
     } catch (err) {
       console.debug('next err')
     }
@@ -168,9 +168,9 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async restart(): Promise<void> {
     try {
-      await this.stop(true);
-      const text = await this.getText();
-      await this.playContinuous(text);
+      await this.stop(true)
+      const text = await this.getText()
+      await this.playContinuous(text)
     } catch (err) {
       console.debug('restart err')
     }

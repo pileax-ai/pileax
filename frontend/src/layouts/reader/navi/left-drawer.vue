@@ -22,41 +22,41 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref, watch} from 'vue';
-import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue';
-import { READER_DRAWER_DEFAULT_SIZE } from 'core/constants/style';
+import {onBeforeMount, ref, watch} from 'vue'
+import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue'
+import { READER_DRAWER_DEFAULT_SIZE } from 'core/constants/style'
 
-import TabNavi from './tab-navi.vue';
-import useReader from 'src/hooks/useReader';
+import TabNavi from './tab-navi.vue'
+import useReader from 'src/hooks/useReader'
 
-const emit = defineEmits(['leave']);
+const emit = defineEmits(['leave'])
 
-const { leftDrawer, leftDrawerShow, leftDrawerHoverShow, setLeftDrawerWidth } = useReader();
-const width = ref(READER_DRAWER_DEFAULT_SIZE);
-const drawerOpen = ref(true);
-const overlay = ref(false);
+const { leftDrawer, leftDrawerShow, leftDrawerHoverShow, setLeftDrawerWidth } = useReader()
+const width = ref(READER_DRAWER_DEFAULT_SIZE)
+const drawerOpen = ref(true)
+const overlay = ref(false)
 
 watch(() => leftDrawerShow.value, (newValue) => {
-  overlay.value = !newValue;
-  const timeout = newValue ? 0 : 1000;
+  overlay.value = !newValue
+  const timeout = newValue ? 0 : 1000
   setTimeout(() => {
-    drawerOpen.value = newValue;
+    drawerOpen.value = newValue
   }, timeout)
 })
 
 watch(() => leftDrawerHoverShow.value, (newValue) => {
-  drawerOpen.value = newValue;
+  drawerOpen.value = newValue
 })
 
 function onResize(value: number) {
-  console.log('width', value);
-  width.value = value;
-  setLeftDrawerWidth(value);
+  console.log('width', value)
+  width.value = value
+  setLeftDrawerWidth(value)
 }
 
 onBeforeMount(() => {
-  drawerOpen.value = leftDrawerShow.value;
-  width.value = leftDrawer.value.width;
+  drawerOpen.value = leftDrawerShow.value
+  width.value = leftDrawer.value.width
 })
 
 </script>

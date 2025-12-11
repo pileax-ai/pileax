@@ -1,23 +1,23 @@
-import { ref, watch } from 'vue';
-import useCommon from 'core/hooks/useCommon';
-import { DELETE, POST } from 'src/hooks/useRequest';
-import { useComponentStoreWithOut } from 'stores/component';
+import { ref, watch } from 'vue'
+import useCommon from 'core/hooks/useCommon'
+import { DELETE, POST } from 'src/hooks/useRequest'
+import { useComponentStoreWithOut } from 'stores/component'
 import type { QInfiniteScroll } from 'quasar'
 import { notifyDone } from 'core/utils/control'
 
 export default function () {
-  const apiName = ref('');
-  const apiPath = ref('');
-  const itemTitle = ref('');
-  const condition = ref<Indexable>({});
-  const sort = ref<Indexable>({ update_time: 'desc' });
-  const rows = ref<Indexable[]>([]);
-  const total = ref(0);
+  const apiName = ref('')
+  const apiPath = ref('')
+  const itemTitle = ref('')
+  const condition = ref<Indexable>({})
+  const sort = ref<Indexable>({ update_time: 'desc' })
+  const rows = ref<Indexable[]>([])
+  const total = ref(0)
   const paging = ref({
     index: 1,
     size: 20,
     more: true
-  });
+  })
   const side = ref({
     show: false,
     title: '',
@@ -25,23 +25,23 @@ export default function () {
     position: 'right',
     style: {width: '30vw', minWidth: '600px'},
     contentClass: 'card'
-  });
-  const scrollRef = ref<InstanceType<typeof QInfiniteScroll>>();
-  const initial = ref(false);
-  const loading = ref(false);
-  const loaded = ref(false);
-  const loadingMore = ref(false);
-  const id = ref('');
-  const view = ref('details');
+  })
+  const scrollRef = ref<InstanceType<typeof QInfiniteScroll>>()
+  const initial = ref(false)
+  const loading = ref(false)
+  const loaded = ref(false)
+  const loadingMore = ref(false)
+  const id = ref('')
+  const view = ref('details')
 
-  const { t, confirm, dialog } = useCommon();
-  const componentStore = useComponentStoreWithOut();
+  const { t, confirm, dialog } = useCommon()
+  const componentStore = useComponentStoreWithOut()
 
   function initQuery({api = '', path = '/query', title = ''}) {
     initial.value = true
-    apiName.value = api;
-    apiPath.value = path;
-    itemTitle.value = title;
+    apiName.value = api
+    apiPath.value = path
+    itemTitle.value = title
   }
 
   function prepareQuery() {
@@ -50,67 +50,67 @@ export default function () {
       pageSize: paging.value.size,
       condition: Object.assign({}, condition.value),
       sort: Object.assign({}, sort.value),
-    };
+    }
   }
 
   async function onQuery(scrollReset = true) {
     if (!initial.value) return
     if (scrollReset) {
-      resetScroll();
+      resetScroll()
     }
 
-    loading.value = true;
-    const queryBody = prepareQuery();
+    loading.value = true
+    const queryBody = prepareQuery()
     try {
       const data = await POST({
         name: apiName.value,
         path: apiPath.value,
         body: queryBody}
-      ) as Indexable;
-      rows.value = rows.value.concat(data.list);
-      total.value = data.total;
-      paging.value.index += 1;
-      paging.value.more = (paging.value.size === data.list.length);
-      loading.value = false;
-      loaded.value = true;
+      ) as Indexable
+      rows.value = rows.value.concat(data.list)
+      total.value = data.total
+      paging.value.index += 1
+      paging.value.more = (paging.value.size === data.list.length)
+      loading.value = false
+      loaded.value = true
 
       if (paging.value.more) {
-        scrollRef.value?.resume();
+        scrollRef.value?.resume()
       }
     } catch (err) {
       paging.value.more = false
-      loading.value = false;
+      loading.value = false
     }
   }
 
   async function onLoadMore(index: number, done: (stop: boolean) => void) {
     // console.log('scroll bottom', index, paging.value);
     if (paging.value.more) {
-      loadingMore.value = true;
+      loadingMore.value = true
       setTimeout(async () => {
-        await onQuery(false);
-        loadingMore.value = false;
-        done(false);
+        await onQuery(false)
+        loadingMore.value = false
+        done(false)
       }, 0)
     } else {
-      done(true);
+      done(true)
     }
   }
 
   function resetQuery() {
-    loaded.value = false;
-    paging.value.index = 1;
-    paging.value.more = true;
-    rows.value = [];
+    loaded.value = false
+    paging.value.index = 1
+    paging.value.more = true
+    rows.value = []
   }
 
   function resetScroll() {
-    resetQuery();
-    scrollRef.value?.reset();
+    resetQuery()
+    scrollRef.value?.reset()
   }
 
   function openSide(width = '30vw', viewAlt = 'details', icon = '', title = '') {
-    view.value = viewAlt;
+    view.value = viewAlt
     side.value = {
       ...side.value,
       show: true,
@@ -124,9 +124,9 @@ export default function () {
   }
 
   function closeSide (showSide = false, query = true, notify = true, ) {
-    side.value.show = showSide;
-    if (query) onQuery();
-    if (notify) notifyDone();
+    side.value.show = showSide
+    if (query) onQuery()
+    if (notify) notifyDone()
   }
 
   const query = ref({
@@ -137,7 +137,7 @@ export default function () {
     resetScroll,
     openSide,
     closeSide
-  });
+  })
 
   return {
     rows,
@@ -154,5 +154,5 @@ export default function () {
 
     query,
     initQuery,
-  };
+  }
 }

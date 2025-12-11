@@ -1,42 +1,42 @@
-import { computed, ref } from 'vue';
-import { useNaviStore } from 'stores/navi';
-import { useNoteStore } from 'stores/note';
-import type { Note } from 'src/types/note';
-import type { MenuItem } from 'core/types/menu';
-import { UUID } from 'core/utils/crypto';
-import { router } from 'src/router';
-import { noteService } from 'src/api/service/remote/note';
-import { useAccountStore } from 'stores/account';
+import { computed, ref } from 'vue'
+import { useNaviStore } from 'stores/navi'
+import { useNoteStore } from 'stores/note'
+import type { Note } from 'src/types/note'
+import type { MenuItem } from 'core/types/menu'
+import { UUID } from 'core/utils/crypto'
+import { router } from 'src/router'
+import { noteService } from 'src/api/service/remote/note'
+import { useAccountStore } from 'stores/account'
 
 export default function () {
-  const naviStore = useNaviStore();
-  const accountStore = useAccountStore();
-  const recentNotes = ref<Note[]>([]);
+  const naviStore = useNaviStore()
+  const accountStore = useAccountStore()
+  const recentNotes = ref<Note[]>([])
 
   const noteStore = computed(() => {
-    const currentWorkspaceId = accountStore.workspaceId;
-    return useNoteStore(currentWorkspaceId);
+    const currentWorkspaceId = accountStore.workspaceId
+    return useNoteStore(currentWorkspaceId)
   })
 
   const currentNote = computed(() => {
-    return noteStore.value.currentNote;
-  });
+    return noteStore.value.currentNote
+  })
 
   const notes = computed(() => {
-    return noteStore.value.notes;
-  });
+    return noteStore.value.notes
+  })
 
   const currentNoteId = computed(() => {
-    return noteStore.value.noteId;
-  });
+    return noteStore.value.noteId
+  })
 
   function setCurrentNote(note: Note | null) {
     // console.log('setCurrentNote', note)
-    if (!note) return;
+    if (!note) return
 
     // update current note
-    noteStore.value.setCurrentNote(note);
-    refreshNote(note);
+    noteStore.value.setCurrentNote(note)
+    refreshNote(note)
 
     // update menu/tab
     const menu = {
@@ -49,21 +49,21 @@ export default function () {
         icon: note.icon || '✍',
         iconClass: 'emoji'
       }
-    } as MenuItem;
-    naviStore.setCurrentMenu(menu);
+    } as MenuItem
+    naviStore.setCurrentMenu(menu)
   }
 
   async function getAllNotes() {
-    const notes = await noteService.getAll();
-    noteStore.value.setNotes(notes);
+    const notes = await noteService.getAll()
+    noteStore.value.setNotes(notes)
   }
 
   function refreshNote(note: Note) {
-    const index = notes.value.findIndex((n) => n.id === note.id);
+    const index = notes.value.findIndex((n) => n.id === note.id)
     if (index >= 0) {
-      notes.value.splice(index, 1, note);
+      notes.value.splice(index, 1, note)
     } else {
-      getAllNotes();
+      getAllNotes()
     }
   }
 
@@ -74,42 +74,42 @@ export default function () {
         update_time: 'desc'
       }
     }
-    const res = await noteService.query(query) as Indexable;
+    const res = await noteService.query(query) as Indexable
     recentNotes.value = res.list as Note[]
   }
 
   function addNote(parent = '', source = '') {
-    const id = UUID();
-    const query = {} as Indexable;
-    if (parent) query.parent = parent;
-    if (source) query.source = source;
+    const id = UUID()
+    const query = {} as Indexable
+    if (parent) query.parent = parent
+    if (source) query.source = source
 
     router.push({
       name: 'note',
       params: { id },
       query
-    });
+    })
   }
 
   function openNote (note: Indexable, source = '') {
-    const id = note.id;
+    const id = note.id
     if (id) {
-      const query = {} as Indexable;
-      if (source) query.source = source;
+      const query = {} as Indexable
+      if (source) query.source = source
       router.push({
         name: 'note',
         params: { id },
         query
-      });
+      })
     }
   }
 
   function deleteNote(note: Indexable) {
     // Remove from list
-    const index = notes.value.findIndex((item) => item.id === note.id);
+    const index = notes.value.findIndex((item) => item.id === note.id)
     if (index >= 0) {
-      notes.value.splice(index, 1);
-      console.log('delete note', index, notes.value);
+      notes.value.splice(index, 1)
+      console.log('delete note', index, notes.value)
 
       // todo: Route to note home page
     }
@@ -118,54 +118,54 @@ export default function () {
     naviStore.closeOpenedMenu({
       name: note.title,
       path: `/note/${note.id}`,
-    } as MenuItem);
+    } as MenuItem)
 
     // Remove from database
-    noteService.delete(note.id);
+    noteService.delete(note.id)
   }
 
   async function saveNote(data: Indexable, {
     refresh = false
     } = {}
   ) {
-    const note = await noteService.save(data);
+    const note = await noteService.save(data)
     if (note.id === currentNote.value.id) {
-      setCurrentNote(note);
+      setCurrentNote(note)
     }
     if (refresh) {
-      refreshNote(note);
+      refreshNote(note)
     }
   }
 
   function addIcon() {
-    const icons = ['✍', '🏞', '🎵', '📹', '🎨', '👨‍👨‍👦', '🚴‍️', '🐶', '🐬', '🌾', '🍀', '🌴', '🍋', '🌏', '🚅', '🔥', '🥏', '💵', '🛠', '📖', '📗'];
-    const index = Math.floor(Math.random() * icons.length);
-    const icon = icons[index];
+    const icons = ['✍', '🏞', '🎵', '📹', '🎨', '👨‍👨‍👦', '🚴‍️', '🐶', '🐬', '🌾', '🍀', '🌴', '🍋', '🌏', '🚅', '🔥', '🥏', '💵', '🛠', '📖', '📗']
+    const index = Math.floor(Math.random() * icons.length)
+    const icon = icons[index]
     saveNote({
       id: currentNote.value.id,
       icon: icon
-    });
+    })
   }
 
   function setIcon(option: Indexable) {
     saveNote({
       id: currentNote.value.id,
       icon: option.emoji
-    });
+    })
   }
 
   function setParent(id: string, newParent: string) {
     saveNote({
       id: id,
       parent: newParent
-    }, { refresh: true });
+    }, { refresh: true })
   }
 
   function toggleFavorite(data: Indexable) {
     saveNote({
       id: data.id,
       favorite: data.favorite === 1 ? 0 : 1
-    }, { refresh: true });
+    }, { refresh: true })
   }
 
   function duplicateNote(data: Indexable) {
@@ -177,7 +177,7 @@ export default function () {
       icon: data.icon,
       cover: data.cover,
       styles: data.styles,
-    }, { refresh: true });
+    }, { refresh: true })
   }
 
   function buildNoteTree(items: Note[], id: string | null = null, addEmptyNode = false) {
@@ -193,8 +193,8 @@ export default function () {
           data: item,
           allowDrop: true,
           children: buildNoteTree(items, item.id, addEmptyNode)
-        };
-      });
+        }
+      })
     if (list.length == 0 && addEmptyNode) {
       list.push({
         key: UUID(),
@@ -205,9 +205,9 @@ export default function () {
         data: {},
         allowDrop: false,
         children: []
-      });
+      })
     }
-    return list;
+    return list
   }
 
   function buildFavoriteTree(items: Note[], addEmptyNode = false) {
@@ -223,9 +223,9 @@ export default function () {
           data: item,
           allowDrop: true,
           children: buildNoteTree(items, item.id)
-        };
-      });
-    return list;
+        }
+      })
+    return list
   }
 
   return {
@@ -251,5 +251,5 @@ export default function () {
     setParent,
     toggleFavorite,
     duplicateNote,
-  };
+  }
 }

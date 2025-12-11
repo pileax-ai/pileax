@@ -100,74 +100,74 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, onBeforeMount, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
-import { useNaviStore } from 'stores/navi';
-import useSetting from 'core/hooks/useSetting';
-import { menuLabel } from 'core/hooks/useMenu';
-import useDialog from 'core/hooks/useDialog';
-import useNavi from 'src/hooks/useNavi';
+import { useNaviStore } from 'stores/navi'
+import useSetting from 'core/hooks/useSetting'
+import { menuLabel } from 'core/hooks/useMenu'
+import useDialog from 'core/hooks/useDialog'
+import useNavi from 'src/hooks/useNavi'
 
-import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue';
-import ONaviExpansionSubItems from 'core/components/navi/ONaviExpansionSubItems.vue';
-import OHoverMenu from 'core/components/menu/OHoverMenu.vue';
+import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue'
+import ONaviExpansionSubItems from 'core/components/navi/ONaviExpansionSubItems.vue'
+import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 
 const props = defineProps({
   drawerWidth: { type: Number, default: 300 },
-});
+})
 
-const route = useRoute();
-const naviStore = useNaviStore();
-const { openDialog } = useDialog();
-const { naviFlatten, toggleNaviFlatten} = useSetting();
+const route = useRoute()
+const naviStore = useNaviStore()
+const { openDialog } = useDialog()
+const { naviFlatten, toggleNaviFlatten} = useSetting()
 
 const {
   consoleMenus,
   activity,
   setActivity,
   reduceActivity
-} = useNavi();
+} = useNavi()
 
-const width = ref(300);
-const drawerOpen = ref(true);
-const miniState = ref(false);
+const width = ref(300)
+const drawerOpen = ref(true)
+const miniState = ref(false)
 
 function toggleSidebar () {
-  miniState.value = !miniState.value;
-  naviStore.setDrawerItem({key: 'miniState', value: miniState.value});
+  miniState.value = !miniState.value
+  naviStore.setDrawerItem({key: 'miniState', value: miniState.value})
 }
 
 const drawerMini = computed(() => {
-  return naviStore.drawer.miniState;
-});
+  return naviStore.drawer.miniState
+})
 
 const sidebarWidth = computed(() => {
-  return miniState.value ? 60 : width.value;
-});
+  return miniState.value ? 60 : width.value
+})
 
 function initActivity() {
-  const activity = reduceActivity(route.path);
-  setActivity(activity);
+  const activity = reduceActivity(route.path)
+  setActivity(activity)
 }
 
 watch(
   () => props.drawerWidth,
   (newValue) => {
-    width.value = newValue;
+    width.value = newValue
   }
 )
 
 watch(() => drawerMini.value, (newValue) => {
-  miniState.value = newValue;
+  miniState.value = newValue
 })
 
 onBeforeMount(() => {
-  width.value = props.drawerWidth;
-  miniState.value = drawerMini.value;
+  width.value = props.drawerWidth
+  miniState.value = drawerMini.value
 
-  initActivity();
-});
+  initActivity()
+})
 </script>
 
 <style lang="scss">

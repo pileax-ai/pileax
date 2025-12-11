@@ -12,29 +12,29 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
+import type { PropType } from 'vue'
 
-import useBook from 'src/hooks/useBook';
-import type { BookTocItem } from 'src/types/reading';
+import useBook from 'src/hooks/useBook'
+import type { BookTocItem } from 'src/types/reading'
 
 const props = defineProps({
   item: {
     type: Object as PropType<BookTocItem>,
     default: () => {
-      return {};
+      return {}
     }
   },
   showItemIcon: {
     type: Boolean,
     default: false
   }
-});
+})
 
-const { setTocItem } = useBook();
+const { setTocItem } = useBook()
 
 function onClick() {
-  setTocItem(props.item);
-  window.ebook.goToHref(props.item.href);
+  setTocItem(props.item)
+  window.ebook.goToHref(props.item.href)
 }
 </script>
 

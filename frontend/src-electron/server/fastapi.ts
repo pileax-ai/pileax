@@ -1,35 +1,35 @@
-import type { ChildProcess} from 'child_process';
-import { spawn } from 'child_process';
-import getPort from 'get-port';
-import log from 'electron-log';
-import path from 'path';
-import { fileURLToPath } from 'node:url';
-import os from 'os';
+import type { ChildProcess} from 'child_process'
+import { spawn } from 'child_process'
+import getPort from 'get-port'
+import log from 'electron-log'
+import path from 'path'
+import { fileURLToPath } from 'node:url'
+import os from 'os'
 import { pathManager } from '../app/path-manager'
 
-const currentDir = fileURLToPath(new URL('.', import.meta.url));
-const platform = process.platform || os.platform();
-let serverProcess: ChildProcess | undefined;
-let serverInfo: Indexable | undefined;
+const currentDir = fileURLToPath(new URL('.', import.meta.url))
+const platform = process.platform || os.platform()
+let serverProcess: ChildProcess | undefined
+let serverInfo: Indexable | undefined
 
 /**
  * Start a local server
  */
 async function startServer() {
   try {
-    const isProduction = process.env.NODE_ENV === 'production';
-    const port = await getPort({ port: 3000 });
-    const dbPath = pathManager.appDbFilePath();
-    const cachePath = pathManager.appCachePath();
-    const publicPath = pathManager.appPublicPath();
-    let serverPath: string;
-    let serverEntry: string;
-    let envPath: string;
+    const isProduction = process.env.NODE_ENV === 'production'
+    const port = await getPort({ port: 3000 })
+    const dbPath = pathManager.appDbFilePath()
+    const cachePath = pathManager.appCachePath()
+    const publicPath = pathManager.appPublicPath()
+    let serverPath: string
+    let serverEntry: string
+    let envPath: string
 
     if (isProduction) {
       // production
-      serverPath = path.join(process.resourcesPath, 'backend');
-      serverEntry = path.join(serverPath, 'runnable');
+      serverPath = path.join(process.resourcesPath, 'backend')
+      serverEntry = path.join(serverPath, 'runnable')
       const options: Indexable = {
         env: {
           ...process.env,
@@ -48,15 +48,15 @@ async function startServer() {
         shell: true,
         detached: true,
         windowsHide: true
-      };
-      if (platform === 'win32') {
-        options.shell = false;
-        options.detached = false;
-        options.windowsVerbatimArguments = false;
-        options.creationFlags = 0x08000000; // No window
       }
-      serverProcess = spawn(serverEntry, [], options);
-      serverProcess.unref();
+      if (platform === 'win32') {
+        options.shell = false
+        options.detached = false
+        options.windowsVerbatimArguments = false
+        options.creationFlags = 0x08000000 // No window
+      }
+      serverProcess = spawn(serverEntry, [], options)
+      serverProcess.unref()
     } else {
       // development
       serverPath = path.join(currentDir, '../../../backend')
@@ -90,18 +90,18 @@ async function startServer() {
     })
 
     serverProcess.on('error', (code) => {
-      log.error(`[Server error with code] ${code}`);
-      serverProcess = undefined;
+      log.error(`[Server error with code] ${code}`)
+      serverProcess = undefined
     })
 
     serverProcess.on('close', (code) => {
-      log.info(`Server closed with code ${code}`);
-      serverProcess = undefined;
+      log.info(`Server closed with code ${code}`)
+      serverProcess = undefined
     })
 
     serverProcess.on('exit', (code) => {
-      log.info(`Server exited with code ${code}`);
-      serverProcess = undefined;
+      log.info(`Server exited with code ${code}`)
+      serverProcess = undefined
     })
 
     serverInfo = {
@@ -109,12 +109,12 @@ async function startServer() {
       appBase: `http://localhost:${port}`,
       apiBase: `http://localhost:${port}/api/v1`,
       apiDocs: `http://localhost:${port}/docs`,
-    };
-    log.info('✅ Start server...', serverInfo);
+    }
+    log.info('✅ Start server...', serverInfo)
 
     return serverInfo
   } catch (error) {
-    log.error('❌ Start server failed:', error);
+    log.error('❌ Start server failed:', error)
   }
 }
 
@@ -127,18 +127,18 @@ async function stopServer(event = 'NA') {
     return
   }
 
-  const pid = serverProcess.pid;
-  log.info(`⏹️ Stopping server process (pid: ${pid}) ...`, event);
+  const pid = serverProcess.pid
+  log.info(`⏹️ Stopping server process (pid: ${pid}) ...`, event)
 
   return new Promise<void>((resolve) => {
     if (serverProcess) {
       try {
-        serverProcess.removeAllListeners();
+        serverProcess.removeAllListeners()
         if (process.platform === 'win32' && pid) {
-          spawn('taskkill', ['/pid', `${pid}`, '/f', '/t']);
-          serverProcess.kill('SIGKILL');
+          spawn('taskkill', ['/pid', `${pid}`, '/f', '/t'])
+          serverProcess.kill('SIGKILL')
         } else {
-          serverProcess.kill('SIGTERM');
+          serverProcess.kill('SIGTERM')
         }
       } catch (err) {
         log.error('❌ Failed to kill server process:', err)
@@ -157,7 +157,7 @@ async function stopServer(event = 'NA') {
 }
 
 async function restartServer() {
-  log.info('🔄️ Restarting server process ...');
+  log.info('🔄️ Restarting server process ...')
   await stopServer('restart')
   await startServer()
 }

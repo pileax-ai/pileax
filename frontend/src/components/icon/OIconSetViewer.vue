@@ -49,10 +49,10 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
-import {isMobile} from 'core/hooks/useCommon';
-import MaterialIcons from 'src/assets/icon-set/material-icons';
-import MdiV6 from 'src/assets/icon-set/mdi-v6';
+import {computed, onMounted, ref} from 'vue'
+import {isMobile} from 'core/hooks/useCommon'
+import MaterialIcons from 'src/assets/icon-set/material-icons'
+import MdiV6 from 'src/assets/icon-set/mdi-v6'
 
 const props = defineProps({
   name: {
@@ -63,45 +63,45 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
+})
 
-const term = ref('');
-const iconSetName = ref('');
-const allIcons = ref([]);
-const index = ref(1);
-const size = ref(200);
+const term = ref('')
+const iconSetName = ref('')
+const allIcons = ref([])
+const index = ref(1)
+const size = ref(200)
 
 const icons = computed(() => {
   if (term.value) {
-    return allIcons.value.filter(e => e.name.indexOf(term.value) >= 0);
+    return allIcons.value.filter(e => e.name.indexOf(term.value) >= 0)
   } else {
-    return allIcons.value;
+    return allIcons.value
   }
-});
+})
 
 const iconList = computed(() => {
-  const start = (index.value - 1) * size.value;
-  const end = index.value * size.value;
-  return icons.value.slice(start, end);
+  const start = (index.value - 1) * size.value
+  const end = index.value * size.value
+  return icons.value.slice(start, end)
 })
 
 const max = computed(() => {
-  const total = icons.value.length;
-  let max = parseInt(total / size.value);
+  const total = icons.value.length
+  let max = parseInt(total / size.value)
   if (total % size.value !== 0) {
-    max += 1;
+    max += 1
   }
-  return max;
+  return max
 })
 
 function loadIcon () {
   switch (iconSetName.value) {
     case 'material-icons':
-      allIcons.value = MaterialIcons.icons;
-      break;
+      allIcons.value = MaterialIcons.icons
+      break
     case 'mdi-v6':
-      allIcons.value = MdiV6.icons;
-      break;
+      allIcons.value = MdiV6.icons
+      break
   }
 }
 
@@ -110,8 +110,8 @@ function onClick (name) {
 }
 
 onMounted(() => {
-  iconSetName.value = props.name;
-  loadIcon();
+  iconSetName.value = props.name
+  loadIcon()
 })
 </script>
 

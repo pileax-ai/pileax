@@ -13,26 +13,26 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import useBook from 'src/hooks/useBook';
+import useBook from 'src/hooks/useBook'
 import ChatSection from 'components/chat/ChatSection.vue'
 
 const props = defineProps({
   item: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   }
-});
+})
 
-const { bookId, keyword } = useBook();
-const chatRef = ref<InstanceType<typeof ChatSection>>();
+const { bookId, keyword } = useBook()
+const chatRef = ref<InstanceType<typeof ChatSection>>()
 
 watch(keyword, (newValue) => {
   console.log('keyword', newValue)
   chatRef.value?.send({
     message: newValue
-  });
+  })
 })
 </script>
 

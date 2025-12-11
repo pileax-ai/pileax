@@ -36,58 +36,58 @@
 </template>
 
 <script setup lang="ts">
-import tippy from 'tippy.js';
+import tippy from 'tippy.js'
 import type { Instance, Props } from 'tippy.js'
-import 'tippy.js/dist/tippy.css';
-import { computed, onMounted, ref, watch } from 'vue';
+import 'tippy.js/dist/tippy.css'
+import { computed, onMounted, ref, watch } from 'vue'
 import {
   addAnnotation,
   removeAnnotation
-} from 'src/api/service/ebook/book-annotation';
-import useCommon from 'core/hooks/useCommon';
-import useBook from 'src/hooks/useBook';
-import useReader from 'src/hooks/useReader';
+} from 'src/api/service/ebook/book-annotation'
+import useCommon from 'core/hooks/useCommon'
+import useBook from 'src/hooks/useBook'
+import useReader from 'src/hooks/useReader'
 
-const emit = defineEmits(['share']);
+const emit = defineEmits(['share'])
 
-const { copy } = useCommon();
-const { workspaceBookId, bookId, progress, selection, setKeyword, setAnnotationTimer } = useBook();
-const { rightDrawerShow, setRightDrawerHoverShow } = useReader();
-const triggerRef = ref();
-const menuRef = ref();
-const instance = ref<Instance<Props>>();
+const { copy } = useCommon()
+const { workspaceBookId, bookId, progress, selection, setKeyword, setAnnotationTimer } = useBook()
+const { rightDrawerShow, setRightDrawerHoverShow } = useReader()
+const triggerRef = ref()
+const menuRef = ref()
+const instance = ref<Instance<Props>>()
 
 const clickedAnnotation = computed(() => {
-  return selection.value.annotation;
+  return selection.value.annotation
 })
 
 function onAction(action: string) {
-  hide(true);
+  hide(true)
   switch (action) {
     case 'annotation':
-      onAnnotation();
-      break;
+      onAnnotation()
+      break
     case 'removeAnnotation':
-      onRemoveAnnotation();
-      break;
+      onRemoveAnnotation()
+      break
     case 'copy':
-      onCopy();
-      break;
+      onCopy()
+      break
     case 'search':
-      onSearch();
-      break;
+      onSearch()
+      break
     case 'share':
-      emit('share');
-      break;
+      emit('share')
+      break
     default:
-      break;
+      break
   }
 }
 
 async function onAnnotation() {
-  const { cfi, text } = selection.value;
+  const { cfi, text } = selection.value
   if (!cfi || !text) {
-    return;
+    return
   }
 
   const annotation = {
@@ -100,13 +100,13 @@ async function onAnnotation() {
     page: progress.value.location?.current || 0,
     chapter: progress.value.tocItem?.label
   }
-  await addAnnotation(annotation);
-  setAnnotationTimer(Date.now());
+  await addAnnotation(annotation)
+  setAnnotationTimer(Date.now())
 }
 
 async function onRemoveAnnotation() {
-  await removeAnnotation(clickedAnnotation.value);
-  setAnnotationTimer(Date.now());
+  await removeAnnotation(clickedAnnotation.value)
+  setAnnotationTimer(Date.now())
 }
 
 function onCopy() {
@@ -114,36 +114,36 @@ function onCopy() {
 }
 
 function onSearch() {
-  setKeyword(selection.value.text);
+  setKeyword(selection.value.text)
   if (!rightDrawerShow.value) {
-    setRightDrawerHoverShow(true);
+    setRightDrawerHoverShow(true)
   }
 }
 
 function getOffset() {
-  const pos = selection.value.pos;
-  const point = pos.point;
-  const dir = pos.dir;
-  const left = Math.floor(point.x * window.innerWidth) - 60;
-  let top = Math.floor(point.y * window.innerHeight);
+  const pos = selection.value.pos
+  const point = pos.point
+  const dir = pos.dir
+  const left = Math.floor(point.x * window.innerWidth) - 60
+  let top = Math.floor(point.y * window.innerHeight)
   if (dir === 'up') {
-    top -= 52;
+    top -= 52
   }
 
-  return {dir, left, top};
+  return {dir, left, top}
 }
 
 function show() {
-  const offset = getOffset();
-  console.log('offset', offset);
+  const offset = getOffset()
+  console.log('offset', offset)
 
-  hide();
-  initTippy();
-  instance.value?.show();
+  hide()
+  initTippy()
+  instance.value?.show()
   if (instance.value) {
-    instance.value.popper.style.left = `${offset.left}px`;
-    instance.value.popper.style.top = `${offset.top}px`;
-    instance.value.popper.style.display = 'block';
+    instance.value.popper.style.left = `${offset.left}px`
+    instance.value.popper.style.top = `${offset.top}px`
+    instance.value.popper.style.display = 'block'
   }
 
   // search // todo
@@ -151,14 +151,14 @@ function show() {
 }
 
 function hide(destroy = false) {
-  instance.value?.hide();
-  setRightDrawerHoverShow(false);
+  instance.value?.hide()
+  setRightDrawerHoverShow(false)
 
   if (destroy) {
     setTimeout(() => {
-      instance.value?.destroy();
-      instance.value = undefined;
-    }, 10);
+      instance.value?.destroy()
+      instance.value = undefined
+    }, 10)
   }
 }
 
@@ -178,7 +178,7 @@ function initTippy() {
         {
           name: 'applyStyles',
           fn({ state }) {
-            state.elements.popper.classList.add('reader-tippy');
+            state.elements.popper.classList.add('reader-tippy')
           }
         }
       ]
@@ -188,14 +188,14 @@ function initTippy() {
 
 watch(() => selection.value, (newValue) => {
   if (newValue.text) {
-    show();
+    show()
   } else {
-    hide();
+    hide()
   }
 })
 
 onMounted(() => {
-  initTippy();
+  initTippy()
 })
 </script>
 

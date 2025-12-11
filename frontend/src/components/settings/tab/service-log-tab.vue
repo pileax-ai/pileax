@@ -35,27 +35,27 @@
 
 <script setup lang="ts">
 import { inject, nextTick, onActivated, onBeforeMount, onBeforeUnmount, ref } from 'vue'
-import useAccount from 'src/hooks/useAccount';
-import SettingCard from './setting-card.vue';
-import { ipcService } from 'src/api/ipc';
+import useAccount from 'src/hooks/useAccount'
+import SettingCard from './setting-card.vue'
+import { ipcService } from 'src/api/ipc'
 
-const scrollToBottom = inject<() => void>('scrollToBottom');
+const scrollToBottom = inject<() => void>('scrollToBottom')
 
-const { account, setAccount } = useAccount();
+const { account, setAccount } = useAccount()
 const logLines = ref<Indexable[]>([])
 
 const parseLogLevel = (line: string): string => {
-  line = line.trim();
+  line = line.trim()
   const levels = ['DEBUG', 'INFO', 'WARN', 'ERROR']
   let level = 'info'
   for (const l of levels) {
     if (line.includes(`${l}`) || line.includes(`[${l.toLowerCase()}]`)) {
-      level = l;
-      break;
+      level = l
+      break
     }
   }
 
-  return level;
+  return level
 }
 
 const parseLine = (text: string) => {
@@ -68,7 +68,7 @@ const parseLine = (text: string) => {
 
 const parseLog = (text: string) => {
   logLines.value = text.split('\n').map(line => {
-    return parseLine(line);
+    return parseLine(line)
   })
 
   nextTick(() => {
@@ -78,21 +78,21 @@ const parseLog = (text: string) => {
 
 onBeforeMount(() => {
   ipcService.logInit(1000).then(res => {
-    parseLog(res);
+    parseLog(res)
 
-    ipcService.logStart(1000);
+    ipcService.logStart(1000)
   })
   ipcService.onLogUpdate((data) => {
-    parseLog(data);
+    parseLog(data)
   })
 })
 
 onBeforeUnmount(() => {
-  ipcService.logStop();
+  ipcService.logStop()
 })
 
 onActivated(() => {
-  scrollToBottom!();
+  scrollToBottom!()
 })
 </script>
 

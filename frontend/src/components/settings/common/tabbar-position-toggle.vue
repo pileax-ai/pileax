@@ -13,21 +13,21 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref} from 'vue';
-import useSetting from 'core/hooks/useSetting';
-import {TAB_BAR_POSITIONS} from 'core/constants/setting';
+import {onBeforeMount, ref} from 'vue'
+import useSetting from 'core/hooks/useSetting'
+import {TAB_BAR_POSITIONS} from 'core/constants/setting'
 
 defineProps({
   itemClass: {
     type: String,
     default: ''
   }
-});
-const { tabBar, setTabBar} = useSetting();
-const value = ref('');
+})
+const { tabBar, setTabBar} = useSetting()
+const value = ref('')
 
 onBeforeMount(() => {
-  value.value = tabBar.value.position;
+  value.value = tabBar.value.position
 })
 </script>
 

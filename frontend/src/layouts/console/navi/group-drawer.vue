@@ -66,74 +66,74 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref, watch} from 'vue';
-import useDialog from 'core/hooks/useDialog';
-import useNavi from 'src/hooks/useNavi';
-import { menuLabel } from 'core/hooks/useMenu';
-import { DRAWER_DEFAULT_SIZE } from 'core/constants/style';
+import {computed, onBeforeMount, ref, watch} from 'vue'
+import useDialog from 'core/hooks/useDialog'
+import useNavi from 'src/hooks/useNavi'
+import { menuLabel } from 'core/hooks/useMenu'
+import { DRAWER_DEFAULT_SIZE } from 'core/constants/style'
 
-import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue';
-import NaviList from './navi-list.vue';
+import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue'
+import NaviList from './navi-list.vue'
 import QuickSettings from 'layouts/console/navi/quick-settings.vue'
 
-const { openDialog } = useDialog();
+const { openDialog } = useDialog()
 const {
   consoleMenus,
   activity,
   leftDrawerMiniState,
   toggleLeftMiniState,
   setActivity,
-} = useNavi();
+} = useNavi()
 
-const width = ref(DRAWER_DEFAULT_SIZE);
-const miniWidth = ref(48);
-const drawerOpen = ref(true);
-const sidebarFixed = ref(false);
-const selectedActivity = ref('');
+const width = ref(DRAWER_DEFAULT_SIZE)
+const miniWidth = ref(48)
+const drawerOpen = ref(true)
+const sidebarFixed = ref(false)
+const selectedActivity = ref('')
 
 const defaultWidth = computed(() => {
-  return leftDrawerMiniState.value ? miniWidth.value : width.value;
+  return leftDrawerMiniState.value ? miniWidth.value : width.value
 })
 const drawerWidth = computed(() => {
-  return leftDrawerMiniState.value ? miniWidth.value : width.value;
+  return leftDrawerMiniState.value ? miniWidth.value : width.value
 })
 const sidebarWidth = computed(() => {
-  return width.value - miniWidth.value;
+  return width.value - miniWidth.value
 })
 
 
 function onClickTab (item: Indexable) {
-  setActivity(item.name);
+  setActivity(item.name)
 }
 
 function initActivity() {
-  selectedActivity.value = activity.value;
+  selectedActivity.value = activity.value
 }
 
 function onEnter() {
   if (leftDrawerMiniState.value) {
-    sidebarFixed.value = true;
+    sidebarFixed.value = true
   }
 }
 
 function onLeave() {
-  sidebarFixed.value = false;
+  sidebarFixed.value = false
 }
 
 function onResize(value: number) {
-  width.value = value;
+  width.value = value
 }
 
 watch(() => activity.value, (newValue) => {
-  selectedActivity.value = activity.value;
+  selectedActivity.value = activity.value
 })
 
 watch(() => consoleMenus.value, (newValue) => {
-  initActivity();
+  initActivity()
 })
 
 onBeforeMount(() => {
-  initActivity();
+  initActivity()
 })
 </script>
 

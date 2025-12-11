@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, ref} from 'vue'
 import useReader from 'src/hooks/useReader'
 
 const props = defineProps({
@@ -56,17 +56,17 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
-const emit = defineEmits(['close', 'add', 'remove']);
+})
+const emit = defineEmits(['close', 'add', 'remove'])
 
 const {
   mainService,
   secondaryService,
-} = useReader();
+} = useReader()
 
 const enabledServices = computed(() => {
-  return props.main ? mainService.value : secondaryService.value;
-});
+  return props.main ? mainService.value : secondaryService.value
+})
 
 const services = computed(() => {
   return [
@@ -105,26 +105,26 @@ const services = computed(() => {
       type: "service",
       url: "https://dict.eudic.net/dicts/en/{word}",
     },
-  ];
-});
+  ]
+})
 
 function isEnabled(item: Indexable) {
-  return enabledServices.value.find(s => s.value === item.value);
+  return enabledServices.value.find(s => s.value === item.value)
 }
 
 function onAdd(item :any) {
-  emit('add', item);
+  emit('add', item)
 }
 
 function onRemove(item :any) {
-  const idx = enabledServices.value.findIndex(s => s.value === item.value);
+  const idx = enabledServices.value.findIndex(s => s.value === item.value)
   if (idx >= 0) {
     if (props.main) {
-      mainService.value.splice(idx, 1);
+      mainService.value.splice(idx, 1)
     } else {
-      secondaryService.value.splice(idx, 1);
+      secondaryService.value.splice(idx, 1)
     }
-    emit('remove');
+    emit('remove')
   }
 }
 </script>

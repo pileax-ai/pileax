@@ -25,7 +25,7 @@ defineProps({
     type: String,
     default: 'q-pt-md'
   }
-});
+})
 </script>
 
 <style lang="scss" scoped>

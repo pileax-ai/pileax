@@ -1,5 +1,5 @@
-import type { OpenDialogOptions, SaveDialogOptions } from 'electron';
-import type { IpcApi } from 'src/api/ipc';
+import type { OpenDialogOptions, SaveDialogOptions } from 'electron'
+import type { IpcApi } from 'src/api/ipc'
 
 declare global {
   interface Window {
@@ -32,4 +32,4 @@ declare global {
   }
 
 }
-export {};
+export {}

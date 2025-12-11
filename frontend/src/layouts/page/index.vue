@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import ModalEntry from 'components/modal/ModalEntry.vue';
+import ModalEntry from 'components/modal/ModalEntry.vue'
 </script>
 
 <style lang="scss">

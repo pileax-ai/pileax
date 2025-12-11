@@ -76,13 +76,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue';
-import { timeMulti } from 'core/utils/format';
-import { NoteDefaultIcon } from 'core/constants/constant';
-import OContextMenu from 'core/components/menu/OContextMenu.vue';
-import useNote from 'src/hooks/useNote';
-import { useTabStore } from 'stores/tab';
-import { ipcService } from 'src/api/ipc';
+import {computed, ref, watch} from 'vue'
+import { timeMulti } from 'core/utils/format'
+import { NoteDefaultIcon } from 'core/constants/constant'
+import OContextMenu from 'core/components/menu/OContextMenu.vue'
+import useNote from 'src/hooks/useNote'
+import { useTabStore } from 'stores/tab'
+import { ipcService } from 'src/api/ipc'
 import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
@@ -90,9 +90,9 @@ const props = defineProps({
     type: String,
     default: 'all'
   },
-});
+})
 
-const { t, confirm } = useCommon();
+const { t, confirm } = useCommon()
 const {
   notes,
   currentNote,
@@ -105,20 +105,20 @@ const {
   setParent,
   toggleFavorite,
   duplicateNote,
-} = useNote();
-const tabStore = useTabStore();
-const selected = ref('');
+} = useNote()
+const tabStore = useTabStore()
+const selected = ref('')
 
 const noteTree = computed(() => {
   switch (props.scope) {
     case 'all':
-      return buildNoteTree(notes.value, null, true);
+      return buildNoteTree(notes.value, null, true)
     case 'favorite':
-      return buildFavoriteTree(notes.value,  true);
+      return buildFavoriteTree(notes.value,  true)
     default:
-      return buildNoteTree(notes.value, null, true);
+      return buildNoteTree(notes.value, null, true)
   }
-});
+})
 
 function noteCommands(note: Indexable) {
   return [
@@ -165,14 +165,14 @@ function noteCommands(note: Indexable) {
 function onCommand (command: Indexable, data: Indexable) {
   switch (command.value) {
     case 'duplicate':
-      duplicateNote(data);
-      break;
+      duplicateNote(data)
+      break
     case 'favorite':
-      toggleFavorite(data);
-      break;
+      toggleFavorite(data)
+      break
     case 'delete':
-      onDelete(data);
-      break;
+      onDelete(data)
+      break
     case 'newTab':
       tabStore.newTab({
         id: data.id,
@@ -185,25 +185,25 @@ function onCommand (command: Indexable, data: Indexable) {
           iconClass: 'emoji'
         }
       })
-      break;
+      break
     case 'newWindow':
-      ipcService.openNewWindow(data.id, `/note/${data.id}`);
-      break;
+      ipcService.openNewWindow(data.id, `/note/${data.id}`)
+      break
   }
 }
 
 function onSelected(key: string) {
-  const note = notes.value.find((item) => item.id === key);
+  const note = notes.value.find((item) => item.id === key)
   if (note) {
-    onOpenNote(note);
+    onOpenNote(note)
   }
 }
 
 function onOpenNote (note: Indexable) {
-  const id = note.id;
+  const id = note.id
   if (id) {
-    selected.value = id;
-    openNote(note);
+    selected.value = id
+    openNote(note)
   }
 }
 
@@ -211,69 +211,69 @@ function onDelete(note: Indexable) {
   confirm(
     `你确定删除？[ <span class="text-bold text-amber">${note.title}</span> ]`,
     () => {
-      deleteNote(note);
+      deleteNote(note)
     },
     {
       showCancel: true
     }
-  );
+  )
 }
 
 function onDragStart (e: DragEvent, node: Indexable) {
-  const target = e.target as HTMLElement;
-  const data = node.data;
-  data.contentType = 'note';
-  e.dataTransfer?.setData('text', JSON.stringify(data));
+  const target = e.target as HTMLElement
+  const data = node.data
+  data.contentType = 'note'
+  e.dataTransfer?.setData('text', JSON.stringify(data))
   // e.dataTransfer?.dropEffect = 'move';
-  target.classList.add('dragging');
-  console.log('drag', e);
+  target.classList.add('dragging')
+  console.log('drag', e)
 }
 
 function onDragEnd (e: DragEvent) {
-  const target = e.target as HTMLElement;
-  target.classList.remove('dragging');
+  const target = e.target as HTMLElement
+  target.classList.remove('dragging')
 }
 
 function onDragEnter (e: DragEvent) {
-  const target = e.target as HTMLElement;
+  const target = e.target as HTMLElement
   if (target.classList.contains('allow-drop')) {
-    e.preventDefault();
-    target.classList.add('drag-enter');
+    e.preventDefault()
+    target.classList.add('drag-enter')
   }
 }
 
 function onDragLeave (e: DragEvent) {
-  const target = e.target as HTMLElement;
+  const target = e.target as HTMLElement
   if (target.classList.contains('allow-drop')) {
-    target.classList.remove('drag-enter');
+    target.classList.remove('drag-enter')
   }
 }
 
 function onDragOver (e: DragEvent) {
-  const target = e.target as HTMLElement;
+  const target = e.target as HTMLElement
   if (target.classList.contains('allow-drop')) {
-    e.preventDefault();
+    e.preventDefault()
   }
 }
 
 function onDrop (e: DragEvent, node: Indexable) {
-  e.preventDefault();
-  const data = JSON.parse(e.dataTransfer?.getData('text') || '{}');
+  e.preventDefault()
+  const data = JSON.parse(e.dataTransfer?.getData('text') || '{}')
   if (data.contentType === 'note') {
-    const note = node.data;
-    console.log('drop', data.id, note.id);
+    const note = node.data
+    console.log('drop', data.id, note.id)
     if ((data.id !== note.id) && (data.parent !== note.id)) {
-      setParent(data.id, note.id);
+      setParent(data.id, note.id)
     }
   }
 
-  const target = e.target as HTMLElement;
-  e.dataTransfer?.clearData();
-  target.classList.remove('drag-enter');
+  const target = e.target as HTMLElement
+  e.dataTransfer?.clearData()
+  target.classList.remove('drag-enter')
 }
 
 watch(() => currentNote.value, (newValue) => {
-  selected.value = newValue.id;
+  selected.value = newValue.id
 })
 
 </script>

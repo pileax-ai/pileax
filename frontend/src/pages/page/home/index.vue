@@ -80,12 +80,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
-import OSinglePage from 'core/page/template/OSinglePage.vue';
-import ContentWide from 'core/page/content/ContentWide.vue';
+import OSinglePage from 'core/page/template/OSinglePage.vue'
+import ContentWide from 'core/page/content/ContentWide.vue'
 
-import { isMobile } from 'core/hooks/useCommon';
+import { isMobile } from 'core/hooks/useCommon'
 </script>
 
 <style lang="scss">

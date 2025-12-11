@@ -1,5 +1,5 @@
-import { app } from 'electron';
-import path from 'path';
+import { app } from 'electron'
+import path from 'path'
 
 /**
  * App data path
@@ -7,11 +7,11 @@ import path from 'path';
  * APP_ROOT
  */
 export const appDataPath = () => {
-  return app.getPath('userData'); // todo: default
+  return app.getPath('userData') // todo: default
 }
 
 export const appLogPath = () => {
-  return path.join(appDataPath(), 'logs', 'electron.log');
+  return path.join(appDataPath(), 'logs', 'electron.log')
 }
 
 /**
@@ -20,7 +20,7 @@ export const appLogPath = () => {
  * APP_ROOT/storage
  */
 export const appStoragePath = () => {
-  return path.join(appDataPath(), 'storage');
+  return path.join(appDataPath(), 'storage')
 }
 
 /**
@@ -29,7 +29,7 @@ export const appStoragePath = () => {
  * APP_ROOT/storage/metadata.db
  */
 export const appDbPath = () => {
-  return path.join(appStoragePath(), 'metadata.db');
+  return path.join(appStoragePath(), 'metadata.db')
 }
 
 /**
@@ -38,7 +38,7 @@ export const appDbPath = () => {
  * APP_ROOT/storage/book
  */
 export const appBookRootPath = () => {
-  return path.join(appStoragePath(), 'book');
+  return path.join(appStoragePath(), 'book')
 }
 
 /**
@@ -47,5 +47,5 @@ export const appBookRootPath = () => {
  * APP_ROOT/storage/public
  */
 export const appPublicRootPath = () => {
-  return path.join(appStoragePath(), 'public');
+  return path.join(appStoragePath(), 'public')
 }

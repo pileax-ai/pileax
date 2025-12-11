@@ -28,15 +28,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import LibraryDialog from 'src/components/modal/LibraryDialog.vue';
-import { ipcService } from 'src/api/ipc';
+import { onMounted, ref } from 'vue'
+import LibraryDialog from 'src/components/modal/LibraryDialog.vue'
+import { ipcService } from 'src/api/ipc'
 
-const currentLocation = ref();
-const showLibraryDialog = ref(false);
+const currentLocation = ref()
+const showLibraryDialog = ref(false)
 
 const onChangeLibrary = () => {
-  showLibraryDialog.value = true;
+  showLibraryDialog.value = true
 }
 
 const onLibraryChanged = async () => {

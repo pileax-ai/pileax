@@ -34,31 +34,31 @@
 </template>
 
 <script setup lang="ts">
-import DrawerNavi from 'core/page/DrawerNavi.vue';
-import OBookSearchItem from 'src/components/book/OBookSearchItem.vue';
+import DrawerNavi from 'core/page/DrawerNavi.vue'
+import OBookSearchItem from 'src/components/book/OBookSearchItem.vue'
 
 import { computed, onMounted, ref } from 'vue'
-import useBook from 'src/hooks/useBook';
+import useBook from 'src/hooks/useBook'
 import { search, clearSearch } from 'src/api/service/ebook/book'
 
-const { store } = useBook();
+const { store } = useBook()
 
 const props = defineProps({
   width: {
     type: Number,
     default: 300
   },
-});
+})
 
-const term = ref('');
-const progress = computed(() => store.search.progress * 100);
-const result = computed(() => store.search.result);
+const term = ref('')
+const progress = computed(() => store.search.progress * 100)
+const result = computed(() => store.search.result)
 const resultCount = computed(() => {
-  return result.value.reduce((sum: number, item: Indexable) => sum + item.subitems.length, 0);
-});
+  return result.value.reduce((sum: number, item: Indexable) => sum + item.subitems.length, 0)
+})
 
 function onSearch(value: any) {
-  if (!value) return;
+  if (!value) return
   search(value, {
     scope: 'book',
     matchCase: false,
@@ -68,12 +68,12 @@ function onSearch(value: any) {
 }
 
 function onNavi(item: Indexable) {
-  store.goResult(item);
+  store.goResult(item)
 }
 
 onMounted(() => {
-  store.clearSearch();
-  clearSearch();
+  store.clearSearch()
+  clearSearch()
 })
 </script>
 

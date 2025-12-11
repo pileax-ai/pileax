@@ -32,25 +32,25 @@
 </template>
 
 <script setup lang="ts">
-import { YiiEditor, ODocToc } from '@yiitap/vue';
+import { YiiEditor, ODocToc } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
 import { computed, onActivated, onMounted, provide, ref } from 'vue'
-import { debounce } from 'quasar';
+import { debounce } from 'quasar'
 
-import useSetting from 'core/hooks/useSetting';
-import useNote from 'src/hooks/useNote';
-import type { Note } from 'src/types/note';
-import OEmojiMenu from 'components/icon/OEmojiMenu.vue';
-import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue';
-import NoteActions from 'components/note/NoteActions.vue';
-import ONotePage from 'components/page/ONotePage.vue';
+import useSetting from 'core/hooks/useSetting'
+import useNote from 'src/hooks/useNote'
+import type { Note } from 'src/types/note'
+import OEmojiMenu from 'components/icon/OEmojiMenu.vue'
+import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue'
+import NoteActions from 'components/note/NoteActions.vue'
+import ONotePage from 'components/page/ONotePage.vue'
 import { chatContentToHtml } from 'src/utils/note'
 import { router } from 'src/router'
 
-const route = useRoute();
-const { darkMode, locale } = useSetting();
+const route = useRoute()
+const { darkMode, locale } = useSetting()
 const {
   noteStore,
   currentNote,
@@ -58,23 +58,23 @@ const {
   setCurrentNote,
   addIcon,
   setIcon,
-} = useNote();
+} = useNote()
 
-const notePage = ref<InstanceType<typeof ONotePage>>();
-const yiiEditor = ref<InstanceType<typeof YiiEditor>>();
+const notePage = ref<InstanceType<typeof ONotePage>>()
+const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
-const id = ref('');
-const parent = ref('');
-const source = ref('');
-const noteHtml = ref('');
-const noteJson = ref<Indexable>({});
+const id = ref('')
+const parent = ref('')
+const source = ref('')
+const noteHtml = ref('')
+const noteJson = ref<Indexable>({})
 const aiOption = ref<AiOption>({
   provider: 'deepseek',
-});
-const pageView = ref('page');
-const showToc = ref(true);
-const loading = ref(false);
-const editorReady = ref(false);
+})
+const pageView = ref('page')
+const showToc = ref(true)
+const loading = ref(false)
+const editorReady = ref(false)
 
 const options = computed(() => {
   return {
@@ -118,51 +118,51 @@ const options = computed(() => {
 })
 
 const editor = computed(() => {
-  return yiiEditor.value?.editor;
+  return yiiEditor.value?.editor
 })
 
 function initEditor() {
-  editorReady.value = false;
+  editorReady.value = false
   editor.value?.on('create', () => {
-    editorReady.value = true;
+    editorReady.value = true
   })
 }
 
 function onAction(action: Indexable) {
   switch (action.value) {
     case 'fullWidth':
-      pageView.value = action.actionValue ? 'full' : 'page';
-      break;
+      pageView.value = action.actionValue ? 'full' : 'page'
+      break
     case 'split':
-      notePage.value?.toggleSide();
-      break;
+      notePage.value?.toggleSide()
+      break
     case 'toc':
-      showToc.value = action.actionValue;
-      break;
+      showToc.value = action.actionValue
+      break
     default:
-      break;
+      break
   }
 }
 
 async function getAndLoadNote() {
-  loading.value = true;
+  loading.value = true
   noteService.get(id.value).then((note: any) => {
-    loading.value = false;
-    loadingNote(note as Note);
+    loading.value = false
+    loadingNote(note as Note)
   }).catch((err) => {
-    createNote();
+    createNote()
   })
 }
 
 async function createNote() {
-  let content = '';
-  let focusPosition = 'start';
-  let emitUpdate = false;
+  let content = ''
+  let focusPosition = 'start'
+  let emitUpdate = false
   if (source.value === 'chat') {
-    loading.value = false;
-    emitUpdate = true;
-    content = chatContentToHtml(noteStore.value.chatToNote.content, noteStore.value.chatToNote.message);
-    focusPosition = 'end';
+    loading.value = false
+    emitUpdate = true
+    content = chatContentToHtml(noteStore.value.chatToNote.content, noteStore.value.chatToNote.message)
+    focusPosition = 'end'
   }
   noteService.save({
     id: id.value,
@@ -170,65 +170,65 @@ async function createNote() {
     title: 'New page',
     content: content
   }).then(note => {
-    loadNote(note, content, focusPosition, emitUpdate);
+    loadNote(note, content, focusPosition, emitUpdate)
   }).finally(() => {
-    loading.value = false;
+    loading.value = false
   })
 }
 
 function loadingNote(note: Note) {
-  parent.value = note.parent;
-  let content = note.content;
-  let focusPosition = 'start';
-  let emitUpdate = false;
+  parent.value = note.parent
+  let content = note.content
+  let focusPosition = 'start'
+  let emitUpdate = false
   if (source.value ===  'chat') {
-    emitUpdate = true;
+    emitUpdate = true
     const appendHtml = chatContentToHtml(noteStore.value.chatToNote.content)
-    content += appendHtml;
-    focusPosition = 'end';
+    content += appendHtml
+    focusPosition = 'end'
   }
-  loadNote(note, content, focusPosition, emitUpdate);
-  notePage.value?.refreshChat(note.id);
+  loadNote(note, content, focusPosition, emitUpdate)
+  notePage.value?.refreshChat(note.id)
 }
 
 function loadNote(note: Note, content: string, focus: string,
                   emitUpdate = false) {
-  setCurrentNote(note);
-  setContent(content, emitUpdate, focus);
-  noteStore.value.resetChatToNote();
-  router.replace({ ...route, query: {} });
+  setCurrentNote(note)
+  setContent(content, emitUpdate, focus)
+  noteStore.value.resetChatToNote()
+  router.replace({ ...route, query: {} })
 }
 
 function setContent (content: string, emitUpdate = false, focus = 'start') {
   editor.value?.commands.setContent(content, {
     emitUpdate
-  });
-  editor.value?.commands.focus(focus as 'start');
+  })
+  editor.value?.commands.focus(focus as 'start')
 }
 
 function onScroll() {
-  const event: Event | undefined = undefined;
+  const event: Event | undefined = undefined
   tocRef.value?.onScroll(event as any)
 }
 
 function onUpdate({ json, html }: { json: any; html: string }) {
   // When editor created, there is one update which is no meaning.
   // Ignore this update.
-  if (!editorReady.value) return;
+  if (!editorReady.value) return
   // console.log('update', html, editorReady.value, loading.value);
-  noteJson.value = json;
-  noteHtml.value = html;
+  noteJson.value = json
+  noteHtml.value = html
 
   // When editor is loading content, NO need to update to your server.
   if (loading.value) {
-    loading.value = false;
+    loading.value = false
   } else {
-    updateNote();
+    updateNote()
   }
 }
 
 const updateNoteNext = debounce( () => {
-  updateNoteRemote();
+  updateNoteRemote()
 }, 500)
 
 async function updateNote() {
@@ -237,9 +237,9 @@ async function updateNote() {
     id: id.value,
     title: getTitle(),
     content: noteHtml.value
-  };
-  setCurrentNote(note);
-  updateNoteNext();
+  }
+  setCurrentNote(note)
+  updateNoteNext()
 }
 
 async function updateNoteRemote() {
@@ -247,39 +247,39 @@ async function updateNoteRemote() {
     id: id.value,
     title: getTitle(),
     content: noteHtml.value
-  });
-  setCurrentNote(note);
+  })
+  setCurrentNote(note)
 }
 
 function getTitle () {
-  let title = '';
-  const content = noteJson.value.content;
+  let title = ''
+  const content = noteJson.value.content
   if (content && content.length > 0) {
-    const c = content[0].content;
+    const c = content[0].content
     if (c && c.length > 0) {
-      title = c[0].text;
+      title = c[0].text
     }
   }
-  return title || 'New page';
+  return title || 'New page'
 }
 
 const insertContent = (value: string) => {
   const html = chatContentToHtml(value)
-  editor.value?.commands.insertContent(html);
+  editor.value?.commands.insertContent(html)
   console.log('insert', value)
 }
 
 provide('insertContent', insertContent)
 
 onActivated(() => {
-  id.value = route.params.id as string;
-  parent.value = route.query.parent as string;
-  source.value = route.query.source as string;
-  getAndLoadNote();
+  id.value = route.params.id as string
+  parent.value = route.query.parent as string
+  source.value = route.query.source as string
+  getAndLoadNote()
 })
 
 onMounted(() => {
-  initEditor();
+  initEditor()
 })
 </script>
 

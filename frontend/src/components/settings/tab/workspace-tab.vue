@@ -88,8 +88,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed, reactive, onActivated } from 'vue'
-import useAccount from 'src/hooks/useAccount';
-import SettingCard from './setting-card.vue';
+import useAccount from 'src/hooks/useAccount'
+import SettingCard from './setting-card.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import WorkspaceAdd from './workspace/WorkspaceAdd.vue'
 import { workspaceService } from 'src/api/service/remote/workspace'
@@ -97,9 +97,9 @@ import { getArrayItem, WorkspaceTypes } from 'src/app/metadata'
 import { timeMulti } from 'core/utils/format'
 import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 
-const { account, workspace, workspaces, initWorkspace, setWorkspace } = useAccount();
-const name = ref('');
-const avatar = ref('');
+const { account, workspace, workspaces, initWorkspace, setWorkspace } = useAccount()
+const name = ref('')
+const avatar = ref('')
 const side = reactive<Indexable>({
   show: false,
   title: 'Workspace',
@@ -108,29 +108,29 @@ const side = reactive<Indexable>({
   style: {width: '30vw', minWidth: '600px'},
   contentClass: 'card'
 })
-const workspaceItemId = ref('');
-const workspaceItem = ref<Indexable>();
+const workspaceItemId = ref('')
+const workspaceItem = ref<Indexable>()
 const editable = computed(() => {
   return workspace.value.userId === account.value.id
 })
 
 function onUpdateName() {
-  updateCurrent({name: name.value});
+  updateCurrent({name: name.value})
 }
 
 function onSelectEmoji(options: Indexable) {
-  updateCurrent({icon: options.emoji});
+  updateCurrent({icon: options.emoji})
 }
 
 function onSelectIcon(options: Indexable) {
-  updateCurrent({icon: options.name});
+  updateCurrent({icon: options.name})
 }
 
 function updateCurrent(data: Indexable) {
   workspaceService.update({ ...data, id: workspace.value.id  }).then(res => {
-    setWorkspace(res);
-    initWorkspace();
-  });
+    setWorkspace(res)
+    initWorkspace()
+  })
 }
 
 const columns = computed(() => {
@@ -140,24 +140,24 @@ const columns = computed(() => {
     { field: 'type', label: '类型', align: 'left', name: 'type' },
     { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
     { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 80px' }
-  ];
-});
+  ]
+})
 
 const onAddWorkspace = () => {
-  workspaceItemId.value = '';
-  side.show = true;
-  side.icon = 'add';
+  workspaceItemId.value = ''
+  side.show = true
+  side.icon = 'add'
 }
 
 const onEditWorkspace = (item: Indexable) => {
-  workspaceItemId.value = item.id;
-  side.show = true;
-  side.icon = 'edit';
+  workspaceItemId.value = item.id
+  side.show = true
+  side.icon = 'edit'
 }
 
 const onClose = () => {
-  side.show = false;
-  initWorkspace();
+  side.show = false
+  initWorkspace()
 }
 
 const onSideClose = () => {
@@ -166,13 +166,13 @@ const onSideClose = () => {
 }
 
 onMounted(() => {
-  name.value = workspace.value.name;
-  avatar.value = workspace.value.avatar;
-  initWorkspace();
+  name.value = workspace.value.name
+  avatar.value = workspace.value.avatar
+  initWorkspace()
 })
 
 onActivated(() => {
-  initWorkspace();
+  initWorkspace()
 })
 </script>
 

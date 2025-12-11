@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, ref } from 'vue'
-import OConsoleSection from 'core/page/section/OConsoleSection.vue';
-import ChatSection from 'components/chat/ChatSection.vue';
+import OConsoleSection from 'core/page/section/OConsoleSection.vue'
+import ChatSection from 'components/chat/ChatSection.vue'
 
 const props = defineProps({
   knowledgeId: {
@@ -31,7 +31,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 
 </script>
 

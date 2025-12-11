@@ -15,35 +15,35 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref} from 'vue';
-import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
+import { onMounted, ref} from 'vue'
+import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 
-import { GET } from 'src/hooks/useRequest';
-import useForm from 'src/hooks/useForm';
+import { GET } from 'src/hooks/useRequest'
+import useForm from 'src/hooks/useForm'
 import { RefTypes, Status } from 'src/app/metadata'
 
-const apiName = 'file';
+const apiName = 'file'
 const props = defineProps({
   id: {
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['success']);
-const { form, loading, actions } = useForm();
+})
+const emit = defineEmits(['success'])
+const { form, loading, actions } = useForm()
 
 function load () {
-  actions.initForm(apiName);
+  actions.initForm(apiName)
 
   if (props.id) {
     GET({name: apiName, query: {id: props.id}}).then(data => {
-      form.value = data as Indexable;
+      form.value = data as Indexable
     })
   }
 }
 
 onMounted(() => {
-  load();
+  load()
 })
 </script>
 

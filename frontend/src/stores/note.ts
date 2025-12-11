@@ -1,6 +1,6 @@
-import { CODE } from 'core/app';
-import type { Note } from 'src/types/note';
-import type { Chat } from 'src/types/chat';
+import { CODE } from 'core/app'
+import type { Note } from 'src/types/note'
+import type { Chat } from 'src/types/chat'
 import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
 export const useNoteStore = defineWorkspaceStore('note', {
@@ -16,26 +16,26 @@ export const useNoteStore = defineWorkspaceStore('note', {
   },
   actions: {
     setCurrentNote(note: Note) {
-      this.currentNote = note;
+      this.currentNote = note
     },
     setNotes(notes: Note[]) {
-      this.notes = notes;
+      this.notes = notes
     },
     setFavoriteTop(value: boolean) {
-      this.favoriteTop = value;
+      this.favoriteTop = value
     },
     setChatToNote(value: Chat) {
-      this.chatToNote = value;
+      this.chatToNote = value
     },
     resetChatToNote() {
-      this.chatToNote = {} as Chat;
+      this.chatToNote = {} as Chat
     },
     setChatWidth(value: number) {
-      this.chatWidth = value;
+      this.chatWidth = value
     },
   },
   persist: {
     key: `${CODE}.note`
   }
-});
+})
 

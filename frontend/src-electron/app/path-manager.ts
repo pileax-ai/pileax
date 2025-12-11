@@ -1,8 +1,8 @@
-import { app } from 'electron';
-import fs from 'fs-extra';
-import log from 'electron-log';
-import path from 'path';
-import { restartServer } from '../server/fastapi';
+import { app } from 'electron'
+import fs from 'fs-extra'
+import log from 'electron-log'
+import path from 'path'
+import { restartServer } from '../server/fastapi'
 import { Application } from 'app/src-electron/app/application'
 import { sleep } from 'core/utils/misc'
 import { isDirectoryEmpty, isDirectoryExists } from 'app/src-electron/utils/file'
@@ -37,19 +37,19 @@ export interface MigrateResult {
  *     └── file
  */
 export class PathManager {
-  private appName?: string;
-  private userData: string;
-  private configPath: string;
-  private config: PathConfig;
-  private defaultPaths: Record<string, string>;
+  private appName?: string
+  private userData: string
+  private configPath: string
+  private config: PathConfig
+  private defaultPaths: Record<string, string>
 
   constructor(appName?: string) {
-    this.appName = appName;
-    this.userData = app.getPath('userData');
+    this.appName = appName
+    this.userData = app.getPath('userData')
     this.configPath = appName
       ? path.join(app.getPath('appData'), appName, 'config.json')
-      : path.join(this.userData, 'config.json');
-    this.config = this.loadConfig();
+      : path.join(this.userData, 'config.json')
+    this.config = this.loadConfig()
     this.defaultPaths = {
       library: path.join(this.userData, 'library'),
     }
@@ -61,10 +61,10 @@ export class PathManager {
   private loadConfig(): PathConfig {
     try {
       if (fs.existsSync(this.configPath)) {
-        return JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
+        return JSON.parse(fs.readFileSync(this.configPath, 'utf8'))
       }
     } catch (e) {
-      console.error('[PathManager] Failed to load config:', e);
+      console.error('[PathManager] Failed to load config:', e)
     }
     return { paths: {} }
   }
@@ -74,56 +74,56 @@ export class PathManager {
    * @private
    */
   private saveConfig(): void {
-    fs.mkdirSync(path.dirname(this.configPath), { recursive: true });
+    fs.mkdirSync(path.dirname(this.configPath), { recursive: true })
     fs.writeFileSync(
       this.configPath,
       JSON.stringify(this.config, null, 2)
-    );
+    )
   }
 
   getPath(key: string): string {
-    return this.config.paths?.[key] || this.defaultPaths[key] || '';
+    return this.config.paths?.[key] || this.defaultPaths[key] || ''
   }
 
   setPath(key: string, newPath: string): void {
-    if (!this.config.paths) this.config.paths = {};
-    this.config.paths[key] = newPath;
-    this.saveConfig();
+    if (!this.config.paths) this.config.paths = {}
+    this.config.paths[key] = newPath
+    this.saveConfig()
   }
 
   getAllPaths(): Record<string, string> {
-    const keys = Object.keys(this.defaultPaths);
+    const keys = Object.keys(this.defaultPaths)
     const result: Record<string, string> = {
       userData: this.userData,
     }
     for (const k of keys) {
-      result[k] = this.getPath(k);
+      result[k] = this.getPath(k)
     }
-    return result;
+    return result
   }
 
   appLogsPath(): string {
-    return path.join(this.userData, 'logs');
+    return path.join(this.userData, 'logs')
   }
 
   appLogFilePath(): string {
-    return path.join(this.appLogsPath(), 'electron.log');
+    return path.join(this.appLogsPath(), 'electron.log')
   }
 
   appLibraryPath(): string {
-    return this.getPath('library');
+    return this.getPath('library')
   }
 
   appDbFilePath(): string {
-    return path.join(this.appLibraryPath(), 'metadata.db');
+    return path.join(this.appLibraryPath(), 'metadata.db')
   }
 
   appCachePath(): string {
-    return path.join(this.appLibraryPath(), '.cache');
+    return path.join(this.appLibraryPath(), '.cache')
   }
 
   appPublicPath(): string {
-    return path.join(this.appLibraryPath(), 'public');
+    return path.join(this.appLibraryPath(), 'public')
   }
 
   async migrate(key: string, newDir: string, cut: boolean): Promise<MigrateResult> {
@@ -156,32 +156,32 @@ export class PathManager {
       return { success: false, message: 'Location does not exist', code: `noExist` }
     }
 
-    log.info(`🚚 Migrating [${type}] library to ${newDir} ...`);
+    log.info(`🚚 Migrating [${type}] library to ${newDir} ...`)
     // migrate
     let result = { success: true, message: '', code: '' }
     switch (type) {
       case 'create':
         result.message = `Create new library at ${newDir}`
-        break;
+        break
       case 'open':
         result.message = `Use exist library at ${newDir}`
-        break;
+        break
       case 'move':
         if (await isDirectoryEmpty(newDir)) {
           result = (await this.migrate('library', newDir, true)) as any
         } else {
           result = { success: false, message: 'New location is not empty', code: 'notEmpty' }
         }
-        break;
+        break
     }
 
     // Restart server
     if (result.success) {
-      this.setPath('library', newDir);
+      this.setPath('library', newDir)
 
       // Reload app
-      Application.reload();
-      await restartServer();
+      Application.reload()
+      await restartServer()
       await sleep(3000)
     }
 
@@ -189,4 +189,4 @@ export class PathManager {
   }
 }
 
-export const pathManager = new PathManager();
+export const pathManager = new PathManager()

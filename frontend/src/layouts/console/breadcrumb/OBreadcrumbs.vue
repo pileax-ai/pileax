@@ -14,44 +14,44 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-import { menuLabel } from 'core/hooks/useMenu';
-import type { MenuItem } from 'core/types/menu';
-import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi';
+import { menuLabel } from 'core/hooks/useMenu'
+import type { MenuItem } from 'core/types/menu'
+import { useAppStore } from 'stores/app'
+import { useNaviStore } from 'stores/navi'
 
 const props = defineProps({
   disable: {
     type: Boolean,
     default: false
   },
-});
+})
 
-const appStore = useAppStore();
-const naviStore = useNaviStore();
+const appStore = useAppStore()
+const naviStore = useNaviStore()
 
 const breadcrumb = computed(() => {
-  return appStore.setting.breadcrumb;
-});
+  return appStore.setting.breadcrumb
+})
 
 const breadcrumbMenuList = computed(() => {
-  const menus = naviStore.menus;
-  const currentMenu = naviStore.currentMenu;
-  const list = [] as MenuItem[];
+  const menus = naviStore.menus
+  const currentMenu = naviStore.currentMenu
+  const list = [] as MenuItem[]
   if (currentMenu.path) {
-    list.push(currentMenu);
-    let parentId = currentMenu.parentId;
+    list.push(currentMenu)
+    let parentId = currentMenu.parentId
     while (parentId && parentId !== 'root') {
-      const parentMenu = menus.find(e => e.id === parentId);
-      parentId = parentMenu?.parentId;
+      const parentMenu = menus.find(e => e.id === parentId)
+      parentId = parentMenu?.parentId
       if (parentMenu) {
-        list.unshift(parentMenu);
+        list.unshift(parentMenu)
       }
     }
   }
-  return list;
-});
+  return list
+})
 </script>
 
 <style lang="scss">

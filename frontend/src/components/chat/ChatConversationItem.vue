@@ -49,10 +49,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, ref } from 'vue'
-import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import type { ChatConversation } from 'src/types/chat';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation'
+import type { ChatConversation } from 'src/types/chat'
 import { refresh } from 'core/hooks/useRouter'
 import { timeMulti } from 'core/utils/format'
 
@@ -60,7 +60,7 @@ const props = defineProps({
   item: {
     type: Object as PropType<ChatConversation>,
     default: () => {
-      return {};
+      return {}
     }
   },
   activeId: {
@@ -71,58 +71,58 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['open', 'updated']);
-const clicked = ref(false);
-const name = ref('');
-const editable = ref(false);
+})
+const emit = defineEmits(['open', 'updated'])
+const clicked = ref(false)
+const name = ref('')
+const editable = ref(false)
 
 const actions = computed(() => {
   return [
     { label: '智能重命名', value: 'edit', icon: 'draw' },
     { label: '重命名', value: 'rename', icon: 'edit' },
     { label: 'Delete', value: 'delete', icon: 'delete_outline', class: 'text-red', separator: true },
-  ];
-});
+  ]
+})
 
 function onAction (action: Indexable) {
   switch (action.value) {
     case 'rename':
-      editable.value = true;
-      name.value = props.item.name;
-      break;
+      editable.value = true
+      name.value = props.item.name
+      break
     case 'closeOther':
-      break;
+      break
     case 'closeToRight':
-      break;
+      break
     case 'reload':
-      refresh();
-      break;
+      refresh()
+      break
   }
 }
 
 function onBlur() {
-  editable.value = false;
-  console.log('input', name.value);
+  editable.value = false
+  console.log('input', name.value)
   chatConversationService.save({
     id: props.item.id,
     name: name.value
   }).then(res => {
-    emit('updated', res);
+    emit('updated', res)
   })
 }
 
 function openConversation(item: ChatConversation) {
-  emit('open', item);
+  emit('open', item)
 }
 
 function onToggleFavorite() {
-  const favorite = props.item.favorite === 1 ? 0 : 1;
+  const favorite = props.item.favorite === 1 ? 0 : 1
   chatConversationService.save({
     id: props.item.id,
     favorite
   }).then(res => {
-    emit('updated', res);
+    emit('updated', res)
   })
 }
 </script>

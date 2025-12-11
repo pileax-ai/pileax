@@ -1,29 +1,29 @@
-import type { IpcService} from 'src/api/ipc/index';
-import { ipcServiceKeys } from 'src/api/ipc/index';
-import { refresh } from 'core/hooks/useRouter';
+import type { IpcService} from 'src/api/ipc/index'
+import { ipcServiceKeys } from 'src/api/ipc/index'
+import { refresh } from 'core/hooks/useRouter'
 
 const mock = (args?: any) => {
   return new Promise((resolve, reject) => {
-    resolve(args);
-  });
+    resolve(args)
+  })
 }
 
 const openNewWindow = (id: string, url: string, titleBarHeight: number) => {
   return new Promise((resolve, reject) => {
-    window.open(url, '_blank', 'noopener');
-    resolve(id);
-  });
+    window.open(url, '_blank', 'noopener')
+    resolve(id)
+  })
 }
 
 const reload = (force: boolean = false): Promise<any> => {
   if (force) {
-    window.location.reload();
+    window.location.reload()
     return new Promise((resolve, reject) => {
-      window.location.reload();
-      resolve(force);
-    });
+      window.location.reload()
+      resolve(force)
+    })
   } else {
-    return refresh();
+    return refresh()
   }
 }
 
@@ -53,19 +53,19 @@ window.webIpcAPI = {
 }
 
 export const createWebIpc = (): IpcService => {
-  const api = window.webIpcAPI;
+  const api = window.webIpcAPI
 
   const handler: ProxyHandler<any> = {
     get: (_, prop: string) => {
       if (ipcServiceKeys.includes(prop as any)) {
-        const fn = api[prop as keyof typeof api];
-        return typeof fn === "function" ? fn.bind(api) : fn;
+        const fn = api[prop as keyof typeof api]
+        return typeof fn === "function" ? fn.bind(api) : fn
       }
-      throw new Error(`IPC method ${prop} not found`);
+      throw new Error(`IPC method ${prop} not found`)
     }
-  };
+  }
 
-  return new Proxy({}, handler) as IpcService;
+  return new Proxy({}, handler) as IpcService
 }
 
-export const webIpc = createWebIpc();
+export const webIpc = createWebIpc()

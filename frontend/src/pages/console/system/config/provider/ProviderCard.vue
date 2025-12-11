@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const props = defineProps({
   data: {
@@ -57,9 +57,9 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
-const emit = defineEmits(['edit', 'disable']);
-const fetching = ref(false);
+})
+const emit = defineEmits(['edit', 'disable'])
+const fetching = ref(false)
 </script>
 
 <style lang="scss">

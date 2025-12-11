@@ -44,13 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref, watch} from 'vue';
-import useDialog from 'core/hooks/useDialog';
-import { knowledgeService } from 'src/api/service/remote/knowledge';
-import type { Knowledge } from 'src/types/knowledge';
-import { router } from 'src/router';
-import useKnowledge from 'src/hooks/useKnowledge.js';
-import useNavi from 'src/hooks/useNavi.js';
+import {computed, onBeforeMount, ref, watch} from 'vue'
+import useDialog from 'core/hooks/useDialog'
+import { knowledgeService } from 'src/api/service/remote/knowledge'
+import type { Knowledge } from 'src/types/knowledge'
+import { router } from 'src/router'
+import useKnowledge from 'src/hooks/useKnowledge.js'
+import useNavi from 'src/hooks/useNavi.js'
 
 type GroupedConversations = {
   today: Knowledge[];
@@ -65,13 +65,13 @@ defineProps({
     type: Number,
     default: 300
   },
-});
-const { queryTimer } = useKnowledge();
-const { openDialog } = useDialog();
-const { currentMenu } = useNavi();
-const list = ref<Knowledge[]>([]);
+})
+const { queryTimer } = useKnowledge()
+const { openDialog } = useDialog()
+const { currentMenu } = useNavi()
+const list = ref<Knowledge[]>([])
 const groupedList = computed(() => {
-  return groupByTime(list.value);
+  return groupByTime(list.value)
 })
 
 async function getList() {
@@ -83,20 +83,20 @@ async function getList() {
     }
   }
   knowledgeService.query(query).then(res => {
-    list.value = res.list;
+    list.value = res.list
   })
 }
 
 function openKnowledge(item: Knowledge) {
-  router.push({name: 'knowledge', params: {id: item.id}});
+  router.push({name: 'knowledge', params: {id: item.id}})
 }
 
 function groupByTime(knowledgeList: Knowledge[]): GroupedConversations {
-  const now = new Date();
-  const todayStart = new Date(now.setHours(0, 0, 0, 0));
-  const yesterdayStart = new Date(new Date().setDate(now.getDate() - 1));
-  const sevenDaysAgo = new Date(new Date().setDate(now.getDate() - 7));
-  const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
+  const now = new Date()
+  const todayStart = new Date(now.setHours(0, 0, 0, 0))
+  const yesterdayStart = new Date(new Date().setDate(now.getDate() - 1))
+  const sevenDaysAgo = new Date(new Date().setDate(now.getDate() - 7))
+  const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30))
 
   const result: GroupedConversations = {
     today: [],
@@ -104,48 +104,48 @@ function groupByTime(knowledgeList: Knowledge[]): GroupedConversations {
     last7Days: [],
     last30Days: [],
     byMonth: {},
-  };
+  }
 
   knowledgeList.forEach((item) => {
-    const date = new Date(item.createTime);
+    const date = new Date(item.createTime)
 
     // Day group
     if (date >= todayStart) {
-      result.today.push(item);
+      result.today.push(item)
     } else if (date >= yesterdayStart) {
-      result.yesterday.push(item);
+      result.yesterday.push(item)
     }  else if (date >= sevenDaysAgo) {
-      result.last7Days.push(item);
+      result.last7Days.push(item)
     } else if (date >= thirtyDaysAgo) {
-      result.last30Days.push(item);
+      result.last30Days.push(item)
     } else {
-      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
 
       // Month group
       if (!result.byMonth[monthKey]) {
-        result.byMonth[monthKey] = [];
+        result.byMonth[monthKey] = []
       }
-      result.byMonth[monthKey].push(item);
+      result.byMonth[monthKey].push(item)
     }
-  });
+  })
 
   // Deduplicate
   result.last7Days = result.last7Days.filter(
     (conversation) => !result.today.includes(conversation)
-  );
+  )
   result.last30Days = result.last30Days.filter(
     (conversation) => !result.today.includes(conversation) && !result.last7Days.includes(conversation)
-  );
+  )
 
-  return result;
+  return result
 }
 
 watch(() => queryTimer.value, (newValue) => {
-  getList();
+  getList()
 })
 
 onBeforeMount(() => {
-  getList();
+  getList()
 })
 </script>
 

@@ -73,12 +73,12 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
-import {isMobile} from 'core/hooks/useCommon';
-import { IconSets } from 'core/constants/metadata';
+import {computed, onMounted, ref} from 'vue'
+import {isMobile} from 'core/hooks/useCommon'
+import { IconSets } from 'core/constants/metadata'
 
-import MaterialIcons from 'src/assets/icon-set/material-icons';
-import MdiV6 from 'src/assets/icon-set/mdi-v6';
+import MaterialIcons from 'src/assets/icon-set/material-icons'
+import MdiV6 from 'src/assets/icon-set/mdi-v6'
 
 const props = defineProps({
   name: {
@@ -97,64 +97,64 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['icon']);
+})
+const emit = defineEmits(['icon'])
 
-const term = ref('');
-const selected = ref('');
-const iconSetName = ref('material-icons');
-const iconSetTitle = ref('Material Icons');
-const allIcons = ref([]);
-const index = ref(1);
+const term = ref('')
+const selected = ref('')
+const iconSetName = ref('material-icons')
+const iconSetTitle = ref('Material Icons')
+const allIcons = ref([])
+const index = ref(1)
 
 const icons = computed(() => {
   if (term.value) {
-    return allIcons.value.filter(e => e.name.indexOf(term.value) >= 0);
+    return allIcons.value.filter(e => e.name.indexOf(term.value) >= 0)
   } else {
-    return allIcons.value;
+    return allIcons.value
   }
-});
+})
 
 const iconList = computed(() => {
-  const start = (index.value - 1) * props.size;
-  const end = index.value * props.size;
-  return icons.value.slice(start, end);
+  const start = (index.value - 1) * props.size
+  const end = index.value * props.size
+  return icons.value.slice(start, end)
 })
 
 const max = computed(() => {
-  const total = icons.value.length;
-  let max = parseInt(total / props.size);
+  const total = icons.value.length
+  let max = parseInt(total / props.size)
   if (total % props.size !== 0) {
-    max += 1;
+    max += 1
   }
-  return max;
+  return max
 })
 
 function loadIcon () {
   switch (iconSetName.value) {
     case 'material-icons':
-      allIcons.value = MaterialIcons.icons;
-      break;
+      allIcons.value = MaterialIcons.icons
+      break
     case 'mdi-v6':
-      allIcons.value = MdiV6.icons;
-      break;
+      allIcons.value = MdiV6.icons
+      break
   }
 }
 
 function onClick (name) {
-  selected.value = name;
-  emit('icon', name);
+  selected.value = name
+  emit('icon', name)
 }
 
 function onIconSetClick (item) {
-  iconSetName.value = item.value;
-  iconSetTitle.value = item.label;
-  loadIcon();
+  iconSetName.value = item.value
+  iconSetTitle.value = item.label
+  loadIcon()
 }
 
 onMounted(() => {
-  iconSetName.value = props.name;
-  loadIcon();
+  iconSetName.value = props.name
+  loadIcon()
 })
 </script>
 

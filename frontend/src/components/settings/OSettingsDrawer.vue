@@ -99,20 +99,20 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref} from 'vue';
-import useCommon from 'core/hooks/useCommon';
-import useSetting from 'core/hooks/useSetting';
+import {computed, onBeforeMount, ref} from 'vue'
+import useCommon from 'core/hooks/useCommon'
+import useSetting from 'core/hooks/useSetting'
 
-import OCopyBtn from 'core/components/button/OCopyBtn.vue';
-import ThemeSelect from './common/theme-select.vue';
-import ThemeColorSelect from './common/theme-color-select.vue';
-import NaviSelect from './common/navi-select.vue';
-import TabbarPositionToggle from './common/tabbar-position-toggle.vue';
-import TabbarStyleToggle from './common/tabbar-style-toggle.vue';
-import BreadcrumbStyleToggle from './common/breadcrumb-style-toggle.vue';
-import PageTransitionDropdown from './common/page-transition-dropdown.vue';
+import OCopyBtn from 'core/components/button/OCopyBtn.vue'
+import ThemeSelect from './common/theme-select.vue'
+import ThemeColorSelect from './common/theme-color-select.vue'
+import NaviSelect from './common/navi-select.vue'
+import TabbarPositionToggle from './common/tabbar-position-toggle.vue'
+import TabbarStyleToggle from './common/tabbar-style-toggle.vue'
+import BreadcrumbStyleToggle from './common/breadcrumb-style-toggle.vue'
+import PageTransitionDropdown from './common/page-transition-dropdown.vue'
 
-const { copy } = useCommon();
+const { copy } = useCommon()
 
 const {
   setting,
@@ -129,34 +129,34 @@ const {
   setBreadcrumb,
   setPageLoading,
   setPageTransition,
-} = useSetting();
+} = useSetting()
 
-const settingsDrawerOpen = ref(false);
-const themeGray = ref(false);
-const themeWeak = ref(false);
-const tabBarSetting = ref({});
-const breadcrumbSetting = ref({});
-const pageLoadingSetting = ref({});
-const pageTransitionSetting = ref({});
+const settingsDrawerOpen = ref(false)
+const themeGray = ref(false)
+const themeWeak = ref(false)
+const tabBarSetting = ref({})
+const breadcrumbSetting = ref({})
+const pageLoadingSetting = ref({})
+const pageTransitionSetting = ref({})
 
 const settingJsonString = computed(() => {
-  return JSON.stringify(setting.value, null, '\t');
-}) ;
+  return JSON.stringify(setting.value, null, '\t')
+}) 
 
 function onToggle () {
   settingsDrawerOpen.value = !settingsDrawerOpen.value
 }
 function onCopySetting () {
-  copy(JSON.stringify(setting.value, null, '\t'));
+  copy(JSON.stringify(setting.value, null, '\t'))
 }
 
 onBeforeMount(() => {
-  themeGray.value = theme.value.gray;
-  themeWeak.value = theme.value.weak;
-  tabBarSetting.value = tabBar.value;
-  breadcrumbSetting.value = breadcrumb.value;
-  pageLoadingSetting.value = pageLoading.value;
-  pageTransitionSetting.value = pageTransition.value;
+  themeGray.value = theme.value.gray
+  themeWeak.value = theme.value.weak
+  tabBarSetting.value = tabBar.value
+  breadcrumbSetting.value = breadcrumb.value
+  pageLoadingSetting.value = pageLoading.value
+  pageTransitionSetting.value = pageTransition.value
 })
 </script>
 

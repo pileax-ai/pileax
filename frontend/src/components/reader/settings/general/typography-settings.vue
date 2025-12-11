@@ -51,26 +51,26 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue'
 
-import useReaderSetting from 'src/hooks/useReaderSetting';
-const { settings, setSettingItem } = useReaderSetting();
-import OFieldLabel from 'core/components/form/field/OFieldLabel.vue';
+import useReaderSetting from 'src/hooks/useReaderSetting'
+const { settings, setSettingItem } = useReaderSetting()
+import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
-const letterSpacing = ref(0);
-const spacing = ref(0);
-const paragraphSpacing = ref(0);
-const sideMargin = ref(0);
-const maxInlineSize = ref(720);
+const letterSpacing = ref(0)
+const spacing = ref(0)
+const paragraphSpacing = ref(0)
+const sideMargin = ref(0)
+const maxInlineSize = ref(720)
 
 function onValueChanged(key: string, value: any) {
-  setSettingItem(key, value);
+  setSettingItem(key, value)
 }
 
 onBeforeMount(() => {
-  letterSpacing.value = settings.value.letterSpacing || 0;
-  spacing.value = settings.value.spacing || 1.7;
-  paragraphSpacing.value = settings.value.paragraphSpacing || 0;
-  sideMargin.value = settings.value.sideMargin || 0;
-  maxInlineSize.value = settings.value.maxInlineSize || 720;
+  letterSpacing.value = settings.value.letterSpacing || 0
+  spacing.value = settings.value.spacing || 1.7
+  paragraphSpacing.value = settings.value.paragraphSpacing || 0
+  sideMargin.value = settings.value.sideMargin || 0
+  maxInlineSize.value = settings.value.maxInlineSize || 720
 })
 </script>
 

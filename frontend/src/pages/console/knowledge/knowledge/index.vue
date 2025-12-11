@@ -35,15 +35,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onMounted, ref } from 'vue';
+import { computed, onActivated, onMounted, ref } from 'vue'
 
-import useKnowledge from 'src/hooks/useKnowledge.js';
+import useKnowledge from 'src/hooks/useKnowledge.js'
 import { useRoute } from 'vue-router'
 import { knowledgeService } from 'src/api/service/remote/knowledge'
 
-const route = useRoute();
-const { knowledgeId, knowledge, setCurrentKnowledge } = useKnowledge();
-const currentTab = ref('dataset');
+const route = useRoute()
+const { knowledgeId, knowledge, setCurrentKnowledge } = useKnowledge()
+const currentTab = ref('dataset')
 
 import ChatTab from './chat/index.vue'
 import ConfigTab from './config/index.vue'
@@ -56,25 +56,25 @@ const tabs = computed(() => {
     { label: 'Dataset', value: 'dataset', icon: 'dataset', component: DatesetTab },
     { label: 'Test', value: 'test', icon: 'radio_button_checked', component: TestTab },
     { label: 'Config', value: 'config', icon: 'tune', component: ConfigTab },
-  ];
+  ]
 })
 
 function init() {
-  knowledgeId.value = (route.params.id || '') as string;
+  knowledgeId.value = (route.params.id || '') as string
   if (knowledgeId.value) {
-    getKnowledge();
+    getKnowledge()
   }
 }
 
 async function getKnowledge() {
   knowledgeService.get(knowledgeId.value).then(res => {
-    knowledge.value = res;
-    setCurrentKnowledge(res);
+    knowledge.value = res
+    setCurrentKnowledge(res)
   })
 }
 
 onActivated(() => {
-  init();
+  init()
 })
 </script>
 

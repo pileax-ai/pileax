@@ -82,12 +82,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue'
 
-import OCommonPage from 'core/page/template/OCommonPage.vue';
+import OCommonPage from 'core/page/template/OCommonPage.vue'
 import { notifyDone, notifyError, notifyInfo, notifySuccess, notifyWarning } from 'core/utils/control'
-import { ipcService, ipcMethod } from 'src/api/ipc';
-import { edgeService } from 'src/api/service/remote/edge';
+import { ipcService, ipcMethod } from 'src/api/ipc'
+import { edgeService } from 'src/api/service/remote/edge'
 import { api as request } from 'boot/axios'
 
 const loading = ref<Indexable>({
@@ -111,41 +111,41 @@ const notify = (type: string, position = 'top') => {
     case 'info':
       notifyInfo('This is a NORMAL notification', {
         position: position
-      });
-      break;
+      })
+      break
     case 'success':
       notifySuccess('This is an SUCCESS notification', {
         position: position
-      });
-      break;
+      })
+      break
     case 'warning':
       notifyWarning('This is an WARNING notification', {
         position: position
-      });
-      break;
+      })
+      break
     case 'done':
-      notifyDone();
-      break;
+      notifyDone()
+      break
     case 'error':
       notifyError('This is an ERROR notification', {
         position: position
-      });
-      break;
+      })
+      break
   }
 }
 
 const ipcCall = async (name: string, args?: any) => {
-  const res = await ipcMethod(ipcService, name, args);
+  const res = await ipcMethod(ipcService, name, args)
   console.log(name, res)
   notifyInfo(`${res}`)
 }
 
 const getEdgeVoices = () => {
-  loading.value.edgeVoices = true;
+  loading.value.edgeVoices = true
   edgeService.getVoices().then(res => {
     console.log('voices', res)
   }).finally(() => {
-    loading.value.edgeVoices = false;
+    loading.value.edgeVoices = false
   })
 }
 
@@ -157,12 +157,12 @@ const edgeTTS = async () => {
   }
 
   try {
-    loading.value.edgeTTS = true;
-    const res = await edgeService.tts(body, 'blob');
-    const blob = res.data;
-    console.log('blob', blob);
+    loading.value.edgeTTS = true
+    const res = await edgeService.tts(body, 'blob')
+    const blob = res.data
+    console.log('blob', blob)
   } finally {
-    loading.value.edgeTTS = false;
+    loading.value.edgeTTS = false
   }
 
 }

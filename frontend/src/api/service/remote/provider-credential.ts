@@ -6,7 +6,7 @@
 import { BaseService } from 'src/api/service/remote/base'
 
 export class ProviderCredentialService extends BaseService {
-  protected apiName = 'providerCredential';
+  protected apiName = 'providerCredential'
 }
 
-export const providerCredentialService = new ProviderCredentialService();
+export const providerCredentialService = new ProviderCredentialService()

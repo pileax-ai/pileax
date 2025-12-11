@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
-import { store } from 'stores/index';
+import { defineStore } from 'pinia'
+import { store } from 'stores/index'
 import type {
   BreadcrumbSetting,
   NaviSetting,
@@ -7,11 +7,11 @@ import type {
   PageTransitionSetting,
   TabBarSetting,
   ThemeSetting
-} from 'core/types/setting';
-import { CODE } from 'core/app';
+} from 'core/types/setting'
+import { CODE } from 'core/app'
 
-import type { AppState } from 'core/types/app';
-import { defaultAppState } from 'src/app/app';
+import type { AppState } from 'core/types/app'
+import { defaultAppState } from 'src/app/app'
 
 export const useAppStore = defineStore('app', {
   state: (): AppState => ({
@@ -24,32 +24,32 @@ export const useAppStore = defineStore('app', {
   },
   actions: {
     setLocale(locale :string) {
-      this.setting.locale = locale;
+      this.setting.locale = locale
     },
     setTheme(theme :ThemeSetting) {
-      this.setting.theme = theme;
+      this.setting.theme = theme
     },
     setNavi(navi :NaviSetting) {
-      this.setting.navi = navi;
+      this.setting.navi = navi
     },
     setTabBar(tabBar :TabBarSetting) {
-      this.setting.tabBar = tabBar;
+      this.setting.tabBar = tabBar
     },
     setBreadcrumb(breadcrumb :BreadcrumbSetting) {
-      this.setting.breadcrumb = breadcrumb;
+      this.setting.breadcrumb = breadcrumb
     },
     setPageLoading(pageLoading :PageLoadingSetting) {
-      this.setting.pageLoading = pageLoading;
+      this.setting.pageLoading = pageLoading
     },
     setPageTransition(pageTransition :PageTransitionSetting) {
-      this.setting.pageTransition = pageTransition;
+      this.setting.pageTransition = pageTransition
     },
   },
   persist: {
     key: `${CODE}.app`
   }
-});
+})
 
 export const useAppStoreWithOut = () => {
-  return useAppStore(store);
+  return useAppStore(store)
 }

@@ -1,6 +1,6 @@
-import { BrowserTTSClient } from 'src/api/service/tts/browser-tts';
-import { EdgeTTSClient } from 'src/api/service/tts/edge-tts';
-import { ttsManager } from './tts-manager';
+import { BrowserTTSClient } from 'src/api/service/tts/browser-tts'
+import { EdgeTTSClient } from 'src/api/service/tts/edge-tts'
+import { ttsManager } from './tts-manager'
 
 /**
  * TTS Client
@@ -103,11 +103,11 @@ export interface TTSClient {
 export function createTTSClient(options: TTSOptions): TTSClient {
   switch (options.provider) {
     case 'browser':
-      return new BrowserTTSClient(options);
+      return new BrowserTTSClient(options)
     case 'edge':
-      return new EdgeTTSClient(options);
+      return new EdgeTTSClient(options)
     default:
-      throw new Error(`Unsupported TTS provider: ${options.provider}`);
+      throw new Error(`Unsupported TTS provider: ${options.provider}`)
   }
 }
 

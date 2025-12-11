@@ -44,13 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import PopupMenu from './PopupMenu.vue';
-import ShareDialog from './ShareDialog.vue';
-import ReaderHeader from './ReaderHeader.vue';
-import ReaderFooter from './ReaderFooter.vue';
-import OReaderPage from 'components/page/OReaderPage.vue';
-import ReaderSide from 'components/reader/ReaderSide.vue';
+import { useRoute } from 'vue-router'
+import PopupMenu from './PopupMenu.vue'
+import ShareDialog from './ShareDialog.vue'
+import ReaderHeader from './ReaderHeader.vue'
+import ReaderFooter from './ReaderFooter.vue'
+import OReaderPage from 'components/page/OReaderPage.vue'
+import ReaderSide from 'components/reader/ReaderSide.vue'
 
 import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
@@ -60,73 +60,73 @@ import { bookAnnotationService, bookService } from 'src/api/service/remote'
 import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 
-const route = useRoute();
-const { store, setBook, setBookId, setWorkspaceBookId } = useBook();
+const route = useRoute()
+const { store, setBook, setBookId, setWorkspaceBookId } = useBook()
 
-const bookRef = ref(null);
-const showShareDialog = ref(false);
-const loading = ref(false);
+const bookRef = ref(null)
+const showShareDialog = ref(false)
+const loading = ref(false)
 
 function prepareOpen() {
-  const name = route.name;
-  const id: string = String(route.query.id ?? '');
+  const name = route.name
+  const id: string = String(route.query.id ?? '')
   switch (name) {
     case 'reader-book':
-      openWithBook(id);
-      break;
+      openWithBook(id)
+      break
     case 'reader-annotation':
-      openWithAnnotation(id);
-      break;
+      openWithAnnotation(id)
+      break
     default:
-      console.warn('Not supported');
-      break;
+      console.warn('Not supported')
+      break
   }
 }
 
 async function openWithBook(bookId: string) {
-  store.setReadingMode(ReadingMode.Read);
-  await open(bookId);
+  store.setReadingMode(ReadingMode.Read)
+  await open(bookId)
 }
 
 async function openWithAnnotation(annotationId: string) {
-  const annotation = await bookAnnotationService.get(annotationId);
-  const bookId = annotation.bookId;
-  const cfi = annotation.value;
-  store.setReadingMode(ReadingMode.Preview);
-  await open(bookId, cfi);
+  const annotation = await bookAnnotationService.get(annotationId)
+  const bookId = annotation.bookId
+  const cfi = annotation.value
+  store.setReadingMode(ReadingMode.Preview)
+  await open(bookId, cfi)
 }
 
 async function open(bookId: string, initialCfi = '') {
   console.log('open', bookId)
-  const book: Indexable = await bookService.getDetails(bookId);
+  const book: Indexable = await bookService.getDetails(bookId)
   if (book) {
-    setBookId(bookId);
-    setBook(book);
+    setBookId(bookId)
+    setBook(book)
 
-    const filePath = `${book.path}/${book.fileName}`;
-    const cfi = initialCfi || book.readingPosition || '';
+    const filePath = `${book.path}/${book.fileName}`
+    const cfi = initialCfi || book.readingPosition || ''
 
-    loading.value = true;
-    await openBook(bookRef.value, filePath, cfi);
-    loading.value = false;
+    loading.value = true
+    await openBook(bookRef.value, filePath, cfi)
+    loading.value = false
 
     setTimeout(() => {
-      prepareAnnotations(bookId);
-    }, 300);
+      prepareAnnotations(bookId)
+    }, 300)
   }
 }
 
 async function prepareAnnotations(bookId: string) {
-  const annotations = await findBookAnnotation(bookId);
-  renderAnnotations(annotations);
+  const annotations = await findBookAnnotation(bookId)
+  renderAnnotations(annotations)
 }
 
 function onShare(show = true) {
-  showShareDialog.value = show;
+  showShareDialog.value = show
 }
 
 onActivated(() => {
-  prepareOpen();
+  prepareOpen()
 })
 </script>
 

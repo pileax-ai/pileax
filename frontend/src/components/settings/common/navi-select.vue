@@ -21,17 +21,17 @@
 </template>
 
 <script setup lang="ts">
-import { NAVI_LAYOUTS } from 'core/constants/setting';
-import useSetting from 'core/hooks/useSetting';
+import { NAVI_LAYOUTS } from 'core/constants/setting'
+import useSetting from 'core/hooks/useSetting'
 
 defineProps({
   itemClass: {
     type: String,
     default: ''
   }
-});
+})
 
-const { navi, setNavi } = useSetting();
+const { navi, setNavi } = useSetting()
 </script>
 
 <style lang="scss">

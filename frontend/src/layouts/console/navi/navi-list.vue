@@ -21,29 +21,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount } from 'vue'
 
 import DrawerNavi from 'core/page/DrawerNavi.vue'
 import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue'
-import NoteList from './note/note-list.vue';
-import AiAssistantList from './chat/ai-assistant-list.vue';
-import KnowledgeList from './knowledge/knowledge-list.vue';
+import NoteList from './note/note-list.vue'
+import AiAssistantList from './chat/ai-assistant-list.vue'
+import KnowledgeList from './knowledge/knowledge-list.vue'
 
-import useAccount from 'src/hooks/useAccount';
-import useNavi from 'src/hooks/useNavi';
+import useAccount from 'src/hooks/useAccount'
+import useNavi from 'src/hooks/useNavi'
 
 const props = defineProps({
   maxWidth: {
     type: Number,
     default: 300
   },
-});
+})
 
-const { workspace } = useAccount();
-const { activity, findTopConsoleMenu } = useNavi();
+const { workspace } = useAccount()
+const { activity, findTopConsoleMenu } = useNavi()
 
 const activeMenu = computed(() => {
-  return findTopConsoleMenu(activity.value);
+  return findTopConsoleMenu(activity.value)
 })
 
 onBeforeMount(() => {

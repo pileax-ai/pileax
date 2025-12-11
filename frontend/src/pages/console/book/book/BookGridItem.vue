@@ -14,24 +14,24 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
-import useApi from 'src/hooks/useApi';
+import {computed, onMounted, ref, watch} from 'vue'
+import useApi from 'src/hooks/useApi'
 
 const props = defineProps({
   data: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   },
   add: {
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['add', 'details']);
+})
+const emit = defineEmits(['add', 'details'])
 
-const { getCoverUrl } = useApi();
+const { getCoverUrl } = useApi()
 const coverUrl = ref('')
 
 // const coverUrl = computed(() => {

@@ -3,14 +3,14 @@
  *
  * @version 1.0
  */
-import { GET, POST, DELETE } from 'src/hooks/useRequest';
+import { GET, POST, DELETE } from 'src/hooks/useRequest'
 import { api as request } from 'boot/axios'
 
 export class EdgeService {
-  private apiName = 'edge';
+  private apiName = 'edge'
 
   getVoices(): Promise<any> {
-    return GET({ name: this.apiName, path: '/voices', });
+    return GET({ name: this.apiName, path: '/voices', })
   }
 
   tts(body: Indexable, responseType = 'arraybuffer', controller?: AbortController): Promise<any> {
@@ -25,9 +25,9 @@ export class EdgeService {
         'Accept': 'stream'
       },
       responseType: responseType as 'arraybuffer'
-    });
+    })
   }
 
 }
 
-export const edgeService = new EdgeService();
+export const edgeService = new EdgeService()

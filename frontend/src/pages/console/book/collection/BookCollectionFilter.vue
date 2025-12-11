@@ -48,19 +48,19 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { bookCollectionService } from 'src/api/service/remote/book-collection'
-import useCrud from 'src/hooks/useCrud';
+import useCrud from 'src/hooks/useCrud'
 
-const apiName = 'bookCollection';
+const apiName = 'bookCollection'
 const props = defineProps({
   modelValue: {
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['action', 'update:modelValue']);
+})
+const emit = defineEmits(['action', 'update:modelValue'])
 
-const { crud } = useCrud();
-const list = ref<Indexable[]>();
+const { crud } = useCrud()
+const list = ref<Indexable[]>()
 
 const collections = computed(() => {
   const newList = list.value?.map(item => {
@@ -80,7 +80,7 @@ const collections = computed(() => {
     action: 'add',
   })
   return newList
-});
+})
 
 const actions = computed(() => {
   return [
@@ -103,12 +103,12 @@ function onAction (item :Indexable) {
   switch (item.action) {
     case 'filter':
       emit('update:modelValue', item.value)
-      break;
+      break
     case 'delete':
       onDelete(item)
-      break;
+      break
     default:
-      break;
+      break
   }
   emit('action', item)
 }
@@ -134,8 +134,8 @@ function refresh() {
 }
 
 onMounted(() => {
-  crud.init(apiName);
-  refresh();
+  crud.init(apiName)
+  refresh()
 })
 
 defineExpose({

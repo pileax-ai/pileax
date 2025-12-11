@@ -16,22 +16,22 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue'
 
-import useReaderSetting from 'src/hooks/useReaderSetting';
-const { settings, setSettingItem } = useReaderSetting();
-import OFieldLabel from 'core/components/form/field/OFieldLabel.vue';
+import useReaderSetting from 'src/hooks/useReaderSetting'
+const { settings, setSettingItem } = useReaderSetting()
+import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
-const emit = defineEmits(['next']);
+const emit = defineEmits(['next'])
 
-const fontSize = ref(1.2);
+const fontSize = ref(1.2)
 
 function onValueChanged(key: string, value: any) {
-  setSettingItem(key, value);
+  setSettingItem(key, value)
 }
 
 onBeforeMount(() => {
-  fontSize.value = settings.value.fontSize || 1.2;
+  fontSize.value = settings.value.fontSize || 1.2
 })
 </script>
 

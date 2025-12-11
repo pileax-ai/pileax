@@ -56,76 +56,76 @@
 
 <script setup lang="ts">
 import { computed, ref, useTemplateRef, watchEffect } from 'vue'
-import { useRoute } from 'vue-router';
-import { useElementSize } from '@vueuse/core';
-import { useAppStore } from 'stores/app';
-import { useTabStore } from 'stores/tab';
-import useAccount from 'src/hooks/useAccount';
-import useNavi from 'src/hooks/useNavi';
+import { useRoute } from 'vue-router'
+import { useElementSize } from '@vueuse/core'
+import { useAppStore } from 'stores/app'
+import { useTabStore } from 'stores/tab'
+import useAccount from 'src/hooks/useAccount'
+import useNavi from 'src/hooks/useNavi'
 
-import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
-import OHoverBtn from 'core/components/button/OHoverBtn.vue';
-import NaviTab from './NaviTab.vue';
-import type { MenuItem, TabItem } from 'core/types/menu';
-import draggable from 'vuedraggable';
-import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue';
+import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue'
+import OHoverBtn from 'core/components/button/OHoverBtn.vue'
+import NaviTab from './NaviTab.vue'
+import type { MenuItem, TabItem } from 'core/types/menu'
+import draggable from 'vuedraggable'
+import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
-const route = useRoute();
-const appStore = useAppStore();
-const tabStore = useTabStore();
-const { switchWorkspaceByTab } = useAccount();
+const route = useRoute()
+const appStore = useAppStore()
+const tabStore = useTabStore()
+const { switchWorkspaceByTab } = useAccount()
 const {
   leftDrawerShow,
   toggleLeftDrawer,
   onLeftDrawerEnter,
   onLeftDrawerLeave
-} = useNavi();
+} = useNavi()
 
-const tabbarRef = useTemplateRef<HTMLElement>('tabbarRef');
-const { width } = useElementSize(tabbarRef);
-const pinnedTabs = ref<MenuItem[]>([]);
-const unpinnedTabs = ref<MenuItem[]>([]);
+const tabbarRef = useTemplateRef<HTMLElement>('tabbarRef')
+const { width } = useElementSize(tabbarRef)
+const pinnedTabs = ref<MenuItem[]>([])
+const unpinnedTabs = ref<MenuItem[]>([])
 
 watchEffect(() => {
-  pinnedTabs.value = tabStore.pinnedTabs;
-  unpinnedTabs.value = tabStore.unpinnedTabs;
+  pinnedTabs.value = tabStore.pinnedTabs
+  unpinnedTabs.value = tabStore.unpinnedTabs
 })
 
 const tabMinWidth = computed(() => {
-  return Math.min(width.value / tabs.value.length, 160);
+  return Math.min(width.value / tabs.value.length, 160)
 })
 const tabWidth = computed(() => {
-  return Math.max(tabMinWidth.value, width.value / 10, 100);
+  return Math.max(tabMinWidth.value, width.value / 10, 100)
 })
 const minimized = computed(() => {
-  return tabMinWidth.value <= 60;
+  return tabMinWidth.value <= 60
 })
 
 const showDrawerToggle = computed(() => {
-  return !leftDrawerShow.value;
-});
+  return !leftDrawerShow.value
+})
 
 const tabs = computed(() => {
-  return tabStore.pinnedTabs.concat(tabStore.unpinnedTabs);
-});
-const tab = computed(() => tabStore.tab);
+  return tabStore.pinnedTabs.concat(tabStore.unpinnedTabs)
+})
+const tab = computed(() => tabStore.tab)
 
 const pageLoading = computed(() => {
-  return appStore.setting.pageLoading.loading;
-});
+  return appStore.setting.pageLoading.loading
+})
 
 function onTabsSorted(event: any) {
-  const newTabs = [...pinnedTabs.value, ...unpinnedTabs.value];
-  tabStore.updateTabs(newTabs as TabItem[]);
+  const newTabs = [...pinnedTabs.value, ...unpinnedTabs.value]
+  tabStore.updateTabs(newTabs as TabItem[])
 }
 
 async function onAdd() {
-  tabStore.addNewTab();
+  tabStore.addNewTab()
 }
 
 function onTabChanged(id: string) {
   // console.log('onTabChanged', id);
-  const openedTab = tabStore.openTab(id, route.path);
+  const openedTab = tabStore.openTab(id, route.path)
   if (openedTab) {
     switchWorkspaceByTab(openedTab)
   }

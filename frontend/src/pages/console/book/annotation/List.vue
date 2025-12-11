@@ -63,25 +63,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onMounted, ref } from 'vue';
-import AnnotationFilterBtn from './AnnotationFilterBtn.vue';
-import AnnotationListItem from './AnnotationListItem.vue';
-import AnnotationDetails from './AnnotationDetails.vue';
+import { computed, onActivated, onMounted, ref } from 'vue'
+import AnnotationFilterBtn from './AnnotationFilterBtn.vue'
+import AnnotationListItem from './AnnotationListItem.vue'
+import AnnotationDetails from './AnnotationDetails.vue'
 
 import useLoadMore from 'src/hooks/useLoadMore'
 
-const { condition, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
+const { condition, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const isActivated = ref(false)
-const data = ref({});
-const coverUrl = ref('');
+const data = ref({})
+const coverUrl = ref('')
 const orderBy = ref<Indexable>({
   updateTime: 'desc'
-});
+})
 
 function onSort(value: Indexable) {
-  orderBy.value = value;
-  query.value.onQuery();
+  orderBy.value = value
+  query.value.onQuery()
 }
 
 function initData() {
@@ -89,29 +89,29 @@ function initData() {
     api: 'bookAnnotation',
     path: '/query/details',
     title: 'BookAnnotation'
-  });
+  })
 }
 
 function onDetails(item: any, cover: string) {
-  data.value = item;
-  coverUrl.value = cover;
-  query.value.openSide('480px', 'details');
+  data.value = item
+  coverUrl.value = cover
+  query.value.openSide('480px', 'details')
 }
 
 function onClose() {
-  query.value.closeSide();
+  query.value.closeSide()
 }
 
 onActivated(() => {
   if (isActivated.value) {
-    query.value.onQuery();
+    query.value.onQuery()
   }
 
-  isActivated.value = true;
+  isActivated.value = true
 })
 
 onMounted(() => {
-  initData();
+  initData()
 })
 </script>
 

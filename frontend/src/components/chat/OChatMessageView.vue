@@ -6,10 +6,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import { YiiEditor } from '@yiitap/vue';
-import '@yiitap/vue/dist/vue.css';
-import MarkdownIt from 'markdown-it';
-import useSetting from 'core/hooks/useSetting';
+import { YiiEditor } from '@yiitap/vue'
+import '@yiitap/vue/dist/vue.css'
+import MarkdownIt from 'markdown-it'
+import useSetting from 'core/hooks/useSetting'
 
 const md = new MarkdownIt({
   breaks: true,
@@ -21,10 +21,10 @@ const props = defineProps({
     default: ''
   },
 })
-const emit = defineEmits(['send']);
+const emit = defineEmits(['send'])
 
-const { darkMode, locale } = useSetting();
-const yiiEditor = ref<InstanceType<typeof YiiEditor>>();
+const { darkMode, locale } = useSetting()
+const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const options = computed(() => {
   return {
     editable: false,
@@ -57,16 +57,16 @@ const options = computed(() => {
 })
 
 const editor = computed(() => {
-  return yiiEditor.value?.editor;
+  return yiiEditor.value?.editor
 })
 
 function setContent () {
-  const content = md.render(props.message);
-  editor.value?.commands.setContent(content, true);
+  const content = md.render(props.message)
+  editor.value?.commands.setContent(content, true)
 }
 
 watch(() => props.message, (newValue) => {
-  setContent();
+  setContent()
 })
 
 onMounted(() => {

@@ -105,21 +105,21 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onActivated} from 'vue';
+import {computed, ref, onActivated} from 'vue'
 
 import { getArrayItem, RefTypes, Status, TableViews } from 'src/app/metadata'
-import useCommon from 'core/hooks/useCommon';
-import useQuery from 'src/hooks/useQuery';
-import { aiProviderService } from 'src/api/service/remote/ai-provider';
+import useCommon from 'core/hooks/useCommon'
+import useQuery from 'src/hooks/useQuery'
+import { aiProviderService } from 'src/api/service/remote/ai-provider'
 
-import Item from './Item.vue';
-import ItemCard from './ItemCard.vue';
+import Item from './Item.vue'
+import ItemCard from './ItemCard.vue'
 import { notifyDone } from 'core/utils/control'
-import useApi from 'src/hooks/useApi';
+import useApi from 'src/hooks/useApi'
 import { formatFileSize } from 'core/utils/format'
 
-const { getFileUrl } = useApi();
-const { confirm } = useCommon();
+const { getFileUrl } = useApi()
+const { confirm } = useCommon()
 const {
   id,
   condition,
@@ -129,10 +129,10 @@ const {
   tableView,
   view,
   initQuery,
-} = useQuery();
+} = useQuery()
 
-const apiName = 'file';
-const data = ref<Indexable>({});
+const apiName = 'file'
+const data = ref<Indexable>({})
 const columns = computed(() => {
   return [
     { field: 'path', label: '预览', align: 'left', name: 'path' },
@@ -143,8 +143,8 @@ const columns = computed(() => {
     { field: 'status', label: '状态', align: 'left', name: 'status' },
     { field: 'updateTime', label: '时间', align: 'left', name: 'updateTime', sortable: true },
     { field: 'actions', label: '操作', name: 'actions', align: 'right' }
-  ];
-});
+  ]
+})
 
 function onPagination(pagination: Indexable) {
   console.log('pagination', pagination)
@@ -157,30 +157,30 @@ function init() {
     path: '/query',
     columnList: columns.value as Indexable[],
     title: 'File'
-  });
+  })
 }
 
 function onEdit(value: Indexable) {
-  data.value = value;
-  query.value.onDetails(value.id);
+  data.value = value
+  query.value.onDetails(value.id)
 }
 
 function onDisable(value: Indexable) {
-  const label = ` [<span class="text-orange text-bold">${value.title}</span>] `;
+  const label = ` [<span class="text-orange text-bold">${value.title}</span>] `
   confirm(`确认禁用${label}？`, () => {
-    disable(value);
+    disable(value)
   })
 }
 
 function disable(value: Indexable) {
   aiProviderService.disable(value.name).then(res => {
-    notifyDone();
-    query.value.onQuery();
+    notifyDone()
+    query.value.onQuery()
   })
 }
 
 onActivated(() => {
-  init();
+  init()
 })
 </script>
 

@@ -26,18 +26,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-import OAssistantChat from 'components/chat/OAssistantChat.vue';
-import OSplitSidePage from 'core/page/template/OSplitSidePage.vue';
-import type ChatConversation from './conversation/index.vue';
-import ChatConversationList from './conversation-list.vue';
+import OAssistantChat from 'components/chat/OAssistantChat.vue'
+import OSplitSidePage from 'core/page/template/OSplitSidePage.vue'
+import type ChatConversation from './conversation/index.vue'
+import ChatConversationList from './conversation-list.vue'
 
-const pageRef = ref<InstanceType<typeof OSplitSidePage>>();
-const conversationRef = ref<InstanceType<typeof ChatConversation>>();
-const sideWidth = ref(320);
-const sideHeight = ref(160);
+const pageRef = ref<InstanceType<typeof OSplitSidePage>>()
+const conversationRef = ref<InstanceType<typeof ChatConversation>>()
+const sideWidth = ref(320)
+const sideHeight = ref(160)
 
 function onSideWidth(value: number) {
-  sideWidth.value = value;
+  sideWidth.value = value
 }
 </script>
 

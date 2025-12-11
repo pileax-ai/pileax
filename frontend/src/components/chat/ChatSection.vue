@@ -94,16 +94,16 @@
 
 <script setup lang="ts">
 import { computed, ref, nextTick, onActivated, onBeforeMount, watch } from 'vue'
-import OChatInput from 'components/chat/OChatInput.vue';
-import OChatMessage from 'components/chat/OChatMessage.vue';
-import ChatConversations from 'components/chat/ChatConversations.vue';
+import OChatInput from 'components/chat/OChatInput.vue'
+import OChatMessage from 'components/chat/OChatMessage.vue'
+import ChatConversations from 'components/chat/ChatConversations.vue'
 
-import { chatService } from 'src/api/service/remote/chat';
-import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import { UUID } from 'core/utils/crypto';
-import useAi from 'src/hooks/useAi';
-import useStream from 'src/hooks/useStream';
-import useChatConversation from 'src/hooks/useChatConversation';
+import { chatService } from 'src/api/service/remote/chat'
+import { chatConversationService } from 'src/api/service/remote/chat-conversation'
+import { UUID } from 'core/utils/crypto'
+import useAi from 'src/hooks/useAi'
+import useStream from 'src/hooks/useStream'
+import useChatConversation from 'src/hooks/useChatConversation'
 import type { ChatInput, ChatConversation } from 'src/types/chat'
 import OChatToc from 'components/chat/OChatToc.vue'
 import ChatActions from 'components/chat/ChatActions.vue'
@@ -151,32 +151,32 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 const emit = defineEmits(['chats'])
 
-const { provider } = useAi();
+const { provider } = useAi()
 const {
   conversation,
   conversationId,
   chatStore,
-} = useChatConversation();
-const { isLoading, startStream, cancelStream } = useStream();
+} = useChatConversation()
+const { isLoading, startStream, cancelStream } = useStream()
 
-const scrollRef = ref<InstanceType<typeof QScrollArea>>();
-const conversationsRef = ref<InstanceType<typeof ChatConversations>>();
-const tocRef = ref<InstanceType<typeof OChatToc>>();
-const start = ref(false);
-const chats = ref<Indexable[]>([]);
+const scrollRef = ref<InstanceType<typeof QScrollArea>>()
+const conversationsRef = ref<InstanceType<typeof ChatConversations>>()
+const tocRef = ref<InstanceType<typeof OChatToc>>()
+const start = ref(false)
+const chats = ref<Indexable[]>([])
 const newChat = ref<Indexable>({})
-const showScrollBtn = ref(false);
-const scrollable = ref(true);
-const scrollTop = ref(0);
-const scrollDirection = ref('');
+const showScrollBtn = ref(false)
+const scrollable = ref(true)
+const scrollTop = ref(0)
+const scrollDirection = ref('')
 
 function init(from = '') {
   console.log('init from', from)
-  start.value = props.multiSession;
-  getLatestSession();
+  start.value = props.multiSession
+  getLatestSession()
   // console.log('init', from, props.refId);
 }
 
@@ -195,54 +195,54 @@ function getLatestSession() {
   chatConversationService.query(query).then(res => {
     const defaultSession = res.list.length
       ? res.list.at(0)
-      : {};
-    openSession(defaultSession);
+      : {}
+    openSession(defaultSession)
   })
 }
 
 function openSession(item: ChatConversation) {
   if (item && item.id) {
-    start.value = false;
-    conversation.value = item;
-    conversationId.value = item.id;
-    getAllChats();
+    start.value = false
+    conversation.value = item
+    conversationId.value = item.id
+    getAllChats()
   } else {
-    reset();
+    reset()
   }
 }
 
 function getAllChats() {
   chatService.getMessages(conversationId.value).then(res => {
-    chats.value = res as Indexable[];
-    scrollToBottom();
+    chats.value = res as Indexable[]
+    scrollToBottom()
   })
 }
 
 async function onSend(data: ChatInput, reset = false) {
-  newChat.value = data;
-  scrollToBottom();
+  newChat.value = data
+  scrollToBottom()
 
   if (reset) {
-    chatStore.value.removeChat(data.id);
+    chatStore.value.removeChat(data.id)
   } else {
-    chatStore.value.addChat(data);
+    chatStore.value.addChat(data)
   }
 
   if (conversationId.value) {
-    chatCompletion(data);
+    chatCompletion(data)
   }
   else {
-    start.value = false;
-    createSession(data);
+    start.value = false
+    createSession(data)
   }
 }
 
 function onStop() {
-  cancelStream();
+  cancelStream()
 }
 
 async function createSession(data: ChatInput) {
-  const message = data.message;
+  const message = data.message
   chatConversationService.save({
     id: UUID(),
     name: message,
@@ -250,19 +250,19 @@ async function createSession(data: ChatInput) {
     refId: props.refId,
   }).then(res => {
     conversation.value = res
-    conversationId.value = res.id;
-    start.value = false;
+    conversationId.value = res.id
+    start.value = false
 
     // update conversation list
-    conversationsRef.value?.refresh();
+    conversationsRef.value?.refresh()
 
     // replace router
-    onSend(data);
+    onSend(data)
   })
 }
 
 async function chatCompletion(data: ChatInput) {
-  chatStore.value.removeChat(data.id);
+  chatStore.value.removeChat(data.id)
   const payload = {
     ...data,
     id: UUID(),
@@ -274,78 +274,78 @@ async function chatCompletion(data: ChatInput) {
     modelProvider: conversation.value?.modelProvider,
     modelType: conversation.value?.modelType,
     modelName: conversation.value?.modelName,
-  };
+  }
 
   await startStream('/chat/completions', payload,
-    onProgress, onDone, onErrorDone);
+    onProgress, onDone, onErrorDone)
 }
 
 async function onProgress(reasoningText: string, text: string) {
-  newChat.value.content = text;
-  newChat.value.reasoningContent = reasoningText;
-  scrollToBottom();
+  newChat.value.content = text
+  newChat.value.reasoningContent = reasoningText
+  scrollToBottom()
 }
 
 async function onDone(reasoningText: string, text: string) {
-  newChat.value.content = text;
-  newChat.value.reasoningContent = reasoningText;
+  newChat.value.content = text
+  newChat.value.reasoningContent = reasoningText
   chats.value.push({...newChat.value})
-  newChat.value = {};
-  scrollToBottom();
+  newChat.value = {}
+  scrollToBottom()
 }
 
 async function onErrorDone(chat: Indexable) {
-  newChat.value = chat;
+  newChat.value = chat
   chats.value.push({...newChat.value})
-  newChat.value = {};
-  scrollToBottom();
+  newChat.value = {}
+  scrollToBottom()
 }
 
 function onFavorite(item: Indexable, index: number) {
-  chats.value.splice(index, 1, item);
+  chats.value.splice(index, 1, item)
 }
 
 function onNewChat() {
-  start.value = true;
-  reset();
+  start.value = true
+  reset()
 }
 
 async function scrollToBottom(duration = 0) {
-  await nextTick();
+  await nextTick()
   setTimeout(() => {
     // pageRef.value?.scrollToBottom(duration);
-    const scrollTarget = scrollRef.value?.getScrollTarget();
-    const scrollHeight = scrollTarget?.scrollHeight || 0;
-    scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
+    const scrollTarget = scrollRef.value?.getScrollTarget()
+    const scrollHeight = scrollTarget?.scrollHeight || 0
+    scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration)
   }, 0)
 }
 
 function onScroll(info: any) {
-  tocRef.value?.onScroll();
+  tocRef.value?.onScroll()
 
   // scroll direction
   if (scrollTop.value) {
     scrollDirection.value = scrollTop.value > info.verticalPosition
       ? 'up'
-      : 'down';
+      : 'down'
     if (scrollDirection.value === 'up') {
-      scrollable.value = false;
+      scrollable.value = false
     }
   }
-  scrollTop.value = info.verticalPosition;
+  scrollTop.value = info.verticalPosition
 }
 
 function onIntersection(entry: Indexable) {
-  showScrollBtn.value = !entry.isIntersecting;
+  showScrollBtn.value = !entry.isIntersecting
   if (entry.isIntersecting) {
-    scrollable.value = true;
+    scrollable.value = true
   }
 }
 
 function reset() {
-  conversationId.value = '';
-  conversation.value = undefined;
-  chats.value = [];
+  conversationId.value = ''
+  conversation.value = undefined
+  chats.value = []
 }
 
 watch(chats, (newValue) => {
@@ -353,11 +353,11 @@ watch(chats, (newValue) => {
 })
 
 onActivated(() => {
-  init('activated');
+  init('activated')
 })
 
 onBeforeMount(() => {
-  init('mount');
+  init('mount')
 })
 
 defineExpose({

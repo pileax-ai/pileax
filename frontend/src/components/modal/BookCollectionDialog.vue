@@ -78,18 +78,18 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import useDialog from 'core/hooks/useDialog';
-import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
-import ONoData from 'core/components/misc/ONoData.vue';
+import useDialog from 'core/hooks/useDialog'
+import OCommandDialog from 'core/components/dialog/OCommandDialog.vue'
+import ONoData from 'core/components/misc/ONoData.vue'
 import { workspaceBookCollectionService } from 'src/api/service/remote/workspace-book-collection'
 import { notifyDone } from 'core/utils/control'
 
-const { dialog, onHide, onOk } = useDialog();
-const term = ref('');
-const selected = ref(0);
-const list = ref<Indexable[]>([]);
-const results = ref<Indexable[]>([]);
-const records = ref<Indexable[]>([]);
+const { dialog, onHide, onOk } = useDialog()
+const term = ref('')
+const selected = ref(0)
+const list = ref<Indexable[]>([])
+const results = ref<Indexable[]>([])
+const records = ref<Indexable[]>([])
 
 const book = computed(() => {
   return dialog.value.data as Indexable
@@ -118,40 +118,40 @@ function titleSearchFilter (term: string) {
 }
 
 function search(val: string) {
-  const a = list.value.filter(titleSearchFilter(val));
+  const a = list.value.filter(titleSearchFilter(val))
   return a.filter((item, index) => {
-    return a.indexOf(item) === index;
-  });
+    return a.indexOf(item) === index
+  })
 }
 
 function onSearch (val: string | number | null) {
   results.value = val
     ? search(val as string)
-    : list.value;
+    : list.value
 }
 
 function onKeyup (e: KeyboardEvent) {
   if (results.value.length > 0) {
     switch (e.code) {
       case 'ArrowDown':
-        selected.value += 1;
+        selected.value += 1
         break
       case 'ArrowUp':
-        selected.value -= 1;
-        break;
+        selected.value -= 1
+        break
       case 'Enter':
-        onSelected(results.value[selected.value]!);
-        break;
+        onSelected(results.value[selected.value]!)
+        break
       default:
     }
     if (selected.value >= results.value.length) {
-      selected.value = 0;
+      selected.value = 0
     }
     if (selected.value < 0) {
-      selected.value = results.value.length - 1;
+      selected.value = results.value.length - 1
     }
   } else {
-    selected.value = 0;
+    selected.value = 0
   }
 }
 
@@ -167,7 +167,7 @@ function onSelected (item: Indexable) {
     notifyDone()
   })
 
-  onHide();
+  onHide()
 }
 
 function initData() {
@@ -187,13 +187,13 @@ function initData() {
 }
 
 onMounted( async () => {
-  initData();
+  initData()
 
-  window.addEventListener('keyup', onKeyup);
+  window.addEventListener('keyup', onKeyup)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keyup', onKeyup);
+  window.removeEventListener('keyup', onKeyup)
 })
 </script>
 

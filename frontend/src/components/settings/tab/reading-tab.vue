@@ -30,20 +30,20 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import SettingCard from './setting-card.vue';
-import LibraryTab from './reading/library-tab.vue';
+import SettingCard from './setting-card.vue'
+import LibraryTab from './reading/library-tab.vue'
 
-const currentTab = ref('library');
+const currentTab = ref('library')
 
 const tabs = computed(() => {
   return [
     { label: '书库', value: 'library', component: LibraryTab },
     { label: '阅读器', value: 'reader', component: LibraryTab },
-  ];
-});
+  ]
+})
 
 const tab = computed(() => {
-  return tabs.value.find(t => t.value === currentTab.value);
+  return tabs.value.find(t => t.value === currentTab.value)
 })
 </script>
 

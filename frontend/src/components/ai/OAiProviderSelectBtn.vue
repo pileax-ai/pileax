@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, onMounted, ref } from 'vue'
-import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
-import useAi from 'src/hooks/useAi';
+import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue'
+import useAi from 'src/hooks/useAi'
 
 const props = defineProps({
   single: {
@@ -54,25 +54,25 @@ const props = defineProps({
   offset: {
     type: Array as PropType<number[]>,
     default: () => {
-      return [0, 4];
+      return [0, 4]
     }
   },
-});
-const emit = defineEmits(['select']);
-const { aiStore, provider } = useAi();
+})
+const emit = defineEmits(['select'])
+const { aiStore, provider } = useAi()
 
-const menu = ref(false);
+const menu = ref(false)
 const iconRight = computed(() => {
-  return props.single ? 'none' : 'mdi-chevron-down';
+  return props.single ? 'none' : 'mdi-chevron-down'
 })
 
 function onSelect(value: Indexable) {
-  menu.value = false;
+  menu.value = false
   if (props.persist) {
-    aiStore.value.setProvider(value);
+    aiStore.value.setProvider(value)
   }
 
-  emit('select', value);
+  emit('select', value)
 }
 
 onMounted(() => {

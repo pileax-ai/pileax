@@ -19,15 +19,15 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, ref} from 'vue'
 
 const props = defineProps({
   main: {
     type: Boolean,
     default: false
   }
-});
-const emit = defineEmits(['close']);
+})
+const emit = defineEmits(['close'])
 
 </script>
 

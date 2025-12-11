@@ -11,20 +11,20 @@
 </template>
 
 <script setup lang="ts">
-import {computed, watch} from 'vue';
-import { useComponentStore } from 'stores/component';
+import {computed, watch} from 'vue'
+import { useComponentStore } from 'stores/component'
 
-import OSettingsDialog from 'src/components/settings/OSettingsDialog.vue';
-import AiProviderSearchDialog from './AiProviderSearchDialog.vue';
-import BookCollectionDialog from './BookCollectionDialog.vue';
-import ChatToNoteDialog from './ChatToNoteDialog.vue';
-import NoteSearchDialog from './NoteSearchDialog.vue';
-import SigninDialog from './SigninDialog.vue';
-import TipsDialog from './TipsDialog.vue';
+import OSettingsDialog from 'src/components/settings/OSettingsDialog.vue'
+import AiProviderSearchDialog from './AiProviderSearchDialog.vue'
+import BookCollectionDialog from './BookCollectionDialog.vue'
+import ChatToNoteDialog from './ChatToNoteDialog.vue'
+import NoteSearchDialog from './NoteSearchDialog.vue'
+import SigninDialog from './SigninDialog.vue'
+import TipsDialog from './TipsDialog.vue'
 
-const componentStore = useComponentStore();
+const componentStore = useComponentStore()
 
-const type = computed(() => componentStore.dialog.type);
+const type = computed(() => componentStore.dialog.type)
 
 watch(() => type.value, (newValue) => {
   // console.log('type', type);

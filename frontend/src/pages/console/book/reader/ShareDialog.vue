@@ -42,11 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
-import html2canvas from 'html2canvas';
-import useBook from 'src/hooks/useBook';
-import useApi from 'src/hooks/useApi';
-import { notifyDone } from 'core/utils/control';
+import {computed, onMounted, ref, watch} from 'vue'
+import html2canvas from 'html2canvas'
+import useBook from 'src/hooks/useBook'
+import useApi from 'src/hooks/useApi'
+import { notifyDone } from 'core/utils/control'
 import { ipcService } from 'src/api/ipc'
 
 const props = defineProps({
@@ -54,25 +54,25 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['ok', 'close', 'show']);
+})
+const emit = defineEmits(['ok', 'close', 'show'])
 
-const { getCoverUrl } = useApi();
-const { book, progress, selection } = useBook();
-const modal = ref();
-const captureRef = ref(null);
-const loading = ref(false);
+const { getCoverUrl } = useApi()
+const { book, progress, selection } = useBook()
+const modal = ref()
+const captureRef = ref(null)
+const loading = ref(false)
 
-const coverUrl = ref('');
+const coverUrl = ref('')
 const coverPath = computed(() => {
-  return `${book.value.path}/${book.value.coverName}`;
+  return `${book.value.path}/${book.value.coverName}`
 })
 
 async function onDownload() {
-  const captureElement = document.getElementById('capture');
-  if (!captureElement) return;
+  const captureElement = document.getElementById('capture')
+  if (!captureElement) return
 
-  loading.value = true;
+  loading.value = true
 
   // Capture image
   const canvas = await html2canvas(captureElement, {
@@ -80,27 +80,27 @@ async function onDownload() {
     backgroundColor: 'transparent',
     useCORS: true,
     logging: false
-  });
-  const base64Image = canvas.toDataURL('image/png');
+  })
+  const base64Image = canvas.toDataURL('image/png')
 
   // Save to disk
   if (process.env.MODE === 'electron') {
-    saveToDisk(base64Image);
+    saveToDisk(base64Image)
   } else {
-    download(base64Image);
+    download(base64Image)
   }
-  modal.value.hide();
+  modal.value.hide()
 }
 
 function download(base64Image: any) {
-  const link = document.createElement('a');
-  link.href = base64Image;
-  link.download = `share.${Math.floor(Date.now() / 1000)}.png`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  loading.value = false;
-  notifyDone();
+  const link = document.createElement('a')
+  link.href = base64Image
+  link.download = `share.${Math.floor(Date.now() / 1000)}.png`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  loading.value = false
+  notifyDone()
 }
 
 function saveToDisk(base64Image: any) {
@@ -111,29 +111,29 @@ function saveToDisk(base64Image: any) {
       await ipcService.saveImageFile({
         filePath: result.filePaths[0],
         data: base64Image
-      });
+      })
     }
-    loading.value = false;
+    loading.value = false
   }).catch((err: any) => {
-    loading.value = false;
-  });
+    loading.value = false
+  })
 }
 
 function init() {
-  coverUrl.value = getCoverUrl(book.value);
+  coverUrl.value = getCoverUrl(book.value)
 }
 
 watch(() => props.show, (newValue) => {
   if (newValue) {
-    modal.value.show();
+    modal.value.show()
   } else {
-    modal.value.hide();
+    modal.value.hide()
   }
 })
 
 onMounted(() => {
   if (props.show) {
-    modal.value.show();
+    modal.value.show()
   }
 })
 </script>

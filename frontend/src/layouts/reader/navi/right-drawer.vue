@@ -30,40 +30,40 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref, watch} from 'vue';
-import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue';
-import ReaderSidePanel from 'src/components/reader/ReaderSidePanel.vue';
+import {computed, onBeforeMount, ref, watch} from 'vue'
+import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue'
+import ReaderSidePanel from 'src/components/reader/ReaderSidePanel.vue'
 
-import useReader from 'src/hooks/useReader';
+import useReader from 'src/hooks/useReader'
 
-const emit = defineEmits(['leave']);
-const { rightDrawer, rightDrawerShow, rightDrawerHoverShow, setRightDrawerWidth } = useReader();
+const emit = defineEmits(['leave'])
+const { rightDrawer, rightDrawerShow, rightDrawerHoverShow, setRightDrawerWidth } = useReader()
 
-const width = ref(400);
-const drawerOpen = ref(true);
-const splitterPercent = ref(0);
+const width = ref(400)
+const drawerOpen = ref(true)
+const splitterPercent = ref(0)
 
 function onResize(value: number) {
-  setRightDrawerWidth(value);
+  setRightDrawerWidth(value)
 }
 
 watch(() => rightDrawerShow.value, (newValue) => {
-  drawerOpen.value = newValue;
+  drawerOpen.value = newValue
 })
 
 watch(() => rightDrawerHoverShow.value, (newValue) => {
-  drawerOpen.value = newValue;
+  drawerOpen.value = newValue
 })
 
 watch(() => rightDrawer.value.split, (newValue) => {
-  console.log('split', newValue);
-  splitterPercent.value = newValue ? 50 : 0;
+  console.log('split', newValue)
+  splitterPercent.value = newValue ? 50 : 0
 })
 
 onBeforeMount(() => {
-  drawerOpen.value = rightDrawerShow.value;
-  splitterPercent.value = rightDrawer.value.split ? 50 : 0;
-  width.value = rightDrawer.value.width;
+  drawerOpen.value = rightDrawerShow.value
+  splitterPercent.value = rightDrawer.value.split ? 50 : 0
+  width.value = rightDrawer.value.width
 })
 
 </script>

@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue';
-import OIconSelectView from 'components/icon/OIconSelectView.vue';
+import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
+import OIconSelectView from 'components/icon/OIconSelectView.vue'
 
 const props = defineProps({
   enableHover: {
@@ -47,14 +47,14 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
-const emit = defineEmits(['icon']);
+})
+const emit = defineEmits(['icon'])
 
-const icon = ref('emoji_emotions');
+const icon = ref('emoji_emotions')
 
 function onIcon (value) {
-  icon.value = value;
-  emit('icon', value);
+  icon.value = value
+  emit('icon', value)
 }
 </script>
 

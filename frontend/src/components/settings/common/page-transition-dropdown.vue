@@ -23,24 +23,24 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref} from 'vue';
-import { getArrayItem } from 'core/hooks/useCommon';
-import useSetting from 'core/hooks/useSetting';
-import { PAGE_TRANSITIONS } from 'core/constants/setting';
+import {onBeforeMount, ref} from 'vue'
+import { getArrayItem } from 'core/hooks/useCommon'
+import useSetting from 'core/hooks/useSetting'
+import { PAGE_TRANSITIONS } from 'core/constants/setting'
 
 defineProps({
   itemClass: {
     type: String,
     default: ''
   }
-});
+})
 
-const { pageTransition, setPageTransition} = useSetting();
+const { pageTransition, setPageTransition} = useSetting()
 
-const value = ref('');
+const value = ref('')
 
 onBeforeMount(() => {
-  value.value = pageTransition.value.name;
+  value.value = pageTransition.value.name
 })
 </script>
 

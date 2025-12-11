@@ -61,24 +61,24 @@
 <script setup lang="ts">
 import { computed, onActivated, reactive, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import AddedProviderCard from './children/AddedProviderCard.vue';
-import ProviderCard from './children/ProviderCard.vue';
+import AddedProviderCard from './children/AddedProviderCard.vue'
+import ProviderCard from './children/ProviderCard.vue'
 import ProviderApiKey from './children/ProviderApiKey.vue'
-import OSideDialog from 'core/components/dialog/OSideDialog.vue';
-import { llmService } from 'src/api/service/remote/llm';
+import OSideDialog from 'core/components/dialog/OSideDialog.vue'
+import { llmService } from 'src/api/service/remote/llm'
 import { providerService } from 'src/api/service/remote/provider'
 import { providerCredentialService } from 'src/api/service/remote/provider-credential'
 import { notifyDone } from 'core/utils/control'
 import ONoData from 'core/components/misc/ONoData.vue'
 
-const $q = useQuasar();
-const myProviders = ref<Indexable[]>();
+const $q = useQuasar()
+const myProviders = ref<Indexable[]>()
 
-const providers = ref<Indexable[]>();
-const provider = ref<Indexable>();
-const credentialId = ref('');
-const term = ref('');
-const view = ref('api-key');
+const providers = ref<Indexable[]>()
+const provider = ref<Indexable>()
+const credentialId = ref('')
+const term = ref('')
+const view = ref('api-key')
 const side = reactive<Indexable>({
   show: false,
   title: 'Provider Settings',
@@ -115,7 +115,7 @@ const filteredProviders = computed(() => {
 const getAllProviders = () => {
   llmService.getProviders().then(res => {
     providers.value = res
-  });
+  })
 }
 
 const getAddedProviders = () => {
@@ -191,7 +191,7 @@ const onSideClose = () => {
 }
 
 onActivated(() => {
-  initData();
+  initData()
 })
 </script>
 

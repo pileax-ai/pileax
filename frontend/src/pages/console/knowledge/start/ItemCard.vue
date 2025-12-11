@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import useApi from 'src/hooks/useApi'
 
 const props = defineProps({
@@ -50,10 +50,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
-const { getFileUrl } = useApi();
-const emit = defineEmits(['edit']);
-const fetching = ref(false);
+})
+const { getFileUrl } = useApi()
+const emit = defineEmits(['edit'])
+const fetching = ref(false)
 </script>
 
 <style lang="scss">

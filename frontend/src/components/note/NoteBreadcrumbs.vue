@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import useNote from 'src/hooks/useNote';
+import { computed, ref } from 'vue'
+import useNote from 'src/hooks/useNote'
 import type { Note } from 'src/types/note'
 
 const props = defineProps({
@@ -24,26 +24,26 @@ const props = defineProps({
     type: String,
     required: true
   },
-});
+})
 
-const { notes, currentNote } = useNote();
+const { notes, currentNote } = useNote()
 
 const links = computed(() => {
-  const list: Note[] = [];
-  let note: Note | undefined = notes.value.find((item) => item.id === props.id);
+  const list: Note[] = []
+  let note: Note | undefined = notes.value.find((item) => item.id === props.id)
   if (!note) {
-    return list;
+    return list
   }
 
   while (note.parent) {
-    note = notes.value.find((item) => item.id === note?.parent);
+    note = notes.value.find((item) => item.id === note?.parent)
     if (note?.id) {
-      list.unshift(note);
+      list.unshift(note)
     } else {
-      break;
+      break
     }
   }
-  return list;
+  return list
 })
 </script>
 

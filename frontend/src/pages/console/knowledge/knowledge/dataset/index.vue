@@ -84,12 +84,12 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onMounted, ref} from 'vue';
+import {computed, onActivated, onMounted, ref} from 'vue'
 
-import OQuerySection from 'core/page/section/OQuerySection.vue';
-import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue';
-import {ActiveStatus, getArrayItem, Status} from 'src/app/metadata';
-import useQuery from 'src/hooks/useQuery';
+import OQuerySection from 'core/page/section/OQuerySection.vue'
+import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
+import {ActiveStatus, getArrayItem, Status} from 'src/app/metadata'
+import useQuery from 'src/hooks/useQuery'
 import { formatFileSize, formatNumber, timeAdd, timeMulti } from 'core/utils/format'
 import { Locales } from 'core/constants/metadata'
 
@@ -98,12 +98,12 @@ const props = defineProps({
     type: Number,
     default: 0
   }
-});
+})
 
-const { id, condition, query, table, initQuery } = useQuery();
-const selected = ref([]);
+const { id, condition, query, table, initQuery } = useQuery()
+const selected = ref([])
 
-const apiName = 'file';
+const apiName = 'file'
 const columns = computed(() => {
   return [
     { field: 'originalName', label: '名称', align: 'left', name: 'originalName', classes: 'ellipsis' },
@@ -113,8 +113,8 @@ const columns = computed(() => {
     { field: 'status', label: '状态', align: 'left', name: 'status', sortable: true },
     { field: 'updateTime', label: '时间', align: 'left', name: 'updateTime' },
     { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 120px' }
-  ];
-});
+  ]
+})
 
 const actions = computed(() => {
   return [
@@ -129,20 +129,20 @@ const actions = computed(() => {
 function reset() {
   condition.value = {
     productId: props.productId
-  };
-  query.value.onQuery();
+  }
+  query.value.onQuery()
 }
 
 onMounted(() => {
-  table.value.paging.descending = false;
-  query.value.onReset = reset;
-  condition.value.productId = props.productId;
+  table.value.paging.descending = false
+  query.value.onReset = reset
+  condition.value.productId = props.productId
 
   initQuery({
     api: apiName,
     columnList: columns.value,
     title: 'File'
-  });
+  })
 })
 </script>
 

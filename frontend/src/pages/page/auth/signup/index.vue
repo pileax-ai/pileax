@@ -9,17 +9,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-import OSignupForm from 'components/app/auth/OSignupForm.vue';
+import OSignupForm from 'components/app/auth/OSignupForm.vue'
 
-import useAccount from 'src/hooks/useAccount';
+import useAccount from 'src/hooks/useAccount'
 
-const { account, isLogin } = useAccount();
-const showSignIn = ref(true);
+const { account, isLogin } = useAccount()
+const showSignIn = ref(true)
 
 function onSuccess() {
-  showSignIn.value = false;
+  showSignIn.value = false
 }
 </script>
 

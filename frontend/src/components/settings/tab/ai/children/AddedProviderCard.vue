@@ -96,8 +96,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import OMenuBtn from 'core/components/menu/OMenuBtn.vue';
+import { ref } from 'vue'
+import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import toFixed from 'xe-utils/toFixed'
 
 const props = defineProps({
@@ -111,8 +111,8 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
-const emit = defineEmits(['add', 'delete', 'edit', 'active-credential', 'remove-provider']);
+})
+const emit = defineEmits(['add', 'delete', 'edit', 'active-credential', 'remove-provider'])
 
 const models = ref<Indexable>({})
 </script>

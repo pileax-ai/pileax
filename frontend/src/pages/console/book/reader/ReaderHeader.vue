@@ -67,14 +67,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
-import useBook from 'src/hooks/useBook';
-import useReader from 'src/hooks/useReader';
-import { nextPage, prevPage } from 'src/api/service/ebook/book';
+import { computed, onMounted, ref, watch } from 'vue'
+import useBook from 'src/hooks/useBook'
+import useReader from 'src/hooks/useReader'
+import { nextPage, prevPage } from 'src/api/service/ebook/book'
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
-const { progress, search, clearSearch } = useBook();
+const { progress, search, clearSearch } = useBook()
 const {
   leftDrawerShow,
   rightDrawerShow,
@@ -83,19 +83,19 @@ const {
   toggleRightDrawer,
   setLeftDrawerHoverShow,
   setRightDrawerTTS
-} = useReader();
+} = useReader()
 
 const searchCurrent = computed(() => {
-  return search.value.current || {};
+  return search.value.current || {}
 })
 
 function onLeftDrawerEnter() {
-  setLeftDrawerHoverShow(true);
+  setLeftDrawerHoverShow(true)
 }
 
 function onLeftDrawerLeave() {
   if (leftDrawerHoverShow.value) {
-    setLeftDrawerHoverShow(false);
+    setLeftDrawerHoverShow(false)
   }
 }
 </script>

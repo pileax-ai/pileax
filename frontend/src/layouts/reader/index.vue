@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import useSetting from 'core/hooks/useSetting';
+import { computed } from 'vue'
+import useSetting from 'core/hooks/useSetting'
 
-import Layout from './layout.vue';
+import Layout from './layout.vue'
 
-const { pageTransition } = useSetting();
+const { pageTransition } = useSetting()
 const transitionName = computed(() => {
-  return pageTransition.value.enable ? pageTransition.value.name : '';
-});
+  return pageTransition.value.enable ? pageTransition.value.name : ''
+})
 </script>

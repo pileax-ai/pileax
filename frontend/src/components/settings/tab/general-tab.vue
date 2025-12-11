@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
-import SettingCard from './setting-card.vue';
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
+import SettingCard from './setting-card.vue'
 </script>
 
 <style lang="scss">

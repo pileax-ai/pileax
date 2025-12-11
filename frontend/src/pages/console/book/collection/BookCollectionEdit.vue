@@ -43,41 +43,41 @@
 </template>
 
 <script setup lang="ts">
-import useVuelidate from '@vuelidate/core';
-import {maxLength, minLength, required} from '@vuelidate/validators';
-import { onMounted, ref} from 'vue';
+import useVuelidate from '@vuelidate/core'
+import {maxLength, minLength, required} from '@vuelidate/validators'
+import { onMounted, ref} from 'vue'
 
-import OFileUploader from 'core/components/fIle/OFileUploader.vue';
-import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
-import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue';
-import OColorSelect from 'core/components/form/OColorSelect.vue';
+import OFileUploader from 'core/components/fIle/OFileUploader.vue'
+import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
+import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
+import OColorSelect from 'core/components/form/OColorSelect.vue'
 
-import { GET } from 'src/hooks/useRequest';
-import useForm from 'src/hooks/useForm';
+import { GET } from 'src/hooks/useRequest'
+import useForm from 'src/hooks/useForm'
 import OField from 'core/components/form/field/OField.vue'
 
-const apiName = 'bookCollection';
+const apiName = 'bookCollection'
 const props = defineProps({
   id: {
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['close', 'success']);
-const { form, loading, actions } = useForm();
-const status = ref(true);
+})
+const emit = defineEmits(['close', 'success'])
+const { form, loading, actions } = useForm()
+const status = ref(true)
 
 const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },
-};
-const v$ = useVuelidate(rules, form);
+}
+const v$ = useVuelidate(rules, form)
 
 function load () {
-  actions.initForm(apiName);
+  actions.initForm(apiName)
 
   if (props.id) {
     GET({name: apiName, query: {id: props.id}}).then((data) => {
-      form.value = data as Indexable;
+      form.value = data as Indexable
     })
   }
 }
@@ -98,7 +98,7 @@ function onSelectIcon(options: Indexable) {
 
 function onSubmit () {
   if (!actions.validate(v$)) {
-    return;
+    return
   }
 
   const body = {
@@ -107,17 +107,17 @@ function onSubmit () {
     icon: form.value.icon,
     color: form.value.color,
     description: form.value.description,
-  };
+  }
 
   actions.submit(body,(data) => {
     emit('close', {
       action: 'book-collection-edit',
-    });
-  });
+    })
+  })
 }
 
 onMounted(() => {
-  load();
+  load()
 })
 </script>
 

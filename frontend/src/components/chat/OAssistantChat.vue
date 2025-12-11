@@ -91,9 +91,9 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { ChatInput } from 'src/types/chat';
-import useAi from 'src/hooks/useAi';
-import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';
+import type { ChatInput } from 'src/types/chat'
+import useAi from 'src/hooks/useAi'
+import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 import { UUID } from 'core/utils/crypto'
 
 const props = defineProps({
@@ -114,20 +114,20 @@ const props = defineProps({
     default: false
   },
 })
-const emit = defineEmits(['send', 'stop', 'expand']);
+const emit = defineEmits(['send', 'stop', 'expand'])
 
-const { localModels } = useAi();
-const input = ref();
-const reasoning = ref(false);
-const expanded = ref(false);
+const { localModels } = useAi()
+const input = ref()
+const reasoning = ref(false)
+const expanded = ref(false)
 
 const localDefaultModel = computed(() => {
   return localModels.value['chat'] || {}
 })
 
 function onToggleExpand() {
-  expanded.value = !expanded.value;
-  emit('expand', expanded.value);
+  expanded.value = !expanded.value
+  emit('expand', expanded.value)
 }
 
 /**
@@ -140,14 +140,14 @@ function onToggleExpand() {
  */
 function onKeydown(event: KeyboardEvent) {
   if (event.key === "Enter" && !event.shiftKey && !event.ctrlKey) {
-    event.preventDefault();
-    onSend();
+    event.preventDefault()
+    onSend()
   }
 }
 
 function onSend() {
-  const message = input.value ? input.value.trim() : '';
-  if (message === '') return;
+  const message = input.value ? input.value.trim() : ''
+  if (message === '') return
 
   emit('send', {
     id: UUID(),
@@ -155,16 +155,16 @@ function onSend() {
     modelProvider: localDefaultModel.value.provider,
     modelType: localDefaultModel.value.modelType,
     modelName: localDefaultModel.value.modelName,
-  } as ChatInput);
-  reset();
+  } as ChatInput)
+  reset()
 }
 
 function onStop() {
-  emit('stop');
+  emit('stop')
 }
 
 function reset() {
-  input.value = '';
+  input.value = ''
 }
 </script>
 

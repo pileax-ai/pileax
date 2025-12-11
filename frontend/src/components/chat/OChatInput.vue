@@ -50,11 +50,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { ChatInput } from 'src/types/chat';
-import useAi from 'src/hooks/useAi';
-import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
-import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';
+import { ref } from 'vue'
+import type { ChatInput } from 'src/types/chat'
+import useAi from 'src/hooks/useAi'
+import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue'
+import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 
 const props = defineProps({
   loading: {
@@ -74,14 +74,14 @@ const props = defineProps({
     default: false
   },
 })
-const emit = defineEmits(['send', 'stop']);
+const emit = defineEmits(['send', 'stop'])
 
-const { provider } = useAi();
-const input = ref();
-const reasoning = ref(false);
+const { provider } = useAi()
+const input = ref()
+const reasoning = ref(false)
 
 function onToggleThink() {
-  reasoning.value = !reasoning.value;
+  reasoning.value = !reasoning.value
 }
 
 /**
@@ -94,28 +94,28 @@ function onToggleThink() {
  */
 function onKeydown(event: KeyboardEvent) {
   if (event.key === "Enter" && !event.shiftKey && !event.ctrlKey) {
-    event.preventDefault();
-    onSend();
+    event.preventDefault()
+    onSend()
   }
 }
 
 function onSend() {
-  const message = input.value ? input.value.trim() : '';
-  if (message === '') return;
+  const message = input.value ? input.value.trim() : ''
+  if (message === '') return
 
   emit('send', {
     message: message,
     reasoning: reasoning.value
-  } as ChatInput);
-  reset();
+  } as ChatInput)
+  reset()
 }
 
 function onStop() {
-  emit('stop');
+  emit('stop')
 }
 
 function reset() {
-  input.value = '';
+  input.value = ''
 }
 </script>
 

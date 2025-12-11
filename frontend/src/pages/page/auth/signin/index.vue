@@ -9,20 +9,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { router } from 'src/router';
+import { computed, ref } from 'vue'
+import { router } from 'src/router'
 
-import useAccount from 'src/hooks/useAccount';
+import useAccount from 'src/hooks/useAccount'
 
-import OSigninForm from 'components/app/auth/OSigninForm.vue';
+import OSigninForm from 'components/app/auth/OSigninForm.vue'
 
-const showSignIn = ref(true);
+const showSignIn = ref(true)
 
-const { account, isLogin } = useAccount();
+const { account, isLogin } = useAccount()
 
 
 function onSuccess() {
-  showSignIn.value = false;
+  showSignIn.value = false
 }
 </script>
 

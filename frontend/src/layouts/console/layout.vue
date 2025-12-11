@@ -38,48 +38,48 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, onMounted, onUnmounted, ref, watch} from 'vue';
-import { useRoute } from 'vue-router';
-import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi';
-import useShortcut from 'core/hooks/useShortcut';
-import useAccount from 'src/hooks/useAccount';
-import useNavi from 'src/hooks/useNavi';
+import {computed, onBeforeMount, onMounted, onUnmounted, ref, watch} from 'vue'
+import { useRoute } from 'vue-router'
+import { useAppStore } from 'stores/app'
+import { useNaviStore } from 'stores/navi'
+import useShortcut from 'core/hooks/useShortcut'
+import useAccount from 'src/hooks/useAccount'
+import useNavi from 'src/hooks/useNavi'
 
-import TabDrawer from './navi/tab-drawer.vue';
-import GroupDrawer from './navi/group-drawer.vue';
-import NaviTabbar from './tabbar/NaviTabbar.vue';
-import ModalEntry from 'components/modal/ModalEntry.vue';
-import useAi from 'src/hooks/useAi';
+import TabDrawer from './navi/tab-drawer.vue'
+import GroupDrawer from './navi/group-drawer.vue'
+import NaviTabbar from './tabbar/NaviTabbar.vue'
+import ModalEntry from 'components/modal/ModalEntry.vue'
+import useAi from 'src/hooks/useAi'
 
-const route = useRoute();
-const appStore = useAppStore();
-const naviStore = useNaviStore();
-const { addKeyBindings, removeKeyBindings } = useShortcut();
+const route = useRoute()
+const appStore = useAppStore()
+const naviStore = useNaviStore()
+const { addKeyBindings, removeKeyBindings } = useShortcut()
 
-const { initAiSettings } = useAi();
-const { initWorkspace } = useAccount();
+const { initAiSettings } = useAi()
+const { initWorkspace } = useAccount()
 const {
   setActivity,
   reduceActivity,
   leftDrawerShow,
   onLeftDrawerEnter,
   onLeftDrawerLeave,
-} = useNavi();
+} = useNavi()
 
 const theme = computed(() => {
-  return appStore.setting.theme.name;
-});
-const naviLayout = computed(() => appStore.setting.navi.layout);
-const tabBar = computed(() => appStore.setting.tabBar);
-const openedMenus = computed(() => naviStore.openedMenus);
+  return appStore.setting.theme.name
+})
+const naviLayout = computed(() => appStore.setting.navi.layout)
+const tabBar = computed(() => appStore.setting.tabBar)
+const openedMenus = computed(() => naviStore.openedMenus)
 
 async function initConsole () {
-  onRouteChanged();
+  onRouteChanged()
 
   // First
-  await initWorkspace();
-  initAiSettings();
+  await initWorkspace()
+  initAiSettings()
 }
 
 function initNote() {
@@ -87,38 +87,38 @@ function initNote() {
 }
 
 function onRouteChanged() {
-  let activity = '';
-  const { name, path } = route;
+  let activity = ''
+  const { name, path } = route
   switch (name) {
     case 'chat':
     case 'chat-conversation':
-      activity = 'chat';
-      break;
+      activity = 'chat'
+      break
     case 'knowledge':
-      activity = 'knowledge';
-      break;
+      activity = 'knowledge'
+      break
     case 'note':
-      activity = 'note';
-      break;
+      activity = 'note'
+      break
     default:
-      activity = reduceActivity(path);
-      break;
+      activity = reduceActivity(path)
+      break
   }
-  if (!activity) return;
-  setActivity(activity);
+  if (!activity) return
+  setActivity(activity)
 }
 
 watch(() => route.fullPath, (newValue) => {
-  onRouteChanged();
+  onRouteChanged()
 })
 
 onBeforeMount(() => {
-  initConsole();
-  addKeyBindings();
+  initConsole()
+  addKeyBindings()
 })
 
 onUnmounted(() => {
-  removeKeyBindings();
+  removeKeyBindings()
 })
 </script>
 

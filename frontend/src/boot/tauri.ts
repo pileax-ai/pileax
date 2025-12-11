@@ -1,4 +1,4 @@
-import { boot } from 'quasar/wrappers';
+import { boot } from 'quasar/wrappers'
 
 declare global {
   interface Window {
@@ -9,8 +9,8 @@ declare global {
 export default boot(({ app }) => {
   if (process.env.CLIENT) {
     if (window.__TAURI_INTERNALS__) {
-      console.log('in TAURI');
-      document.body.classList.add('tauri');
+      console.log('in TAURI')
+      document.body.classList.add('tauri')
     }
   }
-});
+})

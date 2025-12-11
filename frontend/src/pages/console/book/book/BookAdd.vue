@@ -82,57 +82,57 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { uploadBook } from 'src/api/service/ebook/book';
-import { bookService, workspaceBookService } from 'src/api/service/remote';
-import BookGridItem from './BookGridItem.vue';
-import BookListItem from './BookListItem.vue';
-import BookDetails from './BookDetails.vue';
-import BookMoreBtn from './BookMoreBtn.vue';
-import OFileUploader from 'core/components/fIle/OFileUploader.vue';
+import { uploadBook } from 'src/api/service/ebook/book'
+import { bookService, workspaceBookService } from 'src/api/service/remote'
+import BookGridItem from './BookGridItem.vue'
+import BookListItem from './BookListItem.vue'
+import BookDetails from './BookDetails.vue'
+import BookMoreBtn from './BookMoreBtn.vue'
+import OFileUploader from 'core/components/fIle/OFileUploader.vue'
 
-import useReader from 'src/hooks/useReader';
-import useQuery from 'src/hooks/useQuery';
+import useReader from 'src/hooks/useReader'
+import useQuery from 'src/hooks/useQuery'
 import { notifyWarning } from 'core/utils/control'
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
-const { queryTimer } = useReader();
-const { view, query } = useQuery();
+const { queryTimer } = useReader()
+const { view, query } = useQuery()
 
-const data = ref({});
-const condition = ref<Indexable>({});
-const rows = ref([]);
-const loading = ref(false);
-const filter = ref(false);
-const bookView = ref('grid');
-const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
+const data = ref({})
+const condition = ref<Indexable>({})
+const rows = ref([])
+const loading = ref(false)
+const filter = ref(false)
+const bookView = ref('grid')
+const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 const orderBy = ref<Indexable>({
   updateTime: 'desc'
-});
+})
 
 function onView(value: string) {
-  bookView.value = value;
+  bookView.value = value
 }
 
 function onSort(value: Indexable) {
-  orderBy.value = value;
-  doQuery();
+  orderBy.value = value
+  doQuery()
 }
 
 function onDetails(item: any) {
-  data.value = item;
-  query.value.openSide('480px', 'details');
+  data.value = item
+  query.value.openSide('480px', 'details')
 }
 
 function onClose() {
-  query.value.closeSide(false, false);
-  doQuery();
+  query.value.closeSide(false, false)
+  doQuery()
 }
 
 async function onAddReady(file: File, icon: string) {
-  loading.value = true;
-  await uploadBook(file);
-  loading.value = false;
+  loading.value = true
+  await uploadBook(file)
+  loading.value = false
 }
 
 
@@ -140,7 +140,7 @@ function addBook(book: any) {
   workspaceBookService.save({
     bookId: book.id
   }).then(res => {
-    emit('close');
+    emit('close')
   }).catch(res => {
     console.log('res', res)
     const data = res.response.data
@@ -160,24 +160,24 @@ function doQuery() {
       'title__icontains': condition.value.title
     },
     sort: orderBy.value
-  };
+  }
 
   bookService.queryLibrary(query).then(res => {
     console.log('res', res)
-    rows.value = res.list;
-  });
+    rows.value = res.list
+  })
 }
 
 function initData() {
-  doQuery();
+  doQuery()
 }
 
 watch(() => queryTimer.value, (newValue) => {
-  doQuery();
+  doQuery()
 })
 
 onMounted(() => {
-  initData();
+  initData()
 })
 </script>
 

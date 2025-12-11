@@ -52,14 +52,14 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch } from 'vue'
-import SettingTab from 'components/reader/settings/setting-tab.vue';
-import useReaderSetting from 'src/hooks/useReaderSetting';
+import SettingTab from 'components/reader/settings/setting-tab.vue'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
-const { settings, setSettingItem } = useReaderSetting();
-const backgroundBlur = ref(0);
+const { settings, setSettingItem } = useReaderSetting()
+const backgroundBlur = ref(0)
 
 const list = computed(() => {
   return [
@@ -98,17 +98,17 @@ const list = computed(() => {
       type: "light",
       url: "/images/book/img_1.png",
     },
-  ];
-});
+  ]
+})
 
-const backgroundImage = computed(() => settings.value.backgroundImage);
+const backgroundImage = computed(() => settings.value.backgroundImage)
 
 function onValueChanged(key: string, value: any) {
-  setSettingItem(key, value);
+  setSettingItem(key, value)
 }
 
 onBeforeMount(() => {
-  backgroundBlur.value = settings.value.backgroundBlur || 0;
+  backgroundBlur.value = settings.value.backgroundBlur || 0
 })
 </script>
 

@@ -7,7 +7,7 @@ import { GET, POST, PUT } from 'src/hooks/useRequest'
 import { BaseService } from 'src/api/service/remote/base'
 
 export class ChatService extends BaseService {
-  protected apiName = 'chat';
+  protected apiName = 'chat'
 
   // override put(body: Indexable): Promise<any> {
   //   return PUT({ name: this.apiName, path: '/message', body });
@@ -17,7 +17,7 @@ export class ChatService extends BaseService {
    * completion
    */
   completion(data: Indexable): Promise<any> {
-    return POST({ name: 'chat', path: '/completions', body: data });
+    return POST({ name: 'chat', path: '/completions', body: data })
   }
 
   /**
@@ -28,9 +28,9 @@ export class ChatService extends BaseService {
     const query = {
       conversation_id: id
     }
-    return GET({ name: 'chat', path: '/messages', query });
+    return GET({ name: 'chat', path: '/messages', query })
   }
 
 }
 
-export const chatService = new ChatService();
+export const chatService = new ChatService()

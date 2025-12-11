@@ -12,17 +12,17 @@
 </template>
 
 <script setup lang="ts">
-import useSetting from 'core/hooks/useSetting';
-import { THEME_COLORS } from 'core/constants/setting';
+import useSetting from 'core/hooks/useSetting'
+import { THEME_COLORS } from 'core/constants/setting'
 
-const { theme, setThemeColor } = useSetting();
+const { theme, setThemeColor } = useSetting()
 
 defineProps({
   itemClass: {
     type: String,
     default: ''
   }
-});
+})
 </script>
 
 <style lang="scss">

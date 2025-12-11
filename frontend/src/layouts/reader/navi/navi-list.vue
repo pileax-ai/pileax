@@ -18,26 +18,26 @@
 <script setup lang="ts">
 import DrawerNavi from 'core/page/DrawerNavi.vue'
 import OBookTocItem from 'src/components/book/OBookTocItem.vue'
-import {computed} from 'vue';
-import useNavi from 'src/hooks/useNavi';
-import useBook from 'src/hooks/useBook';
+import {computed} from 'vue'
+import useNavi from 'src/hooks/useNavi'
+import useBook from 'src/hooks/useBook'
 
-const { activity } = useNavi();
-const { toc } = useBook();
+const { activity } = useNavi()
+const { toc } = useBook()
 
 const props = defineProps({
   width: {
     type: Number,
     default: 300
   },
-});
+})
 
 const activeMenu = computed(() => {
   return {
     id: 0,
     label: '',
     subitems: toc.value
-  };
+  }
 })
 
 </script>

@@ -40,9 +40,9 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, ref } from 'vue'
-import OHoverMenu from 'core/components/menu/OHoverMenu.vue';
+import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 
 const props = defineProps({
   chats: {
@@ -53,8 +53,8 @@ const props = defineProps({
     type: Boolean,
     default: true
   }
-});
-const emit = defineEmits(['action']);
+})
+const emit = defineEmits(['action'])
 const selectedId = ref('')
 
 function onScroll(event?: Event) {

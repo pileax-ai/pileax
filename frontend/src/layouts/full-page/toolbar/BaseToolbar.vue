@@ -33,19 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import { router } from 'src/router';
+import { router } from 'src/router'
 
-import { onAction } from 'core/hooks/useRouter';
-import { menuLabel } from 'core/hooks/useMenu';
-import useAccount from 'src/hooks/useAccount';
-import { topMenus } from 'src/app/top-menu';
+import { onAction } from 'core/hooks/useRouter'
+import { menuLabel } from 'core/hooks/useMenu'
+import useAccount from 'src/hooks/useAccount'
+import { topMenus } from 'src/app/top-menu'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
-const { account, isLogin } = useAccount();
+const { account, isLogin } = useAccount()
 
 function onConsole() {
-  console.log('console');
-  router.push('/welcome');
+  console.log('console')
+  router.push('/welcome')
 }
 </script>
 

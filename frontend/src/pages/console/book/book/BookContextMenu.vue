@@ -6,10 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 import OContextMenu from 'core/components/menu/OContextMenu.vue'
-import useBookDetails from 'src/hooks/useBookDetails';
-import useDialog from 'core/hooks/useDialog';
+import useBookDetails from 'src/hooks/useBookDetails'
+import useDialog from 'core/hooks/useDialog'
 import { notifyDone } from 'core/utils/control'
 
 const props = defineProps({
@@ -21,11 +21,11 @@ const props = defineProps({
     type: Object,
     required: true
   },
-});
-const emit = defineEmits(['edit', 'close']);
+})
+const emit = defineEmits(['edit', 'close'])
 
-const { downloadBook, removeBook, updateUserBook } = useBookDetails();
-const { openDialog } = useDialog();
+const { downloadBook, removeBook, updateUserBook } = useBookDetails()
+const { openDialog } = useDialog()
 
 const actions = computed(() => {
   return [
@@ -66,32 +66,32 @@ const actions = computed(() => {
       icon: 'delete',
       class: 'text-red',
     },
-  ];
+  ]
 })
 
 
 function onAction (action :any) {
   switch (action.value) {
     case 'collection':
-      onAddCollection();
-      break;
+      onAddCollection()
+      break
     case 'download':
-      downloadBook(props.data);
-      break;
+      downloadBook(props.data)
+      break
     case 'edit':
-      emit('edit', props.data);
-      break;
+      emit('edit', props.data)
+      break
     case 'remove':
-      onRemoveBook();
-      break;
+      onRemoveBook()
+      break
     case 'status_want':
-      updateReadingStatus(1);
-      break;
+      updateReadingStatus(1)
+      break
     case 'status_finished':
-      updateReadingStatus(3);
-      break;
+      updateReadingStatus(3)
+      break
     default:
-      break;
+      break
   }
 }
 
@@ -109,7 +109,7 @@ function onRemoveBook() {
     emit('close', {
       action: 'remove',
       item: props.data
-    });
+    })
   }).catch(err => {
     // console.error(err)
   })

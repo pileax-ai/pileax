@@ -39,47 +39,47 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue';
-import useVuelidate from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { onMounted, PropType, ref } from 'vue'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
-import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
+import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
 import { ConnectionStatus, getArrayItem, WorkspaceTypes } from 'src/app/metadata'
 import { notifyWarning } from 'core/utils/control'
-import useForm from 'src/hooks/useForm';
+import useForm from 'src/hooks/useForm'
 import { getErrorMessage } from 'src/utils/request'
 import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 
-const apiName = 'workspace';
+const apiName = 'workspace'
 const props = defineProps({
   id: {
     type: String,
     default: ''
   },
-});
-const emit = defineEmits(['success']);
-const { form, loading, actions } = useForm();
+})
+const emit = defineEmits(['success'])
+const { form, loading, actions } = useForm()
 
 const rules = {
   name: { required },
   type: { required },
-};
-const v$ = useVuelidate(rules, form);
+}
+const v$ = useVuelidate(rules, form)
 
 function load () {
-  actions.initForm(apiName);
+  actions.initForm(apiName)
   if (props.id) {
     GET({name: apiName, query: {id: props.id}}).then((data) => {
-      form.value.name = data.name;
-      form.value.type = data.type;
-      form.value.icon = data.icon;
+      form.value.name = data.name
+      form.value.type = data.type
+      form.value.icon = data.icon
     })
   } else {
-    form.value.type = 'team';
-    form.value.plan = 'basic';
-    form.value.icon = '🍃';
+    form.value.type = 'team'
+    form.value.plan = 'basic'
+    form.value.icon = '🍃'
   }
 }
 
@@ -95,7 +95,7 @@ function onSelectIcon(options: Indexable) {
 
 function onSubmit () {
   if (!actions.validate(v$)) {
-    return;
+    return
   }
   const body = {
     ...form.value,
@@ -105,7 +105,7 @@ function onSubmit () {
   actions.submit(
     body,
     (data) => {
-      emit('success');
+      emit('success')
     },
     (err) => {
       if (err.response.status === 403) {
@@ -116,11 +116,11 @@ function onSubmit () {
         console.error(err)
       }
     }
-  );
+  )
 }
 
 onMounted(() => {
-  load();
+  load()
 })
 </script>
 

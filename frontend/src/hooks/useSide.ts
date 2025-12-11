@@ -1,6 +1,6 @@
-import { ref } from 'vue';
-import useCommon from 'core/hooks/useCommon';
-import { notifyDone } from 'core/utils/control';
+import { ref } from 'vue'
+import useCommon from 'core/hooks/useCommon'
+import { notifyDone } from 'core/utils/control'
 
 export default function () {
   const side = ref({
@@ -8,13 +8,13 @@ export default function () {
     title: '',
     position: 'right',
     style: {width: '30vw', minWidth: '600px'}
-  });
-  const view = ref('details');
+  })
+  const view = ref('details')
 
-  const { t, dialog } = useCommon();
+  const { t, dialog } = useCommon()
 
   function onOpenSide(width = '30vw', viewAlt = 'details', printable = false, icon = '', title = '') {
-    view.value = viewAlt;
+    view.value = viewAlt
     side.value = {
       ...side.value,
       show: true,
@@ -28,8 +28,8 @@ export default function () {
     }
   }
   function onCloseSide (notify = true) {
-    side.value.show = false;
-    if (notify) notifyDone();
+    side.value.show = false
+    if (notify) notifyDone()
   }
 
   return {
@@ -37,5 +37,5 @@ export default function () {
     side,
     onOpenSide,
     onCloseSide,
-  };
+  }
 }

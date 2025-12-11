@@ -19,11 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import { APP_HOME_URL, APP_DOC_URL, APP_GITHUB_URL } from 'src/app/app';
-import SettingCard from './setting-card.vue';
-import OViewItem from 'core/components/list/OViewItem.vue';
+import { APP_HOME_URL, APP_DOC_URL, APP_GITHUB_URL } from 'src/app/app'
+import SettingCard from './setting-card.vue'
+import OViewItem from 'core/components/list/OViewItem.vue'
 
-const appInfo = __APP_INFO__;
+const appInfo = __APP_INFO__
 </script>
 
 <style lang="scss">

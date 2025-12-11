@@ -41,9 +41,9 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import type { ChatConversation } from 'src/types/chat';
-import ChatConversationItem from 'components/chat/ChatConversationItem.vue';
+import { chatConversationService } from 'src/api/service/remote/chat-conversation'
+import type { ChatConversation } from 'src/types/chat'
+import ChatConversationItem from 'components/chat/ChatConversationItem.vue'
 
 type GroupedConversations = {
   favorite: ChatConversation[];
@@ -75,12 +75,12 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['open']);
+})
+const emit = defineEmits(['open'])
 
-const conversations = ref<ChatConversation[]>([]);
+const conversations = ref<ChatConversation[]>([])
 const groupedConversation = computed(() => {
-  return groupConversationsByTime(conversations.value);
+  return groupConversationsByTime(conversations.value)
 })
 
 async function refresh(openFirst = false) {
@@ -96,16 +96,16 @@ async function refresh(openFirst = false) {
     }
   }
   chatConversationService.query(query).then(res => {
-    conversations.value = res.list;
+    conversations.value = res.list
   })
 }
 
 function groupConversationsByTime(conversations: ChatConversation[]): GroupedConversations {
-  const now = new Date();
-  const todayStart = new Date(now.setHours(0, 0, 0, 0));
-  const yesterdayStart = new Date(new Date().setDate(now.getDate() - 1));
-  const sevenDaysAgo = new Date(new Date().setDate(now.getDate() - 7));
-  const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
+  const now = new Date()
+  const todayStart = new Date(now.setHours(0, 0, 0, 0))
+  const yesterdayStart = new Date(new Date().setDate(now.getDate() - 1))
+  const sevenDaysAgo = new Date(new Date().setDate(now.getDate() - 7))
+  const thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30))
 
   const result: GroupedConversations = {
     favorite: [],
@@ -114,56 +114,56 @@ function groupConversationsByTime(conversations: ChatConversation[]): GroupedCon
     last7Days: [],
     last30Days: [],
     byMonth: {},
-  };
+  }
 
   conversations.forEach((conversation) => {
-    const conversationDate = new Date(conversation.createTime);
+    const conversationDate = new Date(conversation.createTime)
 
     if (conversation.favorite === 1) {
-      result.favorite.push(conversation);
-      return;
+      result.favorite.push(conversation)
+      return
     }
 
     // Day group
     if (conversationDate >= todayStart) {
-      result.today.push(conversation);
+      result.today.push(conversation)
     } else if (conversationDate >= yesterdayStart) {
-      result.yesterday.push(conversation);
+      result.yesterday.push(conversation)
     }  else if (conversationDate >= sevenDaysAgo) {
-      result.last7Days.push(conversation);
+      result.last7Days.push(conversation)
     } else if (conversationDate >= thirtyDaysAgo) {
-      result.last30Days.push(conversation);
+      result.last30Days.push(conversation)
     } else {
-      const monthKey = `${conversationDate.getFullYear()}-${String(conversationDate.getMonth() + 1).padStart(2, '0')}`;
+      const monthKey = `${conversationDate.getFullYear()}-${String(conversationDate.getMonth() + 1).padStart(2, '0')}`
 
       // Month group
       if (!result.byMonth[monthKey]) {
-        result.byMonth[monthKey] = [];
+        result.byMonth[monthKey] = []
       }
-      result.byMonth[monthKey].push(conversation);
+      result.byMonth[monthKey].push(conversation)
     }
-  });
+  })
 
   // Deduplicate
   result.last7Days = result.last7Days.filter(
     (conversation) => !result.today.includes(conversation)
-  );
+  )
   result.last30Days = result.last30Days.filter(
     (conversation) => !result.today.includes(conversation) && !result.last7Days.includes(conversation)
-  );
+  )
 
-  return result;
+  return result
 }
 
 function onItemUpdated(item: ChatConversation) {
-  const idx = conversations.value.findIndex(s => s.id === item.id);
+  const idx = conversations.value.findIndex(s => s.id === item.id)
   if (idx >= 0) {
-    conversations.value.splice(idx, 1, item);
+    conversations.value.splice(idx, 1, item)
   }
 }
 
 onMounted(() => {
-  refresh();
+  refresh()
 })
 
 defineExpose({

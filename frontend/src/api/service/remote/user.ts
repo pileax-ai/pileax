@@ -6,7 +6,7 @@
 import { BaseService } from 'src/api/service/remote/base'
 
 export class UserService extends BaseService {
-  protected apiName = 'user';
+  protected apiName = 'user'
 }
 
-export const userService = new UserService();
+export const userService = new UserService()

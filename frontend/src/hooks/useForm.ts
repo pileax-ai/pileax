@@ -1,63 +1,63 @@
-import { ref } from 'vue';
-import { POST, PUT } from 'src/hooks/useRequest';
-import type { Ref } from 'vue-demi';
-import type { BaseValidation } from '@vuelidate/core';
+import { ref } from 'vue'
+import { POST, PUT } from 'src/hooks/useRequest'
+import type { Ref } from 'vue-demi'
+import type { BaseValidation } from '@vuelidate/core'
 
 export default function () {
-  const apiName = ref('');
-  const apiPath = ref('');
-  const form = ref<Indexable>({});
-  const loading = ref(false);
-  const vuelidate: Ref<BaseValidation | null> = ref(null);
+  const apiName = ref('')
+  const apiPath = ref('')
+  const form = ref<Indexable>({})
+  const loading = ref(false)
+  const vuelidate: Ref<BaseValidation | null> = ref(null)
 
   function initForm(api: string, path = '') {
-    apiName.value = api;
-    apiPath.value = path;
+    apiName.value = api
+    apiPath.value = path
   }
 
   function validate(v$: any) {
-    vuelidate.value = v$.value;
-    v$.value.$touch();
+    vuelidate.value = v$.value
+    v$.value.$touch()
     if (v$.value.$error) {
-      return false;
+      return false
     } else {
-      return true;
+      return true
     }
   }
 
   function submit (body: Indexable, callback: (res: any) => any, error?: (err: any) => any) {
-    loading.value = true;
+    loading.value = true
     if (body.id) {
       PUT({name: apiName.value, path: apiPath.value, body: body}).then(res => {
-        postSubmit(res as Indexable, callback);
+        postSubmit(res as Indexable, callback)
       }).catch(err => {
-        loading.value = false;
-        if (error) error(err);
+        loading.value = false
+        if (error) error(err)
       })
     } else {
       delete body.id
       POST({name: apiName.value, path: apiPath.value, body: body}).then(res => {
-        postSubmit(res as Indexable, callback);
+        postSubmit(res as Indexable, callback)
       }).catch(err => {
-        loading.value = false;
-        if (error) error(err);
+        loading.value = false
+        if (error) error(err)
       })
     }
   }
 
   function postSubmit (data: Indexable, callback: (res: any) => any) {
-    loading.value = false;
-    form.value.id = data.id;
-    vuelidate.value?.$reset();
+    loading.value = false
+    form.value.id = data.id
+    vuelidate.value?.$reset()
 
     if (typeof callback === 'function') {
-      callback(data);
+      callback(data)
     }
   }
 
   function reset() {
-    form.value = {};
-    vuelidate.value?.$reset();
+    form.value = {}
+    vuelidate.value?.$reset()
   }
 
   const actions = {
@@ -65,12 +65,12 @@ export default function () {
     validate,
     submit,
     reset
-  };
+  }
 
   return {
     form,
     loading,
 
     actions
-  };
+  }
 }

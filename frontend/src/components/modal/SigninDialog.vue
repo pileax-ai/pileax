@@ -15,22 +15,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-import OCommonDialog from 'core/components/dialog/OCommonDialog.vue';
-import useDialog from 'core/hooks/useDialog';
-import useAccount from 'src/hooks/useAccount';
+import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
+import useDialog from 'core/hooks/useDialog'
+import useAccount from 'src/hooks/useAccount'
 
-const { dialog, onHide } = useDialog();
-const { logout } = useAccount();
+const { dialog, onHide } = useDialog()
+const { logout } = useAccount()
 
 const style = computed(() => {
   return {
     minWidth: '400px',
     maxWidth: '400px',
     padding: '0px'
-  };
-});
+  }
+})
 
 const onOk = () => {
   logout()

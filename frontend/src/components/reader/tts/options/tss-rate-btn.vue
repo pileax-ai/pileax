@@ -54,11 +54,11 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
-import { computed, onMounted, ref } from 'vue';
-import OMenuBtn from 'core/components/menu/OMenuBtn.vue';
-import TssOptionView from './tss-option-view.vue';
-import useTTS from 'src/hooks/useTTS';
+import type { PropType} from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
+import TssOptionView from './tss-option-view.vue'
+import useTTS from 'src/hooks/useTTS'
 
 const props = defineProps({
   label: {
@@ -76,17 +76,17 @@ const props = defineProps({
   offset: {
     type: Array as PropType<number[]>,
     default: () => {
-      return [0, 4];
+      return [0, 4]
     }
   },
   minWidth: {
     type: String,
     default: '360px'
   },
-});
-const emit = defineEmits(['selected']);
+})
+const emit = defineEmits(['selected'])
 
-const { tts } = useTTS();
+const { tts } = useTTS()
 
 const options = computed(() => {
   return [
@@ -98,12 +98,12 @@ const options = computed(() => {
 const rate = computed({
   get: () => parseFloat(tts.options.rate),
   set: (val) => {
-    tts.setRate(val);
+    tts.setRate(val)
   }
 })
 
 const onSelect = (item: Indexable) => {
-  tts.setProvider(item.value);
+  tts.setProvider(item.value)
   console.log('select', item)
 }
 </script>

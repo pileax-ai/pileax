@@ -1,4 +1,4 @@
-import type { IpcService} from 'src/api/ipc/index';
+import type { IpcService} from 'src/api/ipc/index'
 import { IpcApi, ipcServiceKeys } from 'src/api/ipc/index'
 
 /**
@@ -37,19 +37,19 @@ export class ElectronIpc implements IpcService {
  * Solution 2: Factory
  */
 export const createElectronIpc = (): IpcService => {
-  const api = window.electronIpcAPI;
+  const api = window.electronIpcAPI
 
   const handler: ProxyHandler<any> = {
     get: (_, prop: string) => {
       if (ipcServiceKeys.includes(prop as any)) {
-        const fn = api[prop as keyof typeof api];
-        return typeof fn === "function" ? fn.bind(api) : fn;
+        const fn = api[prop as keyof typeof api]
+        return typeof fn === "function" ? fn.bind(api) : fn
       }
-      throw new Error(`IPC method ${prop} not found`);
+      throw new Error(`IPC method ${prop} not found`)
     }
-  };
+  }
 
-  return new Proxy({}, handler) as IpcService;
+  return new Proxy({}, handler) as IpcService
 }
 
-export const electronIpc = createElectronIpc();
+export const electronIpc = createElectronIpc()

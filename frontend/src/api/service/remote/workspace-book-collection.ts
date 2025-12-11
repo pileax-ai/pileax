@@ -6,7 +6,7 @@
 import { BaseService } from 'src/api/service/remote/base'
 
 export class WorkspaceBookCollectionService extends BaseService {
-  protected apiName = 'workspaceBookCollection';
+  protected apiName = 'workspaceBookCollection'
 }
 
-export const workspaceBookCollectionService = new WorkspaceBookCollectionService();
+export const workspaceBookCollectionService = new WorkspaceBookCollectionService()

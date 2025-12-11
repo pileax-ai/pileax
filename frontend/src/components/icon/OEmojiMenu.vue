@@ -11,23 +11,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { OEmojiSelect } from '@yiitap/vue';
-import { emojiGroups } from '@yiitap/util-emoji';
+import { ref } from 'vue'
+import { OEmojiSelect } from '@yiitap/vue'
+import { emojiGroups } from '@yiitap/util-emoji'
 
 const props = defineProps({
   dense: {
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['select']);
-const menu = ref(null);
+})
+const emit = defineEmits(['select'])
+const menu = ref(null)
 
 function onSelect(option: Indexable) {
-  emit('select', option);
+  emit('select', option)
 
-  menu.value?.hide();
+  menu.value?.hide()
 }
 </script>
 

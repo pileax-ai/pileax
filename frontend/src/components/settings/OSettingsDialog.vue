@@ -71,24 +71,24 @@
 
 <script setup lang="ts">
 import { computed, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
-import useDialog from 'core/hooks/useDialog';
-import useCommon from 'core/hooks/useCommon';
+import useDialog from 'core/hooks/useDialog'
+import useCommon from 'core/hooks/useCommon'
 
-import AboutTab from './tab/about-tab.vue';
-import AiTab from './tab/ai-tab.vue';
-import AppearanceTab from './tab/appearance-tab.vue';
-import GeneralTab from './tab/general-tab.vue';
-import ProfileTab from './tab/profile-tab.vue';
-import ReadingTab from './tab/reading-tab.vue';
-import ServiceLogTab from './tab/service-log-tab.vue';
-import ShortcutTab from './tab/shortcut-tab.vue';
-import UserLogTab from './tab/user-log-tab.vue';
-import WorkspaceTab from './tab/workspace-tab.vue';
-import WorkspaceMemberTab from './tab/workspace-member-tab.vue';
+import AboutTab from './tab/about-tab.vue'
+import AiTab from './tab/ai-tab.vue'
+import AppearanceTab from './tab/appearance-tab.vue'
+import GeneralTab from './tab/general-tab.vue'
+import ProfileTab from './tab/profile-tab.vue'
+import ReadingTab from './tab/reading-tab.vue'
+import ServiceLogTab from './tab/service-log-tab.vue'
+import ShortcutTab from './tab/shortcut-tab.vue'
+import UserLogTab from './tab/user-log-tab.vue'
+import WorkspaceTab from './tab/workspace-tab.vue'
+import WorkspaceMemberTab from './tab/workspace-member-tab.vue'
 import { QScrollArea } from 'quasar'
 
 
-const scrollRef = useTemplateRef<QScrollArea>('scrollRef');
+const scrollRef = useTemplateRef<QScrollArea>('scrollRef')
 
 const props = defineProps({
   show: {
@@ -103,15 +103,15 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['show']);
+})
+const emit = defineEmits(['show'])
 
-const { dialog, onHide } = useDialog();
-const { t } = useCommon();
-const modal = ref();
-const splitterModel = ref(300);
-const currentTab = ref('profile');
-const isMaximized = ref(false);
+const { dialog, onHide } = useDialog()
+const { t } = useCommon()
+const modal = ref()
+const splitterModel = ref(300)
+const currentTab = ref('profile')
+const isMaximized = ref(false)
 const style = computed(() => {
   return isMaximized.value
     ? {
@@ -140,37 +140,37 @@ const tabs = computed(() => {
     { label: t('about'), value: 'about', icon: 'o_info', group: t('help'), component: AboutTab },
     // { label: '快捷键', value: 'shortcut', icon: 'o_keyboard', component: ShortcutTab },
     { label: '隐私政策', value: 'about', icon: 'o_policy', component: AboutTab },
-  ];
-});
-
-const tab = computed(() => {
-  return tabs.value.find(t => t.value === currentTab.value);
+  ]
 })
 
-const type = computed(() => dialog.value.type);
+const tab = computed(() => {
+  return tabs.value.find(t => t.value === currentTab.value)
+})
+
+const type = computed(() => dialog.value.type)
 
 function onMinimized() {
-  isMaximized.value = !isMaximized.value;
+  isMaximized.value = !isMaximized.value
 }
 
 function scrollToBottom(duration = 0) {
-  const scrollTarget = scrollRef.value?.getScrollTarget();
-  const scrollHeight = scrollTarget?.scrollHeight || 0;
-  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
+  const scrollTarget = scrollRef.value?.getScrollTarget()
+  const scrollHeight = scrollTarget?.scrollHeight || 0
+  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration)
 }
 
 watch(() => type.value, (newValue) => {
   if (newValue === 'settings') {
-    modal.value.show();
+    modal.value.show()
   } else {
-    modal.value.hide();
+    modal.value.hide()
   }
 })
 
 onMounted(() => {
   if (type.value === 'settings') {
-    modal.value.show();
-    currentTab.value = dialog.value.tab || 'profile';
+    modal.value.show()
+    currentTab.value = dialog.value.tab || 'profile'
   }
 })
 

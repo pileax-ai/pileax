@@ -62,21 +62,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useAppStore } from 'stores/app';
-import { useNaviStore } from 'stores/navi';
-import { menuLabel } from 'core/hooks/useMenu';
-import { refresh } from 'core/hooks/useRouter';
+import { computed, ref } from 'vue'
+import { useAppStore } from 'stores/app'
+import { useNaviStore } from 'stores/navi'
+import { menuLabel } from 'core/hooks/useMenu'
+import { refresh } from 'core/hooks/useRouter'
 
-import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
-import useNavi from 'src/hooks/useNavi';
+import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue'
+import useNavi from 'src/hooks/useNavi'
 
-const appStore = useAppStore();
-const naviStore = useNaviStore();
-const { toggleDrawer } = useNavi();
+const appStore = useAppStore()
+const naviStore = useNaviStore()
+const { toggleDrawer } = useNavi()
 
-const hoverMenu = ref(false);
-const showDrawerToggle = computed(() => naviStore.drawer.miniState);
+const hoverMenu = ref(false)
+const showDrawerToggle = computed(() => naviStore.drawer.miniState)
 
 const actions = computed(() => {
   return [
@@ -85,36 +85,36 @@ const actions = computed(() => {
     { label: 'Close', value: 'close', icon: 'close', separator: true },
     { label: 'Close Other Tabs', value: 'closeOther', icon: 'playlist_remove' },
     { label: 'Close Tabs to the Right', value: 'closeToRight', icon: 'keyboard_tab' },
-  ];
-});
+  ]
+})
 
-const tabBar = computed(() => appStore.setting.tabBar);
-const openedMenus = computed(() => naviStore.openedMenus);
+const tabBar = computed(() => appStore.setting.tabBar)
+const openedMenus = computed(() => naviStore.openedMenus)
 const moreIcon = computed(() => {
-  return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less';
-});
+  return appStore.setting.tabBar.position === 'top' ? 'expand_more' : 'expand_less'
+})
 const pageLoading = computed(() => {
-  return appStore.setting.pageLoading.loading;
-});
+  return appStore.setting.pageLoading.loading
+})
 
 async function onClose (item) {
-  naviStore.closeOpenedMenu(item);
+  naviStore.closeOpenedMenu(item)
 }
 
 function onAction (action, item) {
   switch (action.value) {
     case 'close':
-      naviStore.closeOpenedMenu(item);
-      break;
+      naviStore.closeOpenedMenu(item)
+      break
     case 'closeOther':
-      naviStore.closeOtherOpenedMenu(item);
-      break;
+      naviStore.closeOtherOpenedMenu(item)
+      break
     case 'closeToRight':
-      naviStore.closeRightOpenedMenu(item);
-      break;
+      naviStore.closeRightOpenedMenu(item)
+      break
     case 'reload':
-      refresh();
-      break;
+      refresh()
+      break
   }
 }
 </script>

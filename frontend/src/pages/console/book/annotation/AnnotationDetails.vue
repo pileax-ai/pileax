@@ -55,27 +55,27 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar';
-import { computed } from 'vue';
-import { timeMulti } from 'core/utils/format';
-import { ipcService } from 'src/api/ipc';
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+import { timeMulti } from 'core/utils/format'
+import { ipcService } from 'src/api/ipc'
 import useBookAnnotation from 'src/hooks/useBookAnnotation'
 
 const props = defineProps({
   data: {
     type: Object,
     default: function () {
-      return {};
+      return {}
     }
   },
   coverUrl: {
     type: String,
     default: ''
   },
-});
-const emit = defineEmits(['close']);
+})
+const emit = defineEmits(['close'])
 
-const { removeBookAnnotation } = useBookAnnotation();
+const { removeBookAnnotation } = useBookAnnotation()
 
 const actions = computed(() => {
   return [
@@ -84,19 +84,19 @@ const actions = computed(() => {
       value: 'remove',
       icon: 'delete',
     },
-  ];
-});
+  ]
+})
 
 
 function onAction (action :any) {
   switch (action.value) {
     case 'remove':
-      onRemove();
-      break;
+      onRemove()
+      break
     case 'title':
-      break;
+      break
     default:
-      break;
+      break
   }
 }
 
@@ -105,13 +105,13 @@ function onRemove() {
     emit('close', {
       action: 'remove',
       item: props.data
-    });
-  });
+    })
+  })
 }
 
 function openBook() {
-  const item = props.data;
-  ipcService.openNewWindow(item.id, `/reader/annotation?id=${item.id}`);
+  const item = props.data
+  ipcService.openNewWindow(item.id, `/reader/annotation?id=${item.id}`)
 }
 
 </script>

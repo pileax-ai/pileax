@@ -59,64 +59,64 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import useSetting from 'core/hooks/useSetting';
-import useBook from 'src/hooks/useBook';
+import useSetting from 'core/hooks/useSetting'
+import useBook from 'src/hooks/useBook'
 import { changeStyle, goToHref, goToPercent, nextPage, prevPage } from 'src/api/service/ebook/book'
 
-const { setTheme, theme } = useSetting();
-const { store, progress, search } = useBook();
-const progressValue = ref(0);
-const phase = ref('');
+const { setTheme, theme } = useSetting()
+const { store, progress, search } = useBook()
+const progressValue = ref(0)
+const phase = ref('')
 
 const reservePercent = computed(() => {
   return `${progress.value.percentage * 100}%`
 })
 
 const showReserve = computed(() => {
-  return Math.abs(progress.value.percentage - store.tempProgress.percentage) > 0.01;
+  return Math.abs(progress.value.percentage - store.tempProgress.percentage) > 0.01
 })
 
 const searchCurrent = computed(() => {
-  return search.value.current || {};
+  return search.value.current || {}
 })
 
 function onUpdated(value: number | null) {
-  goToPercent(value || 0);
+  goToPercent(value || 0)
 }
 
 function onPan(value: string) {
-  phase.value = value;
+  phase.value = value
 }
 
 function onReturn() {
-  goToHref(progress.value.cfi);
-  progressValue.value = progress.value.percentage;
+  goToHref(progress.value.cfi)
+  progressValue.value = progress.value.percentage
 }
 
 function toggleTheme() {
-  const name = (theme.value.name === 'dark') ? 'light' : 'dark';
-  setTheme(name);
+  const name = (theme.value.name === 'dark') ? 'light' : 'dark'
+  setTheme(name)
   changeStyle({
     backgroundColor: name === 'dark' ? '#000000' : '#ffffff',
     fontColor: name === 'dark' ? '#ffffff' : '#000000'
-  });
+  })
 }
 
 const themeIcon = computed(() => {
-  return theme.value.name === 'dark' ? 'light_mode' : 'dark_mode';
-});
+  return theme.value.name === 'dark' ? 'light_mode' : 'dark_mode'
+})
 const themeTooltip = computed(() => {
-  return theme.value.name === 'dark' ? 'mode.light' : 'mode.dark';
-});
+  return theme.value.name === 'dark' ? 'mode.light' : 'mode.dark'
+})
 
 watch(() => store.tempProgress, (newValue) => {
   if (phase.value !== 'start') {
-    progressValue.value = store.tempProgress.percentage;
+    progressValue.value = store.tempProgress.percentage
   }
 })
 
 onMounted(() => {
-  progressValue.value = progress.value.percentage;
+  progressValue.value = progress.value.percentage
 })
 </script>
 

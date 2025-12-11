@@ -25,12 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-const emit = defineEmits(['view', 'sort']);
+import { computed, ref } from 'vue'
+const emit = defineEmits(['view', 'sort'])
 
-const bookView = ref('grid');
-const orderField = ref('recent');
-const orderDesc = ref(true);
+const bookView = ref('grid')
+const orderField = ref('recent')
+const orderDesc = ref(true)
 
 const actions = computed(() => {
   return [
@@ -61,37 +61,37 @@ const actions = computed(() => {
       sortable: true,
       selected: orderField.value === 'title',
     },
-  ];
-});
+  ]
+})
 
 function onAction (action :any) {
-  const value = action.value;
+  const value = action.value
   switch (value) {
     case 'grid':
     case 'list':
-      bookView.value = value;
-      emit('view', value);
-      break;
+      bookView.value = value
+      emit('view', value)
+      break
     case 'recent':
       if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value;
+        orderDesc.value = !orderDesc.value
       } else {
-        orderDesc.value = true;
+        orderDesc.value = true
       }
-      orderField.value = value;
-      emit('sort', { update_time: orderDesc.value ? 'desc' : 'asc' });
-      break;
+      orderField.value = value
+      emit('sort', { update_time: orderDesc.value ? 'desc' : 'asc' })
+      break
     case 'title':
       if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value;
+        orderDesc.value = !orderDesc.value
       } else {
-        orderDesc.value = false;
+        orderDesc.value = false
       }
-      orderField.value = value;
-      emit('sort', { title: orderDesc.value ? 'desc' : 'asc' });
-      break;
+      orderField.value = value
+      emit('sort', { title: orderDesc.value ? 'desc' : 'asc' })
+      break
     default:
-      break;
+      break
   }
 }
 </script>

@@ -3,25 +3,25 @@
  *
  * @version 1.0
  */
-import { ebookRender } from 'src/api/service/ebook';
-import { bookAnnotationService } from 'src/api/service/remote/book-annotation';
+import { ebookRender } from 'src/api/service/ebook'
+import { bookAnnotationService } from 'src/api/service/remote/book-annotation'
 
 // ---------------------------------------------------------
 // Reader
 // ---------------------------------------------------------
 const addAnnotation = async (annotation: any) => {
-  console.log('annotation', annotation);
-  ebookRender.addAnnotation(annotation);
-  await bookAnnotationService.save(annotation);
+  console.log('annotation', annotation)
+  ebookRender.addAnnotation(annotation)
+  await bookAnnotationService.save(annotation)
 }
 
 const removeAnnotation = async (annotation: any) => {
-  ebookRender.removeAnnotation(annotation.value);
-  await bookAnnotationService.delete(annotation.id);
+  ebookRender.removeAnnotation(annotation.value)
+  await bookAnnotationService.delete(annotation.id)
 }
 
 const renderAnnotations = (annotations: []) => {
-  ebookRender.renderAnnotations(annotations);
+  ebookRender.renderAnnotations(annotations)
 }
 
 // ---------------------------------------------------------
@@ -34,7 +34,7 @@ const renderAnnotations = (annotations: []) => {
  * @return List
  */
 const findBookAnnotation = async (bookId: string) => {
-  return bookAnnotationService.getAll({ book_id: bookId });
+  return bookAnnotationService.getAll({ book_id: bookId })
 }
 
 

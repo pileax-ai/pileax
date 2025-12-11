@@ -130,63 +130,63 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, ref, watch } from 'vue';
-import BookContextMenu from './BookContextMenu.vue';
-import BookGridItem from './BookGridItem.vue';
-import BookListItem from './BookListItem.vue';
-import BookDetails from './BookDetails.vue';
-import BookEdit from './BookEdit.vue';
-import BookAdd from './BookAdd.vue';
-import BookFilter from './BookFilter.vue';
-import BookMoreBtn from './BookMoreBtn.vue';
-import OBookUploader from 'core/components/fIle/OBookUploader.vue';
-import OSplitPage from 'core/page/template/OSplitPage.vue';
+import { onActivated, ref, watch } from 'vue'
+import BookContextMenu from './BookContextMenu.vue'
+import BookGridItem from './BookGridItem.vue'
+import BookListItem from './BookListItem.vue'
+import BookDetails from './BookDetails.vue'
+import BookEdit from './BookEdit.vue'
+import BookAdd from './BookAdd.vue'
+import BookFilter from './BookFilter.vue'
+import BookMoreBtn from './BookMoreBtn.vue'
+import OBookUploader from 'core/components/fIle/OBookUploader.vue'
+import OSplitPage from 'core/page/template/OSplitPage.vue'
 
-import useReader from 'src/hooks/useReader';
-import useLoadMore from 'src/hooks/useLoadMore';
-import { ipcService } from 'src/api/ipc';
-import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style';
+import useReader from 'src/hooks/useReader'
+import useLoadMore from 'src/hooks/useLoadMore'
+import { ipcService } from 'src/api/ipc'
+import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 
-const { queryTimer } = useReader();
-const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
+const { queryTimer } = useReader()
+const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
-const pageRef = ref<InstanceType<typeof OSplitPage>>();
-const addMenu = ref(false);
-const data = ref<Indexable>({});
-const showFilter = ref(true);
-const bookView = ref('grid');
-const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf');
+const pageRef = ref<InstanceType<typeof OSplitPage>>()
+const addMenu = ref(false)
+const data = ref<Indexable>({})
+const showFilter = ref(true)
+const bookView = ref('grid')
+const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 
 function onView(value: string) {
-  bookView.value = value;
+  bookView.value = value
 }
 
 function onSort(value: Indexable) {
-  sort.value = value;
-  query.value.onQuery();
+  sort.value = value
+  query.value.onQuery()
 }
 
 function onFilter(value: Indexable) {
   switch (value.filter) {
     case 'extension':
       condition.value[`${value.filter}__in`] = value.filterValue
-      break;
+      break
     default:
       condition.value[value.filter] = value.filterValue
-      break;
+      break
   }
-  query.value.onQuery();
+  query.value.onQuery()
 }
 
 function onDetails(item: any) {
-  data.value = item;
-  query.value.openSide('480px', 'details');
+  data.value = item
+  query.value.openSide('480px', 'details')
 }
 
 function onEdit(item: Indexable) {
   data.value = item
-  query.value.openSide('480px', 'edit', 'edit_note', 'Edit');
+  query.value.openSide('480px', 'edit', 'edit_note', 'Edit')
 }
 
 function onClose(options: Indexable) {
@@ -198,30 +198,30 @@ function onClose(options: Indexable) {
       switch (options.action) {
         case 'edit':
           rows.value.splice(index, 1, options.item)
-          break;
+          break
         case 'remove':
           rows.value.splice(index, 1)
-          break;
+          break
       }
     }
   } else {
-    query.value.onQuery();
+    query.value.onQuery()
   }
-  query.value.closeSide(false, false);
+  query.value.closeSide(false, false)
 }
 
 function onOpenAdd() {
-  query.value.openSide('80vw', 'add', 'add', 'Add book');
+  query.value.openSide('80vw', 'add', 'add', 'Add book')
 }
 
 async function onUploadCompleted() {
-  addMenu.value = false;
-  query.value.onQuery();
+  addMenu.value = false
+  query.value.onQuery()
 }
 
 function openBook(item: any) {
   ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
-    READER_TITLE_BAR_HEIGHT);
+    READER_TITLE_BAR_HEIGHT)
 }
 
 function initData() {
@@ -229,7 +229,7 @@ function initData() {
     api: 'workspaceBook',
     path: '/query/details',
     title: 'Book'
-  });
+  })
 }
 
 function onFullScreen(value: boolean) {
@@ -242,11 +242,11 @@ function onToggleFiler() {
 }
 
 watch(() => queryTimer.value, (newValue) => {
-  query.value.onQuery();
+  query.value.onQuery()
 })
 
 onActivated(() => {
-  initData();
+  initData()
 })
 </script>
 

@@ -46,12 +46,12 @@
 
 <script setup lang="ts">
 import { onActivated, ref } from 'vue'
-import OAiModelSelectBtn from 'src/components/ai/OAiModelSelectBtn.vue';
-import { providerModelService, pdmService } from 'src/api/service/remote';
-import useAi from 'src/hooks/useAi';
+import OAiModelSelectBtn from 'src/components/ai/OAiModelSelectBtn.vue'
+import { providerModelService, pdmService } from 'src/api/service/remote'
+import useAi from 'src/hooks/useAi'
 
-const { initAiSettings } = useAi();
-const models = ref<Indexable[]>();
+const { initAiSettings } = useAi()
+const models = ref<Indexable[]>()
 
 const getAllModels = () => {
   providerModelService.getAll().then(res => {
@@ -60,12 +60,12 @@ const getAllModels = () => {
 }
 
 const initData = () => {
-  getAllModels();
-  initAiSettings();
+  getAllModels()
+  initAiSettings()
 }
 
 onActivated(() => {
-  initData();
+  initData()
 })
 </script>
 

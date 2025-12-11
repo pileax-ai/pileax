@@ -18,12 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import FontSettings from './font-settings.vue';
-import TypographySettings from './typography-settings.vue';
-import ThemeSettings from './theme-settings.vue';
-import OtherSettings from './other-settings.vue';
+import FontSettings from './font-settings.vue'
+import TypographySettings from './typography-settings.vue'
+import ThemeSettings from './theme-settings.vue'
+import OtherSettings from './other-settings.vue'
 
-const emit = defineEmits(['next']);
+const emit = defineEmits(['next'])
 </script>
 
 <style lang="scss">

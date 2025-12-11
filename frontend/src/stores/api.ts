@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import { CODE } from 'core/app';
-import { api } from 'boot/axios';
+import { defineStore } from 'pinia'
+import { CODE } from 'core/app'
+import { api } from 'boot/axios'
 import { ipcService } from 'src/api/ipc'
 
 export const useApiStore = defineStore('api', {
@@ -12,26 +12,26 @@ export const useApiStore = defineStore('api', {
   actions: {
     async resetServer() {
       if (process.env.MODE === 'electron') {
-        const serverInfo = await ipcService.getServerInfo();
-        const apiBase = serverInfo.apiBase || process.env.API_BASE_URL;
-        const appBase = serverInfo.appBase || process.env.APP_BASE_URL;
-        this.setApiBase(apiBase);
-        this.setAppBase(appBase);
+        const serverInfo = await ipcService.getServerInfo()
+        const apiBase = serverInfo.apiBase || process.env.API_BASE_URL
+        const appBase = serverInfo.appBase || process.env.APP_BASE_URL
+        this.setApiBase(apiBase)
+        this.setAppBase(appBase)
       }
     },
     setAppBase(url: string) {
-      this.appBase = url;
+      this.appBase = url
     },
     setApiBase(url: string) {
-      this.apiBase = url;
-      api.defaults.baseURL = url;
+      this.apiBase = url
+      api.defaults.baseURL = url
     },
     setTimeout(timeout: number) {
-      this.timeout = timeout;
-      api.defaults.timeout = timeout;
+      this.timeout = timeout
+      api.defaults.timeout = timeout
     }
   },
   persist: {
     key: `${CODE}.api`
   }
-});
+})

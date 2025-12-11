@@ -8,8 +8,8 @@ import { BaseService } from 'src/api/service/remote/base'
 
 
 export class NoteService extends BaseService {
-  protected apiName = 'note';
+  protected apiName = 'note'
 }
 
-export const noteService = new NoteService();
+export const noteService = new NoteService()
 

@@ -1,14 +1,14 @@
-import type { TTSOptions, TTSClient } from './index';
-import { createTTSClient, TTSMode } from './index';
+import type { TTSOptions, TTSClient } from './index'
+import { createTTSClient, TTSMode } from './index'
 
 export class TTSManager {
-  public client: TTSClient | null = null;
+  public client: TTSClient | null = null
 
-  private options: TTSOptions = {};
-  private isInitialized = false;
+  private options: TTSOptions = {}
+  private isInitialized = false
 
   constructor() {
-    this.mode = 'browser';
+    this.mode = 'browser'
   }
 
   async initialize(
@@ -21,84 +21,84 @@ export class TTSManager {
   ): Promise<void> {
     // reset
     if (reset && this.client) {
-      await this.client.dispose();
-      this.client = null;
-      this.isInitialized = false;
+      await this.client.dispose()
+      this.client = null
+      this.isInitialized = false
     }
 
     // initialize
-    if (options) this.options = { ...this.options, ...options };
-    this.client = createTTSClient(this.options);
-    await this.client.init(getText, getResumeText, getNextText, getPrevText);
-    this.isInitialized = true;
+    if (options) this.options = { ...this.options, ...options }
+    this.client = createTTSClient(this.options)
+    await this.client.init(getText, getResumeText, getNextText, getPrevText)
+    this.isInitialized = true
   }
 
   async speak(text: string): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.speak(text);
+    this.ensureInitialized()
+    return this.client!.speak(text)
   }
 
   async play(): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.play();
+    this.ensureInitialized()
+    return this.client!.play()
 
   }
 
   async stop(): Promise<void> {
     if (this.client) {
-      return this.client.stop(true);
+      return this.client.stop(true)
     }
-    return Promise.resolve();
+    return Promise.resolve()
   }
 
   async pause(): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.pause();
+    this.ensureInitialized()
+    return this.client!.pause()
   }
 
   async resume(): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.resume();
+    this.ensureInitialized()
+    return this.client!.resume()
   }
 
   async prev(): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.prev();
+    this.ensureInitialized()
+    return this.client!.prev()
   }
 
   async next(): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.next();
+    this.ensureInitialized()
+    return this.client!.next()
   }
 
   async restart(): Promise<void> {
-    this.ensureInitialized();
-    return this.client!.restart();
+    this.ensureInitialized()
+    return this.client!.restart()
   }
 
 
   async setOptions(options: TTSOptions): Promise<TTSOptions> {
-    this.options = { ...this.options, ...options };
-    this.options = await this.client!.updateOptions(options);
-    return this.options;
+    this.options = { ...this.options, ...options }
+    this.options = await this.client!.updateOptions(options)
+    return this.options
   }
 
 
   getOptions(): TTSOptions {
-    return { ...this.options };
+    return { ...this.options }
   }
 
   isPlaying(): boolean {
     return this.client && 'isPlaying' in this.client
       ? (this.client as any).isPlaying
-      : false;
+      : false
   }
 
   private ensureInitialized(): void {
     if (!this.isInitialized || !this.client) {
-      throw new Error('TTSManager not initialized. Call initialize() first.');
+      throw new Error('TTSManager not initialized. Call initialize() first.')
     }
   }
 }
 
-export const ttsManager = new TTSManager();
+export const ttsManager = new TTSManager()

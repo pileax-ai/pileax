@@ -28,10 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, ref } from 'vue'
-import { OEmojiSelect } from '@yiitap/vue';
-import { emojiGroups } from '@yiitap/util-emoji';
+import { OEmojiSelect } from '@yiitap/vue'
+import { emojiGroups } from '@yiitap/util-emoji'
 import OIconSelect from 'components/icon/OIconSelect.vue'
 import OSplitPage from 'core/page/template/OSplitPage.vue'
 import { QMenu } from 'quasar'
@@ -48,13 +48,13 @@ const props = defineProps({
   offset: {
     type: Array as PropType<number[]>,
     default: () => {
-      return [0, 0];
+      return [0, 0]
     }
   },
-});
-const emit = defineEmits(['emoji', 'icon']);
-const menuRef = ref<InstanceType<typeof QMenu>>();
-const currentTab = ref('emoji');
+})
+const emit = defineEmits(['emoji', 'icon'])
+const menuRef = ref<InstanceType<typeof QMenu>>()
+const currentTab = ref('emoji')
 
 const tabs = computed(() => {
   return [
@@ -70,15 +70,15 @@ const tabs = computed(() => {
 })
 
 function onSelectEmoji(option: Indexable) {
-  emit('emoji', option);
+  emit('emoji', option)
 
-  menuRef.value?.hide();
+  menuRef.value?.hide()
 }
 
 function onSelectIcon(option: Indexable) {
-  emit('icon', option);
+  emit('icon', option)
 
-  menuRef.value?.hide();
+  menuRef.value?.hide()
 }
 </script>
 

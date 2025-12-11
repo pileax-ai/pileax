@@ -48,12 +48,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue'
 
-import TocList from './children/toc-list.vue';
-import AnnotationList from './children/annotation-list.vue';
-import SeaerchList from './children/search-list.vue';
-import useReader from 'src/hooks/useReader';
+import TocList from './children/toc-list.vue'
+import AnnotationList from './children/annotation-list.vue'
+import SeaerchList from './children/search-list.vue'
+import useReader from 'src/hooks/useReader'
 
 const props = defineProps({
   header: {
@@ -64,7 +64,7 @@ const props = defineProps({
     type: Number,
     default: 300
   },
-});
+})
 
 const {
   activity,
@@ -72,10 +72,10 @@ const {
   leftDrawerShow,
   toggleLeftDrawer,
   setActivity,
-} = useReader();
+} = useReader()
 
-const selectedActivity = ref('toc');
-const activityHovered = ref(false);
+const selectedActivity = ref('toc')
+const activityHovered = ref(false)
 
 const tabs = computed(() => {
   return [
@@ -86,26 +86,26 @@ const tabs = computed(() => {
 })
 
 function onClickTab (item: Indexable) {
-  setActivity(item.value);
-  activityHovered.value = true;
+  setActivity(item.value)
+  activityHovered.value = true
 }
 
 function initActivity() {
-  const activity = 'toc';
-  setActivity(activity);
-  selectedActivity.value = activity;
+  const activity = 'toc'
+  setActivity(activity)
+  selectedActivity.value = activity
 }
 
 watch(() => activity.value, (newValue) => {
-  selectedActivity.value = activity.value;
+  selectedActivity.value = activity.value
 })
 
 watch(() => consoleMenus.value, (newValue) => {
-  initActivity();
+  initActivity()
 })
 
 onBeforeMount(() => {
-  initActivity();
+  initActivity()
 })
 </script>
 

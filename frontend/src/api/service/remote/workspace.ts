@@ -1,4 +1,4 @@
-import { GET, POST } from 'src/hooks/useRequest';
+import { GET, POST } from 'src/hooks/useRequest'
 import { BaseService } from 'src/api/service/remote/base'
 
 /**
@@ -7,15 +7,15 @@ import { BaseService } from 'src/api/service/remote/base'
  * @version 1.0
  */
 export class WorkspaceService extends BaseService {
-  protected apiName = 'workspace';
+  protected apiName = 'workspace'
 
   async getWorkspaces(): Promise<any> {
     return GET({
       name: this.apiName,
       path: '/workspaces'
-    });
+    })
   }
 
 }
 
-export const workspaceService = new WorkspaceService();
+export const workspaceService = new WorkspaceService()

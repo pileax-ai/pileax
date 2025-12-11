@@ -17,17 +17,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import useSetting from 'core/hooks/useSetting';
+import { computed } from 'vue'
+import useSetting from 'core/hooks/useSetting'
 import useWorkspace from 'src/hooks/useWorkspace'
 
-const { workspaceId } = useWorkspace();
+const { workspaceId } = useWorkspace()
 
-import Layout from './layout.vue';
-import FrameLayout from './frame-layout.vue';
+import Layout from './layout.vue'
+import FrameLayout from './frame-layout.vue'
 
-const { pageTransition } = useSetting();
+const { pageTransition } = useSetting()
 const transitionName = computed(() => {
-  return pageTransition.value.enable ? pageTransition.value.name : '';
-});
+  return pageTransition.value.enable ? pageTransition.value.name : ''
+})
 </script>

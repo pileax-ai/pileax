@@ -3,15 +3,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import 'virtual:svg-icons/register';
-import { initApp } from 'src/app/init';
+import { onMounted } from 'vue'
+import 'virtual:svg-icons/register'
+import { initApp } from 'src/app/init'
 
 function globalInit() {
-  initApp();
+  initApp()
 }
 
 onMounted(() => {
-  globalInit();
-});
+  globalInit()
+})
 </script>

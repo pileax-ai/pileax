@@ -27,14 +27,14 @@
  *   }
  * }
  */
-import { contextBridge, ipcRenderer } from 'electron';
-import type { OpenDialogOptions, SaveDialogOptions } from 'electron';
-import { dialog } from '@electron/remote';
+import { contextBridge, ipcRenderer } from 'electron'
+import type { OpenDialogOptions, SaveDialogOptions } from 'electron'
+import { dialog } from '@electron/remote'
 
 // Electron API
 const electronIpcAPI = {
   hi: (message: string) => {
-    return message;
+    return message
   },
   closeWindow: async () =>
     ipcRenderer.invoke('window-close'),
@@ -78,13 +78,13 @@ const electronIpcAPI = {
   setTheme: async (theme: 'system' | 'light' | 'dark') =>
     ipcRenderer.invoke('set-theme', theme),
   showDialog: async (options: OpenDialogOptions) => {
-    return dialog.showOpenDialog(options);
+    return dialog.showOpenDialog(options)
   },
   showSaveDialog: async (options: SaveDialogOptions) => {
-    return dialog.showSaveDialog(options);
+    return dialog.showSaveDialog(options)
   },
   updateTrayMenu: async (options: any) =>
     ipcRenderer.invoke('update-tray-menu', options),
-};
+}
 
-contextBridge.exposeInMainWorld('electronIpcAPI', electronIpcAPI);
+contextBridge.exposeInMainWorld('electronIpcAPI', electronIpcAPI)

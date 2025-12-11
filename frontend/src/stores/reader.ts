@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia';
-import { store } from 'stores/index';
-import { CODE } from 'core/app';
-import type { MenuItem } from 'core/types/menu';
-import { defaultReaderMenus } from 'src/app/default-reader-menu';
-import { nestMenu } from 'core/hooks/useMenu';
-import defaultSetting from 'src/app/default-reader-setting';
+import { defineStore } from 'pinia'
+import { store } from 'stores/index'
+import { CODE } from 'core/app'
+import type { MenuItem } from 'core/types/menu'
+import { defaultReaderMenus } from 'src/app/default-reader-menu'
+import { nestMenu } from 'core/hooks/useMenu'
+import defaultSetting from 'src/app/default-reader-setting'
 
 export const useReaderStore = defineStore('reader', {
   state: () => ({
@@ -39,45 +39,45 @@ export const useReaderStore = defineStore('reader', {
   getters: {
     getActivity: (state) => state.leftDrawer.activity,
     getConsoleMenus: (state) => {
-      const menus = state.menus.filter(e => e.type && e.type < 10 && e.isShow === 1);
+      const menus = state.menus.filter(e => e.type && e.type < 10 && e.isShow === 1)
       if (menus.length === 0) {
-        return defaultReaderMenus;
+        return defaultReaderMenus
       }
-      return nestMenu(menus);
+      return nestMenu(menus)
     },
   },
   actions: {
     toggleLeftDrawer() {
-      this.leftDrawer.show = !this.leftDrawer.show;
+      this.leftDrawer.show = !this.leftDrawer.show
     },
     setLeftDrawerItem(kv: KeyValue) {
-      this.leftDrawer[kv.key] = kv.value;
+      this.leftDrawer[kv.key] = kv.value
     },
     closeRightDrawer() {
-      this.rightDrawer.show = false;
+      this.rightDrawer.show = false
     },
     toggleRightDrawer() {
-      this.rightDrawer.show = !this.rightDrawer.show;
+      this.rightDrawer.show = !this.rightDrawer.show
     },
     setRightDrawerItem(kv: KeyValue) {
-      this.rightDrawer[kv.key] = kv.value;
+      this.rightDrawer[kv.key] = kv.value
     },
     setQueryTimer(time: number) {
-      this.queryTimer = time;
+      this.queryTimer = time
     },
     setSettingItem(key: string, value: any) {
-      this.settings[key] = value;
+      this.settings[key] = value
     },
     setTTSItem(key: string, value: any) {
       console.log('setTTSItem', key, value)
-      this.tts[key] = value;
+      this.tts[key] = value
     },
   },
   persist: {
     key: `${CODE}.reader`
   }
-});
+})
 
 export const useReaderStoreWithOut = () => {
-  return useReaderStore(store);
+  return useReaderStore(store)
 }

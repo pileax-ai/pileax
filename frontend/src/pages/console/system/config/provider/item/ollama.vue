@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { onMounted, ref, watch } from 'vue'
-import { configService } from 'src/api/service/remote/config';
+import { configService } from 'src/api/service/remote/config'
 import { GET } from 'src/hooks/useRequest'
 import { notifyWarning } from 'core/utils/control'
 
@@ -33,10 +33,10 @@ const props = defineProps({
     type: Array as PropType<Indexable[]>,
     default: () => []
   }
-});
-const emit = defineEmits(['update:modelValue']);
+})
+const emit = defineEmits(['update:modelValue'])
 
-const models = ref<Indexable[]>([]);
+const models = ref<Indexable[]>([])
 const list = ref<Indexable[]>([
   {
     "name": "model",
@@ -46,45 +46,45 @@ const list = ref<Indexable[]>([
     "values": [
     ]
   },
-]);
+])
 
 function getModels() {
-  const query = { provider: 'ollama' };
+  const query = { provider: 'ollama' }
   GET({ name: 'aiProvider', path: '/models', query: query }).then(res => {
-    models.value = res as Indexable[];
+    models.value = res as Indexable[]
 
-    const model = list.value.find(e => e.name === 'model');
+    const model = list.value.find(e => e.name === 'model')
     if (model) {
-      model.values = models.value.map(e => e.model);
+      model.values = models.value.map(e => e.model)
     }
   })
 }
 
 function init() {
-  load();
-  emit('update:modelValue', list.value);
-  getModels();
+  load()
+  emit('update:modelValue', list.value)
+  getModels()
 }
 
 function load() {
   for (const item of list.value) {
-    const foundConfig = props.data.find(e => e.key === item.key);
+    const foundConfig = props.data.find(e => e.key === item.key)
     if (foundConfig) {
-      item.value = foundConfig.value;
+      item.value = foundConfig.value
     }
   }
 }
 
 function onUpdate() {
-  emit('update:modelValue', list.value);
+  emit('update:modelValue', list.value)
 }
 
 watch(() => props.data, (newValue) => {
-  load();
-});
+  load()
+})
 
 onMounted(() => {
-  init();
+  init()
 })
 </script>
 

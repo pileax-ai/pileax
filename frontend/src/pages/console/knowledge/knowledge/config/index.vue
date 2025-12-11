@@ -46,11 +46,11 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType} from 'vue';
+import type { PropType} from 'vue'
 import { computed, onActivated, ref } from 'vue'
-import useVuelidate from '@vuelidate/core';
-import {maxLength, minLength, required} from '@vuelidate/validators';
-import OConsoleSection from 'core/page/section/OConsoleSection.vue';
+import useVuelidate from '@vuelidate/core'
+import {maxLength, minLength, required} from '@vuelidate/validators'
+import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import OSimpleForm from 'core/page/section/OSimpleForm.vue'
 import useForm from 'src/hooks/useForm'
 import OField from 'core/components/form/field/OField.vue'
@@ -65,17 +65,17 @@ const props = defineProps({
     type: Object as PropType<Indexable>,
     default: () => {}
   },
-});
+})
 
-const { form, loading, actions } = useForm();
+const { form, loading, actions } = useForm()
 
 const rules = {
   name: { required, minLength: minLength(2), maxLength: maxLength(20) },
   description: { required, maxLength: maxLength(256) },
-};
-const v$ = useVuelidate(rules, form);
+}
+const v$ = useVuelidate(rules, form)
 
-const splitterPercent = ref(400);
+const splitterPercent = ref(400)
 
 function onLogoReady() {
   //

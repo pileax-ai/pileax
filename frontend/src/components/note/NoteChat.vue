@@ -38,14 +38,14 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
-const emit = defineEmits(['close']);
+})
+const emit = defineEmits(['close'])
 
-const chats = ref<Indexable[]>([]);
+const chats = ref<Indexable[]>([])
 
 const onChats = (value: Indexable[]) => {
   console.log('chats', value)
-  chats.value = value;
+  chats.value = value
 }
 </script>
 

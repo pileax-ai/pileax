@@ -1,6 +1,6 @@
-import { electronIpc } from 'src/api/ipc/electron';
-import { webIpc } from 'src/api/ipc/web';
-import { tauriIpc } from 'src/api/ipc/tauri';
+import { electronIpc } from 'src/api/ipc/electron'
+import { webIpc } from 'src/api/ipc/web'
+import { tauriIpc } from 'src/api/ipc/tauri'
 
 export type IpcApi = {
   hi: (message: string) => void;
@@ -42,7 +42,7 @@ export const ipcServiceKeys = [
   'setTheme',
   'showDialog',
   'updateTrayMenu',
-] as const;
+] as const
 
 export type IpcService = Pick<IpcApi, typeof ipcServiceKeys[number]>;
 
@@ -51,30 +51,30 @@ export const ipcMethod = <K extends keyof IpcService>(
   method: K,
   ...args: IpcService[K] extends (...a: any) => any ? Parameters<IpcService[K]> : never
 ): IpcService[K] extends (...a: any) => any ? ReturnType<IpcService[K]> : never => {
-  const fn = instance[method];
+  const fn = instance[method]
   if (typeof fn === "function") {
-    return (fn as (...args: any[]) => any)(...args);
+    return (fn as (...args: any[]) => any)(...args)
   }
-  throw new Error(`Method "${method}" not found`);
-};
+  throw new Error(`Method "${method}" not found`)
+}
 
 export const createIpcService = (): { ipcProvider: 'electron' | 'tauri' | 'web', ipcService: IpcService } => {
   if (process.env.MODE === 'electron') {
     return {
       ipcProvider: 'electron',
       ipcService: electronIpc
-    };
+    }
   } else if (window.__TAURI_INTERNALS__) {
     return {
       ipcProvider: 'tauri',
       ipcService: tauriIpc
-    };
+    }
   } else {
     return {
       ipcProvider: 'web',
       ipcService: webIpc
-    };
+    }
   }
 }
 
-export const { ipcProvider, ipcService } = createIpcService();
+export const { ipcProvider, ipcService } = createIpcService()

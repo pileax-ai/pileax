@@ -1,26 +1,26 @@
 
-import { useAiStore } from 'stores/ai';
+import { useAiStore } from 'stores/ai'
 import { computed } from 'vue'
 import { useAccountStore } from 'stores/account'
 
 export default function() {
-  const accountStore = useAccountStore();
+  const accountStore = useAccountStore()
 
   const aiStore = computed(() => {
-    const currentWorkspaceId = accountStore.workspaceId;
-    return useAiStore(currentWorkspaceId);
-  });
+    const currentWorkspaceId = accountStore.workspaceId
+    return useAiStore(currentWorkspaceId)
+  })
 
   const provider = computed(() => {
-    return aiStore.value.provider;
+    return aiStore.value.provider
   })
 
   const localModels = computed(() => {
-    return aiStore.value.localModels;
+    return aiStore.value.localModels
   })
 
   const defaultModels = computed(() => {
-    return aiStore.value.defaultModels;
+    return aiStore.value.defaultModels
   })
 
   const initAiSettings = () => {
