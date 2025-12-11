@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import {CODE} from 'core/app';
 import { saveAccount } from 'src/utils/auth'
-import { LoginParams } from 'src/api/models/account';
+import type { LoginParams } from 'src/api/models/account';
 import { clearUserCache, } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import { workspaceService } from 'src/api/service/remote/workspace'

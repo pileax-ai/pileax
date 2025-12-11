@@ -1,7 +1,7 @@
 /**
  * App default state
  */
-import { AppState } from 'core/types/app';
+import type { AppState } from 'core/types/app';
 import defaultSetting from './default-setting';
 
 export const APP_HOME_URL = 'https://pileax.dev';

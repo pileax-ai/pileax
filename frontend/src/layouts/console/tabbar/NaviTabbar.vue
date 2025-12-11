@@ -66,7 +66,7 @@ import useNavi from 'src/hooks/useNavi';
 import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue';
 import OHoverBtn from 'core/components/button/OHoverBtn.vue';
 import NaviTab from './NaviTab.vue';
-import { MenuItem, TabItem } from 'core/types/menu';
+import type { MenuItem, TabItem } from 'core/types/menu';
 import draggable from 'vuedraggable';
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue';
 

@@ -1,4 +1,5 @@
-import { ChildProcess, spawn } from 'child_process';
+import type { ChildProcess} from 'child_process';
+import { spawn } from 'child_process';
 import getPort from 'get-port';
 import log from 'electron-log';
 import path from 'path';

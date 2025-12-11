@@ -31,7 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { computed } from 'vue';
 import useBook from 'src/hooks/useBook';
 
 const props = defineProps({

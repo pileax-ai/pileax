@@ -1,4 +1,4 @@
-import { TTSOptions } from 'src/api/service/tts'
+import type { TTSOptions } from 'src/api/service/tts'
 import { BaseTTSClient } from 'src/api/service/tts/base-tts';
 import { sleep } from 'core/utils/misc'
 import { generateTextId, getEdgeTTSAudio } from 'src/api/service/tts/utils/tts-util'

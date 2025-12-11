@@ -37,11 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import {computed, PropType, defineAsyncComponent, watch} from 'vue';
+import type { PropType} from 'vue';
+import {computed, defineAsyncComponent, watch} from 'vue';
 
 import ONaviItem from 'src/components/book/ONaviItem.vue';
 import useBook from 'src/hooks/useBook';
-import {BookTocItem} from 'src/types/reading';
+import type {BookTocItem} from 'src/types/reading';
 
 const props = defineProps({
   root: { type: Boolean, default: false },

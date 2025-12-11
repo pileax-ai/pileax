@@ -10,7 +10,7 @@ import sha1 from 'crypto-js/sha1';
 
 import { getItemObject, getSessionItem, saveItemObject } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
-import { MenuItem } from 'core/types/menu'
+import type { MenuItem } from 'core/types/menu'
 
 // -----------------------------------------------------------------------------
 // Authentication Util

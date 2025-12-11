@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { onActivated, onMounted, ref, watch } from 'vue';
-import { ChatConversation } from 'src/types/chat';
+import type { ChatConversation } from 'src/types/chat';
 import { router } from 'src/router';
 import useChatConversation from 'src/hooks/useChatConversation';
 import useNavi from 'src/hooks/useNavi';

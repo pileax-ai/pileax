@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { POST, PUT } from 'src/hooks/useRequest';
-import { Ref } from 'vue-demi';
-import { BaseValidation } from '@vuelidate/core';
+import type { Ref } from 'vue-demi';
+import type { BaseValidation } from '@vuelidate/core';
 
 export default function () {
   const apiName = ref('');

@@ -86,7 +86,7 @@ import { UUID } from 'core/utils/crypto';
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
 import useChatConversation from 'src/hooks/useChatConversation';
-import { ChatInput } from 'src/types/chat'
+import type { ChatInput } from 'src/types/chat'
 
 const route = useRoute();
 const { provider } = useAi();

@@ -117,7 +117,7 @@ import useNote from 'src/hooks/useNote';
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue';
 import ONoData from 'core/components/misc/ONoData.vue';
 import {timeMulti} from 'core/utils/format';
-import { Note } from 'src/types/note';
+import type { Note } from 'src/types/note';
 import { NoteDefaultIcon } from 'core/constants/constant'
 
 const { dialog, onHide, onOk } = useDialog();

@@ -1,7 +1,7 @@
 
 import { useBookStoreWithOut } from 'stores/book';
 import { computed } from 'vue';
-import { BookOperation, BookTocItem } from 'src/types/reading'
+import type { BookOperation, BookTocItem } from 'src/types/reading'
 
 export default function () {
   const store = useBookStoreWithOut();

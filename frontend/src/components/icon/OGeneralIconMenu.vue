@@ -28,7 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, ref } from 'vue'
 import { OEmojiSelect } from '@yiitap/vue';
 import { emojiGroups } from '@yiitap/util-emoji';
 import OIconSelect from 'components/icon/OIconSelect.vue'

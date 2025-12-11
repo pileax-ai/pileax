@@ -1,7 +1,8 @@
 import { computed, ref } from 'vue';
-import { ChatInput, ChatConversation } from 'src/types/chat'
+import type { ChatConversation } from 'src/types/chat';
+import { ChatInput } from 'src/types/chat'
 import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu';
 import { useAccountStore } from 'stores/account';
 import { useChatStore } from 'stores/chat';
 import { useNaviStore } from 'stores/navi';

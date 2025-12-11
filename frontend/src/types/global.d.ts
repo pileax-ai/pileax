@@ -1,5 +1,5 @@
 import type { OpenDialogOptions, SaveDialogOptions } from 'electron';
-import { IpcApi } from 'src/api/ipc';
+import type { IpcApi } from 'src/api/ipc';
 
 declare global {
   interface Window {

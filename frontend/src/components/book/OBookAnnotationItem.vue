@@ -18,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 
 import useBook from 'src/hooks/useBook';
-import { BookTocItem } from 'src/types/reading';
+import type { BookTocItem } from 'src/types/reading';
 
 const props = defineProps({
   item: {

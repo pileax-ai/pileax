@@ -25,7 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, onMounted, ref } from 'vue'
 import OAiProviderSearch from 'components/ai/OAiProviderSearch.vue';
 import useAi from 'src/hooks/useAi';
 

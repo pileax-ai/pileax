@@ -10,11 +10,11 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { ChatConversation } from 'src/types/chat';
+import type { ChatConversation } from 'src/types/chat';
 import { router } from 'src/router';
 import useChatConversation from 'src/hooks/useChatConversation';
 import useNavi from 'src/hooks/useNavi';
-import ChatConversations from 'components/chat/ChatConversations.vue';
+import type ChatConversations from 'components/chat/ChatConversations.vue';
 
 defineProps({
   maxWidth: {

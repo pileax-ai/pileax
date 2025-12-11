@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import useNote from 'src/hooks/useNote';
-import { Note } from 'src/types/note'
+import type { Note } from 'src/types/note'
 
 const props = defineProps({
   id: {

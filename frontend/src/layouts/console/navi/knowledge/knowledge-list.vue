@@ -47,7 +47,7 @@
 import {computed, onBeforeMount, ref, watch} from 'vue';
 import useDialog from 'core/hooks/useDialog';
 import { knowledgeService } from 'src/api/service/remote/knowledge';
-import { Knowledge } from 'src/types/knowledge';
+import type { Knowledge } from 'src/types/knowledge';
 import { router } from 'src/router';
 import useKnowledge from 'src/hooks/useKnowledge.js';
 import useNavi from 'src/hooks/useNavi.js';

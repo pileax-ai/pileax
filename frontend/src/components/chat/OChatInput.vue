@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ChatInput } from 'src/types/chat';
+import type { ChatInput } from 'src/types/chat';
 import useAi from 'src/hooks/useAi';
 import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue';
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue';

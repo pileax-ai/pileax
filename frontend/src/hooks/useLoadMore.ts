@@ -2,7 +2,7 @@ import { ref, watch } from 'vue';
 import useCommon from 'core/hooks/useCommon';
 import { DELETE, POST } from 'src/hooks/useRequest';
 import { useComponentStoreWithOut } from 'stores/component';
-import { QInfiniteScroll } from 'quasar'
+import type { QInfiniteScroll } from 'quasar'
 import { notifyDone } from 'core/utils/control'
 
 export default function () {

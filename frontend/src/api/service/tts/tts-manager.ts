@@ -1,4 +1,5 @@
-import { createTTSClient, TTSMode, TTSOptions, TTSClient } from './index';
+import type { TTSOptions, TTSClient } from './index';
+import { createTTSClient, TTSMode } from './index';
 
 export class TTSManager {
   public client: TTSClient | null = null;

@@ -1,5 +1,5 @@
 import { CODE } from 'core/app';
-import { ChatInput } from 'src/types/chat';
+import type { ChatInput } from 'src/types/chat';
 import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory';
 
 export const useChatStore = defineWorkspaceStore('chat', {

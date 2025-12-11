@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { useTabStore } from 'stores/tab';
-import { TabItem } from 'core/types/menu'
+import type { TabItem } from 'core/types/menu'
 
 export default function () {
   const accountStore = useAccountStore();

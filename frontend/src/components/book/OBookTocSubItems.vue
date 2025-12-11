@@ -16,11 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { computed } from 'vue';
 
 import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue';
 import ONaviItem from 'core/components/navi/ONaviItem.vue';
-import { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu';
 import { useNaviStore } from 'stores/navi';
 
 const props = defineProps({

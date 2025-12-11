@@ -1,5 +1,6 @@
 import { ref, reactive, computed } from 'vue'
-import { ttsManager, TTSOptions } from 'src/api/service/tts';
+import type { TTSOptions } from 'src/api/service/tts';
+import { ttsManager } from 'src/api/service/tts';
 import { useReaderStoreWithOut } from 'stores/reader'
 import { debounce } from 'quasar'
 

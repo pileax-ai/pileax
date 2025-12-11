@@ -63,7 +63,7 @@ import { chatConversationService } from 'src/api/service/remote/chat-conversatio
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
 import useChatConversation from 'src/hooks/useChatConversation';
-import { ChatInput } from 'src/types/chat';
+import type { ChatInput } from 'src/types/chat';
 
 const route = useRoute();
 const {

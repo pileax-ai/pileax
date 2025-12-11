@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
-import { BookOperation, BookTocItem, ReadingMode } from 'src/types/reading';
+import type { BookTocItem} from 'src/types/reading';
+import { BookOperation, ReadingMode } from 'src/types/reading';
 
 export const useBookStore = defineStore('book', {
   state: () => ({

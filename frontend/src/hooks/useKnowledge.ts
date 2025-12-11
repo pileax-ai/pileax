@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue';
 import { useKnowledgeStore } from 'stores/knowledge';
 import { useNaviStore } from 'stores/navi';
-import { Knowledge } from 'src/types/knowledge'
-import { MenuItem } from 'core/types/menu'
+import type { Knowledge } from 'src/types/knowledge'
+import type { MenuItem } from 'core/types/menu'
 
 export default function () {
   const knowledgeStore = useKnowledgeStore();

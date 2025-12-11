@@ -1,4 +1,5 @@
-import { IpcService, ipcServiceKeys } from 'src/api/ipc/index'
+import type { IpcService} from 'src/api/ipc/index';
+import { ipcServiceKeys } from 'src/api/ipc/index'
 
 export const createTauriIpc = (): IpcService => {
   const api = window.tauriIpcAPI;

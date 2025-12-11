@@ -4,7 +4,7 @@ import {
   putRequest,
   deleteRequest,
 } from 'src/api/server/api'
-import { RequestOptions } from 'core/types/request'
+import type { RequestOptions } from 'core/types/request'
 import { useApiStore } from 'stores/api'
 
 export const GET = (options: RequestOptions) =>

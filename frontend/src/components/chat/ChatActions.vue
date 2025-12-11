@@ -45,7 +45,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, ref } from 'vue'
 import { refresh } from 'core/hooks/useRouter';
 import OAiProviderSelectBtn from 'src/components/ai/OAiProviderSelectBtn.vue';
 

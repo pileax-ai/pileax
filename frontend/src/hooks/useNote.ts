@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue';
 import { useNaviStore } from 'stores/navi';
 import { useNoteStore } from 'stores/note';
-import { Note } from 'src/types/note';
-import { MenuItem } from 'core/types/menu';
+import type { Note } from 'src/types/note';
+import type { MenuItem } from 'core/types/menu';
 import { UUID } from 'core/utils/crypto';
 import { router } from 'src/router';
 import { noteService } from 'src/api/service/remote/note';

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { store } from 'stores/index';
-import {
+import type {
   BreadcrumbSetting,
   NaviSetting,
   PageLoadingSetting,
@@ -10,7 +10,7 @@ import {
 } from 'core/types/setting';
 import { CODE } from 'core/app';
 
-import { AppState } from 'core/types/app';
+import type { AppState } from 'core/types/app';
 import { defaultAppState } from 'src/app/app';
 
 export const useAppStore = defineStore('app', {

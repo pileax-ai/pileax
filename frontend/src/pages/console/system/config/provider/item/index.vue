@@ -60,7 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { onMounted, ref } from 'vue'
 
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue';
 import OViewItem from 'core/components/list/OViewItem.vue';

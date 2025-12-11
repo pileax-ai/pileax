@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { store } from 'stores/index';
 import { CODE } from 'core/app';
-import { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu';
 import { defaultReaderMenus } from 'src/app/default-reader-menu';
 import { nestMenu } from 'core/hooks/useMenu';
 import defaultSetting from 'src/app/default-reader-setting';

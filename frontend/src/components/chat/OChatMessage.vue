@@ -134,13 +134,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref, inject } from 'vue'
+import type { PropType} from 'vue';
+import { onMounted, ref, inject } from 'vue'
 import OChatMessageView from 'components/chat/OChatMessageView.vue';
 import { chatService } from 'src/api/service/remote/chat';
 import useAccount from 'src/hooks/useAccount';
 import useDialog from 'core/hooks/useDialog';
 import useNote from 'src/hooks/useNote';
-import { Chat } from 'src/types/chat'
+import type { Chat } from 'src/types/chat'
 
 const props = defineProps({
   avatar: {

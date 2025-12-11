@@ -55,7 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue';
+import type { PropType} from 'vue';
+import { onMounted, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 

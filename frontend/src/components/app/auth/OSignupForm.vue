@@ -91,11 +91,12 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import useVuelidate, { BaseValidation } from '@vuelidate/core'
+import type { BaseValidation } from '@vuelidate/core';
+import useVuelidate from '@vuelidate/core'
 import {maxLength, minLength, required, email, sameAs} from '@vuelidate/validators';
 import { notifyError } from 'core/utils/control';
 import { useAccountStore } from 'stores/account';
-import { Ref } from 'vue-demi'
+import type { Ref } from 'vue-demi'
 import { getErrorMessage } from 'src/utils/request'
 
 const emit = defineEmits(['success']);

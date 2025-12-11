@@ -40,12 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
+import type { PropType } from 'vue';
+import { computed } from 'vue'
 import { useTabStore } from 'stores/tab';
 import { menuLabel } from 'core/hooks/useMenu';
 import { ipcService } from 'src/api/ipc';
 import { NoteDefaultIcon } from 'core/constants/constant';
-import { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu';
 
 const props = defineProps({
   item: {

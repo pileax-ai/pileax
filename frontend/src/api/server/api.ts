@@ -5,7 +5,7 @@
  */
 
 import { api as request } from 'src/boot/axios';
-import { RequestOptions } from 'core/types/request';
+import type { RequestOptions } from 'core/types/request';
 
 /**
  * API Url Registration

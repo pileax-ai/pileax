@@ -1,4 +1,4 @@
-import { TTSOptions, TTSClient } from 'src/api/service/tts'
+import type { TTSOptions, TTSClient } from 'src/api/service/tts'
 
 /**
  * TTS Client

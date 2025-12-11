@@ -49,9 +49,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, ref } from 'vue'
 import { chatConversationService } from 'src/api/service/remote/chat-conversation';
-import { ChatConversation } from 'src/types/chat';
+import type { ChatConversation } from 'src/types/chat';
 import { refresh } from 'core/hooks/useRouter'
 import { timeMulti } from 'core/utils/format'
 

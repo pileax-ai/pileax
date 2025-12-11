@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { CODE } from 'core/app';
-import { MenuItem, TabItem } from 'core/types/menu'
+import type { TabItem } from 'core/types/menu';
+import { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto';
 import { store } from 'stores/index';
 import { workspaceManager } from 'core/workspace/workspace-manager'

@@ -1,4 +1,4 @@
-import { TTSOptions } from 'src/api/service/tts'
+import type { TTSOptions } from 'src/api/service/tts'
 import { BaseTTSClient } from 'src/api/service/tts/base-tts';
 import { prepareTextForVoice, recommendVoices } from 'src/api/service/tts/utils/utterance-util'
 

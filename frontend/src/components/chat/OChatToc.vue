@@ -40,7 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, ref } from 'vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue';
 
 const props = defineProps({

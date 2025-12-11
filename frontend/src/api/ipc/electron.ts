@@ -1,4 +1,5 @@
-import { IpcApi, IpcService, ipcServiceKeys } from 'src/api/ipc/index'
+import type { IpcService} from 'src/api/ipc/index';
+import { IpcApi, ipcServiceKeys } from 'src/api/ipc/index'
 
 /**
  * Solution 1: Class

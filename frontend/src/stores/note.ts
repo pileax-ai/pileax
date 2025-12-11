@@ -1,6 +1,6 @@
 import { CODE } from 'core/app';
-import { Note } from 'src/types/note';
-import { Chat } from 'src/types/chat';
+import type { Note } from 'src/types/note';
+import type { Chat } from 'src/types/chat';
 import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
 export const useNoteStore = defineWorkspaceStore('note', {

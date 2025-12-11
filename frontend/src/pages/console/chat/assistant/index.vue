@@ -28,7 +28,7 @@ import { onMounted, ref } from 'vue'
 
 import OAssistantChat from 'components/chat/OAssistantChat.vue';
 import OSplitSidePage from 'core/page/template/OSplitSidePage.vue';
-import ChatConversation from './conversation/index.vue';
+import type ChatConversation from './conversation/index.vue';
 import ChatConversationList from './conversation-list.vue';
 
 const pageRef = ref<InstanceType<typeof OSplitSidePage>>();

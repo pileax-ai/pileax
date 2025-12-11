@@ -38,7 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref, watch } from 'vue';
+import type { PropType} from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { configService } from 'src/api/service/remote/config';
 import { notifyDone } from 'core/utils/control'
 

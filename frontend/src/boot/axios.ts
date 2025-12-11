@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers';
-import axios, { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { getCommonHeaders } from 'core/utils/common';
 import useDialog from 'core/hooks/useDialog';
 import { refreshToken, refreshTokenThrottle } from 'src/utils/auth'

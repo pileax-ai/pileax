@@ -46,7 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, onActivated, ref } from 'vue'
 import useVuelidate from '@vuelidate/core';
 import {maxLength, minLength, required} from '@vuelidate/validators';
 import OConsoleSection from 'core/page/section/OConsoleSection.vue';

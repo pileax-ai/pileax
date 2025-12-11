@@ -104,7 +104,7 @@ import { UUID } from 'core/utils/crypto';
 import useAi from 'src/hooks/useAi';
 import useStream from 'src/hooks/useStream';
 import useChatConversation from 'src/hooks/useChatConversation';
-import { ChatInput, ChatConversation } from 'src/types/chat'
+import type { ChatInput, ChatConversation } from 'src/types/chat'
 import OChatToc from 'components/chat/OChatToc.vue'
 import ChatActions from 'components/chat/ChatActions.vue'
 import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'

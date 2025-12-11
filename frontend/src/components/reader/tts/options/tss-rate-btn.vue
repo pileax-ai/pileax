@@ -54,7 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, PropType, ref } from 'vue';
+import type { PropType} from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue';
 import TssOptionView from './tss-option-view.vue';
 import useTTS from 'src/hooks/useTTS';

@@ -1,7 +1,7 @@
 import { app, Tray, Menu, BrowserWindow, nativeImage } from 'electron';
 import path from 'path';
 import fs from 'fs';
-import * as electron from 'electron';
+import type * as electron from 'electron';
 import os from 'os';
 
 const platform = process.platform || os.platform();

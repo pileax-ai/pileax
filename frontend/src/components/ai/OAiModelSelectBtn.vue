@@ -49,7 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, PropType, ref } from 'vue'
+import type { PropType} from 'vue';
+import { computed, onMounted, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
 import { providerModelService, pdmService } from 'src/api/service/remote';

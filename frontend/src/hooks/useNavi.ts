@@ -2,7 +2,7 @@
 import { useNaviStore } from 'stores/navi';
 import { computed } from 'vue';
 import { findMenuByPath } from 'core/hooks/useMenu';
-import { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu';
 
 export default function () {
   const naviStore = useNaviStore();

@@ -1,4 +1,4 @@
-import { MenuItem } from 'core/types/menu';
+import type { MenuItem } from 'core/types/menu';
 
 /**
  * Reader default menus
