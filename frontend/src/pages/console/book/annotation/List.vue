@@ -10,7 +10,7 @@
                  placeholder="搜索"
                  debounce="800"
                  standout dense clearable
-                 @update:model-value="doQuery">
+                 @update:model-value="query.onQuery(true)">
           <template #prepend>
             <q-icon name="search" class="text-readable" />
           </template>
@@ -23,18 +23,35 @@
       <annotation-filter-btn @sort="onSort" />
     </template>
 
-    <template v-if="rows.length">
-      <section class="row col-12 justify-center list-view">
-        <q-list>
-          <template v-for="(item, index) in rows" :key="index">
-            <annotation-list-item :data="item" @details="onDetails" />
-          </template>
-        </q-list>
-      </section>
-    </template>
-    <template v-else>
-      <o-no-data message="没有记录" image />
-    </template>
+    <section class="col-12">
+      <q-infinite-scroll ref="scrollRef" @load="query.onLoadMore" :offset="350">
+        <template v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+
+        <template v-if="rows.length">
+          <section class="row col-12 justify-center pi-view-list">
+            <q-list>
+              <template v-for="(item) in rows" :key="item.id">
+                <annotation-list-item :data="item" @details="onDetails" />
+              </template>
+            </q-list>
+          </section>
+        </template>
+        <template v-else>
+          <o-no-data message="没有记录" image v-if="condition.title__icontains" />
+          <section class="row col-12 justify-center no-records" v-else>
+            <span class="text-readable">还没有书摘记录，快去阅读添加吧</span>
+          </section>
+        </template>
+
+        <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
+          共{{total}}条记录，没有更多数据了
+        </div>
+      </q-infinite-scroll>
+    </section>
 
     <template #side-panel>
       <annotation-details :data="data"
@@ -46,46 +63,33 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, ref, watch} from 'vue';
-import { joinQueryAnnotation } from 'src/api/service/ebook/book-annotation';
+import { computed, onActivated, onMounted, ref } from 'vue';
 import AnnotationFilterBtn from './AnnotationFilterBtn.vue';
 import AnnotationListItem from './AnnotationListItem.vue';
 import AnnotationDetails from './AnnotationDetails.vue';
 
-import useReader from 'src/hooks/useReader';
-import useQuery from 'src/hooks/useQuery';
-import BookMoreBtn from 'pages/console/book/book/BookMoreBtn.vue'
+import useLoadMore from 'src/hooks/useLoadMore'
 
-const { queryTimer } = useReader();
-const { view, query } = useQuery();
+const { condition, rows, view, query, scrollRef, total, initQuery } = useLoadMore();
 
+const isActivated = ref(false)
 const data = ref({});
 const coverUrl = ref('');
-const condition = ref<Indexable>({});
-const rows = ref([]);
 const orderBy = ref<Indexable>({
   updateTime: 'desc'
 });
 
 function onSort(value: Indexable) {
   orderBy.value = value;
-  doQuery();
-}
-
-function doQuery() {
-  const query = {
-    pageIndex: 1,
-    pageSize: 20,
-    condition: condition.value,
-    sort: orderBy.value
-  };
-  joinQueryAnnotation(query).then(res => {
-    rows.value = res.list;
-  });
+  query.value.onQuery();
 }
 
 function initData() {
-  doQuery();
+  initQuery({
+    api: 'bookAnnotation',
+    path: '/query/details',
+    title: 'BookAnnotation'
+  });
 }
 
 function onDetails(item: any, cover: string) {
@@ -95,11 +99,18 @@ function onDetails(item: any, cover: string) {
 }
 
 function onClose() {
-  query.value.onQuery();
   query.value.closeSide();
 }
 
 onActivated(() => {
+  if (isActivated.value) {
+    query.value.onQuery();
+  }
+
+  isActivated.value = true;
+})
+
+onMounted(() => {
   initData();
 })
 </script>

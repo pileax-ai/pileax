@@ -134,6 +134,7 @@ export default function () {
     side,
     onLoadMore,
     onQuery,
+    resetScroll,
     openSide,
     closeSide
   });

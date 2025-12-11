@@ -48,7 +48,7 @@ export class WorkspaceManager {
 
   setWorkspaces(list: WorkspaceInfo[]) {
     this.workspaces = new Map(list.map(item => [item.id, item]));
-    console.log('setWorkspaces', this.workspaces)
+    // console.log('setWorkspaces', this.workspaces)
   }
 
   switchWorkspace(workspaceId: string): void {
@@ -63,7 +63,7 @@ export class WorkspaceManager {
     const oldWorkspaceId = this.currentWorkspaceId;
     this.currentWorkspaceId = workspaceId;
 
-    // Todo: Persist to sessionStorage
+    // Persist to sessionStorage
     saveSessionItem(cacheKey, workspaceId);
 
     console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`);
@@ -74,7 +74,6 @@ export class WorkspaceManager {
     const workspace = account.workspace;
     const workspaceId = workspace?.id || '';
     saveSessionItem(cacheKey, workspaceId);
-    console.log('Load workspace', workspaceId)
   }
 
   // Remove workspace
