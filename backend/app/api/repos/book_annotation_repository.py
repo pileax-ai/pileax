@@ -29,10 +29,11 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        stmt = DbHelper.apply_sort(stmt, [BookAnnotation, Book], query.sort)
+        stmt = DbHelper.apply_sort(stmt, [BookAnnotation], query.sort)
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         # 5.1 Total

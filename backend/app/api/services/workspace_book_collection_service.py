@@ -9,8 +9,8 @@ class WorkspaceBookCollectionService(BaseService[WorkspaceBookCollection]):
     def __init__(self, session):
         super().__init__(WorkspaceBookCollection, session, WorkspaceBookCollectionRepository)
 
-    def get_all(self, workspace_id: UUID) -> list:
-        return self.repo.get_all(workspace_id)
+    def get_all(self, user_id: UUID, workspace_id: UUID) -> list:
+        return self.repo.get_all(user_id, workspace_id)
 
     def query_book_details(self, query: PaginationQuery):
         return self.repo.query_book_details(query)

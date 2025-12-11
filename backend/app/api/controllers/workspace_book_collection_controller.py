@@ -16,9 +16,11 @@ class WorkspaceBookCollectionController(BaseController[WorkspaceBookCollection, 
         self.service = WorkspaceBookCollectionService(session)
 
     def get_all(self):
-        return self.service.get_all(self.workspace_id)
+        return self.service.get_all(self.user_id, self.workspace_id)
 
     def query_book_details(self, query: PaginationQuery):
+        if query.condition.get('userId') is None:
+            query.condition['userId'] = self.user_id
         if query.condition.get('workspaceId') is None:
             query.condition['workspaceId'] = self.workspace_id
         return self.service.query_book_details(query)

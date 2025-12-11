@@ -57,9 +57,9 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceBook: ['workspace_id'],
+            WorkspaceBook: ['workspace_id', 'user_id'],
             Book: ['title', 'extension'],
-            UserBook: ['reading_status', 'user_id'],
+            UserBook: ['reading_status'],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
@@ -82,6 +82,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         total = self.session.exec(count_stmt).one()

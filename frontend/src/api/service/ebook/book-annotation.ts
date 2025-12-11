@@ -34,7 +34,7 @@ const renderAnnotations = (annotations: []) => {
  * @return List
  */
 const findBookAnnotation = async (bookId: string) => {
-  return bookAnnotationService.getAll(bookId);
+  return bookAnnotationService.getAll({ book_id: bookId });
 }
 
 const joinQueryAnnotation = async (query: Indexable) => {

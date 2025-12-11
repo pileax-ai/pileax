@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Type, Dict
+from typing import Any, List, Optional, Type, Dict, OrderedDict
 from sqlmodel import SQLModel, func
 from sqlalchemy.sql.elements import BinaryExpression
 
@@ -109,7 +109,7 @@ class DbHelper:
             return stmt
 
         # Build column mapping, like {"user.name": User.name, "tenant.name": Tenant.name}
-        columns_map = {}
+        columns_map = OrderedDict()
         for model in models:
             model_prefix = model.__name__.lower()
             for col in model.__table__.columns:

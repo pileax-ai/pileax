@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import { POST } from 'src/hooks/useRequest';
+import { GET, POST } from 'src/hooks/useRequest'
 import { BaseService } from 'src/api/service/remote/base'
 
 export class BookAnnotationService extends BaseService {
