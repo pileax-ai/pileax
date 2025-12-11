@@ -29,7 +29,7 @@ const props = defineProps({
 const { notes, currentNote } = useNote();
 
 const links = computed(() => {
-  let list: Note[] = [];
+  const list: Note[] = [];
   let note: Note | undefined = notes.value.find((item) => item.id === props.id);
   if (!note) {
     return list;

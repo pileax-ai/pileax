@@ -38,7 +38,7 @@ const breadcrumb = computed(() => {
 const breadcrumbMenuList = computed(() => {
   const menus = naviStore.menus;
   const currentMenu = naviStore.currentMenu;
-  let list = [] as MenuItem[];
+  const list = [] as MenuItem[];
   if (currentMenu.path) {
     list.push(currentMenu);
     let parentId = currentMenu.parentId;

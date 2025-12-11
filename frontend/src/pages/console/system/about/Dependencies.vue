@@ -54,7 +54,7 @@ const columns = computed(() => {
 });
 
 function openLink(row :Indexable) {
-  let link = row.homepage || row.repository.url;
+  const link = row.homepage || row.repository.url;
   openPath(link);
 }
 

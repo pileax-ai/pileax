@@ -124,7 +124,7 @@ function getOffset() {
   const pos = selection.value.pos;
   const point = pos.point;
   const dir = pos.dir;
-  let left = Math.floor(point.x * window.innerWidth) - 60;
+  const left = Math.floor(point.x * window.innerWidth) - 60;
   let top = Math.floor(point.y * window.innerHeight);
   if (dir === 'up') {
     top -= 52;

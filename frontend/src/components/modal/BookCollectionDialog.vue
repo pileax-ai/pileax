@@ -101,13 +101,13 @@ function inCollection(item: Indexable) {
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
-    let title = item.title || item.name
+    const title = item.title || item.name
     if (!title) {
       return -1
     }
 
-    let value = title.toLowerCase()
-    let index = value.indexOf(term.toLowerCase())
+    const value = title.toLowerCase()
+    const index = value.indexOf(term.toLowerCase())
 
     if (term.length > 1) {
       return (index >= 0)
@@ -118,7 +118,7 @@ function titleSearchFilter (term: string) {
 }
 
 function search(val: string) {
-  let a = list.value.filter(titleSearchFilter(val));
+  const a = list.value.filter(titleSearchFilter(val));
   return a.filter((item, index) => {
     return a.indexOf(item) === index;
   });

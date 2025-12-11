@@ -88,13 +88,13 @@ const results = ref<Indexable[]>([]);
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
-    let title = item.title || item.name
+    const title = item.title || item.name
     if (!title) {
       return -1
     }
 
-    let value = title.toLowerCase()
-    let index = value.indexOf(term.toLowerCase())
+    const value = title.toLowerCase()
+    const index = value.indexOf(term.toLowerCase())
 
     if (term.length > 1) {
       return (index >= 0)
@@ -106,9 +106,9 @@ function titleSearchFilter (term: string) {
 
 function contentSearchFilter (term: string) {
   return (item: Indexable) => {
-    let content = item.content || ''
-    let value = content.toLowerCase()
-    let index = value.indexOf(term.toLowerCase())
+    const content = item.content || ''
+    const value = content.toLowerCase()
+    const index = value.indexOf(term.toLowerCase())
 
     if (term.length > 1) {
       return (index >= 0)
@@ -119,9 +119,9 @@ function contentSearchFilter (term: string) {
 }
 
 function searchNote (val: string) {
-  let a = notes.value.filter(titleSearchFilter(val));
-  let b = notes.value.filter(contentSearchFilter(val));
-  let c = a.concat(b);
+  const a = notes.value.filter(titleSearchFilter(val));
+  const b = notes.value.filter(contentSearchFilter(val));
+  const c = a.concat(b);
   return c.filter((item, index) => {
     return c.indexOf(item) === index;
   });

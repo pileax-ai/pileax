@@ -253,9 +253,9 @@ async function updateNoteRemote() {
 
 function getTitle () {
   let title = '';
-  let content = noteJson.value.content;
+  const content = noteJson.value.content;
   if (content && content.length > 0) {
-    let c = content[0].content;
+    const c = content[0].content;
     if (c && c.length > 0) {
       title = c[0].text;
     }

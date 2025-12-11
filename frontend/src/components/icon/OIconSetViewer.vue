@@ -80,13 +80,13 @@ const icons = computed(() => {
 });
 
 const iconList = computed(() => {
-  let start = (index.value - 1) * size.value;
-  let end = index.value * size.value;
+  const start = (index.value - 1) * size.value;
+  const end = index.value * size.value;
   return icons.value.slice(start, end);
 })
 
 const max = computed(() => {
-  let total = icons.value.length;
+  const total = icons.value.length;
   let max = parseInt(total / size.value);
   if (total % size.value !== 0) {
     max += 1;

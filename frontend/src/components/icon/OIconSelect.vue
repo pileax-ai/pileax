@@ -104,13 +104,13 @@ const icons = computed(() => {
 });
 
 const iconList = computed(() => {
-  let start = (index.value - 1) * props.size;
-  let end = index.value * props.size;
+  const start = (index.value - 1) * props.size;
+  const end = index.value * props.size;
   return icons.value.slice(start, end);
 })
 
 const max = computed(() => {
-  let total = icons.value.length;
+  const total = icons.value.length;
   let max = total / props.size;
   if (total % props.size !== 0) {
     max += 1;
