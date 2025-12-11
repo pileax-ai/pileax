@@ -84,14 +84,11 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
-
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/prefer-promise-reject-errors': 'off',
       '@typescript-eslint/require-await': 'off',
-      'vue/block-lang': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/no-v-text-v-html-on-component': 'off',
-      'vue/require-valid-default-prop': 'off',
     }
   },
 

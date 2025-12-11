@@ -30,7 +30,7 @@ const props = defineProps({
   list: {
     type: Array as PropType<MenuItem[]>,
     default: () => {
-      return {};
+      return [];
     }
   },
   collapse: { type: Boolean, default: false },
