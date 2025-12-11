@@ -90,11 +90,10 @@ export const useNaviStore = defineStore('navi', {
     addOpenedMenu(menu: MenuItem) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path);
       // console.log('add', menu);
-      if (index < 0) {
-        this.openedMenus.push(menu);
-      } else {
-        this.openedMenus.splice(index, 1, menu);
+      if (index >= 0) {
+        this.openedMenus.splice(index, 1);
       }
+      this.openedMenus.unshift(menu);
     },
     closeOpenedMenu(menu: MenuItem) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path);

@@ -87,28 +87,6 @@ export function removeAll(prefix = PREFIX) {
   }
 }
 
-export function removeUserData(prefix = PREFIX) {
-  const userKeys = ['account', 'ai', 'chat', 'note', 'tab', 'user', 'workspace'];
-
-  // localStorage
-  let keys = Object.keys(localStorage)
-  for (const k of keys) {
-    console.log('localStorage', k)
-    if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
-      LocalStorage.remove(k);
-    }
-  }
-
-  // sessionStorage
-  keys = Object.keys(sessionStorage)
-  for (const k of keys) {
-    console.log('sessionStorage', k)
-    if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
-      SessionStorage.remove(k);
-    }
-  }
-}
-
 // ================================================================================
 // Cookie
 // ================================================================================
@@ -195,6 +173,27 @@ export function saveSessionItemObject (name: string, value: any, prefix = PREFIX
 // ================================================================================
 // Common
 // ================================================================================
+export function removeUserData(prefix = PREFIX) {
+  const userKeys = ['account', 'ai', 'chat', 'navi', 'note', 'tab', 'user', 'workspace'];
+
+  // localStorage
+  let keys = Object.keys(localStorage)
+  for (const k of keys) {
+    console.log('localStorage', k)
+    if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
+      LocalStorage.remove(k);
+    }
+  }
+
+  // sessionStorage
+  keys = Object.keys(sessionStorage)
+  for (const k of keys) {
+    console.log('sessionStorage', k)
+    if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
+      SessionStorage.remove(k);
+    }
+  }
+}
 
 export function clearUserCache () {
   removeUserData();
