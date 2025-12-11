@@ -1,10 +1,11 @@
 import uuid
 
-from sqlalchemy import UniqueConstraint, Integer, text
+from sqlalchemy import UniqueConstraint, Integer, text, event
 from sqlmodel import Field
 
 from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
 from app.api.models.enums import Scope
+from app.libs.db_helper import DbHelper
 
 
 class Book(BaseSQLModel, BaseMixin, table=True):
@@ -17,6 +18,7 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     user_id: uuid.UUID = uuid_field()
     uuid: str = Field(..., min_length=32, max_length=64, description="Book sha1 hash")
     title: str = Field(..., max_length=255, description="Book title")
+    title_pinyin: str | None = Field(default=None)
     path: str = Field(..., description="Book file path")
     file_name: str | None = Field(default=None)
     cover_name: str | None = Field(default=None)
@@ -31,6 +33,15 @@ class Book(BaseSQLModel, BaseMixin, table=True):
         default=Scope.WORKSPACE,
         sa_type=Integer,
         sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))})
+
+@event.listens_for(Book, "before_insert")
+def before_insert(mapper, connection, target: Book):
+    target.title_pinyin = DbHelper.to_pinyin(target.title)
+
+
+@event.listens_for(Book, "before_update")
+def before_update(mapper, connection, target: Book):
+    target.title_pinyin = DbHelper.to_pinyin(target.title)
 
 
 class BookBase(BaseApiModel):

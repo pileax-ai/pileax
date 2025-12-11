@@ -35,7 +35,7 @@ def get_by_uuid(uuid: str, controller: BookController = Depends()) -> Any:
 
 @router.api_put("", response_model=BookPublic)
 def update(item_in: BookUpdate, controller: BookController = Depends()) -> Any:
-    return controller.update(item_in)
+    return controller.update_by_user(item_in)
 
 
 @router.api_delete("")

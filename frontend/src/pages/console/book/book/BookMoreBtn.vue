@@ -88,7 +88,7 @@ function onAction (action :any) {
         orderDesc.value = false;
       }
       orderField.value = value;
-      emit('sort', { 'book.title': orderDesc.value ? 'desc' : 'asc' });
+      emit('sort', { 'book.title_pinyin': orderDesc.value ? 'desc' : 'asc' });
       break;
     default:
       break;

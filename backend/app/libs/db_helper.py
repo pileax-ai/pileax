@@ -1,4 +1,6 @@
 from typing import Any, List, Optional, Type, Dict, OrderedDict
+
+from pypinyin.core import lazy_pinyin
 from sqlmodel import SQLModel, func
 from sqlalchemy.sql.elements import BinaryExpression
 
@@ -138,3 +140,7 @@ class DbHelper:
                 except:
                     data[f] = None
         return data
+
+    @staticmethod
+    def to_pinyin(s):
+        return ''.join(lazy_pinyin(s or ""))
