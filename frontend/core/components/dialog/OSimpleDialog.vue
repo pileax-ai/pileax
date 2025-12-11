@@ -68,12 +68,12 @@ const props = defineProps({
     default: false
   },
 })
-const emit = defineEmits(['ok', 'show', 'update:modelValue']);
+const emit = defineEmits(['ok', 'show', 'update:modelValue'])
 
-const dialogRef = ref<InstanceType<typeof QDialog>>();
+const dialogRef = ref<InstanceType<typeof QDialog>>()
 
 const onHide = () => {
-  emit('update:modelValue', false);
+  emit('update:modelValue', false)
 }
 
 const onShow = () => {
@@ -86,9 +86,9 @@ const onOk = () => {
 
 watch(() => props.modelValue, (newValue) => {
   if (newValue) {
-    dialogRef.value?.show();
+    dialogRef.value?.show()
   } else {
-    dialogRef.value?.hide();
+    dialogRef.value?.hide()
   }
 })
 </script>

@@ -1,33 +1,33 @@
 
-import { useComponentStoreWithOut } from 'src/stores/component';
-import { computed } from 'vue';
+import { useComponentStoreWithOut } from 'src/stores/component'
+import { computed } from 'vue'
 
-const componentStore = useComponentStoreWithOut();
+const componentStore = useComponentStoreWithOut()
 
 export default function () {
-  const dialog = computed(() => componentStore.dialog);
+  const dialog = computed(() => componentStore.dialog)
 
   function openDialog(dialog: Indexable) {
-    componentStore.setDialog(dialog);
+    componentStore.setDialog(dialog)
   }
 
   function openNoteSearchDialog() {
-    openDialog({ type: 'note-search' });
+    openDialog({ type: 'note-search' })
   }
 
   function openSettingsDialog(tab = 'general') {
-    openDialog({ type: 'settings', tab: tab });
+    openDialog({ type: 'settings', tab: tab })
   }
 
   function onHide() {
-    componentStore.setDialog({});
+    componentStore.setDialog({})
   }
 
   function onOk() {
     if (typeof dialog.value.onOk === 'function') {
-      dialog.value.onOk();
+      dialog.value.onOk()
     }
-    onHide();
+    onHide()
   }
 
   return {
@@ -38,5 +38,5 @@ export default function () {
     openSettingsDialog,
     onHide,
     onOk
-  };
+  }
 }

@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Dark } from 'quasar';
+import { computed } from 'vue'
+import { Dark } from 'quasar'
 const props = defineProps({
   color: {
     type: String,
@@ -17,13 +17,13 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
+})
 
 const bgColor = computed(() => {
-  return Dark.isActive ?  props.color : `${props.color}-1`;
+  return Dark.isActive ?  props.color : `${props.color}-1`
 })
 const textColor = computed(() => {
-  return Dark.isActive ?  'white' : props.color;
+  return Dark.isActive ?  'white' : props.color
 })
 </script>
 

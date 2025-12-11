@@ -4,4 +4,4 @@
  * @version 1.0
  */
 
-export const NoteDefaultIcon = '✍';
+export const NoteDefaultIcon = '✍'

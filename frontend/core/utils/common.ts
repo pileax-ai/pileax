@@ -10,7 +10,7 @@ import { getItem, getItemObject } from 'core/utils/storage'
 import { getAuthorization, getWorkspaceId } from 'src/utils/auth'
 
 export const getCommonHeaders = () => {
-  const platform = Platform.is;
+  const platform = Platform.is
   return {
     'Authorization': getAuthorization(),
     'x-api-version': 'v1',

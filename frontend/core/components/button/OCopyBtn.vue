@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import useCommon from 'core/hooks/useCommon';
+import { ref } from 'vue'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   tooltip: {
@@ -24,16 +24,16 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 
-const icon = ref('content_copy');
-const { copy } = useCommon();
+const icon = ref('content_copy')
+const { copy } = useCommon()
 
 function onCopy() {
-  copy(props.value, props.notify);
-  icon.value = 'done';
+  copy(props.value, props.notify)
+  icon.value = 'done'
   setTimeout(() => {
-    icon.value = 'content_copy';
+    icon.value = 'content_copy'
   }, 1000)
 }
 </script>

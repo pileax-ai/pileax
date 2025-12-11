@@ -19,7 +19,7 @@ defineProps({
     type: String,
     default: 'No records'
   },
-});
+})
 </script>
 
 <style lang="scss">

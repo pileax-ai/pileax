@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import OSideDialog from 'core/components/dialog/OSideDialog.vue';
+import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 
 const props = defineProps({
   scrollable: {
@@ -48,20 +48,20 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['update:side', 'sideClose', 'sideConfirm']);
+})
+const emit = defineEmits(['update:side', 'sideClose', 'sideConfirm'])
 
 function onSideShow () {
-  let side = props.side;
-  side.show = true;
-  emit('update:side', side);
+  const side = props.side
+  side.show = true
+  emit('update:side', side)
 }
 
 function onSideClose () {
-  let side = props.side;
-  side.show = false;
-  emit('update:side', side);
-  emit('sideClose');
+  const side = props.side
+  side.show = false
+  emit('update:side', side)
+  emit('sideClose')
 }
 
 function onSideConfirm () {

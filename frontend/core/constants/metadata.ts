@@ -6,7 +6,7 @@
 export const IconSets = [
   { label: 'Material Icons', value: 'material-icons', url: 'https://fonts.google.com/icons' },
   { label: 'MDI v6', value: 'mdi-v6', url: 'https://pictogrammers.com/library/mdi' },
-];
+]
 
 // Locale
 export const Locales = [
@@ -36,4 +36,4 @@ export const StandardColors :OptionValue[] = [
   { label: 'Brown', value: 'brown', icon: 'square', color: 'brown' },
   { label: 'Grey', value: 'grey', icon: 'square', color: 'grey' },
   { label: 'Blue Grey', value: 'blue-grey', icon: 'square', color: 'blue-grey' },
-];
+]

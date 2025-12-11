@@ -1,17 +1,17 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
-import { defineConfig } from '#q-app/wrappers';
-import { fileURLToPath } from 'node:url';
-import path from 'path';
-import { viteConfig } from './core/vite';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng';
+import { defineConfig } from '#q-app/wrappers'
+import { fileURLToPath } from 'node:url'
+import path from 'path'
+import { viteConfig } from './core/vite'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng'
 
 export default defineConfig((ctx) => {
-  console.log('ctx', ctx);
-  let mode = ctx.modeName;
-  const targetName = (ctx as Indexable).targetName;
-  if (targetName) mode += '-' + targetName;
+  console.log('ctx', ctx)
+  let mode = ctx.modeName
+  const targetName = (ctx as Indexable).targetName
+  if (targetName) mode += '-' + targetName
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -257,17 +257,17 @@ export default defineConfig((ctx) => {
             'electron-updater',
             'fs-extra',
             'get-port',
-          ];
+          ]
 
-          const newDependencies: Indexable = {};
+          const newDependencies: Indexable = {}
           electronDeps.forEach(depName => {
             if (json.dependencies && json.dependencies[depName]) {
-              newDependencies[depName] = json.dependencies[depName];
+              newDependencies[depName] = json.dependencies[depName]
             }
-          });
+          })
 
           // Override dependencies use simplified newDependencies
-          json.dependencies = newDependencies;
+          json.dependencies = newDependencies
         }
       },
 
@@ -341,4 +341,4 @@ export default defineConfig((ctx) => {
       extraScripts: []
     }
   }
-});
+})

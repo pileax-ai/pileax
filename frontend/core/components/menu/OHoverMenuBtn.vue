@@ -27,8 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { debounce } from 'quasar';
-import { onActivated, onDeactivated, onMounted, PropType, ref, watch } from 'vue'
+import { debounce } from 'quasar'
+import type { PropType} from 'vue'
+import { onActivated, onDeactivated, onMounted, ref, watch } from 'vue'
 
 const props = defineProps({
   enableHover: {
@@ -81,34 +82,34 @@ const props = defineProps({
     type: String,
     default: 'pi-menu'
   }
-});
+})
 
-const menu = ref(false);
-const menuOver = ref(false);
-const listOver = ref(false);
+const menu = ref(false)
+const menuOver = ref(false)
+const listOver = ref(false)
 
 const toggleMenu = debounce(() => {
-  menu.value = menuOver.value || listOver.value;
+  menu.value = menuOver.value || listOver.value
 }, 200)
 
 watch(menuOver, () => {
-  toggleMenu();
+  toggleMenu()
 })
 
 watch(listOver, () => {
-  toggleMenu();
+  toggleMenu()
 })
 
 onMounted(() => {
-  menu.value = props.defaultOpen;
+  menu.value = props.defaultOpen
 })
 
 onActivated(() => {
-  menu.value = props.defaultOpen;
-});
+  menu.value = props.defaultOpen
+})
 
 onDeactivated(() => {
-  menu.value = false;
+  menu.value = false
 })
 </script>
 

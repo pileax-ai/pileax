@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import ids from 'virtual:svg-icons/ids';
-import { Icons } from 'core/constants/icons';
+import { computed } from 'vue'
+import ids from 'virtual:svg-icons/ids'
+import { Icons } from 'core/constants/icons'
 
-defineOptions({ name: 'OSvgIcon', inheritAttrs: true });
+defineOptions({ name: 'OSvgIcon', inheritAttrs: true })
 const props = defineProps({
   name: {
     type: String,
@@ -28,7 +28,7 @@ const props = defineProps({
     type: String,
     default: '1rem'
   },
-});
+})
 
 const finalName = computed(() => {
   let name = props.name?.toLowerCase()
@@ -43,16 +43,16 @@ const iconName = computed(() => {
   if (props.colored) {
     return ids.includes(`icon-${name}-color`)
       ? `${name}-color`
-      : name;
+      : name
   } else {
-    return name;
+    return name
   }
-});
+})
 
 const iconColor = computed(() => {
   const name = finalName.value
-  const icon = Icons.find(e => e.name === name);
-  return icon ? props.color || icon.color : props.color;
+  const icon = Icons.find(e => e.name === name)
+  return icon ? props.color || icon.color : props.color
 })
 </script>
 

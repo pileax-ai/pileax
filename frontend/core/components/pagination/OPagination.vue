@@ -42,15 +42,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onBeforeMount } from 'vue';
-import { isMobile } from 'core/hooks/useCommon';
-import usePagination from 'core/hooks/usePagination';
+import { computed, ref, onBeforeMount } from 'vue'
+import { isMobile } from 'core/hooks/useCommon'
+import usePagination from 'core/hooks/usePagination'
 
 const props = defineProps({
   data: {
     type: Array,
     default: function () {
-      return [];
+      return []
     }
   },
   size: {
@@ -60,15 +60,15 @@ const props = defineProps({
   sizes: {
     type: Array,
     default: function () {
-      return [];
+      return []
     }
   },
   contentClass: {
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['paged']);
+})
+const emit = defineEmits(['paged'])
 const {
   pageIndex,
   pageSize,
@@ -76,32 +76,32 @@ const {
   pagedList,
   pagination,
   initPagination
-} = usePagination();
+} = usePagination()
 
-const sizeAlt = ref(10);
+const sizeAlt = ref(10)
 const sizesAlt = computed(() => {
-  let list = props.sizes;
+  let list = props.sizes
   if (list.length === 0) {
-    list = [10, 15, 20, 25, 50, 75, 100];
+    list = [10, 15, 20, 25, 50, 75, 100]
   }
   if (!list.includes(props.size)) {
-    list.unshift(props.size);
+    list.unshift(props.size)
   }
-  return list;
-});
+  return list
+})
 
 function onPaged () {
-  emit('paged', pagination);
+  emit('paged', pagination)
 }
 
 function onSize(value) {
-  sizeAlt.value = value;
-  pageSize.value = value;
+  sizeAlt.value = value
+  pageSize.value = value
 }
 
 onBeforeMount(() => {
-  sizeAlt.value = props.size;
-  initPagination(props.data, props.size);
+  sizeAlt.value = props.size
+  initPagination(props.data, props.size)
 })
 </script>
 

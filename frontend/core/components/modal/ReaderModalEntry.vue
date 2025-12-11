@@ -5,12 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue';
-import { useComponentStoreWithOut } from 'stores/component';
-import ImageViewerDialog from './ImageViewerDialog.vue';
+import {computed} from 'vue'
+import { useComponentStoreWithOut } from 'stores/component'
+import ImageViewerDialog from './ImageViewerDialog.vue'
 
-const componentStore = useComponentStoreWithOut();
-const type = computed(() => componentStore.dialog.type);
+const componentStore = useComponentStoreWithOut()
+const type = computed(() => componentStore.dialog.type)
 </script>
 
 <style lang="stylus">

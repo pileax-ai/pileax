@@ -2,7 +2,7 @@ const positionValues = [
   'bottom right', 'bottom left', 'bottom middle', 'bottom start', 'bottom end',
   'top right', 'top left', 'top middle', 'top start', 'top end',
   'center right', 'center left', 'center middle', 'center start', 'center end',
-] as const;
+] as const
 
 declare global {
   type Indexable<T = any> = {
@@ -41,6 +41,6 @@ declare global {
       mode: string;
       time: string;
     }
-  };
+  }
 }
-export {};
+export {}

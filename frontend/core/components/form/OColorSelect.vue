@@ -12,23 +12,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref} from 'vue';
-import { StandardColors } from 'core/constants/metadata';
+import { computed, onMounted, ref} from 'vue'
+import { StandardColors } from 'core/constants/metadata'
 
 const props = defineProps({
   modelValue: {
     type: String,
     default: 'blue'
   }
-});
-const emit = defineEmits(['update:modelValue']);
+})
+const emit = defineEmits(['update:modelValue'])
 const color = computed({
   get() {
     return props.modelValue
   },
   set(value) {
     console.log('select color', value)
-    emit('update:modelValue', value);
+    emit('update:modelValue', value)
   }
 })
 

@@ -21,8 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import { debounce } from 'quasar';
-import {computed, onMounted, PropType, ref, watch} from 'vue';
+import { debounce } from 'quasar'
+import type { PropType} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 
 const props = defineProps({
   nohover: {
@@ -40,33 +41,33 @@ const props = defineProps({
   offset: {
     type: Array as PropType<number[]>,
     default: () => {
-      return [0, 0];
+      return [0, 0]
     }
   },
   minWidth: { type: String, default: '240px' },
   maxWidth: { type: String, default: '300px' },
   menuClass: { type: String, default: '' },
-});
+})
 
-const menu = ref(false);
-const menuOver = ref(false);
-const listOver = ref(false);
+const menu = ref(false)
+const menuOver = ref(false)
+const listOver = ref(false)
 
 const toggleMenu = debounce(() => {
-  menu.value = menuOver.value || listOver.value;
+  menu.value = menuOver.value || listOver.value
 }, 200)
 
 watch(menuOver, () => {
-  toggleMenu();
+  toggleMenu()
 })
 
 watch(listOver, () => {
-  toggleMenu();
+  toggleMenu()
 })
 
 onMounted(() => {
   //
-});
+})
 </script>
 
 <style lang="scss">

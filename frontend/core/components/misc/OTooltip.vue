@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   message: {
@@ -51,30 +51,30 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 
 const tooltipRef = ref(null)
 
 const anchor = computed(() => {
   if (props.position === 'top' || props.position === 'bottom') {
-    return `${props.position} middle`;
+    return `${props.position} middle`
   } else {
-    return `center ${props.position}`;
+    return `center ${props.position}`
   }
 })
 
 const self = computed(() => {
   switch (props.position) {
     case 'bottom':
-      return 'top middle';
+      return 'top middle'
     case 'top':
-      return 'bottom middle';
+      return 'bottom middle'
     case 'left':
-      return 'center right';
+      return 'center right'
     case 'right':
-      return 'center left';
+      return 'center left'
     default:
-      return '';
+      return ''
   }
 })
 
@@ -82,38 +82,38 @@ const transitionShow = computed(() => {
   let value = props.position
   switch (props.position) {
     case 'bottom':
-      value = 'down';
-      break;
+      value = 'down'
+      break
     case 'top':
-      value = 'up';
-      break;
+      value = 'up'
+      break
   }
-  return props.transition ? `jump-${value}` : undefined;
+  return props.transition ? `jump-${value}` : undefined
 })
 
 const transitionHide = computed(() => {
   let value = props.position
   switch (props.position) {
     case 'bottom':
-      value = 'up';
-      break;
+      value = 'up'
+      break
     case 'top':
-      value = 'down';
-      break;
+      value = 'down'
+      break
     case 'left':
-      value = 'right';
-      break;
+      value = 'right'
+      break
     case 'right':
-      value = 'left';
-      break;
+      value = 'left'
+      break
   }
-  return props.transition ?  `jump-${value}` : undefined;
+  return props.transition ?  `jump-${value}` : undefined
 })
 
 function onShow() {
   if (props.autohide) {
     setTimeout(() => {
-      tooltipRef.value?.hide();
+      tooltipRef.value?.hide()
     }, props.hideTimeout)
   }
 }

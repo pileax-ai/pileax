@@ -34,7 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, onDeactivated, onMounted, PropType, ref, watch } from 'vue'
+import type { PropType} from 'vue'
+import { onActivated, onDeactivated, onMounted, ref, watch } from 'vue'
 import { debounce } from 'quasar'
 
 const props = defineProps({
@@ -96,13 +97,13 @@ const props = defineProps({
     type: String,
     default: 'pi-menu'
   }
-});
-const emit = defineEmits(['before-show']);
+})
+const emit = defineEmits(['before-show'])
 
-const menu = ref(false);
-const menuOver = ref(false);
-const listOver = ref(false);
-const minWidthAlt = ref('160px');
+const menu = ref(false)
+const menuOver = ref(false)
+const listOver = ref(false)
+const minWidthAlt = ref('160px')
 
 const onBeforeShow = () => {
   menu.value = true
@@ -110,33 +111,33 @@ const onBeforeShow = () => {
 }
 
 const toggleMenu = debounce(() => {
-  menu.value = menuOver.value || listOver.value;
+  menu.value = menuOver.value || listOver.value
 }, 200)
 
 watch(menuOver, () => {
-  toggleMenu();
+  toggleMenu()
 })
 
 watch(listOver, () => {
-  toggleMenu();
+  toggleMenu()
 })
 
 watch(() => props.minWidth, (newValue) => {
-  minWidthAlt.value = newValue;
+  minWidthAlt.value = newValue
 })
 
 onMounted(() => {
-  menu.value = props.defaultOpen;
-  minWidthAlt.value = props.minWidth;
+  menu.value = props.defaultOpen
+  minWidthAlt.value = props.minWidth
 })
 
 onActivated(() => {
-  menu.value = props.defaultOpen;
-  minWidthAlt.value = props.minWidth;
-});
+  menu.value = props.defaultOpen
+  minWidthAlt.value = props.minWidth
+})
 
 onDeactivated(() => {
-  menu.value = false;
+  menu.value = false
 })
 </script>
 

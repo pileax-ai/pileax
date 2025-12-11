@@ -36,9 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
-import Content403 from 'core/page/content/Content403.vue';
+import Content403 from 'core/page/content/Content403.vue'
 import { QScrollArea } from 'quasar'
 
 const props = defineProps({
@@ -62,31 +62,31 @@ const props = defineProps({
     type: String,
     default: 'bg-secondary'
   },
-});
-const emit = defineEmits(['scroll']);
+})
+const emit = defineEmits(['scroll'])
 
-const scrollRef = ref<InstanceType<typeof QScrollArea>>();
-const scrollTop = ref(0);
-const scrollDirection = ref('');
+const scrollRef = ref<InstanceType<typeof QScrollArea>>()
+const scrollTop = ref(0)
+const scrollDirection = ref('')
 const pageStatus = computed(() => {
   return 200
-});
+})
 
 function onScroll(info: any) {
   if (scrollTop.value) {
     scrollDirection.value = scrollTop.value > info.verticalPosition
       ? 'up'
-      : 'down';
+      : 'down'
   }
   // console.log('scroll', info, scrollDirection.value);
-  scrollTop.value = info.verticalPosition;
-  emit('scroll', info, scrollDirection.value);
+  scrollTop.value = info.verticalPosition
+  emit('scroll', info, scrollDirection.value)
 }
 
 function scrollToBottom(duration = 0) {
-  const scrollTarget = scrollRef.value?.getScrollTarget();
-  const scrollHeight = scrollTarget?.scrollHeight || 0;
-  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration);
+  const scrollTarget = scrollRef.value?.getScrollTarget()
+  const scrollHeight = scrollTarget?.scrollHeight || 0
+  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration)
 }
 
 defineExpose({

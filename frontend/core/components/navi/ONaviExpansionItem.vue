@@ -41,13 +41,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType, defineAsyncComponent } from 'vue';
+import type { PropType} from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 
-import ONaviIcon from 'core/components/navi/ONaviIcon.vue';
-import ONaviItem from 'core/components/navi/ONaviItem.vue';
-import { MenuItem } from 'core/types/menu';
-import { menuLabel } from 'core/hooks/useMenu';
-import { useNaviStore } from 'stores/navi';
+import ONaviIcon from 'core/components/navi/ONaviIcon.vue'
+import ONaviItem from 'core/components/navi/ONaviItem.vue'
+import type { MenuItem } from 'core/types/menu'
+import { menuLabel } from 'core/hooks/useMenu'
+import { useNaviStore } from 'stores/navi'
 
 const props = defineProps({
   root: { type: Boolean, default: false },
@@ -56,25 +57,25 @@ const props = defineProps({
   data: {
     type: Object as PropType<MenuItem>,
     default: () => {
-      return {};
+      return {}
     }
   },
   separator: { type: Boolean, default: false },
   collapse: { type: Boolean, default: false },
   showItemIcon: { type: Boolean, default: false },
-});
+})
 
 defineAsyncComponent(() =>
   import('core/components/navi/ONaviExpansionItem.vue')
-);
+)
 
-const naviStore = useNaviStore();
+const naviStore = useNaviStore()
 
-const currentMenu = computed(() => naviStore.currentMenu);
+const currentMenu = computed(() => naviStore.currentMenu)
 
 function isActive(item: MenuItem) {
   return currentMenu.value?.id === item?.id
-    || currentMenu.value?.parentId === item?.id;
+    || currentMenu.value?.parentId === item?.id
 }
 </script>
 

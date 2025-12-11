@@ -14,29 +14,29 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { useWindowSize } from '@vueuse/core';
-import { ipcService } from 'src/api/ipc';
+import { useWindowSize } from '@vueuse/core'
+import { ipcService } from 'src/api/ipc'
 
 defineProps({
   link: {
     type: String,
     default: ''
   },
-});
+})
 
-const { width, height } = useWindowSize();
-const isMaximized = ref(false);
+const { width, height } = useWindowSize()
+const isMaximized = ref(false)
 
 async function updateWindowState() {
-  isMaximized.value = await ipcService.isWindowMaximized();
+  isMaximized.value = await ipcService.isWindowMaximized()
 }
 
 watch(() => width.value, (newValue) => {
-  updateWindowState();
+  updateWindowState()
 })
 
 onMounted(() => {
-  updateWindowState();
+  updateWindowState()
 })
 </script>
 

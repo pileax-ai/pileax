@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   label: {
@@ -34,6 +34,6 @@ const props = defineProps({
     type: String,
     default: ''
   }
-});
-const emit = defineEmits(['select']);
+})
+const emit = defineEmits(['select'])
 </script>

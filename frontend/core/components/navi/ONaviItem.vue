@@ -18,28 +18,28 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
+import type { PropType } from 'vue'
 
-import ONaviIcon from 'core/components/navi/ONaviIcon.vue';
-import { MenuItem } from 'core/types/menu';
-import { menuLabel } from 'core/hooks/useMenu';
-import { onAction } from 'core/hooks/useRouter';
+import ONaviIcon from 'core/components/navi/ONaviIcon.vue'
+import type { MenuItem } from 'core/types/menu'
+import { menuLabel } from 'core/hooks/useMenu'
+import { onAction } from 'core/hooks/useRouter'
 
 const props = defineProps({
   item: {
     type: Object as PropType<MenuItem>,
     default: () => {
-      return {};
+      return {}
     }
   },
   showItemIcon: {
     type: Boolean,
     default: false
   }
-});
+})
 
 function onClick() {
-  onAction(props.item as Action);
+  onAction(props.item as Action)
 }
 </script>
 

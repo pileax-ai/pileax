@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import OCommonPage from 'core/page/template/OCommonPage.vue';
+import OCommonPage from 'core/page/template/OCommonPage.vue'
 
 const props = defineProps({
   loading: {
@@ -49,13 +49,13 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['submit', 'reset']);
+})
+const emit = defineEmits(['submit', 'reset'])
 function onSubmit () {
-  emit('submit');
+  emit('submit')
 }
 function onReset () {
-  emit('reset');
+  emit('reset')
 }
 </script>
 

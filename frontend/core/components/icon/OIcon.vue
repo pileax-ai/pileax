@@ -41,10 +41,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
+})
 
 const pngPath = computed(() => {
-  const name = props.name.replace('png-', '');
+  const name = props.name.replace('png-', '')
   return `/icons/png/${name}.png`
 })
 

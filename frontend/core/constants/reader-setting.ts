@@ -21,4 +21,4 @@ export const READER_THEMES :Indexable = {
     'dark': '#272A3E',
     'info': '#B3BDD2',
   },
-};
+}

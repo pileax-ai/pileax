@@ -22,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onMounted, onUnmounted, ref, watch} from 'vue';
+import {computed, onActivated, onMounted, onUnmounted, ref, watch} from 'vue'
 
-import OCommonPage from 'core/page/template/OCommonPage.vue';
+import OCommonPage from 'core/page/template/OCommonPage.vue'
 
 const props = defineProps({
   index: {
@@ -39,23 +39,23 @@ const props = defineProps({
     type: String,
     default: ''
   },
-});
-const emit = defineEmits(['previous', 'next']);
-const indexAlt = ref(0);
-const showTips = ref(true);
+})
+const emit = defineEmits(['previous', 'next'])
+const indexAlt = ref(0)
+const showTips = ref(true)
 
 function onPrevious () {
-  let i = indexAlt.value - 1;
+  const i = indexAlt.value - 1
   if (i >= 0) {
-    indexAlt.value = i;
-    emit('previous', i);
+    indexAlt.value = i
+    emit('previous', i)
   }
 }
 function onNext () {
-  let i = indexAlt.value + 1;
+  const i = indexAlt.value + 1
   if (i < props.total) {
-    indexAlt.value = i;
-    emit('next', i);
+    indexAlt.value = i
+    emit('next', i)
   }
 }
 
@@ -63,26 +63,26 @@ function onKeyup(event) {
   switch (event.key) {
     case 'ArrowUp':
     case 'ArrowLeft':
-      onPrevious();
-      break;
+      onPrevious()
+      break
     case 'ArrowDown':
     case 'ArrowRight':
-      onNext();
-      break;
+      onNext()
+      break
   }
 }
 
 onMounted(() => {
-  indexAlt.value = props.index;
+  indexAlt.value = props.index
   setTimeout(() =>  {
-    showTips.value = false;
+    showTips.value = false
   }, 1000)
 
-  window.addEventListener('keyup', onKeyup);
+  window.addEventListener('keyup', onKeyup)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keyup', onKeyup);
+  window.removeEventListener('keyup', onKeyup)
 })
 </script>
 

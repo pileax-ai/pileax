@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 defineProps({
   icon: {
@@ -21,17 +21,17 @@ defineProps({
     default: 'refresh'
   }
 })
-const emit = defineEmits(['enter', 'leave']);
-const hovered = ref(false);
+const emit = defineEmits(['enter', 'leave'])
+const hovered = ref(false)
 
 function onEnter() {
-  hovered.value = true;
-  emit('enter');
+  hovered.value = true
+  emit('enter')
 }
 
 function onLeave() {
-  hovered.value = false;
-  emit('leave');
+  hovered.value = false
+  emit('leave')
 }
 </script>
 

@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue';
+import {onMounted, ref, watch} from 'vue'
 
 const props = defineProps({
   show: {
@@ -100,23 +100,23 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
+})
 
-const emit = defineEmits(['ok', 'close', 'show']);
+const emit = defineEmits(['ok', 'close', 'show'])
 
-const modal = ref();
+const modal = ref()
 
 watch(() => props.show, (newValue) => {
   if (newValue) {
-    modal.value.show();
+    modal.value.show()
   } else {
-    modal.value.hide();
+    modal.value.hide()
   }
 })
 
 onMounted(() => {
   if (props.show) {
-    modal.value.show();
+    modal.value.show()
   }
 })
 </script>

@@ -26,14 +26,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
-import { useI18n } from 'vue-i18n';
+import type { PropType } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue';
-import useSetting from 'core/hooks/useSetting';
-import { Locales } from 'core/constants/metadata';
-import {getArrayItem} from 'core/hooks/useCommon';
-import useCommon from 'core/hooks/useCommon';
+import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
+import useSetting from 'core/hooks/useSetting'
+import { Locales } from 'core/constants/metadata'
+import {getArrayItem} from 'core/hooks/useCommon'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   enableHover: {
@@ -70,20 +71,20 @@ const props = defineProps({
       return [0, 8]
     }
   },
-});
+})
 
-const { t } = useCommon();
-const i18n = useI18n();
-const { locale, setLocale, setTray } = useSetting();
+const { t } = useCommon()
+const i18n = useI18n()
+const { locale, setLocale, setTray } = useSetting()
 
 const label = computed(() => {
-  const localeLabel = getArrayItem(Locales, i18n.locale.value).label || $t('language');
-  return props.showLabel ? localeLabel : '';
-});
+  const localeLabel = getArrayItem(Locales, i18n.locale.value).label || $t('language')
+  return props.showLabel ? localeLabel : ''
+})
 
 function onClick(locale :string) {
-  i18n.locale.value = locale;
-  setLocale(locale, false);
+  i18n.locale.value = locale
+  setLocale(locale, false)
 }
 </script>
 

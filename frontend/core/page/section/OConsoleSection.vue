@@ -83,17 +83,17 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onMounted, ref, watch} from 'vue';
-import { useRoute } from 'vue-router';
+import {computed, onActivated, onMounted, ref, watch} from 'vue'
+import { useRoute } from 'vue-router'
 
-import OCommonSection from './OCommonSection.vue';
-import OIcon from 'core/components/icon/OIcon.vue';
+import OCommonSection from './OCommonSection.vue'
+import OIcon from 'core/components/icon/OIcon.vue'
 
-import { toggleClass } from 'core/utils/misc';
-import { MenuItem } from 'core/types/menu';
-import { findMenuByPath, menuLabel } from 'core/hooks/useMenu';
-import { openPath } from 'core/hooks/useRouter';
-import { useNaviStore } from 'stores/navi.setup';
+import { toggleClass } from 'core/utils/misc'
+import { MenuItem } from 'core/types/menu'
+import { findMenuByPath, menuLabel } from 'core/hooks/useMenu'
+import { openPath } from 'core/hooks/useRouter'
+import { useNaviStore } from 'stores/navi.setup'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const props = defineProps({
@@ -156,38 +156,38 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 
-const emit = defineEmits(['fullScreen', 'update:side', 'sideClose', 'sideConfirm']);
+const emit = defineEmits(['fullScreen', 'update:side', 'sideClose', 'sideConfirm'])
 
-const route = useRoute();
-const naviStore = useNaviStore();
-const fullScreen = ref(false);
-const expand = ref(true);
+const route = useRoute()
+const naviStore = useNaviStore()
+const fullScreen = ref(false)
+const expand = ref(true)
 
-const menu = computed(() => naviStore.currentMenu);
+const menu = computed(() => naviStore.currentMenu)
 
 function updateMenu () {
-  naviStore.updateMenu(route);
+  naviStore.updateMenu(route)
 }
 
 function toggleFullScreen () {
-  fullScreen.value = !fullScreen.value;
-  toggleClass(document.body, 'full-screen-page');
-  emit('fullScreen', fullScreen.value);
+  fullScreen.value = !fullScreen.value
+  toggleClass(document.body, 'full-screen-page')
+  emit('fullScreen', fullScreen.value)
 }
 
 function onSideShow () {
-  let side = props.side;
-  side.show = true;
-  emit('update:side', side);
+  const side = props.side
+  side.show = true
+  emit('update:side', side)
 }
 
 function onSideClose () {
-  let side = props.side;
-  side.show = false;
-  emit('update:side', side);
-  emit('sideClose');
+  const side = props.side
+  side.show = false
+  emit('update:side', side)
+  emit('sideClose')
 }
 
 function onSideConfirm () {
@@ -197,7 +197,7 @@ function onSideConfirm () {
 watch(
   () => naviStore.menus,
   (newValue) => {
-    updateMenu();
+    updateMenu()
   }
 )
 

@@ -46,8 +46,9 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, useTemplateRef } from 'vue'
-import { useElementSize } from '@vueuse/core';
+import type { PropType} from 'vue'
+import { ref, useTemplateRef } from 'vue'
+import { useElementSize } from '@vueuse/core'
 
 const props = defineProps({
   vertical: {
@@ -68,49 +69,49 @@ const props = defineProps({
     type: Number,
     default: 160
   }
-});
-const emit = defineEmits(['sideWidth', 'sideHeight']);
+})
+const emit = defineEmits(['sideWidth', 'sideHeight'])
 
-const pageRef = useTemplateRef<HTMLElement>('pageRef');
-const { width, height } = useElementSize(pageRef);
+const pageRef = useTemplateRef<HTMLElement>('pageRef')
+const { width, height } = useElementSize(pageRef)
 
-const verticalSideWidth = ref(props.verticalSide);
-const verticalSideWidthRestore = ref(0);
-const horizontalSideHeight = ref(props.horizontalSide);
-const horizontalSideHeightRestore = ref(0);
+const verticalSideWidth = ref(props.verticalSide)
+const verticalSideWidthRestore = ref(0)
+const horizontalSideHeight = ref(props.horizontalSide)
+const horizontalSideHeightRestore = ref(0)
 
 function expandHorizontalSide(expanded: boolean) {
   horizontalSideHeight.value = expanded
     ? height.value
-    : (horizontalSideHeightRestore.value || props.horizontalSide);
+    : (horizontalSideHeightRestore.value || props.horizontalSide)
 }
 
 function onToggleHorizontal() {
   if (horizontalSideHeight.value) {
-    horizontalSideHeightRestore.value = horizontalSideHeight.value;
-    horizontalSideHeight.value = 0;
+    horizontalSideHeightRestore.value = horizontalSideHeight.value
+    horizontalSideHeight.value = 0
   } else {
-    horizontalSideHeight.value = horizontalSideHeightRestore.value || props.horizontalSide;
+    horizontalSideHeight.value = horizontalSideHeightRestore.value || props.horizontalSide
   }
 }
 
 function onToggleVertical() {
   if (verticalSideWidth.value) {
-    verticalSideWidthRestore.value = verticalSideWidth.value;
-    verticalSideWidth.value = 0;
+    verticalSideWidthRestore.value = verticalSideWidth.value
+    verticalSideWidth.value = 0
   } else {
-    verticalSideWidth.value = verticalSideWidthRestore.value || props.verticalSide;
+    verticalSideWidth.value = verticalSideWidthRestore.value || props.verticalSide
   }
 }
 
 function onVerticalChanged(value: number) {
-  verticalSideWidthRestore.value = value;
-  emit('sideWidth', value);
+  verticalSideWidthRestore.value = value
+  emit('sideWidth', value)
 }
 
 function onHorizontalChanged(value: number) {
-  horizontalSideHeightRestore.value = value;
-  emit('sideHeight', value);
+  horizontalSideHeightRestore.value = value
+  emit('sideHeight', value)
 }
 
 defineExpose({

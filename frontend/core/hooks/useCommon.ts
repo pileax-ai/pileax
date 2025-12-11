@@ -1,27 +1,27 @@
-import { Platform, Dialog, copyToClipboard } from 'quasar';
-import { useI18n } from 'vue-i18n';
-import { notifySuccess } from 'core/utils/control';
-import { useComponentStoreWithOut } from 'stores/component';
+import { Platform, Dialog, copyToClipboard } from 'quasar'
+import { useI18n } from 'vue-i18n'
+import { notifySuccess } from 'core/utils/control'
+import { useComponentStoreWithOut } from 'stores/component'
 
-export const isMobile = Platform.is.mobile;
+export const isMobile = Platform.is.mobile
 export const getArrayItem = (array :Indexable[], value :string, field = '') => {
-  field = field || 'value';
+  field = field || 'value'
   for (const item of array) {
     if (item[field] !== undefined && (item[field].toString() === value?.toString())) {
-      return item as OptionValue;
+      return item as OptionValue
     }
   }
-  return {} as OptionValue;
+  return {} as OptionValue
 }
 
 export default function () {
-  const { t } = useI18n();
-  const componentStore = useComponentStoreWithOut();
+  const { t } = useI18n()
+  const componentStore = useComponentStoreWithOut()
 
   const copy = (text :string, notify = false) => {
     copyToClipboard(text).then(() => {
       if (notify) {
-        notifySuccess(t('copied'), { timeout: 500 });
+        notifySuccess(t('copied'), { timeout: 500 })
       }
     })
   }
@@ -41,10 +41,10 @@ export default function () {
       showOk: true,
       showCancel: showCancel,
       onOk: callback
-    });
+    })
   }
 
-  const dialog = Dialog.create;
+  const dialog = Dialog.create
 
   return {
     t,

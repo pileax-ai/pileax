@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { CountTo } from 'vue3-count-to';
+import { CountTo } from 'vue3-count-to'
 
 defineProps({
   skeleton: {

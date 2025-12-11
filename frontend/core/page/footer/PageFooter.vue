@@ -65,10 +65,10 @@
 </template>
 
 <script setup lang="ts">
-import useSetting from 'core/hooks/useSetting';
-import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue';
+import useSetting from 'core/hooks/useSetting'
+import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 
-const { darkMode, toggleTheme } = useSetting();
+const { darkMode, toggleTheme } = useSetting()
 </script>
 
 <style lang="scss">

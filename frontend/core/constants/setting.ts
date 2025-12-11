@@ -21,7 +21,7 @@ export const THEMES :Indexable = {
     'dark': '#141824',
     'info': '#B3BDD2',
   },
-};
+}
 
 export const THEME_COLORS :OptionValue[] = [
   { label: 'blue', value: '#2172e0', name: 'blue' },
@@ -32,28 +32,28 @@ export const THEME_COLORS :OptionValue[] = [
   { label: 'deep-purple', value: '#673ab7', name: 'deep-purple' }, // #673ab7, #6510AD, #7c5dc7
   { label: 'red', value: '#f44336', name: 'red' },
   { label: 'deep-orange', value: '#ff5722', name: 'deep-orange' },
-];
+]
 
 export const NAVI_LAYOUTS :OptionValue[] = [
   { label: 'Group', value: 'group' },
   { label: 'Tab', value: 'tab' },
-];
+]
 
 export const TAB_BAR_POSITIONS :OptionValue[] = [
   { label: 'Top', value: 'top' },
   { label: 'Bottom', value: 'bottom' },
-];
+]
 
 export const TAB_BAR_STYLES :OptionValue[] = [
   { label: 'Square', value: 'square' },
   { label: 'Card', value: 'card' },
   { label: 'Modern', value: 'modern' },
-];
+]
 
 export const BREADCRUMB_STYLES :OptionValue[] = [
   { label: 'Default', value: 'default' },
   { label: 'Tag', value: 'tag' },
-];
+]
 
 export const PAGE_TRANSITIONS :OptionValue[] = [
   { label: 'Fade', value: 'fade' },
@@ -61,4 +61,4 @@ export const PAGE_TRANSITIONS :OptionValue[] = [
   { label: 'Fade Scale', value: 'fade-scale' },
   { label: 'Fade Top', value: 'fade-top' },
   { label: 'Fade Bottom', value: 'fade-bottom' },
-];
+]

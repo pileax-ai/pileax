@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, PropType, ref, useTemplateRef, watch } from 'vue'
-import { useElementSize } from '@vueuse/core';
+import { useElementSize } from '@vueuse/core'
 
 const props = defineProps({
   horizontal: {
@@ -58,15 +58,15 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['size', 'update:show']);
+})
+const emit = defineEmits(['size', 'update:show'])
 
-const pageRef = useTemplateRef<HTMLElement>('pageRef');
-const { width, height } = useElementSize(pageRef);
-const fullScreen = ref(false);
+const pageRef = useTemplateRef<HTMLElement>('pageRef')
+const { width, height } = useElementSize(pageRef)
+const fullScreen = ref(false)
 
-const size = ref(0);
-const sizeRestore = ref(0);
+const size = ref(0)
+const sizeRestore = ref(0)
 
 const toggleIcon = computed(() => {
   if (props.horizontal) {
@@ -85,20 +85,24 @@ const closed = computed(() => {
 })
 
 function onToggle() {
-  !props.show ? open() : close();
+  if (props.show) {
+    open()
+  } else {
+    close()
+  }
 }
 
 function open() {
-  size.value = sizeRestore.value || props.initSize;
+  size.value = sizeRestore.value || props.initSize
 }
 
 function close() {
-  sizeRestore.value = size.value;
-  size.value = 0;
+  sizeRestore.value = size.value
+  size.value = 0
 }
 
 function onSizeChanged(value: number) {
-  sizeRestore.value = value;
+  sizeRestore.value = value
 }
 
 function setFullScree(value: boolean) {
@@ -106,7 +110,11 @@ function setFullScree(value: boolean) {
 }
 
 watch(() => props.show, (newValue) => {
-  newValue ? open() : close();
+  if (newValue) {
+    open()
+  } else {
+    close()
+  }
 })
 
 watch(size, (newValue) => {

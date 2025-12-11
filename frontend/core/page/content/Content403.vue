@@ -17,21 +17,21 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-import { checkPagePermission } from 'src/utils/auth';
+import { checkPagePermission } from 'src/utils/auth'
 
-const route = useRoute();
+const route = useRoute()
 
 function refresh() {
-  checkPagePermission(route);
+  checkPagePermission(route)
 }
 
 onMounted(() => {
   setTimeout(() => {
-    refresh();
-  }, 500);
+    refresh()
+  }, 500)
 })
 </script>
 

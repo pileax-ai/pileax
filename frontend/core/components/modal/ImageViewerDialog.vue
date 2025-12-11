@@ -15,20 +15,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-import OCommonDialog from 'core/components/dialog/OCommonDialog.vue';
-import useDialog from 'core/hooks/useDialog';
+import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
+import useDialog from 'core/hooks/useDialog'
 
-const { dialog, onHide, onOk } = useDialog();
+const { dialog, onHide, onOk } = useDialog()
 
 const style = computed(() => {
   return {
     // width: '80vw',
     // height: '80vh',
     padding: '0px'
-  };
-});
+  }
+})
 </script>
 
 <style lang="scss">

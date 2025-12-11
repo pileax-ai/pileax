@@ -104,44 +104,44 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
-const emit = defineEmits(['ready']);
+})
+const emit = defineEmits(['ready'])
 
-const value = ref(null);
-const selectedFile = ref<File>();
-const src = ref('');
-const error = ref('');
+const value = ref(null)
+const selectedFile = ref<File>()
+const src = ref('')
+const error = ref('')
 
 const fileIcon = computed(() => {
   if (selectedFile.value && selectedFile.value.type) {
-    let type = selectedFile.value.type;
+    const type = selectedFile.value.type
     if (type.indexOf('image/') === 0) {
-      return 'image';
+      return 'image'
     } else if (type.indexOf('video/') === 0) {
-      return 'videocam';
+      return 'videocam'
     } else if (type.indexOf('audio/') === 0) {
-      return 'audiotrack';
+      return 'audiotrack'
     } else {
-      return 'attach_file';
+      return 'attach_file'
     }
   } else {
-    return '';
+    return ''
   }
 })
 
 function updateFiles (file: File) {
-  error.value = '';
-  selectedFile.value = file;
-  src.value = URL.createObjectURL(file);
+  error.value = ''
+  selectedFile.value = file
+  src.value = URL.createObjectURL(file)
   if (props.maxSize > 0) {
-    const size = file.size;
+    const size = file.size
     if (size > props.maxSize) {
-      console.log('maxSize', size);
-      error.value = '文件大小超出限制，请重新选择';
-      return;
+      console.log('maxSize', size)
+      error.value = '文件大小超出限制，请重新选择'
+      return
     }
   }
-  emit('ready', file, fileIcon.value);
+  emit('ready', file, fileIcon.value)
 }
 
 </script>

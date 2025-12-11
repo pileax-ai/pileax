@@ -7,17 +7,17 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-import { MenuItemMeta } from 'core/types/menu';
+import type { PropType } from 'vue'
+import type { MenuItemMeta } from 'core/types/menu'
 
 defineProps({
   meta: {
     type: Object as PropType<MenuItemMeta>,
     default: () => {
-      return {};
+      return {}
     }
   }
-});
+})
 </script>
 
 <style lang="scss">

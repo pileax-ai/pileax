@@ -74,9 +74,9 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue';
+import {onMounted, ref, watch} from 'vue'
 
-import OConsoleSection from './OConsoleSection.vue';
+import OConsoleSection from './OConsoleSection.vue'
 
 const props = defineProps({
   extendHeader: {
@@ -150,49 +150,49 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
-const emit = defineEmits(['fullScreen', 'query', 'reset', 'dense', 'visible']);
+})
+const emit = defineEmits(['fullScreen', 'query', 'reset', 'dense', 'visible'])
 
-const fullScreen = ref(false);
-const denseTable = ref(false);
-const vcolumns = ref(false);
+const fullScreen = ref(false)
+const denseTable = ref(false)
+const vcolumns = ref(false)
 
 function onFullScreen (value) {
-  fullScreen.value = value;
-  emit('fullScreen', value);
+  fullScreen.value = value
+  emit('fullScreen', value)
 }
 function onQuery () {
-  emit('query');
+  emit('query')
 }
 function onReset () {
-  emit('reset');
+  emit('reset')
 }
 function setDense (dense) {
-  denseTable.value = dense;
-  emit('dense', dense);
+  denseTable.value = dense
+  emit('dense', dense)
 }
 function columnIcon (item) {
   return vcolumns.value.indexOf(item.field) >= 0
       ? 'check_box'
-      : 'check_box_outline_blank';
+      : 'check_box_outline_blank'
 }
 
 function toggleColumn (item) {
-  const index = vcolumns.value.indexOf(item.field);
+  const index = vcolumns.value.indexOf(item.field)
   if (index >= 0) {
-    vcolumns.value.splice(index, 1);
+    vcolumns.value.splice(index, 1)
   } else {
-    vcolumns.value.push(item.field);
+    vcolumns.value.push(item.field)
   }
-  emit('visible', vcolumns.value);
+  emit('visible', vcolumns.value)
 }
 
 watch(() => props.visibleColumns, (newValue) => {
-  vcolumns.value = newValue;
+  vcolumns.value = newValue
 })
 
 onMounted(() => {
-  denseTable.value = props.dense;
+  denseTable.value = props.dense
 })
 </script>
 

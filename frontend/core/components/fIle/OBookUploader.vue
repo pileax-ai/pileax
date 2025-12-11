@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { uploadBook } from 'src/api/service/ebook/book';
+import { uploadBook } from 'src/api/service/ebook/book'
 import { notifyInfo } from 'core/utils/control'
 
 defineProps({
@@ -69,11 +69,11 @@ defineProps({
     type: String,
     default: ''
   },
-});
-const emit = defineEmits(['completed']);
+})
+const emit = defineEmits(['completed'])
 
-const value = ref(null);
-const error = ref('');
+const value = ref(null)
+const error = ref('')
 const upload = reactive({
   total: 0,
   success: 0,
@@ -85,11 +85,11 @@ const updateFiles = async (files: File[]) => {
 
   upload.total = files.length
   for (let i = 0; i < upload.total; i++) {
-    upload.progress = (i + 1) / upload.total * 100;
-    const file = files.at(i);
+    upload.progress = (i + 1) / upload.total * 100
+    const file = files.at(i)
 
     try {
-      const book = await uploadBook(file!) as Indexable;
+      const book = await uploadBook(file!) as Indexable
       upload.success += 1
     } catch (err) {
       console.error(err)
@@ -109,7 +109,7 @@ const updateFiles = async (files: File[]) => {
   )
 
   Object.assign(upload, { total: 0, success: 0, progress: 0 })
-  emit('completed', files);
+  emit('completed', files)
 }
 </script>
 

@@ -20,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import PageFooter from 'core/page/footer/PageFooter.vue';
-import ContentWide from 'core/page/content/ContentWide.vue';
+import PageFooter from 'core/page/footer/PageFooter.vue'
+import ContentWide from 'core/page/content/ContentWide.vue'
 
 defineProps({
   header: {
@@ -60,7 +60,7 @@ defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 </script>
 
 <style lang="scss">

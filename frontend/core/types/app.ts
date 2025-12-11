@@ -1,4 +1,4 @@
-import { Setting } from 'core/types/setting';
+import type { Setting } from 'core/types/setting'
 
 export interface AppState {
   setting: Setting,

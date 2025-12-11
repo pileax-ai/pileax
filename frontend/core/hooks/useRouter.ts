@@ -1,37 +1,38 @@
-import { openURL } from 'quasar';
-import { Router, useRouter } from 'vue-router';
-import { unref } from 'vue';
-import { router } from 'src/router';
-import { MenuActionEnum } from 'core/constants/menuEnum';
+import { openURL } from 'quasar'
+import type { Router} from 'vue-router'
+import { useRouter } from 'vue-router'
+import { unref } from 'vue'
+import { router } from 'src/router'
+import { MenuActionEnum } from 'core/constants/menuEnum'
 
 export const onAction = (action :Action) => {
   // console.log('onAction', action);
   switch (action.action) {
     case MenuActionEnum.SYSTEM_BROWSER:
     case 'link':
-      openURL(action.link || '');
-      break;
+      openURL(action.link || '')
+      break
     case 'modal':
-      break;
+      break
     case MenuActionEnum.ROUTE:
     case 'route':
     default:
-      router.push(action.path);
-      break;
+      router.push(action.path)
+      break
   }
 }
 
 export const openPath = (path :string) => {
   if (path.indexOf('http') >= 0) {
-    openURL(path);
+    openURL(path)
   } else {
-    router.push(path);
+    router.push(path)
   }
 }
 
 export const openUrl = (url :string) => {
   if (url?.indexOf('http') >= 0) {
-    openURL(url);
+    openURL(url)
   }
 }
 
@@ -40,19 +41,18 @@ export const openUrl = (url :string) => {
  * todo: refresh
  */
 export const refresh = (_router?: Router) => {
-  const r = _router ?? router;
-  const { replace, currentRoute } = r;
-  const route = unref(currentRoute.value);
-  const { name, params = {}, query = {}, fullPath } = route;
+  const r = _router ?? router
+  const route = unref(r.currentRoute.value)
+  const { name, params = {}, query = {}, fullPath } = route
   console.log('refresh', name, params)
 
   return new Promise((resolve) => {
     if (name) {
-      replace({ name, params, query }).then(() => resolve(true));
+      r.replace({ name, params, query }).then(() => resolve(true))
     } else {
-      replace(fullPath).then(() => resolve(true));
+      r.replace(fullPath).then(() => resolve(true))
     }
-  });
+  })
 }
 
 export default function () {

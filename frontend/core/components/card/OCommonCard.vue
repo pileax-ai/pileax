@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 const props = defineProps({
   icon: {
     type: String,
@@ -86,12 +86,12 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 
-const expand = ref(true);
+const expand = ref(true)
 
 function toggleExpand() {
-  expand.value = !expand.value;
+  expand.value = !expand.value
 }
 </script>
 

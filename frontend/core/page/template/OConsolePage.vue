@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onMounted, ref, watch} from 'vue';
+import {computed, onActivated, onMounted, ref, watch} from 'vue'
 
-import OCommonPage from 'core/page/template/OCommonPage.vue';
-import OConsoleSection from '../section/OConsoleSection.vue';
+import OCommonPage from 'core/page/template/OCommonPage.vue'
+import OConsoleSection from '../section/OConsoleSection.vue'
 
 const props = defineProps({
   icon: {
@@ -86,27 +86,27 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-});
+})
 
-const emit = defineEmits(['update:side', 'sideClose', 'sideConfirm']);
+const emit = defineEmits(['update:side', 'sideClose', 'sideConfirm'])
 
-const fullScreen = ref(false);
+const fullScreen = ref(false)
 
 function onFullScreen (value) {
-  fullScreen.value = value;
+  fullScreen.value = value
 }
 
 function onSideShow () {
-  let side = props.side;
-  side.show = true;
-  emit('update:side', side);
+  const side = props.side
+  side.show = true
+  emit('update:side', side)
 }
 
 function onSideClose () {
-  let side = props.side;
-  side.show = false;
-  emit('update:side', side);
-  emit('sideClose');
+  const side = props.side
+  side.show = false
+  emit('update:side', side)
+  emit('sideClose')
 }
 
 function onSideConfirm () {

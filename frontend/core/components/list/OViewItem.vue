@@ -39,9 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import OIcon from 'core/components/icon/OIcon.vue';
-import OCopyBtn from 'core/components/button/OCopyBtn.vue';
+import { computed } from 'vue'
+import OIcon from 'core/components/icon/OIcon.vue'
+import OCopyBtn from 'core/components/button/OCopyBtn.vue'
 
 const props = defineProps({
   icon: {
@@ -90,15 +90,15 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-});
+})
 
 const collapse = computed(() => {
-  return props.value?.length > 50;
-});
+  return props.value?.length > 50
+})
 
 const linkUrl = computed(() => {
-  return props.link.indexOf('http') === 0 ? props.link : 'https://' + props.link;
-});
+  return props.link.indexOf('http') === 0 ? props.link : 'https://' + props.link
+})
 </script>
 
 <style lang="scss">

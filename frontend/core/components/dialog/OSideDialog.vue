@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch, nextTick} from 'vue';
+import {computed, onMounted, ref, watch, nextTick} from 'vue'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const props = defineProps({
@@ -126,114 +126,114 @@ const props = defineProps({
     type: String as () => 'left' | 'right',
     default: 'right'
   },
-});
-const emit = defineEmits(['confirm', 'close', 'show', 'resize']);
+})
+const emit = defineEmits(['confirm', 'close', 'show', 'resize'])
 
-const modal = ref();
-const positionAlt = ref('right');
-const view = ref('normal');
-const printing = ref(false);
+const modal = ref()
+const positionAlt = ref('right')
+const view = ref('normal')
+const printing = ref(false)
 
-const width = ref(0);
-const minWidth = ref(0);
-const maxWidth = ref(0);
-const isResizing = ref(false);
-const startX = ref(0);
-const startWidth = ref(0);
+const width = ref(0)
+const minWidth = ref(0)
+const maxWidth = ref(0)
+const isResizing = ref(false)
+const startX = ref(0)
+const startWidth = ref(0)
 
 function onMouseMove(e :any) {
   if (e.isFirst) {
-    startWidth.value = width.value;
-    startX.value = e.position.left;
-    isResizing.value = true;
-    document.documentElement.style.cursor = 'col-resize';
+    startWidth.value = width.value
+    startX.value = e.position.left
+    isResizing.value = true
+    document.documentElement.style.cursor = 'col-resize'
   } else if (e.isFinal) {
-    isResizing.value = false;
-    document.documentElement.style.cursor = '';
+    isResizing.value = false
+    document.documentElement.style.cursor = ''
   } else {
     const deltaX = props.side === 'left'
       ? e.position.left - startX.value
-      : startX.value - e.position.left;
-    const newWidth = startWidth.value + deltaX;
-    width.value = Math.max(minWidth.value, Math.min(maxWidth.value, newWidth));
+      : startX.value - e.position.left
+    const newWidth = startWidth.value + deltaX
+    width.value = Math.max(minWidth.value, Math.min(maxWidth.value, newWidth))
     // console.log('width', newWidth, width.value);
-    emit('resize', width.value);
+    emit('resize', width.value)
   }
 }
 
 function onBeforeShow() {
-  positionAlt.value = props.position;
-  const defaultWidth = toPixel(props.style.width);
-  minWidth.value = toPixel(props.style.minWidth) || defaultWidth;
-  maxWidth.value = toPixel(props.style.maxWidth) || 2 * defaultWidth;
-  width.value = Math.max(defaultWidth, minWidth.value);
-  width.value = Math.min(width.value, maxWidth.value);
+  positionAlt.value = props.position
+  const defaultWidth = toPixel(props.style.width)
+  minWidth.value = toPixel(props.style.minWidth) || defaultWidth
+  maxWidth.value = toPixel(props.style.maxWidth) || 2 * defaultWidth
+  width.value = Math.max(defaultWidth, minWidth.value)
+  width.value = Math.min(width.value, maxWidth.value)
 
   // console.log('style', props.style, width.value, minWidth.value, maxWidth.value);
 }
 
 function toPixel(value: string) {
-  let v = (value || '0').replace('px', '');
+  let v = (value || '0').replace('px', '')
   if (v.includes('vw')) {
-    const viewportWidth = window.innerWidth;
-    v = v.replace('vw', '');
-    return (parseInt(v) / 100) * viewportWidth;
+    const viewportWidth = window.innerWidth
+    v = v.replace('vw', '')
+    return (parseInt(v) / 100) * viewportWidth
   } else {
-    return parseInt(v);
+    return parseInt(v)
   }
 }
 
 async function onPrint()  {
-  printing.value = true;
-  await nextTick();
-  window.print();
+  printing.value = true
+  await nextTick()
+  window.print()
   setTimeout(() => {
-    printing.value = false;
+    printing.value = false
   }, 10)
 }
 
 function onToggleView () {
-  view.value = (view.value === 'normal') ? 'full-screen' : 'normal';
+  view.value = (view.value === 'normal') ? 'full-screen' : 'normal'
 }
 
 function onTogglePosition () {
-  positionAlt.value = (positionAlt.value === 'right') ? 'standard' : 'right';
+  positionAlt.value = (positionAlt.value === 'right') ? 'standard' : 'right'
   // this.setDialogPosition(positionAlt.value);
 }
 
 const maximized = computed(() => {
-  return positionAlt.value === 'right' || view.value === 'full-screen';
-});
+  return positionAlt.value === 'right' || view.value === 'full-screen'
+})
 
 const positionIcon = computed(() => {
-  return positionAlt.value === 'right' ? 'wysiwyg' : 'view_sidebar';
-});
+  return positionAlt.value === 'right' ? 'wysiwyg' : 'view_sidebar'
+})
 
 const viewIcon = computed(() => {
-  return view.value === 'normal' ? 'fullscreen' : 'fullscreen_exit';
-});
+  return view.value === 'normal' ? 'fullscreen' : 'fullscreen_exit'
+})
 
 const contentStyle = computed(() => {
   return view.value === 'normal'
     ? { width: `${width.value}px` }
-    : { width: '100vw' };
-});
+    : { width: '100vw' }
+})
 
 watch(
   () => props.show,
   (newValue) => {
     if (newValue) {
-      view.value = props.fullScreen ? 'full-screen' : 'normal';
-      modal.value.show();
+      view.value = props.fullScreen ? 'full-screen' : 'normal'
+      modal.value.show()
     } else {
-      modal.value.hide();
+      modal.value.hide()
     }
   }
 )
 
 onMounted(() => {
   if (props.show) {
-    modal.value.show();
+    modal.value.show()
   }
 })
 </script>

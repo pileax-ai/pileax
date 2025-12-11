@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {PropType} from 'vue';
+import type {PropType} from 'vue'
 
 defineProps({
   contextMenu: {
@@ -37,17 +37,17 @@ defineProps({
   offset: {
     type: Array,
     default: function () {
-      return [0, 8];
+      return [0, 8]
     }
   },
   list: {
     type: Array as PropType<Indexable[]>,
     default: function () {
-      return [];
+      return []
     }
   }
-});
-const emit = defineEmits(['command']);
+})
+const emit = defineEmits(['command'])
 </script>
 
 <style lang="scss">

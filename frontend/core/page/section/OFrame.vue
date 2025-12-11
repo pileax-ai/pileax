@@ -14,18 +14,18 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref} from 'vue'
 const props = defineProps({
   src: {
     type: String,
     default: ''
   }
-});
+})
 
-const loading = ref(true);
+const loading = ref(true)
 
 function onLoad() {
-  loading.value = false;
+  loading.value = false
 }
 </script>
 
