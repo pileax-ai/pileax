@@ -119,9 +119,11 @@ function onAdd(item :any) {
 function onRemove(item :any) {
   const idx = enabledServices.value.findIndex(s => s.value === item.value);
   if (idx >= 0) {
-    props.main
-      ? mainService.value.splice(idx, 1)
-      : secondaryService.value.splice(idx, 1);
+    if (props.main) {
+      mainService.value.splice(idx, 1);
+    } else {
+      secondaryService.value.splice(idx, 1);
+    }
     emit('remove');
   }
 }
