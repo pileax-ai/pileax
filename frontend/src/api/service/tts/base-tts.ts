@@ -21,7 +21,7 @@ export type TTSClientEventHandler<K extends TTSClientEvent> =
 
 export abstract class BaseTTSClient implements TTSClient {
   public options: TTSOptions;
-  public state: 'idle' | 'playing' | 'paused' | 'stopped' = 'idle';
+  public state: 'idle' | 'playing' | 'paused' | 'stopped' | 'disposed' = 'idle';
 
   protected getText!: () => Promise<string>;
   protected getResumeText!: () => Promise<string>;
@@ -139,7 +139,7 @@ export abstract class BaseTTSClient implements TTSClient {
 
   abstract speak(text: string): Promise<void>;
   abstract preload(text: string): Promise<void>;
-  abstract stop(reset = true): Promise<void>;
+  abstract stop(reset: boolean): Promise<void>;
   abstract pause(): Promise<void>;
   abstract resume(): Promise<void>;
   abstract updateOptions(options: TTSOptions): Promise<TTSOptions>;
@@ -147,7 +147,7 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async prev(): Promise<void> {
     try {
-      await this.stop();
+      await this.stop(true);
       const text = await this.getPrevText();
       await this.playContinuous(text);
     } catch (err) {
@@ -157,7 +157,7 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async next(): Promise<void> {
     try {
-      await this.stop();
+      await this.stop(true);
 
       const text = await this.getNextText(true);
       await this.playContinuous(text);
@@ -168,7 +168,7 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async restart(): Promise<void> {
     try {
-      await this.stop();
+      await this.stop(true);
       const text = await this.getText();
       await this.playContinuous(text);
     } catch (err) {

@@ -35,8 +35,8 @@ export const stopPageLoading = async (store: any) => {
   LoadingBar.stop();
 }
 
-export const setPageLoading = (store: any, value :boolean) => {
+export const setPageLoading = async (store: any, value :boolean) => {
   const pageLoading = store.setting.pageLoading;
   pageLoading.loading = value;
-  store.setPageLoading(pageLoading);
+  await store.setPageLoading(pageLoading);
 }

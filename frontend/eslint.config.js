@@ -80,8 +80,6 @@ export default defineConfigWithVueTs(
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
       // PileaX
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/await-thenable': 'off',
       '@typescript-eslint/consistent-type-imports': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
@@ -92,7 +90,6 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/prefer-promise-reject-errors': 'off',
       '@typescript-eslint/require-await': 'off',
-      'no-unused-private-class-members': 'off',
       'vue/block-lang': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/no-v-text-v-html-on-component': 'off',

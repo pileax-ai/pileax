@@ -80,7 +80,7 @@ export class BrowserTTSClient extends BaseTTSClient {
     if (!this.synthesis.speaking && !this.synthesis.pending) {
       this.playResume();
     } else {
-      await this.synthesis.resume();
+      this.synthesis.resume();
     }
     return Promise.resolve();
   }
@@ -98,7 +98,7 @@ export class BrowserTTSClient extends BaseTTSClient {
 
   async dispose(): Promise<void> {
     this.state = 'disposed';
-    await this.synthesis.cancel();
+    this.synthesis.cancel();
     this.utterance = null;
     return Promise.resolve();
   }
@@ -136,9 +136,9 @@ export class BrowserTTSClient extends BaseTTSClient {
     // utterance
     const u = new SpeechSynthesisUtterance(text);
     u.lang = this.options.lang || 'en-US';
-    u.rate = this.options.rate || 1;
-    u.pitch = this.options.pitch || 1;
-    u.volume = Math.min(Math.max(this.options.volume ?? 1, 0), 1);
+    u.rate = parseFloat(this.options.rate || '1');
+    u.pitch = parseFloat(this.options.pitch || '1');
+    u.volume = Math.min(Math.max(parseFloat(this.options.volume ?? '1'), 0), 1);
     if (voice) u.voice = voice;
 
     return u;
@@ -146,7 +146,7 @@ export class BrowserTTSClient extends BaseTTSClient {
 
   private async applyOptions() {
     if (this.synthesis.speaking && this.utterance) {
-      await this.synthesis.cancel();
+      this.synthesis.cancel();
       const currentText = this.utterance?.text;
       if (currentText) {
         await this.speak(currentText);
