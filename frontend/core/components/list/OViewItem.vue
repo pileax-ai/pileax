@@ -9,7 +9,7 @@
       </section>
     </q-item-section>
     <q-item-section :align="align">
-      <q-item-label :lines="lines">
+      <q-item-label class="value" :lines="lines">
         <slot name="value"></slot>
         <a :href="linkUrl" target="_blank" v-if="link">
           <span>{{value}}</span>

@@ -95,6 +95,7 @@ function onDetails(item: any, cover: string) {
 }
 
 function onClose() {
+  query.value.onQuery();
   query.value.closeSide();
 }
 

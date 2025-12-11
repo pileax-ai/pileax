@@ -24,7 +24,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['edit', 'close']);
 
-const { downloadBook, removeBook, updateBook, updateUserBook } = useBookDetails();
+const { downloadBook, removeBook, updateUserBook } = useBookDetails();
 const { openDialog } = useDialog();
 
 const actions = computed(() => {

@@ -105,7 +105,7 @@ export const isTokenNeedRefresh = (): boolean => {
 
 
 let lastRefreshTime = 0
-export const refreshTokenThrottle = throttle(() => {
+export const refreshTokenThrottle = () => {
   const now = Date.now()
   if (now - lastRefreshTime < 10 * 1000) {
     return
@@ -115,7 +115,7 @@ export const refreshTokenThrottle = throttle(() => {
   if (isTokenNeedRefresh()) {
     refreshToken()
   }
-}, 200)
+}
 
 export const refreshToken = (retry = false) => {
   console.log('Refresh token', retry)

@@ -89,7 +89,7 @@ function onClose(args: Indexable) {
 
 function openBook() {
   const item = props.data;
-  ipcService.openNewWindow(item.id, `/reader/book?id=${item.id}`,
+  ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
     READER_TITLE_BAR_HEIGHT);
 }
 

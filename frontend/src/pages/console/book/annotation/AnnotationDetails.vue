@@ -31,6 +31,7 @@
         <header class="title text-readable">{{data.bookTitle}}</header>
         <o-view-item label="章节" :value="data.chapter" align="right" lines="2" />
         <o-view-item label="时间" :value="timeMulti(data.createTime).timestamp" align="right" />
+        <o-view-item label="书摘" :value="data.note" class="q-mt-md annotation" align="right" copiable />
 
         <section class="note">
           <q-scroll-area>
@@ -55,9 +56,10 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import { timeMulti } from 'core/utils/format';
 import { ipcService } from 'src/api/ipc';
+import useBookAnnotation from 'src/hooks/useBookAnnotation'
 
 const props = defineProps({
   data: {
@@ -73,28 +75,12 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-const $q = useQuasar();
+const { removeBookAnnotation } = useBookAnnotation();
 
 const actions = computed(() => {
   return [
     {
-      label: 'Grid',
-      value: 'grid',
-      icon: 'grid_view',
-    },
-    {
-      label: 'List',
-      value: 'list',
-      icon: 'list',
-    },
-    {
-      label: 'Recent',
-      value: 'recent',
-      icon: 'schedule',
-      separator: true
-    },
-    {
-      label: 'Remove book',
+      label: 'Remove',
       value: 'remove',
       icon: 'delete',
     },
@@ -105,12 +91,22 @@ const actions = computed(() => {
 function onAction (action :any) {
   switch (action.value) {
     case 'remove':
+      onRemove();
       break;
     case 'title':
       break;
     default:
       break;
   }
+}
+
+function onRemove() {
+  removeBookAnnotation(props.data).then(res => {
+    emit('close', {
+      action: 'remove',
+      item: props.data
+    });
+  });
 }
 
 function openBook() {
@@ -158,10 +154,16 @@ function openBook() {
     .o-view-item {
       min-height: unset;
       padding: 4px 0;
+
+      &.annotation {
+        .value {
+          display: none;
+        }
+      }
     }
 
     .note {
-      margin-top: 16px;
+      margin-top: 0;
       font-size: 1.1rem;
       text-align: justify;
       .q-scrollarea {

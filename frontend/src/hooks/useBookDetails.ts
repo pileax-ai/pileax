@@ -46,7 +46,6 @@ export default function () {
         cancel: true
       }).onOk( () => {
         workspaceBookService.delete(book.id).then(res => {
-          console.log('remove', res)
           resolve(res)
         }).catch(err => {
           reject(err)
