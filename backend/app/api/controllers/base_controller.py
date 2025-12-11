@@ -63,7 +63,7 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return self.service.delete_by_owner(Owner(workspace_id=self.workspace_id, user_id=self.user_id), id)
 
     def query(self, query: PaginationQuery, filter_by_user=False, filter_by_workspace=True) -> Any:
-        if filter_by_user and query.condition.get('workspaceId') is None:
+        if filter_by_user and query.condition.get('userId') is None:
             query.condition['userId'] = self.user_id
 
         if filter_by_workspace and hasattr(self.model, 'workspace_id') and query.condition.get('workspaceId') is None:

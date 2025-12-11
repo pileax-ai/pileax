@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: 572100f11c82
+Revision ID: bd3304838664
 Revises:
-Create Date: 2025-12-10 17:58:21.922974
+Create Date: 2025-12-11 11:08:36.399876
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '572100f11c82'
+revision: str = 'bd3304838664'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -49,6 +49,7 @@ def upgrade() -> None:
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.Column('uuid', sqlmodel.sql.sqltypes.AutoString(length=64), nullable=False),
     sa.Column('title', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
+    sa.Column('title_pinyin', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('path', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('file_name', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('cover_name', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
@@ -278,7 +279,7 @@ def upgrade() -> None:
     sa.Column('user_id', app.api.models.base.UUIDString(length=36), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('workspace_id', 'book_id', name='unique_workspace_book')
+    sa.UniqueConstraint('workspace_id', 'book_id', 'user_id', name='unique_workspace_user_book')
     )
     op.create_table('workspace_book_collection',
     sa.Column('create_time', sqlmodel.sql.sqltypes.AutoString(), nullable=False, comment='Created time'),

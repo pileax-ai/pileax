@@ -45,7 +45,12 @@ def delete(id: UUID, controller: BookController = Depends()) -> Any:
 
 @router.api_post("/query", response_model=QueryResult[BookPublic])
 def query(query: PaginationQuery, controller: BookController = Depends()) -> Any:
-    return controller.query_by_tenant(query)
+    return controller.query(query)
+
+
+@router.api_post("/query/library", response_model=QueryResult[BookPublic])
+def query_library(query: PaginationQuery, controller: BookController = Depends()) -> Any:
+    return controller.query_library(query)
 
 
 @router.api_post("/upload", response_model=WorkspaceBookDetails)

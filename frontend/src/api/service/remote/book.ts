@@ -33,6 +33,10 @@ export class BookService extends BaseService {
       }
     })
   }
+
+  queryLibrary(body: Indexable): Promise<any> {
+    return POST({ name: this.apiName, path: '/query/library', body });
+  }
 }
 
 export const bookService = new BookService();

@@ -1,4 +1,4 @@
-from sqlalchemy import func, text
+from sqlalchemy import func, text, and_
 from sqlmodel import select
 from uuid import UUID
 
@@ -66,12 +66,20 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         # 2. stmt
         stmt = (select(WorkspaceBook, Book, UserBook)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
-            .join(UserBook, UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id, isouter=True)
+            .join(
+                UserBook,
+                and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
+                isouter=True
+            )
         )
         count_stmt = (select(func.count())
             .select_from(WorkspaceBook)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
-            .join(UserBook, UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id, isouter=True)
+            .join(
+                UserBook,
+                and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
+                isouter=True
+            )
         )
         if filters:
             stmt = stmt.where(*filters)

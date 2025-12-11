@@ -7,8 +7,9 @@ from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
-from app.api.models.book import Book, BookCreate, BookUpdate, BookDetails
+from app.api.models.book import Book, BookCreate, BookUpdate, BookDetails, BookPublic
 from app.api.models.file_meta import FileMetaCreate
+from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.book_service import BookService
@@ -67,3 +68,6 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         workspace_book = self.wb_controller.save(workspace_book_in)
 
         return WorkspaceBookRepository.build_details(workspace_book, book)
+
+    def query_library(self, query: PaginationQuery) -> QueryResult[BookPublic]:
+        return self.service.query_library(self.user_id, self.workspace_id, query)

@@ -1,10 +1,12 @@
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import select, func, or_
 
-from app.api.models.book import Book
+from app.api.models.book import Book, BookPublic
+from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user_book import UserBook
 from app.api.repos.base_repository import BaseRepository
+from app.libs.db_helper import DbHelper
 
 
 class BookRepository(BaseRepository[Book]):
@@ -25,6 +27,38 @@ class BookRepository(BaseRepository[Book]):
             book, user_book = result
             return self.build_details(book, user_book)
         return None
+
+    def query_library(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
+        # 1. Basic Filter
+        filters = DbHelper.get_filters(Book, query.condition)
+        filters.append(
+            or_(Book.user_id == user_id, Book.workspace_id == workspace_id)
+        )
+
+        # 2. stmt
+        stmt = select(Book)
+        count_stmt = select(func.count()).select_from(Book)
+        if filters:
+            stmt = stmt.where(*filters)
+            count_stmt = count_stmt.where(*filters)
+
+        # 3. Sort
+        stmt = DbHelper.apply_sort(stmt, [Book], query.sort)
+
+        # 4. Pagination
+        stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
+
+        # 5. Query
+        total = self.session.exec(count_stmt).one()
+        # rows = self.session.exec(stmt).all()
+        rows = [row[0] for row in self.session.exec(stmt).all()]
+
+        return QueryResult[BookPublic](
+            total=total[0],
+            list=rows,
+            pageSize=query.pageSize,
+            pageIndex=query.pageIndex,
+        )
 
 
     @staticmethod

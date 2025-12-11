@@ -162,7 +162,7 @@ function doQuery() {
     sort: orderBy.value
   };
 
-  bookService.query(query).then(res => {
+  bookService.queryLibrary(query).then(res => {
     console.log('res', res)
     rows.value = res.list;
   });
