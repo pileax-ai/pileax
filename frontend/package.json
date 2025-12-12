@@ -21,7 +21,8 @@
     "build:electron:win": "node_modules/.bin/electron-rebuild && quasar build -m electron --target=win",
     "build:electron:analyze": "export analyze=true && node_modules/.bin/electron-rebuild && quasar build -m electron",
     "build:tauri": "cd src-tauri && yarn tauri build",
-    "postinstall": "quasar prepare"
+    "postinstall": "quasar prepare",
+    "translate": "node src/i18n/generate/index.js"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
@@ -45,6 +46,7 @@
     "fs-extra": "^11.3.0",
     "get-port": "^7.1.0",
     "html2canvas": "^1.4.1",
+    "http-proxy-agent": "^7.0.2",
     "jwt-decode": "^4.0.0",
     "katex": "^0.16.25",
     "markdown-it": "^14.1.0",
@@ -74,9 +76,11 @@
     "@types/node": "^20.5.9",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
+    "@vitalets/google-translate-api": "^9.2.1",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.4.0",
     "autoprefixer": "^10.4.2",
+    "bing-translate-api": "^4.2.0",
     "electron": "^34.2.0",
     "electron-builder": "^24.3.0",
     "electron-rebuild": "^3.2.9",
@@ -85,6 +89,7 @@
     "eslint-plugin-vue": "^9.30.0",
     "globals": "^15.12.0",
     "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite-plugin-checker": "^0.9.0",
     "vite-plugin-svg-icons-ng": "^1.4.0",
