@@ -11,8 +11,9 @@
     </q-card-section>
     <q-card-section>
       <q-form class="o-form o-signin-form" @submit="onSubmit">
-        <o-field label="邮箱">
-          <q-input v-model="form.username" placeholder="邮箱"
+        <o-field :label="$t('labels.email')">
+          <q-input v-model="form.username"
+                   :placeholder="$t('labels.email')"
                    outlined dense
                    :rules="[val => !!val]">
             <template #prepend>
@@ -20,8 +21,9 @@
             </template>
           </q-input>
         </o-field>
-        <o-field label="密码">
-          <q-input v-model="form.password" placeholder="密码"
+        <o-field :label="$t('labels.password')">
+          <q-input v-model="form.password"
+                   :placeholder="$t('labels.password')"
                    :type="type"
                    autocomplete="current-password"
                    class="password"
@@ -38,19 +40,21 @@
             </template>
           </q-input>
         </o-field>
-        <q-checkbox v-model="remember" label="记住我" style="margin-top: -12px;" />
+        <q-checkbox v-model="remember"
+                    :label="$t('auth.remember-me')"
+                    style="margin-top: -12px;" />
 
         <q-btn type="submit" :label="$t('signin')" class="bg-primary text-white col-12" flat />
       </q-form>
     </q-card-section>
     <q-card-section class="footer">
       <div class="label">
-        <span class="text-tips">还没有账户？</span>
-        <q-btn to="/auth/signup" flat dense>注册</q-btn>
+        <span class="text-tips">{{ $t('auth.account-no') }}</span>
+        <q-btn to="/auth/signup" flat dense>{{ $t('signup') }}</q-btn>
       </div>
-      <div class="label">
-        <span class="text-tips">使用即代表您同意我们的</span>
-        <q-btn flat dense>使用协议 & 隐私政策</q-btn>
+      <div class="row label">
+        <span class="text-tips">{{ $t('auth.use-to-consent') }}</span>
+        <q-btn flat dense>{{ $t('terms.service') }} & {{ $t('terms.privacy') }}</q-btn>
       </div>
     </q-card-section>
   </q-card>
@@ -62,6 +66,7 @@ import { getItemObject, saveItemObject } from 'core/utils/storage'
 import { notifyError } from 'core/utils/control'
 import { useAccountStore } from 'stores/account'
 import { getErrorMessage } from 'src/utils/request'
+import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['success'])
 const type = ref<'text' | 'password'>('password')
@@ -71,6 +76,7 @@ const form = reactive({
   password: ''
 })
 
+const { t } = useCommon()
 const accountStore = useAccountStore()
 
 async function onSubmit () {
@@ -86,7 +92,7 @@ async function onSubmit () {
     }
   } catch (err) {
     const message = getErrorMessage(err)
-    notifyError(message)
+    notifyError(t(message))
   }
 }
 

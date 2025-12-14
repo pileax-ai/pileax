@@ -94,6 +94,24 @@
       "tab": "标签页"
     }
   },
+  "auth": {
+    "remember-me": "记住我",
+    "account-no": "还没有账户？",
+    "account-already": "已有账户？",
+    "use-to-consent": "使用即代表您同意我们的",
+    "signin": {
+      "incorrect": "邮箱或密码不正确"
+    },
+    "signup": {
+      "email-error": "请输入正确邮箱",
+      "email-hint": "用于登录",
+      "email-used": "邮箱已占用，请使用其它邮箱",
+      "name-error": "请输入正确名称",
+      "password-error": "请输入正确密码",
+      "confirm-password": "重复密码",
+      "confirm-password-error": "两次密码不匹配"
+    }
+  },
   "back.home": "返回首页",
   "balance": "余额",
   "books": {
@@ -156,7 +174,8 @@
     "model": "模型",
     "config": "配置",
     "required": "必填",
-    "version": "版本"
+    "version": "版本",
+    "password": "密码"
   },
 
   "language": "语言",

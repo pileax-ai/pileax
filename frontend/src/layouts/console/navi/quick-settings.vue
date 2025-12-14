@@ -103,6 +103,8 @@ import useSetting from 'core/hooks/useSetting'
 import useAccount from 'src/hooks/useAccount'
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
+import { openURL } from 'quasar'
+import { APP_DOC_URL } from 'src/app/app'
 
 const props = defineProps({
   type: {
@@ -183,6 +185,7 @@ const onAction = (action: Indexable) => {
       openDialog({type: 'settings', tab: action.value})
       break
     case 'help':
+      openURL(APP_DOC_URL)
       break
     case 'logout':
       logout()

@@ -94,6 +94,24 @@
       "tab": "Tab"
     }
   },
+  "auth": {
+    "remember-me": "Remember me",
+    "account-no": "Don't have an account?",
+    "account-already": "Already have an account?",
+    "use-to-consent": "Use constitutes your consent to our",
+    "signin": {
+      "incorrect": "Incorrect email or password."
+    },
+    "signup": {
+      "email-error": "Please enter correct email",
+      "email-hint": "Use to signin",
+      "email-used": "This email has been used. Please enter a new one.",
+      "name-error": "Please enter correct name",
+      "password-error": "Please enter correct password",
+      "confirm-password": "Confirm password",
+      "confirm-password-error": "Passwords do not match"
+    }
+  },
   "back.home": "Return to Home",
   "balance": "Balance",
   "books": {
@@ -156,7 +174,8 @@
     "model": "Model",
     "config": "Config",
     "required": "Required",
-    "version": "Version"
+    "version": "Version",
+    "password": "Password"
   },
   "language": "Language",
   "last30Days": "Within 30 days",

@@ -11,37 +11,38 @@
     </q-card-section>
     <q-card-section>
       <q-form class="o-form o-signin-form text-readable" @submit="onSubmit">
-        <o-field label="邮箱">
-          <q-input v-model="form.email" placeholder="邮箱"
+        <o-field :label="$t('labels.email')">
+          <q-input v-model="form.email"
+                   :placeholder="$t('labels.email')"
                    autocomplete="email"
                    outlined dense
                    :error="v$.email.$errors.length > 0"
-                   error-message="请输入正确邮箱"
-                   hint="用于登录">
+                   :error-message="$t('auth.signup.email-error')"
+                   :hint="$t('auth.signup.email-hint')">
             <template #prepend>
               <q-icon name="mail_outline" />
             </template>
           </q-input>
         </o-field>
-        <o-field label="名称">
-          <q-input v-model="form.name" placeholder="名称"
+        <o-field :label="$t('labels.name')">
+          <q-input v-model="form.name" :placeholder="$t('labels.name')"
                    autocomplete="name"
                    outlined dense
                    :error="v$.name.$errors.length > 0"
-                   error-message="请输入名称">
+                   :error-message="$t('auth.signup.name-error')">
             <template #prepend>
               <q-icon name="person_outline" />
             </template>
           </q-input>
         </o-field>
-        <o-field label="密码">
-          <q-input v-model="form.password" placeholder="密码"
+        <o-field :label="$t('labels.password')">
+          <q-input v-model="form.password" :placeholder="$t('labels.password')"
                    :type="type"
                    autocomplete="new-password"
                    class="password"
                    outlined dense
                    :error="v$.password.$errors.length > 0"
-                   error-message="请输入正确密码">
+                   :error-message="$t('auth.signup.password-error')">
             <template #prepend>
               <q-icon name="lock_outline" />
             </template>
@@ -53,13 +54,14 @@
             </template>
           </q-input>
         </o-field>
-        <o-field label="重复密码">
-          <q-input v-model="form.confirmPassword" placeholder="重复密码"
+        <o-field :label="$t('auth.signup.confirm-password')">
+          <q-input v-model="form.confirmPassword"
+                   :placeholder="$t('auth.signup.confirm-password')"
                    :type="type"
                    class="password"
                    outlined dense
                    :error="v$.confirmPassword.$errors.length > 0"
-                   error-message="两次密码不一致">
+                   :error-message="$t('auth.signup.confirm-password-error')">
             <template #prepend>
               <q-icon name="lock_outline" />
             </template>
@@ -72,18 +74,17 @@
           </q-input>
         </o-field>
 
-
         <q-btn type="submit" :label="$t('signup')" class="bg-primary text-white col-12" flat />
       </q-form>
     </q-card-section>
     <q-card-section class="footer">
       <div class="label">
-        <span class="text-tips">已有账户？</span>
-        <q-btn to="/auth/signin" flat dense>登录</q-btn>
+        <span class="text-tips">{{ $t('auth.account-already') }}</span>
+        <q-btn to="/auth/signin" flat dense>{{ $t('signin') }}</q-btn>
       </div>
       <div class="label">
-        <span class="text-tips">使用即代表您同意我们的</span>
-        <q-btn flat dense>使用协议 & 隐私政策</q-btn>
+        <span class="text-tips">{{ $t('auth.use-to-consent') }}</span>
+        <q-btn flat dense>{{ $t('terms.service') }} & {{ $t('terms.privacy') }}</q-btn>
       </div>
     </q-card-section>
   </q-card>
@@ -98,8 +99,11 @@ import { notifyError } from 'core/utils/control'
 import { useAccountStore } from 'stores/account'
 import type { Ref } from 'vue-demi'
 import { getErrorMessage } from 'src/utils/request'
+import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['success'])
+
+const { t } = useCommon()
 const accountStore = useAccountStore()
 const form = reactive({
   email: '',
@@ -136,7 +140,7 @@ async function onSubmit() {
   } catch (err) {
     let message = getErrorMessage(err)
     if (message.includes('UNIQUE constraint')) {
-      message = '邮箱已占用，请使用其它邮箱'
+      message = t('auth.signup.email-used')
     }
     notifyError(message)
   }

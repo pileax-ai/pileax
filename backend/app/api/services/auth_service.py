@@ -49,10 +49,10 @@ class AuthService:
         # user = self.session.exec(query).first()
         user = self.session.query(User).filter_by(email=data.email).first()
         if not user:
-            raise HTTPException(status_code=404, detail="Incorrect email or password.")
+            raise HTTPException(status_code=404, detail="auth.signin.incorrect")
 
         if user.password is None or not compare_password(data.password, user.password, user.password_salt):
-            raise HTTPException(status_code=403, detail="Incorrect email or password.")
+            raise HTTPException(status_code=403, detail="auth.signin.incorrect")
 
         return user
 
