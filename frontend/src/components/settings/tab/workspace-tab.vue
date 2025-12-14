@@ -1,6 +1,6 @@
 <template>
   <setting-card class="workspace-tab">
-    <o-common-card title="当前空间" small header padding>
+    <o-common-card :title="$t('workspaces.current')" small header padding>
       <section class="col-12">
         <q-list no-border link>
           <q-item class="profile">
@@ -18,7 +18,7 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label caption>Workspace Name</q-item-label>
+              <q-item-label caption>{{ $t('workspaces.name') }}</q-item-label>
               <q-item-label>
                 <q-input v-model="name" class="pi-field"
                          debounce="800"
@@ -31,9 +31,10 @@
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card title="管理空间" small header>
+    <o-common-card :title="$t('workspaces.admin')" small header>
       <template #right>
-        <q-btn icon="add" label="添加空间"
+        <q-btn icon="add"
+               :label="$t('workspaces.add')"
                class="bg-primary text-white"
                flat @click="onAddWorkspace()" />
       </template>
@@ -63,7 +64,7 @@
             <q-td :props="props">
               <q-btn color="primary" icon="edit" @click="onEditWorkspace(props.row)"
                      flat dense v-if="props.row.userId === account.id">
-                <o-tooltip :message="$t('edit')"/>
+                <o-tooltip :message="$t('actions.edit')"/>
               </q-btn>
             </q-td>
           </template>
@@ -93,16 +94,19 @@ import SettingCard from './setting-card.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import WorkspaceAdd from './workspace/WorkspaceAdd.vue'
 import { workspaceService } from 'src/api/service/remote/workspace'
-import { getArrayItem, WorkspaceTypes } from 'src/app/metadata'
 import { timeMulti } from 'core/utils/format'
 import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
+import useCommon from 'core/hooks/useCommon'
+import useMetadata from 'src/hooks/useMetadata'
 
+const { t } = useCommon()
 const { account, workspace, workspaces, initWorkspace, setWorkspace } = useAccount()
+const { getArrayItem, WorkspaceTypes } = useMetadata()
 const name = ref('')
 const avatar = ref('')
 const side = reactive<Indexable>({
   show: false,
-  title: 'Workspace',
+  title: t('workspace'),
   icon: 'workspaces',
   position: 'standard',
   style: {width: '30vw', minWidth: '600px'},
@@ -135,11 +139,11 @@ function updateCurrent(data: Indexable) {
 
 const columns = computed(() => {
   return [
-    { field: 'icon', label: '图标', align: 'left', name: 'icon' },
-    { field: 'name', label: '名称', align: 'left', name: 'name', classes: 'text-bold' },
-    { field: 'type', label: '类型', align: 'left', name: 'type' },
-    { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
-    { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 80px' }
+    { field: 'icon', label: t('labels.icon'), align: 'left', name: 'icon' },
+    { field: 'name', label: t('labels.name'), align: 'left', name: 'name', classes: 'text-bold' },
+    { field: 'type', label: t('labels.type'), align: 'left', name: 'type' },
+    { field: 'updateTime', label: t('labels.update-time'), align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
+    { field: 'actions', label: t('labels.actions'), name: 'actions', align: 'right', style: 'width: 80px' }
   ]
 })
 

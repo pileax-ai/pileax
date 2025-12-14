@@ -3,14 +3,14 @@
     <o-common-card small>
       <section class="col-12">
         <q-list no-border link>
-          <o-view-item label="名称" :value="appInfo.package.productName" />
-          <o-view-item label="版本" :value="appInfo.package.version" />
-          <o-view-item label="构建时间" :value="appInfo.build.time" />
+          <o-view-item :label="$t('labels.name')" :value="appInfo.package.productName" />
+          <o-view-item :label="$t('labels.version')" :value="appInfo.package.version" />
+          <o-view-item :label="$t('labels.build-time')" :value="appInfo.build.time" />
 
           <q-separator class="bg-accent q-my-md" />
 
-          <o-view-item label="首页" :value="APP_HOME_URL" :link="APP_HOME_URL" />
-          <o-view-item label="文档地址" :value="APP_DOC_URL" :link="APP_DOC_URL" />
+          <o-view-item :label="$t('home')" :value="APP_HOME_URL" :link="APP_HOME_URL" />
+          <o-view-item :label="$t('docs')" :value="APP_DOC_URL" :link="APP_DOC_URL" />
           <o-view-item label="Github" :value="APP_GITHUB_URL" :link="APP_GITHUB_URL" />
         </q-list>
       </section>

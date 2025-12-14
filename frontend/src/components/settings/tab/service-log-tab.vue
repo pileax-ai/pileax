@@ -66,7 +66,9 @@ const parseLine = (text: string) => {
   } as Indexable
 }
 
-const parseLog = (text: string) => {
+const parseLog = (text: any) => {
+  if (!text || typeof text !== 'string') return
+
   logLines.value = text.split('\n').map(line => {
     return parseLine(line)
   })

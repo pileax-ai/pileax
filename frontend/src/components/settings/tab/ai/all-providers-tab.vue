@@ -2,7 +2,8 @@
   <section class="all-providers-tab">
     <o-common-card small header v-if="addedProviders?.length">
       <template #header>
-        <q-icon name="tune"/>Added Providers
+        <q-icon name="tune"/>
+        {{ $t('ai.providers.added') }}
       </template>
       <section class="row col-12 q-col-gutter-lg">
         <template v-for="(item) in addedProviders" :key="`added-provider-${item.name}`">
@@ -20,12 +21,13 @@
 
     <o-common-card small header>
       <template #header>
-        <q-icon name="grid_view"/>Available Providers
+        <q-icon name="grid_view"/>
+        {{ $t('ai.providers.available') }}
       </template>
       <template #right>
         <q-input v-model="term"
                  class="pi-field"
-                 placeholder="Search"
+                 :placeholder="$t('labels.search')"
                  standout dense clearable>
           <template #prepend>
             <q-icon name="search" />
@@ -65,11 +67,11 @@ import AddedProviderCard from './children/AddedProviderCard.vue'
 import ProviderCard from './children/ProviderCard.vue'
 import ProviderApiKey from './children/ProviderApiKey.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
+import ONoData from 'core/components/misc/ONoData.vue'
 import { llmService } from 'src/api/service/remote/llm'
 import { providerService } from 'src/api/service/remote/provider'
 import { providerCredentialService } from 'src/api/service/remote/provider-credential'
 import { notifyDone } from 'core/utils/control'
-import ONoData from 'core/components/misc/ONoData.vue'
 
 const $q = useQuasar()
 const myProviders = ref<Indexable[]>()

@@ -16,7 +16,7 @@
         </q-item>
       </template>
       <template #right>
-        <q-btn icon="add" label="邀请成员"
+        <q-btn icon="add" :label="$t('workspaces.invites.member')"
                class="bg-primary text-white"
                flat @click="onInvite()" v-if="workspace.type === 'team'" />
       </template>
@@ -79,13 +79,21 @@ import SettingCard from './setting-card.vue'
 import { timeMulti } from 'core/utils/format'
 import WorkspaceMemberInvite from './workspace/WorkspaceMemberInvite.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
-import { getArrayItem, WorkspaceMemberRoles, WorkspaceMemberStatus, WorkspaceTypes } from 'src/app/metadata'
+import useMetadata from 'src/hooks/useMetadata'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { workspace } = useAccount()
+const {
+  getArrayItem,
+  WorkspaceMemberRoles,
+  WorkspaceMemberStatus,
+  WorkspaceTypes
+} = useMetadata()
 const rows = ref<Indexable[]>([])
 const side = reactive<Indexable>({
   show: false,
-  title: 'Invite member',
+  title: t('workspaces.invites.member'),
   icon: 'person_add',
   position: 'standard',
   style: {width: '30vw', minWidth: '600px'},
@@ -94,12 +102,12 @@ const side = reactive<Indexable>({
 
 const columns = computed(() => {
   return [
-    { field: 'userName', label: '名称', align: 'left', name: 'userName', classes: 'text-bold' },
-    { field: 'userEmail', label: '邮箱', align: 'left', name: 'userEmail' },
-    { field: 'role', label: '角色', align: 'left', name: 'role' },
-    { field: 'status', label: '状态', align: 'left', name: 'status' },
-    { field: 'updateTime', label: '更新时间', align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
-    { field: 'actions', label: '操作', name: 'actions', align: 'right', style: 'width: 80px' }
+    { field: 'userName', label: t('labels.name'), align: 'left', name: 'userName', classes: 'text-bold' },
+    { field: 'userEmail', label: t('labels.email'), align: 'left', name: 'userEmail' },
+    { field: 'role', label: t('labels.role'), align: 'left', name: 'role' },
+    { field: 'status', label: t('labels.status'), align: 'left', name: 'status' },
+    { field: 'updateTime', label: t('labels.update-time'), align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
+    { field: 'actions', label: t('labels.actions'), name: 'actions', align: 'right', style: 'width: 80px' }
   ]
 })
 

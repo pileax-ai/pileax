@@ -13,14 +13,14 @@
           </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <o-menu-btn :label="`配置 (${data.credentials?.length})`"
+          <o-menu-btn :label="`${$t('labels.config')} (${data.credentials?.length})`"
                       class="text-tips bg-dark"
                       menu-class="pi-menu"
                       icon="tune"
                       min-width="360px"
                       flat dropdown>
             <template #menu>
-              <q-item-label class="text-bold">API Keys</q-item-label>
+              <q-item-label class="text-bold">{{ $t('ai.providers.api.keys') }}</q-item-label>
               <template v-for="(item, index) in data.credentials" :key="index">
                 <o-common-item icon="vpn_key" right-side clickable closable
                                @click="emit('active-credential', item)">
@@ -41,7 +41,7 @@
               </template>
               <q-separator />
               <o-common-item icon="add"
-                             label="API Key"
+                             :label="$t('ai.providers.api.key')"
                              class="text-primary"
                              clickable closable
                              @click="emit('add')" />
@@ -60,7 +60,7 @@
     </q-card-section>
 
     <q-card-section class="row col-12 justify-between content">
-      <o-menu-btn :label="`模型 (${data.llm?.length})`"
+      <o-menu-btn :label="`${$t('labels.model')} (${data.llm?.length})`"
                   class="text-tips bg-dark"
                   menu-class="pi-menu added-provider-llm-menu"
                   self="top left"

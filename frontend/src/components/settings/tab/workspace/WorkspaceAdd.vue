@@ -3,12 +3,12 @@
                       :loading="loading"
                       @submit="onSubmit"
                       enable-actions>
-    <o-field label="Name" required>
-      <q-input v-model="form.name" placeholder="Name"
+    <o-field :label="$t('labels.name')" required>
+      <q-input v-model="form.name" :placeholder="$t('labels.name')"
                class="pi-field"
                standout dense clearable
                :error="v$.name.$errors.length > 0"
-               error-message="必填">
+               :error-message="$t('labels.required')">
         <template #prepend>
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" />
@@ -19,12 +19,12 @@
         </template>
       </q-input>
     </o-field>
-    <o-field label="类型" side required>
+    <o-field :label="$t('labels.type')" side required>
       <q-select v-model="form.type"
                 class="col-md-6 col-sm-12 col-xs-12"
                 :options="WorkspaceTypes"
                 :error="v$.type.$errors.length > 0"
-                error-message="必填"
+                :error-message="$t('labels.required')"
                 map-options
                 emit-value
                 standout dense readonly />
@@ -39,18 +39,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue'
+import { onMounted } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
-import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
-import { ConnectionStatus, getArrayItem, WorkspaceTypes } from 'src/app/metadata'
 import { notifyWarning } from 'core/utils/control'
 import useForm from 'src/hooks/useForm'
 import { getErrorMessage } from 'src/utils/request'
 import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
+import useMetadata from 'src/hooks/useMetadata'
 
 const apiName = 'workspace'
 const props = defineProps({
@@ -60,6 +59,9 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['success'])
+
+
+const { getArrayItem, WorkspaceTypes } = useMetadata()
 const { form, loading, actions } = useForm()
 
 const rules = {

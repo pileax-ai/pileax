@@ -2,20 +2,20 @@
   <o-simple-form-page class="workspace-member-invite"
                       :loading="loading"
                       @submit="onSubmit" enable-actions>
-    <o-field label="Email" required>
-      <q-input v-model="form.email" placeholder="Email"
+    <o-field :label="$t('labels.email')" required>
+      <q-input v-model="form.email" :placeholder="$t('labels.email')"
                class="pi-field"
                standout dense clearable
                :error="v$.email.$errors.length > 0"
-               error-message="必填">
+               :error-message="$t('label.required')">
       </q-input>
     </o-field>
-    <o-field label="角色" required>
+    <o-field :label="$t('labels.role')" required>
       <q-select v-model="form.role"
                 class="pi-field"
                 :options="WorkspaceMemberRoles.filter(item => item.value !== 'owner')"
                 :error="v$.role.$errors.length > 0"
-                error-message="必填"
+                :error-message="$t('label.required')"
                 map-options
                 emit-value
                 standout dense />
@@ -23,23 +23,22 @@
 
     <template #control>
       <footer class="row col-12 items-center justify-center bg-accent text-tips">
-        Invite new members to join your workspace.
+        {{ $t('workspaces.invites.tips') }}
       </footer>
     </template>
   </o-simple-form-page>
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue'
+import { onMounted } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
-import { GET } from 'src/hooks/useRequest'
-import { ConnectionStatus, getArrayItem, WorkspaceMemberRoles, WorkspaceTypes } from 'src/app/metadata'
 import { notifyWarning } from 'core/utils/control'
 import useForm from 'src/hooks/useForm'
 import { getErrorMessage } from 'src/utils/request'
+import useMetadata from 'src/hooks/useMetadata'
 
 const apiName = 'workspaceMember'
 const props = defineProps({
@@ -49,6 +48,8 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['success'])
+
+const { WorkspaceMemberRoles, } = useMetadata()
 const { form, loading, actions } = useForm()
 
 const rules = {
@@ -76,13 +77,9 @@ function onSubmit () {
       emit('success')
     },
     (err) => {
-      if (err.response.status === 403) {
-        notifyWarning('API Key 无效')
-      } else {
-        const message = getErrorMessage(err)
-        notifyWarning(message)
-        console.error(err)
-      }
+      const message = getErrorMessage(err)
+      notifyWarning(message)
+      console.error(err)
     }
   )
 }

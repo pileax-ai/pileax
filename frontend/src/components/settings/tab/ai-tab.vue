@@ -32,13 +32,15 @@ import { computed, ref } from 'vue'
 import SettingCard from './setting-card.vue'
 import AllProvidersTab from './ai/all-providers-tab.vue'
 import SystemProvidersTab from './ai/system-providers-tab.vue'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const currentTab = ref('model-providers')
 
 const tabs = computed(() => {
   return [
-    { label: 'Model Providers', value: 'model-providers', component: AllProvidersTab },
-    { label: 'System Settings', value: 'system-settings', component: SystemProvidersTab },
+    { label: t('ai.providers.title'), value: 'model-providers', component: AllProvidersTab },
+    { label: t('ai.models.system'), value: 'system-settings', component: SystemProvidersTab },
   ]
 })
 </script>

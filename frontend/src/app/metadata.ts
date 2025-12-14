@@ -39,23 +39,3 @@ export const RefTypes = [
   { label: '未知', value: '', color: 'grey', icon: 'description' },
   { label: '图书', value: 'book', color: 'blue', icon: 'book' },
 ]
-
-export const WorkspaceTypes = [
-  { label: '个人', value: 'personal', color: 'blue' },
-  { label: '团队', value: 'team', color: 'indigo' },
-]
-
-export const WorkspaceMemberRoles = [
-  { label: '拥有者', value: 'owner', color: 'purple' },
-  { label: '管理员', value: 'admin', color: 'indigo' },
-  { label: '编辑', value: 'editor', color: 'cyan' },
-  { label: '普通', value: 'normal', color: 'blue' },
-]
-
-export const WorkspaceMemberStatus = [
-  { label: '禁用', value: -1, color: 'red' },
-  { label: '邀请中', value: 0, color: 'amber' },
-  { label: '正常', value: 1, color: 'green' },
-]
-
-

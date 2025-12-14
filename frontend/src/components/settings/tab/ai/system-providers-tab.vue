@@ -3,41 +3,57 @@
     <o-common-card small>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item icon="mdi-creation" label="Chat and Reasoning Model (LLM)"
-                         sublabel="设置默认的AI大模型提供商"
+          <o-common-item icon="mdi-creation"
+                         :label="$t('ai.models.chat-model')"
+                         :sublabel="$t('ai.models.chat-tips')"
                          size="4rem"
                          class="text-primary">
             <div class="row items-center">
-              <o-ai-model-select-btn icon="mdi-creation" label="LLM" type="chat"
+              <o-ai-model-select-btn icon="mdi-creation"
+                                     :label="$t('ai.models.chat')"
+                                     type="chat"
                                      :models="models">
               </o-ai-model-select-btn>
             </div>
           </o-common-item>
-          <o-common-item icon="memory" label="Embedding Model">
+          <o-common-item icon="memory"
+                         :label="$t('ai.models.embedding-model')">
             <div class="row items-center">
-              <o-ai-model-select-btn icon="memory" label="Embedding" type="embedding"
+              <o-ai-model-select-btn icon="memory"
+                                     :label="$t('ai.models.embedding')"
+                                     type="embedding"
                                      :models="models" />
             </div>
           </o-common-item>
-          <o-common-item icon="vertical_split" label="Rerank Model">
+          <o-common-item icon="vertical_split"
+                         :label="$t('ai.models.rerank-model')">
             <div class="row items-center">
-              <o-ai-model-select-btn icon="vertical_split" label="Rerank" type="rerank"
+              <o-ai-model-select-btn icon="vertical_split"
+                                     :label="$t('ai.models.rerank')"
+                                     type="rerank"
                                      :models="models" />
             </div>
           </o-common-item>
-          <o-common-item icon="volume_up" label="Speech-to-Text Model">
+          <o-common-item icon="volume_up"
+                         :label="$t('ai.models.stt-model')">
             <div class="row items-center">
-              <o-ai-model-select-btn icon="volume_up" label="Speech-to-Text" type="speech2text"
+              <o-ai-model-select-btn icon="volume_up"
+                                     :label="$t('ai.models.stt')"
+                                     type="speech2text"
                                      :models="models" />
             </div>
           </o-common-item>
-          <o-common-item icon="graphic_eq" label="Text-to-Speech Model (TTS)">
+          <o-common-item icon="graphic_eq"
+                         :label="$t('ai.models.tts-model')">
             <div class="row items-center">
-              <o-ai-model-select-btn icon="graphic_eq" label="Text-to-Speech" type="tts"
+              <o-ai-model-select-btn icon="graphic_eq"
+                                     :label="$t('ai.models.tts')"
+                                     type="tts"
                                      :models="models" />
             </div>
           </o-common-item>
-          <o-common-item icon="rotate_right" label="向量数据库" />
+          <o-common-item icon="rotate_right"
+                         :label="$t('ai.models.vector')" />
         </q-list>
       </section>
     </o-common-card>

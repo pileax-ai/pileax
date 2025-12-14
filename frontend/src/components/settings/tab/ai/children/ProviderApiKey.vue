@@ -3,20 +3,20 @@
                       :loading="loading"
                       @submit="onSubmit"
                       enable-actions>
-    <o-field label="Name" required>
-      <q-input v-model="form.name" placeholder="Name"
+    <o-field :label="$t('labels.name')" required>
+      <q-input v-model="form.name" :placeholder="$t('labels.name')"
                class="pi-field"
                standout dense clearable
                :error="v$.name.$errors.length > 0"
-               error-message="必填" />
+               :error-message="$t('labels.required')" />
     </o-field>
-    <o-field label="API Key" required>
-      <q-input v-model="form.apiKey" placeholder="API Key"
+    <o-field :label="$t('ai.providers.api.key')" required>
+      <q-input v-model="form.apiKey" :placeholder="$t('ai.providers.api.key')"
                :type="isPwd ? 'password' : 'text'"
                class="pi-field"
                standout dense clearable
                :error="v$.apiKey.$errors.length > 0"
-               error-message="必填">
+               :error-message="$t('labels.required')">
         <template v-slot:append>
           <q-icon
             :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -26,29 +26,21 @@
         </template>
       </q-input>
     </o-field>
-    <o-field label="Custom API endpoint URL">
-      <q-input v-model="form.baseUrl" placeholder="API Base URL"
+    <o-field :label="$t('ai.providers.api.base-url')">
+      <q-input v-model="form.baseUrl" :placeholder="$t('ai.providers.api.base-url-placeholder')"
                class="pi-field"
                standout dense clearable />
     </o-field>
 
-    <section class="row col-12 justify-between connection" v-if="testable">
-      <q-btn label="测试连通性" class="bg-cyan text-white" flat
-             :loading="testing"
-             @click="getModels" />
-      <div>
-        <o-badge v-bind="getArrayItem(ConnectionStatus, `${connectionStatus}`)" />
-      </div>
-    </section>
     <section class="row col-12 justify-center link">
       <o-link class="text-primary" :link="data.apikey_url">
-        Get your API Key from {{ data.name }}
+        {{ $t('ai.providers.api.base-url-get', {name: data.name}) }}
       </o-link>
     </section>
 
     <template #control>
       <footer class="row col-12 items-center justify-center bg-accent text-tips">
-        Your API KEY will be encrypted and stored using PKCS1_OAEP technology.
+        {{ $t('ai.providers.api.key-tips') }}
       </footer>
     </template>
   </o-simple-form-page>
@@ -61,12 +53,11 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
-import OBadge from 'core/components/misc/OBadge.vue'
 import { GET } from 'src/hooks/useRequest'
-import { ConnectionStatus, getArrayItem } from 'src/app/metadata'
 import { notifyWarning } from 'core/utils/control'
 import useForm from 'src/hooks/useForm'
 import { getErrorMessage } from 'src/utils/request'
+import useCommon from 'core/hooks/useCommon'
 
 const apiName = 'providerCredential'
 const props = defineProps({
@@ -80,14 +71,11 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['success'])
+
+const { t } = useCommon()
 const { form, loading, actions } = useForm()
 
 const isPwd = ref(true)
-const models = ref<Indexable[]>([])
-const testable = ref(false)
-const testing = ref(false)
-const connectionStatus = ref(0)
-
 const rules = {
   name: { required },
   apiKey: { required },
@@ -126,7 +114,7 @@ function onSubmit () {
     },
     (err) => {
       if (err.response.status === 403) {
-        notifyWarning('API Key 无效')
+        notifyWarning(t('ai.providers.api.key-invalid'))
       } else {
         const message = getErrorMessage(err)
         notifyWarning(message)
@@ -134,20 +122,6 @@ function onSubmit () {
       }
     }
   )
-}
-
-function getModels() {
-  const query = { provider: props.data.name }
-  testing.value = true
-  GET({ name: 'aiProvider', path: '/models', query: query }).then(res => {
-    models.value = res as Indexable[]
-    connectionStatus.value = 1
-    testing.value = false
-  }).catch(err => {
-    connectionStatus.value = -1
-    testing.value = false
-    notifyWarning('当前大模型无法连通，请检查配置！')
-  })
 }
 
 onMounted(() => {

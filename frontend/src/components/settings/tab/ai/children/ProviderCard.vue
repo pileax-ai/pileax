@@ -31,7 +31,7 @@
 
     <div class="row justify-center actions">
       <section class="text-tips">
-        <q-btn icon="add" label="添加" class="bg-primary text-white"
+        <q-btn icon="add" :label="$t('actions.add')" class="bg-primary text-white"
                flat @click="emit('add')" />
       </section>
     </div>

@@ -20,13 +20,15 @@
                     active-color="primary"
                     class="text-info">
               <template v-for="(item, index) of tabs" :key="index">
-                <div class="text-tips group" v-if="item.group">
-                  {{item.group}}
-                </div>
-                <q-tab class="o-navi-tab"
-                       :name="item.value"
-                       :icon="item.icon"
-                       :label="item.label" />
+                <template v-if="item.show">
+                  <div class="text-tips group" v-if="item.group">
+                    {{item.group}}
+                  </div>
+                  <q-tab class="o-navi-tab"
+                         :name="item.value"
+                         :icon="item.icon"
+                         :label="item.label" />
+                </template>
               </template>
             </q-tabs>
           </nav>
@@ -55,9 +57,11 @@
               <q-scroll-area ref="scrollRef" class="o-scroll-wrapper">
                 <q-tab-panels v-model="currentTab" class="fit col-12" vertical keep-alive>
                   <template v-for="(item, index) of tabs" :key="index">
-                    <q-tab-panel :name="item.value">
-                      <component :is="item.component" />
-                    </q-tab-panel>
+                    <template v-if="item.show">
+                      <q-tab-panel :name="item.value">
+                        <component :is="item.component" />
+                      </q-tab-panel>
+                    </template>
                   </template>
                 </q-tab-panels>
               </q-scroll-area>
@@ -86,6 +90,7 @@ import UserLogTab from './tab/user-log-tab.vue'
 import WorkspaceTab from './tab/workspace-tab.vue'
 import WorkspaceMemberTab from './tab/workspace-member-tab.vue'
 import { QScrollArea } from 'quasar'
+import { ipcProvider } from 'src/api/ipc'
 
 
 const scrollRef = useTemplateRef<QScrollArea>('scrollRef')
@@ -125,21 +130,94 @@ const style = computed(() => {
       maxWidth: '1555px',
     }
 })
-
 const tabs = computed(() => {
   return [
-    { label: t('profile'), value: 'profile', icon: 'o_person', group: t('account'), component: ProfileTab },
-    { label: t('general'), value: 'general', icon: 'o_settings', component: GeneralTab },
-    { label: t('appearance'), value: 'appearance', icon: 'o_palette', component: AppearanceTab },
-    { label: t('reading'), value: 'reading', icon: 'o_chrome_reader_mode', component: ReadingTab },
-    { label: t('workspace'), value: 'workspace', icon: 'o_workspaces', group: t('workspace'), component: WorkspaceTab },
-    { label: t('workspaces.members'), value: 'workspace-member', icon: 'o_groups', component: WorkspaceMemberTab },
-    { label: t('ai.models.providers'), value: 'ai', icon: 'mdi-creation-outline', component: AiTab },
-    { label: t('systems.server.log'), value: 'log', icon: 'o_view_headline', group: t('system'), component: ServiceLogTab },
-    // { label: t('systems.user.log'), value: 'user-log', icon: 'o_article', component: UserLogTab },
-    { label: t('about'), value: 'about', icon: 'o_info', group: t('help'), component: AboutTab },
-    // { label: t('systems.shortcut'), value: 'shortcut', icon: 'o_keyboard', component: ShortcutTab },
-    { label: t('terms.privacy'), value: 'about', icon: 'o_policy', component: AboutTab },
+    {
+      label: t('profile'),
+      value: 'profile',
+      icon: 'o_person',
+      group: t('account'),
+      component: ProfileTab,
+      show: true,
+    },
+    {
+      label: t('general'),
+      value: 'general',
+      icon: 'o_settings',
+      component: GeneralTab,
+      show: true,
+    },
+    {
+      label: t('appearance'),
+      value: 'appearance',
+      icon: 'o_palette',
+      component: AppearanceTab,
+      show: true,
+    },
+    {
+      label: t('reading'),
+      value: 'reading',
+      icon: 'o_chrome_reader_mode',
+      component: ReadingTab,
+      show: true,
+    },
+    {
+      label: t('workspace'),
+      value: 'workspace',
+      icon: 'o_workspaces',
+      group: t('workspace'),
+      component: WorkspaceTab,
+      show: true,
+    },
+    {
+      label: t('workspaces.members'),
+      value: 'workspace-member',
+      icon: 'o_groups',
+      component: WorkspaceMemberTab,
+      show: true,
+    },
+    {
+      label: t('ai.providers.title'),
+      value: 'ai',
+      icon: 'mdi-creation-outline',
+      component: AiTab,
+      show: true,
+    },
+    {
+      label: t('systems.server.log'),
+      value: 'log',
+      icon: 'o_view_headline',
+      group: t('system'),
+      component: ServiceLogTab,
+      show: ipcProvider !== 'web',
+    },
+    // {
+    //   label: t('systems.user.log'),
+    //   value: 'user-log',
+    //   icon: 'o_article',
+    //   component: UserLogTab,
+    //   show: true,
+    // },
+    {
+      label: t('about'),
+      value: 'about',
+      icon: 'o_info',
+      group: t('help'),
+      component: AboutTab,
+      show: true,
+    },
+    // {
+    //   label: t('systems.shortcut'),
+    //   value: 'shortcut',
+    //   icon: 'o_keyboard',
+    //   component: ShortcutTab,
+    // },
+    // {
+    //   label: t('terms.privacy'),
+    //   value: 'about',
+    //   icon: 'o_policy',
+    //   component: AboutTab,
+    // },
   ]
 })
 
