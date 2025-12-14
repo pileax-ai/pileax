@@ -1,32 +1,32 @@
 <template>
-  <setting-card title="显示" class="appearance-tab">
-    <o-common-card :title="$t('theme')" small header padding>
+  <setting-card :title="$t('appearance')" class="appearance-tab">
+    <o-common-card :title="$t('appearances.theme')" small header padding>
       <section class="col-12">
         <q-list no-border link>
           <!-- Theme -->
-          <o-common-item :label="$t('theme')"
-                         sublabel="浅色或深色主题">
+          <o-common-item :label="$t('appearances.theme')"
+                         :sublabel="$t('appearances.theme-tips')">
             <theme-select class="row items-center" item-class="q-ml-md" />
           </o-common-item>
           <section class="sub-items">
-            <o-common-item label="主题色">
+            <o-common-item :label="$t('appearances.theme-color')">
               <theme-color-select class="row items-center" item-class="q-ml-md" />
             </o-common-item>
-            <o-common-item label="色弱模式">
+            <o-common-item :label="$t('appearances.modes.color-blind')">
               <q-toggle v-model="themeWeak" @update:model-value="setThemeWeak" />
             </o-common-item>
-            <o-common-item label="灰色模式">
+            <o-common-item :label="$t('appearances.modes.color-blind')">
               <q-toggle v-model="themeGray" @update:model-value="setThemeGray" />
             </o-common-item>
           </section>
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card title="布局" small header>
+    <o-common-card :title="$t('appearances.layout')" small header>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item label="导航"
-                         sublabel="页面导航布局">
+          <o-common-item :label="$t('appearances.layouts.navi')"
+                         :sublabel="$t('appearances.layouts.navi-tips')">
             <navi-select class="row items-center" item-class="q-ml-md" />
           </o-common-item>
         </q-list>

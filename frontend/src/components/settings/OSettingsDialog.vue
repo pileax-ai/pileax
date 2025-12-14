@@ -128,18 +128,18 @@ const style = computed(() => {
 
 const tabs = computed(() => {
   return [
-    { label: '个人资料', value: 'profile', icon: 'o_person', group: '账户', component: ProfileTab },
-    { label: '通用', value: 'general', icon: 'o_settings', component: GeneralTab },
-    { label: '外观', value: 'appearance', icon: 'o_palette', component: AppearanceTab },
-    { label: '阅读', value: 'reading', icon: 'o_chrome_reader_mode', component: ReadingTab },
-    { label: '空间', value: 'workspace', icon: 'o_workspaces', group: '空间', component: WorkspaceTab },
-    { label: '成员', value: 'workspace-member', icon: 'o_groups', component: WorkspaceMemberTab },
-    { label: 'AI模型提供商', value: 'ai', icon: 'mdi-creation-outline', component: AiTab },
-    { label: '服务日志', value: 'log', icon: 'o_view_headline', group: t('system'), component: ServiceLogTab },
-    // { label: '操作日志', value: 'user-log', icon: 'o_article', component: UserLogTab },
+    { label: t('profile'), value: 'profile', icon: 'o_person', group: t('account'), component: ProfileTab },
+    { label: t('general'), value: 'general', icon: 'o_settings', component: GeneralTab },
+    { label: t('appearance'), value: 'appearance', icon: 'o_palette', component: AppearanceTab },
+    { label: t('reading'), value: 'reading', icon: 'o_chrome_reader_mode', component: ReadingTab },
+    { label: t('workspace'), value: 'workspace', icon: 'o_workspaces', group: t('workspace'), component: WorkspaceTab },
+    { label: t('workspaces.members'), value: 'workspace-member', icon: 'o_groups', component: WorkspaceMemberTab },
+    { label: t('ai.models.providers'), value: 'ai', icon: 'mdi-creation-outline', component: AiTab },
+    { label: t('systems.server.log'), value: 'log', icon: 'o_view_headline', group: t('system'), component: ServiceLogTab },
+    // { label: t('systems.user.log'), value: 'user-log', icon: 'o_article', component: UserLogTab },
     { label: t('about'), value: 'about', icon: 'o_info', group: t('help'), component: AboutTab },
-    // { label: '快捷键', value: 'shortcut', icon: 'o_keyboard', component: ShortcutTab },
-    { label: '隐私政策', value: 'about', icon: 'o_policy', component: AboutTab },
+    // { label: t('systems.shortcut'), value: 'shortcut', icon: 'o_keyboard', component: ShortcutTab },
+    { label: t('terms.privacy'), value: 'about', icon: 'o_policy', component: AboutTab },
   ]
 })
 

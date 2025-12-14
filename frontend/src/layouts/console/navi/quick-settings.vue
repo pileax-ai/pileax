@@ -44,7 +44,7 @@
             </template>
 
             <o-common-item icon="o_workspaces"
-                           label="管理空间"
+                           :label="$t('workspaces.admin')"
                            clickable closable
                            right-side
                            @click="onAction({value: 'workspace'})" />
@@ -72,7 +72,7 @@
         <q-separator class="bg-dark" />
         <footer class="row col-12 items-center">
           <div class="col">
-            <o-common-item icon="logout" label="退出登录" clickable
+            <o-common-item icon="logout" :label="$t('signout')" clickable
                            @click="onAction({value: 'logout'})" />
           </div>
           <div class="col-auto">
@@ -94,6 +94,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import useSetting from 'core/hooks/useSetting'
 import useAccount from 'src/hooks/useAccount'
@@ -108,6 +109,7 @@ const props = defineProps({
 })
 
 const { account, workspace, workspaces, logout, initWorkspace, switchWorkspace } = useAccount()
+const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
 const offset = computed(() => {
@@ -117,50 +119,50 @@ const offset = computed(() => {
 const actions = computed(() => {
   return [
     {
-      label: "空间",
-      value: "workspace",
-      icon: "o_workspaces",
+      label: t('workspace'),
+      value: 'workspace',
+      icon: 'o_workspaces',
       sideIcon: 'chevron_right',
       separator: true,
     },
     {
-      label: "个人资料",
-      value: "profile",
-      icon: "o_account_circle",
+      label: t('profile'),
+      value: 'profile',
+      icon: 'o_account_circle',
       clickable: true,
       separator: true,
     },
     {
-      label: "设置",
-      value: "general",
-      icon: "o_settings",
-      sideLabel: "⌘G",
+      label: t('settings'),
+      value: 'general',
+      icon: 'o_settings',
+      sideLabel: '⌘G',
       clickable: true,
     },
     {
-      label: "AI配置",
-      value: "ai",
-      icon: "mdi-creation-outline",
+      label: t('ai.settings'),
+      value: 'ai',
+      icon: 'mdi-creation-outline',
       clickable: true,
     },
     {
-      label: "系统日志",
-      value: "log",
-      icon: "o_view_headline",
+      label: t('systems.log'),
+      value: 'log',
+      icon: 'o_view_headline',
       clickable: true,
       separator: true,
     },
     {
-      label: "帮助",
-      value: "help",
-      icon: "o_support",
-      sideIcon: "open_in_new",
+      label: t('help'),
+      value: 'help',
+      icon: 'o_support',
+      sideIcon: 'open_in_new',
       clickable: true,
     },
     {
-      label: "关于",
-      value: "about",
-      icon: "o_info",
+      label: t('about'),
+      value: 'about',
+      icon: 'o_info',
       clickable: true,
     },
   ]

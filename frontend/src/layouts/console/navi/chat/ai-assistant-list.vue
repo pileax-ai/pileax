@@ -1,9 +1,9 @@
 <template>
   <section class="ai-assistant-list fit" :style="`max-width: ${maxWidth}px`">
-    <q-expansion-item label="聊天助手"
+    <q-expansion-item :label="$t('chats.assistants')"
                       header-class="o-navi-item text-readable"
                       default-opened>
-      <q-btn icon="add" label="添加助手" class="bg-dark add" flat />
+      <q-btn icon="add" :label="$t('chats.assistant.add')" class="bg-dark add" flat />
     </q-expansion-item>
   </section>
 </template>

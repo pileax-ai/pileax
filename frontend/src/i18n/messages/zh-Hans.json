@@ -1,16 +1,87 @@
 {
   "about": "关于",
   "account": "账户",
+  "accounts": {
+    "name": "显示名称",
+    "security": {
+      "title": "安全",
+      "email": "邮箱",
+      "password": "密码",
+      "password_action": "修改密码",
+      "password_tips": "修改你的登录密码。",
+      "passkeys": "通行密钥",
+      "passkey_action": "添加通行密钥",
+      "passkey_tips": "通过设备端的生物识别进行安全登录。"
+    },
+    "user_id": "用户 ID"
+  },
+  "actions": {
+    "change": "更改"
+  },
   "address": "地址",
+  "ai": {
+    "agents": "AI 智能体",
+    "apps": "AI 应用",
+    "settings": "AI 设置",
+    "model": "AI 模型",
+    "models": {
+      "providers": "模型提供商"
+    }
+  },
+  "all": "全部",
   "app": {
     "description": "PileaX AI：一站式 AI 知识库系统",
     "name": "PileaX",
     "slogan": "一站式 AI 知识库"
   },
+  "appearance": "外观",
+  "appearances": {
+    "theme": "主题",
+    "theme-tips": "浅色或深色主题",
+    "themes": {
+      "dark": "夜间模式",
+      "light": "日间模式",
+      "system": "跟随系统"
+    },
+    "theme-color": "主题色",
+    "colors": {
+      "blue": "蓝色",
+      "indigo": "靛蓝",
+      "cyan": "青色",
+      "teal": "青绿",
+      "green": "绿色",
+      "deep-purple": "深紫色",
+      "red": "红色",
+      "deep-orange": "深橙色"
+    },
+    "modes": {
+      "color-blind": "色盲模式",
+      "grayscale": "灰度模式"
+    },
+    "layout": "布局",
+    "layouts": {
+      "navi": "导航",
+      "navi-tips": "导航布局",
+      "group": "分组",
+      "tab": "标签页"
+    }
+  },
   "back.home": "返回首页",
   "balance": "余额",
+  "books": {
+    "annotation": "书摘",
+    "collection": "书单",
+    "shelf": "书架"
+  },
   "cancel": "取消",
-  "chat": "对话",
+  "chat": "聊天",
+  "chats": {
+    "assistant": {
+      "add": "添加助手"
+    },
+    "assistants": "聊天助手",
+    "new": "新对话"
+  },
   "close": "关闭",
   "collapse": "折叠",
   "connect": "连接",
@@ -23,60 +94,92 @@
   "description": "描述",
   "details": "详情",
   "developer": "开发者",
-  "developer.doc": "开发者文档",
   "discover": "发现",
   "docs": "Docs",
-  "download": "立即下载",
+  "document": "文档",
+  "download": "下载",
   "edit": "编辑",
   "expand": "展开",
   "favorite": "收藏",
+  "file": "文件",
   "fullscreen": "全屏",
   "fullscreen.exit": "退出全屏",
+  "general": "通用",
   "help": "帮助",
-  "help.center": "帮助中心",
-  "help.faq": "FAQ",
+  "helps": {
+    "center": "帮助中心",
+    "faq": "常见问题"
+  },
   "home": "首页",
+  "image": "图片",
+  "knowledge": {
+    "base": "知识库"
+  },
   "language": "语言",
   "last30Days": "30天内",
   "last7Days": "7天内",
-  "layout": "布局",
+  "locales": {
+    "language_timezone": "语言 & 时区",
+    "language": "语言",
+    "language_tips": "更改用户界面使用的语言",
+    "timezone": "时区",
+    "timezone_tips": "当前的时区设置。"
+  },
   "me": "我的",
   "mode.dark": "夜间模式",
   "mode.light": "日间模式",
   "name": "名称",
-  "newChat": "新建对话",
   "note": "笔记",
   "ok": "确定",
   "profile": "账户详情",
   "qrcode": "二维码",
   "quickstart": "快速开始",
   "reading": "阅读",
+  "readings": {
+    "library": "书库",
+    "libraries": {
+      "location": "书库位置",
+      "location-tips": "书库的存储位置",
+      "locations": {
+        "current": "当前位置",
+        "new": "新位置",
+        "open": "使用已有的书库",
+        "create": "在新位置创建一个空的书库",
+        "move": "将当前书库移动到新位置",
+        "choose": "请选择位置"
+      }
+
+    },
+    "reader": "阅读器"
+  },
   "refresh": "刷新",
   "resource": "资源",
   "save": "保存",
   "settings": "设置",
   "signin": "登录",
+  "signout": "退出登录",
   "signup": "注册",
-  "star": "收藏",
   "starred.menu": "收藏",
   "submit": "提交",
   "symbol": "Symbol",
   "system": "系统",
-  "terms.privacy": "隐私政策",
-  "terms.service": "用户协议",
+  "systems": {
+    "log": "系统日志",
+    "security": "安全",
+    "shortcut": "快捷键",
+    "server": {
+      "info": "服务信息",
+      "log": "服务日志"
+    },
+    "user": {
+      "log": "操作日志"
+    }
+  },
+  "terms": {
+    "privacy": "隐私政策",
+    "service": "用户协议"
+  },
   "test": "测试",
-  "theme": "主题",
-  "theme.blue": "蓝色",
-  "theme.classic": "经典",
-  "theme.cyan": "蓝绿",
-  "theme.dark": "深色",
-  "theme.deep-orange": "橘色",
-  "theme.green": "绿色",
-  "theme.indigo": "靛蓝",
-  "theme.light": "浅色",
-  "theme.purple": "紫色",
-  "theme.red": "红色",
-  "theme.teal": "深蓝绿",
   "tips": "提示",
   "today": "今天",
   "toolkit": "工具箱",
@@ -86,5 +189,10 @@
   "update": "更新",
   "version": "版本",
   "welcome": "欢迎",
+  "workspace": "空间",
+  "workspaces": {
+    "admin": "空间管理",
+    "members": "成员"
+  },
   "yesterday": "昨天"
 }

@@ -11,7 +11,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const agent = new HttpProxyAgent('http://127.0.0.1:7890')
 
 const TRANSLATOR = 'bing'
-const BASE_LANG = 'zh-Hans'
+const BASE_LANG = 'en-US'
+const MANUAL_LANGS = ['en-US', 'zh-Hans', 'zh-Hant']
 const TARGET_LANGS = languages.filter(item => item.supported)
 const LOCALE_DIR = path.join(__dirname, '../messages')
 const META_DIR = path.join(__dirname, 'meta')
@@ -30,6 +31,7 @@ function loadBaseData() {
 function loadBaseMeta() {
   if (fs.existsSync(BASE_META_FILE)) {
     baseMeta = JSON.parse(fs.readFileSync(BASE_META_FILE, 'utf8'))
+    console.log('baseMeta', baseMeta)
   }
 }
 
@@ -58,11 +60,11 @@ function sortJsonKeys(jsonFile) {
   console.log('⛵ Sorted keys:', jsonFile)
 }
 
-function getLanguageKey(item) {
-  if (item.value === 'zh-Hans' || item.value === 'zh-Hant') {
-    return item.value
+function getLanguageKey(lang) {
+  if (lang === 'zh-Hans' || lang === 'zh-Hant') {
+    return lang
   } else {
-    return item.value.split('-')[0]
+    return lang.split('-')[0]
   }
 }
 
@@ -102,7 +104,11 @@ async function googleTranslate(text, lang) {
 
 async function bintTranslate(text, lang) {
   try {
-    const res = await bingTranslateApi.translate(text, BASE_LANG, getLanguageKey(lang))
+    const res = await bingTranslateApi.translate(
+      text,
+      getLanguageKey(BASE_LANG),
+      getLanguageKey(lang.value)
+    )
     return res.translation
   } catch (err) {
     console.error(`❌ Translation failed：`, err.message)
@@ -186,6 +192,14 @@ async function main() {
     const langMetaFile = path.join(META_DIR, `${lang.value}.meta.json`)
 
     console.log('==================================================')
+
+    if (MANUAL_LANGS.includes(lang.value)) {
+      console.log(`👉🏻 Translate manually → ${lang.value} | ${lang.prompt_name}`)
+      sortJsonKeys(langDataFile)
+      console.log('')
+      continue
+    }
+
     console.log(`🌍 Translating → ${lang.value} | ${lang.prompt_name}`)
 
     let targetObj = {}

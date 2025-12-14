@@ -8,7 +8,7 @@
                @click="setTheme(item.value)">
         </q-btn>
         <div class="text-center text-tips">
-          {{$t(`theme.${item.value}`)}}
+          {{$t(`appearances.themes.${item.value}`)}}
         </div>
       </div>
     </template>

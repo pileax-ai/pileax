@@ -1,18 +1,89 @@
 {
   "about": "About",
   "account": "Account",
+  "accounts": {
+    "name": "Display Name",
+    "security": {
+      "title": "Security",
+      "email": "Email",
+      "password": "Password",
+      "password_action": "Change Password",
+      "password_tips": "Change your login password.",
+      "passkeys": "Passkeys",
+      "passkey_action": "Add Passkey",
+      "passkey_tips": "Securely sign-in on-device biometric authentication."
+    },
+    "user_id": "User ID"
+  },
+  "actions": {
+    "change": "Change"
+  },
   "address": "Address",
+  "ai": {
+    "agents": "AI Agents",
+    "apps": "AI Apps",
+    "settings": "AI Settings",
+    "model": "AI Model",
+    "models": {
+      "providers": "Model Providers"
+    }
+  },
+  "all": "All",
   "app": {
     "description": "PileaX AI: One-Stop AI Knowledge Base System",
     "name": "PileaX",
     "slogan": "One-stop AI Knowledge Base"
   },
+  "appearance": "Appearance",
+  "appearances": {
+    "theme": "Theme",
+    "theme-tips": "Light or dark theme.",
+    "themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    },
+    "theme-color": "Theme Color",
+    "colors": {
+      "blue": "Blue",
+      "indigo": "Indigo",
+      "cyan": "Cyan",
+      "teal": "Teal",
+      "green": "Green",
+      "deep-purple": "Deep Purple",
+      "red": "Red",
+      "deep-orange": "Deep Orange"
+    },
+    "modes": {
+      "color-blind": "Color-blind Mode",
+      "grayscale": "Grayscale Mode"
+    },
+    "layout": "Layout",
+    "layouts": {
+      "navi": "Navigation",
+      "navi-tips": "Navigation layout",
+      "group": "Group",
+      "tab": "Tab"
+    }
+  },
   "back.home": "Return to Home",
   "balance": "Balance",
+  "books": {
+    "annotation": "Book Annotation",
+    "collection": "Book Collection",
+    "shelf": "Bookshelf"
+  },
   "cancel": "Cancel",
-  "chat": "Dialogue",
+  "chat": "Chat",
+  "chats": {
+    "assistant": {
+      "add": "Add assistant"
+    },
+    "assistants": "Chat Assistants",
+    "new": "New Chat"
+  },
   "close": "Close",
-  "collapse": "Fold",
+  "collapse": "Collapse",
   "connect": "Connect",
   "console": "Console",
   "copied": "Copied",
@@ -23,68 +94,102 @@
   "description": "Description",
   "details": "Details",
   "developer": "Developer",
-  "developer.doc": "Developer Documentation",
   "discover": "Discover",
   "docs": "Docs",
-  "download": "Download Now",
+  "document": "Document",
+  "download": "Download",
   "edit": "Edit",
   "expand": "Expand",
   "favorite": "Favorites",
+  "file": "File",
   "fullscreen": "Full Screen",
   "fullscreen.exit": "Exit Full Screen",
+  "general": "General",
   "help": "Help",
-  "help.center": "Help Center",
-  "help.faq": "FAQ",
+  "helps": {
+    "center": "Help Center",
+    "faq": "FAQ"
+  },
   "home": "Home",
+  "image": "Image",
+  "knowledge": {
+    "base": "Knowledge Base"
+  },
   "language": "Language",
   "last30Days": "Within 30 days",
   "last7Days": "Within 7 days",
-  "layout": "Layout",
+  "locales": {
+    "language_timezone": "Language & Timezone",
+    "language": "Language",
+    "language_tips": "Change the language used in user interface",
+    "timezone": "Timezone",
+    "timezone_tips": "Current timezone setting."
+  },
   "me": "My",
-  "mode.dark": "Night Mode",
-  "mode.light": "Day mode",
   "name": "Name",
-  "newChat": "New Conversation",
   "note": "Notes",
-  "ok": "Confirm",
-  "profile": "Account Details",
+  "ok": "Ok",
+  "profile": "Account Profile",
   "qrcode": "QR code",
   "quickstart": "Quick Start",
   "reading": "Reading",
+  "readings": {
+    "library": "Book Library",
+    "libraries": {
+      "location": "Library Location",
+      "location-tips": "The location of book library.",
+      "locations": {
+        "current": "Current location",
+        "new": "New location",
+        "open": "Use a existing library",
+        "create": "Create an empty library a the new location",
+        "move": "Move current library to new location",
+        "choose": "Please choose location"
+      }
+    },
+    "reader": "Reader"
+  },
   "refresh": "Refresh",
   "resource": "Resources",
   "save": "Save",
   "settings": "Settings",
-  "signin": "Login",
-  "signup": "Register",
+  "signin": "Signin",
+  "signout": "Sign out",
+  "signup": "Signup",
   "star": "Favorite",
-  "starred.menu": "Favorites",
   "submit": "Submit",
   "symbol": "Symbol",
   "system": "System",
-  "terms.privacy": "Privacy Policy",
-  "terms.service": "User Agreement",
+  "systems": {
+    "shortcut": "Shortcut",
+    "security": "Security",
+    "log": "System Log",
+    "server": {
+      "info": "Server Info",
+      "log": "Server Log"
+    },
+    "user": {
+      "log": "User Log"
+    }
+  },
+  "terms": {
+    "privacy": "Privacy Policy",
+    "service": "User Agreement"
+  },
   "test": "Test",
-  "theme": "Theme",
-  "theme.blue": "Blue",
-  "theme.classic": "Classic",
-  "theme.cyan": "Blue-green",
-  "theme.dark": "Dark",
-  "theme.deep-orange": "Orange",
-  "theme.green": "Green",
-  "theme.indigo": "Indigo",
-  "theme.light": "Light-colored",
-  "theme.purple": "Purple",
-  "theme.red": "Red",
-  "theme.teal": "Deep teal",
-  "tips": "Prompt",
+  "tips": "Tips",
   "today": "Today",
-  "toolkit": "Toolbox",
+  "toolkit": "Toolkit",
   "tray.openApp": "Open PileaX",
   "tray.quit": "Exit",
   "unstar": "Unfavorite",
   "update": "Update",
   "version": "Version",
   "welcome": "Welcome",
+  "workspace": "Workspace",
+  "workspaces": {
+    "admin": "Workspace Admin",
+    "members": "Members"
+  },
   "yesterday": "Yesterday"
 }

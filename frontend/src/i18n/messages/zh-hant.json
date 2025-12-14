@@ -2,6 +2,11 @@
   "about": "關於",
   "account": "帳戶",
   "address": "地址",
+  "ai": {
+    "agents": "AI 智能體",
+    "apps": "AI 應用"
+  },
+  "all": "全部",
   "app": {
     "description": "PileaX AI：一站式 AI 知識庫系統",
     "name": "PileaX",
@@ -12,8 +17,17 @@
   "app.slogan": "掌握投資先機，共享財富成長",
   "back.home": "返回首頁",
   "balance": "餘額",
+  "books": {
+    "annotation": "書摘",
+    "collection": "書單",
+    "shelf": "書架"
+  },
   "cancel": "取消",
   "chat": "對話",
+  "chats": {
+    "assistants": "聊天助理",
+    "new": "新對話"
+  },
   "close": "關閉",
   "collapse": "摺疊",
   "connect": "連接",
@@ -29,16 +43,22 @@
   "developer.doc": "開發者文件",
   "discover": "發現",
   "docs": "文件",
+  "document": "文件",
   "download": "立即下載",
   "edit": "編輯",
   "expand": "展開",
   "favorite": "收藏",
+  "file": "檔案",
   "fullscreen": "全螢幕",
   "fullscreen.exit": "退出全螢幕",
   "help": "幫助",
   "help.center": "幫助中心",
   "help.faq": "常見問題",
   "home": "首頁",
+  "image": "圖片",
+  "knowledge": {
+    "base": "知識庫"
+  },
   "language": "語言",
   "last30Days": "30天內",
   "last7Days": "7天內",

@@ -27,7 +27,7 @@ export const defaultConsoleMenus: MenuItem[] = [
       },
       {
         id: 'chat',
-        name: '随便聊聊',
+        name: 'chats.new',
         path: '/chat',
         action: 1,
         meta: {icon: 'add_comment', iconClass: 'flip-horizontal', class: 'highlight'}
@@ -52,21 +52,21 @@ export const defaultConsoleMenus: MenuItem[] = [
     children: [
       {
         id: 'book-library',
-        name: '书架',
+        name: 'books.shelf',
         action: 1,
         path: '/book/library',
         meta: {icon: 'icon-book-library'}
       },
       {
         id: 'book-collection',
-        name: '书单',
+        name: 'books.collection',
         action: 1,
         path: '/book/collection',
         meta: {icon: 'icon-reading-list'}
       },
       {
         id: 'book-annotation',
-        name: '书摘',
+        name: 'books.annotation',
         action: 1,
         path: '/book/annotation',
         meta: {icon: 'article'}
@@ -75,42 +75,42 @@ export const defaultConsoleMenus: MenuItem[] = [
   },
   {
     id: 'group-knowledge',
-    name: 'knowledge',
+    name: 'knowledge.base',
     path: '',
     action: 1,
     meta: {icon: 'icon-knowledge-base'},
     children: [
       {
         id: 'knowledge-start',
-        name: '知识库',
+        name: 'knowledge.base',
         action: 1,
         path: '/knowledge',
         meta: {icon: 'icon-knowledge-base', class: 'highlight'}
       },
       {
         id: 'system-files',
-        name: '文件',
+        name: 'file',
         path: '',
         action: 1,
         meta: {icon: 'folder_open'},
         children: [
           {
             id: 'file-all',
-            name: '全部',
+            name: 'all',
             action: 1,
             path: '/system/files',
             meta: {icon: 'mdi-creation', class: 'dense'}
           },
           {
             id: 'file-documents',
-            name: '文档',
+            name: 'document',
             action: 1,
             path: '/system/files/application',
             meta: {icon: 'mdi-creation', class: 'dense'}
           },
           {
             id: 'file-images',
-            name: '图片',
+            name: 'image',
             action: 1,
             path: '/system/files/image',
             meta: {icon: 'mdi-creation', class: 'dense'}
@@ -121,21 +121,21 @@ export const defaultConsoleMenus: MenuItem[] = [
   },
   {
     id: 'group-system',
-    name: 'AI应用',
+    name: 'ai.apps',
     path: '',
     action: 1,
     meta: {icon: 'mdi-creation'},
     children: [
       {
-        id: 'ai-assistants',
-        name: '聊天助手',
+        id: 'chat-assistants',
+        name: 'chats.assistants',
         action: 1,
         path: '/system/config/assistants',
         meta: {icon: 'assistant_navigation'}
       },
       {
         id: 'ai-agents',
-        name: 'AI智能体',
+        name: 'ai.agents',
         action: 1,
         path: '/system/config/agents',
         meta: {icon: 'assignment'}

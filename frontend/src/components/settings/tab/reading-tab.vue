@@ -30,15 +30,16 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import useCommon from 'core/hooks/useCommon'
 import SettingCard from './setting-card.vue'
 import LibraryTab from './reading/library-tab.vue'
 
+const { t } = useCommon()
 const currentTab = ref('library')
-
 const tabs = computed(() => {
   return [
-    { label: '书库', value: 'library', component: LibraryTab },
-    { label: '阅读器', value: 'reader', component: LibraryTab },
+    { label: t('readings.library'), value: 'library', component: LibraryTab },
+    { label: t('readings.reader'), value: 'reader', component: LibraryTab },
   ]
 })
 

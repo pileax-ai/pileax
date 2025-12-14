@@ -5,18 +5,18 @@
             @show="onShow">
     <q-card class="dialog-card" :style="style">
       <q-bar class="bg-transparent text-readable">
-        <q-icon class="title-icon" name="public" />
-        <div class="title">Library Location</div>
+        <q-icon class="title-icon" name="chrome_reader_mode" />
+        <div class="title">{{ $t('readings.libraries.location') }}</div>
         <q-space />
         <q-btn icon="close" dense round flat @click="onHide" />
       </q-bar>
 
       <q-card-section class="dialog-content">
-        <q-input ref="locationRef" v-model="location" prefix="New location"
+        <q-input ref="locationRef" v-model="location" :prefix="$t('readings.libraries.locations.new')"
                  :rules="[
-                    val => (val && val.length > 0) || 'Please choose location'
+                    val => (val && val.length > 0) || $t('readings.libraries.locations.choose')
                   ]"
-                 :hint="`Current location: ${currentLocation}`"
+                 :hint="`${$t('readings.libraries.locations.current')}: ${currentLocation}`"
                  outlined
                  dense>
           <template #after>
@@ -59,6 +59,7 @@ import { QInput } from 'quasar'
 import { reloadApp } from 'src/app/init'
 import { notifyWarning } from 'core/utils/control'
 import { ipcService } from 'src/api/ipc'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   modelValue: {
@@ -72,6 +73,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['changed', 'update:modelValue'])
 
+const { t } = useCommon()
 const modal = ref()
 const location = ref()
 const locationRef = ref<InstanceType<typeof QInput>>()
@@ -84,9 +86,9 @@ const migrateResult = ref<Indexable>({
 
 const typeOptions = computed(() => {
   return  [
-    { label: 'Use a existing library', value: 'open', color: 'indigo' },
-    { label: 'Create an empty library a the new location', value: 'create', color: 'green' },
-    { label: 'Move current library to new location', value: 'move', color: 'blue' }
+    { label: t('readings.libraries.locations.open'), value: 'open', color: 'indigo' },
+    { label: t('readings.libraries.locations.create'), value: 'create', color: 'green' },
+    { label: t('readings.libraries.locations.move'), value: 'move', color: 'blue' }
   ]
 })
 

@@ -13,7 +13,7 @@
           </section>
         </q-btn>
         <div class="text-center text-tips">
-          {{item.label}}
+          {{ $t(`appearances.layouts.${item.value}`) }}
         </div>
       </div>
     </template>

@@ -14,7 +14,7 @@
     <section class="relative-position col-12 navi-card">
       <section class="row col-12 q-col-gutter-lg">
         <section class="col-12">
-          <o-common-card title="快速开始" accent header>
+          <o-common-card :title="$t('quickstart')" accent header>
             <section class="row col-12 q-col-gutter-x-lg q-pa-md">
               <div class="col-3" v-for="(item, index) of favoriteMenus" :key="index">
                 <o-common-item size="4rem"

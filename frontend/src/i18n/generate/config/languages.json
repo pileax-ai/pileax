@@ -18,7 +18,7 @@
     "value": "zh-Hant",
     "prompt_name": "Chinese Traditional",
     "example": "你好，PileaX！",
-    "supported": true
+    "supported": false
   },
   {
     "label": "Português (Brasil)",
