@@ -64,7 +64,7 @@
 // --------------------------------------------------------------------------------
 .pi-menu {
   min-width: 160px !important;
-  max-height: 80vh !important;
+  max-height: 75vh !important;
 
   .q-list {
     padding: 8px 8px;
@@ -97,8 +97,10 @@
     min-height: unset;
     padding: 4px 8px;
 
-    &__section--main {
-      padding-left: 8px;
+    &:has(.q-item__section--avatar) {
+      .q-item__section--main {
+        margin-left: 8px;
+      }
     }
 
     .side-label {

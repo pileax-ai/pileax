@@ -3,17 +3,18 @@
  *
  * @version 1.0
  */
+import languages from 'src/i18n/generate/config/languages.json'
+console.log('languages', languages)
+
+
 export const IconSets = [
   { label: 'Material Icons', value: 'material-icons', url: 'https://fonts.google.com/icons' },
   { label: 'MDI v6', value: 'mdi-v6', url: 'https://pictogrammers.com/library/mdi' },
 ]
 
 // Locale
-export const Locales = [
-  { label: 'English', value: 'en' },
-  { label: '简体中文', value: 'zh-hans' },
-  { label: '繁體中文', value: 'zh-hant' },
-]
+export const Locales = languages
+// export const Locales = languages.filter(item => item.supported)
 
 export const StandardColors :OptionValue[] = [
   { label: 'No color', value: '', icon: 'square', color: 'grey' },

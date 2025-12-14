@@ -5,13 +5,14 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { HttpProxyAgent } from 'http-proxy-agent'
+import languages from './config/languages.json' with { type: 'json' }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const agent = new HttpProxyAgent('http://127.0.0.1:7890')
 
 const TRANSLATOR = 'bing'
 const BASE_LANG = 'zh-Hans'
-const TARGET_LANGS = ['zh-Hant', 'de']
+const TARGET_LANGS = languages.filter(item => item.supported)
 const LOCALE_DIR = path.join(__dirname, '../messages')
 const META_DIR = path.join(__dirname, 'meta')
 const BASE_DATA_FILE = path.join(LOCALE_DIR, `${BASE_LANG}.json`)
@@ -32,6 +33,18 @@ function loadBaseMeta() {
   }
 }
 
+function sortDeep(obj) {
+  if (typeof obj !== 'object' || obj === null) return obj
+  if (Array.isArray(obj)) return obj.map(sortDeep)
+
+  return Object.keys(obj)
+    .sort((a, b) => a.localeCompare(b))
+    .reduce((acc, key) => {
+      acc[key] = sortDeep(obj[key])
+      return acc
+    }, {})
+}
+
 function sortJsonKeys(jsonFile) {
   if (!fs.existsSync(jsonFile)) {
     return
@@ -39,17 +52,19 @@ function sortJsonKeys(jsonFile) {
 
   // sort keys
   const json = JSON.parse(fs.readFileSync(jsonFile, 'utf8'))
-  const sorted = Object.keys(json)
-    .sort((a, b) => a.localeCompare(b)) // 字母顺序
-    .reduce((acc, key) => {
-      acc[key] = json[key];
-      return acc;
-    }, {});
-  fs.writeFileSync(jsonFile, JSON.stringify(sorted, null, 2), 'utf8');
+  const sorted = sortDeep(json)
+  fs.writeFileSync(jsonFile, JSON.stringify(sorted, null, 2), 'utf8')
 
-  console.log('Sorted keys:', jsonFile);
+  console.log('⛵ Sorted keys:', jsonFile)
 }
 
+function getLanguageKey(item) {
+  if (item.value === 'zh-Hans' || item.value === 'zh-Hant') {
+    return item.value
+  } else {
+    return item.value.split('-')[0]
+  }
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -61,7 +76,7 @@ function hashText(text) {
 
 /** Translate text */
 async function translateText(text, lang) {
-  console.log(`➡️ Translating (${lang}): ${text}`)
+  console.log(`➡️ Translating (${lang.value}): ${text}`)
   await sleep(200 + Math.random() * 600)
 
   switch (TRANSLATOR) {
@@ -75,7 +90,7 @@ async function translateText(text, lang) {
 async function googleTranslate(text, lang) {
   try {
     const res = await googleTranslateApi.translate(text, {
-      to: lang,
+      to: lang.value,
       fetchOptions: { agent }
     })
     return res.text
@@ -87,7 +102,7 @@ async function googleTranslate(text, lang) {
 
 async function bintTranslate(text, lang) {
   try {
-    const res = await bingTranslateApi.translate(text, BASE_LANG, lang)
+    const res = await bingTranslateApi.translate(text, BASE_LANG, getLanguageKey(lang))
     return res.translation
   } catch (err) {
     console.error(`❌ Translation failed：`, err.message)
@@ -163,16 +178,15 @@ async function main() {
   // translate
   console.log(`📌 Translator: ${TRANSLATOR}`)
   console.log(`📌 Base language: ${BASE_LANG}`)
-  console.log(`📌 Target languages: ${TARGET_LANGS.join(', ')}`)
+  console.log(`📌 Target languages: ${TARGET_LANGS.map(item => item.value).join(', ')}`)
   console.log('')
 
   for (const lang of TARGET_LANGS) {
-    const langDataFile = path.join(LOCALE_DIR, `${lang}.json`)
-    const langMetaFile = path.join(META_DIR, `${lang}.meta.json`)
-    sortJsonKeys(langDataFile)
+    const langDataFile = path.join(LOCALE_DIR, `${lang.value}.json`)
+    const langMetaFile = path.join(META_DIR, `${lang.value}.meta.json`)
 
     console.log('==================================================')
-    console.log(`🌍 Translating → ${lang}`)
+    console.log(`🌍 Translating → ${lang.value} | ${lang.prompt_name}`)
 
     let targetObj = {}
     if (fs.existsSync(langDataFile)) {
@@ -187,7 +201,8 @@ async function main() {
     const merged = await fillTranslations(baseData, targetObj, metaObj, lang, updatedList)
 
     fs.writeFileSync(langDataFile, JSON.stringify(merged, null, 2), 'utf8')
-    console.log(`💾 Saved file：${lang}.json`)
+    console.log(`💾 Saved file：${lang.value}.json`)
+    sortJsonKeys(langDataFile)
 
     if (updatedList.length === 0) {
       console.log(`✨ Up to date. No changes.`)

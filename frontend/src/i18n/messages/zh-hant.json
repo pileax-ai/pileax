@@ -2,6 +2,11 @@
   "about": "關於",
   "account": "帳戶",
   "address": "地址",
+  "app": {
+    "description": "PileaX AI：一站式 AI 知識庫系統",
+    "name": "PileaX",
+    "slogan": "一站式 AI 知識庫"
+  },
   "app.description": "PileaX AI：一站式AI知識庫系統",
   "app.name": "皮萊亞X",
   "app.slogan": "掌握投資先機，共享財富成長",

@@ -13,14 +13,11 @@
                     :enable-hover="enableHover">
     <o-common-item v-for="(item, index) in Locales"
                    :key="index"
-                   icon="public"
                    :label="item.label"
-                   :class="{'active': item.value === locale}"
+                   :sublabel="item.prompt_name"
+                   :active="item.value === locale"
                    clickable closable
                    @click="onClick(item.value)">
-      <div>
-        <q-icon name="done" size="1rem" color="primary" v-if="item.value === locale" />
-      </div>
     </o-common-item>
   </o-hover-menu-btn>
 </template>
@@ -73,12 +70,11 @@ const props = defineProps({
   },
 })
 
-const { t } = useCommon()
 const i18n = useI18n()
 const { locale, setLocale, setTray } = useSetting()
 
 const label = computed(() => {
-  const localeLabel = getArrayItem(Locales, i18n.locale.value).label || $t('language')
+  const localeLabel = getArrayItem(Locales, i18n.locale.value).label || i18n.t('language')
   return props.showLabel ? localeLabel : ''
 })
 

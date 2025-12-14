@@ -2,9 +2,11 @@
   "about": "关于",
   "account": "账户",
   "address": "地址",
-  "app.description": "PileaX AI：一站式AI知识库系统",
-  "app.name": "PileaX",
-  "app.slogan": "掌握投资先机，共享财富成长",
+  "app": {
+    "description": "PileaX AI：一站式 AI 知识库系统",
+    "name": "PileaX",
+    "slogan": "一站式 AI 知识库"
+  },
   "back.home": "返回首页",
   "balance": "余额",
   "cancel": "取消",

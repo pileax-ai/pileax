@@ -31,8 +31,8 @@ export default defineConfig((ctx) => {
     css: [
       'app.scss',
       'animation.scss',
-      'common.scss',
       'electron.scss',
+      'pi.scss',
       'tauri.scss',
       'themes.scss',
     ],

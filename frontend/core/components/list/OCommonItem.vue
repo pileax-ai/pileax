@@ -1,6 +1,6 @@
 <template>
   <q-item class="o-common-item"
-          :class="{'dense': dense, 'round': round}"
+          :class="{ 'active': active, 'dense': dense, 'round': round }"
           :to="to"
           :clickable="clickable"
           v-close-popup="closable" exact>
@@ -32,6 +32,10 @@
     </q-item-section>
 
     <slot></slot>
+
+    <div class="row items-center" v-if="active">
+      <q-icon name="done" size="1rem" color="primary" />
+    </div>
   </q-item>
 </template>
 
@@ -106,6 +110,10 @@ const props = defineProps({
     default: ''
   },
   rightSide: {
+    type: Boolean,
+    default: false
+  },
+  active: {
     type: Boolean,
     default: false
   }
