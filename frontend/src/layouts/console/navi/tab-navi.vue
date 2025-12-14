@@ -2,7 +2,7 @@
   <section class="tab-navi">
     <header class="row col-12 justify-between top-header" v-if="header">
       <div class="row col items-center header-left drag-region">
-        <quick-settings type="tab" />
+        <quick-settings class="text-tips" type="tab" />
       </div>
       <div class="col-auto sidebar-toggles no-drag-region">
         <q-btn class="text-info square" flat round

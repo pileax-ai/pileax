@@ -1,17 +1,20 @@
 <template>
-  <q-btn class="quick-settings text-readable no-drag-region"
+  <q-btn class="quick-settings no-drag-region"
          :class="type" flat>
     <o-icon :name="workspace.icon" v-if="workspace.icon" />
     <o-icon name="🍃" v-else />
-    <div class="label q-ml-sm">{{workspace.name}}</div>
-    <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
 
+    <template v-if="type === 'tab'">
+      <div class="label q-ml-sm">{{workspace.name}}</div>
+      <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
+    </template>
 
     <q-menu class="quick-settings-menu pi-menu show-side-icon"
             transition-show="jump-down"
             anchor="top left"
             self="top left"
-            :offset="offset" @before-show="onBeforeShow">
+            :offset="offset"
+            @before-show="onBeforeShow">
       <header>
         <q-item>
           <q-item-section avatar>
@@ -113,7 +116,7 @@ const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
 const offset = computed(() => {
-  return props.type === 'tab' ? [-2, -2] : [-5, -5]
+  return props.type === 'tab' ? [-2, -2] : [-2, -2]
 })
 
 const actions = computed(() => {

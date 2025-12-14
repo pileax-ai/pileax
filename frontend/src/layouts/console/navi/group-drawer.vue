@@ -11,7 +11,7 @@
       <nav class="row col-12 full-height">
         <q-tabs v-model="selectedActivity" class="activity-tabs" vertical>
           <section class="column col-12 justify-between fit">
-            <quick-settings type="group" />
+            <quick-settings class="text-white" type="group" />
             <div class="" @mouseenter="onEnter">
               <template v-for="(item, index) in consoleMenus" :key="index">
                 <q-tab :name="item.name"
@@ -27,7 +27,7 @@
             <q-space />
             <div class="row col-auto items-end">
               <div class="col-12">
-                <q-btn icon="settings" class="toggle-sidebar text-grey-6" round flat
+                <q-btn icon="settings" class="toggle-sidebar text-grey-6" square flat
                        @click="openDialog({type: 'settings'})">
                   <o-tooltip position="right" transition>
                     {{ $t('settings') }}
@@ -75,6 +75,7 @@ import { DRAWER_DEFAULT_SIZE } from 'core/constants/style'
 import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue'
 import NaviList from './navi-list.vue'
 import QuickSettings from 'layouts/console/navi/quick-settings.vue'
+import { ipcProvider } from 'src/api/ipc'
 
 const { openDialog } = useDialog()
 const {
@@ -86,7 +87,7 @@ const {
 } = useNavi()
 
 const width = ref(DRAWER_DEFAULT_SIZE)
-const miniWidth = ref(48)
+const miniWidth = ref(ipcProvider === 'web' ? 48 : 68)
 const drawerOpen = ref(true)
 const sidebarFixed = ref(false)
 const selectedActivity = ref('')
@@ -152,6 +153,14 @@ onBeforeMount(() => {
     z-index: 2002;
     background: #001529;
 
+    .quick-settings {
+      width: 38px;
+      height: 38px;
+      margin: 5px 0 0 5px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
     .q-tab {
       width: 38px;
       height: 38px;
@@ -208,10 +217,10 @@ onBeforeMount(() => {
       z-index: 1;
 
       .toggle-sidebar {
-        width: 48px;
-        height: 48px;
-        margin: 0;
-        border-radius: 0;
+        width: 38px;
+        height: 38px;
+        margin: 0 5px 15px 5px;
+        border-radius: 4px;
       }
     }
 
@@ -229,5 +238,38 @@ onBeforeMount(() => {
     border-radius: 0 8px 8px 0;
   }
 
+}
+
+.electron {
+  .group-drawer {
+    .activity-bar {
+      width: 68px !important;
+
+      .quick-settings {
+        width: 48px;
+        height: 48px;
+        margin: 36px 0 10px 10px;
+      }
+
+      .q-tab {
+        width: 48px;
+        height: 48px;
+        margin: 0 0 10px 10px;
+      }
+
+      nav {
+        .toggle-sidebar {
+          width: 48px;
+          height: 48px;
+          margin: 0 10px 10px 10px;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    .fixed-sidebar {
+      left: 68px;
+    }
+  }
 }
 </style>
