@@ -3,8 +3,8 @@
     <content-wide class="row col-12 downloads" content-class="q-py-xl">
       <section class="row col-12 o-banner">
         <section class="col-12">
-          <div class="name">{{$t('app.name')}}</div>
-          <div class="slogan">{{$t('app.slogan')}}</div>
+          <div class="name">{{$t('product.name')}}</div>
+          <div class="slogan">{{$t('product.intro')}}</div>
         </section>
       </section>
     </content-wide>
@@ -24,11 +24,11 @@
     <content-wide class="introduction">
       <header>
         <div class="title">
-          {{$t('app.name')}}
+          {{$t('product.name')}}
           <span></span>
         </div>
         <div class="sub-title">
-          {{$t('app.slogan')}}
+          {{$t('product.slogan')}}
         </div>
       </header>
       <section class="col-12 relative-position">

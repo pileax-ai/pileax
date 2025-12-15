@@ -5,7 +5,7 @@ import type { MenuItem } from 'core/types/menu'
  */
 export const defaultConsoleMenus: MenuItem[] = [
   {
-    id: 'group-chat',
+    id: 'chat-group',
     name: 'chat',
     path: '',
     action: 1,
@@ -27,7 +27,7 @@ export const defaultConsoleMenus: MenuItem[] = [
       },
       {
         id: 'chat',
-        name: 'chats.new',
+        name: 'chat.new',
         path: '/chat',
         action: 1,
         meta: {icon: 'add_comment', iconClass: 'flip-horizontal', class: 'highlight'}
@@ -35,7 +35,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-note',
+    id: 'note-group',
     name: 'note',
     path: '',
     action: 1,
@@ -44,7 +44,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-reading',
+    id: 'reading-group',
     name: 'reading',
     path: '',
     action: 1,
@@ -52,21 +52,21 @@ export const defaultConsoleMenus: MenuItem[] = [
     children: [
       {
         id: 'book-library',
-        name: 'books.shelf',
+        name: 'book.shelf',
         action: 1,
         path: '/book/library',
         meta: {icon: 'icon-book-library'}
       },
       {
         id: 'book-collection',
-        name: 'books.collection',
+        name: 'book.collection',
         action: 1,
         path: '/book/collection',
         meta: {icon: 'icon-reading-list'}
       },
       {
         id: 'book-annotation',
-        name: 'books.annotation',
+        name: 'book.annotation',
         action: 1,
         path: '/book/annotation',
         meta: {icon: 'article'}
@@ -74,7 +74,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-knowledge',
+    id: 'knowledge-group',
     name: 'knowledge.base',
     path: '',
     action: 1,
@@ -120,7 +120,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'group-system',
+    id: 'system-group',
     name: 'ai.apps',
     path: '',
     action: 1,

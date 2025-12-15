@@ -14,7 +14,7 @@ export type MessageLanguages = keyof typeof messages;
 export type MessageSchema = typeof messages['en'];
 
 // See https://vue-i18n.intlify.dev/guide/advanced/typescript.html#global-resource-schema-type-definition
- 
+
 declare module 'vue-i18n' {
   // define the locale messages schema
   export interface DefineLocaleMessage extends MessageSchema {}
@@ -26,8 +26,9 @@ declare module 'vue-i18n' {
   export interface DefineNumberFormat {}
 }
 
- 
+
 export default boot(({ app }) => {
+  console.log('messages', messages)
   const i18n = createI18n({
     locale: 'en',
     legacy: false,

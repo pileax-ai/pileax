@@ -13,7 +13,7 @@
           </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <o-menu-btn :label="`${$t('labels.config')} (${data.credentials?.length})`"
+          <o-menu-btn :label="`${$t('config')} (${data.credentials?.length})`"
                       class="text-tips bg-dark"
                       menu-class="pi-menu"
                       icon="tune"
@@ -60,7 +60,7 @@
     </q-card-section>
 
     <q-card-section class="row col-12 justify-between content">
-      <o-menu-btn :label="`${$t('labels.model')} (${data.llm?.length})`"
+      <o-menu-btn :label="`${$t('model')} (${data.llm?.length})`"
                   class="text-tips bg-dark"
                   menu-class="pi-menu added-provider-llm-menu"
                   self="top left"

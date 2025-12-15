@@ -2,15 +2,15 @@
   <o-simple-form-page class="workspace-member-invite"
                       :loading="loading"
                       @submit="onSubmit" enable-actions>
-    <o-field :label="$t('labels.email')" required>
-      <q-input v-model="form.email" :placeholder="$t('labels.email')"
+    <o-field :label="$t('email')" required>
+      <q-input v-model="form.email" :placeholder="$t('email')"
                class="pi-field"
                standout dense clearable
                :error="v$.email.$errors.length > 0"
                :error-message="$t('label.required')">
       </q-input>
     </o-field>
-    <o-field :label="$t('labels.role')" required>
+    <o-field :label="$t('role')" required>
       <q-select v-model="form.role"
                 class="pi-field"
                 :options="WorkspaceMemberRoles.filter(item => item.value !== 'owner')"
@@ -23,7 +23,7 @@
 
     <template #control>
       <footer class="row col-12 items-center justify-center bg-accent text-tips">
-        {{ $t('workspaces.invites.tips') }}
+        {{ $t('workspace.invites.tips') }}
       </footer>
     </template>
   </o-simple-form-page>

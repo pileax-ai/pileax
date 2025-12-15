@@ -3,9 +3,9 @@
     <o-common-card small>
       <section class="col-12">
         <q-list no-border link>
-          <o-view-item :label="$t('labels.name')" :value="appInfo.package.productName" />
-          <o-view-item :label="$t('labels.version')" :value="appInfo.package.version" />
-          <o-view-item :label="$t('labels.build-time')" :value="appInfo.build.time" />
+          <o-view-item :label="$t('name')" :value="appInfo.package.productName" />
+          <o-view-item :label="$t('version')" :value="appInfo.package.version" />
+          <o-view-item :label="$t('buildTime')" :value="appInfo.build.time" />
 
           <q-separator class="bg-accent q-my-md" />
 

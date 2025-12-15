@@ -38,8 +38,8 @@ const { t } = useCommon()
 const currentTab = ref('library')
 const tabs = computed(() => {
   return [
-    { label: t('readings.library'), value: 'library', component: LibraryTab },
-    { label: t('readings.reader'), value: 'reader', component: LibraryTab },
+    { label: t('reading.library'), value: 'library', component: LibraryTab },
+    { label: t('reading.reader'), value: 'reader', component: LibraryTab },
   ]
 })
 

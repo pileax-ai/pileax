@@ -5,7 +5,7 @@
                   extend-header enable-fullscreen>
     <template #header-extension>
       <span class="text-tips q-px-sm">
-        {{$t('app.description')}}
+        {{$t('product.description')}}
       </span>
     </template>
 

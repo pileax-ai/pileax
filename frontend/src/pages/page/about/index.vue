@@ -16,11 +16,11 @@
     <content-wide class="introduction">
       <header>
         <div class="title">
-          {{$t('app.name')}}
+          {{$t('product.name')}}
           <span></span>
         </div>
         <div class="sub-title">
-          {{$t('app.slogan')}}
+          {{$t('product.slogan')}}
         </div>
       </header>
       <section class="col-12 relative-position">

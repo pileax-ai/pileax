@@ -5,17 +5,17 @@
         <q-list no-border link>
           <!-- Theme -->
           <o-common-item :label="$t('appearances.theme')"
-                         :sublabel="$t('appearances.theme-tips')">
+                         :sublabel="$t('appearances.themeTips')">
             <theme-select class="row items-center" item-class="q-ml-md" />
           </o-common-item>
           <section class="sub-items">
-            <o-common-item :label="$t('appearances.theme-color')">
+            <o-common-item :label="$t('appearances.themeColor')">
               <theme-color-select class="row items-center" item-class="q-ml-md" />
             </o-common-item>
-            <o-common-item :label="$t('appearances.modes.color-blind')">
+            <o-common-item :label="$t('appearances.modes.colorBlind')">
               <q-toggle v-model="themeWeak" @update:model-value="setThemeWeak" />
             </o-common-item>
-            <o-common-item :label="$t('appearances.modes.color-blind')">
+            <o-common-item :label="$t('appearances.modes.colorBlind')">
               <q-toggle v-model="themeGray" @update:model-value="setThemeGray" />
             </o-common-item>
           </section>
@@ -26,7 +26,7 @@
       <section class="col-12">
         <q-list no-border link>
           <o-common-item :label="$t('appearances.layouts.navi')"
-                         :sublabel="$t('appearances.layouts.navi-tips')">
+                         :sublabel="$t('appearances.layouts.naviTips')">
             <navi-select class="row items-center" item-class="q-ml-md" />
           </o-common-item>
         </q-list>

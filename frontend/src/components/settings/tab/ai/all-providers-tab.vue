@@ -27,7 +27,7 @@
       <template #right>
         <q-input v-model="term"
                  class="pi-field"
-                 :placeholder="$t('labels.search')"
+                 :placeholder="$t('search')"
                  standout dense clearable>
           <template #prepend>
             <q-icon name="search" />

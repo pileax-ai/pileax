@@ -47,7 +47,7 @@
             </template>
 
             <o-common-item icon="o_workspaces"
-                           :label="$t('workspaces.admin')"
+                           :label="$t('workspace.admin')"
                            clickable closable
                            right-side
                            @click="onAction({value: 'workspace'})" />
@@ -124,7 +124,7 @@ const offset = computed(() => {
 const actions = computed(() => {
   return [
     {
-      label: t('workspace'),
+      label: t('workspace._'),
       value: 'workspace',
       icon: 'o_workspaces',
       sideIcon: 'chevron_right',

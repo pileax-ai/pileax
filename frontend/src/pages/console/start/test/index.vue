@@ -3,7 +3,7 @@
     <o-common-card class="row col-12 items-end app">
       <section class="">
         <div class="name">
-          {{$t('app.name')}}
+          {{$t('product.name')}}
         </div>
         <div>
           Just a test

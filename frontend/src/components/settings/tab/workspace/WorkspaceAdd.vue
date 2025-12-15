@@ -3,12 +3,12 @@
                       :loading="loading"
                       @submit="onSubmit"
                       enable-actions>
-    <o-field :label="$t('labels.name')" required>
-      <q-input v-model="form.name" :placeholder="$t('labels.name')"
+    <o-field :label="$t('name')" required>
+      <q-input v-model="form.name" :placeholder="$t('name')"
                class="pi-field"
                standout dense clearable
                :error="v$.name.$errors.length > 0"
-               :error-message="$t('labels.required')">
+               :error-message="$t('required')">
         <template #prepend>
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" />
@@ -19,12 +19,12 @@
         </template>
       </q-input>
     </o-field>
-    <o-field :label="$t('labels.type')" side required>
+    <o-field :label="$t('type')" side required>
       <q-select v-model="form.type"
                 class="col-md-6 col-sm-12 col-xs-12"
                 :options="WorkspaceTypes"
                 :error="v$.type.$errors.length > 0"
-                :error-message="$t('labels.required')"
+                :error-message="$t('required')"
                 map-options
                 emit-value
                 standout dense readonly />

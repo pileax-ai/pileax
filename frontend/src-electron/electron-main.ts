@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, session } from 'electron'
+import { app, BrowserWindow, shell, session } from 'electron'
 import { fileURLToPath } from 'node:url'
 import log from 'electron-log'
 import path from 'path'
@@ -63,6 +63,12 @@ const createWindow = async () => {
       // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
     })
   }
+
+  // Open url in system browser
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url)
+    return { action: 'deny' }
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = undefined

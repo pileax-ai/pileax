@@ -3,16 +3,16 @@
     <section class="col-12">
       <q-list no-border link>
         <o-common-item size="4rem"
-                       :label="$t('readings.libraries.location')"
-                       :sublabel="$t('readings.libraries.location-tips')">
+                       :label="$t('reading.libraries.location')"
+                       :sublabel="$t('reading.libraries.locationTips')">
           <template #sublabel>
             <div>
-              {{ $t('readings.libraries.locations.current') }}: {{currentLocation}}
+              {{ $t('reading.libraries.locations.current') }}: {{currentLocation}}
             </div>
           </template>
           <div>
             <q-btn class="text-tips bg-accent"
-                   :label="$t('actions.change')"
+                   :label="$t('change')"
                    flat
                    @click="onChangeLibrary" />
           </div>

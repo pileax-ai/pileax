@@ -9,7 +9,7 @@
         <img :src="$public('/logo.svg')" :width="40">
       </div>
       <div class="name">
-        {{$t('app.name')}}
+        {{$t('product.name')}}
       </div>
     </header>
 

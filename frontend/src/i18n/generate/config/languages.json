@@ -25,7 +25,7 @@
     "value": "pt-BR",
     "prompt_name": "Portuguese",
     "example": "Olá, PileaX!",
-    "supported": true
+    "supported": false
   },
   {
     "label": "Español (España)",

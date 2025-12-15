@@ -90,7 +90,8 @@ function onRouteChanged() {
   let activity = ''
   const { name, path } = route
   switch (name) {
-    case 'chat':
+    case 'chat-start':
+    case 'chat-assistant':
     case 'chat-conversation':
       activity = 'chat'
       break
@@ -104,6 +105,7 @@ function onRouteChanged() {
       activity = reduceActivity(path)
       break
   }
+  console.log('activity', activity)
   if (!activity) return
   setActivity(activity)
 }

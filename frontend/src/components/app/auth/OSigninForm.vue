@@ -2,18 +2,18 @@
   <q-card class="o-auth-card" flat>
     <q-card-section class="header">
       <div class="label">
-        {{ $t('signin') }} {{ $t('app.name') }}
+        {{ $t('signin') }} {{ $t('product.name') }}
       </div>
       <div class="text-tips">
         <q-icon name="rocket_launch" color="orange" />
-        {{ $t('app.slogan') }}
+        {{ $t('product.slogan') }}
       </div>
     </q-card-section>
     <q-card-section>
       <q-form class="o-form o-signin-form" @submit="onSubmit">
-        <o-field :label="$t('labels.email')">
+        <o-field :label="$t('email')">
           <q-input v-model="form.username"
-                   :placeholder="$t('labels.email')"
+                   :placeholder="$t('email')"
                    outlined dense
                    :rules="[val => !!val]">
             <template #prepend>
@@ -21,9 +21,9 @@
             </template>
           </q-input>
         </o-field>
-        <o-field :label="$t('labels.password')">
+        <o-field :label="$t('password')">
           <q-input v-model="form.password"
-                   :placeholder="$t('labels.password')"
+                   :placeholder="$t('password')"
                    :type="type"
                    autocomplete="current-password"
                    class="password"
@@ -41,7 +41,7 @@
           </q-input>
         </o-field>
         <q-checkbox v-model="remember"
-                    :label="$t('auth.remember-me')"
+                    :label="$t('auth.rememberMe')"
                     style="margin-top: -12px;" />
 
         <q-btn type="submit" :label="$t('signin')" class="bg-primary text-white col-12" flat />
@@ -49,11 +49,11 @@
     </q-card-section>
     <q-card-section class="footer">
       <div class="label">
-        <span class="text-tips">{{ $t('auth.account-no') }}</span>
+        <span class="text-tips">{{ $t('auth.accountNo') }}</span>
         <q-btn to="/auth/signup" flat dense>{{ $t('signup') }}</q-btn>
       </div>
       <div class="row label">
-        <span class="text-tips">{{ $t('auth.use-to-consent') }}</span>
+        <span class="text-tips">{{ $t('auth.useToConsent') }}</span>
         <q-btn flat dense>{{ $t('terms.service') }} & {{ $t('terms.privacy') }}</q-btn>
       </div>
     </q-card-section>

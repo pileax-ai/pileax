@@ -1,11 +1,11 @@
 <template>
   <setting-card class="general-tab">
-    <o-common-card :title="$t('locales.language_timezone')" small header padding>
+    <o-common-card :title="$t('locales.languageTimezone')" small header padding>
       <section class="col-12">
         <q-list no-border link>
           <o-common-item size="4rem"
                          :label="$t('locales.language')"
-                         :sublabel="$t('locales.language_tips')">
+                         :sublabel="$t('locales.languageTips')">
             <div>
               <locale-hover-btn class="text-tips bg-accent"
                                 icon-right="mdi-chevron-down"
@@ -14,7 +14,7 @@
           </o-common-item>
           <o-common-item size="4rem"
                          :label="$t('locales.timezone')"
-                         :sublabel="$t('locales.timezone_tips')">
+                         :sublabel="$t('locales.timezoneTips')">
             <div>
               <locale-hover-btn class="text-tips bg-accent"
                                 icon-right="mdi-chevron-down"

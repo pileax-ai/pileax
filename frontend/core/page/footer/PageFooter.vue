@@ -8,7 +8,7 @@
               <div>
                 <img src="logo.png" height="48" />
               </div>
-              <div class="q-ml-sm text-bold">{{$t('app.name')}}</div>
+              <div class="q-ml-sm text-bold">{{$t('product.name')}}</div>
             </section>
             <section class="row justify-between socials">
               <q-btn to="/about" flat round>
@@ -37,7 +37,7 @@
                                 flat show-label />
             </section>
             <div class="copyright">
-              {{`©${(new Date()).getFullYear()}`}} {{$t('app.name')}} AI.
+              {{`©${(new Date()).getFullYear()}`}} {{$t('product.name')}} AI.
             </div>
           </section>
 

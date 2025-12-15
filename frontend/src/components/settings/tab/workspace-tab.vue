@@ -1,6 +1,6 @@
 <template>
   <setting-card class="workspace-tab">
-    <o-common-card :title="$t('workspaces.current')" small header padding>
+    <o-common-card :title="$t('workspace.current')" small header padding>
       <section class="col-12">
         <q-list no-border link>
           <q-item class="profile">
@@ -18,7 +18,7 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label caption>{{ $t('workspaces.name') }}</q-item-label>
+              <q-item-label caption>{{ $t('workspace.name') }}</q-item-label>
               <q-item-label>
                 <q-input v-model="name" class="pi-field"
                          debounce="800"
@@ -31,10 +31,10 @@
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card :title="$t('workspaces.admin')" small header>
+    <o-common-card :title="$t('workspace.admin')" small header>
       <template #right>
         <q-btn icon="add"
-               :label="$t('workspaces.add')"
+               :label="$t('workspace.add')"
                class="bg-primary text-white"
                flat @click="onAddWorkspace()" />
       </template>
@@ -64,7 +64,7 @@
             <q-td :props="props">
               <q-btn color="primary" icon="edit" @click="onEditWorkspace(props.row)"
                      flat dense v-if="props.row.userId === account.id">
-                <o-tooltip :message="$t('actions.edit')"/>
+                <o-tooltip :message="$t('edit')"/>
               </q-btn>
             </q-td>
           </template>
@@ -106,7 +106,7 @@ const name = ref('')
 const avatar = ref('')
 const side = reactive<Indexable>({
   show: false,
-  title: t('workspace'),
+  title: t('workspace._'),
   icon: 'workspaces',
   position: 'standard',
   style: {width: '30vw', minWidth: '600px'},
@@ -139,11 +139,11 @@ function updateCurrent(data: Indexable) {
 
 const columns = computed(() => {
   return [
-    { field: 'icon', label: t('labels.icon'), align: 'left', name: 'icon' },
-    { field: 'name', label: t('labels.name'), align: 'left', name: 'name', classes: 'text-bold' },
-    { field: 'type', label: t('labels.type'), align: 'left', name: 'type' },
-    { field: 'updateTime', label: t('labels.update-time'), align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
-    { field: 'actions', label: t('labels.actions'), name: 'actions', align: 'right', style: 'width: 80px' }
+    { field: 'icon', label: t('icon'), align: 'left', name: 'icon' },
+    { field: 'name', label: t('name'), align: 'left', name: 'name', classes: 'text-bold' },
+    { field: 'type', label: t('type'), align: 'left', name: 'type' },
+    { field: 'updateTime', label: t('updateTime'), align: 'left', name: 'updateTime', format: (val: string) => timeMulti(val).timestamp },
+    { field: 'actions', label: t('actions'), name: 'actions', align: 'right', style: 'width: 80px' }
   ]
 })
 

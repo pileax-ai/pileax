@@ -5,7 +5,7 @@
         <img :src="$public('/logo.svg')">
       </q-avatar>
       <span class="q-ml-sm">
-        {{ $t('app.name') }}
+        {{ $t('product.name') }}
       </span>
     </div>
 

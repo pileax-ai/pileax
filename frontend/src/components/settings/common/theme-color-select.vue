@@ -5,7 +5,7 @@
              :class="`bg-${item.name} ${itemClass}`"
              flat
              @click="setThemeColor(item.name)">
-        <o-tooltip>{{$t(`theme.${item.name}`)}}</o-tooltip>
+        <o-tooltip>{{$t(`appearances.colors.${item.name}`)}}</o-tooltip>
       </q-btn>
     </template>
   </section>

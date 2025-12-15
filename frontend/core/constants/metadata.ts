@@ -4,8 +4,6 @@
  * @version 1.0
  */
 import languages from 'src/i18n/generate/config/languages.json'
-console.log('languages', languages)
-
 
 export const IconSets = [
   { label: 'Material Icons', value: 'material-icons', url: 'https://fonts.google.com/icons' },

@@ -1,0 +1,142 @@
+export default {
+  about: 'About',
+  account: 'Account',
+  actions: '操作',
+  add: '添加',
+  address: '地址',
+  all: '全部',
+  appearance: '外观',
+  appearances: {
+    colors: {
+      blue: '蓝色',
+      cyan: '青色',
+      deepOrange: '深橙色',
+      deepPurple: '深紫色',
+      green: '绿色',
+      indigo: '靛蓝',
+      red: '红色',
+      teal: '青绿'
+    },
+    layout: '布局',
+    layouts: {
+      group: '分组',
+      navi: '导航',
+      naviTips: '导航布局',
+      tab: '标签页'
+    },
+    modes: {
+      colorBlind: '色盲模式',
+      grayscale: '灰度模式'
+    },
+    theme: '主题',
+    themeColor: '主题色',
+    themes: {
+      dark: '夜间模式',
+      light: '日间模式',
+      system: '跟随系统'
+    },
+    themeTips: '浅色或深色主题'
+  },
+  backHome: '返回首页',
+  buildTime: '构建时间',
+  cancel: '取消',
+  change: '更改',
+  close: '关闭',
+  collapse: '折叠',
+  config: '配置',
+  connect: '连接',
+  console: '控制台',
+  copied: '已复制',
+  copy: '复制',
+  create: '创建',
+  dashboard: '仪表盘',
+  delete: '删除',
+  description: '描述',
+  details: '详情',
+  developer: '开发者',
+  discover: '发现',
+  docs: '文档',
+  document: '文档',
+  download: '下载',
+  edit: '编辑',
+  email: '邮箱',
+  expand: '展开',
+  favorite: '收藏',
+  file: '文件',
+  fullscreen: '全屏',
+  fullscreenExit: '退出全屏',
+  general: '通用',
+  help: '帮助',
+  helps: {
+    center: '帮助中心',
+    faq: '常见问题'
+  },
+  home: '首页',
+  icon: '图标',
+  image: '图片',
+  language: '语言',
+  locales: {
+    language: '语言',
+    languageTimezone: '语言 & 时区',
+    languageTips: '更改用户界面使用的语言',
+    timezone: '时区',
+    timezoneTips: '当前的时区设置。'
+  },
+  me: '我的',
+  model: '模型',
+  name: '名称',
+  ok: '确定',
+  password: '密码',
+  profile: '账户详情',
+  qrcode: '二维码',
+  quickstart: '快速开始',
+  refresh: '刷新',
+  required: '必填',
+  resource: '资源',
+  role: '角色',
+  save: '保存',
+  search: '搜索',
+  settings: '设置',
+  signin: '登录',
+  signout: '退出登录',
+  signup: '注册',
+  status: '状态',
+  submit: '提交',
+  symbol: 'Symbol',
+  system: '系统',
+  systems: {
+    log: '系统日志',
+    security: '安全',
+    server: {
+      info: '服务信息',
+      log: '服务日志'
+    },
+    shortcut: '快捷键',
+    user: {
+      log: '操作日志'
+    }
+  },
+  terms: {
+    privacy: '隐私政策',
+    service: '用户协议'
+  },
+  test: '测试',
+  times: {
+    last30Days: '30天内',
+    last7Days: '7天内',
+    yesterday: '昨天'
+  },
+  tips: '提示',
+  today: '今天',
+  toolkit: '工具箱',
+  tray: {
+    openApp: '打开 PileaX',
+    quit: '退出'
+  },
+  type: '类型',
+  unstar: '取消收藏',
+  update: '更新',
+  updateTime: '更新时间',
+  version: '版本',
+  welcome: '欢迎',
+}

@@ -4,8 +4,8 @@
       <section class="col-12">
         <q-list no-border link>
           <o-common-item icon="mdi-creation"
-                         :label="$t('ai.models.chat-model')"
-                         :sublabel="$t('ai.models.chat-tips')"
+                         :label="$t('ai.models.chatModel')"
+                         :sublabel="$t('ai.models.chatTips')"
                          size="4rem"
                          class="text-primary">
             <div class="row items-center">
@@ -17,7 +17,7 @@
             </div>
           </o-common-item>
           <o-common-item icon="memory"
-                         :label="$t('ai.models.embedding-model')">
+                         :label="$t('ai.models.embeddingModel')">
             <div class="row items-center">
               <o-ai-model-select-btn icon="memory"
                                      :label="$t('ai.models.embedding')"
@@ -26,7 +26,7 @@
             </div>
           </o-common-item>
           <o-common-item icon="vertical_split"
-                         :label="$t('ai.models.rerank-model')">
+                         :label="$t('ai.models.rerankModel')">
             <div class="row items-center">
               <o-ai-model-select-btn icon="vertical_split"
                                      :label="$t('ai.models.rerank')"
@@ -35,7 +35,7 @@
             </div>
           </o-common-item>
           <o-common-item icon="volume_up"
-                         :label="$t('ai.models.stt-model')">
+                         :label="$t('ai.models.sttModel')">
             <div class="row items-center">
               <o-ai-model-select-btn icon="volume_up"
                                      :label="$t('ai.models.stt')"
@@ -44,7 +44,7 @@
             </div>
           </o-common-item>
           <o-common-item icon="graphic_eq"
-                         :label="$t('ai.models.tts-model')">
+                         :label="$t('ai.models.ttsModel')">
             <div class="row items-center">
               <o-ai-model-select-btn icon="graphic_eq"
                                      :label="$t('ai.models.tts')"

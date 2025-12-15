@@ -6,17 +6,17 @@
     <q-card class="dialog-card" :style="style">
       <q-bar class="bg-transparent text-readable">
         <q-icon class="title-icon" name="chrome_reader_mode" />
-        <div class="title">{{ $t('readings.libraries.location') }}</div>
+        <div class="title">{{ $t('reading.libraries.location') }}</div>
         <q-space />
         <q-btn icon="close" dense round flat @click="onHide" />
       </q-bar>
 
       <q-card-section class="dialog-content">
-        <q-input ref="locationRef" v-model="location" :prefix="$t('readings.libraries.locations.new')"
+        <q-input ref="locationRef" v-model="location" :prefix="$t('reading.libraries.locations.new')"
                  :rules="[
-                    val => (val && val.length > 0) || $t('readings.libraries.locations.choose')
+                    val => (val && val.length > 0) || $t('reading.libraries.locations.choose')
                   ]"
-                 :hint="`${$t('readings.libraries.locations.current')}: ${currentLocation}`"
+                 :hint="`${$t('reading.libraries.locations.current')}: ${currentLocation}`"
                  outlined
                  dense>
           <template #after>
@@ -86,9 +86,9 @@ const migrateResult = ref<Indexable>({
 
 const typeOptions = computed(() => {
   return  [
-    { label: t('readings.libraries.locations.open'), value: 'open', color: 'indigo' },
-    { label: t('readings.libraries.locations.create'), value: 'create', color: 'green' },
-    { label: t('readings.libraries.locations.move'), value: 'move', color: 'blue' }
+    { label: t('reading.libraries.locations.open'), value: 'open', color: 'indigo' },
+    { label: t('reading.libraries.locations.create'), value: 'create', color: 'green' },
+    { label: t('reading.libraries.locations.move'), value: 'move', color: 'blue' }
   ]
 })
 

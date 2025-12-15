@@ -3,12 +3,12 @@
                       :loading="loading"
                       @submit="onSubmit"
                       enable-actions>
-    <o-field :label="$t('labels.name')" required>
-      <q-input v-model="form.name" :placeholder="$t('labels.name')"
+    <o-field :label="$t('name')" required>
+      <q-input v-model="form.name" :placeholder="$t('name')"
                class="pi-field"
                standout dense clearable
                :error="v$.name.$errors.length > 0"
-               :error-message="$t('labels.required')" />
+               :error-message="$t('required')" />
     </o-field>
     <o-field :label="$t('ai.providers.api.key')" required>
       <q-input v-model="form.apiKey" :placeholder="$t('ai.providers.api.key')"
@@ -16,7 +16,7 @@
                class="pi-field"
                standout dense clearable
                :error="v$.apiKey.$errors.length > 0"
-               :error-message="$t('labels.required')">
+               :error-message="$t('required')">
         <template v-slot:append>
           <q-icon
             :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -26,21 +26,21 @@
         </template>
       </q-input>
     </o-field>
-    <o-field :label="$t('ai.providers.api.base-url')">
-      <q-input v-model="form.baseUrl" :placeholder="$t('ai.providers.api.base-url-placeholder')"
+    <o-field :label="$t('ai.providers.api.baseUrl')">
+      <q-input v-model="form.baseUrl" :placeholder="$t('ai.providers.api.baseUrlPlaceholder')"
                class="pi-field"
                standout dense clearable />
     </o-field>
 
     <section class="row col-12 justify-center link">
       <o-link class="text-primary" :link="data.apikey_url">
-        {{ $t('ai.providers.api.base-url-get', {name: data.name}) }}
+        {{ $t('ai.providers.api.baseUrlGet', {name: data.name}) }}
       </o-link>
     </section>
 
     <template #control>
       <footer class="row col-12 items-center justify-center bg-accent text-tips">
-        {{ $t('ai.providers.api.key-tips') }}
+        {{ $t('ai.providers.api.keyTips') }}
       </footer>
     </template>
   </o-simple-form-page>
@@ -114,7 +114,7 @@ function onSubmit () {
     },
     (err) => {
       if (err.response.status === 403) {
-        notifyWarning(t('ai.providers.api.key-invalid'))
+        notifyWarning(t('ai.providers.api.keyInvalid'))
       } else {
         const message = getErrorMessage(err)
         notifyWarning(message)

@@ -10,7 +10,7 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label caption>{{ $t('accounts.name') }}</q-item-label>
+              <q-item-label caption>{{ $t('auth.account.name') }}</q-item-label>
               <q-item-label>
                 <q-input v-model="name" class="pi-field"
                          debounce="800"
@@ -22,27 +22,27 @@
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card icon="o_security" :title="$t('accounts.security.title')" small header padding>
+    <o-common-card icon="o_security" :title="$t('auth.account.security.title')" small header padding>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item :label="$t('accounts.security.email')" :sublabel="account.email" />
-          <o-common-item :label="$t('accounts.security.password')" :sublabel="$t('accounts.security.password_tips')">
+          <o-common-item :label="$t('auth.account.security.email')" :sublabel="account.email" />
+          <o-common-item :label="$t('auth.account.security.password')" :sublabel="$t('auth.account.security.password_tips')">
             <div>
-              <q-btn :label="$t('accounts.security.password_action')" class="bg-accent text-tips" flat />
+              <q-btn :label="$t('auth.account.security.password_action')" class="bg-accent text-tips" flat />
             </div>
           </o-common-item>
-          <o-common-item :label="$t('accounts.security.passkeys')" :sublabel="$t('accounts.security.passkey_tips')">
+          <o-common-item :label="$t('auth.account.security.passkeys')" :sublabel="$t('auth.account.security.passkey_tips')">
             <div>
-              <q-btn :label="$t('accounts.security.passkey_action')" class="bg-accent text-tips" flat />
+              <q-btn :label="$t('auth.account.security.passkey_action')" class="bg-accent text-tips" flat />
             </div>
           </o-common-item>
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card icon="o_assignment_ind" :title="$t('accounts.user_id')" small header padding>
+    <o-common-card icon="o_assignment_ind" :title="$t('auth.account.user_id')" small header padding>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item :label="$t('accounts.user_id')">
+          <o-common-item :label="$t('auth.account.user_id')">
             <div class="row items-center text-readable">
               <span class="q-mr-sm">{{account.id}}</span>
               <o-copy-btn :value="account.id" flat dense />

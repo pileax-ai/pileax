@@ -2,47 +2,47 @@
   <q-card class="o-auth-card" flat>
     <q-card-section class="header">
       <div class="label">
-        {{ $t('signup') }} {{ $t('app.name') }}
+        {{ $t('signup') }} {{ $t('product.name') }}
       </div>
       <div class="text-tips">
         <q-icon name="rocket_launch" color="orange" />
-        {{ $t('app.slogan') }}
+        {{ $t('product.slogan') }}
       </div>
     </q-card-section>
     <q-card-section>
       <q-form class="o-form o-signin-form text-readable" @submit="onSubmit">
-        <o-field :label="$t('labels.email')">
+        <o-field :label="$t('email')">
           <q-input v-model="form.email"
-                   :placeholder="$t('labels.email')"
+                   :placeholder="$t('email')"
                    autocomplete="email"
                    outlined dense
                    :error="v$.email.$errors.length > 0"
-                   :error-message="$t('auth.signup.email-error')"
-                   :hint="$t('auth.signup.email-hint')">
+                   :error-message="$t('auth.signup.emailError')"
+                   :hint="$t('auth.signup.emailHint')">
             <template #prepend>
               <q-icon name="mail_outline" />
             </template>
           </q-input>
         </o-field>
-        <o-field :label="$t('labels.name')">
-          <q-input v-model="form.name" :placeholder="$t('labels.name')"
+        <o-field :label="$t('name')">
+          <q-input v-model="form.name" :placeholder="$t('name')"
                    autocomplete="name"
                    outlined dense
                    :error="v$.name.$errors.length > 0"
-                   :error-message="$t('auth.signup.name-error')">
+                   :error-message="$t('auth.signup.nameError')">
             <template #prepend>
               <q-icon name="person_outline" />
             </template>
           </q-input>
         </o-field>
-        <o-field :label="$t('labels.password')">
-          <q-input v-model="form.password" :placeholder="$t('labels.password')"
+        <o-field :label="$t('password')">
+          <q-input v-model="form.password" :placeholder="$t('password')"
                    :type="type"
                    autocomplete="new-password"
                    class="password"
                    outlined dense
                    :error="v$.password.$errors.length > 0"
-                   :error-message="$t('auth.signup.password-error')">
+                   :error-message="$t('auth.signup.passwordError')">
             <template #prepend>
               <q-icon name="lock_outline" />
             </template>
@@ -54,14 +54,14 @@
             </template>
           </q-input>
         </o-field>
-        <o-field :label="$t('auth.signup.confirm-password')">
+        <o-field :label="$t('auth.signup.confirmPassword')">
           <q-input v-model="form.confirmPassword"
-                   :placeholder="$t('auth.signup.confirm-password')"
+                   :placeholder="$t('auth.signup.confirmPassword')"
                    :type="type"
                    class="password"
                    outlined dense
                    :error="v$.confirmPassword.$errors.length > 0"
-                   :error-message="$t('auth.signup.confirm-password-error')">
+                   :error-message="$t('auth.signup.confirmPasswordError')">
             <template #prepend>
               <q-icon name="lock_outline" />
             </template>
@@ -79,11 +79,11 @@
     </q-card-section>
     <q-card-section class="footer">
       <div class="label">
-        <span class="text-tips">{{ $t('auth.account-already') }}</span>
+        <span class="text-tips">{{ $t('auth.accountAlready') }}</span>
         <q-btn to="/auth/signin" flat dense>{{ $t('signin') }}</q-btn>
       </div>
       <div class="label">
-        <span class="text-tips">{{ $t('auth.use-to-consent') }}</span>
+        <span class="text-tips">{{ $t('auth.useToConsent') }}</span>
         <q-btn flat dense>{{ $t('terms.service') }} & {{ $t('terms.privacy') }}</q-btn>
       </div>
     </q-card-section>
@@ -140,7 +140,7 @@ async function onSubmit() {
   } catch (err) {
     let message = getErrorMessage(err)
     if (message.includes('UNIQUE constraint')) {
-      message = t('auth.signup.email-used')
+      message = t('auth.signup.emailUsed')
     }
     notifyError(message)
   }
