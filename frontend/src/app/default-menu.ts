@@ -6,7 +6,7 @@ import type { MenuItem } from 'core/types/menu'
 export const defaultConsoleMenus: MenuItem[] = [
   {
     id: 'chat-group',
-    name: 'chat',
+    name: 'chat._',
     path: '',
     action: 1,
     meta: {icon: 'forum'},
@@ -36,7 +36,7 @@ export const defaultConsoleMenus: MenuItem[] = [
   },
   {
     id: 'note-group',
-    name: 'note',
+    name: 'note._',
     path: '',
     action: 1,
     meta: {icon: 'notes'},
@@ -45,7 +45,7 @@ export const defaultConsoleMenus: MenuItem[] = [
   },
   {
     id: 'reading-group',
-    name: 'reading',
+    name: 'reading._',
     path: '',
     action: 1,
     meta: {icon: 'chrome_reader_mode'},
@@ -128,7 +128,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     children: [
       {
         id: 'chat-assistants',
-        name: 'chats.assistants',
+        name: 'chat.assistants',
         action: 1,
         path: '/system/config/assistants',
         meta: {icon: 'assistant_navigation'}

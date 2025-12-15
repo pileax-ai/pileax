@@ -12,8 +12,8 @@
       </q-list>
 
       <template v-if="workspace?.id">
-        <note-list :max-width="maxWidth" v-show="activity === 'note'" />
-        <ai-assistant-list :max-width="maxWidth" v-show="activity === 'chat'" />
+        <note-list :max-width="maxWidth" v-show="activity.indexOf('note') === 0" />
+        <ai-assistant-list :max-width="maxWidth" v-show="activity.indexOf('chat') === 0" />
         <!--      <knowledge-list :max-width="maxWidth" v-show="activity === 'knowledge'" />-->
       </template>
     </template>

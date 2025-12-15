@@ -90,22 +90,21 @@ function onRouteChanged() {
   let activity = ''
   const { name, path } = route
   switch (name) {
-    case 'chat-start':
-    case 'chat-assistant':
+    case 'chat':
     case 'chat-conversation':
-      activity = 'chat'
+      activity = 'chat._'
       break
     case 'knowledge':
       activity = 'knowledge'
       break
     case 'note':
-      activity = 'note'
+      activity = 'note._'
       break
     default:
       activity = reduceActivity(path)
       break
   }
-  console.log('activity', activity)
+  console.log('onRouteChanged', activity)
   if (!activity) return
   setActivity(activity)
 }
