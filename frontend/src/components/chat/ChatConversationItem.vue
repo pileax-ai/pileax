@@ -55,6 +55,7 @@ import { chatConversationService } from 'src/api/service/remote/chat-conversatio
 import type { ChatConversation } from 'src/types/chat'
 import { refresh } from 'core/hooks/useRouter'
 import { timeMulti } from 'core/utils/format'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   item: {
@@ -73,15 +74,17 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['open', 'updated'])
+
+const { t } = useCommon()
 const clicked = ref(false)
 const name = ref('')
 const editable = ref(false)
 
 const actions = computed(() => {
   return [
-    { label: '智能重命名', value: 'edit', icon: 'draw' },
-    { label: '重命名', value: 'rename', icon: 'edit' },
-    { label: 'Delete', value: 'delete', icon: 'delete_outline', class: 'text-red', separator: true },
+    { label: t('smartRename'), value: 'edit', icon: 'draw' },
+    { label: t('rename'), value: 'rename', icon: 'edit' },
+    { label: t('delete'), value: 'delete', icon: 'delete_outline', class: 'text-red', separator: true },
   ]
 })
 

@@ -20,7 +20,7 @@
     </template>
 
     <div class="main-view o-scroll">
-      <div class="toc__title">TOC</div>
+      <div class="toc__title">{{ $t('toc') }}</div>
       <ul class="toc__list">
         <li
           class="toc__item ellipsis"

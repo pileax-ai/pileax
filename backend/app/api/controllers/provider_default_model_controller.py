@@ -14,7 +14,7 @@ class ProviderDefaultModelController(BaseController[ProviderDefaultModel, Provid
         workspace_id: CurrentWorkspaceId
     ):
         super().__init__(ProviderDefaultModel, session, user_id, workspace_id)
-        self.service = ProviderDefaultModelService(session, workspace_id, user_id)
+        self.service = ProviderDefaultModelService(session, user_id, workspace_id)
         self.workspace_id = workspace_id
 
     def save(self, item_in: ProviderDefaultModelCreate) -> ProviderDefaultModel:

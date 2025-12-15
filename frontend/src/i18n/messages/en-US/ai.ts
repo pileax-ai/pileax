@@ -31,5 +31,7 @@ export default {
     available: 'Available Providers',
     title: 'Model Providers'
   },
-  settings: 'AI Settings'
+  settings: 'AI Settings',
+  generate: 'Generate',
+  regenerate: 'Re-generate',
 }

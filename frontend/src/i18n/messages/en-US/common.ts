@@ -140,5 +140,10 @@ export default {
   updateTime: 'Update Time',
   version: 'Version',
   welcome: 'Welcome',
-  workspace: 'Workspace'
+  workspace: 'Workspace',
+  rename: 'Rename',
+  smartRename: 'Smart rename',
+  like: 'Like',
+  dislike: 'Dislike',
+  toc: 'Table of Content',
 }

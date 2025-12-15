@@ -139,4 +139,9 @@ export default {
   updateTime: '更新时间',
   version: '版本',
   welcome: '欢迎',
+  rename: '重命名',
+  smartRename: '智能重命名',
+  like: '喜欢',
+  dislike: '不喜欢',
+  toc: '目录',
 }

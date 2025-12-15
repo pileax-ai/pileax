@@ -31,5 +31,7 @@ export default {
     available: '可用提供商',
     title: '模型提供商'
   },
-  settings: 'AI 设置'
+  settings: 'AI 设置',
+  generate: '生成',
+  regenerate: '重新生成',
 }

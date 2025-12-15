@@ -7,7 +7,7 @@
     <template #header>
       <q-input v-model="term"
                @update:model-value="onSearch"
-               placeholder="Search"
+               :placeholder="$t('search')"
                autofocus clearable
                standout borderless>
         <template v-slot:prepend>
@@ -21,7 +21,7 @@
 
     <section class="row col-12 search-container">
       <div class="row col-12 items-center justify-between group">
-        <div class="text-readable">选择位置</div>
+        <div class="text-readable">{{ $t('note.chooseLocation') }}</div>
         <q-btn-toggle
           v-model="currentTab"
           :options="tabs"
@@ -85,10 +85,10 @@
         <template v-if="selectedNote">
           <div class="row items-center text-tips">
               <span v-if="currentTab === 'add'">
-                创建子笔记<q-chip square dense>{{chat.message}}</q-chip>于
+                Create sub-note <q-chip square dense>{{chat.message}}</q-chip> under
               </span>
               <span v-else>
-                添加内容<q-chip square dense>{{chat.message}}</q-chip>至
+                Append content <q-chip square dense>{{chat.message}}</q-chip> to
               </span>
               <q-chip square dense>
                 <q-icon :name="selectedNote.icon || '✍'" size="1.2rem" />
@@ -98,8 +98,10 @@
               </q-chip>
           </div>
           <div class="row items-center text-tips actions">
-            <q-btn label="确定" class="bg-primary text-white"
-                   flat @click="onConfirm" />
+            <q-btn :label="$t('ok')"
+                   class="bg-primary text-white"
+                   flat
+                   @click="onConfirm" />
           </div>
         </template>
         <div class="text-tips" v-else>
@@ -119,7 +121,9 @@ import ONoData from 'core/components/misc/ONoData.vue'
 import {timeMulti} from 'core/utils/format'
 import type { Note } from 'src/types/note'
 import { NoteDefaultIcon } from 'core/constants/constant'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { dialog, onHide, onOk } = useDialog()
 const {
   notes,
@@ -140,8 +144,8 @@ const results = ref<Note[]>([])
 const currentTab = ref('add')
 const tabs = computed(() => {
   return [
-    { label: '创建笔记', value: 'add' },
-    { label: '添加内容', value: 'append' },
+    { label: t('note.create'), value: 'add' },
+    { label: t('note.append'), value: 'append' },
   ]
 })
 

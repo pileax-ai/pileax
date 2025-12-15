@@ -11,7 +11,7 @@ class ConversationService(BaseService[Conversation]):
         super().__init__(Conversation, session, ConversationRepository)
         self.user_id = user_id
         self.workspace = workspace
-        self.app_service = AppService(session, self.workspace.tenant_id, self.user_id)
+        self.app_service = AppService(session, self.user_id, self.workspace)
         self.pdm_repository = ProviderDefaultModelRepository(ProviderDefaultModel, session)
 
     def save(self, item_in: ConversationCreate) -> Conversation:

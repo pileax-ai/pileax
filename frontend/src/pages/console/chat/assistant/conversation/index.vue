@@ -8,9 +8,9 @@
         <header>
           <div class="row justify-center items-center welcome">
             <img :src="$public('/logo.png')" alt="Logo" />
-            我是PileaX，很高兴遇见你!
+            {{ $t('chat.assistant.welcome') }}
           </div>
-          <div class="message text-readable">我是你的AI助手，请把你的任务交给我吧~</div>
+          <div class="message text-readable">{{ $t('chat.assistant.tips') }}</div>
         </header>
         <footer></footer>
       </section>
@@ -33,7 +33,7 @@
                flat
                @click="onNewChat" v-intersection="onIntersection">
           <q-icon name="add_comment" class="flip-horizontal" />
-          <span class="q-ml-sm">开启新对话</span>
+          <span class="q-ml-sm">{{ $t('chat.conversation.new') }}</span>
         </q-btn>
       </section>
 

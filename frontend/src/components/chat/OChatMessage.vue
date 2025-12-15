@@ -17,10 +17,10 @@
         </div>
         <div class="actions editable">
           <q-btn icon="close" class="bg-dark text-readable" flat @click="editable=false">
-            <o-tooltip position="bottom">取消</o-tooltip>
+            <o-tooltip position="bottom">{{ $t('cancel') }}</o-tooltip>
           </q-btn>
           <q-btn icon="arrow_upward" class="bg-primary text-white" flat @click="onSend">
-            <o-tooltip position="bottom">发送</o-tooltip>
+            <o-tooltip position="bottom">{{ $t('chat.send') }}</o-tooltip>
           </q-btn>
         </div>
       </template>
@@ -30,10 +30,10 @@
         </div>
         <div class="actions">
           <o-copy-btn :value="chat.message" flat>
-            <o-tooltip position="bottom">复制</o-tooltip>
+            <o-tooltip position="bottom">{{ $t('copy') }}</o-tooltip>
           </o-copy-btn>
           <q-btn icon="edit" flat @click="onEdit">
-            <o-tooltip position="bottom">编辑</o-tooltip>
+            <o-tooltip position="bottom">{{ $t('edit') }}</o-tooltip>
           </q-btn>
         </div>
       </template>
@@ -83,7 +83,7 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                已深度思考
+                {{ $t('chat.thought') }}
               </q-item-section>
             </template>
             <o-chat-message-view :message="chat.reasoningContent" />
@@ -99,24 +99,24 @@
             <q-spinner-dots size="32px" v-if="streaming" />
             <template v-else>
               <o-copy-btn :value="chat.content" flat>
-                <o-tooltip position="bottom">复制</o-tooltip>
+                <o-tooltip position="bottom">{{ $t('copy') }}</o-tooltip>
               </o-copy-btn>
               <q-btn icon="autorenew" flat>
-                <o-tooltip position="bottom">重新生成</o-tooltip>
+                <o-tooltip position="bottom">{{ $t('ai.regenerate') }}</o-tooltip>
               </q-btn>
               <q-btn :icon="chat.favorite===1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
                      flat @click="onFavorite(1)">
-                <o-tooltip position="bottom">喜欢</o-tooltip>
+                <o-tooltip position="bottom">{{ $t('like') }}</o-tooltip>
               </q-btn>
               <q-btn :icon="chat.favorite===-1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'"
                      flat @click="onFavorite(-1)">
-                <o-tooltip position="bottom">不喜欢</o-tooltip>
+                <o-tooltip position="bottom">{{ $t('dislike') }}</o-tooltip>
               </q-btn>
               <q-btn icon="west" flat @click="onInsert" v-if="refType === 'note'">
-                <o-tooltip position="bottom">插入笔记</o-tooltip>
+                <o-tooltip position="bottom">{{ $t('note.insert') }}</o-tooltip>
               </q-btn>
               <q-btn icon="post_add" flat @click="onNote" v-else>
-                <o-tooltip position="bottom">创建笔记</o-tooltip>
+                <o-tooltip position="bottom">{{ $t('note.create') }}</o-tooltip>
               </q-btn>
             </template>
           </div>
@@ -245,24 +245,10 @@ onMounted(() => {
     }
 
     .actions {
-      position: sticky;
-      bottom: 0;
-      margin-top: -10px;
-      padding: 10px 0;
+      padding: 4px 0;
       visibility: hidden;
       opacity: 0;
       transition: opacity .3s ease, visibility .3s ease;
-
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: var(--q-secondary);
-        opacity: 0.8;
-      }
 
       &.editable, &:hover {
         visibility: visible;
@@ -380,6 +366,24 @@ onMounted(() => {
         &.reasoning {
           margin: 0 -10px;
         }
+      }
+    }
+
+    .actions {
+      position: sticky;
+      bottom: 0;
+      margin-top: -10px;
+      padding: 10px 0;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: var(--q-secondary);
+        opacity: 0.8;
       }
     }
   }

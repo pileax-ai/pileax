@@ -11,8 +11,8 @@
         <q-btn flat>
           <q-icon name="attachment" class="rotate-315" />
           <o-tooltip position="top" transition>
-            <div class="title">上传文件</div>
-            <div class="caption">最多10个，每个50M，支持各类文档和图片</div>
+            <div class="title">{{ $t('chat.fileUpload') }}</div>
+            <div class="caption">{{ $t('chat.fileUploadTips') }}</div>
           </o-tooltip>
         </q-btn>
         <q-btn flat>
@@ -32,7 +32,7 @@
       <q-scroll-area class="o-scroll-wrapper">
         <q-input ref="inputRef"
                  v-model="input"
-                 placeholder="发送消息"
+                 :placeholder="$t('chat.sendMessage')"
                  autogrow
                  borderless
                  autofocus
@@ -50,10 +50,13 @@
         <q-btn class="bg-dark" flat>
           <q-icon name="keyboard" />
           <o-tooltip position="top" transition>
-            <div class="caption">快捷键</div>
+            <div class="caption">{{ $t('systems.shortcut') }}</div>
             <div class="row items-center ">
-              <kbd>⌘</kbd> <kbd><q-icon name="keyboard_return" /></kbd> 发送，
-              <kbd>⇧</kbd> <kbd><q-icon name="keyboard_return" /></kbd> 换行
+              <kbd>⌘</kbd><kbd><q-icon name="keyboard_return" /></kbd>
+              <span class="q-mr-md">{{ $t('chat.send') }}</span>
+
+              <kbd>⇧</kbd> <kbd><q-icon name="keyboard_return" /></kbd>
+              <span>{{ $t('chat.newLine') }}</span>
             </div>
           </o-tooltip>
         </q-btn>
@@ -63,12 +66,12 @@
                @click="onStop"
                v-if="loading">
           <o-tooltip position="top" transition>
-            停止生成
+            {{ $t('chat.stopGeneration') }}
           </o-tooltip>
         </q-btn>
 
         <q-btn-dropdown icon="arrow_upward"
-                        label="发送"
+                        :label="$t('chat.send')"
                         :class="`
                           bg-${input ? 'primary' : 'dark'}
                           text-${input ? 'white' : 'tips'}
@@ -80,8 +83,14 @@
                         @click="onSend"
                         v-else>
           <q-list>
-            <o-common-item icon="check" size="2rem" label="按 Enter 发送" clickable closable />
-            <o-common-item icon="none" size="2rem" label="按 ⌘ + Enter 发送" clickable closable />
+            <o-common-item icon="check"
+                           size="2rem"
+                           :label="$t('chat.sendKey', {key: 'Enter'})"
+                           clickable closable />
+            <o-common-item icon="none"
+                           size="2rem"
+                           :label="$t('chat.sendKey', {key: '⌘ + Enter'})"
+                           clickable closable />
           </q-list>
         </q-btn-dropdown>
       </div>
@@ -118,7 +127,6 @@ const emit = defineEmits(['send', 'stop', 'expand'])
 
 const { localModels } = useAi()
 const input = ref()
-const reasoning = ref(false)
 const expanded = ref(false)
 
 const localDefaultModel = computed(() => {

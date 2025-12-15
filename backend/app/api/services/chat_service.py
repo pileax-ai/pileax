@@ -7,6 +7,7 @@ from fastapi import HTTPException
 
 from app.api.models.enums import Status
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
+from app.api.services.conversation_service import ConversationService
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_model_service import ProviderDefaultModelService
 from app.constants.enums import LLMType
@@ -19,14 +20,20 @@ from starlette.responses import StreamingResponse
 
 
 class ChatService(BaseService[Message]):
-    def __init__(self, session, user_id, workspace_id):
+    def __init__(self, session, user_id, workspace):
         super().__init__(Message, session, MessageRepository)
         self.user_id = user_id
-        self.workspace_id = workspace_id
-        self.pdm_service = ProviderDefaultModelService(session, workspace_id, user_id)
+        self.workspace = workspace
+        self.conversation_service = ConversationService(session, user_id, workspace)
+        self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
         self.pc_service = ProviderCredentialService(session)
 
     def completions(self, item_in: MessageCreate) -> Any:
+        conversation = self.conversation_service.get(item_in.conversation_id)
+        if conversation is None:
+            raise HTTPException(status_code=404,
+                                detail=f"Conversation {item_in.conversation_id} not found.")
+
         pdm_credential = None
 
         # user specific model
@@ -41,7 +48,7 @@ class ChatService(BaseService[Message]):
                 )
         # default model
         if pdm_credential is None:
-            pdm_credential = self.pdm_service.get_default_model_credential(self.workspace_id, LLMType.CHAT)
+            pdm_credential = self.pdm_service.get_default_model_credential(self.workspace.id, LLMType.CHAT)
 
         if pdm_credential is None:
             raise HTTPException(status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet.")
@@ -102,11 +109,12 @@ class ChatService(BaseService[Message]):
             nonlocal content, reasoning_content, total_tokens
 
             item = item_in.model_dump(by_alias=True)
+            item["appId"] = conversation.app_id
             item["user_id"] = self.user_id
-            item["workspace_id"] = self.workspace_id
-            item["model_provider"] = pdm_credential.provider
-            item["model_type"] = pdm_credential.model_type
-            item["model_name"] = pdm_credential.model_name
+            item["workspace_id"] = self.workspace.id
+            item["modelProvider"] = pdm_credential.provider
+            item["modelType"] = pdm_credential.model_type
+            item["modelName"] = pdm_credential.model_name
             item["content"] = content
             item["reasoning_content"] = reasoning_content
             item["total_tokens"] = total_tokens

@@ -1,7 +1,7 @@
 <template>
   <section class="assistant-chat-conversation-list">
     <header class="row justify-between items-center header">
-      <div>话题</div>
+      <div class="text-bold">{{ $t('chat.conversations') }}</div>
       <div>
         <q-btn icon="more_horiz" class="pi-toolbar-btn" flat v-if="false" />
       </div>
