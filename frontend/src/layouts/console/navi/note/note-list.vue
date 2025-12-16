@@ -4,7 +4,7 @@
              :class="{ 'top': favoriteTop, 'bottom': !favoriteTop }">
       <header class="row col-12 justify-between items-center section text-tips">
         <div>
-          Favorite
+          {{ $t('favorite') }}
         </div>
         <div class="top-actions">
           <q-btn icon="more_horiz" class="action" flat>
@@ -26,16 +26,16 @@
     <section class="panel">
       <header class="row col-12 justify-between items-center section text-tips">
         <div>
-          Note
+          {{ $t('note.notes') }}
         </div>
         <div class="top-actions">
           <q-btn icon="search" class="action q-mr-sm" flat
                  @click.stop="onSearch">
-            <o-tooltip message="Search note" :caption="`⌘ + P`" />
+            <o-tooltip :message="$t('note.search')" :caption="nativeShortcut('mod + P')" />
           </q-btn>
           <q-btn icon="add" class="action" flat
                  @click.stop="addNote()">
-            <o-tooltip message="Add Note" />
+            <o-tooltip :message="$t('note.add')" />
           </q-btn>
         </div>
       </header>
@@ -51,7 +51,7 @@ import { computed, onBeforeMount, ref } from 'vue'
 import useDialog from 'core/hooks/useDialog'
 import useNote from 'src/hooks/useNote'
 import useCommon from 'core/hooks/useCommon'
-const { t } = useCommon()
+import useShortcut from 'core/hooks/useShortcut'
 
 import NoteTree from './note-tree.vue'
 import OContextMenu from 'core/components/menu/OContextMenu.vue'
@@ -62,7 +62,10 @@ defineProps({
     default: 300
   },
 })
+
+const { t } = useCommon()
 const { openDialog } = useDialog()
+const { nativeShortcut } = useShortcut()
 const {
   noteStore,
   getAllNotes,
@@ -73,14 +76,14 @@ const favoriteTop = ref(true)
 const panelCommands = computed(() => {
   return [
     {
-      label: 'Move up',
+      label: t('moveUp'),
       value: 'moveUp',
       icon: 'north',
       clickable: !favoriteTop.value,
       class: favoriteTop.value ? 'text-tips' : ''
     },
     {
-      label: 'Move down',
+      label: t('moveDown'),
       value: 'moveDown',
       icon: 'south',
       clickable: favoriteTop.value,

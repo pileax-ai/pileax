@@ -353,7 +353,7 @@ watch(() => currentNote.value, (newValue) => {
           border-radius: 2px;
           .actions {
             visibility: visible;
-            background: #eaeaea;
+            background: #eaeaea; // #222336
           }
           .action {
             visibility: visible;

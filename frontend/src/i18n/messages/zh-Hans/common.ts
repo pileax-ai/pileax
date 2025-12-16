@@ -144,4 +144,7 @@ export default {
   like: '喜欢',
   dislike: '不喜欢',
   toc: '目录',
+  move: '移动',
+  moveDown: '向下移',
+  moveUp: '向上移',
 }

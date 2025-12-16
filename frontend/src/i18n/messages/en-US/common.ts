@@ -146,4 +146,7 @@ export default {
   like: 'Like',
   dislike: 'Dislike',
   toc: 'Table of Content',
+  move: 'Move',
+  moveDown: 'Move down',
+  moveUp: 'Move up',
 }
