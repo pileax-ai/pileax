@@ -39,7 +39,7 @@
             <q-item :class="{'active': item.id === selectedNote?.id}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
-                <q-icon :name="item.icon || '✍'" size="1.2rem" />
+                <o-icon :name="item.icon || NoteDefaultIcon" size="1.6rem" />
               </q-item-section>
               <q-item-section>
                 {{item.title}}
@@ -63,9 +63,7 @@
               <section class="none-pointer-events note-title">
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
-                    <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
-                    <span v-else>{{ NoteDefaultIcon }}</span>
+                    <o-icon :name="prop.node.icon || prop.node.data.icon || NoteDefaultIcon" size="1.6rem" />
                   </q-item-section>
                   <q-item-section class="label">
                     <q-item-label lines="1">

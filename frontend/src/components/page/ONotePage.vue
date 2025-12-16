@@ -2,7 +2,7 @@
   <o-split-page class="o-note-page"
                 v-model:show="showSide"
                 :init-size="400"
-                :max-size="800"
+                :max-size="1000"
                 @size="onWidthChanged"
                 reverse>
     <template #before>

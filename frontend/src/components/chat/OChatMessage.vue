@@ -54,6 +54,7 @@
       <q-avatar color="accent">
         <q-spinner-ios size="1.5rem" v-if="streaming" />
         <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
+        <o-tooltip anchor="top left" self="bottom left">{{chat.modelName}}</o-tooltip>
       </q-avatar>
       <div class="line"></div>
     </q-item-section>
@@ -65,8 +66,11 @@
           <q-avatar color="accent" size="36px" rounded>
             <q-spinner-ios size="1.5rem" v-if="streaming" />
             <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
+            <o-tooltip anchor="top left" self="bottom left">{{chat.modelName}}</o-tooltip>
           </q-avatar>
-          <o-chip color="info" square dense>{{chat.modelProvider}}</o-chip>
+          <o-chip color="info" square dense>
+            {{chat.modelProvider}}
+          </o-chip>
         </div>
       </section>
       <q-spinner-dots size="2rem"

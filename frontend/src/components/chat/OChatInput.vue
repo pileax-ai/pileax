@@ -5,14 +5,14 @@
     </div>
     <q-input ref="inputRef"
              v-model="input"
-             placeholder="发送消息"
+             :placeholder="$t('chat.sendMessage')"
              autogrow
              borderless
              autofocus
              @keydown="onKeydown" />
     <div class="row justify-between">
       <div class="row items-end">
-        <o-ai-model-select-btn type="chat" single icon-only>
+        <o-ai-model-select-btn type="chat" single icon-only local round>
           <o-tooltip position="left" transition>
             AI Model
           </o-tooltip>
@@ -21,8 +21,8 @@
       <div>
         <q-btn icon="add" class="bg-dark" flat round v-if="enableUpload">
           <o-tooltip position="top" transition>
-            <div class="title">上传文件</div>
-            <div class="caption">最多10个，每个50M，支持各类文档和图片</div>
+            <div class="title">{{ $t('chat.fileUpload') }}</div>
+            <div class="caption">{{ $t('chat.fileUploadTips') }}</div>
           </o-tooltip>
         </q-btn>
         <q-btn icon="stop"
@@ -31,7 +31,7 @@
                @click="onStop"
                v-if="loading">
           <o-tooltip position="top" transition>
-            停止生成
+            {{ $t('chat.stopGeneration') }}
           </o-tooltip>
         </q-btn>
         <q-btn icon="arrow_upward"
@@ -40,8 +40,7 @@
                flat round
                @click="onSend" v-else>
           <o-tooltip position="top" transition>
-            <div class="title">发送</div>
-            <div class="caption">发送消息，按<q-icon name="keyboard_return"/>直接发送</div>
+            <div class="title">{{ $t('chat.send') }}</div>
           </o-tooltip>
         </q-btn>
       </div>
@@ -50,11 +49,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { ChatInput } from 'src/types/chat'
 import useAi from 'src/hooks/useAi'
-import OAiProviderSelectBtn from 'components/ai/OAiProviderSelectBtn.vue'
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
+import { UUID } from 'core/utils/crypto'
 
 const props = defineProps({
   loading: {
@@ -76,13 +75,13 @@ const props = defineProps({
 })
 const emit = defineEmits(['send', 'stop'])
 
-const { provider } = useAi()
+const { localModels } = useAi()
 const input = ref()
 const reasoning = ref(false)
 
-function onToggleThink() {
-  reasoning.value = !reasoning.value
-}
+const localDefaultModel = computed(() => {
+  return localModels.value['chat'] || {}
+})
 
 /**
  * Set behaviors for Enter
@@ -104,9 +103,13 @@ function onSend() {
   if (message === '') return
 
   emit('send', {
+    id: UUID(),
     message: message,
-    reasoning: reasoning.value
+    modelProvider: localDefaultModel.value.provider,
+    modelType: localDefaultModel.value.modelType,
+    modelName: localDefaultModel.value.modelName,
   } as ChatInput)
+
   reset()
 }
 
@@ -126,6 +129,10 @@ function reset() {
   border-radius: 16px;
   width: 100%;
   max-width: 800px;
+
+  textarea {
+    height: 70px !important;
+  }
 
   .card-content {
     padding: 10px;

@@ -19,8 +19,8 @@
       <q-page class="bg-secondary">
         <chat-section ref-type="note"
                       :ref-id="noteId"
-                      description="基于笔记问答"
-                      tag="基于笔记"
+                      :description="$t('ai.basedOnNote')"
+                      :tag="$t('ai.basedOnNote')"
                       dense @chats="onChats">
         </chat-section>
       </q-page>

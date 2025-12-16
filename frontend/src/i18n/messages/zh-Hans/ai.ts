@@ -33,5 +33,7 @@ export default {
   },
   settings: 'AI 设置',
   generate: '生成',
+  generateDisclaimer: '内容由 AI 生成，请仔细甄别',
   regenerate: '重新生成',
+  basedOnNote: '基于笔记',
 }

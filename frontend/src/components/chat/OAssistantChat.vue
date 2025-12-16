@@ -41,12 +41,16 @@
     </section>
     <footer class="row col-auto justify-between text-tips">
       <div class="row items-center">
-        <o-badge color="grey">
-          {{localDefaultModel.provider}}
-        </o-badge>
+        <template v-if="localDefaultModel.provider">
+          <o-badge color="grey">
+            {{localDefaultModel.provider}}
+          </o-badge>
+          <o-badge color="grey">
+            {{localDefaultModel.modelName}}
+          </o-badge>
+        </template>
       </div>
       <div class="row">
-
         <q-btn class="bg-dark" flat>
           <q-icon name="keyboard" />
           <o-tooltip position="top" transition>
@@ -164,6 +168,7 @@ function onSend() {
     modelType: localDefaultModel.value.modelType,
     modelName: localDefaultModel.value.modelName,
   } as ChatInput)
+
   reset()
 }
 

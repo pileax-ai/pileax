@@ -30,7 +30,7 @@
           <header>
             <div class="row justify-center items-center welcome">
               <img :src="$public('/logo.png')" alt="Logo" />
-              我是PileaX，很高兴遇见你!
+              {{ $t('chat.assistant.welcome') }}
             </div>
             <div class="message text-readable">
               {{ description }}
@@ -57,15 +57,23 @@
           </template>
         </section>
 
-        <section class="row col-12 justify-center q-pb-lg new-chat"
-                 v-show="multiSession && !start && chats.length">
-          <q-btn class="bg-primary text-white"
-                 flat
-                 @click="onNewChat" v-intersection="onIntersection">
-            <q-icon name="add_comment" class="flip-horizontal" />
-            <span class="q-ml-sm">开启新对话</span>
-          </q-btn>
-        </section>
+        <template v-if="!start && chats.length">
+          <section class="row col-12 justify-center q-pb-lg new-chat"
+                   v-show="multiSession">
+            <q-btn class="bg-primary text-white"
+                   flat
+                   @click="onNewChat" v-intersection="onIntersection">
+              <q-icon name="add_comment" class="flip-horizontal" />
+              <span class="q-ml-sm">{{ $t('chat.conversation.new') }}</span>
+            </q-btn>
+          </section>
+          <section class="row col-12 justify-center"
+                   v-show="!multiSession">
+            <span style="color: transparent;" v-intersection="onIntersection">
+              <span class="q-ml-sm">Bottom</span>
+            </span>
+          </section>
+        </template>
 
         <transition name="fade">
           <section class="row col-12 justify-center q-pb-lg scroll-bottom"
@@ -85,7 +93,7 @@
                       @stop="onStop" />
 
         <div class="row col-12 justify-center q-py-sm bg-secondary text-tips warning">
-          内容由 AI 生成，请仔细甄别
+          {{ $t('ai.generateDisclaimer') }}
         </div>
       </footer>
     </q-scroll-area>
@@ -311,6 +319,7 @@ function onNewChat() {
 }
 
 async function scrollToBottom(duration = 0) {
+  if (!scrollable.value) return
   await nextTick()
   setTimeout(() => {
     // pageRef.value?.scrollToBottom(duration);
@@ -340,6 +349,7 @@ function onIntersection(entry: Indexable) {
   if (entry.isIntersecting) {
     scrollable.value = true
   }
+  console.log('inter', scrollable.value)
 }
 
 function reset() {
@@ -438,6 +448,7 @@ defineExpose({
     left: 0;
     right: 0;
     padding: 0 1rem;
+    z-index: 2;
 
     .warning {
       font-size: 0.8rem;
@@ -467,10 +478,10 @@ defineExpose({
   &.dense {
     .o-scroll-wrapper {
       top: 0 !important;
-      padding: 0;
+      padding-bottom: 160px;
     }
     .chat-list {
-      padding: 1rem 1rem 150px 1rem;
+      padding: 1rem 1rem 1rem 1rem;
     }
   }
 }

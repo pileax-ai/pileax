@@ -1,7 +1,7 @@
 <template>
   <q-tooltip ref="tooltipRef" class="o-tooltip text-white" :class="`bg-${color}`"
-             :anchor="anchor"
-             :self="self"
+             :anchor="anchorAlt"
+             :self="selfAlt"
              :transition-show="transitionShow"
              :transition-hide="transitionHide"
              @show="onShow">
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, type PropType, ref } from 'vue'
 
 const props = defineProps({
   message: {
@@ -34,6 +34,14 @@ const props = defineProps({
   position: {
     type: String,
     default: 'top'
+  },
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: ''
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: ''
   },
   color: {
     type: String,
@@ -55,7 +63,9 @@ const props = defineProps({
 
 const tooltipRef = ref(null)
 
-const anchor = computed(() => {
+const anchorAlt = computed(() => {
+  if (props.anchor) return props.anchor
+
   if (props.position === 'top' || props.position === 'bottom') {
     return `${props.position} middle`
   } else {
@@ -63,7 +73,9 @@ const anchor = computed(() => {
   }
 })
 
-const self = computed(() => {
+const selfAlt = computed(() => {
+  if (props.self) return props.self
+
   switch (props.position) {
     case 'bottom':
       return 'top middle'
