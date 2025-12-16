@@ -26,6 +26,7 @@ export default {
   removeConfirm: 'Are you sure to remove from shelf?',
   collections: {
     _: 'Book Collections',
+    add: 'Add Collection',
     removeConfirm: 'Are you sure to remove from collection?',
   },
   author: 'Author',

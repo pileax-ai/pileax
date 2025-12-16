@@ -5,3 +5,4 @@
  */
 
 export const NoteDefaultIcon = '✍'
+export const BookCollectionDefaultIcon = '🍃'

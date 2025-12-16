@@ -8,14 +8,26 @@ export default {
   appearance: 'Appearance',
   appearances: {
     colors: {
-      blue: 'Blue',
-      cyan: 'Cyan',
-      deepOrange: 'Deep Orange',
-      deepPurple: 'Deep Purple',
-      green: 'Green',
-      indigo: 'Indigo',
+      none: 'No color',
       red: 'Red',
-      teal: 'Teal'
+      pink: 'Pink',
+      purple: 'Purple',
+      deepPurple: 'Deep Purple',
+      indigo: 'Indigo',
+      blue: 'Blue',
+      lightBlue: 'Light Blue',
+      cyan: 'Cyan',
+      teal: 'Teal',
+      green: 'Green',
+      lightGreen: 'Light Green',
+      lime: 'Lime',
+      yellow: 'Yellow',
+      amber: 'Amber',
+      orange: 'Orange',
+      deepOrange: 'Deep Orange',
+      brown: 'Brown',
+      grey: 'Grey',
+      blueGrey: 'Blue Grey'
     },
     layout: 'Layout',
     layouts: {
@@ -51,7 +63,7 @@ export default {
   create: 'Create',
   dashboard: 'Dashboard',
   delete: 'Delete',
-  deleteConfirm: 'Are you sure to delete?',
+  deleteConfirm: 'Are you sure to delete this item?',
   description: 'Description',
   details: 'Details',
   developer: 'Developer',
@@ -168,7 +180,7 @@ export default {
   open: 'Open',
   query: {
     noRecords: 'No Records',
-    noMoreData: '{total} records in total. No more data available.',
+    noMoreData: 'Found {total} records in total. No more data available.',
     total: 'Total',
   },
   sortBy: {
@@ -188,4 +200,6 @@ export default {
   formRules: {
     length: '{length} characters'
   },
+  title: 'Title',
+  color: 'Color',
 }

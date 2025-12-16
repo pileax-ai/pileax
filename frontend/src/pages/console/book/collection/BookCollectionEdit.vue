@@ -5,39 +5,39 @@
                       @reset="actions.reset"
                       enable-actions>
     <q-input v-model="form.id" prefix="ID" outlined dense readonly v-if="form.id && false"/>
-    <o-field label="标题">
-      <q-input v-model="form.title" placeholder="标题"
+    <o-field :label="$t('title')">
+      <q-input v-model="form.title" :placeholder="$t('title')"
                class="pi-field icon"
                standout dense
                :error="v$.title.$errors.length > 0"
-               error-message="1-100字符"
-               hint="1-100字符">
+               :error-message="$t('formRules.length', {length: '1-100'})"
+               :hint="$t('formRules.length', {length: '1-100'})">
         <template #prepend>
           <div class="cursor-pointer">
-            <o-icon :name="form.icon || '🍃'" :color="form.color" />
+            <o-icon :name="form.icon || BookCollectionDefaultIcon" :color="form.color" />
             <o-general-icon-menu @select="onSelectIcon" />
           </div>
         </template>
       </q-input>
     </o-field>
-    <o-field class="lax" label="颜色">
+    <o-field class="lax" :label="$t('color')">
       <o-color-select v-model="form.color" />
     </o-field>
-    <o-field label="描述">
-      <q-input v-model="form.description" placeholder="描述"
+    <o-field :label="$t('description')">
+      <q-input v-model="form.description" :placeholder="$t('description')"
                type="textarea"
                class="pi-field"
                maxlength="256" counter
                standout dense />
     </o-field>
-    <o-field label="封面" v-if="form.id">
+    <o-field :label="$t('cover')" v-if="form.id">
       <o-file-uploader accept=".png,.jpg,.svg"
                        :maxSize="10 * 1024 * 1024"
                        :loading="loading" leading
                        @ready="onLogoReady" />
     </o-field>
 
-    <q-toggle v-model="status" label="启用" class="col-6"/>
+    <q-toggle v-model="status" :label="$t('enable')" class="col-6"/>
   </o-simple-form-page>
 </template>
 
@@ -54,6 +54,7 @@ import OColorSelect from 'core/components/form/OColorSelect.vue'
 import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
 import OField from 'core/components/form/field/OField.vue'
+import { BookCollectionDefaultIcon } from 'core/constants/constant'
 
 const apiName = 'bookCollection'
 const props = defineProps({

@@ -4,7 +4,7 @@
     </header>
     <q-list>
       <q-item-label class="group" caption>
-        Book Collection
+        {{ $t('book.collections._') }}
       </q-item-label>
       <template v-for="(item, index) of collections" :key="`item-${index}`">
         <o-common-item v-bind="item"
@@ -49,6 +49,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { bookCollectionService } from 'src/api/service/remote/book-collection'
 import useCrud from 'src/hooks/useCrud'
+import useCommon from 'core/hooks/useCommon'
+import { BookCollectionDefaultIcon } from 'core/constants/constant'
 
 const apiName = 'bookCollection'
 const props = defineProps({
@@ -59,6 +61,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['action', 'update:modelValue'])
 
+const { t } = useCommon()
 const { crud } = useCrud()
 const list = ref<Indexable[]>()
 
@@ -67,13 +70,13 @@ const collections = computed(() => {
     return {
       label: item.title,
       value: item.id,
-      icon: item.icon || '🍃',
+      icon: item.icon || BookCollectionDefaultIcon,
       color: item.color,
       action: 'filter',
     }
   }) || [] as Indexable[]
   newList.push({
-    label: 'Add Collection',
+    label: t('book.collections.add'),
     value: 'add',
     icon: 'add',
     color: '',
@@ -85,13 +88,13 @@ const collections = computed(() => {
 const actions = computed(() => {
   return [
     {
-      label: 'Edit',
+      label: t('edit'),
       value: '',
       action: 'edit',
       icon: 'edit'
     },
     {
-      label: 'Delete',
+      label: t('delete'),
       value: '',
       action: 'delete',
       icon: 'delete'

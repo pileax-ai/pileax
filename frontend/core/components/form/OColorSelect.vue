@@ -5,23 +5,26 @@
               :color="item.color"
               :class="{'active': item.value===color}"
               @click="onSelect(item)">
-        <q-tooltip>{{item.label}}</q-tooltip>
+        <o-tooltip>{{item.label}}</o-tooltip>
       </q-icon>
     </template>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref} from 'vue'
-import { StandardColors } from 'core/constants/metadata'
+import { computed } from 'vue'
+import useMetadata from 'src/hooks/useMetadata'
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: 'blue'
+    default: ''
   }
 })
 const emit = defineEmits(['update:modelValue'])
+
+const { StandardColors } = useMetadata()
+
 const color = computed({
   get() {
     return props.modelValue

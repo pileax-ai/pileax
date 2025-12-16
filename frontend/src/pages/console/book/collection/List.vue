@@ -26,7 +26,7 @@
           <div class="query-item no-drag-region">
             <q-input v-model="condition.title__icontains"
                      class="pi-field"
-                     placeholder="搜索"
+                     :placeholder="$t('search')"
                      debounce="800"
                      standout dense clearable
                      @update:model-value="query.onQuery(true)">
@@ -40,12 +40,9 @@
         <!--Actions-->
         <template #actions>
           <q-btn icon="add" flat round @click="onEdit('')">
-            <o-tooltip position="bottom">Add Collection</o-tooltip>
+            <o-tooltip position="bottom">{{ $t('book.collections.add') }}</o-tooltip>
           </q-btn>
-          <book-collection-more-btn @view="onView" @sort="onSort">
-            <q-separator class="bg-accent" />
-            <o-view-item label="Total" :value="total" align="right" />
-          </book-collection-more-btn>
+          <book-collection-more-btn @view="onView" @sort="onSort" />
         </template>
 
         <section class="col-12">
@@ -87,11 +84,11 @@
               </section>
             </template>
             <template v-else>
-              <o-no-data message="没有记录" image />
+              <o-no-data :message="$t('query.noRecords')" image />
             </template>
 
             <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
-              共{{total}}条记录，没有更多数据了
+              {{ $t('query.noMoreData', {total: total}) }}
             </div>
           </q-infinite-scroll>
         </section>
@@ -120,16 +117,17 @@ import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
 import BookCollectionEdit from './BookCollectionEdit.vue'
 import BookCollectionFilter from './BookCollectionFilter.vue'
 import BookCollectionMoreBtn from './BookCollectionMoreBtn.vue'
-import OBookUploader from 'core/components/fIle/OBookUploader.vue'
 import OSplitPage from 'core/page/template/OSplitPage.vue'
 
 import useReader from 'src/hooks/useReader'
 import useLoadMore from 'src/hooks/useLoadMore'
 import { ipcService } from 'src/api/ipc'
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { queryTimer } = useReader()
-const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
+const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
 const filterRef = ref<InstanceType<typeof BookCollectionFilter>>()
@@ -139,7 +137,6 @@ const addMenu = ref(false)
 const data = ref<Indexable>({})
 const showFilter = ref(true)
 const bookView = ref('grid')
-const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 
 function onAction(item: Indexable) {
   switch (item.action) {
@@ -170,14 +167,14 @@ function onDetails(item: any) {
   query.value.openSide('480px', 'details')
 }
 
-function onEdit(id = '', icon = 'add', title = 'Add Collection') {
+function onEdit(id = '', icon = 'add', title = t('book.collections.add')) {
   editCollectionId.value = id
   query.value.openSide('480px', 'edit', icon, title)
 }
 
 function onEditBook(item: Indexable) {
   data.value = item
-  query.value.openSide('480px', 'edit-book', 'edit_note', 'Edit')
+  query.value.openSide('480px', 'edit-book', 'edit_note', t('edit'))
 }
 
 function onClose(options: Indexable) {
@@ -187,7 +184,7 @@ function onClose(options: Indexable) {
   } else if (options && options.action && options.item) {
     const bookId = options.item.bookId
     const index = rows.value.findIndex(e => e.bookId === bookId)
-    console.log('onClose', index, options)
+    // console.log('onClose', index, options)
     if (index !== -1) {
       switch (options.action) {
         case 'edit':
@@ -223,7 +220,7 @@ function initData() {
   initQuery({
     api: 'workspaceBookCollection',
     path: '/query/book/details',
-    title: 'Book'
+    title: t('book._')
   })
 }
 

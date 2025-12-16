@@ -26,6 +26,7 @@ export default {
   removeConfirm: '你确定从书架中移除吗？',
   collections: {
     _: '书单',
+    add: '添加书单',
     removeConfirm: '你确定从书单中移除吗？',
   },
   author: '作者',

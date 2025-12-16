@@ -1,6 +1,7 @@
 
 import { computed } from 'vue'
 import useCommon from 'core/hooks/useCommon'
+import { StandardColors } from 'core/constants/metadata'
 
 export default function() {
   const { t } = useCommon()
@@ -14,6 +15,31 @@ export default function() {
     }
     return {} as OptionValue
   }
+
+  const StandardColors = computed(() => {
+    return [
+      { label: t('appearances.colors.none'), value: '', icon: 'square', color: 'grey' },
+      { label: t('appearances.colors.red'), value: 'red', icon: 'square', color: 'red' },
+      { label: t('appearances.colors.pink'), value: 'pink', icon: 'square', color: 'pink' },
+      { label: t('appearances.colors.purple'), value: 'purple', icon: 'square', color: 'purple' },
+      { label: t('appearances.colors.deepPurple'), value: 'deep-purple', icon: 'square', color: 'deep-purple' },
+      { label: t('appearances.colors.indigo'), value: 'indigo', icon: 'square', color: 'indigo' },
+      { label: t('appearances.colors.blue'), value: 'blue', icon: 'square', color: 'blue' },
+      { label: t('appearances.colors.lightBlue'), value: 'light-blue', icon: 'square', color: 'light-blue' },
+      { label: t('appearances.colors.cyan'), value: 'cyan', icon: 'square', color: 'cyan' },
+      { label: t('appearances.colors.teal'), value: 'teal', icon: 'square', color: 'teal' },
+      { label: t('appearances.colors.green'), value: 'green', icon: 'square', color: 'green' },
+      { label: t('appearances.colors.lightGreen'), value: 'light-green', icon: 'square', color: 'light-green' },
+      { label: t('appearances.colors.lime'), value: 'lime', icon: 'square', color: 'lime' },
+      { label: t('appearances.colors.yellow'), value: 'yellow', icon: 'square', color: 'yellow' },
+      { label: t('appearances.colors.amber'), value: 'amber', icon: 'square', color: 'amber' },
+      { label: t('appearances.colors.orange'), value: 'orange', icon: 'square', color: 'orange' },
+      { label: t('appearances.colors.deepOrange'), value: 'deep-orange', icon: 'square', color: 'deep-orange' },
+      { label: t('appearances.colors.brown'), value: 'brown', icon: 'square', color: 'brown' },
+      { label: t('appearances.colors.grey'), value: 'grey', icon: 'square', color: 'grey' },
+      { label: t('appearances.colors.blueGrey'), value: 'blue-grey', icon: 'square', color: 'blue-grey' },
+    ]
+  })
 
   const WorkspaceMemberRoles = computed(() => {
     return [
@@ -41,6 +67,7 @@ export default function() {
 
   return {
     getArrayItem,
+    StandardColors,
     WorkspaceMemberRoles,
     WorkspaceMemberStatus,
     WorkspaceTypes

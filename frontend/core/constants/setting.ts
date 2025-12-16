@@ -29,9 +29,9 @@ export const THEME_COLORS :OptionValue[] = [
   { label: 'cyan', value: '#00bcd4', name: 'cyan' },
   { label: 'teal', value: '#009688', name: 'teal' },
   { label: 'green', value: '#4caf50', name: 'green' },
-  { label: 'deep-purple', value: '#673ab7', name: 'deep-purple' }, // #673ab7, #6510AD, #7c5dc7
+  { label: 'deepPurple', value: '#673ab7', name: 'deep-purple' }, // #673ab7, #6510AD, #7c5dc7
   { label: 'red', value: '#f44336', name: 'red' },
-  { label: 'deep-orange', value: '#ff5722', name: 'deep-orange' },
+  { label: 'deepOrange', value: '#ff5722', name: 'deep-orange' },
 ]
 
 export const NAVI_LAYOUTS :OptionValue[] = [

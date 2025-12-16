@@ -49,7 +49,7 @@ export default function () {
       label = ` [<span class="text-orange text-bold">${label}</span>] `
     }
 
-    confirm(`确认删除该数据项？${label}`, () => {
+    confirm(`${t('deleteConfirm')} ${label}`, () => {
       doDelete(id, notify, callback)
     })
   }

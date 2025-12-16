@@ -8,14 +8,26 @@ export default {
   appearance: '外观',
   appearances: {
     colors: {
-      blue: '蓝色',
-      cyan: '青色',
-      deepOrange: '深橙色',
-      deepPurple: '深紫色',
-      green: '绿色',
-      indigo: '靛蓝',
+      none: '无色',
       red: '红色',
-      teal: '青绿'
+      pink: '粉色',
+      purple: '紫色',
+      deepPurple: '深紫',
+      indigo: '靛蓝',
+      blue: '蓝色',
+      lightBlue: '浅蓝',
+      cyan: '青色',
+      teal: '青绿',
+      green: '绿色',
+      lightGreen: '浅绿',
+      lime: '青柠',
+      yellow: '黄色',
+      amber: '琥珀',
+      orange: '橙色',
+      deepOrange: '深橙',
+      brown: '棕色',
+      grey: '灰色',
+      blueGrey: '蓝灰'
     },
     layout: '布局',
     layouts: {
@@ -51,7 +63,7 @@ export default {
   create: '创建',
   dashboard: '仪表盘',
   delete: '删除',
-  deleteConfirm: '你确定删除？',
+  deleteConfirm: '你确定删除该项？',
   description: '描述',
   details: '详情',
   developer: '开发者',
@@ -186,4 +198,6 @@ export default {
   formRules: {
     length: '{length} 字符'
   },
+  title: '标题',
+  color: '颜色',
 }
