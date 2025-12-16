@@ -54,6 +54,7 @@ import TocList from './children/toc-list.vue'
 import AnnotationList from './children/annotation-list.vue'
 import SeaerchList from './children/search-list.vue'
 import useReader from 'src/hooks/useReader'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   header: {
@@ -66,6 +67,7 @@ const props = defineProps({
   },
 })
 
+const { t } = useCommon()
 const {
   activity,
   consoleMenus,
@@ -79,9 +81,9 @@ const activityHovered = ref(false)
 
 const tabs = computed(() => {
   return [
-    { label: 'Toc', value: 'toc', icon: 'toc', component: TocList },
-    { label: 'Annotation', value: 'annotation', icon: 'notes', component: AnnotationList },
-    { label: 'Search', value: 'search', icon: 'search', component: SeaerchList },
+    { label: t('toc'), value: 'toc', icon: 'toc', component: TocList },
+    { label: t('book.annotation'), value: 'annotation', icon: 'notes', component: AnnotationList },
+    { label: t('search'), value: 'search', icon: 'search', component: SeaerchList },
   ]
 })
 

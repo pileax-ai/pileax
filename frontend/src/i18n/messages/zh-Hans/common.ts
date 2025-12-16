@@ -109,6 +109,7 @@ export default {
   role: '角色',
   save: '保存',
   search: '搜索',
+  searchResults: '搜索结果',
   settings: '设置',
   signin: '登录',
   signout: '退出登录',

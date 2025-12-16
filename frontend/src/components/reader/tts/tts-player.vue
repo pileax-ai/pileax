@@ -4,7 +4,7 @@
       <section class="col row items-center">
         <q-icon name="volume_up" size="20px" />
         <span class="q-px-sm">
-          AI朗读
+          {{ $t('reading.aiReading') }}
         </span>
       </section>
 
@@ -32,7 +32,7 @@
           </q-btn>
           <q-btn icon="fast_rewind" @click="ttsController.prev()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
-              后退
+              {{ $t('reading.player.backward') }}
             </o-tooltip>
           </q-btn>
         </div>
@@ -45,7 +45,7 @@
         <div class="row action justify-end">
           <q-btn icon="fast_forward" @click="ttsController.next()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
-              前进
+              {{ $t('reading.player.foreward') }}
             </o-tooltip>
           </q-btn>
           <q-btn icon="skip_next"
@@ -75,11 +75,11 @@
           <o-tooltip position="bottom">定时关闭</o-tooltip>
         </tss-provider-btn>
         <tss-rate-btn icon="speed"
-                      label="语速"
+                      :label="$t('reading.player.speed')"
                       anchor="top right"
                       self="bottom right"
                       :min-width="playerWidth">
-          <o-tooltip position="bottom">语速</o-tooltip>
+          <o-tooltip position="bottom">{{ $t('reading.player.speed') }}</o-tooltip>
         </tss-rate-btn>
       </section>
       <section class="marquee">

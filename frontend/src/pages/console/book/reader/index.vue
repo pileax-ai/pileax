@@ -10,7 +10,7 @@
              class="text-readable bg-tips"
              flat
              @click="prevPage">
-        <o-tooltip message="上一页" autohide />
+        <o-tooltip :message="$t('reading.prevPage')" autohide />
       </q-btn>
     </nav>
     <nav class="row items-center justify-center navi-right">
@@ -18,7 +18,7 @@
              class="text-readable bg-tips"
              flat
              @click="nextPage">
-        <o-tooltip message="下一页" autohide />
+        <o-tooltip :message="$t('reading.nextPage')" autohide />
       </q-btn>
     </nav>
 

@@ -21,5 +21,22 @@ export default {
     wantToRead: 'Want to Read',
     currentlyReading: 'Currently Reading',
     finished: 'Finished',
-  }
+  },
+  prevPage: 'Previous Page',
+  nextPage: 'Next Page',
+  aiReading: 'AI Reading',
+  player: {
+    start: 'Start',
+    pause: 'Pause',
+    stop: 'Stop',
+    forward: 'Forward',
+    backward: 'Backward',
+    speed: 'Reading Speed',
+  },
+  position: 'Reading Position',
+  previewPosition: 'Preview Position',
+  search: {
+    prev: 'Previous',
+    next: 'Next',
+  },
 }

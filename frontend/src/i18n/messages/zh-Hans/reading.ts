@@ -21,5 +21,22 @@ export default {
     wantToRead: '想读',
     currentlyReading: '在读',
     finished: '已读',
-  }
+  },
+  prevPage: '上一页',
+  nextPage: '下一页',
+  aiReading: 'AI 朗读',
+  player: {
+    start: '开始',
+    pause: '暂停',
+    stop: '停止',
+    forward: '前进',
+    backward: '后退',
+    speed: '语速',
+  },
+  position: '阅读位置',
+  previewPosition: '预览位置',
+  search: {
+    prev: '上一结果',
+    next: '下一结果',
+  },
 }

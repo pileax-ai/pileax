@@ -16,10 +16,10 @@
         </o-hover-btn>
       </div>
       <q-btn icon="west" class="o-toolbar-btn hover-show" flat @click="prevPage">
-        <o-tooltip message="上一页" />
+        <o-tooltip :message="$t('reading.prevPage')" />
       </q-btn>
       <q-btn icon="east" class="o-toolbar-btn hover-show" flat @click="nextPage">
-        <o-tooltip message="下一页" />
+        <o-tooltip :message="$t('reading.nextPage')" />
       </q-btn>
       <span class="text-tips q-ml-xs" v-if="progress.chapterLocation?.current > 1">
           {{ progress.tocItem?.label }}
@@ -33,7 +33,7 @@
       <section class="row hover-show">
         <q-btn icon="volume_up" class="o-toolbar-btn" flat
                @click="setRightDrawerTTS(true)">
-          <o-tooltip>AI朗读</o-tooltip>
+          <o-tooltip>{{ $t('reading.aiReading') }}</o-tooltip>
         </q-btn>
       </section>
       <o-hover-btn icon="icon-sidebar-right"
@@ -53,7 +53,7 @@
         <section class="row justify-between items-center text-readable toolbar">
           <div>
             <div class="text-bold title">
-              本书包含 <span class="text-primary">{{ search.term }}</span> 的结果
+              {{ $t('searchResults') }}: <span class="text-primary"> {{ search.term }}</span>
             </div>
             <div>{{ searchCurrent.top.label }}</div>
           </div>

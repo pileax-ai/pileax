@@ -109,6 +109,7 @@ export default {
   role: 'Role',
   save: 'Save',
   search: 'Search',
+  searchResults: 'Search Results',
   settings: 'Settings',
   signin: 'Signin',
   signout: 'Sign out',

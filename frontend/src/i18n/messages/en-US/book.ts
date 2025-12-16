@@ -41,6 +41,7 @@ export default {
   annotations: {
     _: 'Book Annotations',
     add: 'Add Annotation',
+    no: 'Add Annotation',
     noRecords: 'No annotations yet. Start reading and highlight some.'
   },
   chapter: 'Chapter',

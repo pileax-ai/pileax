@@ -2,7 +2,7 @@
   <drawer-navi class="search-list" header>
     <template #header>
       <q-input v-model="term" class="pi-field"
-               placeholder="搜索"
+               :placeholder="$t('search')"
                debounce="800"
                standout dense
                autofocus clearable
@@ -24,7 +24,7 @@
     <template #content>
       <q-list class="list" :style="`width: ${width}px`">
         <div class="row justify-between text-readable" v-if="term">
-          <div>搜索结果</div>
+          <div>{{ $t('searchResults') }}</div>
           <div>{{ resultCount }}</div>
         </div>
         <o-book-search-item :data="result" @navi="onNavi" />

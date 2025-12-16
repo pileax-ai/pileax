@@ -21,7 +21,7 @@
       <section class="col-12 relative-position slider-container">
         <q-slider v-model="progressValue"
                   :min="0" :max="1" :step="0.001"
-                  :label-value="showReserve ? '预览位置' : '阅读位置'"
+                  :label-value="showReserve ? $t('reading.previewPosition') : $t('reading.position')"
                   label
                   label-always
                   track-size="5px"
@@ -31,7 +31,7 @@
         <div class="reserve-position cursor-pointer bg-primary"
              :style="`--pi-reserve-percent: ${reservePercent};`"
              @click="onReturn" v-if="showReserve">
-          <o-tooltip message="阅读位置" />
+          <o-tooltip :message="$t('reading.position')" />
         </div>
       </section>
     </section>
@@ -44,11 +44,11 @@
                v-if="searchCurrent.top">
         <section class="row justify-between items-center text-readable toolbar">
           <div>
-            <q-btn icon="west" label="上一结果" flat
+            <q-btn icon="west" :label="$t('reading.search.prev')" flat
                    @click="store.previousResult" />
           </div>
           <div>
-            <q-btn icon-right="east" label="下一结果" flat
+            <q-btn icon-right="east" :label="$t('reading.search.next')" flat
                    @click="store.nextResult" />
           </div>
         </section>
@@ -62,7 +62,9 @@ import { computed, onMounted, ref, watch } from 'vue'
 import useSetting from 'core/hooks/useSetting'
 import useBook from 'src/hooks/useBook'
 import { changeStyle, goToHref, goToPercent, nextPage, prevPage } from 'src/api/service/ebook/book'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { setTheme, theme } = useSetting()
 const { store, progress, search } = useBook()
 const progressValue = ref(0)

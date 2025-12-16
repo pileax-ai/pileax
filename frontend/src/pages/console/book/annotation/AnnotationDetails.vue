@@ -61,7 +61,6 @@
 import { computed, onMounted } from 'vue'
 import { timeMulti } from 'core/utils/format'
 import { ipcService } from 'src/api/ipc'
-import useBookAnnotation from 'src/hooks/useBookAnnotation'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'
 
@@ -80,7 +79,6 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const { t } = useCommon()
-const { removeBookAnnotation } = useBookAnnotation()
 const { crud } = useCrud()
 
 const actions = computed(() => {
@@ -117,14 +115,6 @@ function onRemove() {
   })
 }
 
-function onRemove0() {
-  removeBookAnnotation(props.data).then(res => {
-    emit('close', {
-      action: 'remove',
-      item: props.data
-    })
-  })
-}
 
 function openBook() {
   const item = props.data

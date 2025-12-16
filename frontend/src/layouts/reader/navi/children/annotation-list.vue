@@ -7,7 +7,7 @@
         </template>
       </q-list>
       <section class="text-readable text-center" v-else>
-        <o-no-data message="No annotations" />
+        <o-no-data :message="$t('query.noRecords')" />
       </section>
     </template>
   </drawer-navi>
