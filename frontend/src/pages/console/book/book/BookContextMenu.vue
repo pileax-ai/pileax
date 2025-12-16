@@ -11,6 +11,7 @@ import OContextMenu from 'core/components/menu/OContextMenu.vue'
 import useBookDetails from 'src/hooks/useBookDetails'
 import useDialog from 'core/hooks/useDialog'
 import { notifyDone } from 'core/utils/control'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   contextMenu: {
@@ -25,43 +26,44 @@ const props = defineProps({
 const emit = defineEmits(['edit', 'close'])
 
 const { downloadBook, removeBook, updateUserBook } = useBookDetails()
+const { t } = useCommon()
 const { openDialog } = useDialog()
 
 const actions = computed(() => {
   return [
     {
-      label: 'Add to Want to Read',
+      label: t('book.addToWant'),
       value: 'status_want',
       icon: 'arrow_circle_right',
       hidden: (props.data.readingStatus !== 0 && props.data.readingStatus !== 3),
     },
     {
-      label: 'Mark as Finished',
+      label: t('book.markFinished'),
       value: 'status_finished',
       icon: 'check_circle',
       hidden: props.data.readingStatus === 3,
     },
     {
-      label: 'Add to Collection',
+      label: t('book.addToCollection'),
       value: 'collection',
       icon: 'icon-reading-list',
       separator: true
     },
     {
-      label: 'Download',
+      label: t('download'),
       value: 'download',
       icon: 'download',
       separator: true
     },
     {
-      label: 'Edit',
+      label: t('edit'),
       value: 'edit',
       icon: 'edit_note',
       hidden: props.data.userId !== props.data.owner,
       separator: true
     },
     {
-      label: 'Remove',
+      label: t('remove'),
       value: 'remove',
       icon: 'delete',
       class: 'text-red',

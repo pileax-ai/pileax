@@ -29,11 +29,16 @@
               <q-icon name="cloud_upload" size="3rem" />
             </div>
             <div class="text-tips">
-              <span>{{ label || '将文件拖到此处，或点击上传' }}</span>
+              <span>{{ label || $t('book.uploader.label') }}</span>
             </div>
-            <div class="q-mt-md text-bold limit" :class="{ 'text-red': error }">
-              <span>接受 {{accept?.replaceAll('.',  '').toUpperCase()}}.</span>
-              <span class="q-ml-sm">最大 {{maxSize / (1024 * 1024)}}M.</span>
+            <div class="q-mt-md limit" :class="{ 'text-red': error }">
+              <template v-for="(item, index) in accept.split(',')">
+                <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
+              </template>
+              <q-chip square dense>
+                <q-avatar color="red" text-color="white">Max</q-avatar>
+                <span>{{maxSize / (1024 * 1024)}}M</span>
+              </q-chip>
             </div>
           </div>
         </section>
@@ -51,6 +56,7 @@
 import { reactive, ref } from 'vue'
 import { uploadBook } from 'src/api/service/ebook/book'
 import { notifyInfo } from 'core/utils/control'
+import useCommon from 'core/hooks/useCommon'
 
 defineProps({
   accept: {
@@ -72,6 +78,7 @@ defineProps({
 })
 const emit = defineEmits(['completed'])
 
+const { t, confirm } = useCommon()
 const value = ref(null)
 const error = ref('')
 const upload = reactive({
@@ -96,9 +103,9 @@ const updateFiles = async (files: File[]) => {
     }
   }
 
-  const message = `<div class="text-bold">Upload books to server completed</div>
-    <div>total: ${upload.total} </div>
-    <div>success: ${upload.success}</div>`
+  const message = `<div class="text-bold">${t('book.uploader.completed')}</div>
+    <div class="caption"${t('book.uploader.total')}: ${upload.total} </div>
+    <div class="caption">${t('book.uploader.success')}: ${upload.success}</div>`
   notifyInfo(message, {
       icon: 'check_circle',
       position: 'top-right',
@@ -166,6 +173,21 @@ const updateFiles = async (files: File[]) => {
 
     .limit {
       font-size: 0.9rem;
+
+      .q-chip {
+        height: 20px;
+        margin: 0 4px 2px 4px;
+
+        .q-avatar {
+          padding: 0 4px;
+          width: unset;
+          height: 20px;
+        }
+
+        span {
+          font-size: 0.9rem;
+        }
+      }
     }
   }
 }

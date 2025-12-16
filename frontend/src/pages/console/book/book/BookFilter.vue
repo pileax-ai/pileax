@@ -30,66 +30,68 @@
 import { computed, onMounted, ref } from 'vue'
 import { workspaceBookService } from 'src/api/service/remote'
 import { bookExtensions } from 'src/api/service/ebook/book'
+import useCommon from 'core/hooks/useCommon'
 const emit = defineEmits(['filter'])
 
+const { t, confirm } = useCommon()
 const bookType = ref('')
 const readingStatus = ref('')
 
 const actions = computed(() => {
   return [
     {
-      label: 'All',
+      label: t('book.filter.all'),
       value: '',
       icon: 'grid_view',
       filter: 'extension',
       filterValue: '',
-      group: 'Library',
+      group: t('book.library._'),
     },
     {
-      label: 'Book',
+      label: t('book.filter.book'),
       value: 'book',
       icon: 'book',
       filter: 'extension',
       filterValue: bookExtensions,
     },
     {
-      label: 'PDF',
+      label: t('book.filter.pdf'),
       value: 'pdf',
       icon: 'mdi-file-pdf-box',
       filter: 'extension',
       filterValue: 'pdf',
     },
     {
-      label: '所有',
+      label: t('reading.status.all'),
       value: '',
       icon: 'grid_view',
       filter: 'reading_status',
-      group: 'Reading status',
+      group: t('reading.status._'),
       filterValue: '',
     },
     {
-      label: '未读',
+      label: t('reading.status.notStarted'),
       value: 'not_started',
       icon: 'schedule',
       filter: 'reading_status',
       filterValue: 0,
     },
     {
-      label: '想读',
+      label: t('reading.status.wantToRead'),
       value: 'want_to_read',
       icon: 'arrow_circle_right',
       filter: 'reading_status',
       filterValue: 1,
     },
     {
-      label: '在读',
+      label: t('reading.status.currentlyReading'),
       value: 'currently_reading',
       icon: 'downloading',
       filter: 'reading_status',
       filterValue: 2,
     },
     {
-      label: '已读',
+      label: t('reading.status.finished'),
       value: 'finished',
       icon: 'check_circle',
       filter: 'reading_status',

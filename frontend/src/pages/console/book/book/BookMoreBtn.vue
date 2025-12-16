@@ -17,7 +17,6 @@
             </template>
           </o-common-item>
         </template>
-
         <slot></slot>
       </q-list>
     </q-menu>
@@ -26,8 +25,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import useCommon from 'core/hooks/useCommon'
 const emit = defineEmits(['view', 'sort'])
 
+const { t, confirm } = useCommon()
 const bookView = ref('grid')
 const orderField = ref('recent')
 const orderDesc = ref(true)
@@ -35,19 +36,19 @@ const orderDesc = ref(true)
 const actions = computed(() => {
   return [
     {
-      label: 'Grid',
+      label: t('view.grid'),
       value: 'grid',
       icon: 'grid_view',
       selected: bookView.value === 'grid',
     },
     {
-      label: 'List',
+      label: t('view.list'),
       value: 'list',
       icon: 'list',
       selected: bookView.value === 'list',
     },
     {
-      label: 'Recent',
+      label: t('sortBy.recent'),
       value: 'recent',
       icon: 'schedule',
       selected: orderField.value === 'recent',
@@ -55,7 +56,7 @@ const actions = computed(() => {
       separator: true
     },
     {
-      label: 'Title',
+      label: t('sortBy.title'),
       value: 'title',
       icon: 'sort_by_alpha',
       sortable: true,

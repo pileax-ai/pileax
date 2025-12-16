@@ -14,7 +14,7 @@
       <div class="query-item no-drag-region">
         <q-input v-model="condition.title"
                  class="pi-field"
-                 placeholder="搜索"
+                 :placeholder="$t('search')"
                  debounce="800"
                  standout dense clearable
                  @update:model-value="doQuery">
@@ -58,14 +58,9 @@
           </section>
         </template>
         <template v-else>
-          <o-no-data message="没有记录" image v-if="condition.title" />
+          <o-no-data :message="$t('query.noRecords')" image v-if="condition.title" />
           <section class="row col-12 justify-center no-records" v-else>
-            <span class="text-readable">书库中还没有记录，快来添加吧</span>
-
-            <div class="row col-12 justify-center action">
-              <o-file-uploader :accept="bookAccept" :loading="loading" leading
-                               @ready="onAddReady" />
-            </div>
+            <span class="text-readable">{{ $t('book.noBooks') }}</span>
           </section>
         </template>
       </section>

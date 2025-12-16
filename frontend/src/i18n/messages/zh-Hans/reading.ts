@@ -13,5 +13,13 @@ export default {
     locationTips: '书库的存储位置'
   },
   library: '书库',
-  reader: '阅读器'
+  reader: '阅读器',
+  status: {
+    _: '阅读状态',
+    all: '所有',
+    notStarted: '未读',
+    wantToRead: '想读',
+    currentlyReading: '在读',
+    finished: '已读',
+  }
 }

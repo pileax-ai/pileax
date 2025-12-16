@@ -3,8 +3,10 @@
     <q-card class="book-grid-item" v-ripple>
       <q-img :src="coverUrl">
         <div class="absolute-bottom text-subtitle1 text-center details">
-          <q-btn label="添加" flat @click.stop="emit('add')" v-if="add" />
-          <q-btn label="详情" flat @click.stop="emit('details')" />
+          <q-btn :label="$t('add')" flat
+                 @click.stop="emit('add')" v-if="add" />
+          <q-btn :label="$t('details')" flat
+                 @click.stop="emit('details')" />
         </div>
       </q-img>
     </q-card>
@@ -33,11 +35,6 @@ const emit = defineEmits(['add', 'details'])
 
 const { getCoverUrl } = useApi()
 const coverUrl = ref('')
-
-// const coverUrl = computed(() => {
-//   const url = getCoverUrl(props.data);
-//   return url;
-// })
 
 onMounted(() => {
   coverUrl.value = getCoverUrl(props.data)

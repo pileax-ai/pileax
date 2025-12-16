@@ -5,34 +5,43 @@
                       @reset="actions.reset"
                       enable-actions>
     <q-input v-model="form.id" prefix="ID" outlined dense readonly v-if="form.id && false"/>
-    <q-input v-model="form.title" prefix="名称"
-             class="pi-field"
-             standout dense
-             :error="v$.title.$errors.length > 0"
-             error-message="1-100字符"
-             hint="1-100字符" />
-    <q-input v-model="form.author" prefix="作者"
-             class="pi-field"
-             standout dense
-             :error="v$.author.$errors.length > 0"
-             error-message="1-100字符"
-             hint="1-100字符" />
-    <q-input v-model="form.publisher" prefix="出版社"
-             class="pi-field"
-             standout dense />
-    <q-input v-model="form.description" prefix="简介"
-             type="textarea"
-             class="pi-field"
-             maxlength="256" counter
-             standout dense />
-    <o-field label="封面" v-if="form.id">
+    <o-field :label="$t('name')" required>
+      <q-input v-model="form.title"
+               class="pi-field"
+               standout dense clearable
+               :error="v$.title.$errors.length > 0"
+               :error-message="$t('formRules.length', {length: '1-100'})"
+               :hint="$t('formRules.length', {length: '1-100'})" />
+    </o-field>
+    <o-field :label="$t('book.author')" required>
+      <q-input v-model="form.author"
+               class="pi-field"
+               standout dense clearable
+               :error="v$.author.$errors.length > 0"
+               :error-message="$t('formRules.length', {length: '1-100'})"
+               :hint="$t('formRules.length', {length: '1-100'})" />
+    </o-field>
+    <o-field :label="$t('book.publisher')">
+      <q-input v-model="form.publisher" :placeholder="$t('book.publisher')"
+               class="pi-field"
+               standout dense clearable />
+    </o-field>
+    <o-field :label="$t('description')">
+      <q-input v-model="form.description" :placeholder="$t('description')"
+               type="textarea"
+               class="pi-field"
+               maxlength="256" counter
+               standout dense clearable />
+    </o-field>
+    <o-field :label="$t('cover')"
+             v-if="form.id">
       <o-file-uploader accept=".png,.jpg,.svg"
                        :maxSize="10 * 1024 * 1024"
                        :loading="loading" leading
                        @ready="onLogoReady" />
     </o-field>
 
-    <q-toggle v-model="status" label="启用" class="col-6"/>
+    <q-toggle v-model="status" :label="$t('enable')" class="col-6"/>
   </o-simple-form-page>
 </template>
 
@@ -46,7 +55,6 @@ import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 
 import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
-import OField from 'core/components/form/field/OField.vue'
 
 const apiName = 'book'
 const props = defineProps({

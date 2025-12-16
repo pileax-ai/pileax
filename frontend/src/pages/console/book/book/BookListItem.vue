@@ -19,8 +19,15 @@
         {{ timeMulti(data.updateTime).fromNow }}
       </div>
       <div class="row">
-        <q-btn label="添加" class="bg-tips details" flat @click.stop="emit('add')" v-if="add" />
-        <q-btn label="详情" class="bg-tips details q-ml-sm" flat @click.stop="emit('details')" />
+        <q-btn :label="$t('add')"
+               class="bg-tips details"
+               flat
+               @click.stop="emit('add')"
+               v-if="add" />
+        <q-btn :label="$t('details')"
+               class="bg-tips details q-ml-sm"
+               flat
+               @click.stop="emit('details')" />
       </div>
     </q-item-section>
 
@@ -48,7 +55,6 @@ const props = defineProps({
 const emit = defineEmits(['add', 'details'])
 
 const { getCoverUrl } = useApi()
-const coverUrl = ref('')
 
 const coverPath = computed(() => {
   return getCoverUrl(props.data)

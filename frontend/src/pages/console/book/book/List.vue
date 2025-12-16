@@ -20,7 +20,7 @@
           <div class="query-item no-drag-region">
             <q-input v-model="condition.title__icontains"
                      class="pi-field"
-                     placeholder="搜索"
+                     :placeholder="$t('search')"
                      debounce="800"
                      standout dense clearable
                      @update:model-value="query.onQuery(true)">
@@ -37,7 +37,9 @@
             <q-menu v-model="addMenu" class="pi-menu" :offset="[0, 4]">
               <q-list style="min-width: 400px">
                 <div>
-                  <div class="text-tips">上传添加</div>
+                  <div class="text-tips text-bold">
+                    {{ $t('upload') }}
+                  </div>
                   <div class="q-pa-md">
                     <o-book-uploader :accept="bookAccept"
                                      :max-size="500 * 1024 * 1024"
@@ -46,14 +48,15 @@
                   </div>
                 </div>
                 <q-separator class="bg-dark" />
-                <o-common-item icon="search" label="从书库中添加" class="bg-accent" closable clickable @click="onOpenAdd" />
+                <o-common-item icon="o_local_library"
+                               :label="$t('book.library.add')"
+                               class="bg-accent"
+                               closable clickable
+                               @click="onOpenAdd" />
               </q-list>
             </q-menu>
           </q-btn>
-          <book-more-btn @view="onView" @sort="onSort">
-            <q-separator class="bg-accent" />
-            <o-view-item label="Total" :value="total" align="right" />
-          </book-more-btn>
+          <book-more-btn @view="onView" @sort="onSort" />
         </template>
 
         <section class="col-12">
@@ -95,9 +98,10 @@
               </section>
             </template>
             <template v-else>
-              <o-no-data message="没有记录" image v-if="condition.title__icontains" />
+              <o-no-data :message="$t('query.noRecords')" image
+                         v-if="condition.title__icontains" />
               <section class="row col-12 justify-center no-records" v-else>
-                <span class="text-readable">书库中还没有记录，快来添加吧</span>
+                <span class="text-readable">{{ $t('book.library.noBooks') }}</span>
                 <div class="row col-12 justify-center q-mt-lg action">
                   <o-book-uploader :accept="bookAccept"
                                    :max-size="500 * 1024 * 1024"
@@ -108,7 +112,7 @@
             </template>
 
             <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
-              共{{total}}条记录，没有更多数据了
+              {{ $t('query.noMoreData', {total: total}) }}
             </div>
           </q-infinite-scroll>
         </section>
@@ -147,7 +151,9 @@ import useLoadMore from 'src/hooks/useLoadMore'
 import { ipcService } from 'src/api/ipc'
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { queryTimer } = useReader()
 const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
@@ -186,7 +192,7 @@ function onDetails(item: any) {
 
 function onEdit(item: Indexable) {
   data.value = item
-  query.value.openSide('480px', 'edit', 'edit_note', 'Edit')
+  query.value.openSide('480px', 'edit', 'edit_note', t('edit'))
 }
 
 function onClose(options: Indexable) {
@@ -211,7 +217,7 @@ function onClose(options: Indexable) {
 }
 
 function onOpenAdd() {
-  query.value.openSide('80vw', 'add', 'add', 'Add book')
+  query.value.openSide('80vw', 'add', 'add', t('book.add'))
 }
 
 async function onUploadCompleted() {
@@ -228,7 +234,7 @@ function initData() {
   initQuery({
     api: 'workspaceBook',
     path: '/query/details',
-    title: 'Book'
+    title: t('book._')
   })
 }
 

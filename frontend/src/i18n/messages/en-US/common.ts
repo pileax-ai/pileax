@@ -166,4 +166,26 @@ export default {
   export: 'Export',
   select: 'Select',
   open: 'Open',
+  query: {
+    noRecords: 'No Records',
+    noMoreData: '{total} records in total. No more data available.',
+    total: 'Total',
+  },
+  sortBy: {
+    recent: 'Recent',
+    title: 'Title',
+    note: 'Note',
+  },
+  upload: 'Upload',
+  view: {
+    grid: 'Grid',
+    list: 'List',
+  },
+  remove: 'Remove',
+  confirm: 'Confirm',
+  cover: 'Cover',
+  enable: 'Enable',
+  formRules: {
+    length: '{length} characters'
+  },
 }

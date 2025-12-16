@@ -13,5 +13,13 @@ export default {
     locationTips: 'The location of book library.'
   },
   library: 'Book Library',
-  reader: 'Reader'
+  reader: 'Reader',
+  status: {
+    _: 'Reading Status',
+    all: 'All',
+    notStarted: 'Not Started',
+    wantToRead: 'Want to Read',
+    currentlyReading: 'Currently Reading',
+    finished: 'Finished',
+  }
 }

@@ -23,7 +23,13 @@
                 {{error}}
               </div>
               <div class="q-mt-md text-tips limit">
-                <span>接受 {{accept}}, 最大 {{maxSize / (1024 * 1024)}}mb</span>
+                <template v-for="(item, index) in accept.split(',')">
+                  <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
+                </template>
+                <q-chip square dense>
+                  <q-avatar color="red" text-color="white">Max</q-avatar>
+                  <span>{{maxSize / (1024 * 1024)}}M</span>
+                </q-chip>
               </div>
             </div>
           </div>
@@ -41,11 +47,16 @@
                 <q-icon name="cloud_upload" size="3rem" />
               </div>
               <div class="text-tips">
-                <span>{{ label || '将文件拖到此处，或点击上传' }}</span>
+                <span>{{ label || $t('book.uploader.label') }}</span>
               </div>
-              <div class="q-mt-md text-bold limit" :class="{ 'text-red': error }">
-                <span>接受 {{accept?.replaceAll('.',  '').toUpperCase()}}.</span>
-                <span class="q-ml-md">最大 {{maxSize / (1024 * 1024)}}mb.</span>
+              <div class="q-mt-md limit" :class="{ 'text-red': error }">
+                <template v-for="(item, index) in accept.split(',')">
+                  <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
+                </template>
+                <q-chip square dense>
+                  <q-avatar color="red" text-color="white">Max</q-avatar>
+                  <span>{{maxSize / (1024 * 1024)}}M</span>
+                </q-chip>
               </div>
             </template>
           </div>
@@ -200,7 +211,20 @@ function updateFiles (file: File) {
 
     .limit {
       font-size: 0.9rem;
-      //opacity: 0.5;
+      .q-chip {
+        height: 20px;
+        margin: 0 4px 2px 4px;
+
+        .q-avatar {
+          padding: 0 4px;
+          width: unset;
+          height: 20px;
+        }
+
+        span {
+          font-size: 0.9rem;
+        }
+      }
     }
   }
 }

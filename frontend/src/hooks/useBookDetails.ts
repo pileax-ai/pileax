@@ -1,10 +1,12 @@
 import { useQuasar } from 'quasar'
 import useApi from 'src/hooks/useApi'
 import { userBookService, workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
+import useCommon from 'core/hooks/useCommon'
 
 export default function () {
   const $q = useQuasar()
   const { getBookUrl } = useApi()
+  const { t } = useCommon()
 
   const downloadBook = (book: Indexable) => {
     const url = getBookUrl(book)
@@ -41,8 +43,8 @@ export default function () {
   const removeBook = (book: Indexable) => {
     return new Promise((resolve, reject) => {
       $q.dialog({
-        title: '确认',
-        message: '你确定从书架中移除吗？',
+        title: t('confirm'),
+        message: t('book.removeConfirm'),
         cancel: true
       }).onOk( () => {
         workspaceBookService.delete(book.id).then(res => {
@@ -59,8 +61,8 @@ export default function () {
   const removeBookFromCollection = (tid: string) => {
     return new Promise((resolve, reject) => {
       $q.dialog({
-        title: '确认',
-        message: '你确定从书单中移除吗？',
+        title: t('confirm'),
+        message: t('book.collections.removeConfirm'),
         cancel: true
       }).onOk( () => {
         workspaceBookCollectionService.delete(tid).then(res => {

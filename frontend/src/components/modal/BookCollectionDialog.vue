@@ -13,7 +13,7 @@
     <template #header>
       <q-input v-model="term"
                @update:model-value="onSearch"
-               placeholder="Search"
+               :placeholder="$t('search')"
                autofocus clearable
                standout borderless>
         <template v-slot:prepend>
@@ -28,7 +28,7 @@
     <section class="row col-12 search-container">
       <div class="group">
         <q-item-label class="text-readable">
-          Book Collections
+          {{ $t('book.collections._') }}
         </q-item-label>
       </div>
       <section class="row col-12 justify-center search-results">
@@ -62,10 +62,10 @@
       <section class="row justify-between text-tips">
         <div class="row items-center">
           <div class="row col-auto items-center">
-            <kbd>↑↓</kbd> <span class="q-ml-xs">Select</span>
+            <kbd>↑↓</kbd> <span class="q-ml-xs">{{ $t('select') }}</span>
           </div>
           <div class="row items-center q-ml-lg">
-            <kbd>↵</kbd> <span class="q-ml-xs">Add</span>
+            <kbd>↵</kbd> <span class="q-ml-xs">{{ $t('add') }}</span>
           </div>
         </div>
         <div class="col q-pl-lg text-right ellipsis">

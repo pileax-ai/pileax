@@ -19,19 +19,25 @@
     <q-card class="meta-card" flat>
       <q-card-section class="meta">
         <header class="title">{{data.title}}</header>
-        <o-view-item label="作者" :value="data.author" align="right" lines="2" />
-        <o-view-item label="出版社" :value="data.publisher" align="right" v-if="data.publisher" />
-        <o-view-item label="格式" :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
+        <o-view-item :label="$t('book.author')"
+                     :value="data.author" align="right" lines="2" />
+        <o-view-item :label="$t('book.publisher')"
+                     :value="data.publisher" align="right" v-if="data.publisher" />
+        <o-view-item :label="$t('book.format')"
+                     :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
         <template v-if="add">
-          <o-view-item label="上传时间" :value="timeMulti(data.createTime).timestamp" align="right" />
+          <o-view-item :label="$t('book.uploadTime')"
+                       :value="timeMulti(data.createTime).timestamp" align="right" />
         </template>
         <template v-else>
-          <o-view-item label="添加时间" :value="timeMulti(data.createTime).timestamp" align="right" />
-          <o-view-item label="最后阅读时间" :value="timeMulti(data.updateTime).timestamp" align="right" />
+          <o-view-item :label="$t('book.addTime')"
+                       :value="timeMulti(data.createTime).timestamp" align="right" />
+          <o-view-item :label="$t('book.lastReadTime')"
+                       :value="timeMulti(data.updateTime).timestamp" align="right" />
         </template>
 
         <section class="description" v-if="data.description">
-          <span class="text-readable">简介</span>
+          <span class="text-readable">{{ $t('description') }}</span>
           <q-scroll-area>
             <div v-html="data.description"></div>
           </q-scroll-area>
@@ -40,12 +46,12 @@
 
       <q-card-section class="row col-12 justify-center">
         <q-btn icon="add"
-               label="添加"
+               :label="$t('add')"
                class="bg-primary text-white action"
                flat
                @click="emit('add')" v-if="add" />
         <q-btn icon="menu_book"
-               label="开始阅读"
+               :label="$t('book.startReading')"
                class="bg-primary text-white action"
                flat
                @click="openBook" v-else />

@@ -1,5 +1,38 @@
 export default {
+  _: '书籍',
   annotation: '书摘',
   collection: '书单',
-  shelf: '书架'
+  shelf: '书架',
+  add: '添加书籍',
+  addToCollection: '添加至书单',
+  addToWant: '标记为想读',
+  markFinished: '标记为已读',
+  library: {
+    _: '书库',
+    noBooks: '书库中还没有记录，快来添加吧',
+    add: '从书库中添加',
+  },
+  uploader: {
+    label: '将文件拖到此处，或点击上传',
+    completed: '图书已成功上传至服务器',
+    total: '共计',
+    success: '成功',
+  },
+  filter: {
+    all: '全部',
+    book: '图书',
+    pdf: 'PDF',
+  },
+  removeConfirm: '你确定从书架中移除吗？',
+  collections: {
+    _: '书单',
+    removeConfirm: '你确定从书单中移除吗？',
+  },
+  author: '作者',
+  format: '格式',
+  publisher: '出版社',
+  uploadTime: '上传时间',
+  addTime: '添加时间',
+  lastReadTime: '最后阅读时间',
+  startReading: '开始阅读',
 }

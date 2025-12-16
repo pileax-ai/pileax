@@ -164,4 +164,26 @@ export default {
   export: '导出',
   select: '选择',
   open: '打开',
+  query: {
+    noRecords: '没有记录',
+    noMoreData: '共{total}条记录，没有更多数据了',
+    total: '共计',
+  },
+  sortBy: {
+    recent: '最近',
+    title: '标题',
+    note: '笔记',
+  },
+  upload: '上传',
+  view: {
+    grid: '网格',
+    list: '列表',
+  },
+  remove: '移除',
+  confirm: '确认',
+  cover: '封面',
+  enable: '启用',
+  formRules: {
+    length: '{length} 字符'
+  },
 }
