@@ -16,7 +16,7 @@
     </q-item-section>
     <q-item-section side>
       <div class="time">
-        {{ timeMulti(data.updateTime).fromNow }}
+        {{ timeMulti(data.updateTime).fromNow() }}
       </div>
       <div class="row">
         <q-btn :label="$t('add')"
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
-import { timeMulti } from 'core/utils/format'
+import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 
 const props = defineProps({

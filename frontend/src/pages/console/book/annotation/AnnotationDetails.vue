@@ -29,9 +29,12 @@
     <q-card flat>
       <q-card-section class="meta">
         <header class="title text-readable">{{data.bookTitle}}</header>
-        <o-view-item label="章节" :value="data.chapter" align="right" lines="2" />
-        <o-view-item label="时间" :value="timeMulti(data.createTime).timestamp" align="right" />
-        <o-view-item label="书摘" :value="data.note" class="q-mt-md annotation" align="right" copiable />
+        <o-view-item :label="$t('book.chapter')"
+                     :value="data.chapter" align="right" lines="2" />
+        <o-view-item :label="$t('time')"
+                     :value="timeMulti(data.createTime).timestamp" align="right" />
+        <o-view-item :label="$t('book.annotation')"
+                     :value="data.note" class="q-mt-md annotation" align="right" copiable />
 
         <section class="note">
           <q-scroll-area>
@@ -42,12 +45,12 @@
 
       <q-card-section class="row col-12 justify-center">
         <q-btn icon="visibility"
-               label="开始预览"
+               :label="$t('book.startPreview')"
                class="bg-cyan text-white action"
                flat
                @click="openBook" />
         <div class="col-12 text-center text-tips caption q-mt-md">
-          预览模式下，不会保存阅读进度.
+          {{ $t('book.previewTips') }}
         </div>
       </q-card-section>
     </q-card>
@@ -55,11 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { timeMulti } from 'core/utils/format'
 import { ipcService } from 'src/api/ipc'
 import useBookAnnotation from 'src/hooks/useBookAnnotation'
+import useCrud from 'src/hooks/useCrud'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   data: {
@@ -75,12 +79,14 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
+const { t } = useCommon()
 const { removeBookAnnotation } = useBookAnnotation()
+const { crud } = useCrud()
 
 const actions = computed(() => {
   return [
     {
-      label: 'Remove',
+      label: t('remove'),
       value: 'remove',
       icon: 'delete',
     },
@@ -101,6 +107,17 @@ function onAction (action :any) {
 }
 
 function onRemove() {
+  crud.remove(props.data.id, {
+    callback: (_) => {
+      emit('close', {
+        action: 'remove',
+        item: props.data
+      })
+    }
+  })
+}
+
+function onRemove0() {
   removeBookAnnotation(props.data).then(res => {
     emit('close', {
       action: 'remove',
@@ -114,6 +131,9 @@ function openBook() {
   ipcService.openNewWindow(item.id, `/reader/annotation?id=${item.id}`)
 }
 
+onMounted(() => {
+  crud.init('bookAnnotation')
+})
 </script>
 
 <style lang="scss">

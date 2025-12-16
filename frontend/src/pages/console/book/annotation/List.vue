@@ -7,7 +7,7 @@
       <div class="query-item no-drag-region">
         <q-input v-model="condition.note__icontains"
                  class="pi-field"
-                 placeholder="搜索"
+                 :placeholder="$t('search')"
                  debounce="800"
                  standout dense clearable
                  @update:model-value="query.onQuery(true)">
@@ -41,14 +41,15 @@
           </section>
         </template>
         <template v-else>
-          <o-no-data message="没有记录" image v-if="condition.title__icontains" />
+          <o-no-data :message="$t('query.noRecords')" image
+                     v-if="condition.title__icontains" />
           <section class="row col-12 justify-center no-records" v-else>
-            <span class="text-readable">还没有书摘记录，快去阅读添加吧</span>
+            <span class="text-readable">{{ $t('book.annotations.noRecords') }}</span>
           </section>
         </template>
 
         <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
-          共{{total}}条记录，没有更多数据了
+          {{ $t('query.noMoreData', {total: total}) }}
         </div>
       </q-infinite-scroll>
     </section>
@@ -63,13 +64,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onMounted, ref } from 'vue'
+import { onActivated, onMounted, ref } from 'vue'
 import AnnotationFilterBtn from './AnnotationFilterBtn.vue'
 import AnnotationListItem from './AnnotationListItem.vue'
 import AnnotationDetails from './AnnotationDetails.vue'
 
 import useLoadMore from 'src/hooks/useLoadMore'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { condition, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const isActivated = ref(false)
@@ -88,7 +91,7 @@ function initData() {
   initQuery({
     api: 'bookAnnotation',
     path: '/query/details',
-    title: 'BookAnnotation'
+    title: t('details')
   })
 }
 

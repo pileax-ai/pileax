@@ -134,6 +134,7 @@ export default {
     service: '用户协议'
   },
   test: '测试',
+  time: '时间',
   times: {
     last30Days: '30天内',
     last7Days: '7天内',

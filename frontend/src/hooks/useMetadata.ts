@@ -1,7 +1,6 @@
 
 import { computed } from 'vue'
 import useCommon from 'core/hooks/useCommon'
-import { StandardColors } from 'core/constants/metadata'
 
 export default function() {
   const { t } = useCommon()

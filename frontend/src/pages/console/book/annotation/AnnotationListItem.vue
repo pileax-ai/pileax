@@ -25,9 +25,9 @@
       <q-item-label caption>
         <div class="row q-pt-md relative-position">
           <div>
-            {{ timeMulti(data.updateTime).fromNow }}
+            {{ timeMulti(data.updateTime).fromNow() }}
             <o-tooltip>
-              {{ timeMulti(data.updateTime).timestamp }}
+              {{ timeMulti(data.updateTime).timestamp() }}
             </o-tooltip>
           </div>
         </div>
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
-import { timeMulti } from 'core/utils/format'
+import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 
 const props = defineProps({

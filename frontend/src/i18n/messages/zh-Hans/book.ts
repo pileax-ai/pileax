@@ -36,4 +36,12 @@ export default {
   addTime: '添加时间',
   lastReadTime: '最后阅读时间',
   startReading: '开始阅读',
+  startPreview: '开始预览',
+  previewTips: '预览模式下，不会保存阅读进度',
+  annotations: {
+    _: '书摘',
+    add: '添加书摘',
+    noRecords: '还没有书摘记录，快去阅读添加吧'
+  },
+  chapter: '章节',
 }

@@ -36,4 +36,12 @@ export default {
   addTime: 'Add Time',
   lastReadTime: 'Last Read Time',
   startReading: 'Start Reading',
+  startPreview: 'Start Preview',
+  previewTips: 'In preview mode, reading progress will not be saved.',
+  annotations: {
+    _: 'Book Annotations',
+    add: 'Add Annotation',
+    noRecords: 'No annotations yet. Start reading and highlight some.'
+  },
+  chapter: 'Chapter',
 }

@@ -135,6 +135,7 @@ export default {
     service: 'User Agreement'
   },
   test: 'Test',
+  time: 'Time',
   times: {
     last30Days: 'Within 30 days',
     last7Days: 'Within 7 days',

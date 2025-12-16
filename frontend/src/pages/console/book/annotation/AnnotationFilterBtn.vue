@@ -26,16 +26,17 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import useCommon from 'core/hooks/useCommon'
 const emit = defineEmits(['view', 'sort'])
 
-const bookView = ref('grid')
+const { t } = useCommon()
 const orderField = ref('recent')
 const orderDesc = ref(true)
 
 const actions = computed(() => {
   return [
     {
-      label: 'Recent',
+      label: t('sortBy.recent'),
       value: 'recent',
       icon: 'schedule',
       selected: orderField.value === 'recent',
@@ -43,7 +44,7 @@ const actions = computed(() => {
       separator: false
     },
     {
-      label: 'Note',
+      label: t('sortBy.note'),
       value: 'note',
       icon: 'sort_by_alpha',
       sortable: true,
