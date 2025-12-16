@@ -10,7 +10,7 @@
                     :enable-hover="enableHover"
                     flat>
     <q-input v-model="term"
-             placeholder="Search Tab"
+             :placeholder="$t('search')"
              class="search"
              borderless dense autofocus>
       <template #prepend>
@@ -98,7 +98,11 @@ const filterMenus = computed(() => {
     min-height: 32px;
     //border-radius: 0!important;
     .side-label {
-      padding-right: 8px;
+      //padding-right: 8px;
+
+      .q-btn--round {
+        height: 30px;
+      }
     }
     .close {
       visibility: hidden;

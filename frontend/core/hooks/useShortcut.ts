@@ -43,9 +43,9 @@ export default function () {
     }
   }
 
-  const nativeShortcut = (shortcut: string) => {
+  const nativeShortcut = (shortcut: string, separator = '+') => {
     const keys = shortcut
-      ?.split('+')
+      ?.split(separator)
       .map((k) => k.trim().toLowerCase())
       .filter(Boolean)
     if (!keys || !keys.length) return shortcut
@@ -55,7 +55,7 @@ export default function () {
       return map[k as keyof typeof map] ?? k.toUpperCase()
     })
 
-    return converted.join('+')
+    return converted.join(separator)
   }
 
   return {

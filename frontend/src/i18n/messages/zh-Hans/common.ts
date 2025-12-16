@@ -147,4 +147,16 @@ export default {
   move: '移动',
   moveDown: '向下移',
   moveUp: '向上移',
+  tab: {
+    new: '新建标签页',
+    refresh: '刷新',
+    pin: '固定',
+    unpin: '取消固定',
+    duplicate: '复制',
+    newWindow: '移至新窗口',
+    close: '关闭',
+    closeOther: '关闭其它',
+    closeToLeft: '关闭左侧标签页',
+    closeToRight: '关闭右侧标签页',
+  }
 }

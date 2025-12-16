@@ -149,4 +149,16 @@ export default {
   move: 'Move',
   moveDown: 'Move down',
   moveUp: 'Move up',
+  tab: {
+    new: 'New Tab',
+    refresh: 'Refresh Tab',
+    pin: 'Pin Tab',
+    unpin: 'Unpin Tab',
+    duplicate: 'Duplicate Tab',
+    newWindow: 'Move Tab to New Window',
+    close: 'Close',
+    closeOther: 'Close Other Tabs',
+    closeToLeft: 'Close Tabs to the Left',
+    closeToRight: 'Close Tabs to the Right',
+  }
 }

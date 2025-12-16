@@ -43,6 +43,7 @@
 import type { PropType } from 'vue'
 import { computed } from 'vue'
 import { useTabStore } from 'stores/tab'
+import useCommon from 'core/hooks/useCommon'
 import { menuLabel } from 'core/hooks/useMenu'
 import { ipcService } from 'src/api/ipc'
 import { NoteDefaultIcon } from 'core/constants/constant'
@@ -60,18 +61,19 @@ const props = defineProps({
 })
 const emits = defineEmits(['close'])
 
+const { t } = useCommon()
 const tabStore = useTabStore()
 
 const actions = computed(() => {
   return [
-    { label: 'Refresh Tab', value: 'refresh', icon: 'refresh' },
-    { label: 'Pin Tab', value: 'pin', icon: 'mdi-pin-outline', separator: true },
-    { label: 'Duplicate Tab', value: 'duplicate', icon: 'copy_all' },
-    { label: 'Move Tab to New Window', value: 'newWindow', icon: 'open_in_browser' },
-    { label: 'Close', value: 'close', icon: 'close', separator: true },
-    { label: 'Close Other Tabs', value: 'closeOther', icon: 'playlist_remove' },
-    { label: 'Close Tabs to the Left', value: 'closeToLeft', icon: 'keyboard_tab', iconClass: 'rotate-180' },
-    { label: 'Close Tabs to the Right', value: 'closeToRight', icon: 'keyboard_tab' },
+    { label: t('tab.refresh'), value: 'refresh', icon: 'refresh' },
+    { label: t('tab.pin'), value: 'pin', icon: 'mdi-pin-outline', separator: true },
+    { label: t('tab.duplicate'), value: 'duplicate', icon: 'copy_all' },
+    { label: t('tab.newWindow'), value: 'newWindow', icon: 'open_in_browser' },
+    { label: t('tab.close'), value: 'close', icon: 'close', separator: true },
+    { label: t('tab.closeOther'), value: 'closeOther', icon: 'playlist_remove' },
+    { label: t('tab.closeToLeft'), value: 'closeToLeft', icon: 'keyboard_tab', iconClass: 'rotate-180' },
+    { label: t('tab.closeToRight'), value: 'closeToRight', icon: 'keyboard_tab' },
   ]
 })
 
@@ -81,7 +83,7 @@ function itemAction(action: Indexable, item: MenuItem) {
   let disabled = false
   switch (action.value) {
     case 'pin':
-      action.label = item.pinned ? 'Unpin Tab' : 'Pin Tab'
+      action.label = item.pinned ? t('tab.unpin') : t('tab.pin')
       action.icon = item.pinned ? 'mdi-pin-off-outline' : 'mdi-pin-outline'
       break
     case 'closeOther':

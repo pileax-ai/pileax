@@ -42,7 +42,7 @@
                class="tab-add no-drag-region"
                flat round
                @click="onAdd">
-          <o-tooltip>New tab</o-tooltip>
+          <o-tooltip>{{ $t('tab.new') }}</o-tooltip>
         </q-btn>
       </q-tabs>
     </div>

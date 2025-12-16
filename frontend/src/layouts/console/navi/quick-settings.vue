@@ -105,6 +105,7 @@ import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 import { openURL } from 'quasar'
 import { APP_DOC_URL } from 'src/app/app'
+import useShortcut from 'core/hooks/useShortcut'
 
 const props = defineProps({
   type: {
@@ -113,10 +114,18 @@ const props = defineProps({
   },
 })
 
-const { account, workspace, workspaces, logout, initWorkspace, switchWorkspace } = useAccount()
+const {
+  account,
+  workspace,
+  workspaces,
+  logout,
+  initWorkspace,
+  switchWorkspace
+} = useAccount()
 const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
+const { nativeShortcut } = useShortcut()
 const offset = computed(() => {
   return props.type === 'tab' ? [-2, -2] : [-2, -2]
 })
@@ -141,7 +150,7 @@ const actions = computed(() => {
       label: t('settings'),
       value: 'general',
       icon: 'o_settings',
-      sideLabel: '⌘G',
+      sideLabel: nativeShortcut('mod G', ' '),
       clickable: true,
     },
     {
