@@ -15,8 +15,7 @@
         <template #prepend>
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" :color="form.color" />
-            <o-general-icon-menu @emoji="onSelectEmoji"
-                                 @icon="onSelectIcon" />
+            <o-general-icon-menu @select="onSelectIcon" />
           </div>
         </template>
       </q-input>
@@ -86,14 +85,8 @@ function onLogoReady() {
   //
 }
 
-function onSelectEmoji(options: Indexable) {
-  console.log('emoji', options)
-  form.value.icon = options.emoji
-}
-
 function onSelectIcon(options: Indexable) {
-  console.log('icon', options)
-  form.value.icon = options.name
+  form.value.icon = options.value
 }
 
 function onSubmit () {

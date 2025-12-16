@@ -148,9 +148,10 @@ export default function () {
   }
 
   function setIcon(option: Indexable) {
+    console.log('setIcon', option)
     saveNote({
       id: currentNote.value.id,
-      icon: option.emoji
+      icon: option.value
     })
   }
 

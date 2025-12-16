@@ -10,11 +10,9 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import utc from 'dayjs/plugin/utc'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
-import zhCn from 'dayjs/locale/zh-cn'
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
 dayjs.extend(localizedFormat)
-dayjs.locale(zhCn)
 
 // =========================================================
 // File

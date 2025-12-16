@@ -1,7 +1,7 @@
 <template>
   <section class="row items-center text-tips note-actions">
     <div>
-      {{ timeMulti(currentNote.updateTime || '').fromNow }}
+      {{ timeMulti(currentNote.updateTime || '').fromNow() }}
     </div>
     <q-btn :icon="currentNote.favorite === 1 ? 'star' : 'star_outline'"
            flat
@@ -13,43 +13,45 @@
               :offset="[0, 4]"
               transition-show="jump-down"
               class="o-note-action-menu pi-menu dense">
-        <header class="row col-12 justify-around">
-          <q-btn class="col-4" :class="{ 'active': font === 'default' }"
-                 stack flat @click="onFont('default')">
-            <div>Ag</div>
-            <div class="text-tips font">Default</div>
-          </q-btn>
-          <q-btn class="col-4" :class="{ 'active': font === 'serif' }"
-                 stack flat @click="onFont('serif')">
-            <div class="serif">Ag</div>
-            <div class="text-tips font">Serif</div>
-          </q-btn>
-          <q-btn class="col-4" :class="{ 'active': font === 'mono' }"
-                 stack flat @click="onFont('mono')">
-            <div class="mono">Ag</div>
-            <div class="text-tips font">Mono</div>
-          </q-btn>
-        </header>
-        <q-list :style="{minWidth: '240px'}">
-          <template v-for="(action, index) in actions" :key="`action-${index}`">
-            <q-separator class="bg-accent" v-if="action.separator" />
-            <o-common-item v-bind="action"
-                           @click="onAction(action, '')"
-                           closable>
-              <template #side>
-                <q-toggle v-model="styles.smallText"
-                          @update:model-value="onAction(action, $event)"
-                          v-if="action.value === 'smallText'" />
-                <q-toggle v-model="styles.fullWidth"
-                          @update:model-value="onAction(action, $event)"
-                          v-if="action.value === 'fullWidth'" />
-                <q-toggle v-model="styles.toc"
-                          @update:model-value="onAction(action, $event)"
-                          v-if="action.value === 'toc'" />
-              </template>
-            </o-common-item>
-          </template>
-        </q-list>
+        <section style="min-width: 260px;">
+          <header class="row col-12 justify-around">
+            <q-btn class="col-4" :class="{ 'active': font === 'default' }"
+                   stack flat @click="onFont('default')">
+              <div>Ag</div>
+              <div class="text-tips font">{{ $t('note.style.defaultFont') }}</div>
+            </q-btn>
+            <q-btn class="col-4" :class="{ 'active': font === 'serif' }"
+                   stack flat @click="onFont('serif')">
+              <div class="serif">Ag</div>
+              <div class="text-tips font">{{ $t('note.style.serifFont') }}</div>
+            </q-btn>
+            <q-btn class="col-4" :class="{ 'active': font === 'mono' }"
+                   stack flat @click="onFont('mono')">
+              <div class="mono">Ag</div>
+              <div class="text-tips font">{{ $t('note.style.monoFont') }}</div>
+            </q-btn>
+          </header>
+          <q-list :style="{minWidth: '240px'}">
+            <template v-for="(action, index) in actions" :key="`action-${index}`">
+              <q-separator class="bg-accent" v-if="action.separator" />
+              <o-common-item v-bind="action"
+                             @click="onAction(action, '')"
+                             closable>
+                <template #side>
+                  <q-toggle v-model="styles.smallText"
+                            @update:model-value="onAction(action, $event)"
+                            v-if="action.value === 'smallText'" />
+                  <q-toggle v-model="styles.fullWidth"
+                            @update:model-value="onAction(action, $event)"
+                            v-if="action.value === 'fullWidth'" />
+                  <q-toggle v-model="styles.toc"
+                            @update:model-value="onAction(action, $event)"
+                            v-if="action.value === 'toc'" />
+                </template>
+              </o-common-item>
+            </template>
+          </q-list>
+        </section>
       </q-menu>
     </q-btn>
     <q-btn flat
@@ -62,10 +64,12 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
 import useNote from 'src/hooks/useNote'
-import { timeMulti } from 'core/utils/format'
+import { timeMulti } from 'core/utils/dayjs'
+import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['action'])
 
+const { t } = useCommon()
 const {
   currentNote,
   saveNote,
@@ -83,21 +87,26 @@ const font = ref('default')
 const actions = computed(() => {
   return [
     {
-      label: "Small text",
+      label: t('note.style.smallText'),
       value: "smallText",
-      icon: "text_decrease",
+      icon: "mdi-format-font-size-decrease",
       rightSide: true,
     },
     {
-      label: "Full width",
+      label: t('note.style.fullWidth'),
       value: "fullWidth",
-      icon: "open_in_full",
+      icon: "mdi-arrow-expand",
       iconClass: "rotate-45",
       rightSide: true,
     },
-    { label: "Table of contents", value: "toc", icon: "toc", rightSide: true },
     {
-      label: "Duplicate",
+      label: t('note.style.toc'),
+      value: "toc",
+      icon: "toc",
+      rightSide: true
+    },
+    {
+      label: t('note.duplicate'),
       value: "duplicate",
       icon: "copy_all",
       sideLabel: "⌘D",
@@ -105,44 +114,50 @@ const actions = computed(() => {
       separator: true,
     },
     {
-      label: "Move to",
-      value: "move",
+      label: t('note.moveTo'),
+      value: "moveTo",
       icon: "keyboard_return",
       iconClass: "rotate-180",
       clickable: true,
       sideLabel: "⌘⇧P",
     },
     {
-      label: "Delete",
+      label: t('delete'),
       value: "delete",
       icon: "delete_outline",
       clickable: true,
     },
     {
-      label: "Import",
-      value: "delete",
-      icon: "vertical_align_top",
-      sideLabel: "⌘⇧",
+      label: t('import'),
+      value: "import",
+      icon: "mdi-arrow-collapse-up",
       clickable: true,
       separator: true,
     },
     {
-      label: "Export",
-      value: "delete",
-      icon: "vertical_align_bottom",
+      label: t('export'),
+      value: "export",
+      icon: "mdi-arrow-collapse-down",
       clickable: true,
     },
     {
-      label: "Open in new tab",
-      value: "delete",
+      label: t('note.version'),
+      value: "version",
+      icon: "o_web_stories",
+      clickable: true,
+      separator: true,
+    },
+    {
+      label: t('note.newTab'),
+      value: "newTab",
       icon: "open_in_new",
       sideLabel: "⌘⇧",
       clickable: true,
       separator: true,
     },
     {
-      label: "Open in new window",
-      value: "delete",
+      label: t('note.newWindow'),
+      value: "newWindow",
       icon: "open_in_browser",
       clickable: true,
     },
@@ -209,14 +224,15 @@ onBeforeMount(() => {
 
       &.active {
         color: var(--q-primary);
+        background: var(--q-accent);
       }
 
       .serif {
-        font-family: serif;
+        font-family: Lyon-Text, Georgia, "Songti SC", SimSun, serif;
       }
 
       .mono {
-        font-family: monospace;
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
       }
 
       .font {

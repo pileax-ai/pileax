@@ -33,7 +33,6 @@ import { computed, ref } from 'vue'
 import { OEmojiSelect } from '@yiitap/vue'
 import { emojiGroups } from '@yiitap/util-emoji'
 import OIconSelect from 'components/icon/OIconSelect.vue'
-import OSplitPage from 'core/page/template/OSplitPage.vue'
 import { QMenu } from 'quasar'
 
 const props = defineProps({
@@ -52,7 +51,7 @@ const props = defineProps({
     }
   },
 })
-const emit = defineEmits(['emoji', 'icon'])
+const emit = defineEmits(['select'])
 const menuRef = ref<InstanceType<typeof QMenu>>()
 const currentTab = ref('emoji')
 
@@ -70,13 +69,13 @@ const tabs = computed(() => {
 })
 
 function onSelectEmoji(option: Indexable) {
-  emit('emoji', option)
+  emit('select', {...option, value: option.emoji, type: 'emoji'})
 
   menuRef.value?.hide()
 }
 
 function onSelectIcon(option: Indexable) {
-  emit('icon', option)
+  emit('select', {...option, value: option.name, type: 'icon'})
 
   menuRef.value?.hide()
 }

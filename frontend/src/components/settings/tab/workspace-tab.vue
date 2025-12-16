@@ -12,8 +12,7 @@
 
                 <o-general-icon-menu anchor="top right" self="top left"
                                      :offset="[8, 0]"
-                                     @emoji="onSelectEmoji"
-                                     @icon="onSelectIcon"
+                                     @select="onSelectIcon"
                                      v-if="editable" />
               </q-avatar>
             </q-item-section>
@@ -122,12 +121,8 @@ function onUpdateName() {
   updateCurrent({name: name.value})
 }
 
-function onSelectEmoji(options: Indexable) {
-  updateCurrent({icon: options.emoji})
-}
-
 function onSelectIcon(options: Indexable) {
-  updateCurrent({icon: options.name})
+  updateCurrent({icon: options.value})
 }
 
 function updateCurrent(data: Indexable) {

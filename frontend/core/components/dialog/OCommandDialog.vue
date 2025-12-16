@@ -96,21 +96,43 @@ onMounted(() => {
 .o-command-dialog {
   .q-header {
     padding: 0 1rem;
-    border-bottom: solid 1px var(--q-dark);
+    border-bottom: solid 1px var(--q-dark) !important;
   }
 
   .q-layout-container {
     border-radius: 1rem !important;
+
+    .search-container {
+      .q-list {
+        .q-item.selected {
+          background: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
   }
 
   .q-footer {
     padding: 10px;
-    border-top: solid 1px var(--q-dark);
+    border-top: solid 1px var(--q-dark) !important;
   }
 
   kbd {
     color: var(--q-info);
     background: var(--q-accent);
+  }
+}
+
+.body--dark {
+  .o-command-dialog {
+    .q-layout-container {
+      .search-container {
+        .q-list {
+          .q-item.selected {
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+    }
   }
 }
 </style>

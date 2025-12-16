@@ -51,6 +51,7 @@ export default {
   create: '创建',
   dashboard: '仪表盘',
   delete: '删除',
+  deleteConfirm: '你确定删除？',
   description: '描述',
   details: '详情',
   developer: '开发者',
@@ -158,5 +159,9 @@ export default {
     closeOther: '关闭其它',
     closeToLeft: '关闭左侧标签页',
     closeToRight: '关闭右侧标签页',
-  }
+  },
+  import: '导入',
+  export: '导出',
+  select: '选择',
+  open: '打开',
 }

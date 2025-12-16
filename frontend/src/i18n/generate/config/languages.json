@@ -2,6 +2,7 @@
   {
     "label": "English (United States)",
     "value": "en-US",
+    "locale": "en",
     "prompt_name": "English",
     "example": "Hello, PileaX!",
     "supported": true
@@ -9,6 +10,7 @@
   {
     "label": "简体中文",
     "value": "zh-Hans",
+    "locale": "zh-cn",
     "prompt_name": "Chinese Simplified",
     "example": "你好，PileaX！",
     "supported": true
@@ -16,6 +18,7 @@
   {
     "label": "繁體中文",
     "value": "zh-Hant",
+    "locale": "zh-tw",
     "prompt_name": "Chinese Traditional",
     "example": "你好，PileaX！",
     "supported": false
@@ -23,6 +26,7 @@
   {
     "label": "Português (Brasil)",
     "value": "pt-BR",
+    "locale": "pt-br",
     "prompt_name": "Portuguese",
     "example": "Olá, PileaX!",
     "supported": false
@@ -30,6 +34,7 @@
   {
     "label": "Español (España)",
     "value": "es-ES",
+    "locale": "es",
     "prompt_name": "Spanish",
     "example": "¡Hola, PileaX!",
     "supported": false
@@ -37,6 +42,7 @@
   {
     "label": "Français (France)",
     "value": "fr-FR",
+    "locale": "fr",
     "prompt_name": "French",
     "example": "Bonjour, PileaX!",
     "supported": false
@@ -44,6 +50,7 @@
   {
     "label": "Deutsch (Deutschland)",
     "value": "de-DE",
+    "locale": "de",
     "prompt_name": "German",
     "example": "Hallo, PileaX!",
     "supported": false
@@ -51,6 +58,7 @@
   {
     "label": "日本語 (日本)",
     "value": "ja-JP",
+    "locale": "ja",
     "prompt_name": "Japanese",
     "example": "こんにちは、PileaX!",
     "supported": false
@@ -58,6 +66,7 @@
   {
     "label": "한국어 (대한민국)",
     "value": "ko-KR",
+    "locale": "ko",
     "prompt_name": "Korean",
     "example": "안녕하세요, PileaX!",
     "supported": false
@@ -65,13 +74,15 @@
   {
     "label": "Русский (Россия)",
     "value": "ru-RU",
+    "locale": "ru",
     "prompt_name": "Russian",
-    "example": " Привет, PileaX!",
+    "example": "Привет, PileaX!",
     "supported": false
   },
   {
     "label": "Italiano (Italia)",
     "value": "it-IT",
+    "locale": "it",
     "prompt_name": "Italian",
     "example": "Ciao, PileaX!",
     "supported": false
@@ -79,6 +90,7 @@
   {
     "label": "ไทย (ประเทศไทย)",
     "value": "th-TH",
+    "locale": "th",
     "prompt_name": "Thai",
     "example": "สวัสดี PileaX!",
     "supported": false
@@ -86,6 +98,7 @@
   {
     "label": "Українська (Україна)",
     "value": "uk-UA",
+    "locale": "uk",
     "prompt_name": "Ukrainian",
     "example": "Привет, PileaX!",
     "supported": false
@@ -93,6 +106,7 @@
   {
     "label": "Tiếng Việt (Việt Nam)",
     "value": "vi-VN",
+    "locale": "vi",
     "prompt_name": "Vietnamese",
     "example": "Xin chào, PileaX!",
     "supported": false
@@ -100,6 +114,7 @@
   {
     "label": "Română (România)",
     "value": "ro-RO",
+    "locale": "ro",
     "prompt_name": "Romanian",
     "example": "Salut, PileaX!",
     "supported": false
@@ -107,6 +122,7 @@
   {
     "label": "Polski (Polish)",
     "value": "pl-PL",
+    "locale": "pl",
     "prompt_name": "Polish",
     "example": "Cześć, PileaX!",
     "supported": false
@@ -114,6 +130,7 @@
   {
     "label": "Hindi (India)",
     "value": "hi-IN",
+    "locale": "hi",
     "prompt_name": "Hindi",
     "example": "नमस्ते, PileaX!",
     "supported": false
@@ -121,6 +138,7 @@
   {
     "label": "Türkçe",
     "value": "tr-TR",
+    "locale": "tr",
     "prompt_name": "Türkçe",
     "example": "Selam!",
     "supported": false
@@ -128,6 +146,7 @@
   {
     "label": "Farsi (Iran)",
     "value": "fa-IR",
+    "locale": "fa",
     "prompt_name": "Farsi",
     "example": "سلام, دیفای!",
     "supported": false
@@ -135,6 +154,7 @@
   {
     "label": "Slovensko (Slovenija)",
     "value": "sl-SI",
+    "locale": "sl",
     "prompt_name": "Slovensko",
     "example": "Zdravo, PileaX!",
     "supported": false
@@ -142,6 +162,7 @@
   {
     "label": "Bahasa Indonesia",
     "value": "id-ID",
+    "locale": "id",
     "prompt_name": "Indonesian",
     "example": "Halo, PileaX!",
     "supported": false

@@ -1,8 +1,14 @@
+import { computed } from 'vue'
 import useDialog from 'core/hooks/useDialog'
 import { getKeys } from 'core/utils/keyboard'
 
 export default function () {
   const { openNoteSearchDialog, openSettingsDialog } = useDialog()
+
+  const isMac = computed(() => {
+    return typeof navigator !== 'undefined' &&
+      /Mac|iPod|iPhone|iPad/.test(navigator.platform)
+  })
 
   const addKeyBindings = () => {
     window.addEventListener('keydown', onKeydown)
@@ -43,7 +49,7 @@ export default function () {
     }
   }
 
-  const nativeShortcut = (shortcut: string, separator = '+') => {
+  const nativeShortcut = (shortcut: string, separator = '+', join = true) => {
     const keys = shortcut
       ?.split(separator)
       .map((k) => k.trim().toLowerCase())
@@ -55,7 +61,8 @@ export default function () {
       return map[k as keyof typeof map] ?? k.toUpperCase()
     })
 
-    return converted.join(separator)
+    const joinSeparator = isMac.value ? '' : separator
+    return join ? converted.join(joinSeparator) : converted
   }
 
   return {

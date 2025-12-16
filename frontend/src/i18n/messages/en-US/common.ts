@@ -51,6 +51,7 @@ export default {
   create: 'Create',
   dashboard: 'Dashboard',
   delete: 'Delete',
+  deleteConfirm: 'Are you sure to delete?',
   description: 'Description',
   details: 'Details',
   developer: 'Developer',
@@ -160,5 +161,9 @@ export default {
     closeOther: 'Close Other Tabs',
     closeToLeft: 'Close Tabs to the Left',
     closeToRight: 'Close Tabs to the Right',
-  }
+  },
+  import: 'Import',
+  export: 'Export',
+  select: 'Select',
+  open: 'Open',
 }

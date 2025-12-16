@@ -7,7 +7,7 @@
     <template #header>
       <q-input v-model="term"
                @update:model-value="onSearch"
-               placeholder="Search"
+               :placeholder="$t('note.search')"
                autofocus clearable
                standout borderless>
         <template v-slot:prepend>
@@ -15,7 +15,7 @@
         </template>
         <template v-slot:append>
           <section class="row">
-            <kbd>⌘</kbd>
+            <kbd>{{ nativeShortcut('mod') }}</kbd>
             <kbd>P</kbd>
           </section>
         </template>
@@ -25,25 +25,25 @@
     <section class="row col-12 search-container">
       <div class="group">
         <q-item-label class="text-readable" v-if="term">
-          Results
+          {{ $t('note.searchResults') }}
         </q-item-label>
         <q-item-label class="text-readable" v-else>
-          Recent Notes
+          {{ $t('note.recent') }}
         </q-item-label>
       </div>
       <section class="row col-12 justify-center search-results">
         <q-list class="col-12" v-if="results.length">
           <template v-for="(item, index) in results" :key="index">
-            <q-item :class="{'bg-dark': index === selected}"
+            <q-item :class="{'selected': index === selected}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
-                <q-icon :name="item.icon || '✍'" size="1.2rem" />
+                <o-icon :name="item.icon || NoteDefaultIcon" size="1.6rem" />
               </q-item-section>
               <q-item-section class="text-bold">
                 {{item.title}}
               </q-item-section>
               <q-item-section class="time" side>
-                {{ timeMulti(item.updateTime).fromNow }}
+                {{ timeMulti(item.updateTime).fromNow() }}
               </q-item-section>
             </q-item>
           </template>
@@ -55,10 +55,10 @@
     <template #footer>
       <div class="row items-center text-tips">
         <div class="row items-center">
-          <kbd>↑↓</kbd> <span class="q-ml-xs">Select</span>
+          <kbd>↑↓</kbd> <span class="q-ml-xs">{{ $t('select') }}</span>
         </div>
         <div class="row items-center q-ml-lg">
-          <kbd>↵</kbd> <span class="q-ml-xs">Open</span>
+          <kbd>↵</kbd> <span class="q-ml-xs">{{ $t('open') }}</span>
         </div>
       </div>
     </template>
@@ -71,16 +71,18 @@ import useDialog from 'core/hooks/useDialog'
 import useNote from 'src/hooks/useNote'
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import {timeMulti} from 'core/utils/format'
+import {timeMulti} from 'core/utils/dayjs'
+import useShortcut from 'core/hooks/useShortcut'
+import { NoteDefaultIcon } from 'core/constants/constant'
 
 const { dialog, onHide, onOk } = useDialog()
 const {
   notes,
   recentNotes,
   openNote,
-  getAllNotes,
   getRecentNotes,
 } = useNote()
+const { nativeShortcut } = useShortcut()
 
 const term = ref('')
 const selected = ref(0)
@@ -198,10 +200,7 @@ onUnmounted(() => {
           min-height: 40px;
           padding: 8px 12px;
           border-radius: 4px;
-
-          .q-icon {
-            margin-top: -2px;
-          }
+          margin-bottom: 2px;
 
           .time {
             font-size: 0.9rem;

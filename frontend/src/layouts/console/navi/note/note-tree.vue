@@ -21,9 +21,8 @@
         <section class="none-pointer-events note-title" v-if="prop.node.type === 'note'">
           <q-item>
             <q-item-section avatar>
-              <q-icon :name="prop.node.icon" size="1.2rem" v-if="prop.node.icon" />
-              <span v-else-if="prop.node.data.icon">{{prop.node.data.icon}}</span>
-              <span v-else>{{ NoteDefaultIcon }}</span>
+              <o-icon :name="prop.node.icon || prop.node.data.icon || NoteDefaultIcon"
+                      size="1.2rem" />
             </q-item-section>
             <q-item-section class="label">
               <q-item-label lines="1">
@@ -48,7 +47,7 @@
                  class="bg-dark full-width text-bold"
                  @click="addNote()"
                  flat v-else>
-            Add Note
+            {{ $t('note.add') }}
           </q-btn>
         </section>
       </section>
@@ -84,6 +83,7 @@ import useNote from 'src/hooks/useNote'
 import { useTabStore } from 'stores/tab'
 import { ipcService } from 'src/api/ipc'
 import useCommon from 'core/hooks/useCommon'
+import useShortcut from 'core/hooks/useShortcut'
 
 const props = defineProps({
   scope: {
@@ -93,10 +93,10 @@ const props = defineProps({
 })
 
 const { t, confirm } = useCommon()
+const { nativeShortcut } = useShortcut()
 const {
   notes,
   currentNote,
-  refreshNote,
   addNote,
   openNote,
   deleteNote,
@@ -123,39 +123,39 @@ const noteTree = computed(() => {
 function noteCommands(note: Indexable) {
   return [
     {
-      label: note.favorite === 1 ? 'Remove from favorite': 'Add to favorite',
+      label: note.favorite === 1 ? t('note.favoriteRemove'): t('note.favoriteAdd'),
       value: 'favorite',
       icon: note.favorite === 1 ? 'star' : 'star_outline',
     },
     {
-      label: 'Duplicate',
+      label: t('note.duplicate'),
       value: 'duplicate',
       icon: 'copy_all',
-      sideLabel: '⌘D',
+      sideLabel: nativeShortcut('mod + D'),
       separator: true
     },
     {
-      label: 'Move to',
-      value: 'move',
+      label: t('note.moveTo'),
+      value: 'moveTo',
       icon: 'keyboard_return',
       iconClass: 'rotate-180',
-      sideLabel: '⌘⇧P'
+      sideLabel: nativeShortcut('mod + shift + P')
     },
     {
-      label: 'Delete',
+      label: t('delete'),
       value: 'delete',
       icon: 'delete_outline',
       class: 'text-red'
     },
     {
-      label: 'Open in new tab',
+      label: t('note.newTab'),
       value: 'newTab',
       icon: 'open_in_new',
       sideLabel: '⌘⇧',
       separator: true
     },
     {
-      label: 'Open in new window',
+      label: t('note.newWindow'),
       value: 'newWindow',
       icon: 'open_in_browser'
     },
@@ -209,7 +209,7 @@ function onOpenNote (note: Indexable) {
 
 function onDelete(note: Indexable) {
   confirm(
-    `你确定删除？[ <span class="text-bold text-amber">${note.title}</span> ]`,
+    `${t('deleteConfirm')} [ <span class="text-bold text-amber">${note.title}</span> ]`,
     () => {
       deleteNote(note)
     },
@@ -353,7 +353,7 @@ watch(() => currentNote.value, (newValue) => {
           border-radius: 2px;
           .actions {
             visibility: visible;
-            background: #eaeaea; // #222336
+            background: #eaeaea;
           }
           .action {
             visibility: visible;
@@ -393,7 +393,7 @@ watch(() => currentNote.value, (newValue) => {
       }
     }
 
-    // TODO: 优化 :-(
+    // TODO: :-(
     .q-tree {
       .q-tree__children {
         padding-left: 0;
@@ -434,6 +434,26 @@ watch(() => currentNote.value, (newValue) => {
                 }
               }
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+.body--dark {
+  .note-tree-panel {
+    .q-tree {
+
+      .q-tree__node-header {
+        &:hover {
+          .actions {
+            background: #393a49 !important;
+          }
+        }
+        &.q-tree__node--selected:hover {
+          .actions {
+            background: #2d2e3e !important;
           }
         }
       }

@@ -17,7 +17,7 @@
                    :sublabel="item.prompt_name"
                    :active="item.value === locale"
                    clickable closable
-                   @click="onClick(item.value)">
+                   @click="setLocale(item.value, true)">
     </o-common-item>
   </o-hover-menu-btn>
 </template>
@@ -77,11 +77,6 @@ const label = computed(() => {
   const localeLabel = getArrayItem(Locales, i18n.locale.value).label || i18n.t('language')
   return props.showLabel ? localeLabel : ''
 })
-
-function onClick(locale :string) {
-  i18n.locale.value = locale
-  setLocale(locale, false)
-}
 </script>
 
 <style lang="scss">

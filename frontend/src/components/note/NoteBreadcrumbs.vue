@@ -1,14 +1,17 @@
 <template>
   <section class="note-breadcrumbs">
-    <q-breadcrumbs>
+    <q-breadcrumbs gutter="none">
       <template v-for="(item, index) in links" :key="index">
-        <q-breadcrumbs-el :icon="item.icon"
+        <q-breadcrumbs-el :icon="item.icon || NoteDefaultIcon"
                           :label="item.title"
                           :to="`/note/${item.id}`"
+                          :class="{ 'is-icon': isIcon(item.icon || '') }"
                           class="text-tips" />
       </template>
-      <q-breadcrumbs-el :icon="currentNote.icon || '✍'"
+      <q-breadcrumbs-el :icon="currentNote.icon || NoteDefaultIcon"
                         :label="currentNote.title"
+                        :to="`/note/${currentNote.id}`"
+                        :class="{ 'is-icon': isIcon(currentNote.icon || '') }"
                         class="text-tips" />
     </q-breadcrumbs>
   </section>
@@ -18,6 +21,8 @@
 import { computed, ref } from 'vue'
 import useNote from 'src/hooks/useNote'
 import type { Note } from 'src/types/note'
+import { isIcon } from 'core/utils/misc'
+import { NoteDefaultIcon } from 'core/constants/constant'
 
 const props = defineProps({
   id: {
@@ -53,9 +58,13 @@ const links = computed(() => {
     margin-top: -6px;
     margin-right: 4px;
   }
+  .is-icon {
+    .q-icon {
+      margin-top: -2px;
+    }
+  }
 
   a {
-    //color: var(--q-info);
     padding: 2px 4px;
 
     &:hover {

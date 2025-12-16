@@ -13,9 +13,15 @@ All languages defined in `config/language.json`:
 
 - label: Display name in UI
 - value: language tag (IETF)
+- locale: Locale (Used for locale, dayjs, etc.)
 - prompt_name: Prompt name
 - supported: Supported or not
 - generate: Auto generate or not
+
+### Add new language
+1. Add new language item in `src/i18n/generate/config/language.json`
+2. Add new dayjs locale import in `core/utils/dayjs.ts`
+3. Generate by `yarn i18n-generate`
 
 ### Links
 

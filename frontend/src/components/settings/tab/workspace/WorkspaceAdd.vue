@@ -13,8 +13,7 @@
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" />
             <o-general-icon-menu anchor="center left" self="center right"
-                                 @emoji="onSelectEmoji"
-                                 @icon="onSelectIcon" />
+                                 @select="onSelectIcon" />
           </div>
         </template>
       </q-input>
@@ -85,14 +84,8 @@ function load () {
   }
 }
 
-function onSelectEmoji(options: Indexable) {
-  console.log('emoji', options)
-  form.value.icon = options.emoji
-}
-
 function onSelectIcon(options: Indexable) {
-  console.log('icon', options)
-  form.value.icon = options.name
+  form.value.icon = options.value
 }
 
 function onSubmit () {

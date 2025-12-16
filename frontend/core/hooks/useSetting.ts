@@ -13,6 +13,7 @@ import type {
   TabBarSetting,
   ThemeSetting
 } from 'core/types/setting'
+import { setDayjsLocale } from 'core/utils/dayjs'
 
 export default function () {
   const appStore = useAppStore()
@@ -23,6 +24,7 @@ export default function () {
       i18n.locale.value = locale
     }
     appStore.setLocale(locale)
+    setDayjsLocale(locale)
     setTray()
   }
 

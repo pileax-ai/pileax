@@ -12,16 +12,22 @@
         </section>
         <section class="note-meta-wrapper">
           <div class="icon" v-if="currentNote.icon">
-            <span>
+            <span v-if="false">
               {{ currentNote.icon }}
             </span>
-            <o-emoji-menu @select="setIcon" />
+            <o-icon :name="currentNote.icon" class="text-readable" />
+            <o-general-icon-menu anchor="bottom left"
+                                 self="top left"
+                                 :offset="[0, 8]"
+                                 @select="setIcon" />
           </div>
         </section>
         <section class="text-readable note-meta-wrapper">
-          <q-btn icon="sentiment_satisfied_alt" label="Add Icon" flat
+          <q-btn icon="sentiment_satisfied_alt"
+                 :label="$t('note.addIcon')"
+                 flat
                  @click="addIcon" v-if="!currentNote.icon" />
-          <q-btn icon="image" label="Add Cover" flat />
+          <q-btn icon="image" label="Add Cover" flat v-if="false" />
         </section>
       </header>
       <YiiEditor ref="yiiEditor" v-bind="options" @update="onUpdate" />
@@ -36,13 +42,13 @@ import { YiiEditor, ODocToc } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
 import { useRoute } from 'vue-router'
-import { computed, onActivated, onMounted, provide, ref } from 'vue'
+import { computed, onActivated, onMounted, provide, ref, watch } from 'vue'
 import { debounce } from 'quasar'
 
 import useSetting from 'core/hooks/useSetting'
 import useNote from 'src/hooks/useNote'
 import type { Note } from 'src/types/note'
-import OEmojiMenu from 'components/icon/OEmojiMenu.vue'
+import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue'
 import NoteActions from 'components/note/NoteActions.vue'
 import ONotePage from 'components/page/ONotePage.vue'
@@ -75,11 +81,12 @@ const pageView = ref('page')
 const showToc = ref(true)
 const loading = ref(false)
 const editorReady = ref(false)
+const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
   return {
     aiOption: aiOption.value,
-    locale: locale.value,
+    locale: localeAlt.value,
     darkMode: darkMode.value,
     title: true,
     content: '',
@@ -269,6 +276,10 @@ const insertContent = (value: string) => {
   console.log('insert', value)
 }
 
+watch(locale, (newValue) => {
+  localeAlt.value = newValue.toLowerCase()
+})
+
 provide('insertContent', insertContent)
 
 onActivated(() => {
@@ -313,11 +324,15 @@ onMounted(() => {
           height: 80px;
           font-size: 80px;
           line-height: 1.1;
-
           &:hover {
             background: var(--q-accent);
             border-radius: 4px;
             cursor: pointer;
+          }
+
+          .o-icon {
+            font-size: 80px;
+            line-height: 1.1;
           }
         }
         .q-btn {
