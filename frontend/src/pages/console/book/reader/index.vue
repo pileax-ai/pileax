@@ -10,7 +10,7 @@
              class="text-readable bg-tips"
              flat
              @click="prevPage">
-        <o-tooltip :message="$t('reading.prevPage')" autohide />
+        <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
       </q-btn>
     </nav>
     <nav class="row items-center justify-center navi-right">
@@ -18,12 +18,16 @@
              class="text-readable bg-tips"
              flat
              @click="nextPage">
-        <o-tooltip :message="$t('reading.nextPage')" autohide />
+        <o-tooltip position="left" :message="$t('reading.nextPage')" transition autohide />
       </q-btn>
     </nav>
 
     <!-- Reading View -->
-    <section ref="bookRef" class="foliate-view">
+    <section ref="bookRef" class="foliate-view"
+             tabindex="-1"
+             @click="onClick"
+             @focus="onFocus"
+             @blur="onBlur">
     </section>
 
     <reader-footer />
@@ -123,6 +127,18 @@ async function prepareAnnotations(bookId: string) {
 
 function onShare(show = true) {
   showShareDialog.value = show
+}
+
+function onClick() {
+  console.log('click')
+}
+
+function onFocus() {
+  console.log('focus')
+}
+
+function onBlur() {
+  console.log('blur')
 }
 
 onActivated(() => {

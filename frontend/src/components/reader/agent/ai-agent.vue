@@ -1,6 +1,5 @@
 <template>
   <section class="reader-side-ai">
-<!--    {{bookId}}-->
     <chat-section ref="chatRef"
                   ref-type="book"
                   :ref-id="bookId"
@@ -30,9 +29,9 @@ const chatRef = ref<InstanceType<typeof ChatSection>>()
 
 watch(keyword, (newValue) => {
   console.log('keyword', newValue)
-  chatRef.value?.send({
-    message: newValue
-  })
+  // chatRef.value?.send({
+  //   message: newValue
+  // })
 })
 </script>
 

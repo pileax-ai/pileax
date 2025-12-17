@@ -152,6 +152,15 @@ const props = defineProps({
   .side-icon {
     font-size: 1rem;
   }
+
+  .side-label {
+    .q-btn--round {
+      width: 28px;
+      height: 28px;
+      min-width: unset;
+      min-height: unset;
+    }
+  }
 }
 
 .o-common-item.dense {

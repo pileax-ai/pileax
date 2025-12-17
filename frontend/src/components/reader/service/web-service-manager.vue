@@ -17,7 +17,7 @@
         <q-item-label class="text-readable">
           推荐
         </q-item-label>
-        <template v-for="(item, index) in services" :key="index">
+        <template v-for="(item, index) in availableServices" :key="index">
           <q-item class="bg-accent" clickable>
             <q-item-section avatar>
               <q-avatar rounded>
@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
 import useReader from 'src/hooks/useReader'
+import { ipcProvider } from 'src/api/ipc'
 
 const props = defineProps({
   main: {
@@ -68,6 +69,12 @@ const enabledServices = computed(() => {
   return props.main ? mainService.value : secondaryService.value
 })
 
+const availableServices = computed(() => {
+  return ipcProvider === 'web'
+    ? services.value.filter(item => item.web)
+    : services.value
+})
+
 const services = computed(() => {
   return [
     {
@@ -75,6 +82,7 @@ const services = computed(() => {
       value: "google",
       icon: "icon-google-color",
       type: "service",
+      web: false,
       url: "https://www.google.com/search?q={word}",
     },
     {
@@ -82,6 +90,7 @@ const services = computed(() => {
       value: "google_dictionary",
       icon: "icon-google-color",
       type: "service",
+      web: false,
       url: "https://www.google.com/search?q=define:{word}",
     },
     {
@@ -89,6 +98,7 @@ const services = computed(() => {
       value: "bing",
       icon: "icon-bing-color",
       type: "service",
+      web: true,
       url: "https://www.bing.com/search?q={word}",
     },
     {
@@ -96,6 +106,7 @@ const services = computed(() => {
       value: "zdic",
       icon: "png-zdict",
       type: "service",
+      web: true,
       url: "https://www.zdic.net/hans/{word}",
     },
     {
@@ -103,6 +114,7 @@ const services = computed(() => {
       value: "eudic",
       icon: "png-eudic",
       type: "service",
+      web: false,
       url: "https://dict.eudic.net/dicts/en/{word}",
     },
   ]

@@ -21,7 +21,8 @@
                       :ref-id="noteId"
                       :description="$t('ai.basedOnNote')"
                       :tag="$t('ai.basedOnNote')"
-                      dense @chats="onChats">
+                      dense note
+                      @chats="onChats">
         </chat-section>
       </q-page>
     </q-page-container>

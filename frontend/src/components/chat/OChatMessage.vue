@@ -54,7 +54,7 @@
       <q-avatar color="accent">
         <q-spinner-ios size="1.5rem" v-if="streaming" />
         <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
-        <o-tooltip anchor="top left" self="bottom left">{{chat.modelName}}</o-tooltip>
+        <o-tooltip position="left" transition>{{chat.modelName}}</o-tooltip>
       </q-avatar>
       <div class="line"></div>
     </q-item-section>
@@ -66,7 +66,7 @@
           <q-avatar color="accent" size="36px" rounded>
             <q-spinner-ios size="1.5rem" v-if="streaming" />
             <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
-            <o-tooltip anchor="top left" self="bottom left">{{chat.modelName}}</o-tooltip>
+            <o-tooltip position="left" transition>{{chat.modelName}}</o-tooltip>
           </q-avatar>
           <o-chip color="info" square dense>
             {{chat.modelProvider}}
@@ -116,12 +116,15 @@
                      flat @click="onFavorite(-1)">
                 <o-tooltip position="bottom">{{ $t('dislike') }}</o-tooltip>
               </q-btn>
-              <q-btn icon="west" flat @click="onInsert" v-if="refType === 'note'">
-                <o-tooltip position="bottom">{{ $t('note.insert') }}</o-tooltip>
-              </q-btn>
-              <q-btn icon="post_add" flat @click="onNote" v-else>
-                <o-tooltip position="bottom">{{ $t('note.create') }}</o-tooltip>
-              </q-btn>
+
+              <template v-if="note">
+                <q-btn icon="west" flat @click="onInsert" v-if="refType === 'note'">
+                  <o-tooltip position="bottom">{{ $t('note.insert') }}</o-tooltip>
+                </q-btn>
+                <q-btn icon="post_add" flat @click="onNote" v-else>
+                  <o-tooltip position="bottom">{{ $t('note.create') }}</o-tooltip>
+                </q-btn>
+              </template>
             </template>
           </div>
         </div>
@@ -175,6 +178,10 @@ const props = defineProps({
   refType: {
     type: String,
     default: ''
+  },
+  note: {
+    type: Boolean,
+    default: false
   },
 })
 const emit = defineEmits(['favorite', 'send'])

@@ -75,7 +75,7 @@ onBeforeMount(() => {
 
 .right-drawer {
   .side-bar {
-    padding-left: 8px;
+    //padding-left: 8px;
     .q-splitter {
       height: 100vh;
     }

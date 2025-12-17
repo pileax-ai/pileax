@@ -31,7 +31,7 @@
       </nav>
     </section>
 
-    <section class="o-page-container" :class="{ 'no-header': !header || !leftDrawerShow }">
+    <section class="o-page-container q-py-sm" :class="{ 'no-header': !header || !leftDrawerShow }">
       <q-tab-panels v-model="selectedActivity"
                     class="fit bg-transparent"
                     keep-alive>
@@ -52,7 +52,8 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 
 import TocList from './children/toc-list.vue'
 import AnnotationList from './children/annotation-list.vue'
-import SeaerchList from './children/search-list.vue'
+import SearchList from './children/search-list.vue'
+import BookInfo from './children/book-info.vue'
 import useReader from 'src/hooks/useReader'
 import useCommon from 'core/hooks/useCommon'
 
@@ -83,7 +84,8 @@ const tabs = computed(() => {
   return [
     { label: t('toc'), value: 'toc', icon: 'toc', component: TocList },
     { label: t('book.annotation'), value: 'annotation', icon: 'notes', component: AnnotationList },
-    { label: t('search'), value: 'search', icon: 'search', component: SeaerchList },
+    { label: t('search'), value: 'search', icon: 'search', component: SearchList },
+    { label: t('search'), value: 'book', icon: 'o_info', component: BookInfo },
   ]
 })
 
@@ -160,6 +162,7 @@ onBeforeMount(() => {
     height: 50px;
     z-index: 2002;
     cursor: pointer;
+    border-bottom: solid 1px var(--q-dark);
 
     &.no-header {
       margin-top: 10px;

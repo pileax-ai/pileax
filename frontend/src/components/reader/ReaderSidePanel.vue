@@ -8,14 +8,42 @@
                 indicator-color="transparent"
                 dense
                 narrow-indicator
-                shrink>
+                shrink v-if="false">
           <template v-for="(item, index) in tabs" :key="index">
-            <q-tab :name="index">
+            <q-tab :name="item.value">
               <o-icon :name="item.icon" size="20px" class="rounded-borders" />
               <o-tooltip :message="item.label" />
             </q-tab>
           </template>
         </q-tabs>
+
+        <o-menu-btn :label="tab?.label"
+                    class="bg-accent"
+                    anchor="bottom left"
+                    self="top left"
+                    min-width="240px"
+                    flat dense dropdown>
+          <template #icon>
+            <o-icon :name="tab?.icon" width="20px" />
+          </template>
+          <template #menu>
+            <template v-for="(item, index) in tabs" :key="index">
+              <q-separator class="bg-accent" v-if="item.separator" />
+              <q-item-label caption v-if="item.group">
+                {{item.group}}
+              </q-item-label>
+              <o-common-item v-bind="item"
+                             @click="onSelectTab(item)"
+                             clickable closable dense right-side>
+                <template #side>
+                  <q-btn icon="close" flat round dense v-if="!['chat', 'agentAdd', 'serviceAdd'].includes(item.value)">
+                    <o-tooltip position="right">{{$t('remove')}}</o-tooltip>
+                  </q-btn>
+                </template>
+              </o-common-item>
+            </template>
+          </template>
+        </o-menu-btn>
       </section>
 
       <section class="col-auto">
@@ -50,7 +78,7 @@
                     class="o-page-container bg-transparent"
                     keep-alive>
         <template v-for="(item, index) in components" :key="index">
-          <q-tab-panel :name="index">
+          <q-tab-panel :name="item.value">
             <component :is="item.component" :item="item.item" />
           </q-tab-panel>
         </template>
@@ -104,6 +132,7 @@ import WebServiceManager from 'components/reader/service/web-service-manager.vue
 import ReaderSettings from 'src/components/reader/settings/index.vue'
 import TtsPlayer from 'src/components/reader/tts/tts-player.vue'
 import OToolBar from 'core/components/electron/OToolBar.vue'
+import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 
 const props = defineProps({
   main: {
@@ -124,7 +153,7 @@ const {
   toggleRightDrawer
 } = useReader()
 
-const currentTab = ref(0)
+const currentTab = ref('chat')
 const addAiAgentStatus = ref(false)
 const addServiceStatus = ref(false)
 const settingsStatus = ref(false)
@@ -138,18 +167,29 @@ const ttsStatus = computed({
 })
 
 const defaultTab = computed(() => {
-  return { label: 'AI', value: 'chat', type: 'ai', icon: 'mdi-creation' }
+  return { label: 'AI Assistant', value: 'chat', type: 'ai', icon: 'mdi-creation' }
 })
 const tabs = computed(() => {
-  return props.main
-    ? [
-      defaultTab.value,
-      ...mainService.value
-    ]
-    : [
-      defaultTab.value,
-      ...secondaryService.value
-    ]
+  const list = props.main
+    ? [ defaultTab.value, ...mainService.value ]
+    : [ defaultTab.value, ...secondaryService.value ]
+  const aiList = list.filter(t => t.type === 'ai')
+  aiList.push(
+    { label: 'Manage AI Agents', value: 'agentAdd', type: 'ai', icon: 'mdi-tune-vertical-variant', separator: true }
+  )
+  aiList[0]!.group = 'AI Agents'
+
+  const serviceList = list.filter(t => t.type === 'service')
+  serviceList.push(
+    { label: 'Manage Services', value: 'serviceAdd', type: 'service', icon: 'mdi-tune-vertical-variant', separator: true }
+  )
+  serviceList[0]!.group = 'Services'
+  serviceList[0]!.separator = true
+
+  return [...aiList, ...serviceList]
+})
+const tab = computed(() => {
+  return tabs.value.find(t => t.value === currentTab.value)
 })
 
 const components = computed(() => {
@@ -256,8 +296,23 @@ function toggleTTS() {
   ttsStatus.value = !ttsStatus.value
 }
 
+function onSelectTab(item: Indexable) {
+  console.log('tab', item)
+  switch (item.value) {
+    case 'agentAdd':
+      showAiAgent(true)
+      break
+    case 'serviceAdd':
+      showAddService(true)
+      break
+    default:
+      currentTab.value = item.value
+      break
+  }
+}
+
 function onAddService(item :any) {
-  addServiceStatus.value = false
+  // addServiceStatus.value = false
   const exist = tabs.value.find((e) => e.value === item.value)
   if (!exist) {
     if (props.main) {
@@ -265,14 +320,12 @@ function onAddService(item :any) {
     } else {
       secondaryService.value.push(item)
     }
-
-    console.log('tabs', tabs.value)
-    currentTab.value = tabs.value.length - 1
   }
+  currentTab.value = item.value
 }
 
 function onRemoveService() {
-  currentTab.value = 0
+  currentTab.value = 'chat'
 }
 
 watch(() => showTTS.value, (newValue) => {
@@ -280,7 +333,7 @@ watch(() => showTTS.value, (newValue) => {
 }, { deep: true })
 
 onBeforeMount(() => {
-  currentTab.value = 0
+  currentTab.value = 'chat'
 })
 </script>
 

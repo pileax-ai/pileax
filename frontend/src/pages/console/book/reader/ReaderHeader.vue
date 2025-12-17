@@ -12,7 +12,7 @@
                      @enter="onLeftDrawerEnter"
                      @leave="onLeftDrawerLeave"
                      @click="toggleLeftDrawer">
-          <o-tooltip :message="$t('expand')" position="right" />
+          <o-tooltip :message="$t('expand')" position="right" transition autohide />
         </o-hover-btn>
       </div>
       <q-btn icon="west" class="o-toolbar-btn hover-show" flat @click="prevPage">
@@ -33,7 +33,9 @@
       <section class="row hover-show">
         <q-btn icon="volume_up" class="o-toolbar-btn" flat
                @click="setRightDrawerTTS(true)">
-          <o-tooltip>{{ $t('reading.aiReading') }}</o-tooltip>
+          <o-tooltip position="left" transition autohide>
+            {{ $t('reading.aiReading') }}
+          </o-tooltip>
         </q-btn>
       </section>
       <o-hover-btn icon="icon-sidebar-right"
@@ -41,7 +43,7 @@
                    class="o-toolbar-btn"
                    @click="toggleRightDrawer">
         <o-tooltip :message="rightDrawerShow ? $t('collapse') : $t('expand')"
-                   position="right" />
+                   position="left" transition autohide />
       </o-hover-btn>
     </section>
     <o-tool-bar-overlay class="col-auto" v-if="!rightDrawerShow" />

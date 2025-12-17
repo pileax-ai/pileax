@@ -18,12 +18,15 @@
         <section class="chat-list">
           <template v-for="(item, index) in chats" :key="index">
             <o-chat-message :chat="item"
-                            align-right @favorite="onFavorite($event, index)" />
+                            align-right
+                            note
+                            @favorite="onFavorite($event, index)" />
           </template>
 
           <template v-if="isLoading">
             <o-chat-message :chat="newChat"
                             align-right
+                            note
                             :streaming="isLoading" />
           </template>
         </section>

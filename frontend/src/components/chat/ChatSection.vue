@@ -43,6 +43,7 @@
           <template v-for="(item, index) in chats" :key="index">
             <o-chat-message :chat="item"
                             :dense="dense"
+                            :note="note"
                             :ref-type="refType"
                             align-right
                             @favorite="onFavorite($event, index)" />
@@ -51,6 +52,7 @@
           <template v-if="isLoading">
             <o-chat-message :chat="newChat"
                             :dense="dense"
+                            :note="note"
                             :ref-type="refType"
                             align-right
                             :streaming="isLoading" />
@@ -156,6 +158,10 @@ const props = defineProps({
     default: false
   },
   defaultOpen: {
+    type: Boolean,
+    default: false
+  },
+  note: {
     type: Boolean,
     default: false
   },

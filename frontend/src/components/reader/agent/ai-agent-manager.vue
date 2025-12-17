@@ -13,7 +13,11 @@
       </section>
     </header>
     <q-scroll-area class="o-scroll-wrapper">
-      AI Agent
+      <q-list>
+        <q-item-label class="text-readable">
+          推荐
+        </q-item-label>
+      </q-list>
     </q-scroll-area>
   </section>
 </template>
@@ -34,6 +38,21 @@ const emit = defineEmits(['close'])
 <style lang="scss">
 .reader-add-ai-agent {
   header {
+  }
+
+  .o-scroll-wrapper {
+    .q-list {
+      padding: 0 1rem;
+
+      .q-item {
+        padding: 8px;
+        border-radius: 4px;
+
+        &:not(:first-child) {
+          margin-top: 1rem;
+        }
+      }
+    }
   }
 }
 </style>
