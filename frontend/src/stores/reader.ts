@@ -59,6 +59,9 @@ export const useReaderStore = defineStore('reader', {
     toggleRightDrawer() {
       this.rightDrawer.show = !this.rightDrawer.show
     },
+    showRightDrawer() {
+      this.rightDrawer.show = true
+    },
     setRightDrawerItem(kv: KeyValue) {
       this.rightDrawer[kv.key] = kv.value
     },

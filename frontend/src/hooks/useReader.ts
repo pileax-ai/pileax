@@ -101,6 +101,9 @@ export default function () {
   function setRightDrawerTTS(value: boolean) {
     // console.log('tts', value)
     store.setRightDrawerItem({key: 'tts', value: value})
+    if (value) {
+      store.showRightDrawer()
+    }
   }
 
   function setQueryTimer(time: number) {
