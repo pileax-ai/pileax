@@ -96,7 +96,7 @@ async function onAnnotation() {
     type: 'highlight',
     value: cfi,
     note: text,
-    color: '#66CCFF',
+    color: 'yellowgreen', // #66CCFF, #FFF3A0, yellowgreen
     page: progress.value.location?.current || 0,
     chapter: progress.value.tocItem?.label
   }
