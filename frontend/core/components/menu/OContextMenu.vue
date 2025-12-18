@@ -1,5 +1,6 @@
 <template>
-  <q-menu class="o-context-menu pi-menu dense"
+  <q-menu class="o-context-menu pi-menu"
+          :class="{ 'dense': dense }"
           ref="menu"
           :anchor="contextMenu ? 'bottom left' : anchor"
           :self="contextMenu ? 'top left' : self"
@@ -23,6 +24,10 @@ import type {PropType} from 'vue'
 
 defineProps({
   contextMenu: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
     type: Boolean,
     default: false
   },

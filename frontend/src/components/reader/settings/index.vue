@@ -34,22 +34,22 @@
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
       <background-tab class="side-fixed"
-                @close="backgroundStatus = false;"
-                v-if="backgroundStatus" />
+                @close="onNext('background', false)"
+                v-if="next['background']" />
     </transition>
 
     <transition appear
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
       <font-tab class="side-fixed"
-                  @close="fontStatus = false;"
-                  v-if="fontStatus" />
+                  @close="onNext('font', false)"
+                  v-if="next['font']" />
     </transition>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import { changeStyle } from 'src/api/service/ebook/book'
 
@@ -57,30 +57,26 @@ import GeneralTab from './general/index.vue'
 import KeyBindingsTab from './key-bindings/index.vue'
 import FontTab from './font/index.vue'
 import BackgroundTab from './background/index.vue'
+import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['close'])
 
+const { t } = useCommon()
 const { settings } = useReaderSetting()
 const currentTab = ref('general')
 const tabs = computed(() => {
   return [
-    { label: '通用', value: 'general', icon: 'public', component: GeneralTab },
-    { label: '快捷键', value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
+    { label: t('general'), value: 'general', icon: 'public', component: GeneralTab },
+    { label: t('systems.shortcut'), value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
   ]
 })
-const fontStatus = ref(false)
-const backgroundStatus = ref(false)
+const next = reactive<Indexable>({
+  background: false,
+  font: false,
+})
 
-function onNext(value: string) {
-  console.log('next', value)
-  switch (value) {
-    case 'background':
-      backgroundStatus.value = true
-      break
-    case 'font':
-      fontStatus.value = true
-      break
-  }
+function onNext(name: string, value = true) {
+  next[name] = value
 }
 
 watch(
@@ -127,8 +123,6 @@ watch(
         .header {
           border-radius: 8px 8px 0 0;
           font-weight: bold;
-          border-bottom: solid 1px var(--q-accent);
-
           .q-item__label {
             font-size: 1.2rem;
           }
@@ -137,8 +131,22 @@ watch(
             opacity: 0.3;
           }
         }
+
         .q-expansion-item__content {
-          padding: 10px 16px;
+          padding: 10px 8px;
+          border-top: solid 1px var(--q-accent);
+
+          .o-field-label {
+            padding: 0 8px;
+          }
+          .o-view-item {
+            padding-left: 8px;
+            padding-right: 4px;
+
+            .q-item__section--side {
+              padding-left: 0;
+            }
+          }
         }
 
 

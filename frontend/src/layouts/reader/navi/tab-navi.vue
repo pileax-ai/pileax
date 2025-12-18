@@ -6,7 +6,7 @@
       <div class="col-auto sidebar-toggle no-drag-region">
         <q-btn icon="mdi-backburger" class="text-tips" flat round
                @click="toggleLeftDrawer">
-          <o-tooltip :message="$t('collapse')" position="right" />
+          <o-tooltip :message="$t('collapse')" position="right" transition />
         </q-btn>
       </div>
     </header>
@@ -85,7 +85,7 @@ const tabs = computed(() => {
     { label: t('toc'), value: 'toc', icon: 'toc', component: TocList },
     { label: t('book.annotation'), value: 'annotation', icon: 'notes', component: AnnotationList },
     { label: t('search'), value: 'search', icon: 'search', component: SearchList },
-    { label: t('search'), value: 'book', icon: 'o_info', component: BookInfo },
+    { label: t('book.info'), value: 'book', icon: 'o_info', component: BookInfo },
   ]
 })
 

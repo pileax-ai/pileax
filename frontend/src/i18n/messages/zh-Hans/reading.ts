@@ -39,4 +39,32 @@ export default {
     prev: '上一结果',
     next: '下一结果',
   },
+  setting: {
+    pageTurningMode: 'Page Turning Mode',
+    slide: '左右滑动',
+    scroll: '上下滚动',
+    background: {
+      bubbleNebula: '汽泡星云',
+      pillarsCreation: '创生之柱',
+      oldBook: '古书',
+      willowBank: '杨柳岸',
+    },
+    font: {
+      book: '随书',
+      system: '系统',
+      serif: '衬线体',
+      mono: '等宽体',
+      custom: '自定义',
+    },
+  },
+  settings: '阅读设置',
+  agent: {
+    _: 'AI智能体',
+    agents: 'AI智能体',
+    manage: '管理AI智能体',
+  },
+  service: {
+    services: '服务',
+    manage: '管理服务',
+  },
 }

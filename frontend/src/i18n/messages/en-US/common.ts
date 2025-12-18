@@ -29,6 +29,11 @@ export default {
       grey: 'Grey',
       blueGrey: 'Blue Grey'
     },
+    background: {
+      _: 'Background',
+      image: 'Background Image',
+      blur: 'Background Blur',
+    },
     layout: 'Layout',
     layouts: {
       group: 'Group',
@@ -43,11 +48,26 @@ export default {
     theme: 'Theme',
     themeColor: 'Theme Color',
     themes: {
+      none: 'None',
       dark: 'Dark',
       light: 'Light',
       system: 'System'
     },
-    themeTips: 'Light or dark theme.'
+    themeTips: 'Light or dark theme.',
+    font: {
+      _: 'Font',
+      family: 'Font Family',
+      color: 'Font Color',
+      size: 'Font Size',
+    },
+    typography: {
+      _: 'Typography',
+      letterSpacing: 'Letter Spacing',
+      lineSpacing: 'Line Spacing',
+      paragraphSpacing: 'Paragraph Spacing',
+      margin: 'Margin',
+      pageWidth: 'Page Width',
+    },
   },
   backHome: 'Return to Home',
   buildTime: 'Build Time',
@@ -204,4 +224,5 @@ export default {
   },
   title: 'Title',
   color: 'Color',
+  more: 'More',
 }

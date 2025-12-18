@@ -29,6 +29,11 @@ export default {
       grey: '灰色',
       blueGrey: '蓝灰'
     },
+    background: {
+      _: '背景',
+      image: '背景图片',
+      blur: '背景模糊',
+    },
     layout: '布局',
     layouts: {
       group: '分组',
@@ -43,11 +48,26 @@ export default {
     theme: '主题',
     themeColor: '主题色',
     themes: {
-      dark: '夜间模式',
-      light: '日间模式',
+      none: '无',
+      dark: '深色',
+      light: '浅色',
       system: '跟随系统'
     },
-    themeTips: '浅色或深色主题'
+    themeTips: '浅色或深色主题',
+    font: {
+      _font: '字体',
+      family: '字体',
+      color: '字体颜色',
+      size: '字体大小'
+    },
+    typography: {
+      _: '排版',
+      letterSpacing: '字间距',
+      lineSpacing: '行间距',
+      paragraphSpacing: '段间距',
+      margin: '边距',
+      pageWidth: '页宽',
+    },
   },
   backHome: '返回首页',
   buildTime: '构建时间',
@@ -202,4 +222,5 @@ export default {
   },
   title: '标题',
   color: '颜色',
+  more: '更多',
 }

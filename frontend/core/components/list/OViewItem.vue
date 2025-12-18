@@ -35,6 +35,8 @@
         <q-icon name="chevron_right" class="text-tips" v-if="arrow" />
       </div>
     </q-item-section>
+
+    <slot></slot>
   </q-item>
 </template>
 

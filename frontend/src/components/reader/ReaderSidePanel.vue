@@ -3,20 +3,6 @@
     <o-tool-bar v-if="rightDrawerShow" />
     <header class="row col-12 justify-between items-center text-readable toolbar">
       <section class="col row items-center">
-        <q-tabs v-model="currentTab"
-                active-color="primary"
-                indicator-color="transparent"
-                dense
-                narrow-indicator
-                shrink v-if="false">
-          <template v-for="(item, index) in tabs" :key="index">
-            <q-tab :name="item.value">
-              <o-icon :name="item.icon" size="20px" class="rounded-borders" />
-              <o-tooltip :message="item.label" />
-            </q-tab>
-          </template>
-        </q-tabs>
-
         <o-menu-btn :label="tab?.label"
                     class="bg-accent"
                     anchor="bottom left"
@@ -49,7 +35,7 @@
       <section class="col-auto">
         <q-btn icon="settings" class="o-toolbar-btn" flat
                @click="toggleSettings" v-if="main">
-          <o-tooltip>阅读设置</o-tooltip>
+          <o-tooltip position="left" transition>{{ $t('reading.settings') }}</o-tooltip>
         </q-btn>
         <q-btn icon="more_horiz" class="o-toolbar-btn" flat>
           <q-menu class="pi-menu">
@@ -133,6 +119,7 @@ import ReaderSettings from 'src/components/reader/settings/index.vue'
 import TtsPlayer from 'src/components/reader/tts/tts-player.vue'
 import OToolBar from 'core/components/electron/OToolBar.vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   main: {
@@ -141,6 +128,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useCommon()
 const {
   mainService,
   secondaryService,
@@ -167,7 +155,7 @@ const ttsStatus = computed({
 })
 
 const defaultTab = computed(() => {
-  return { label: 'AI Assistant', value: 'chat', type: 'ai', icon: 'mdi-creation' }
+  return { label: t('reading.agent._'), value: 'chat', type: 'ai', icon: 'mdi-creation' }
 })
 const tabs = computed(() => {
   const list = props.main
@@ -175,15 +163,15 @@ const tabs = computed(() => {
     : [ defaultTab.value, ...secondaryService.value ]
   const aiList = list.filter(t => t.type === 'ai')
   aiList.push(
-    { label: 'Manage AI Agents', value: 'agentAdd', type: 'ai', icon: 'mdi-tune-vertical-variant', separator: true }
+    { label: t('reading.agent.manage'), value: 'agentAdd', type: 'ai', icon: 'mdi-tune-vertical-variant', separator: true }
   )
-  aiList[0]!.group = 'AI Agents'
+  aiList[0]!.group = t('reading.agent.agents')
 
   const serviceList = list.filter(t => t.type === 'service')
   serviceList.push(
-    { label: 'Manage Services', value: 'serviceAdd', type: 'service', icon: 'mdi-tune-vertical-variant', separator: true }
+    { label: t('reading.service.manage'), value: 'serviceAdd', type: 'service', icon: 'mdi-tune-vertical-variant', separator: true }
   )
-  serviceList[0]!.group = 'Services'
+  serviceList[0]!.group = t('reading.service.services')
   serviceList[0]!.separator = true
 
   return [...aiList, ...serviceList]
@@ -206,13 +194,13 @@ const showTTS = computed(() => rightDrawer.value.tts)
 const actions = computed(() => {
   return [
     {
-      label: 'Manage AI Agents',
+      label: t('reading.agent.manage'),
       value: 'ai',
       icon: 'mdi-creation',
       show: true
     },
     {
-      label: 'Manage Services',
+      label: t('reading.service.manage'),
       value: 'service',
       icon: 'language',
       show: true
@@ -233,7 +221,7 @@ const actions = computed(() => {
       selected: rightDrawer.value.split
     },
     {
-      label: 'Close',
+      label: t('close'),
       value: 'close',
       icon: 'close',
       show: rightDrawerShow.value,

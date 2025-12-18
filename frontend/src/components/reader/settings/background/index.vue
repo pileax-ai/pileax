@@ -1,23 +1,24 @@
 <template>
-  <setting-tab title="背景" @close="emit('close')">
+  <setting-tab :title="$t('appearances.background._')"  @close="emit('close')">
     <q-list>
       <q-item-label class="text-readable">
-        背景
+        {{ $t('appearances.background.image') }}
       </q-item-label>
       <template v-for="(item, index) in list" :key="index">
         <q-item class="bg-accent" clickable
-                @click="onValueChanged('backgroundImage', item.url)">
+                @click="onBackgroundImage(item)">
           <q-item-section avatar>
             <q-avatar rounded>
-              <q-img :src="item.url.indexOf('http') === 0 ? item.url : $public(item.url)" />
+              <q-icon :name="item.icon" size="3rem" class="text-tips" v-if="item.icon" />
+              <q-img :src="item.url.indexOf('http') === 0 ? item.url : $public(item.url)" v-else />
             </q-avatar>
           </q-item-section>
           <q-item-section>
             <q-item-label class="text-bold">
-              {{item.label}}
+              {{ item.label }}
             </q-item-label>
             <q-item-label caption>
-              {{item.type}}
+              {{ $t(`appearances.themes.${item.theme}`) }}
             </q-item-label>
           </q-item-section>
           <q-item-section side>
@@ -35,7 +36,7 @@
     <q-separator class="bg-accent" />
     <q-list>
       <q-item-label class="text-readable">
-        背景模糊
+        {{ $t('appearances.background.blur') }}
       </q-item-label>
       <o-field-label content-class="col-8">
         <q-slider v-model="backgroundBlur"
@@ -55,55 +56,63 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 import SettingTab from 'components/reader/settings/setting-tab.vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
+import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['close'])
 
+const { t } = useCommon()
 const { settings, setSettingItem } = useReaderSetting()
 const backgroundBlur = ref(0)
 
 const list = computed(() => {
   return [
     {
-      label: "None",
-      value: "google",
-      icon: "icon-google-color",
-      type: "service",
-      url: "",
+      label: 'None',
+      value: 'google',
+      icon: 'block',
+      theme: 'none',
+      url: '',
     },
     {
-      label: "The Bubble Nebula",
-      value: "dark-01",
-      icon: "icon-google-color",
-      type: "dark",
-      url: "/images/book/dark-01.jpg",
+      label: t('reading.setting.background.bubbleNebula'),
+      value: 'bubble_nebula',
+      icon: '',
+      theme: 'dark',
+      url: '/images/book/dark-bubble_nebula.jpg',
     },
     {
-      label: "Pillars of Creation",
-      value: "dark-01",
-      icon: "icon-google-color",
-      type: "dark",
-      url: "/images/book/dark-02.jpg",
+      label: t('reading.setting.background.pillarsCreation'),
+      value: 'pillars_of_creation',
+      icon: '',
+      theme: 'dark',
+      url: '/images/book/dark-pillars_of_creation.jpg',
     },
     {
-      label: "杨柳岸",
-      value: "light-01",
-      icon: "icon-google-color",
-      type: "light",
-      url: "/images/book/light-01.jpg",
+      label: t('reading.setting.background.willowBank'),
+      value: 'willow_bank',
+      icon: '',
+      theme: 'light',
+      url: '/images/book/light-willow_bank.jpg',
     },
     {
-      label: "古书",
-      value: "light-01",
-      icon: "icon-google-color",
-      type: "light",
-      url: "/images/book/img_1.png",
+      label: t('reading.setting.background.oldBook'),
+      value: 'old_book',
+      icon: '',
+      theme: 'light',
+      url: '/images/book/light-old_book.png',
     },
   ]
 })
 
 const backgroundImage = computed(() => settings.value.backgroundImage)
 
-function onValueChanged(key: string, value: any) {
+const onBackgroundImage = (item: Indexable) => {
+  setSettingItem('backgroundImage', item.url)
+  const fontColor = item.theme === 'dark' ? '#e9e9e9' : '#262626'
+  setSettingItem('fontColor', fontColor)
+}
+
+const onValueChanged = (key: string, value: any) => {
   setSettingItem(key, value)
 }
 

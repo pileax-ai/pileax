@@ -45,4 +45,5 @@ export default {
     noRecords: 'No annotations yet. Start reading and highlight some.'
   },
   chapter: 'Chapter',
+  info: 'Book Info',
 }

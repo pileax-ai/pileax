@@ -84,6 +84,7 @@
       </section>
       <section class="marquee">
         <vue3-marquee :duration="marqueeDuration"
+                      :pause="ttsState.isPaused"
                       gradient
                       pause-on-hover
                       animate-on-overflow-only>

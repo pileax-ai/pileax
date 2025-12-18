@@ -44,4 +44,5 @@ export default {
     noRecords: '还没有书摘记录，快去阅读添加吧'
   },
   chapter: '章节',
+  info: '图书信息',
 }

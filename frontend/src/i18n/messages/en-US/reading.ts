@@ -39,4 +39,32 @@ export default {
     prev: 'Previous',
     next: 'Next',
   },
+  setting: {
+    pageTurningMode: 'Page Turning Mode',
+    slide: 'Slide Left/Right',
+    scroll: 'Scroll Up/Down',
+    background: {
+      bubbleNebula: 'The Bubble Nebula',
+      pillarsCreation: 'Pillars of Creation',
+      oldBook: 'Old Book',
+      willowBank: 'The willow-fringed bank',
+    },
+    font: {
+      book: 'Book',
+      system: 'System',
+      serif: 'Serif',
+      mono: 'Mono',
+      custom: 'Custom',
+    }
+  },
+  settings: 'Reading Settings',
+  agent: {
+    _: 'AI Agent',
+    agents: 'AI Agents',
+    manage: 'Manage AI Agents',
+  },
+  service: {
+    services: 'Services',
+    manage: 'Manage Services',
+  },
 }

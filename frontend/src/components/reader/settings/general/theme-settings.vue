@@ -1,6 +1,7 @@
 <template>
   <section class="theme-settings">
-    <o-field-label label="主题" content-class="row justify-around" side>
+    <o-field-label :label="$t('appearances.theme')"
+                   content-class="row justify-around" side>
       <template v-for="(item, index) in themeList" :key="index">
         <div :class="`${itemClass}`">
           <q-btn :icon="`${item.value===theme.name ? 'done': ''}`"
@@ -8,13 +9,14 @@
                  flat
                  @click="select(item.value)">
             <o-tooltip>
-              {{$t(`theme.${item.value}`)}}
+              {{$t(`appearances.themes.${item.value}`)}}
             </o-tooltip>
           </q-btn>
         </div>
       </template>
     </o-field-label>
-    <o-view-item label="背景" class="col-12 q-mt-md"
+    <o-view-item :label="$t('appearances.background._')"
+                 class="col-12 q-mt-md"
                  align="right" arrow clickable
                  @click="emit('next', 'background')">
     </o-view-item>
