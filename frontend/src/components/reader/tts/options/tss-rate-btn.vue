@@ -15,7 +15,7 @@
     <slot></slot>
 
     <template #menu>
-      <tss-option-view icon="speed" label="语速设置" content-class="q-pt-xl">
+      <tss-option-view icon="speed" :label="$t('reading.tts.speedSettings')" content-class="q-pt-xl">
         <q-slider v-model="rate"
                   :min="0.5" :max="3" :step="0.1"
                   :label-value="`${rate}`"
@@ -42,7 +42,7 @@
               :class="markerList[val].classes"
               :style="markerList[val].style"
               color="primary"
-              :label="val === 0 ? 'Slow' : 'Quick'"
+              :label="val === 0 ? $t('reading.tts.slow') : $t('reading.tts.quick')"
               flat
               @click="rate = val ? 3 : 0.5"
             />

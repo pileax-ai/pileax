@@ -15,7 +15,7 @@
     <slot></slot>
 
     <template #menu>
-      <tss-option-view icon="mdi-account-tie-voice-outline" label="TTS设置">
+      <tss-option-view icon="mdi-account-tie-voice-outline" :label="$t('reading.tts.settings')">
         <template v-for="(item, index) in options" :key="index">
           <o-common-item v-bind="item"
                          :class="{ 'active': provider?.value === item.value }"
@@ -37,6 +37,7 @@ import { computed, onMounted, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import TssOptionView from './tss-option-view.vue'
 import useTTS from 'src/hooks/useTTS'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   label: {
@@ -64,12 +65,13 @@ const props = defineProps({
 })
 const emit = defineEmits(['select'])
 
+const { t } = useCommon()
 const { tts } = useTTS()
 
 const options = computed(() => {
   return [
     { label: 'Edge', value: 'edge' },
-    { label: 'System', value: 'browser' },
+    { label: t('system'), value: 'browser' },
   ]
 })
 

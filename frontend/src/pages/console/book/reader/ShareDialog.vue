@@ -31,10 +31,10 @@
         </section>
       </q-card-section>
       <q-card-section class="row justify-between bg-secondary share-actions">
-        <q-btn label="Cancel" class="text-readable" flat v-close-popup />
+        <q-btn :label="$t('cancel')" class="text-readable" flat v-close-popup />
         <q-btn flat :disable="loading" @click="onDownload">
           <q-spinner-ios class="text-readable" size="20px" v-if="loading" />
-          <span v-else>Download</span>
+          <span v-else>{{ $t('download') }}</span>
         </q-btn>
       </q-card-section>
     </q-card>

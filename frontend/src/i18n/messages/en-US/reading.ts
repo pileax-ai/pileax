@@ -31,7 +31,6 @@ export default {
     stop: 'Stop',
     forward: 'Forward',
     backward: 'Backward',
-    speed: 'Reading Speed',
   },
   position: 'Reading Position',
   previewPosition: 'Preview Position',
@@ -66,5 +65,20 @@ export default {
   service: {
     services: 'Services',
     manage: 'Manage Services',
+  },
+  tts: {
+    settings: 'TTS Settings',
+    speed: 'Reading Speed',
+    speedSettings: 'Speed Settings',
+    slow: 'Low',
+    quick: 'Quick',
+  },
+  popup: {
+    highlight: 'Highlight',
+    clearHighlight: 'Clear Highlight',
+    copy: 'Copy',
+    share: 'Share',
+    search: 'AI Search',
+    more: 'More',
   },
 }

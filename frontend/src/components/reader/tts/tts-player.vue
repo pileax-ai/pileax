@@ -45,7 +45,7 @@
         <div class="row action justify-end">
           <q-btn icon="fast_forward" @click="ttsController.next()" flat round v-if="ttsState.isPlaying">
             <o-tooltip position="bottom">
-              {{ $t('reading.player.foreward') }}
+              {{ $t('reading.player.forward') }}
             </o-tooltip>
           </q-btn>
           <q-btn icon="skip_next"
@@ -79,12 +79,13 @@
                       anchor="top right"
                       self="bottom right"
                       :min-width="playerWidth">
-          <o-tooltip position="bottom">{{ $t('reading.player.speed') }}</o-tooltip>
+          <o-tooltip position="bottom">{{ $t('reading.tts.speed') }}</o-tooltip>
         </tss-rate-btn>
       </section>
       <section class="marquee">
         <vue3-marquee :duration="marqueeDuration"
                       :pause="ttsState.isPaused"
+                      :gradient-color="gradientColor"
                       gradient
                       pause-on-hover
                       animate-on-overflow-only>
@@ -105,8 +106,8 @@ import useBook from 'src/hooks/useBook'
 import useApi from 'src/hooks/useApi'
 import useTTS from 'src/hooks/useTTS'
 import { ebookRender } from 'src/api/service/ebook'
-import { getPlainText } from 'src/api/service/tts/utils/tts-util'
 import { ssmlUtils } from 'src/api/service/tts/utils/ssml-util'
+import useSetting from 'core/hooks/useSetting'
 
 const emit = defineEmits(['close'])
 
@@ -117,7 +118,7 @@ const {
   previousTocItem,
   nextTocItem,
 } = useBook()
-
+const { theme } = useSetting()
 const {
   tts,
   ttsClient,
@@ -139,6 +140,10 @@ const playIcon = computed(() => {
 
 const playerWidth = computed(() => {
   return `${tts.playerWidth - 30}px`
+})
+
+const gradientColor = computed(() => {
+  return theme.value.name === 'dark' ? [39,42,62] : [255,255,255]
 })
 
 const onNextChapter = async () => {

@@ -4,7 +4,7 @@
       <div class="row">
         <q-btn icon="mdi-marker-cancel" class="text-readable" flat square
                @click="onAction('removeAnnotation')" v-if="clickedAnnotation">
-          <o-tooltip>删除划线</o-tooltip>
+          <o-tooltip>{{ $t('reading.popup.clearHighlight') }}</o-tooltip>
         </q-btn>
         <q-btn class="text-readable" flat square
                @click="onAction('annotation')" v-else>
@@ -12,22 +12,22 @@
             <q-icon name="mdi-format-color-highlight" />
             <div class="indicator"></div>
           </div>
-          <o-tooltip>划线</o-tooltip>
+          <o-tooltip>{{ $t('reading.popup.highlight') }}</o-tooltip>
         </q-btn>
         <q-btn icon="content_copy" class="text-readable" flat square
                @click="onAction('copy')">
-          <o-tooltip>复制</o-tooltip>
+          <o-tooltip>{{ $t('reading.popup.copy') }}</o-tooltip>
         </q-btn>
         <q-btn icon="share" class="text-readable" flat square
                @click="onAction('share')">
-          <o-tooltip>分享</o-tooltip>
+          <o-tooltip>{{ $t('reading.popup.share') }}</o-tooltip>
         </q-btn>
         <q-btn icon="search" class="text-readable" flat square
                @click="onAction('search')">
-          <o-tooltip>AI搜索</o-tooltip>
+          <o-tooltip>{{ $t('reading.popup.search') }}</o-tooltip>
         </q-btn>
         <q-btn icon="more_horiz" class="text-readable" flat square>
-          <o-tooltip>更多</o-tooltip>
+          <o-tooltip>{{ $t('reading.popup.more') }}</o-tooltip>
         </q-btn>
       </div>
     </div>

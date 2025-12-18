@@ -31,7 +31,6 @@ export default {
     stop: '停止',
     forward: '前进',
     backward: '后退',
-    speed: '语速',
   },
   position: '阅读位置',
   previewPosition: '预览位置',
@@ -66,5 +65,20 @@ export default {
   service: {
     services: '服务',
     manage: '管理服务',
+  },
+  tts: {
+    settings: 'TTS 设置',
+    speed: '语速',
+    speedSettings: '语速设置',
+    slow: '慢',
+    quick: '快',
+  },
+  popup: {
+    highlight: '高亮',
+    clearHighlight: '取消高亮',
+    copy: '复制',
+    share: '分享',
+    search: 'AI 搜索',
+    more: '更多',
   },
 }
