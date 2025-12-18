@@ -15,7 +15,7 @@
       </template>
       <template v-slot:separator>
         <q-btn :icon="toggleIcon"
-               class="bg-dark text-tips"
+               class="bg-accent text-tips"
                :class="{
                   'reverse': reverse,
                   'toggle-v': !horizontal,
@@ -85,7 +85,7 @@ const closed = computed(() => {
 })
 
 function onToggle() {
-  if (props.show) {
+  if (size.value === 0) {
     open()
   } else {
     close()

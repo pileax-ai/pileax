@@ -11,6 +11,11 @@
 
     <q-toolbar-title></q-toolbar-title>
 
+    <q-btn :icon="darkMode ? 'light_mode' : 'dark_mode'"
+           class="bg-accent text-readable q-mr-sm"
+           style="width: 36px;"
+           flat
+           @click="toggleTheme" />
     <locale-hover-btn class="bg-accent text-readable no-drag-region"
                       icon-right="mdi-chevron-down"
                       flat show-label />
@@ -21,7 +26,9 @@
 <script setup lang="ts">
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
+import useSetting from 'core/hooks/useSetting'
 
+const { darkMode, toggleTheme } = useSetting()
 </script>
 
 <style lang="scss">

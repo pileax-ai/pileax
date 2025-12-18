@@ -49,20 +49,6 @@
     .q-field__control, .q-field__prepend, .q-field__append {
       border-radius: 4px;
     }
-    .q-field--focused, .q-field--highlighted {
-      .q-field__control {
-        background: rgba(#000, 0.05) !important;
-        box-shadow: unset !important;
-        box-sizing: border-box !important;
-
-        input, .q-field__native {
-          color: #000;
-        }
-        .q-field__prefix, .q-field__suffix, .q-field__marginal {
-          color: #666;
-        }
-      }
-    }
 
     .q-btn {
       width: 100%;

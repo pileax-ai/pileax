@@ -241,7 +241,7 @@ onBeforeMount(() => {
 
 }
 
-.electron {
+.electron.platform-mac {
   .group-drawer {
     .activity-bar {
       width: 68px !important;

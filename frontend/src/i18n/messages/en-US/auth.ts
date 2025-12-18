@@ -13,22 +13,20 @@ export default {
     },
     user_id: 'User ID'
   },
-  auth: {
-    accountAlready: 'Already have an account?',
-    accountNo: 'Don\'t have an account?',
-    rememberMe: 'Remember me',
-    signin: {
-      incorrect: 'Incorrect email or password.'
-    },
-    signup: {
-      confirmPassword: 'Confirm password',
-      confirmPasswordError: 'Passwords do not match',
-      emailError: 'Please enter correct email',
-      emailHint: 'Use to signin',
-      emailUsed: 'This email has been used. Please enter a new one.',
-      nameError: 'Please enter correct name',
-      passwordError: 'Please enter correct password'
-    },
-    useToConsent: 'Use constitutes your consent to our'
-  }
+  accountAlready: 'Already have an account?',
+  accountNo: 'Don\'t have an account?',
+  rememberMe: 'Remember me',
+  signin: {
+    incorrect: 'Incorrect email or password.'
+  },
+  signup: {
+    confirmPassword: 'Confirm password',
+    confirmPasswordError: 'Passwords do not match',
+    emailError: 'Please enter correct email',
+    emailHint: 'Use to signin',
+    emailUsed: 'This email has been used. Please enter a new one.',
+    nameError: 'Please enter correct name',
+    passwordError: 'Please enter correct password'
+  },
+  useToConsent: 'Use constitutes your consent to our'
 }
