@@ -6,9 +6,7 @@
     <section class="row items-center item no-drag-region">
       <div class="col-auto row justify-center items-center prefix">
         <o-icon :name="item.icon" size="1.4rem" v-if="item.icon" />
-        <template v-else-if="item.meta?.icon">
-          <span>{{ item.meta.icon || NoteDefaultIcon }}</span>
-        </template>
+        <o-icon :name="item.meta?.icon || NoteDefaultIcon" size="1.4rem" v-else />
       </div>
       <div class="col ellipsis single label">
         {{ menuLabel(item.name) }}

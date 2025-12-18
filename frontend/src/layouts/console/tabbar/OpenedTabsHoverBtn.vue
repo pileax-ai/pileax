@@ -27,10 +27,9 @@
     <q-separator class="bg-accent" />
     <section class="q-py-sm">
       <template v-for="(item, index) in filterMenus" :key="index">
-        <o-common-item :icon="item.icon"
+        <o-common-item :icon="item.icon || item.meta?.icon"
                        :label="menuLabel(item.name)"
                        :to="item.path"
-                       :emoji="['note', 'chat-conversation'].includes(item.meta?.type) ? item.meta?.icon || NoteDefaultIcon : ''"
                        class="text-tips"
                        clickable closable right-side>
           <template #side>
