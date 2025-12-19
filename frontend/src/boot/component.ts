@@ -8,6 +8,7 @@ import OCopyBtn from 'core/components/button/OCopyBtn.vue'
 import OField from 'core/components/form/field/OField.vue'
 import OIcon from 'core/components/icon/OIcon.vue'
 import OLink from 'core/components/misc/OLink.vue'
+import OMenu from 'core/components/menu/OMenu.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
 import ORefreshBtn from 'core/components/button/ORefreshBtn.vue'
 import OQueryPage from 'core/page/template/OQueryPage.vue'
@@ -27,6 +28,7 @@ const globalComponents :Indexable = {
   'o-field': OField,
   'o-icon': OIcon,
   'o-link': OLink,
+  'o-menu': OMenu,
   'o-no-data': ONoData,
   'o-query-page': OQueryPage,
   'o-refresh-btn': ORefreshBtn,

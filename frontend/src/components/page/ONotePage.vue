@@ -10,7 +10,9 @@
     </template>
 
     <template #after>
-      <note-chat @close="toggleSide" :note-id="noteId" v-if="noteId" />
+      <note-chat :note-id="noteId"
+                 @close="toggleSide"
+                 v-if="noteId" />
       <slot name="side"></slot>
     </template>
   </o-split-page>

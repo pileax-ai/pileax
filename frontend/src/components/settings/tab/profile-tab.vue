@@ -25,13 +25,13 @@
     <o-common-card icon="o_security" :title="$t('auth.account.security.title')" small header padding>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item :label="$t('auth.account.security.email')" :sublabel="account.email" />
-          <o-common-item :label="$t('auth.account.security.password')" :sublabel="$t('auth.account.security.password_tips')">
+          <o-common-item :label="$t('auth.account.security.email')" :sub-label="account.email" />
+          <o-common-item :label="$t('auth.account.security.password')" :sub-label="$t('auth.account.security.password_tips')">
             <div>
               <q-btn :label="$t('auth.account.security.password_action')" class="bg-accent text-tips" flat />
             </div>
           </o-common-item>
-          <o-common-item :label="$t('auth.account.security.passkeys')" :sublabel="$t('auth.account.security.passkey_tips')">
+          <o-common-item :label="$t('auth.account.security.passkeys')" :sub-label="$t('auth.account.security.passkey_tips')">
             <div>
               <q-btn :label="$t('auth.account.security.passkey_action')" class="bg-accent text-tips" flat />
             </div>

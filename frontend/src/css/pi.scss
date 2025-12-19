@@ -143,6 +143,12 @@
       }
     }
   }
+
+  &.flat {
+    .q-list {
+      padding: 0;
+    }
+  }
 }
 
 .pi-context-menu {

@@ -4,7 +4,7 @@
       <q-list no-border link>
         <o-common-item size="4rem"
                        :label="$t('reading.libraries.location')"
-                       :sublabel="$t('reading.libraries.locationTips')">
+                       :sub-label="$t('reading.libraries.locationTips')">
           <template #sublabel>
             <div>
               {{ $t('reading.libraries.locations.current') }}: {{currentLocation}}

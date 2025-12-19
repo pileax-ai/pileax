@@ -8,6 +8,7 @@ from fastapi import HTTPException
 from app.api.models.enums import Status
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.api.services.conversation_service import ConversationService
+from app.api.services.prompt_service import PromptService
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_model_service import ProviderDefaultModelService
 from app.constants.enums import LLMType
@@ -25,6 +26,7 @@ class ChatService(BaseService[Message]):
         self.user_id = user_id
         self.workspace = workspace
         self.conversation_service = ConversationService(session, user_id, workspace)
+        self.prompt_service = PromptService(session, user_id, workspace)
         self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
         self.pc_service = ProviderCredentialService(session)
 
@@ -56,9 +58,7 @@ class ChatService(BaseService[Message]):
 
         # message
         messages = self.find_by_conversation(item_in.conversation_id)
-        history = [
-            { "role": 'system', "content": 'You are an assistant. Please answer in [LANGUAGE].' },
-        ]
+        history = self.prompt_service.build_system_prompt(conversation.ref_type, conversation.ref_id)
         for message in messages:
             history.append({"role": "user", "content": message.message})
             history.append({"role": "assistant", "content": message.content})

@@ -92,7 +92,17 @@
                       :tag="tag"
                       :dense="dense"
                       @send="onSend"
-                      @stop="onStop" />
+                      @stop="onStop">
+          <template #menu>
+            <o-menu class="pi-menu flat no-shadow bg-accent"
+                    anchor="top left" self="bottom left"
+                    style="box-shadow: none !important;"
+                    :min-width="`${chatWidth - 28}px`"
+                    :offset="[10, 12]">
+              <slot name="menu" />
+            </o-menu>
+          </template>
+        </o-chat-input>
 
         <div class="row col-12 justify-center q-py-sm bg-secondary text-tips warning">
           {{ $t('ai.generateDisclaimer') }}
@@ -119,6 +129,7 @@ import OChatToc from 'components/chat/OChatToc.vue'
 import ChatActions from 'components/chat/ChatActions.vue'
 import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
 import { QScrollArea } from 'quasar'
+import useNote from 'src/hooks/useNote'
 
 const props = defineProps({
   refType: {
@@ -168,7 +179,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['chats'])
 
-const { provider } = useAi()
+const { localModels } = useAi()
+const { noteStore } = useNote()
 const {
   conversation,
   conversationId,
@@ -186,6 +198,11 @@ const showScrollBtn = ref(false)
 const scrollable = ref(true)
 const scrollTop = ref(0)
 const scrollDirection = ref('')
+
+const chatWidth = computed(() => (noteStore.value.chatWidth))
+const localDefaultModel = computed(() => {
+  return localModels.value['chat'] || {}
+})
 
 function init(from = '') {
   console.log('init from', from)
@@ -364,6 +381,16 @@ function reset() {
   chats.value = []
 }
 
+const send = (message: string) => {
+  onSend({
+    id: UUID(),
+    message: message,
+    modelProvider: localDefaultModel.value.provider,
+    modelType: localDefaultModel.value.modelType,
+    modelName: localDefaultModel.value.modelName,
+  } as ChatInput)
+}
+
 watch(chats, (newValue) => {
   emit('chats', newValue)
 })
@@ -377,7 +404,7 @@ onBeforeMount(() => {
 })
 
 defineExpose({
-  send: onSend
+  send: send
 })
 </script>
 

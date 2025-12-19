@@ -2,6 +2,7 @@
   <q-tooltip ref="tooltipRef" class="o-tooltip text-white" :class="`bg-${color}`"
              :anchor="anchorAlt"
              :self="selfAlt"
+             :delay="delay"
              :transition-show="transitionShow"
              :transition-hide="transitionHide"
              @show="onShow">
@@ -58,6 +59,10 @@ const props = defineProps({
   transition: {
     type: Boolean,
     default: false
+  },
+  delay: {
+    type: Number,
+    default: 100
   },
 })
 

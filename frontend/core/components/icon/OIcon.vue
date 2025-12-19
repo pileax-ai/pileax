@@ -3,7 +3,6 @@
     {{ emoji }}
   </span>
   <template v-else>
-
     <o-svg-icon v-bind="{...props, ...$attrs}" class="o-icon"
                 v-if="name.indexOf('icon') === 0" />
     <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"

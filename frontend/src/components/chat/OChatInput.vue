@@ -1,8 +1,17 @@
 <template>
   <o-common-card class="chat-input-card" accent>
-    <div class="tag" v-if="tag">
-      <o-chip color="blue" dense>{{ tag }}</o-chip>
-    </div>
+    <header class="row col-12 justify-between items-center">
+      <div class="menu">
+        <q-btn icon="mdi-creation"
+               class="text-tips bg-accent"
+               flat round dense>
+          <slot name="menu" />
+        </q-btn>
+      </div>
+      <div class="tag" v-if="tag">
+        <o-chip color="blue" dense>@{{ tag }}</o-chip>
+      </div>
+    </header>
     <q-input ref="inputRef"
              v-model="input"
              :placeholder="$t('chat.sendMessage')"
@@ -45,6 +54,8 @@
         </q-btn>
       </div>
     </div>
+
+    <slot></slot>
   </o-common-card>
 </template>
 
@@ -131,11 +142,18 @@ function reset() {
   max-width: 800px;
 
   textarea {
-    height: 70px !important;
+    height: 52px !important;
+    padding-top: 0 !important;
   }
 
   .card-content {
-    padding: 10px;
+    padding: 6px 10px 10px 10px;
+
+    .menu {
+      .q-icon {
+        font-size: 1.2rem;
+      }
+    }
   }
 
   .q-field {
@@ -177,9 +195,9 @@ function reset() {
   }
 
   .tag {
-    position: absolute;
-    right: 12px;
-    top: 4px;
+    //position: absolute;
+    //right: 12px;
+    //top: 4px;
   }
 }
 </style>

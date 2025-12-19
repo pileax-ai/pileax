@@ -14,7 +14,7 @@
     <o-common-item v-for="(item, index) in Locales"
                    :key="index"
                    :label="item.label"
-                   :sublabel="item.prompt_name"
+                   :sub-label="item.prompt_name"
                    :active="item.value === locale"
                    clickable closable
                    @click="setLocale(item.value, true)">

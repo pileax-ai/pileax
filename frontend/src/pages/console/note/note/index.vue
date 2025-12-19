@@ -11,11 +11,11 @@
           Cover
         </section>
         <section class="note-meta-wrapper">
-          <div class="icon" v-if="currentNote.icon">
+          <div class="icon text-readable" v-if="currentNote.icon">
             <span v-if="false">
               {{ currentNote.icon }}
             </span>
-            <o-icon :name="currentNote.icon" class="text-readable" />
+            <o-icon :name="currentNote.icon" />
             <o-general-icon-menu anchor="bottom left"
                                  self="top left"
                                  :offset="[0, 8]"

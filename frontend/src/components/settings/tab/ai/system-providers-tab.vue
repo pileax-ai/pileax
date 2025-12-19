@@ -5,7 +5,7 @@
         <q-list no-border link>
           <o-common-item icon="mdi-creation"
                          :label="$t('ai.models.chatModel')"
-                         :sublabel="$t('ai.models.chatTips')"
+                         :sub-label="$t('ai.models.chatTips')"
                          size="4rem"
                          class="text-primary">
             <div class="row items-center">

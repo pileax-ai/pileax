@@ -17,8 +17,8 @@
           <o-tooltip position="top">{{ help }}</o-tooltip>
         </q-icon>
       </q-item-label>
-      <q-item-label caption v-if="sublabel">
-        {{sublabel}}
+      <q-item-label caption v-if="subLabel">
+        {{subLabel}}
         <slot name="sublabel"></slot>
       </q-item-label>
     </q-item-section>
@@ -89,7 +89,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  sublabel: {
+  subLabel: {
     type: String,
     default: ''
   },
