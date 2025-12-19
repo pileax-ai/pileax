@@ -3,9 +3,11 @@
 ## generate
 ```shell
 node src/i18n/generate/index.js
+node src/i18n/generate/index.js --base=zh-Hans
 
 # or
 yarn i18n-generate
+yarn i18n-generate-zh
 ```
 
 ## All Languages

@@ -25,7 +25,7 @@
             <div class="row">
               <q-btn icon="radio_button_checked" color="primary" size="12px"
                      flat round
-                     v-if="item.url === backgroundImage" />
+                     v-if="item.url === backgroundImageUrl" />
             </div>
           </q-item-section>
         </q-item>
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import SettingTab from 'components/reader/settings/setting-tab.vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
@@ -60,7 +60,7 @@ import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['close'])
 
-const { t } = useCommon()
+const { t, publicPath } = useCommon()
 const { settings, setSettingItem } = useReaderSetting()
 const backgroundBlur = ref(0)
 
@@ -104,10 +104,14 @@ const list = computed(() => {
   ]
 })
 
-const backgroundImage = computed(() => settings.value.backgroundImage)
+const backgroundImageUrl = computed(() => settings.value.backgroundImageUrl)
 
-const onBackgroundImage = (item: Indexable) => {
-  setSettingItem('backgroundImage', item.url)
+const onBackgroundImage = async (item: Indexable) => {
+  const imagePath = await publicPath(item.url)
+  console.log('imagePath', imagePath)
+
+  setSettingItem('backgroundImage', imagePath)
+  setSettingItem('backgroundImageUrl', item.url)
   const fontColor = item.theme === 'dark' ? '#e9e9e9' : '#262626'
   setSettingItem('fontColor', fontColor)
 }

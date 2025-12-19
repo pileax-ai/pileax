@@ -16,6 +16,7 @@ export type IpcApi = {
   migrateLibrary: (options: any) => Promise<any>;
   minimizeWindow: () => Promise<any>;
   openNewWindow: (id: string, url: string, titleBarHeight?: number) => Promise<any>;
+  publicPath: (path: string) => Promise<any>;
   reload: (force?: boolean) => Promise<any>;
   saveImageFile: (metadata: any) => Promise<any>;
   setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
@@ -37,6 +38,7 @@ export const ipcServiceKeys = [
   'migrateLibrary',
   'minimizeWindow',
   'openNewWindow',
+  'publicPath',
   'reload',
   'saveImageFile',
   'setTheme',

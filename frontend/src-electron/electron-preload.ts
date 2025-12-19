@@ -61,6 +61,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('window-minimize'),
   migrateLibrary: async (options: any) =>
     ipcRenderer.invoke('migrate-library', options),
+  publicPath: async (path: string) =>
+    ipcRenderer.invoke('public-path', path),
   readBookCover: async (filePath: string) =>
     ipcRenderer.invoke('read-book-cover', filePath),
   readBookFile: async (filePath: string) =>

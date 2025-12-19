@@ -89,6 +89,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/prefer-promise-reject-errors': 'off',
       '@typescript-eslint/require-await': 'off',
+      // '@typescript-eslint/require-thenable': 'off',
       'vue/multi-word-component-names': 'off',
     }
   },

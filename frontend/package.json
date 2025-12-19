@@ -22,7 +22,8 @@
     "build:electron:analyze": "export analyze=true && node_modules/.bin/electron-rebuild && quasar build -m electron",
     "build:tauri": "cd src-tauri && yarn tauri build",
     "postinstall": "quasar prepare",
-    "i18n-generate": "node src/i18n/generate/index.js"
+    "i18n-generate": "node src/i18n/generate/index.js",
+    "i18n-generate-zh": "node src/i18n/generate/index.js --base=zh-Hans"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",

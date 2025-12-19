@@ -1,5 +1,11 @@
 export default {
   _: 'Reading',
+  agent: {
+    _: 'AI Agent',
+    agents: 'AI Agents',
+    manage: 'Manage AI Agents'
+  },
+  aiReading: 'AI Reading',
   libraries: {
     location: 'Library Location',
     locations: {
@@ -13,72 +19,66 @@ export default {
     locationTips: 'The location of book library.'
   },
   library: 'Book Library',
-  reader: 'Reader',
-  status: {
-    _: 'Reading Status',
-    all: 'All',
-    notStarted: 'Not Started',
-    wantToRead: 'Want to Read',
-    currentlyReading: 'Currently Reading',
-    finished: 'Finished',
-  },
-  prevPage: 'Previous Page',
   nextPage: 'Next Page',
-  aiReading: 'AI Reading',
   player: {
-    start: 'Start',
-    pause: 'Pause',
-    stop: 'Stop',
-    forward: 'Forward',
     backward: 'Backward',
+    forward: 'Forward',
+    pause: 'Pause',
+    start: 'Start',
+    stop: 'Stop'
+  },
+  popup: {
+    clearHighlight: 'Clear Highlight',
+    copy: 'Copy',
+    highlight: 'Highlight',
+    more: 'More',
+    search: 'AI Search',
+    share: 'Share'
   },
   position: 'Reading Position',
   previewPosition: 'Preview Position',
+  prevPage: 'Previous Page',
+  reader: 'Reader',
   search: {
-    prev: 'Previous',
     next: 'Next',
+    prev: 'Previous'
+  },
+  service: {
+    manage: 'Manage Services',
+    services: 'Services'
   },
   setting: {
-    pageTurningMode: 'Page Turning Mode',
-    slide: 'Slide Left/Right',
-    scroll: 'Scroll Up/Down',
     background: {
       bubbleNebula: 'The Bubble Nebula',
-      pillarsCreation: 'Pillars of Creation',
       oldBook: 'Old Book',
-      willowBank: 'The willow-fringed bank',
+      pillarsCreation: 'Pillars of Creation',
+      willowBank: 'The willow-fringed bank'
     },
     font: {
       book: 'Book',
-      system: 'System',
-      serif: 'Serif',
-      mono: 'Mono',
       custom: 'Custom',
-    }
+      mono: 'Mono',
+      serif: 'Serif',
+      system: 'System'
+    },
+    pageTurningMode: 'Page Turning Mode',
+    scroll: 'Scroll Up/Down',
+    slide: 'Slide Left/Right'
   },
   settings: 'Reading Settings',
-  agent: {
-    _: 'AI Agent',
-    agents: 'AI Agents',
-    manage: 'Manage AI Agents',
-  },
-  service: {
-    services: 'Services',
-    manage: 'Manage Services',
+  status: {
+    _: 'Reading Status',
+    all: 'All',
+    currentlyReading: 'Currently Reading',
+    finished: 'Finished',
+    notStarted: 'Not Started',
+    wantToRead: 'Want to Read'
   },
   tts: {
-    settings: 'TTS Settings',
-    speed: 'Reading Speed',
-    speedSettings: 'Speed Settings',
-    slow: 'Low',
     quick: 'Quick',
-  },
-  popup: {
-    highlight: 'Highlight',
-    clearHighlight: 'Clear Highlight',
-    copy: 'Copy',
-    share: 'Share',
-    search: 'AI Search',
-    more: 'More',
-  },
+    settings: 'TTS Settings',
+    slow: 'Low',
+    speed: 'Reading Speed',
+    speedSettings: 'Speed Settings'
+  }
 }

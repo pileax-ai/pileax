@@ -10,10 +10,12 @@ import languages from './config/languages.json' with { type: 'json' }
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const agent = new HttpProxyAgent('http://127.0.0.1:7890')
 
+const ARGS = parseArgs(process.argv)
+
 const TRANSLATOR = 'bing'
-const BASE_LANG = 'en-US'
-const MANUAL_LANGS = ['en-US', 'zh-Hans', 'zh-Hant']
-const TARGET_LANGS = languages.filter(item => item.supported)
+const BASE_LANG = ARGS.base || 'en-US'
+const MANUAL_LANGS = ['en-US', 'zh-Hans']
+const TARGET_LANGS = languages.filter(item => item.supported && item.base === BASE_LANG)
 
 const ROOT_FILES = ['common.ts']
 const LOCALE_DIR = path.join(__dirname, '../messages')
@@ -24,6 +26,17 @@ const BASE_META_FILE = path.join(META_DIR, `${BASE_LANG}.meta.json`)
 // ==================================================
 // Utility
 // ==================================================
+function parseArgs(argv) {
+  const args = {}
+  for (const arg of argv.slice(2)) {
+    if (arg.startsWith('--')) {
+      const [key, val] = arg.slice(2).split('=')
+      args[key] = val === undefined ? true : val
+    }
+  }
+  return args
+}
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }

@@ -6,6 +6,8 @@ Licensed under the Apache License 2.0.
 Modifications made by PileaX AI.
 """
 
+from . import base, tongyi
+
 __all__ = [
     'base',
     'tongyi',

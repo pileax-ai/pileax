@@ -2,6 +2,7 @@ import { Platform, Dialog, copyToClipboard } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { notifySuccess } from 'core/utils/control'
 import { useComponentStoreWithOut } from 'stores/component'
+import { ipcProvider, ipcService } from 'src/api/ipc'
 
 export const isMobile = Platform.is.mobile
 export const getArrayItem = (array :Indexable[], value :string, field = '') => {
@@ -44,6 +45,15 @@ export default function () {
     })
   }
 
+  const publicPath = async (path: string): Promise<string> => {
+    if (!path || ipcProvider === 'web') {
+      return Promise.resolve(path)
+    }
+
+    const url = path.startsWith('/') ? path.slice(1) : path
+    return await ipcService.publicPath(url)
+  }
+
   const dialog = Dialog.create
 
   return {
@@ -51,7 +61,8 @@ export default function () {
     confirm,
     copy,
     dialog,
-    getArrayItem
+    getArrayItem,
+    publicPath,
   }
 }
 

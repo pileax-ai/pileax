@@ -1,6 +1,9 @@
 export default {
   agents: 'AI 智能体',
   apps: 'AI 应用',
+  basedOnNote: '基于笔记',
+  generate: '生成',
+  generateDisclaimer: '内容由 AI 生成，请仔细甄别',
   model: 'AI 模型',
   models: {
     chat: '聊天 LLM',
@@ -31,9 +34,6 @@ export default {
     available: '可用提供商',
     title: '模型提供商'
   },
-  settings: 'AI 设置',
-  generate: '生成',
-  generateDisclaimer: '内容由 AI 生成，请仔细甄别',
   regenerate: '重新生成',
-  basedOnNote: '基于笔记',
+  settings: 'AI 设置'
 }

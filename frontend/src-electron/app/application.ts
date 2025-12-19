@@ -14,6 +14,7 @@ import { logManager } from './log-manager'
 import { TrayManager } from './tray-manager'
 import { serverInfo } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
+import path from 'path'
 
 let trayManager: TrayManager
 
@@ -74,6 +75,13 @@ export class Application {
     ipcMain.handle('open-new-window',
       (event, id: string, url: string, titleBarHeight = 40) => {
         windowManager.openNewWindow(id, url, titleBarHeight)
+      })
+
+    ipcMain.handle('public-path',
+      (event, p: string) => {
+      return process.env.NODE_ENV === 'production'
+        ? path.join('file://', process.resourcesPath, 'app.asar', p)
+        : p
       })
 
     ipcMain.handle('migrate-library',
