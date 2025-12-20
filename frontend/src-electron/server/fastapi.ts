@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import os from 'os'
 
 import { pathManager } from '../app/path-manager'
-import { VIRTUAL_URL } from '../app/constant'
+import { VIRTUAL_DOMAIN, VIRTUAL_URL } from '../app/constant'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
@@ -111,6 +111,7 @@ class FastAPIServer {
         CACHE_ROOT: this.cachePath,
         PUBLIC_FILE_ROOT: this.publicPath,
         WEB_API_CORS_ALLOW_ORIGINS: VIRTUAL_URL,
+        COOKIE_DOMAIN: VIRTUAL_DOMAIN
       },
       cwd: this.serverPath,
       stdio: 'pipe',

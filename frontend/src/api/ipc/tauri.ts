@@ -18,7 +18,7 @@ export const createTauriIpc = (): IpcService => {
         const fn = api[prop as keyof typeof api]
         return typeof fn === "function" ? fn.bind(api) : fn
       }
-      
+
       throw new Error(`IPC method ${prop} not found`)
     }
   }
