@@ -44,6 +44,7 @@
     "dayjs": "^1.11.10",
     "echarts": "^5.4.3",
     "electron-log": "^5.3.2",
+    "express": "^5.2.1",
     "fs-extra": "^11.3.0",
     "get-port": "^7.1.0",
     "html2canvas": "^1.4.1",

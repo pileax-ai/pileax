@@ -6,12 +6,14 @@ import os from 'os'
 import * as remoteMain from '@electron/remote/main/index.js'
 import { Application } from './app/application'
 import { startServer, stopServer } from './server/fastapi'
+import { ExpressServer } from './server/express'
 import { WindowManager } from './app/window-manager'
 
 remoteMain.initialize()
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
 let mainWindow = WindowManager.getMainWindow()
+let expressServer: ExpressServer | undefined = undefined
 
 /**
  * Main window
@@ -51,7 +53,26 @@ const createWindow = async () => {
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)
   } else {
-    await mainWindow.loadFile('index.html')
+    expressServer = new ExpressServer()
+    try {
+      await expressServer.start()
+      await mainWindow.loadURL(expressServer.getUrl())
+
+      // const virtualUrl = 'https://www.pileax.ai'
+      // const session = mainWindow.webContents.session
+      // session.webRequest.onBeforeRequest({ urls: [`${virtualUrl}/*`] }, (details, callback) => {
+      //   const redirectURL = details.url.replace(virtualUrl, expressServer!.getUrl())
+      //   callback({ redirectURL })
+      // })
+      //
+      // await mainWindow.loadURL(virtualUrl)
+      // log.error('✅ Succeed to start Express server:', virtualUrl)
+    } catch (err) {
+      log.error('❌ Failed to start Express server:', err)
+
+      // Fallback
+      await mainWindow.loadFile('index.html')
+    }
   }
 
   if (process.env.DEBUGGING) {
@@ -112,8 +133,16 @@ app.on('before-quit', (event) => {
 
 app.on('window-all-closed', async () => {
   if (platform !== 'darwin') {
-    stopServer('window-all-closed')
     app.quit()
+  }
+
+  // server
+  await stopServer('window-all-closed')
+
+  // express
+  if (expressServer) {
+    await expressServer.stop()
+    expressServer = undefined
   }
 })
 

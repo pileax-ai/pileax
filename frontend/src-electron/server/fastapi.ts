@@ -41,7 +41,7 @@ async function startServer() {
           DB_DATABASE: dbPath,
           CACHE_ROOT: cachePath,
           PUBLIC_FILE_ROOT: publicPath,
-          WEB_API_CORS_ALLOW_ORIGINS: '*',
+          WEB_API_CORS_ALLOW_ORIGINS: `http://localhost`,
         },
         cwd: serverPath,
         stdio: 'pipe',

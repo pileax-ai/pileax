@@ -255,6 +255,7 @@ export default defineConfig((ctx) => {
             'electron',
             'electron-log',
             'electron-updater',
+            'express',
             'fs-extra',
             'get-port',
           ]
@@ -321,6 +322,11 @@ export default defineConfig((ctx) => {
             to: 'icons',
             filter: ["**/*"]
           },
+          {
+            from: 'dist/electron/UnPackaged/',
+            to: 'app',
+            filter: ["**/*"]
+          }
         ]
       }
     },
