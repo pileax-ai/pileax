@@ -2,7 +2,6 @@ import { app } from 'electron'
 import fs from 'fs-extra'
 import log from 'electron-log'
 import path from 'node:path'
-import { restartServer } from '../server/fastapi'
 import { Application } from 'app/src-electron/app/application'
 import { sleep } from 'core/utils/misc'
 import { isDirectoryEmpty, isDirectoryExists } from 'app/src-electron/utils/file'
@@ -37,9 +36,10 @@ export interface MigrateResult {
  *     └── file
  */
 export class PathManager {
+  configPath: string
+
   private appName?: string
   private userData: string
-  private configPath: string
   private config: PathConfig
   private defaultPaths: Record<string, string>
 
@@ -144,7 +144,7 @@ export class PathManager {
 
       return { success: true, message: `Migrated ${key} to ${newDir}`, code: '' }
     } catch (err: any) {
-      console.error(`Failed to migrate ${key}:`, err)
+      log.error(`Failed to migrate ${key}:`, err)
       return { success: false, message: err.message || String(err), code: 'error' }
     }
   }
@@ -181,7 +181,6 @@ export class PathManager {
 
       // Reload app
       Application.reload()
-      await restartServer()
       await sleep(3000)
     }
 

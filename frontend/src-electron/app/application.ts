@@ -1,20 +1,18 @@
 import { ipcMain, nativeTheme } from 'electron'
 import fs from 'node:fs'
+import path from 'node:path'
 
 import {
   readFile,
   readImage,
-  readBookFile,
-  readBookCover,
-  saveBookFiles,
   saveImageFile
 } from '../utils/file'
 import { pathManager } from './path-manager'
 import { logManager } from './log-manager'
 import { TrayManager } from './tray-manager'
-import { serverInfo } from '../server/fastapi'
+import { server } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
-import path from 'node:path'
+import { PROTOCOL_SCHEME, VIRTUAL_HOST, VIRTUAL_URL } from './constant'
 
 let trayManager: TrayManager
 
@@ -62,7 +60,7 @@ export class Application {
       })
 
     ipcMain.handle('get-server-info', () => {
-      return serverInfo
+      return server.serverInfo
     })
 
     ipcMain.handle("log:init", (event, maxLines = 100) => {
@@ -80,24 +78,20 @@ export class Application {
     ipcMain.handle('public-path',
       (event, p: string) => {
       return process.env.NODE_ENV === 'production'
-        ? path.join('file://', process.resourcesPath, 'app.asar', p)
+        // ? path.join('file://', process.resourcesPath, 'app.asar', p)
+        ? `${PROTOCOL_SCHEME}://` + path.join(VIRTUAL_HOST, p)
         : p
       })
 
     ipcMain.handle('migrate-library',
       async (event, options) => {
-        return await pathManager.migrateLibrary(options)
+        const  result = await pathManager.migrateLibrary(options)
+        if (result.success) {
+          await server.restart()
+        }
+        return result
       })
 
-    ipcMain.handle('read-book-file',
-      async (event, filePath) => {
-        return await readBookFile(filePath)
-      })
-
-    ipcMain.handle('read-book-cover',
-      async (event, filePath) => {
-        return await readBookCover(filePath)
-      })
 
     ipcMain.handle('read-file',
       async (event, filePath) => {
@@ -119,10 +113,6 @@ export class Application {
         }
       })
 
-    ipcMain.handle('save-book-files',
-      async (event, metadata) => {
-        return await saveBookFiles(metadata)
-      })
 
     ipcMain.handle('save-image-file',
       async (event, metadata) => {

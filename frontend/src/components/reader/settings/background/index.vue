@@ -44,8 +44,7 @@
                   :label-value="`${backgroundBlur}`"
                   label
                   label-always
-                  track-size="5px"
-                  @update:modelValue="onValueChanged('backgroundBlur', $event)" />
+                  track-size="5px" />
       </o-field-label>
     </q-list>
   </setting-tab>
@@ -62,7 +61,14 @@ const emit = defineEmits(['close'])
 
 const { t, publicPath } = useCommon()
 const { settings, setSettingItem } = useReaderSetting()
-const backgroundBlur = ref(0)
+const backgroundBlur = computed({
+  get() {
+    return settings.value.backgroundBlur
+  },
+  set(value: number) {
+    setSettingItem('backgroundBlur', value)
+  }
+})
 
 const list = computed(() => {
   return [
@@ -71,6 +77,7 @@ const list = computed(() => {
       value: 'google',
       icon: 'block',
       theme: 'none',
+      blur: 0,
       url: '',
     },
     {
@@ -78,6 +85,7 @@ const list = computed(() => {
       value: 'bubble_nebula',
       icon: '',
       theme: 'dark',
+      blur: 150,
       url: '/images/book/dark-bubble_nebula.jpg',
     },
     {
@@ -85,6 +93,7 @@ const list = computed(() => {
       value: 'pillars_of_creation',
       icon: '',
       theme: 'dark',
+      blur: 150,
       url: '/images/book/dark-pillars_of_creation.jpg',
     },
     {
@@ -92,6 +101,7 @@ const list = computed(() => {
       value: 'willow_bank',
       icon: '',
       theme: 'light',
+      blur: 50,
       url: '/images/book/light-willow_bank.jpg',
     },
     {
@@ -99,6 +109,7 @@ const list = computed(() => {
       value: 'old_book',
       icon: '',
       theme: 'light',
+      blur: 0,
       url: '/images/book/light-old_book.png',
     },
   ]
@@ -108,16 +119,12 @@ const backgroundImageUrl = computed(() => settings.value.backgroundImageUrl)
 
 const onBackgroundImage = async (item: Indexable) => {
   const imagePath = await publicPath(item.url)
-  console.log('imagePath', imagePath)
 
   setSettingItem('backgroundImage', imagePath)
   setSettingItem('backgroundImageUrl', item.url)
+  setSettingItem('backgroundBlur', item.blur)
   const fontColor = item.theme === 'dark' ? '#e9e9e9' : '#262626'
   setSettingItem('fontColor', fontColor)
-}
-
-const onValueChanged = (key: string, value: any) => {
-  setSettingItem(key, value)
 }
 
 onBeforeMount(() => {

@@ -1,51 +1,16 @@
-import { app } from 'electron'
-import path from 'node:path'
 
-/**
- * App data path
- *
- * APP_ROOT
- */
-export const appDataPath = () => {
-  return app.getPath('userData') // todo: default
-}
+export const joinPath = (...segments: string[]): string => {
+  const parts = segments.map((s, i) => {
+    if (i === 0) return s.replace(/\/+$/g, '')
+    return s.replace(/^\/+|\/+$/g, '')
+  })
 
-export const appLogPath = () => {
-  return path.join(appDataPath(), 'logs', 'electron.log')
-}
+  let joined = parts.join('/')
 
-/**
- * App storage path
- *
- * APP_ROOT/storage
- */
-export const appStoragePath = () => {
-  return path.join(appDataPath(), 'storage')
-}
+  // Keep Windows Driver, such as C:/Program Files
+  if (/^[a-zA-Z]:$/.test(parts[0] || '')) {
+    joined = parts[0] + '/' + parts.slice(1).join('/')
+  }
 
-/**
- * App database path
- *
- * APP_ROOT/storage/metadata.db
- */
-export const appDbPath = () => {
-  return path.join(appStoragePath(), 'metadata.db')
-}
-
-/**
- * App book root path
- *
- * APP_ROOT/storage/book
- */
-export const appBookRootPath = () => {
-  return path.join(appStoragePath(), 'book')
-}
-
-/**
- * App public root path
- *
- * APP_ROOT/storage/public
- */
-export const appPublicRootPath = () => {
-  return path.join(appStoragePath(), 'public')
+  return joined
 }
