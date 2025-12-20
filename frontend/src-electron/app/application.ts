@@ -1,5 +1,5 @@
 import { ipcMain, nativeTheme } from 'electron'
-import fs from 'fs'
+import fs from 'node:fs'
 
 import {
   readFile,
@@ -14,7 +14,7 @@ import { logManager } from './log-manager'
 import { TrayManager } from './tray-manager'
 import { serverInfo } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
-import path from 'path'
+import path from 'node:path'
 
 let trayManager: TrayManager
 

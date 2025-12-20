@@ -1,6 +1,6 @@
 import { app, Tray, Menu, BrowserWindow, nativeImage } from 'electron'
-import path from 'path'
-import fs from 'fs'
+import path from 'node:path'
+import fs from 'node:fs'
 import type * as electron from 'electron'
 import os from 'os'
 

@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
-import path from 'path'
+import path from 'node:path'
 
 import * as remoteMain from '@electron/remote/main/index.js'
 const currentDir = fileURLToPath(new URL('.', import.meta.url))

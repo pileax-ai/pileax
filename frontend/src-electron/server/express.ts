@@ -1,6 +1,6 @@
 import log from 'electron-log'
 import express, { Express } from 'express'
-import path from 'path'
+import path from 'node:path'
 import getPort from 'get-port'
 
 export class ExpressServer {

@@ -2,7 +2,7 @@ import type { ChildProcess} from 'child_process'
 import { spawn } from 'child_process'
 import getPort from 'get-port'
 import log from 'electron-log'
-import path from 'path'
+import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import os from 'os'
 import { pathManager } from '../app/path-manager'
@@ -41,7 +41,7 @@ async function startServer() {
           DB_DATABASE: dbPath,
           CACHE_ROOT: cachePath,
           PUBLIC_FILE_ROOT: publicPath,
-          WEB_API_CORS_ALLOW_ORIGINS: `http://localhost`,
+          WEB_API_CORS_ALLOW_ORIGINS: `https://www.pileax.ai`,
         },
         cwd: serverPath,
         stdio: 'pipe',

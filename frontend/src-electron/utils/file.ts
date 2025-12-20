@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
-import path from 'path'
-import fs from 'fs'
+import path from 'node:path'
+import fs from 'node:fs'
 import fsExtra from 'fs-extra'
 
 import { appBookRootPath } from './path'

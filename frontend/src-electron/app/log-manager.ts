@@ -1,4 +1,3 @@
-import { app, BrowserWindow } from 'electron'
 import { pathManager } from './path-manager'
 import fs from 'fs-extra'
 import log from 'electron-log'

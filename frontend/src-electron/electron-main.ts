@@ -1,13 +1,15 @@
-import { app, BrowserWindow, shell, session } from 'electron'
+import { app, BrowserWindow, shell, session, protocol } from 'electron'
 import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import fs from 'node:fs'
 import log from 'electron-log'
-import path from 'path'
 import os from 'os'
 import * as remoteMain from '@electron/remote/main/index.js'
 import { Application } from './app/application'
 import { startServer, stopServer } from './server/fastapi'
 import { ExpressServer } from './server/express'
 import { WindowManager } from './app/window-manager'
+import mime from 'mime'
 
 remoteMain.initialize()
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
@@ -53,26 +55,27 @@ const createWindow = async () => {
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)
   } else {
-    expressServer = new ExpressServer()
-    try {
-      await expressServer.start()
-      await mainWindow.loadURL(expressServer.getUrl())
-
-      // const virtualUrl = 'https://www.pileax.ai'
-      // const session = mainWindow.webContents.session
-      // session.webRequest.onBeforeRequest({ urls: [`${virtualUrl}/*`] }, (details, callback) => {
-      //   const redirectURL = details.url.replace(virtualUrl, expressServer!.getUrl())
-      //   callback({ redirectURL })
-      // })
-      //
-      // await mainWindow.loadURL(virtualUrl)
-      // log.error('✅ Succeed to start Express server:', virtualUrl)
-    } catch (err) {
-      log.error('❌ Failed to start Express server:', err)
-
-      // Fallback
-      await mainWindow.loadFile('index.html')
-    }
+    await mainWindow.loadURL('https://www.pileax.ai')
+    // expressServer = new ExpressServer()
+    // try {
+    //   await expressServer.start()
+    //   // await mainWindow.loadURL(expressServer.getUrl())
+    //
+    //   const virtualUrl = 'https://www.pileax.ai'
+    //   const session = mainWindow.webContents.session
+    //   session.webRequest.onBeforeRequest({ urls: [`${virtualUrl}/*`] }, (details, callback) => {
+    //     const redirectURL = details.url.replace(virtualUrl, expressServer!.getUrl())
+    //     callback({ redirectURL })
+    //   })
+    //
+    //   await mainWindow.loadURL(virtualUrl)
+    //   log.error('✅ Succeed to start Express server:', virtualUrl)
+    // } catch (err) {
+    //   log.error('❌ Failed to start Express server:', err)
+    //
+    //   // Fallback
+    //   await mainWindow.loadFile('index.html')
+    // }
   }
 
   if (process.env.DEBUGGING) {
@@ -98,7 +101,59 @@ const createWindow = async () => {
   WindowManager.setMainWindow(mainWindow)
 }
 
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'https',
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      allowServiceWorkers: true,
+      corsEnabled: true,
+    },
+  },
+])
+
+const registerProtocol = () => {
+  protocol.handle('https', async (request) => {
+    const url = new URL(request.url)
+
+    // 只拦截你的虚拟域名
+    if (url.hostname !== 'www.pileax.ai') {
+      return fetch(request)
+    }
+
+    let pathname = url.pathname
+    if (pathname === '/') pathname = '/index.html'
+
+    const root = process.resourcesPath + '/app'
+    const filePath = root + pathname
+
+    try {
+      const data = await fs.promises.readFile(filePath)
+      // const contentType = mime.lookup(filePath)
+      // log.info('Open: ', filePath, contentType)
+
+      return new Response(data, {
+        headers: {
+          'Content-Type': 'text/plain',
+          'Cache-Control': 'no-cache'
+        },
+      })
+    } catch {
+      // SPA fallback
+      const index = await fs.promises.readFile(
+        root + '/index.html'
+      )
+      return new Response(index, {
+        headers: { 'Content-Type': 'text/html' },
+      })
+    }
+  })
+}
+
 app.whenReady().then(async () => {
+  registerProtocol()
   await startServer()
   await createWindow()
 

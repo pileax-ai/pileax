@@ -1,7 +1,7 @@
 import { app } from 'electron'
 import fs from 'fs-extra'
 import log from 'electron-log'
-import path from 'path'
+import path from 'node:path'
 import { restartServer } from '../server/fastapi'
 import { Application } from 'app/src-electron/app/application'
 import { sleep } from 'core/utils/misc'
