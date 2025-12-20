@@ -13,6 +13,7 @@ import { TrayManager } from './tray-manager'
 import { server } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
 import { PROTOCOL_SCHEME, VIRTUAL_HOST, VIRTUAL_URL } from './constant'
+import { joinPath } from '../utils/path'
 
 let trayManager: TrayManager
 
@@ -79,7 +80,7 @@ export class Application {
       (event, p: string) => {
       return process.env.NODE_ENV === 'production'
         // ? path.join('file://', process.resourcesPath, 'app.asar', p)
-        ? `${PROTOCOL_SCHEME}://` + path.join(VIRTUAL_HOST, p)
+        ? `${PROTOCOL_SCHEME}://` + joinPath(VIRTUAL_HOST, p)
         : p
       })
 

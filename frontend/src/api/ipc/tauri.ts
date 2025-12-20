@@ -5,11 +5,20 @@ export const createTauriIpc = (): IpcService => {
   const api = window.tauriIpcAPI
 
   const handler: ProxyHandler<any> = {
-    get: (_, prop: string) => {
+    get: (_, prop) => {
+      if (typeof prop !== 'string') {
+        return undefined
+      }
+
+      if (prop.startsWith('__v_')) {
+        return undefined
+      }
+
       if (ipcServiceKeys.includes(prop as any)) {
         const fn = api[prop as keyof typeof api]
         return typeof fn === "function" ? fn.bind(api) : fn
       }
+      
       throw new Error(`IPC method ${prop} not found`)
     }
   }
