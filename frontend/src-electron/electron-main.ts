@@ -9,7 +9,7 @@ import { Application } from './app/application'
 import { startServer, stopServer } from './server/fastapi'
 import { ExpressServer } from './server/express'
 import { WindowManager } from './app/window-manager'
-import mime from 'mime'
+import { lookup } from 'mime-types'
 
 remoteMain.initialize()
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
@@ -131,12 +131,12 @@ const registerProtocol = () => {
 
     try {
       const data = await fs.promises.readFile(filePath)
-      // const contentType = mime.lookup(filePath)
-      // log.info('Open: ', filePath, contentType)
+      const contentType = lookup(filePath)
+      log.info('Open: ', filePath, contentType)
 
       return new Response(data, {
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': contentType || 'text/plain',
           'Cache-Control': 'no-cache'
         },
       })

@@ -77,9 +77,10 @@ export class WindowManager {
       const newUrl = `${process.env.APP_URL}#${url}`
       await newWindow.loadURL(newUrl)
     } else {
-      await newWindow.loadFile('index.html', {
-        hash: url
-      })
+      // await newWindow.loadFile('index.html', {
+      //   hash: url
+      // })
+      await newWindow.loadURL(`https://www.pileax.ai#${url}`)
     }
 
     newWindow.on('closed', () => {

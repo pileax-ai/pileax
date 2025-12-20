@@ -258,6 +258,7 @@ export default defineConfig((ctx) => {
             'express',
             'fs-extra',
             'get-port',
+            'mime-types',
           ]
 
           const newDependencies: Indexable = {}
