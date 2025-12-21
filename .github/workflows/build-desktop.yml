@@ -79,8 +79,6 @@ jobs:
 
     env:
       # Used for sign
-      CSC_LINK: ${{ secrets.MAC_CERT_P12 }}
-      CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
       APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
@@ -137,6 +135,16 @@ jobs:
             -s -k "" build.keychain
 
           security find-identity -v -p codesigning
+
+      - name: Set macOS signing environment variables
+        if: runner.os == 'macOS'
+        run: |
+          export CSC_LINK=certificate.p12
+          export CSC_KEY_PASSWORD=${{ secrets.MAC_CERT_PASSWORD }}
+          export CSC_IDENTITY_AUTO_DISCOVERY=true
+          export APPLE_ID=${{ secrets.APPLE_ID }}
+          export APPLE_PASSWORD=${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          export APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}
 
       # ===============================
       # Build Electron (Auto sign)
