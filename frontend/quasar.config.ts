@@ -280,19 +280,6 @@ export default defineConfig((ctx) => {
 
       bundler: 'builder', // 'packager' or 'builder'
 
-      packager: {
-        // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
-        // OS X / Mac App Store
-        appBundleId: 'ai.pileax.desktop',
-        // appCategoryType: '',
-        // osxSign: '',
-        // protocol: 'myapp://path',
-
-        // Windows only
-        // win32metadata: { ... }
-      },
-
       builder: {
         // https://www.electron.build/configuration
 
