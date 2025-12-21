@@ -303,7 +303,13 @@ export default defineConfig((ctx) => {
           hardenedRuntime: true,
           gatekeeperAssess: false,
           entitlements: 'entitlements.mac.plist',
-          entitlementsInherit: 'entitlementsInherit.mac.plist'
+          entitlementsInherit: 'entitlementsInherit.mac.plist',
+          signIgnore: [
+            'backend/_internal/.*',
+            'backend/runnable',
+            '_internal/.*',
+            'Python.framework/.*'
+          ]
         },
         afterSign: 'electron-builder-notarize',
         linux: {
