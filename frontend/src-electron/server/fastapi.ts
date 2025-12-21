@@ -90,9 +90,9 @@ class FastAPIServer {
   get serverInfo(): Indexable {
     return {
       port: this.port,
-      appBase: `http://localhost:${this.port}`,
       apiBase: `http://localhost:${this.port}/api/v1`,
       apiDocs: `http://localhost:${this.port}/docs`,
+      appBase: `http://localhost:${this.port}`,
     }
   }
 

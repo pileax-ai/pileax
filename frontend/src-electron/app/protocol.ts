@@ -1,7 +1,9 @@
-import { protocol } from 'electron'
+import { protocol, session } from 'electron'
 import fs from 'node:fs'
 import { lookup } from 'mime-types'
 import log from 'electron-log'
+
+import { server } from '../server/fastapi'
 
 import { PROTOCOL_SCHEME, VIRTUAL_HOST } from './constant'
 import { joinPath } from '../utils/path'
@@ -64,5 +66,23 @@ export const registerProtocol = () => {
         headers: { 'Content-Type': 'text/html' },
       })
     }
+  })
+}
+
+export const registerApiHostSession = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    return
+  }
+
+  const filter = { urls: ['https://api.pileax.ai/*'] }
+
+  session.defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
+    const url = new URL(details.url)
+    url.hostname = 'localhost'
+    url.port = `${server.serverInfo.port}`
+
+    log.info('Redirect', url)
+
+    callback({ redirectURL: url.toString() })
   })
 }
