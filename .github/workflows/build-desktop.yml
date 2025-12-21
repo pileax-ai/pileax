@@ -28,7 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Prepare env files
         run: |
@@ -85,7 +85,7 @@ jobs:
       CSC_IDENTITY_AUTO_DISCOVERY: true
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Prepare env files
         run: |
