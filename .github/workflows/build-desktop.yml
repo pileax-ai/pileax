@@ -82,6 +82,7 @@ jobs:
       APPLE_ID: ${{ secrets.APPLE_ID }}
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      CSC_IDENTITY_AUTO_DISCOVERY: true
 
     steps:
       - uses: actions/checkout@v4
@@ -139,9 +140,6 @@ jobs:
       # ===============================
       - name: Build Electron app
         shell: bash
-        env:
-          # Let electron-builder AUTO discovery Developer ID
-          CSC_IDENTITY_AUTO_DISCOVERY: false
         run: |
           if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
             chmod +x backend/dist/runnable/runnable
