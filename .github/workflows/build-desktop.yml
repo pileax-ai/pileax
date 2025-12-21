@@ -77,6 +77,12 @@ jobs:
         os: ${{ fromJSON(github.event.inputs.platforms) }}
     runs-on: ${{ matrix.os }}
 
+    env:
+      # Used for sign
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -101,8 +107,41 @@ jobs:
           cd frontend
           yarn install
 
+      # ===============================
+      # ⭐ macOS code sign: Import Developer ID
+      # ===============================
+      - name: Import macOS signing certificate
+        if: runner.os == 'macOS'
+        env:
+          MAC_CERT_P12: ${{ secrets.MAC_CERT_P12 }}
+          MAC_CERT_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+        run: |
+          echo "$MAC_CERT_P12" | base64 --decode > certificate.p12
+
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+
+          security import certificate.p12 \
+            -k build.keychain \
+            -P "$MAC_CERT_PASSWORD" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+
+          security set-key-partition-list \
+            -S apple-tool:,apple: \
+            -s -k "" build.keychain
+
+          security find-identity -v -p codesigning
+
+      # ===============================
+      # Build Electron (Auto sign)
+      # ===============================
       - name: Build Electron app
         shell: bash
+        env:
+          # Let electron-builder AUTO discovery Developer ID
+          CSC_IDENTITY_AUTO_DISCOVERY: true
         run: |
           if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
             chmod +x backend/dist/runnable/runnable

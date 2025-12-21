@@ -296,11 +296,16 @@ export default defineConfig((ctx) => {
       builder: {
         // https://www.electron.build/configuration
 
-        appId: 'ai.pileax.pileax',
+        appId: 'ai.pileax.desktop',
         productName: 'PileaX',
         mac: {
-          target: ['dmg']
+          target: ['dmg', 'zip'],
+          hardenedRuntime: true,
+          gatekeeperAssess: false,
+          entitlements: 'entitlements.mac.plist',
+          entitlementsInherit: 'entitlements.mac.plist'
         },
+        afterSign: 'electron-builder-notarize',
         linux: {
           target: 'AppImage'
         },
