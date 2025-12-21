@@ -294,10 +294,12 @@ export default defineConfig((ctx) => {
           entitlements: 'src-electron/mac/entitlements.mac.plist',
           entitlementsInherit: 'src-electron/mac/entitlementsInherit.mac.plist',
           signIgnore: [
-            'backend/_internal/.*',
-            'backend/runnable',
-            '_internal/.*',
-            'Python.framework/.*'
+            // 'backend/_internal/.*',
+            // 'backend/runnable',
+            // '_internal/.*',
+            // 'Python.framework/.*'
+            '.*\\.log$',
+            '.*\\.md$'
           ]
         },
         linux: {

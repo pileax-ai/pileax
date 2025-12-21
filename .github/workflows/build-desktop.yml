@@ -146,6 +146,14 @@ jobs:
           export APPLE_PASSWORD=${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           export APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}
 
+      - name: Pre-sign Python Backend
+        if: runner.os == 'macOS'
+        run: |
+          IDENTITY=$(security find-identity -v -p codesigning build.keychain | grep "Developer ID Application" | head -n 1 | awk -F '"' '{print $2}')
+          echo "Using Identity: $IDENTITY"
+
+          codesign --force --options runtime --timestamp --deep --sign "$IDENTITY" --keychain build.keychain backend/dist/runnable
+
       # ===============================
       # Build Electron (Auto sign)
       # ===============================
