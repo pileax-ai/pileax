@@ -284,7 +284,7 @@ export default defineConfig((ctx) => {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
 
         // OS X / Mac App Store
-        // appBundleId: '',
+        appBundleId: 'ai.pileax.desktop',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
@@ -304,8 +304,8 @@ export default defineConfig((ctx) => {
           target: ['dmg', 'zip'],
           hardenedRuntime: true,
           gatekeeperAssess: false,
-          entitlements: 'entitlements.mac.plist',
-          entitlementsInherit: 'entitlementsInherit.mac.plist',
+          entitlements: 'src-electron/mac/entitlements.mac.plist',
+          entitlementsInherit: 'src-electron/mac/entitlementsInherit.mac.plist',
           signIgnore: [
             'backend/_internal/.*',
             'backend/runnable',
