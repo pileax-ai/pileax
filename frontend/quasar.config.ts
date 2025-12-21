@@ -303,7 +303,7 @@ export default defineConfig((ctx) => {
           hardenedRuntime: true,
           gatekeeperAssess: false,
           entitlements: 'entitlements.mac.plist',
-          entitlementsInherit: 'entitlements.mac.plist'
+          entitlementsInherit: 'entitlementsInherit.mac.plist'
         },
         afterSign: 'electron-builder-notarize',
         linux: {
