@@ -141,7 +141,7 @@ jobs:
         shell: bash
         env:
           # Let electron-builder AUTO discovery Developer ID
-          CSC_IDENTITY_AUTO_DISCOVERY: true
+          CSC_IDENTITY_AUTO_DISCOVERY: false
         run: |
           if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
             chmod +x backend/dist/runnable/runnable
