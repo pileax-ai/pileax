@@ -311,7 +311,6 @@ export default defineConfig((ctx) => {
             'Python.framework/.*'
           ]
         },
-        afterSign: 'electron-builder-notarize',
         linux: {
           target: 'AppImage'
         },
