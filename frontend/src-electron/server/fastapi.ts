@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import os from 'os'
 
 import { pathManager } from '../app/path-manager'
-import { VIRTUAL_DOMAIN, VIRTUAL_URL } from '../app/constant'
+import { spaServer } from '../server/spa-server'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
@@ -110,8 +110,8 @@ class FastAPIServer {
         DB_DATABASE: this.dbPath,
         CACHE_ROOT: this.cachePath,
         PUBLIC_FILE_ROOT: this.publicPath,
-        WEB_API_CORS_ALLOW_ORIGINS: VIRTUAL_URL,
-        COOKIE_DOMAIN: VIRTUAL_DOMAIN
+        WEB_API_CORS_ALLOW_ORIGINS: spaServer.serverInfo.url,
+        // COOKIE_DOMAIN: VIRTUAL_DOMAIN
       },
       cwd: this.serverPath,
       stdio: 'pipe',

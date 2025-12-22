@@ -58,7 +58,7 @@
           <q-td :props="props">
             <div class="row items-center">
               <div class="responsive">
-                <q-responsive :ratio="16/9">
+                <q-responsive :ratio="1">
                   <q-img :src="getFileUrl(props.value)" spinner-size="1rem" />
                 </q-responsive>
               </div>

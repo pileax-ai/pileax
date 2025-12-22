@@ -6,12 +6,10 @@ import os from 'os'
 import * as remoteMain from '@electron/remote/main/index.js'
 import { Application } from './app/application'
 import { server } from './server/fastapi'
+import { spaServer } from './server/spa-server'
 import { WindowManager } from './app/window-manager'
-import { registerSchemes, registerProtocol } from './app/protocol'
-import { VIRTUAL_URL } from './app/constant'
 
 remoteMain.initialize()
-registerSchemes()
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
 let mainWindow = WindowManager.getMainWindow()
@@ -54,7 +52,8 @@ const createWindow = async () => {
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)
   } else {
-    await mainWindow.loadURL(VIRTUAL_URL)
+    // await mainWindow.loadURL(VIRTUAL_URL)
+    await mainWindow.loadURL(spaServer.serverInfo.url)
   }
 
   if (process.env.DEBUGGING) {
@@ -81,8 +80,7 @@ const createWindow = async () => {
 }
 
 app.whenReady().then(async () => {
-  registerProtocol()
-
+  await spaServer.start()
   await server.start()
   await createWindow()
 
@@ -112,6 +110,7 @@ app.on('activate', async () => {
 })
 
 app.on('before-quit', async (event) => {
+  await spaServer.stop()
   await server.stop('before-quit')
 })
 
@@ -119,9 +118,6 @@ app.on('window-all-closed', async () => {
   if (platform !== 'darwin') {
     app.quit()
   }
-
-  // server
-  await server.stop('window-all-closed')
 })
 
 // App initialization

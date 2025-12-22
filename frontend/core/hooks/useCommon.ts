@@ -46,7 +46,7 @@ export default function () {
   }
 
   const publicPath = async (path: string): Promise<string> => {
-    if (!path || ipcProvider === 'web') {
+    if (!path || ipcProvider === 'web' || ipcProvider === 'electron') {
       return Promise.resolve(path)
     }
 

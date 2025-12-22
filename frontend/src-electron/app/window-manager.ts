@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { VIRTUAL_URL } from './constant'
+import { spaServer } from '../server/spa-server'
 
 import * as remoteMain from '@electron/remote/main/index.js'
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
@@ -73,7 +73,6 @@ export class WindowManager {
       },
     })
     remoteMain.enable(newWindow.webContents)
-    newWindow.maximize()
 
     if (process.env.DEV) {
       const newUrl = `${process.env.APP_URL}#${url}`
@@ -82,7 +81,7 @@ export class WindowManager {
       // await newWindow.loadFile('index.html', {
       //   hash: url
       // })
-      await newWindow.loadURL(`${VIRTUAL_URL}#${url}`)
+      await newWindow.loadURL(`${spaServer.serverInfo.url}#${url}`)
     }
 
     newWindow.on('closed', () => {
