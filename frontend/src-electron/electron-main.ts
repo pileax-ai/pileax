@@ -16,6 +16,9 @@ const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
 let mainWindow = WindowManager.getMainWindow()
 
+app.commandLine.appendSwitch('ignore-certificate-errors')
+app.commandLine.appendSwitch('allow-insecure-localhost')
+
 /**
  * Main window
  */
@@ -41,6 +44,7 @@ const createWindow = async () => {
       nodeIntegration: true,
       contextIsolation: true,
       sandbox: false,
+      partition: 'persist:main',
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
       preload: path.resolve(
         currentDir,
