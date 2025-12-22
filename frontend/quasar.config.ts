@@ -286,6 +286,7 @@ export default defineConfig((ctx) => {
         appId: 'ai.pileax.desktop',
         productName: 'PileaX',
         mac: {
+          identity: null,
           category: 'public.app-category.productivity',
           icon: 'src-electron/icons/icon.icns',
           target: ['dmg'],

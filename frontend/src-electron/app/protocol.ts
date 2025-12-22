@@ -15,7 +15,7 @@ export const registerSchemes = () => {
 
   protocol.registerSchemesAsPrivileged([
     {
-      scheme: 'https',
+      scheme: PROTOCOL_SCHEME,
       privileges: {
         standard: true,
         secure: true,

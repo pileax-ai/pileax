@@ -1,4 +1,4 @@
-export const PROTOCOL_SCHEME = 'https'
+export const PROTOCOL_SCHEME = 'app'
 
 export const VIRTUAL_DOMAIN = 'localhost'
 
