@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend-${{ matrix.os }}
-          path: runnable.tar.gz
+          path: backend/runnable.tar.gz
           include-hidden-files: true
 
   # ------------------------
@@ -98,12 +98,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: backend-${{ matrix.os }}
-          path: backend/dist
+          path: backend/.artifact
 
       - name: Extract backend
         run: |
-          cd backend/dist
-          tar -xzf runnable.tar.gz
+          rm -rf backend/dist/runnable
+          mkdir -p backend/dist
+          tar -xzf backend/.artifact/runnable.tar.gz -C backend/dist
 
       - name: Setup Node
         uses: actions/setup-node@v4
