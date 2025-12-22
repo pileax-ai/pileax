@@ -288,19 +288,15 @@ export default defineConfig((ctx) => {
         mac: {
           category: 'public.app-category.productivity',
           icon: 'src-electron/icons/icon.icns',
-          target: ['dmg', 'zip'],
+          target: ['dmg'],
           hardenedRuntime: true,
           gatekeeperAssess: false,
           entitlements: 'src-electron/mac/entitlements.mac.plist',
           entitlementsInherit: 'src-electron/mac/entitlementsInherit.mac.plist',
           signIgnore: [
-            // 'backend/_internal/.*',
-            // 'backend/runnable',
-            // '_internal/.*',
-            // 'Python.framework/.*'
             '.*\\.log$',
             '.*\\.md$'
-          ]
+          ],
         },
         linux: {
           target: 'AppImage'
