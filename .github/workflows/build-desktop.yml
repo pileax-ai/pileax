@@ -62,7 +62,7 @@ jobs:
           tar -czf runnable.tar.gz -C dist runnable
 
       - name: Upload backend artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: backend-${{ matrix.os }}
           path: backend/runnable.tar.gz
@@ -176,7 +176,7 @@ jobs:
           yarn build:electron
 
       - name: Upload Electron build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: pileax-${{ matrix.os }}
           path: |
