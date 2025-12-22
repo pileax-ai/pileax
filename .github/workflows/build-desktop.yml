@@ -59,12 +59,13 @@ jobs:
           $VENV_PY -m uv sync
           $VENV_PY -m uv add --dev pyinstaller
           $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
+          tar -czf runnable.tar.gz -C dist runnable
 
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-${{ matrix.os }}
-          path: backend/dist/runnable
+          path: runnable.tar.gz
           include-hidden-files: true
 
   # ------------------------
@@ -97,7 +98,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: backend-${{ matrix.os }}
-          path: backend/dist/runnable
+          path: backend/dist
+
+      - name: Extract backend
+        run: |
+          cd backend/dist
+          tar -xzf runnable.tar.gz
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -145,28 +151,6 @@ jobs:
           export APPLE_ID=${{ secrets.APPLE_ID }}
           export APPLE_PASSWORD=${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           export APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}
-
-      - name: Fix Python Framework Structure
-        if: runner.os == 'macOS'
-        run: |
-          FRAMEWORK_PATH="frontend/dist/electron/Packaged/mac-arm64/PileaX.app/Contents/Resources/backend/_internal/Python.framework"
-
-          # 进入框架目录
-          cd "$FRAMEWORK_PATH"
-
-          # 如果 Python 是个普通文件而不是链接，修复它
-          if [ -f "Python" ] && [ ! -L "Python" ]; then
-            echo "Fixing broken Python symlink..."
-            rm Python
-            ln -s Versions/Current/Python Python
-          fi
-
-          # 同样检查 Resources
-          if [ -d "Resources" ] && [ ! -L "Resources" ]; then
-            echo "Fixing broken Resources symlink..."
-            rm -rf Resources
-            ln -s Versions/Current/Resources Resources
-          fi
 
       - name: Pre-sign Python Backend
         if: runner.os == 'macOS'
