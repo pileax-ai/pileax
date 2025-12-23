@@ -101,6 +101,7 @@ jobs:
           path: backend/.artifact
 
       - name: Extract backend
+        shell: bash
         run: |
           rm -rf backend/dist/runnable
           mkdir -p backend/dist
