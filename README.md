@@ -34,24 +34,12 @@ yarn build:desktop
 ```
 Output: frontend/dist/electron
 
+## Start from source code
+## Docker
 ```shell
-# Linux (deprecated)
-docker run --rm \
-  -v ${PWD}:/project \
-  -v $HOME/.cache/electron:/root/.cache/electron \
-  -v $HOME/.cache/electron-builder:/root/.cache/electron-builder \
-  -w /project \
-  electronuserland/builder \
-  /bin/bash -c "yarn build:desktop:linux"
-
-# Windows (deprecated)
-docker run --rm \
-  -v ${PWD}:/project \
-  -v $HOME/.cache/electron:/root/.cache/electron \
-  -v $HOME/.cache/electron-builder:/root/.cache/electron-builder \
-  -w /project \
-  electronuserland/builder:wine \
-  /bin/bash -c "yarn build:desktop:win"
+cd docker
+cp middleware.env.example middleware.env
+docker compose -f docker-compose.middleware.yaml up -d
 ```
 
 ## Others

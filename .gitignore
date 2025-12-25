@@ -27,3 +27,6 @@ packages/*/types
 
 # custom
 foliate-js.backup
+
+# Docker
+docker/middleware.env

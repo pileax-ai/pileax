@@ -85,4 +85,4 @@ def is_enabled():
 def setup(app: FastAPI | None = None):
     # run migration
     run_migrations()
-    logger.info("✅ Database migration is setup.")
+    logger.info(f"✅ [{app_config.DB_PROVIDER}] Database migration is setup.")
