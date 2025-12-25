@@ -30,3 +30,4 @@ foliate-js.backup
 
 # Docker
 docker/middleware.env
+docker/volumes
