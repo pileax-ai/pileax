@@ -88,10 +88,9 @@ import {computed, onActivated, onMounted, ref} from 'vue'
 
 import OQuerySection from 'core/page/section/OQuerySection.vue'
 import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
-import {ActiveStatus, getArrayItem, Status} from 'src/app/metadata'
+import { getArrayItem, Status } from 'src/app/metadata'
 import useQuery from 'src/hooks/useQuery'
-import { formatFileSize, formatNumber, timeAdd, timeMulti } from 'core/utils/format'
-import { Locales } from 'core/constants/metadata'
+import { formatFileSize } from 'core/utils/format'
 
 const props = defineProps({
   productId: {

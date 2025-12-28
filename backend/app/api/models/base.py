@@ -1,10 +1,13 @@
 import json
 import uuid
+from typing import Any, Union
+
 import sqlalchemy as sa
 
 from datetime import datetime, UTC
+
+from fastapi._compat import UndefinedType, Undefined
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import func
 from sqlalchemy.orm import declared_attr, Mapped, mapped_column
 from sqlalchemy.types import TypeDecorator, CHAR, BINARY
 from sqlmodel import SQLModel, Field, TEXT
@@ -92,7 +95,7 @@ def uuid_field(
             default=None,
             sa_column=sa.Column(
                 GUID(),
-                nullable=nullable,
+                nullable=True,
                 unique=unique,
                 primary_key=primary_key,
             ),
@@ -106,6 +109,24 @@ def uuid_field(
             unique=unique,
             primary_key=primary_key,
         ),
+    )
+
+
+def utc_now():
+    return datetime.now(UTC)
+
+
+def time_field(
+    *,
+    nullable: Union[bool, UndefinedType] = True,
+    comment: str | None = None
+):
+    return Field(
+        default_factory=utc_now if not nullable else None,
+        nullable=nullable,
+        sa_column_kwargs={
+            "comment": comment,
+        } if comment else {},
     )
 
 
@@ -125,21 +146,17 @@ class BaseApiModel(BaseModel):
     )
 
 
+
 class TimestampMixin:
     create_time: datetime = Field(
+        default_factory=utc_now,
         nullable=False,
-        sa_column_kwargs={
-            "comment": "Created time",
-            "server_default": func.now(),
-        },
+        sa_column_kwargs={"comment": "Created time",},
     )
     update_time: datetime = Field(
+        default_factory=utc_now,
         nullable=False,
-        sa_column_kwargs={
-            "comment": "Updated time",
-            "server_default": func.now(),
-            "onupdate": func.now(),
-        },
+        sa_column_kwargs={"comment": "Updated time",},
     )
 
 

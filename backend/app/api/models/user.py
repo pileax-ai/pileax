@@ -1,8 +1,9 @@
 import uuid
+from datetime import datetime
 
 from sqlmodel import Column, Field, Integer
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, time_field
 from app.api.models.enums import Status
 
 
@@ -16,9 +17,9 @@ class User(BaseSQLModel, BaseMixin, table=True):
     timezone: str | None = Field(default=None, max_length=255)
     status: int | None = Field(default=1, sa_column=Column(Integer, default=Status.ACTIVE))
     settings: str | None = Field(default=None, description="UI settings")
-    last_login_time: str | None = Field(default=None, max_length=64)
+    last_login_time: datetime | None = time_field()
     last_login_ip: str | None = Field(default=None, max_length=64)
-    last_active_time: str | None = Field(default=None, max_length=64)
+    last_active_time: datetime | None = time_field()
 
 
 class UserBase(BaseApiModel):

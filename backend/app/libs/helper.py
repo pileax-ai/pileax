@@ -19,8 +19,8 @@ def extract_remote_ip(request: Request) -> str:
     return cast(str, request.client.host)
 
 
-def get_current_time() -> str:
-    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
+def get_current_time() -> datetime:
+    return datetime.now(UTC)
 
 
 class StringHelper:

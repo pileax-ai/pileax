@@ -4,8 +4,11 @@
  * @author Xman
  * @version 1.0
  */
-import { useI18n } from 'vue-i18n'
+import useSetting from 'core/hooks/useSetting'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/en'
 import 'dayjs/locale/zh-cn'
 import 'dayjs/locale/zh-tw'
@@ -30,6 +33,10 @@ import 'dayjs/locale/id'
 
 import languages from 'src/i18n/generate/config/languages.json'
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.extend(relativeTime)
+
 export const setDayjsLocale = async (lang: string) => {
   const language = languages.find(item => item.value === lang)
   const locale = language ? language.locale || 'en' : 'en'
@@ -38,9 +45,13 @@ export const setDayjsLocale = async (lang: string) => {
 }
 
 export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
-  const { locale } = useI18n()
+  const { locale, timezone } = useSetting()
 
-  const d = () => dayjs(time).utc().local()
+  const d = () => {
+    console.log('timezones abc', timezone.value)
+    // return dayjs.utc(time).local()
+    return dayjs.utc(time).tz(timezone.value)
+  }
 
   return {
     fromNow: () => {

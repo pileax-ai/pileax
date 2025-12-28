@@ -32,7 +32,7 @@
         <o-view-item :label="$t('book.chapter')"
                      :value="data.chapter" align="right" lines="2" />
         <o-view-item :label="$t('time')"
-                     :value="timeMulti(data.createTime).timestamp" align="right" />
+                     :value="timeMulti(data.createTime).timestamp()" align="right" />
         <o-view-item :label="$t('book.annotation')"
                      :value="data.note" class="q-mt-md annotation" align="right" copiable />
 
@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { timeMulti } from 'core/utils/format'
+import { timeMulti } from 'core/utils/dayjs'
 import { ipcService } from 'src/api/ipc'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'

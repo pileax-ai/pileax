@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { ipcService } from 'src/api/ipc'
 
 import { THEMES, THEME_COLORS } from 'core/constants/setting'
-import { useAppStore } from 'stores/app'
+import { useAppStoreWithOut } from 'stores/app'
 import type {
   BreadcrumbSetting,
   NaviSetting,
@@ -16,7 +16,7 @@ import type {
 import { setDayjsLocale } from 'core/utils/dayjs'
 
 export default function () {
-  const appStore = useAppStore()
+  const appStore = useAppStoreWithOut()
   const i18n = useI18n()
 
   const setLocale = (locale :string, updateI18n = false) => {
@@ -26,6 +26,10 @@ export default function () {
     appStore.setLocale(locale)
     setDayjsLocale(locale)
     setTray()
+  }
+
+  const setTimeZone = (timezone: string) => {
+    appStore.setTimezone(timezone)
   }
 
   const setSetting = () => {
@@ -151,6 +155,10 @@ export default function () {
     return appStore.setting.locale
   })
 
+  const timezone = computed(() => {
+    return appStore.setting.timezone
+  })
+
   const setting = computed(() => {
     return appStore.setting
   })
@@ -197,6 +205,7 @@ export default function () {
 
   return {
     locale,
+    timezone,
     setting,
     naviFlatten,
     theme,
@@ -210,6 +219,7 @@ export default function () {
 
     setSetting,
     setLocale,
+    setTimeZone,
     setTray,
     toggleNaviFlatten,
     toggleTheme,

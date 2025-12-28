@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import Optional
 
 from sqlmodel import Field, SQLModel
@@ -14,7 +15,7 @@ class Signin(BaseModel):
 
 class LoginUpdate(BaseModel):
     last_login_ip: Optional[str] = None
-    last_login_time: Optional[str] = None
+    last_login_time: Optional[datetime] = None
 
 
 class TokenPublic(BaseModel):

@@ -129,4 +129,6 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "reading_position": user_book.reading_position if user_book else None,
             "reading_percentage": user_book.reading_percentage if user_book else None,
             "reading_status": user_book.reading_status if user_book else None,
+            "create_time": user_book.create_time if user_book else None,
+            "update_time": user_book.update_time if user_book else None,
         }

@@ -27,13 +27,13 @@
                      :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
         <template v-if="add">
           <o-view-item :label="$t('book.uploadTime')"
-                       :value="timeMulti(data.createTime).timestamp" align="right" />
+                       :value="timeMulti(data.createTime).timestamp()" align="right" />
         </template>
         <template v-else>
           <o-view-item :label="$t('book.addTime')"
-                       :value="timeMulti(data.createTime).timestamp" align="right" />
+                       :value="timeMulti(data.createTime).timestamp()" align="right" />
           <o-view-item :label="$t('book.lastReadTime')"
-                       :value="timeMulti(data.updateTime).timestamp" align="right" />
+                       :value="timeMulti(data.updateTime).timestamp()" align="right" />
         </template>
 
         <section class="description" v-if="data.description">
@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { timeMulti } from 'core/utils/format'
+import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 import { ipcService } from 'src/api/ipc'
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'

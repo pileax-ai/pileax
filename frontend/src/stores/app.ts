@@ -23,8 +23,11 @@ export const useAppStore = defineStore('app', {
     getNavi: (state) => state.navi,
   },
   actions: {
-    setLocale(locale :string) {
-      this.setting.locale = locale
+    setLocale(value :string) {
+      this.setting.locale = value
+    },
+    setTimezone(value :string) {
+      this.setting.timezone = value
     },
     setTheme(theme :ThemeSetting) {
       this.setting.theme = theme

@@ -35,6 +35,7 @@ export interface PageTransitionSetting {
 
 export interface Setting {
   locale: string;
+  timezone: string;
   theme: ThemeSetting,
   navi: NaviSetting,
   tabBar: TabBarSetting,

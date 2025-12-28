@@ -3,6 +3,7 @@
  */
 export default {
   locale: 'en',
+  timezone: 'Asia/Shanghai',
   theme: {
     name: 'light',
     color: 'blue',

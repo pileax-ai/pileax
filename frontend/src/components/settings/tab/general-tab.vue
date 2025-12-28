@@ -16,9 +16,9 @@
                          :label="$t('locales.timezone')"
                          :sub-label="$t('locales.timezoneTips')">
             <div>
-              <locale-hover-btn class="text-tips bg-accent"
-                                icon-right="mdi-chevron-down"
-                                show-label flat />
+              <timezone-hover-btn class="text-tips bg-accent"
+                                  icon-right="mdi-chevron-down"
+                                  show-label flat />
             </div>
           </o-common-item>
         </q-list>
@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
+import TimezoneHoverBtn from 'core/components/button/TimezoneHoverBtn.vue'
 import SettingCard from './setting-card.vue'
 </script>
 

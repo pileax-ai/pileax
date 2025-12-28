@@ -164,7 +164,6 @@ export default {
     recent: 'Recent',
     title: 'Title'
   },
-  star: 'Favorite',
   status: 'Status',
   submit: 'Submit',
   symbol: 'Symbol',
@@ -224,5 +223,5 @@ export default {
     list: 'List'
   },
   welcome: 'Welcome',
-  workspace: 'Workspace'
+  current: 'Current',
 }

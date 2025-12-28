@@ -1,10 +1,12 @@
 import enum
 import uuid
+from datetime import datetime
 
 from sqlalchemy import Integer, String, text
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field, time_field
+
 
 class ReadStatus(enum.IntEnum):
     NOT_STARTED = 0
@@ -28,7 +30,7 @@ class UserBook(BaseSQLModel, BaseMixin, table=True):
         sa_type=Integer,
         sa_column_kwargs={"server_default": text(str(ReadStatus.NOT_STARTED))}
     )
-    reading_status_time: str | None = Field(default=None)
+    reading_status_time: datetime | None = time_field()
     tags: str = Field(
         default="[]",
         sa_type=String,
