@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: 481eae19ad35
+Revision ID: 923d46c33dea
 Revises:
-Create Date: 2025-12-25 17:21:26.557372
+Create Date: 2025-12-29 17:57:54.948820
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '481eae19ad35'
+revision: str = '923d46c33dea'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -146,7 +146,7 @@ def upgrade() -> None:
     sa.Column('model_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('message', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('content', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.Column('reasoning_content', sa.Integer(), nullable=True),
+    sa.Column('reasoning_content', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('result', sa.Integer(), nullable=True),
     sa.Column('total_tokens', sa.Integer(), nullable=True),
     sa.Column('favorite', sa.Integer(), nullable=True),

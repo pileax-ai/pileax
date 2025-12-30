@@ -16,7 +16,7 @@ class Message(BaseSQLModel, BaseMixin, table=True):
     model_type: str | None = Field(default=None)
     message: str | None = Field(default="")
     content: str | None = Field(default="")
-    reasoning_content: int = Field(default=0, sa_column=Column(Integer, default=0))
+    reasoning_content: str | None = Field(default="")
     result: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
     total_tokens: int = Field(default=0, sa_column=Column(Integer, default=0))
     favorite: int = Field(default=Status.PENDING, sa_column=Column(Integer, default=Status.PENDING))

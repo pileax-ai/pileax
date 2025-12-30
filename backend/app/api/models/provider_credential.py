@@ -13,7 +13,7 @@ class ProviderCredential(BaseSQLModel, BaseMixin, table=True):
     )
 
     workspace_id: uuid.UUID = uuid_field()
-    provider: str | None = Field(default=None)
+    provider: str = Field(..., max_length=255)
     name: str = Field(..., max_length=255)
     credential: dict = Field(..., sa_type=JSONString)
 

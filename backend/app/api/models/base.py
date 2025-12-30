@@ -8,6 +8,7 @@ from datetime import datetime, UTC
 
 from fastapi._compat import UndefinedType, Undefined
 from pydantic import BaseModel, ConfigDict
+from sqlalchemy.dialects import postgresql, mysql
 from sqlalchemy.orm import declared_attr, Mapped, mapped_column
 from sqlalchemy.types import TypeDecorator, CHAR, BINARY
 from sqlmodel import SQLModel, Field, TEXT
@@ -37,15 +38,45 @@ class UUIDString(TypeDecorator):
 
 class JSONString(TypeDecorator):
     """
-    JSON field
+    Cross-database JSON type.
+
+    - PostgreSQL: JSONB
+    - MySQL: JSON
+    - SQLite: TEXT
     """
+    cache_ok = True
     impl = TEXT
 
+    def load_dialect_impl(self, dialect):
+        if dialect.name == "postgresql":
+            return dialect.type_descriptor(postgresql.JSONB())
+        if dialect.name == "mysql":
+            return dialect.type_descriptor(mysql.JSON())
+        return dialect.type_descriptor(TEXT())
+
     def process_bind_param(self, value, dialect):
-        return json.dumps(value) if isinstance(value, dict) else value
+        if value is None:
+            return None
+
+        # Postgres / MySQL
+        if dialect.name in ("postgresql", "mysql"):
+            return value
+
+        # SQLite
+        if isinstance(value, (dict, list)):
+            return json.dumps(value, ensure_ascii=False)
+
+        raise ValueError(f"Invalid JSON value: {value!r}")
 
     def process_result_value(self, value, dialect):
-        return json.loads(value) if value else {}
+        if value is None:
+            return None
+
+        if dialect.name in ("postgresql", "mysql"):
+            return value
+
+        # SQLite
+        return json.loads(value)
 
 
 class GUID(TypeDecorator):
@@ -73,11 +104,15 @@ class GUID(TypeDecorator):
             value = uuid.UUID(str(value))
         if dialect.name == "mysql":
             return value.bytes
+        if dialect.name == "postgresql":
+            return value
         return str(value)
 
     def process_result_value(self, value, dialect):
         if value is None:
             return None
+        if isinstance(value, uuid.UUID):
+            return value
         if dialect.name == "mysql":
             return uuid.UUID(bytes=value)
         return uuid.UUID(value)

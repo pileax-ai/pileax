@@ -39,7 +39,7 @@ class ProviderCredentialController(BaseController[ProviderCredential, ProviderCr
 
         # Save provider credential
         item = item_in.model_dump(by_alias=True)
-        item["credential"] = item_in.credential.model_dump_json(by_alias=True)
+        item["credential"] = item_in.credential.model_dump(by_alias=True)
         item['workspaceId'] = self.workspace.id
         item_out = self.service.save(ProviderCredential(**item))
 
