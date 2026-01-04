@@ -1,5 +1,5 @@
 <template>
-  <o-common-page class="page-test">
+  <o-common-page class="page-test" scrollable>
     <o-common-card class="row col-12 items-end app">
       <section class="">
         <div class="name">
@@ -76,6 +76,19 @@
             </section>
           </o-common-card>
         </section>
+        <section class="col-12">
+          <o-common-card title="ENV" header>
+            <section class="row col-12 items-center q-pa-md">
+              <ul>
+                <template v-for="(value, key) in env" :key="key">
+                  <li>
+                    {{key}}: {{value}}
+                  </li>
+                </template>
+              </ul>
+            </section>
+          </o-common-card>
+        </section>
       </section>
     </section>
   </o-common-page>
@@ -93,6 +106,10 @@ import { api as request } from 'boot/axios'
 const loading = ref<Indexable>({
   edgeVoices: false,
   edgeTTS: false,
+})
+
+const env = computed(() => {
+  return process.env
 })
 
 const ipcCases = computed(() => {

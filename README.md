@@ -35,11 +35,41 @@ yarn build:desktop
 Output: frontend/dist/electron
 
 ## Start from source code
+
 ## Docker
 ```shell
 cd docker
 cp middleware.env.example middleware.env
 docker compose -f docker-compose.middleware.yaml up -d
+```
+
+```shell
+cd docker
+docker compose up -d
+docker compose down
+```
+
+## Docker Build
+### web
+```shell
+make build-web
+```
+Web Docker image built successfully: pileax/pileax-web:latest
+
+## Docker Run
+### web
+```shell
+cd docker
+docker compose up -d
+```
+
+Open http://localhost:21080 to view web.
+
+### Reset
+```shell
+docker compose down
+rm -rf volumes/db/data/
+docker compose up -d
 ```
 
 ## Others

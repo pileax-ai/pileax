@@ -24,7 +24,7 @@ prepare-docker:
 # Step 2: Prepare web environment
 prepare-web:
 	@echo "🌐 Setting up web environment..."
-	@cp -n web/.env.example web/.env 2>/dev/null || echo "Web .env already exists"
+	@cp -n frontend/env/.env.example frontend/env/.env 2>/dev/null || echo "Web .env already exists"
 	@cd web && pnpm install
 	@echo "✅ Web environment prepared (not started)"
 
@@ -72,8 +72,8 @@ type-check:
 
 # Build Docker images
 build-web:
-	@echo "Building web Docker image: $(WEB_IMAGE):$(VERSION)..."
-	docker build -t $(WEB_IMAGE):$(VERSION) ./web
+	@echo "🌐 Building web Docker image: $(WEB_IMAGE):$(VERSION)..."
+	docker build -t $(WEB_IMAGE):$(VERSION) ./frontend
 	@echo "Web Docker image built successfully: $(WEB_IMAGE):$(VERSION)"
 
 build-api:
@@ -83,7 +83,7 @@ build-api:
 
 # Push Docker images
 push-web:
-	@echo "Pushing web Docker image: $(WEB_IMAGE):$(VERSION)..."
+	@echo "📦 Pushing web Docker image: $(WEB_IMAGE):$(VERSION)..."
 	docker push $(WEB_IMAGE):$(VERSION)
 	@echo "Web Docker image pushed successfully: $(WEB_IMAGE):$(VERSION)"
 

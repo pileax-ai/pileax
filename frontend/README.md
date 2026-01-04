@@ -4,6 +4,11 @@ PileaX AI
 
 ## Development
 
+### Quasar cli
+```shell
+yarn global add @quasar/cli
+```
+
 ### Install the dependencies
 ```bash
 yarn
@@ -33,6 +38,16 @@ yarn lint-fix
 yarn build
 yarn build:electron
 yarn build:tauri
+```
+
+```shell
+docker build -t pileax-web .
+
+# start
+docker run -d -p 8080:80 --name pileax-web-123 pileax-web
+
+# stop
+docker stop pileax-web-123
 ```
 
 ## Others

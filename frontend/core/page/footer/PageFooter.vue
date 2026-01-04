@@ -55,6 +55,7 @@
               <section class="q-mt-md links">
                 <q-btn :label="$t('help.center')" flat @click="openLink('help')" />
                 <q-btn :label="$t('help.faq')" flat @click="openLink('faq')" />
+                <q-btn :label="$t('test')" flat to="/test" />
               </section>
             </section>
           </section>

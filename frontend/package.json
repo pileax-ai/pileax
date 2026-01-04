@@ -70,6 +70,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@electron/rebuild": "^4.0.2",
     "@eslint/js": "^9.14.0",
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@intlify/vite-plugin-vue-i18n": "^3.3.1",
@@ -86,7 +87,6 @@
     "bing-translate-api": "^4.2.0",
     "electron": "^34.2.0",
     "electron-builder": "^26.0.12",
-    "electron-rebuild": "^3.2.9",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^9.30.0",
