@@ -29,6 +29,10 @@ declare global {
       ttsNextSection: () => Promise<string>;
       ttsPrevSection: () => Promise<string>;
     };
+
+    APP_CONFIG: {
+      API_BASE_URL: string
+    }
   }
 
 }

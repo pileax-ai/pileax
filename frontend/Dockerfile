@@ -22,16 +22,11 @@ FROM nginx:stable-alpine AS production
 COPY --from=builder /app/dist/spa /usr/share/nginx/html
 
 COPY docker/nginx.conf.template /etc/nginx/conf.d/default.conf
+COPY docker/config.js.template /app/
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
-
-#COPY docker/nginx.conf.template /etc/nginx/conf.d/nginx.conf.template
-#COPY docker/entrypoint.sh /entrypoint.sh
-#RUN chmod +x /entrypoint.sh
-#
-#EXPOSE 80
-#
-#ENTRYPOINT ["/entrypoint.sh"]
-

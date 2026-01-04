@@ -1,7 +1,8 @@
 #!/bin/sh
+set -e
 
-export API_BASE_URL="${API_BASE_URL:-http://localhost:21000/api/v1/}"
+export API_BASE_URL="${API_BASE_URL:-http://localhost:8000/api/v1/}"
 
-envsubst '$API_BASE_URL' < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '$API_BASE_URL' < /app/config.js.template > /usr/share/nginx/html/config.js
 
-nginx -g 'daemon off;'
+exec "$@"

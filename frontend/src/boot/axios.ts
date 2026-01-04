@@ -20,7 +20,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 const { openDialog } = useDialog()
 const api = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL: window.APP_CONFIG?.API_BASE_URL || process.env.API_BASE_URL,
   timeout: 100000
 })
 

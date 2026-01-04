@@ -6,7 +6,7 @@ import { ipcService } from 'src/api/ipc'
 export const useApiStore = defineStore('api', {
   state: () => ({
     appBase: process.env.APP_BASE_URL,
-    apiBase: process.env.API_BASE_URL,
+    apiBase: window.APP_CONFIG?.API_BASE_URL || process.env.API_BASE_URL,
     timeout: (process.env.API_TIMEOUT || 60000) as number,
   }),
   actions: {

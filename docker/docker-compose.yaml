@@ -3,6 +3,6 @@ services:
     image: pileax/pileax-web:latest
     restart: always
     environment:
-      API_BASE_URL: ${API_BASE_URL:-http://localhost:21000/api/v1}
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:8000/api/v1}
     ports:
-      - "21080:80"
+      - "28000:80"
