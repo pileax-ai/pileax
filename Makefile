@@ -65,6 +65,11 @@ lint:
 	@uv run --directory api --dev lint-imports
 	@echo "✅ Linting complete"
 
+lint-web:
+	@echo "🔧 Running eslint..."
+	@yarn lint
+	@echo "✅ Linting complete"
+
 type-check:
 	@echo "📝 Running type check with basedpyright..."
 	@uv run --directory api --dev basedpyright
@@ -118,6 +123,7 @@ help:
 	@echo "  make format         - Format code with ruff"
 	@echo "  make check          - Check code with ruff"
 	@echo "  make lint           - Format and fix code with ruff"
+	@echo "  make lint-web       - Format and fix code with eslint"
 	@echo "  make type-check     - Run type checking with basedpyright"
 	@echo ""
 	@echo "Docker Build Targets:"

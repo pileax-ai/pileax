@@ -55,12 +55,10 @@ export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
 
   return {
     fromNow: () => {
-      locale.value
-      return d().fromNow()
+      return d().locale(locale.value).fromNow()
     },
     timestamp: () => {
-      locale.value
-      return d().format(format)
+      return d().locale(locale.value).format(format)
     }
   }
 }

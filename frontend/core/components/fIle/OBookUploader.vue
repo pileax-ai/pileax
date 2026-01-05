@@ -32,7 +32,7 @@
               <span>{{ label || $t('book.uploader.label') }}</span>
             </div>
             <div class="q-mt-md limit" :class="{ 'text-red': error }">
-              <template v-for="(item, index) in accept.split(',')">
+              <template v-for="(item, index) in accept.split(',')" :key="index">
                 <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
               </template>
               <q-chip square dense>
