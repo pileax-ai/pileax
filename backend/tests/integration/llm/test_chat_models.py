@@ -6,6 +6,7 @@ provider = "DeepSeek"
 model_name = "deepseek-chat"
 deepseek_api_key = os.environ.get("DEEPSEEK_API_KEY", "")
 
+
 def test_chat_model() -> None:
     model_cls = ChatModel["DeepSeek"]
 

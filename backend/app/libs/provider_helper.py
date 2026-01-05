@@ -1,11 +1,9 @@
-from typing import List
-
 from app.configs import app_config
 
 
 class ProviderHelper:
     @staticmethod
-    def get_providers() -> List[dict]:
+    def get_providers() -> list[dict]:
         return app_config.FACTORY_LLM_INFOS
 
     @staticmethod
