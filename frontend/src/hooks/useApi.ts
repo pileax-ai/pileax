@@ -6,7 +6,7 @@ export default function() {
   const apiStore = useApiStore()
 
   const appBase = computed(() => {
-    return apiStore.appBase
+    return new URL(apiStore.apiBase || '').origin
   })
 
   function getBookUrl(book: Indexable) {

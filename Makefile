@@ -77,8 +77,8 @@ build-web:
 	@echo "Web Docker image built successfully: $(WEB_IMAGE):$(VERSION)"
 
 build-api:
-	@echo "Building API Docker image: $(API_IMAGE):$(VERSION)..."
-	docker build -t $(API_IMAGE):$(VERSION) ./api
+	@echo "🥏 Building API Docker image: $(API_IMAGE):$(VERSION)..."
+	docker build -t $(API_IMAGE):$(VERSION) ./backend
 	@echo "API Docker image built successfully: $(API_IMAGE):$(VERSION)"
 
 # Push Docker images
