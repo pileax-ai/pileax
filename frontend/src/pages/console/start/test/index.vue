@@ -80,6 +80,8 @@
           <o-common-card title="ENV" header>
             <section class="row col-12 items-center q-pa-md">
               <ul>
+                <li>apiBase: {{apiBase}}</li>
+                <li>appBase: {{appBase}}</li>
                 <template v-for="(value, key) in env" :key="key">
                   <li>
                     {{key}}: {{value}}
@@ -95,13 +97,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 
 import OCommonPage from 'core/page/template/OCommonPage.vue'
 import { notifyDone, notifyError, notifyInfo, notifySuccess, notifyWarning } from 'core/utils/control'
 import { ipcService, ipcMethod } from 'src/api/ipc'
 import { edgeService } from 'src/api/service/remote/edge'
 import { api as request } from 'boot/axios'
+import useApi from 'src/hooks/useApi'
+
+const { apiBase, appBase } = useApi()
 
 const loading = ref<Indexable>({
   edgeVoices: false,

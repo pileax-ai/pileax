@@ -67,7 +67,7 @@ class BookUploader:
         ext = Path(file.filename).suffix
         return f"{name}{ext}"
 
-    def is_book(self, file: Union[str, UploadFile], mimetype: str | None) -> bool:
+    def is_book(self, file: Union[str, UploadFile], mimetype: str | None = None) -> bool:
         """
         file: 可以是 UploadFile 或文件名字符串
         mimetype: 如果 file 不是 UploadFile，则需要传 mimetype

@@ -14,7 +14,7 @@ import { BookOperation, ReadingMode } from 'src/types/reading'
 import { base64ToFile, getFileSHA1 } from 'src/utils/book'
 import { getErrorMessage } from 'src/utils/request'
 
-const { getBookByPath } = useApi()
+const { getFileUrl } = useApi()
 const { openDialog } = useDialog()
 const { setQueryTimer, style } = useReader()
 const {
@@ -171,7 +171,7 @@ const setManual = (operation = BookOperation.Manual) => {
  * @param cfi
  */
 const openBook = async (bookElement: any, filePath: string, cfi = '') => {
-  const bookUrl = getBookByPath(filePath)
+  const bookUrl = getFileUrl(filePath)
   return new Promise((resolve, reject) => {
     fetch(bookUrl)
       .then((res: any) => res.blob())

@@ -8,9 +8,9 @@
     <q-input v-model="form.path" prefix="路径" outlined dense readonly />
     <q-input v-model="form.size" prefix="文件大小" suffix="Bytes" outlined dense readonly />
     <q-select v-model="form.refType" prefix="业务类型" :options="RefTypes" map-options outlined dense readonly />
-    <q-select v-model="form.status" prefix="状态" :options="Status" map-options outlined dense readonly />
     <q-input v-model="form.createTime" prefix="创建时间" outlined dense readonly />
     <q-input v-model="form.updateTime" prefix="更新时间" outlined dense readonly />
+    <q-select v-model="form.status" prefix="状态" :options="Status" map-options outlined dense readonly />
   </o-simple-form-page>
 </template>
 
@@ -22,7 +22,7 @@ import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
 import { RefTypes, Status } from 'src/app/metadata'
 
-const apiName = 'file'
+const apiName = 'fileMeta'
 const props = defineProps({
   id: {
     type: String,

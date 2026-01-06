@@ -59,7 +59,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
             # save file_meta
             self.fm_controller.save(FileMetaCreate(**meta))
         book_in.id = book_id
-        book_in.path = sha1
+        book_in.path = f"/book/{sha1}"
         book_in.tenant_id = self.workspace.tenant_id
         book_in.tenant_id = self.workspace.tenant_id
         book = self.save(book_in)
