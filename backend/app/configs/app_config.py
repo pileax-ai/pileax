@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from pathlib import Path
@@ -20,7 +21,7 @@ else:
 
 
 class AppConfig(DeploymentConfig, FeatureConfig, MiddlewareConfig):
-    print(f"Reading .env from: {str(ENV_PATH)}")
+    logging.warning("Reading .env from: %s", str(ENV_PATH))
     model_config = SettingsConfigDict(
         # Use top level .env file
         env_file=str(ENV_PATH),

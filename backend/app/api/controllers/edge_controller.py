@@ -35,9 +35,8 @@ class EdgeController:
     async def tts(self, item_in: EdgeTTS):
         try:
             # 1. 创建临时文件存放音频
-            temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-            temp_path = temp_file.name
-            temp_file.close()
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
+                temp_path = temp_file.name
 
             # 2. 使用 edge-tts 生成语音
             communicate = edge_tts.Communicate(

@@ -17,7 +17,7 @@ def invite(item_in: WorkspaceMemberInvite, controller: WorkspaceMemberController
 
 
 @router.api_post("/accept", response_model=WorkspaceMemberPublic)
-def invite(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
+def accept(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
     return controller.accept(id)
 
 

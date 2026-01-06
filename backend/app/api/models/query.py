@@ -10,7 +10,8 @@ class PaginationQuery(BaseModel):
     """
     Pagination query parameters.
 
-    Supports standard pagination, filtering, and sorting. The `condition` field supports field suffixes for comparison operations.
+    Supports standard pagination, filtering, and sorting.
+    The `condition` field supports field suffixes for comparison operations.
 
     Example:
         {

@@ -32,7 +32,7 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
-        print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         # 5.1 Total

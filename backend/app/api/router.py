@@ -96,7 +96,7 @@ class ApiRouter(APIRouter):
 
         return decorator
 
-    def api_delete(self, path: str, response_model: type[T] = None, **kwargs):
+    def api_delete(self, path: str, response_model: type[T] | None = None, **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.delete(
                 path, response_model=Response[response_model] if response_model else Response[dict], **kwargs

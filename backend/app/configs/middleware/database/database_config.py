@@ -70,16 +70,6 @@ class DatabaseConfig(BaseSettings):
             case _:
                 return ""
 
-        # db_extras = (
-        #     f"{self.DB_EXTRAS}&client_encoding={self.DB_CHARSET}" if self.DB_CHARSET else self.DB_EXTRAS
-        # ).strip("&")
-        # db_extras = f"?{db_extras}" if db_extras else ""
-        # return (
-        #     f"{self.SQLALCHEMY_DATABASE_URI_SCHEME}://"
-        #     f"{quote_plus(self.DB_USERNAME)}:{quote_plus(self.DB_PASSWORD)}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_DATABASE}"
-        #     f"{db_extras}"
-        # )
-
     SQLALCHEMY_POOL_SIZE: NonNegativeInt = Field(
         description="Maximum number of database connections in the pool.",
         default=30,

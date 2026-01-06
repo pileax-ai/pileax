@@ -4,7 +4,7 @@ import os
 import random
 import re
 import time
-from abc import ABC
+from abc import ABC, abstractmethod
 from enum import StrEnum
 
 from app.core.llm.utils.token import num_tokens_from_string, total_token_count_from_response
@@ -40,6 +40,7 @@ LENGTH_NOTIFICATION_EN = "...\nThe answer is truncated by your chosen LLM due to
 
 
 class Base(ABC):
+    @abstractmethod
     def __init__(self, key, model_name, base_url, **kwargs):
         OpenAI = ImportHelper.get_openai_client()
 
@@ -140,7 +141,11 @@ class Base(ABC):
         if self._should_retry(error_code):
             delay = self._get_delay()
             logger.warning(
-                f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})"
+                "Error: %s. Retrying in %.2f seconds... (Attempt %d/%d)",
+                error_code,
+                delay,
+                attempt + 1,
+                self.max_retries,
             )
             time.sleep(delay)
             return None
@@ -148,9 +153,9 @@ class Base(ABC):
         return f"{ERROR_PREFIX}: {error_code} - {str(e)}"
 
     def _chat(self, history, gen_conf, **kwargs):
-        logging.info("[HISTORY]" + json.dumps(history, ensure_ascii=False, indent=2))
+        logging.info("[HISTORY] %s", json.dumps(history, ensure_ascii=False, indent=2))
         if self.model_name.lower().find("qwq") >= 0:
-            logger.info(f"[INFO] {self.model_name} detected as reasoning model, using _chat_streamly")
+            logger.info("[INFO] %s detected as reasoning model, using _chat_streamly", self.model_name)
 
             final_ans = ""
             tol_token = 0
@@ -178,7 +183,7 @@ class Base(ABC):
         return ans, total_token_count_from_response(response)
 
     def _chat_streamly(self, history, gen_conf, **kwargs):
-        logging.info("[HISTORY STREAMLY]" + json.dumps(history, ensure_ascii=False, indent=4))
+        logging.info("[HISTORY STREAMLY] %s", json.dumps(history, ensure_ascii=False, indent=4))
         reasoning_start = False
 
         if kwargs.get("stop") or "stop" in gen_conf:
@@ -233,7 +238,7 @@ class Base(ABC):
                 e = self._exceptions(e, attempt)
                 if e:
                     return e, 0
-        assert False, "Shouldn't be here."
+        raise AssertionError("Shouldn't be here.")
 
     def chat_streamly(self, system, history, gen_conf: dict = {}, **kwargs):
         if system and history and history[0].get("role") != "system":

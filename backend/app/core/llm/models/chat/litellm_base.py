@@ -162,7 +162,7 @@ class LiteLLMBase(Base):
 
     def _chat(self, history, gen_conf, **kwargs):
         litellm = ImportHelper.get_litellm()
-        logger.info("[HISTORY]" + json.dumps(history, ensure_ascii=False, indent=2))
+        logger.info("[HISTORY] %s", json.dumps(history, ensure_ascii=False, indent=2))
         if self.model_name.lower().find("qwen3") >= 0:
             kwargs["extra_body"] = {"enable_thinking": False}
 
@@ -184,7 +184,7 @@ class LiteLLMBase(Base):
     def _chat_streamly(self, history, gen_conf, **kwargs):
         import litellm
 
-        logging.info("[HISTORY STREAMLY]" + json.dumps(history, ensure_ascii=False, indent=4))
+        logging.info("[HISTORY STREAMLY] %s", json.dumps(history, ensure_ascii=False, indent=4))
         reasoning_start = False
 
         completion_args = self._construct_completion_args(history=history, stream=True, tools=False, **gen_conf)
@@ -248,7 +248,11 @@ class LiteLLMBase(Base):
         if self._should_retry(error_code):
             delay = self._get_delay()
             logging.warning(
-                f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})"
+                "Error: %s. Retrying in %.2f seconds... (Attempt %d/%d)",
+                error_code,
+                delay,
+                attempt + 1,
+                self.max_retries,
             )
             time.sleep(delay)
             return None
@@ -269,7 +273,7 @@ class LiteLLMBase(Base):
                 e = self._exceptions(e, attempt)
                 if e:
                     return e, 0
-        assert False, "Shouldn't be here."
+        raise AssertionError("Shouldn't be here.")
 
     def chat_streamly(self, system, history, gen_conf: dict = {}, **kwargs):
         if system and history and history[0].get("role") != "system":

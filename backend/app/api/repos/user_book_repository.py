@@ -33,7 +33,7 @@ class UserBookRepository(BaseRepository[UserBook]):
             .where(UserBook.workspace_id == str(workspace_id))
             .group_by(UserBook.reading_status)
         )
-        print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
         result = self.session.exec(stmt)
         return [{"status": row.status, "count": row.count} for row in result.all()]
 

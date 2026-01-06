@@ -1,5 +1,4 @@
 import importlib
-import pkgutil
 
 from fastapi import APIRouter
 

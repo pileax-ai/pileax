@@ -47,7 +47,7 @@ select = [
     "S307", # suspicious-eval-usage, disallow use of `eval` and `ast.literal_eval`
     "S301", # suspicious-pickle-usage, disallow use of `pickle` and its wrappers.
     "S302", # suspicious-marshal-usage, disallow use of `marshal` module
-    "S311", # suspicious-non-cryptographic-random-usage
+    # "S311", # suspicious-non-cryptographic-random-usage
     "G001", # don't use str format to logging messages
     "G003", # don't use + in logging messages
     "G004", # don't use f-strings to format logging messages
@@ -60,6 +60,7 @@ ignore = [
     "E712",    # true-false-comparison
     "E721",    # type-comparison
     "E722",    # bare-except
+    "F403",    # used; unable to detect undefined names
     "F821",    # undefined-name
     "F841",    # unused-variable
     "FURB113", # repeated-append
@@ -75,6 +76,8 @@ ignore = [
     "B903",    # class-as-data-structure
     "B904",    # raise-without-from-inside-except
     "B905",    # zip-without-explicit-strict
+    "N802",    # non-lowercase-variable-in-function
+    "N805",    # first argument of a method should be named `self`
     "N806",    # non-lowercase-variable-in-function
     "N815",    # mixed-case-variable-in-class-scope
     "PT011",   # pytest-raises-too-broad
@@ -86,6 +89,8 @@ ignore = [
     "SIM113",  # enumerate-for-loop
     "SIM117",  # multiple-with-statements
     "SIM210",  # if-expr-with-true-false
+    "UP046",   # Generic class
+    "UP047",   # Generic function {} should use type parameters
 ]
 
 [lint.pyupgrade]

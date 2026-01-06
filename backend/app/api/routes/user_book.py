@@ -58,5 +58,5 @@ def query_details(query: PaginationQuery, controller: UserBookController = Depen
 
 
 @router.api_get("/stats", response_model=list[dict])
-def get_details(controller: UserBookController = Depends()) -> Any:
+def get_stats(controller: UserBookController = Depends()) -> Any:
     return controller.get_stats()
