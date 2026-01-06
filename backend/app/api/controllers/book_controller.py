@@ -1,13 +1,14 @@
 import json
 import uuid
-from typing import List, Any
+from typing import Any
+
 from fastapi import UploadFile
 
 from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
-from app.api.models.book import Book, BookCreate, BookUpdate, BookDetails, BookPublic
+from app.api.deps import CurrentUserId, CurrentWorkspace, SessionDep
+from app.api.models.book import Book, BookCreate, BookDetails, BookPublic, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate
@@ -35,7 +36,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
     def get_details(self, id: uuid.UUID) -> BookDetails:
         return self.service.get_details(id, self.user_id)
 
-    async def upload(self, book_str: str, files: List[UploadFile]) -> Any:
+    async def upload(self, book_str: str, files: list[UploadFile]) -> Any:
         """
         Upload a book
         :param book_str: Book metadata

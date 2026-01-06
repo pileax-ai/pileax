@@ -1,16 +1,17 @@
 import uuid
+from typing import Any, Generic, Optional, TypeVar, cast
 
 from sqlalchemy import exists
-from sqlmodel import SQLModel, Session, select, func
-from typing import TypeVar, Generic, Type, List, Dict, Optional, cast, Any
+from sqlmodel import Session, SQLModel, func, select
 
 from app.api.models.query import PaginationQuery, QueryResult
 from app.libs.db_helper import DbHelper
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 
+
 class BaseRepository(Generic[ModelType]):
-    def __init__(self, model: Type[ModelType], session: Session):
+    def __init__(self, model: type[ModelType], session: Session):
         self.model = model
         self.session = session
 
@@ -102,7 +103,7 @@ class BaseRepository(Generic[ModelType]):
             pageIndex=query.pageIndex,
         )
 
-    def find_one(self, condition: Optional[Dict[str, object]] = None) -> ModelType | None:
+    def find_one(self, condition: Optional[dict[str, object]] = None) -> ModelType | None:
         stmt = select(self.model)
 
         if condition:
@@ -112,7 +113,7 @@ class BaseRepository(Generic[ModelType]):
 
         return self.session.exec(stmt).first()
 
-    def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
+    def find_all(self, condition: Optional[dict[str, object]] = None) -> list[ModelType]:
         stmt = select(self.model)
 
         if condition:
@@ -121,7 +122,7 @@ class BaseRepository(Generic[ModelType]):
                     stmt = stmt.where(getattr(self.model, field) == value)
 
         rows = self.session.exec(stmt).all()
-        return cast(List[ModelType], rows)
+        return cast(list[ModelType], rows)
 
     def exists(self, **filters: Any) -> bool:
         conditions = []

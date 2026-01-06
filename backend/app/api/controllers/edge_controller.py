@@ -5,7 +5,7 @@ import edge_tts
 from fastapi import HTTPException
 from starlette.responses import StreamingResponse
 
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.edge import EdgeTTS
 
 
@@ -75,7 +75,7 @@ class EdgeController:
                 iterfile(),
                 media_type="audio/mpeg",
                 headers={
-                    "Content-Disposition": f"attachment; filename=tts_output.mp3",
+                    "Content-Disposition": "attachment; filename=tts_output.mp3",
                     "Content-Length": str(os.path.getsize(temp_path))
                 }
             )

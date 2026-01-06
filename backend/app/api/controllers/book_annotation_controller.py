@@ -1,8 +1,8 @@
-from typing import List, Any
+from typing import Any
 from uuid import UUID
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.book_annotation import BookAnnotation, BookAnnotationCreate, BookAnnotationUpdate
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
@@ -19,7 +19,7 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
         super().__init__(BookAnnotation, session, user_id, workspace_id)
         self.service = BookAnnotationService(session)
 
-    def find_all_by_book(self, book_id: UUID) -> List[BookAnnotation]:
+    def find_all_by_book(self, book_id: UUID) -> list[BookAnnotation]:
         """
         Find all by book id
         """
@@ -32,7 +32,6 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
         if query.condition.get('userId') is None:
             query.condition['userId'] = self.user_id
         return self.service.query_details(query)
-
 
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(Owner(user_id=self.user_id), id)

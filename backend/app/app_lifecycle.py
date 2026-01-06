@@ -6,9 +6,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from app.configs import app_config
-from app.extensions import setup_extensions
-from app.extensions import ext_database
-from app.extensions import ext_perf
+from app.extensions import ext_database, ext_perf, setup_extensions
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +47,6 @@ def start_server(app: FastAPI):
     :return:
     """
     port = app_config.PORT
-    logger.info(f"Starting server at http://localhost:{port}, docs at http://localhost:{port}/docs")
+    logger.info("Starting server at http://localhost:%s, docs at http://localhost:%s/docs", port, port)
 
     uvicorn.run(app, host="localhost", port=port, log_config=None)

@@ -1,7 +1,4 @@
-from typing import List
 from uuid import UUID
-
-from sqlalchemy import false
 
 from app.api.services.note_service import NoteService
 
@@ -16,6 +13,7 @@ Rules:
 - Present answers clearly, confidently, and naturally.
 - No meta commentary about sources or internal reasoning.
 """
+
 
 def build_note_prompt(note: str) -> str:
     return f"""
@@ -40,15 +38,15 @@ class PromptService:
         self.user_id = user_id
         self.workspace = workspace
 
-    def build_system_prompt(self, ref_type: str, ref_id: str) -> List[dict]:
+    def build_system_prompt(self, ref_type: str, ref_id: str) -> list[dict]:
         if ref_type == 'note':
             note = NoteService(self.session).get(UUID(ref_id), False)
             if note:
                 return [
-                    { 'role': 'system', 'content': NOTE_SYSTEM_PROMPT },
-                    { 'role': 'system', 'content': build_note_prompt(note.content) },
+                    {'role': 'system', 'content': NOTE_SYSTEM_PROMPT},
+                    {'role': 'system', 'content': build_note_prompt(note.content)},
                 ]
 
         return [
-            { 'role': 'system', 'content': 'You are an assistant. Please answer in [LANGUAGE].' }
+            {'role': 'system', 'content': 'You are an assistant. Please answer in [LANGUAGE].'}
         ]

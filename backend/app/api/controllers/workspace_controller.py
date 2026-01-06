@@ -1,7 +1,7 @@
 from typing import Any
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId, CurrentWorkspace
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.workspace import Workspace, WorkspaceCreate, WorkspaceUpdate
 from app.api.services.workspace_service import WorkspaceService
 
@@ -15,7 +15,6 @@ class WorkspaceController(BaseController[Workspace, WorkspaceCreate, WorkspaceUp
     ):
         super().__init__(Workspace, session, user_id, workspace_id)
         self.service = WorkspaceService(session, workspace_id)
-
 
     def get_user_workspaces(self) -> Any:
         return self.service.get_user_workspaces(self.user_id)

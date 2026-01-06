@@ -2,9 +2,9 @@ from typing import Any
 from uuid import UUID
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.owner import Owner
-from app.api.models.user_book import UserBook, UserBookCreate, UserBookUpdate, UserBookUpdateReadingProgress, ReadStatus
+from app.api.models.user_book import ReadStatus, UserBook, UserBookCreate, UserBookUpdate, UserBookUpdateReadingProgress
 from app.api.services.user_book_service import UserBookService
 
 
@@ -27,7 +27,6 @@ class UserBookController(BaseController[UserBook, UserBookCreate, UserBookUpdate
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(Owner(user_id=self.user_id, workspace_id=self.workspace_id), id)
 
-
     def update_reading_progress(self, item_in: UserBookUpdateReadingProgress) -> UserBook:
         user_book = self.service.find_one({
             'user_id': self.user_id,
@@ -36,7 +35,6 @@ class UserBookController(BaseController[UserBook, UserBookCreate, UserBookUpdate
         item = item_in.model_dump(by_alias=True)
         if user_book is None:
             user_book = super().save(UserBookCreate(**item))
-
 
         if user_book.reading_status == ReadStatus.NOT_STARTED:
             item['readingStatus'] = ReadStatus.CURRENTLY_READING

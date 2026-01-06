@@ -1,14 +1,17 @@
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import Depends
 
 from app.api.controllers.workspace_book_collection_controller import WorkspaceBookCollectionController
-from app.api.models.query import QueryResult, PaginationQuery
-from app.api.models.workspace_book import WorkspaceBookDetails, WorkspaceCollectionBookDetails
+from app.api.models.query import PaginationQuery, QueryResult
+from app.api.models.workspace_book import WorkspaceCollectionBookDetails
+from app.api.models.workspace_book_collection import (
+    WorkspaceBookCollectionCreate,
+    WorkspaceBookCollectionPublic,
+    WorkspaceBookCollectionUpdate,
+)
 from app.api.router import ApiRouter
-from app.api.models.workspace_book_collection import WorkspaceBookCollectionDetails, WorkspaceBookCollectionPublic, \
-    WorkspaceBookCollectionCreate, WorkspaceBookCollectionUpdate
 
 router = ApiRouter(prefix="/workspace/book/collection", tags=["WorkspaceWorkspaceBookCollection"])
 
@@ -38,7 +41,7 @@ def query(query: PaginationQuery, controller: WorkspaceBookCollectionController 
     return controller.query(query)
 
 
-@router.api_get("/all", response_model=List[dict])
+@router.api_get("/all", response_model=list[dict])
 def get_all(controller: WorkspaceBookCollectionController = Depends()) -> Any:
     return controller.get_all()
 

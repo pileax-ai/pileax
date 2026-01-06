@@ -1,13 +1,12 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.note_controller import NoteController
-from app.api.router import ApiRouter
-
+from app.api.models.note import NoteCreate, NotePublic, NoteUpdate
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.note import NoteCreate, NoteUpdate, NotePublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/note", tags=["Note"])
 
@@ -37,6 +36,6 @@ def query(query: PaginationQuery, controller: NoteController = Depends()) -> Any
     return controller.query(query)
 
 
-@router.api_get("/all", response_model=List[NotePublic])
+@router.api_get("/all", response_model=list[NotePublic])
 def find_all(controller: NoteController = Depends()) -> Any:
     return controller.find_all_by_workspace()

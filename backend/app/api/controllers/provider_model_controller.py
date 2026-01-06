@@ -1,4 +1,4 @@
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
+from app.api.deps import CurrentUserId, CurrentWorkspace, SessionDep
 from app.api.services.provider_service import ProviderService
 
 

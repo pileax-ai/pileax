@@ -1,4 +1,5 @@
-from typing import Generic, Optional, Dict, List, Literal, Any, TypeVar
+from typing import Dict, Generic, List, Literal, Optional, TypeVar
+
 from pydantic import BaseModel, Field
 
 T = TypeVar("T")

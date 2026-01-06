@@ -3,7 +3,7 @@ import secrets
 
 from fastapi import HTTPException, status
 
-from app.api.models.auth import Token, Signin, LoginUpdate, TokenPublic
+from app.api.models.auth import LoginUpdate, Signin, Token
 from app.api.models.enums import Status
 from app.api.models.user import User
 from app.api.services.tenant_service import TenantService

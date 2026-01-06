@@ -1,8 +1,8 @@
-from typing import Optional, TypeVar, Generic, Any, Type, List, Dict
+from typing import Any, Generic, Optional, TypeVar
+from uuid import UUID
 
 from pydantic import BaseModel
 from sqlmodel import SQLModel
-from uuid import UUID
 
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
@@ -18,7 +18,7 @@ UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(
         self,
-        model: Type[ModelType],
+        model: type[ModelType],
         session,
         user_id: Optional[UUID] = None,
         workspace_id: Optional[UUID] = None,
@@ -76,10 +76,10 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             query.condition['tenantId'] = self.workspace.tenant_id
         return self.service.query(query)
 
-    def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
+    def find_all(self, condition: Optional[dict[str, object]] = None) -> list[ModelType]:
         return self.service.find_all(condition)
 
-    def find_all_by_workspace(self) -> List[ModelType]:
+    def find_all_by_workspace(self) -> list[ModelType]:
         return self.service.find_all({
             'workspace_id': self.workspace_id,
         })

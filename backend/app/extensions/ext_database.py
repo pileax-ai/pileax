@@ -1,17 +1,17 @@
 import hashlib
 import logging
 import os
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 
-from alembic import command
 from alembic.config import Config
 from fastapi import FastAPI
 from filelock import FileLock
 from sqlalchemy import event
 from sqlmodel import Session, create_engine
 
+from alembic import command
 from app.configs import app_config
-from app.libs.file_utils import get_root_dir, get_cache_dir
+from app.libs.file_utils import get_cache_dir, get_root_dir
 
 logger = logging.getLogger(__name__)
 order = -1
@@ -20,6 +20,7 @@ if app_config.DB_PROVIDER == 'sqlite':
     connect_args = {"check_same_thread": False}
 else:
     connect_args = {}
+
 
 def create_new_engine():
     return create_engine(
@@ -42,7 +43,7 @@ def auto_update_modified_time(session, flush_context, instances):
     for obj in session.dirty:
         if hasattr(obj, "update_time"):
             try:
-                setattr(obj, "update_time", datetime.now(UTC))
+                obj.update_time = datetime.now(UTC)
             except AttributeError:
                 pass
 
@@ -64,7 +65,7 @@ def run_migrations():
 
     with FileLock(lock_file):
         cfg_file_path = get_root_dir("alembic.ini")
-        logger.info(f"alembic init file: {cfg_file_path}")
+        logger.info("alembic init file: %s", cfg_file_path)
         alembic_cfg = Config(cfg_file_path)
 
         temp_engine = create_new_engine()

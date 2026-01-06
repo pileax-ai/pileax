@@ -1,8 +1,7 @@
 from typing import Any
-
-from fastapi import HTTPException
 from uuid import UUID
 
+from fastapi import HTTPException
 from sqlalchemy import delete
 from sqlmodel import select
 
@@ -12,6 +11,7 @@ from app.api.models.workspace_book import WorkspaceBook
 from app.api.models.workspace_book_collection import WorkspaceBookCollection
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.base_service import BaseService
+
 
 class WorkspaceBookService(BaseService[WorkspaceBook]):
     def __init__(self, session):

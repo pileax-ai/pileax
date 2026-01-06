@@ -1,9 +1,9 @@
 import uuid
 
-from sqlalchemy import UniqueConstraint, Integer, text, event
+from sqlalchemy import Integer, UniqueConstraint, event, text
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 from app.api.models.enums import Scope
 from app.libs.db_helper import DbHelper
 
@@ -33,6 +33,7 @@ class Book(BaseSQLModel, BaseMixin, table=True):
         default=Scope.WORKSPACE,
         sa_type=Integer,
         sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))})
+
 
 @event.listens_for(Book, "before_insert")
 def before_insert(mapper, connection, target: Book):
@@ -71,6 +72,7 @@ class BookUpdate(BookBase):
 class BookPublic(BookCreate, BaseMixin):
     tenant_id: uuid.UUID
     pass
+
 
 class BookDetails(BaseApiModel, BaseMixin):
     title: str

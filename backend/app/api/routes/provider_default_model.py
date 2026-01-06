@@ -1,13 +1,16 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.provider_default_model_controller import ProviderDefaultModelController
-from app.api.router import ApiRouter
-
+from app.api.models.provider_default_model import (
+    ProviderDefaultModelCreate,
+    ProviderDefaultModelPublic,
+    ProviderDefaultModelUpdate,
+)
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.provider_default_model import ProviderDefaultModelCreate, ProviderDefaultModelUpdate, ProviderDefaultModelPublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/provider/default-model", tags=["ProviderDefaultModel"])
 
@@ -37,7 +40,7 @@ def query(query: PaginationQuery, controller: ProviderDefaultModelController = D
     return controller.query(query)
 
 
-@router.api_get("/all", response_model=List[ProviderDefaultModelPublic])
+@router.api_get("/all", response_model=list[ProviderDefaultModelPublic])
 def find_all(controller: ProviderDefaultModelController = Depends()) -> Any:
     return controller.find_all()
 

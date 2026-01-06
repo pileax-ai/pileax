@@ -1,10 +1,10 @@
 from fastapi import HTTPException
 
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.libs.provider_helper import ProviderHelper
 
 
-class LLMController():
+class LLMController:
     def __init__(
         self,
         session: SessionDep,

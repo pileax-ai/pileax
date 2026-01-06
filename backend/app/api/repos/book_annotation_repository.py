@@ -1,3 +1,5 @@
+from itertools import starmap
+
 from sqlalchemy import func
 from sqlmodel import select
 
@@ -40,10 +42,7 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
         total = self.session.exec(count_stmt).one()
 
         # 5.2 Rows
-        rows = [
-            self._build_details(user_book, book)
-            for user_book, book in self.session.exec(stmt).all()
-        ]
+        rows = list(starmap(self._build_details, self.session.exec(stmt).all()))
 
         return QueryResult(
             total=total,

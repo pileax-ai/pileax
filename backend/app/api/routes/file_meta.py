@@ -1,13 +1,12 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.file_meta_controller import FileMetaController
-from app.api.router import ApiRouter
-
+from app.api.models.file_meta import FileMetaCreate, FileMetaPublic, FileMetaUpdate
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.file_meta import FileMetaCreate, FileMetaUpdate, FileMetaPublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/file/meta", tags=["FileMeta"])
 
@@ -37,6 +36,6 @@ def query(query: PaginationQuery, controller: FileMetaController = Depends()) ->
     return controller.query(query)
 
 
-@router.api_post("/all", response_model=List[FileMetaPublic])
+@router.api_post("/all", response_model=list[FileMetaPublic])
 def find_all(controller: FileMetaController = Depends()) -> Any:
     return controller.find_all_by_workspace()

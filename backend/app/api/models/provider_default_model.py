@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseSQLModel, BaseMixin, uuid_field, BaseApiModel
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 from app.api.models.provider_credential import Credential
 
 

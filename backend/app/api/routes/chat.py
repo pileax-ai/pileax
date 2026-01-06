@@ -1,13 +1,12 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.chat_controller import ChatController
-from app.api.router import ApiRouter
-
+from app.api.models.message import MessageCreate, MessagePublic, MessageUpdate
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.message import MessageCreate, MessageUpdate, MessagePublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/chat", tags=["Chat"])
 
@@ -37,6 +36,6 @@ def completions(item_in: MessageCreate, controller: ChatController = Depends()) 
     return controller.completions(item_in)
 
 
-@router.api_get("/messages", response_model=List[MessagePublic])
+@router.api_get("/messages", response_model=list[MessagePublic])
 def find_by_conversation(conversation_id: uuid.UUID, controller: ChatController = Depends()) -> Any:
     return controller.find_by_conversation(conversation_id)

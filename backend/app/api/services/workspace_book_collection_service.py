@@ -5,6 +5,7 @@ from app.api.models.workspace_book_collection import WorkspaceBookCollection
 from app.api.repos.workspace_book_collection_repository import WorkspaceBookCollectionRepository
 from app.api.services.base_service import BaseService
 
+
 class WorkspaceBookCollectionService(BaseService[WorkspaceBookCollection]):
     def __init__(self, session):
         super().__init__(WorkspaceBookCollection, session, WorkspaceBookCollectionRepository)

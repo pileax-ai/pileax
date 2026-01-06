@@ -3,10 +3,9 @@ from typing import Any
 from fastapi import UploadFile
 
 from app.api.controllers.file_upload_controller import FileUploadController
-from app.api.router import ApiRouter
-
-from app.api.deps import SessionDep, CurrentUserId
+from app.api.deps import CurrentUserId, SessionDep
 from app.api.models.file_meta import FileMetaPublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/file/upload", tags=["FileUpload"])
 

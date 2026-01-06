@@ -1,7 +1,11 @@
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace_book_collection import WorkspaceBookCollection, WorkspaceBookCollectionCreate, WorkspaceBookCollectionUpdate
+from app.api.models.workspace_book_collection import (
+    WorkspaceBookCollection,
+    WorkspaceBookCollectionCreate,
+    WorkspaceBookCollectionUpdate,
+)
 from app.api.services.workspace_book_collection_service import WorkspaceBookCollectionService
 
 

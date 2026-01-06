@@ -2,8 +2,8 @@ import uuid
 
 from sqlmodel import Field, Integer, text
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
-from app.api.models.enums import Status, Scope
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.enums import Scope, Status
 
 
 class App(BaseSQLModel, BaseMixin, table=True):

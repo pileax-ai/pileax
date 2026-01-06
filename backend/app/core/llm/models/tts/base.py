@@ -2,7 +2,6 @@ import logging
 import re
 from abc import ABC
 
-
 logger = logging.getLogger(__name__)
 
 

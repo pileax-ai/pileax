@@ -1,4 +1,4 @@
-from app.api.models.tenant import Tenant, TenantPlan, TenantType, TenantCreate
+from app.api.models.tenant import Tenant, TenantPlan, TenantType
 from app.api.models.user import User
 from app.api.repos.base_repository import BaseRepository
 from app.api.services.base_service import BaseService

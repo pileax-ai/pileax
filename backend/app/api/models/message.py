@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Column, Field, Integer
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 from app.api.models.enums import Status
 
 

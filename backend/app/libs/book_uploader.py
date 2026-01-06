@@ -1,6 +1,6 @@
 import shutil
 from pathlib import Path
-from typing import List, Union
+from typing import Union
 
 from fastapi import UploadFile
 
@@ -36,7 +36,7 @@ class BookUploader:
         self.fileName = id
         self.id = id
 
-    async def upload(self, files: List[UploadFile]):
+    async def upload(self, files: list[UploadFile]):
         results = []
         for file in files:
             result = await self.upload_file(file)

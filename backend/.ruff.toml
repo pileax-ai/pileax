@@ -89,13 +89,13 @@ ignore = [
 ]
 
 [lint.pyupgrade]
-# Preserve types, even if a file imports `from __future__ import annotations`.
-keep-runtime-typing = true
+keep-runtime-typing = true  # Preserve types, even if a file imports `from __future__ import annotations`.
 
 
 [lint.per-file-ignores]
-"app/api/*.py" = ["B008"]  # FastAPI Depends
-"tests/**/*.py" = ["T201"] # print
+"app/api/*.py" = ["B008"]       # FastAPI Depends
+"app/api/models/*.py" = ["UP"]  # pyupgrade rules
+"tests/**/*.py" = ["T201"]      # print
 
 
 [lint.pyflakes]

@@ -6,6 +6,7 @@ import logging
 import pkgutil
 import time
 from typing import Any, List, Tuple
+
 from fastapi import FastAPI
 
 logger = logging.getLogger(__name__)
@@ -23,8 +24,9 @@ EXT_NAMES = [
 ]
 EXT_MODULES = [f"{__name__}.ext_{name}" for name in EXT_NAMES]
 
+
 def setup_extensions(app: FastAPI):
-    extensions: List[Tuple[Any, int, str]] = []
+    extensions: list[tuple[Any, int, str]] = []
 
     # Don't use pkgutil.iter_modules when pyinstaller used
     # for module_info in pkgutil.iter_modules(__path__):

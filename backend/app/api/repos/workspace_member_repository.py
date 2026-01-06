@@ -1,6 +1,8 @@
+from itertools import starmap
+from uuid import UUID
+
 from sqlalchemy import func
 from sqlmodel import select
-from uuid import UUID
 
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user import User
@@ -54,10 +56,7 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        rows = [
-            self._build_details(workspace_member, user)
-            for workspace_member, user in self.session.exec(stmt).all()
-        ]
+        rows = list(starmap(self._build_details, self.session.exec(stmt).all()))
 
         return QueryResult(
             total=total,

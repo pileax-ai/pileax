@@ -34,10 +34,10 @@ EXT_NAMES = [
 EXT_MODULES = [f"{__name__}.{name}" for name in EXT_NAMES]
 
 # Auto import all routers
-#for module_info in pkgutil.iter_modules(__path__):
+# for module_info in pkgutil.iter_modules(__path__):
 #    module_name = f"{__name__}.{module_info.name}"
 for module_name in EXT_MODULES:
     module = importlib.import_module(module_name)
 
     if hasattr(module, "router"):
-        api_router.include_router(getattr(module, "router"))
+        api_router.include_router(module.router)

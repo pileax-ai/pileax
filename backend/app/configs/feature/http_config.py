@@ -1,4 +1,4 @@
-from pydantic import Field, PositiveInt, PositiveFloat, computed_field, AliasChoices
+from pydantic import AliasChoices, Field, PositiveFloat, PositiveInt, computed_field
 from pydantic_settings import BaseSettings
 
 

@@ -1,4 +1,4 @@
-from pydantic import Field, PositiveInt, NonNegativeInt
+from pydantic import Field, PositiveInt
 from pydantic_settings import BaseSettings
 
 

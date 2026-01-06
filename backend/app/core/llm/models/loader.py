@@ -1,6 +1,7 @@
 import importlib
 import pkgutil
 
+
 def load_models(package):
     """
     Auto import all modules under package, prepare for registration

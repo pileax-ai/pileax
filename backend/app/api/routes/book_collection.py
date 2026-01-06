@@ -1,13 +1,12 @@
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import Depends
 
 from app.api.controllers.book_collection_controller import BookCollectionController
-from app.api.router import ApiRouter
-
+from app.api.models.book_collection import BookCollectionCreate, BookCollectionPublic, BookCollectionUpdate
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.book_collection import BookCollectionCreate, BookCollectionUpdate, BookCollectionPublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/book/collection", tags=["BookCollection"])
 
@@ -37,6 +36,6 @@ def query(query: PaginationQuery, controller: BookCollectionController = Depends
     return controller.query(query)
 
 
-@router.api_get("/all", response_model=List[BookCollectionPublic])
+@router.api_get("/all", response_model=list[BookCollectionPublic])
 def find_all(controller: BookCollectionController = Depends()) -> Any:
     return controller.find_all()

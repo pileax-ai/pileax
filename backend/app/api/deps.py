@@ -1,16 +1,15 @@
 from typing import Annotated, Optional
 from uuid import UUID
 
+from fastapi import Depends, Header, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
-from fastapi import Depends, Header, HTTPException, status
 
 from app.api.models.auth import TokenPayload
 from app.api.models.enums import Status
-from app.api.models.workspace import Workspace
 from app.api.models.user import User
+from app.api.models.workspace import Workspace
 from app.configs import app_config
-
 from app.extensions.ext_database import get_db_session
 from app.libs.jwt_service import JWTService
 
@@ -38,7 +37,6 @@ def get_current_user(session: SessionDep, token: TokenDep) -> User:
     if user.status != Status.ACTIVE:
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
-
 
 
 def get_workspace_id(

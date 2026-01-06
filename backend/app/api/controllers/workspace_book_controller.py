@@ -2,10 +2,13 @@ from typing import Any
 from uuid import UUID
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.query import PaginationQuery
-from app.api.models.user_book import ReadStatus
-from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookCreate, WorkspaceBookUpdate, WorkspaceBookUpdateReadingProgress
+from app.api.models.workspace_book import (
+    WorkspaceBook,
+    WorkspaceBookCreate,
+    WorkspaceBookUpdate,
+)
 from app.api.services.user_book_service import UserBookService
 from app.api.services.workspace_book_service import WorkspaceBookService
 

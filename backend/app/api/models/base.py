@@ -1,17 +1,14 @@
 import json
 import uuid
-from typing import Any, Union
+from datetime import UTC, datetime
+from typing import Union
 
 import sqlalchemy as sa
-
-from datetime import datetime, UTC
-
-from fastapi._compat import UndefinedType, Undefined
+from fastapi._compat import UndefinedType
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy.dialects import postgresql, mysql
-from sqlalchemy.orm import declared_attr, Mapped, mapped_column
-from sqlalchemy.types import TypeDecorator, CHAR, BINARY
-from sqlmodel import SQLModel, Field, TEXT
+from sqlalchemy.dialects import mysql, postgresql
+from sqlalchemy.types import BINARY, CHAR, TypeDecorator
+from sqlmodel import TEXT, Field, SQLModel
 
 from app.libs.helper import StringHelper
 
@@ -181,17 +178,16 @@ class BaseApiModel(BaseModel):
     )
 
 
-
 class TimestampMixin:
     create_time: datetime = Field(
         default_factory=utc_now,
         nullable=False,
-        sa_column_kwargs={"comment": "Created time",},
+        sa_column_kwargs={"comment": "Created time", },
     )
     update_time: datetime = Field(
         default_factory=utc_now,
         nullable=False,
-        sa_column_kwargs={"comment": "Updated time",},
+        sa_column_kwargs={"comment": "Updated time", },
     )
 
 

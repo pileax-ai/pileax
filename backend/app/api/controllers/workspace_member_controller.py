@@ -2,7 +2,7 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery
 from app.api.models.workspace_member import WorkspaceMember, WorkspaceMemberInvite
@@ -25,7 +25,7 @@ class WorkspaceMemberController:
     def invite(self, item_in: WorkspaceMemberInvite) -> WorkspaceMember:
         user = self.user_service.find_one({'email': item_in.email})
         if user is None:
-            raise HTTPException(status_code=404, detail=f"User not found")
+            raise HTTPException(status_code=404, detail="User not found")
 
         return self.service.invite(WorkspaceMember(
             workspace_id=self.workspace_id,
@@ -38,7 +38,7 @@ class WorkspaceMemberController:
     def accept(self, id: UUID) -> WorkspaceMember:
         wm = self.service.get(id)
         if wm.user_id != self.user_id:
-            raise HTTPException(status_code=403, detail=f"User does not match")
+            raise HTTPException(status_code=403, detail="User does not match")
 
         return self.service.accept(id)
 

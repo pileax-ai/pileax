@@ -4,10 +4,9 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.tenant_controller import TenantController
-from app.api.router import ApiRouter
-
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.tenant import TenantCreate, TenantUpdate, TenantPublic
+from app.api.models.tenant import TenantCreate, TenantPublic, TenantUpdate
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/tenant", tags=["Tenant"])
 

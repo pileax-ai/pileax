@@ -2,7 +2,8 @@ from uuid import UUID
 
 from app.api.models.user import User
 from app.api.repos.user_repository import UserRepository
-from app.api.services.base_service import BaseService, ModelType
+from app.api.services.base_service import BaseService
+
 
 class UserService(BaseService[User]):
     def __init__(self, session):

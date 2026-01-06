@@ -1,15 +1,16 @@
 from typing import Annotated
+
 from fastapi import Depends, Request, Response
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.controllers.auth_controller import AuthController
 from app.api.deps import SessionDep
-from app.api.models.auth import Token, SigninVo, Signin, TokenPublic, SigninPublic
+from app.api.models.auth import SigninPublic, TokenPublic
 from app.api.models.user import UserCreate
 from app.api.router import ApiRouter
-from app.api.services.auth_service import AuthService
 
 router = ApiRouter(prefix="/auth", tags=["Auth"])
+
 
 @router.api_post("/signup", response_model=SigninPublic)
 def signup(

@@ -4,10 +4,9 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.chat_conversation_controller import ChatConversationController
-from app.api.router import ApiRouter
-
+from app.api.models.conversation import ConversationCreate, ConversationPublic, ConversationUpdate
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.conversation import ConversationCreate, ConversationUpdate, ConversationPublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/chat/conversation", tags=["Conversation"])
 

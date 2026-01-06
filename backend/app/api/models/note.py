@@ -3,7 +3,7 @@ import uuid
 from pydantic import field_validator
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 
 
 class Note(BaseSQLModel, BaseMixin, table=True):

@@ -1,17 +1,16 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.provider_controller import ProviderController
+from app.api.models.provider import ProviderAllPublic, ProviderPublic, ProviderUpdate
 from app.api.router import ApiRouter
-
-from app.api.models.provider import ProviderPublic, ProviderUpdate, ProviderAllPublic
 
 router = ApiRouter(prefix="/provider", tags=["Provider"])
 
 
-@router.api_get("/all", response_model=List[ProviderAllPublic])
+@router.api_get("/all", response_model=list[ProviderAllPublic])
 def find_all(controller: ProviderController = Depends()) -> Any:
     return controller.find_all()
 

@@ -1,14 +1,13 @@
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
-from fastapi import UploadFile, Form, Depends
+from fastapi import Depends, Form, UploadFile
 
 from app.api.controllers.book_controller import BookController
+from app.api.models.book import BookCreate, BookDetails, BookPublic, BookUpdate
+from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookDetails
 from app.api.router import ApiRouter
-
-from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.book import BookCreate, BookUpdate, BookPublic, BookDetails
 
 router = ApiRouter(prefix="/book", tags=["Book"])
 
@@ -55,7 +54,7 @@ def query_library(query: PaginationQuery, controller: BookController = Depends()
 
 @router.api_post("/upload", response_model=WorkspaceBookDetails)
 async def upload(
-    files: List[UploadFile],
+    files: list[UploadFile],
     book: str = Form(...),
     controller: BookController = Depends()
 ) -> Any:

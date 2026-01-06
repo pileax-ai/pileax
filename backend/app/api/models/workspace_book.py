@@ -2,14 +2,14 @@ import uuid
 
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 
 
 class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "workspace_book"
 
     __table_args__ = (
-        UniqueConstraint("workspace_id", "book_id" , "user_id", name="unique_workspace_user_book"),
+        UniqueConstraint("workspace_id", "book_id", "user_id", name="unique_workspace_user_book"),
     )
 
     workspace_id: uuid.UUID = uuid_field()
@@ -30,6 +30,7 @@ class WorkspaceBookCreate(WorkspaceBookBase):
 
 class WorkspaceBookUpdate(WorkspaceBookBase):
     id: uuid.UUID
+
 
 class WorkspaceBookUpdateReadingProgress(BaseApiModel):
     id: uuid.UUID

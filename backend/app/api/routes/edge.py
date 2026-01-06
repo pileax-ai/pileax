@@ -1,16 +1,15 @@
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.edge_controller import EdgeController
-from app.api.models.edge import EdgeTTSPublic, EdgeTTS
+from app.api.models.edge import EdgeTTS, EdgeTTSPublic
 from app.api.router import ApiRouter
-
 
 router = ApiRouter(prefix="/edge", tags=["App"])
 
 
-@router.api_get("/voices", response_model=List[dict])
+@router.api_get("/voices", response_model=list[dict])
 def get_voices(controller: EdgeController = Depends()) -> Any:
     return controller.get_voices()
 

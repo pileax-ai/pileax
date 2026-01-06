@@ -1,4 +1,5 @@
-from typing import Optional, Any
+from typing import Any
+
 from fastapi import UploadFile
 
 from app.api.controllers.base_controller import BaseController

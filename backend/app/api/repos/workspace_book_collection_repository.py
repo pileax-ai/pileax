@@ -1,8 +1,9 @@
+from itertools import starmap
 from typing import Any
-
-from sqlalchemy import func, text, TextClause
-from sqlmodel import select
 from uuid import UUID
+
+from sqlalchemy import TextClause, func, text
+from sqlmodel import select
 
 from app.api.models.book import Book
 from app.api.models.query import PaginationQuery, QueryResult
@@ -36,7 +37,6 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
 
         return rows
 
-
     def query_book_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
@@ -68,10 +68,7 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        rows = [
-            self.build_details(workspace_book_collection, workspace_book, book)
-            for workspace_book_collection, workspace_book, book in self.session.exec(stmt).all()
-        ]
+        rows = list(starmap(self.build_details, self.session.exec(stmt).all()))
         return QueryResult(
             total=total,
             list=rows,

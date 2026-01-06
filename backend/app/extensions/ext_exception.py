@@ -3,11 +3,10 @@ import re
 import uuid
 
 from fastapi import Request
-from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from starlette.exceptions import HTTPException as StarletteHTTPException
-
 
 logger = logging.getLogger(__name__)
 order = 99
@@ -48,6 +47,7 @@ async def validation_exception_handler(request: Request, ex: RequestValidationEr
         },
     )
     return get_cors_response(response)
+
 
 async def integrity_exception_handler(request: Request, ex: IntegrityError):
     trace_id = get_trace_id(request)

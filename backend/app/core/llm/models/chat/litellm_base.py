@@ -7,10 +7,11 @@ import time
 
 from app.core.nlp import is_chinese
 from app.libs.import_helper import ImportHelper
-from .base import Base, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, LLMErrorCode, ERROR_PREFIX
+
+from ... import FACTORY_DEFAULT_BASE_URL, LITELLM_PROVIDER_PREFIX, SupportedLiteLLMProvider
+from ...utils.token import num_tokens_from_string, total_token_count_from_response
 from ..registry import register
-from ... import SupportedLiteLLMProvider, FACTORY_DEFAULT_BASE_URL, LITELLM_PROVIDER_PREFIX
-from ...utils.token import total_token_count_from_response, num_tokens_from_string
+from .base import ERROR_PREFIX, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, Base, LLMErrorCode
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +70,6 @@ class LiteLLMBase(Base):
         elif self.provider == SupportedLiteLLMProvider.OpenRouter:
             self.api_key = json.loads(key).get("api_key", "")
             self.provider_order = json.loads(key).get("provider_order", "")
-
 
     def _get_delay(self):
         """Calculate retry delay time"""

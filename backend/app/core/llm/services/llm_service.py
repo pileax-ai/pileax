@@ -21,7 +21,7 @@ class LLMService:
     def _init_langfuse(self):
         from langfuse import Langfuse
 
-        langfuse_keys = {} # todo
+        langfuse_keys = {}  # todo
         self.langfuse = None
         langfuse = Langfuse(public_key=langfuse_keys.public_key, secret_key=langfuse_keys.secret_key,
                             host=langfuse_keys.host)
@@ -81,6 +81,6 @@ class LLMService:
             yield delta_ans, ans
 
         if total_tokens > 0:
-            logger.info(f"Total tokens: {total_tokens}")
+            logger.info("Total tokens: %s", total_tokens)
 
         yield total_tokens, ans

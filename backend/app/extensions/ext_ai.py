@@ -11,7 +11,7 @@ order = 2
 
 def setup(app: FastAPI):
     try:
-        with open(os.path.join(get_root_dir(), "conf", "llm_providers.json"), "r") as f:
+        with open(os.path.join(get_root_dir(), "conf", "llm_providers.json")) as f:
             app_config.FACTORY_LLM_INFOS = json.load(f)["factory_llm_infos"]
     except Exception:
         app_config.FACTORY_LLM_INFOS = []

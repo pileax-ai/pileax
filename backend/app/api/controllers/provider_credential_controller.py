@@ -4,10 +4,14 @@ from uuid import UUID
 from fastapi import HTTPException
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspace
+from app.api.deps import CurrentUserId, CurrentWorkspace, SessionDep
 from app.api.models.provider import Provider
-from app.api.models.provider_credential import ProviderCredential, ProviderCredentialCreate, ProviderCredentialUpdate, \
-    ProviderCredentialPublic
+from app.api.models.provider_credential import (
+    ProviderCredential,
+    ProviderCredentialCreate,
+    ProviderCredentialPublic,
+    ProviderCredentialUpdate,
+)
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_service import ProviderService
 from app.constants import HIDDEN_VALUE

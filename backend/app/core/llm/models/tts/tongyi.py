@@ -4,7 +4,6 @@ from app.core.llm.models.registry import register
 from app.core.llm.models.tts.base import Base
 from app.core.llm.utils.token import num_tokens_from_string
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -18,6 +17,7 @@ class TongyiTTS(Base):
 
     def tts(self, text):
         from collections import deque
+
         from dashscope.api_entities.dashscope_response import SpeechSynthesisResponse
         from dashscope.audio.tts import ResultCallback, SpeechSynthesisResult, SpeechSynthesizer
 

@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import Integer, String, text
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field, time_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field, uuid_field
 
 
 class ReadStatus(enum.IntEnum):
@@ -13,6 +13,7 @@ class ReadStatus(enum.IntEnum):
     WANT_TO_READ = 1
     CURRENTLY_READING = 2
     FINISHED = 3
+
 
 class UserBook(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "user_book"
@@ -54,6 +55,7 @@ class UserBookCreate(UserBookBase):
 
 class UserBookUpdate(UserBookBase):
     id: uuid.UUID
+
 
 class UserBookUpdateReadingProgress(BaseApiModel):
     book_id: uuid.UUID

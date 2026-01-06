@@ -1,10 +1,9 @@
 import uuid
-from typing import List
 
 from app.api.models.tenant import Tenant
-from app.api.models.workspace import Workspace, WorkspaceType, WorkspaceCreate
-from app.api.models.workspace_member import WorkspaceMember, WorkspaceMemberRole
 from app.api.models.user import User
+from app.api.models.workspace import Workspace, WorkspaceCreate, WorkspaceType
+from app.api.models.workspace_member import WorkspaceMember, WorkspaceMemberRole
 from app.api.repos.base_repository import BaseRepository
 from app.api.repos.user_workspace_repository import UserWorkspaceRepository
 from app.api.services.base_service import BaseService
@@ -59,5 +58,5 @@ class WorkspaceService(BaseService[Workspace]):
 
         return workspace
 
-    def get_user_workspaces(self, user_id: uuid.UUID) -> List[Workspace]:
+    def get_user_workspaces(self, user_id: uuid.UUID) -> list[Workspace]:
         return UserWorkspaceRepository(Workspace, self.session).get_user_workspaces(user_id)

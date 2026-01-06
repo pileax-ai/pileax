@@ -2,7 +2,7 @@ from fastapi import Request, Response
 
 from app.api.models.auth import Token
 from app.configs import app_config
-from app.constants import COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, COOKIE_NAME_CSRF_TOKEN
+from app.constants import COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_CSRF_TOKEN, COOKIE_NAME_REFRESH_TOKEN
 
 
 class CookieHelper:

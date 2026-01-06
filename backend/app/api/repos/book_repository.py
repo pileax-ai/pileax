@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import select, func, or_
+from sqlalchemy import func, or_, select
 
 from app.api.models.book import Book, BookPublic
 from app.api.models.query import PaginationQuery, QueryResult
@@ -59,7 +59,6 @@ class BookRepository(BaseRepository[Book]):
             pageSize=query.pageSize,
             pageIndex=query.pageIndex,
         )
-
 
     @staticmethod
     def build_details(book: Book, user_book: UserBook | None = None) -> dict:

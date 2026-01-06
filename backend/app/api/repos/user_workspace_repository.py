@@ -1,10 +1,10 @@
 import uuid
-from typing import List
+from itertools import starmap
+from uuid import UUID
 
 from sqlalchemy import func
 from sqlalchemy.util import deprecated
 from sqlmodel import select
-from uuid import UUID
 
 from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery, QueryResult
@@ -18,7 +18,7 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
     def __init__(self, model, session):
         super().__init__(model, session)
 
-    def get_user_workspaces(self, user_id: uuid.UUID) -> List[Workspace]:
+    def get_user_workspaces(self, user_id: uuid.UUID) -> list[Workspace]:
         stmt = (
             select(Workspace)
             .join(WorkspaceMember, WorkspaceMember.workspace_id == Workspace.id)
@@ -27,7 +27,7 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
                 Workspace.status == Status.ACTIVE
             )
         )
-        workspaces: List[Workspace] = list(self.session.exec(stmt).all())
+        workspaces: list[Workspace] = list(self.session.exec(stmt).all())
         return workspaces
 
     @deprecated
@@ -73,10 +73,7 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        rows = [
-            self._build_details(workspace_member, workspace)
-            for workspace_member, workspace in self.session.exec(stmt).all()
-        ]
+        rows = list(starmap(self._build_details, self.session.exec(stmt).all()))
 
         return QueryResult(
             total=total,

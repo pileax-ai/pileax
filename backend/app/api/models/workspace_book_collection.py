@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 
 
 class WorkspaceBookCollection(BaseSQLModel, BaseMixin, table=True):
@@ -34,6 +34,7 @@ class WorkspaceBookCollectionUpdate(WorkspaceBookCollectionBase):
 
 class WorkspaceBookCollectionPublic(WorkspaceBookCollectionCreate, BaseMixin):
     pass
+
 
 class WorkspaceBookCollectionDetails(WorkspaceBookCollectionPublic):
     owner: uuid.UUID

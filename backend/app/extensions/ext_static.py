@@ -1,7 +1,7 @@
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI
-from pathlib import Path
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.staticfiles import StaticFiles
 
@@ -29,4 +29,4 @@ def setup(app: FastAPI):
     app.mount("/", StaticFiles(directory=static_path), name="root")
     app.add_middleware(StaticCORSMiddleware)
 
-    logger.info(f"{static_path}")
+    logger.info("%s", static_path)

@@ -1,11 +1,12 @@
 import uuid
 from typing import Any
+
 from fastapi import APIRouter
 
 from app.api.deps import SessionDep, TokenDep
-from app.api.router import Response, send_ok
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.user import User, UserCreate, UserUpdate, UserPublic
+from app.api.models.user import User, UserCreate, UserPublic, UserUpdate
+from app.api.router import Response, send_ok
 from app.api.services.user_service import UserService
 
 router = APIRouter(prefix="/user", tags=["User"])

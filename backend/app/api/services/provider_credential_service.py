@@ -1,4 +1,4 @@
-from app.api.models.provider_credential import ProviderCredential, ProviderCredentialCreate
+from app.api.models.provider_credential import ProviderCredential
 from app.api.repos.provider_credential_repository import ProviderCredentialRepository
 from app.api.services.base_service import BaseService
 

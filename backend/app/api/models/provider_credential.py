@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field, JSONString
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 
 
 class ProviderCredential(BaseSQLModel, BaseMixin, table=True):

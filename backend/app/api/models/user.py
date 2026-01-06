@@ -3,7 +3,7 @@ from datetime import datetime
 
 from sqlmodel import Column, Field, Integer
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, time_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field
 from app.api.models.enums import Status
 
 

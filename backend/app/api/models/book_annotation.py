@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
 
 
 class BookAnnotation(BaseSQLModel, BaseMixin, table=True):

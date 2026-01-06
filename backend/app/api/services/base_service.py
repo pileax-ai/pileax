@@ -1,21 +1,23 @@
-from typing import Generic, TypeVar, Type, List, Dict, Optional, Any
-from sqlmodel import SQLModel, Session
-from fastapi import HTTPException, status
+from typing import Any, Generic, Optional, TypeVar
 from uuid import UUID
 
+from fastapi import HTTPException, status
+from sqlmodel import Session, SQLModel
+
 from app.api.models.owner import Owner
-from app.api.repos.base_repository import BaseRepository
 from app.api.models.query import PaginationQuery
+from app.api.repos.base_repository import BaseRepository
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 RepositoryType = TypeVar("RepositoryType", bound=BaseRepository)
 
+
 class BaseService(Generic[ModelType]):
-    def __init__(self, model: Type[ModelType], session: Session, repo_cls: type[BaseRepository[ModelType]]):
+    def __init__(self, model: type[ModelType], session: Session, repo_cls: type[BaseRepository[ModelType]]):
         self.session = session
         self.repo = repo_cls(model, session)
 
-    def get(self, id: UUID, raise_exception = True) -> ModelType:
+    def get(self, id: UUID, raise_exception=True) -> ModelType:
         obj = self.repo.get(id)
         if not obj and raise_exception:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
@@ -53,13 +55,13 @@ class BaseService(Generic[ModelType]):
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
 
-    def find_one(self, condition: Optional[Dict[str, object]] = None, raise_exception = False) -> ModelType | None:
+    def find_one(self, condition: Optional[dict[str, object]] = None, raise_exception=False) -> ModelType | None:
         obj = self.repo.find_one(condition)
         if not obj and raise_exception:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj
 
-    def find_all(self, condition: Optional[Dict[str, object]] = None) -> List[ModelType]:
+    def find_all(self, condition: Optional[dict[str, object]] = None) -> list[ModelType]:
         return self.repo.find_all(condition)
 
     def exists(self, **filters: Any) -> bool:
@@ -72,19 +74,19 @@ class BaseService(Generic[ModelType]):
                 detail=f"{self.repo.model.__name__} not found"
             )
 
-        if owner.tenant_id and hasattr(obj, "tenant_id") and str(getattr(obj, "tenant_id")) != str(owner.tenant_id):
+        if owner.tenant_id and hasattr(obj, "tenant_id") and str(obj.tenant_id) != str(owner.tenant_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access denied"
             )
 
-        if owner.workspace_id and hasattr(obj, "workspace_id") and str(getattr(obj, "workspace_id")) != str(owner.workspace_id):
+        if owner.workspace_id and hasattr(obj, "workspace_id") and str(obj.workspace_id) != str(owner.workspace_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access denied"
             )
 
-        if owner.user_id and hasattr(obj, "user_id") and str(getattr(obj, "user_id")) != str(owner.user_id):
+        if owner.user_id and hasattr(obj, "user_id") and str(obj.user_id) != str(owner.user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access denied"

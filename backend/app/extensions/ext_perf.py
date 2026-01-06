@@ -7,7 +7,6 @@ from fastapi import FastAPI
 
 from app.configs import app_config
 
-
 logger = logging.getLogger(__name__)
 order = -1
 

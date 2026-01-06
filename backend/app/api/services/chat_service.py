@@ -1,23 +1,22 @@
 import json
 import re
-from typing import List, Any
+from typing import Any
 from uuid import UUID
 
 from fastapi import HTTPException
+from starlette.responses import StreamingResponse
 
 from app.api.models.enums import Status
+from app.api.models.message import Message, MessageCreate
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
+from app.api.repos.message_repository import MessageRepository
+from app.api.services.base_service import BaseService
 from app.api.services.conversation_service import ConversationService
 from app.api.services.prompt_service import PromptService
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_model_service import ProviderDefaultModelService
 from app.constants.enums import LLMType
 from app.core.llm.services.llm_service import LLMService
-
-from app.api.models.message import Message, MessageCreate
-from app.api.repos.message_repository import MessageRepository
-from app.api.services.base_service import BaseService
-from starlette.responses import StreamingResponse
 
 
 class ChatService(BaseService[Message]):
@@ -55,7 +54,6 @@ class ChatService(BaseService[Message]):
         if pdm_credential is None:
             raise HTTPException(status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet.")
 
-
         # message
         messages = self.find_by_conversation(item_in.conversation_id)
         history = self.prompt_service.build_system_prompt(conversation.ref_type, conversation.ref_id)
@@ -72,6 +70,7 @@ class ChatService(BaseService[Message]):
         reasoning_content = ""
         total_tokens = 0
         result = Status.ACTIVE
+
         def sse_gen():
             nonlocal content, reasoning_content, total_tokens, result
 
@@ -126,7 +125,7 @@ class ChatService(BaseService[Message]):
             media_type="text/event-stream; charset=utf-8",
         )
 
-    def find_by_conversation(self, conversation_id: UUID) -> List[Message]:
+    def find_by_conversation(self, conversation_id: UUID) -> list[Message]:
         return super().find_all({
             'conversation_id': conversation_id,
             'user_id': self.user_id,

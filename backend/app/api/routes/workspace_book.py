@@ -1,12 +1,17 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
-from app.api.router import ApiRouter
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.workspace_book import WorkspaceBookCreate, WorkspaceBookUpdate, WorkspaceBookPublic, WorkspaceBookDetails
+from app.api.models.workspace_book import (
+    WorkspaceBookCreate,
+    WorkspaceBookDetails,
+    WorkspaceBookPublic,
+    WorkspaceBookUpdate,
+)
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/workspace/book", tags=["WorkspaceBook"])
 
@@ -46,6 +51,6 @@ def query_details(query: PaginationQuery, controller: WorkspaceBookController = 
     return controller.query_details(query)
 
 
-@router.api_get("/stats", response_model=List[dict])
+@router.api_get("/stats", response_model=list[dict])
 def get_details(controller: WorkspaceBookController = Depends()) -> Any:
     return controller.get_stats()

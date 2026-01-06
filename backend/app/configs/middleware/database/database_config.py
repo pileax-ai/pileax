@@ -1,8 +1,8 @@
 import os
 from typing import Any
-from urllib.parse import quote_plus, parse_qsl
+from urllib.parse import parse_qsl
 
-from pydantic import Field, PositiveInt, NonNegativeInt, computed_field, PostgresDsn
+from pydantic import Field, NonNegativeInt, PositiveInt, PostgresDsn, computed_field
 from pydantic_settings import BaseSettings
 
 
@@ -69,7 +69,6 @@ class DatabaseConfig(BaseSettings):
                 return f"sqlite:///{self.DB_DATABASE}"
             case _:
                 return ""
-
 
         # db_extras = (
         #     f"{self.DB_EXTRAS}&client_encoding={self.DB_CHARSET}" if self.DB_CHARSET else self.DB_EXTRAS

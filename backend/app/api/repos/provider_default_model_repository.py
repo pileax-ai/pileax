@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import text, TextClause
+from sqlalchemy import TextClause, text
 
 from app.api.models.provider_default_model import ProviderDefaultModel, ProviderDefaultModelCredential
 from app.api.repos.base_repository import BaseRepository

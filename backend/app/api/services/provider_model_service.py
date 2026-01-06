@@ -2,8 +2,11 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
-from app.api.models.provider_default_model import ProviderDefaultModel, ProviderDefaultModelCreate, \
-    ProviderDefaultModelCredential
+from app.api.models.provider_default_model import (
+    ProviderDefaultModel,
+    ProviderDefaultModelCreate,
+    ProviderDefaultModelCredential,
+)
 from app.api.repos.provider_default_model_repository import ProviderDefaultModelRepository
 from app.api.services.base_service import BaseService
 from app.core.llm.services.tenant_llm_service import TenantLLMService

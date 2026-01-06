@@ -1,6 +1,8 @@
-from sqlalchemy import func, text
-from sqlmodel import select
+from itertools import starmap
 from uuid import UUID
+
+from sqlalchemy import func
+from sqlmodel import select
 
 from app.api.models.book import Book
 from app.api.models.query import PaginationQuery, QueryResult
@@ -75,10 +77,7 @@ class UserBookRepository(BaseRepository[UserBook]):
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        rows = [
-            self.build_details(user_book, book)
-            for user_book, book in self.session.exec(stmt).all()
-        ]
+        rows = list(starmap(self.build_details, self.session.exec(stmt).all()))
         return QueryResult(
             total=total,
             list=rows,

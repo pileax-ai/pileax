@@ -1,8 +1,9 @@
-from typing import Any, List, Optional, Type, Dict, OrderedDict
+from collections import OrderedDict
+from typing import Any, Optional
 
 from pypinyin.core import lazy_pinyin
-from sqlmodel import SQLModel, func
 from sqlalchemy.sql.elements import BinaryExpression
+from sqlmodel import SQLModel, func
 
 from app.api.models.query import SortOrder
 from app.libs.helper import StringHelper
@@ -11,10 +12,10 @@ from app.libs.helper import StringHelper
 class DbHelper:
     @staticmethod
     def get_filters(
-        model: Type[SQLModel],
-        condition: Optional[Dict[str, Any]],
-        fields: Optional[List[str]] = None
-    ) -> List[BinaryExpression]:
+        model: type[SQLModel],
+        condition: Optional[dict[str, Any]],
+        fields: Optional[list[str]] = None
+    ) -> list[BinaryExpression]:
         """
         Get filters for a SQLModel.
         :param model: Model
@@ -22,7 +23,7 @@ class DbHelper:
         :param condition: Condition dictionary
         :return: List[BinaryExpression]
         """
-        filters: List[BinaryExpression] = []
+        filters: list[BinaryExpression] = []
 
         if not condition:
             return filters
@@ -83,8 +84,8 @@ class DbHelper:
 
     @staticmethod
     def build_filters(
-        field_mapping: Dict[Type[SQLModel], Optional[List[str]]],
-        condition: Optional[Dict[str, Any]]
+        field_mapping: dict[type[SQLModel], Optional[list[str]]],
+        condition: Optional[dict[str, Any]]
     ):
         """
         Build multiple table filters.
@@ -93,7 +94,7 @@ class DbHelper:
         :param field_mapping: {TenantMember: ["tenant_id"], User: ["name"]}
         :return: SQLAlchemy filter
         """
-        filters: List[BinaryExpression] = []
+        filters: list[BinaryExpression] = []
         for model, fields in field_mapping.items():
             filters += DbHelper.get_filters(model, condition, fields)
         return filters
@@ -101,8 +102,8 @@ class DbHelper:
     @staticmethod
     def apply_sort(
         stmt,
-        models: List[Type[SQLModel]],
-        sort: Optional[Dict[str, SortOrder]]
+        models: list[type[SQLModel]],
+        sort: Optional[dict[str, SortOrder]]
     ):
         """
         Sort, like {"user.name": "asc", "tenant.created_at": "desc"}
@@ -131,7 +132,7 @@ class DbHelper:
         return stmt.offset(offset).limit(page_size)
 
     @staticmethod
-    def parse_json_fields(data: dict, fields: List[str]):
+    def parse_json_fields(data: dict, fields: list[str]):
         import json
         for f in fields:
             if isinstance(data.get(f), str):

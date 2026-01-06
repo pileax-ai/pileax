@@ -1,8 +1,9 @@
 import shutil
 import uuid
-from pathlib import Path
-from fastapi import UploadFile
 from datetime import datetime
+from pathlib import Path
+
+from fastapi import UploadFile
 
 from app.configs import app_config
 

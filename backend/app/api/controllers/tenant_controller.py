@@ -1,8 +1,7 @@
-import uuid
 from typing import Any
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.tenant import Tenant, TenantCreate, TenantUpdate
 from app.api.services.tenant_service import TenantService
 

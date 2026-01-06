@@ -1,6 +1,7 @@
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import SessionDep, CurrentUserId, CurrentWorkspaceId
+from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.app import App, AppCreate, AppUpdate
+
 
 class AppController(BaseController[App, AppCreate, AppUpdate]):
     def __init__(

@@ -1,7 +1,8 @@
 import os
+
 import tiktoken
 
-from app.libs.file_utils import get_root_dir, get_cache_dir
+from app.libs.file_utils import get_cache_dir
 
 
 def singleton(cls, *args, **kw):
@@ -15,6 +16,7 @@ def singleton(cls, *args, **kw):
 
     return _singleton
 
+
 tiktoken_cache_dir = get_cache_dir("tiktoken")
 os.environ["TIKTOKEN_CACHE_DIR"] = tiktoken_cache_dir
 encoder = tiktoken.get_encoding("cl100k_base")
@@ -26,6 +28,7 @@ def num_tokens_from_string(string: str) -> int:
         return len(encoder.encode(string))
     except Exception:
         return 0
+
 
 def total_token_count_from_response(resp):
     if hasattr(resp, "usage") and hasattr(resp.usage, "total_tokens"):

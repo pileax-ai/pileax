@@ -1,8 +1,6 @@
-import uuid
 
-from sqlmodel import Field, Integer, text
 
-from app.api.models.base import BaseApiModel, BaseSQLModel, BaseMixin, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin
 
 
 class EdgeTTS(BaseApiModel):

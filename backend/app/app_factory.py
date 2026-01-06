@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
+from app.app_lifecycle import initialization, lifespan
 from app.configs import app_config
-from app.app_lifecycle import lifespan, initialization
 
 
 def create_app() -> FastAPI:

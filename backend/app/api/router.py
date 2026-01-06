@@ -1,9 +1,11 @@
 import inspect
+from collections.abc import Callable
 from functools import wraps
-from typing import Generic, TypeVar, Optional, Any, Type, Callable
 from http import HTTPStatus
-from pydantic import Field, BaseModel
+from typing import Any, Generic, Optional, TypeVar
+
 from fastapi import APIRouter
+from pydantic import BaseModel, Field
 from starlette.responses import StreamingResponse
 
 T = TypeVar("T")
@@ -27,7 +29,7 @@ def send_error(message: str = "error", code: int = HTTPStatus.BAD_REQUEST, data:
     return Response[T](code=code, message=message, data=data)
 
 
-def api_response(model: Type[T]):
+def api_response(model: type[T]):
     def decorator(func: Callable[..., Any]):
         @wraps(func)
         async def wrapper(*args, **kwargs) -> Response[T]:
@@ -49,14 +51,14 @@ def api_response(model: Type[T]):
 
 
 class ApiRouter(APIRouter):
-    def api_get(self, path: str, response_model: Type[T], **kwargs):
+    def api_get(self, path: str, response_model: type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.get(path, response_model=Response[response_model], **kwargs)(
                 api_response(response_model)(func)
             )
         return decorator
 
-    def api_post(self, path: str, response_model: Type[T], **kwargs):
+    def api_post(self, path: str, response_model: type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             @wraps(func)
             async def wrapper(*args, **inner_kwargs):
@@ -80,21 +82,21 @@ class ApiRouter(APIRouter):
             )
         return decorator
 
-    def api_post_old(self, path: str, response_model: Type[T], **kwargs):
+    def api_post_old(self, path: str, response_model: type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.post(path, response_model=Response[response_model], **kwargs)(
                 api_response(response_model)(func)
             )
         return decorator
 
-    def api_put(self, path: str, response_model: Type[T], **kwargs):
+    def api_put(self, path: str, response_model: type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.put(path, response_model=Response[response_model], **kwargs)(
                 api_response(response_model)(func)
             )
         return decorator
 
-    def api_delete(self, path: str, response_model: Type[T] = None, **kwargs):
+    def api_delete(self, path: str, response_model: type[T] = None, **kwargs):
         def decorator(func: Callable[..., Any]):
             return self.delete(path, response_model=Response[response_model] if response_model else Response[dict], **kwargs)(
                 api_response(response_model or BaseModel)(func)

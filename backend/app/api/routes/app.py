@@ -4,10 +4,9 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.app_controller import AppController
-from app.api.router import ApiRouter
-
+from app.api.models.app import AppCreate, AppPublic, AppUpdate
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.app import AppCreate, AppUpdate, AppPublic
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/app", tags=["App"])
 

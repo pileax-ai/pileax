@@ -7,8 +7,7 @@ import time
 from abc import ABC
 from enum import StrEnum
 
-
-from app.core.llm.utils.token import total_token_count_from_response, num_tokens_from_string
+from app.core.llm.utils.token import num_tokens_from_string, total_token_count_from_response
 from app.core.nlp import is_chinese
 from app.libs.import_helper import ImportHelper
 
@@ -117,7 +116,6 @@ class Base(ABC):
         if is_chinese([ans]):
             return ans + LENGTH_NOTIFICATION_CN
         return ans + LENGTH_NOTIFICATION_EN
-
 
     @property
     def _retryable_errors(self) -> set[str]:

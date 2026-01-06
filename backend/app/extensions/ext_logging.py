@@ -10,6 +10,7 @@ from app.libs.file_utils import get_cache_dir
 
 order = 1
 
+
 def setup(app: FastAPI):
     app_name = app_config.APPLICATION_CODE
     filename = get_cache_dir("log", "console.log")

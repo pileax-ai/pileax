@@ -1,8 +1,9 @@
 import re
-import secrets
-from datetime import datetime, UTC
+from datetime import UTC, datetime
+from typing import cast
+
 from fastapi import Request
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+
 
 def extract_remote_ip(request: Request) -> str:
     # Cloudflare
@@ -37,5 +38,4 @@ class StringHelper:
         """
         Convert to snake case
         """
-        import re
         return re.sub(r'(?<!^)(?=[A-Z])', '_', camel_str).lower()

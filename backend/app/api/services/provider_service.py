@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Any
 from uuid import UUID
 
 from fastapi import HTTPException, status
@@ -44,9 +44,7 @@ class ProviderService(BaseService[Provider]):
 
         return super().delete_by_owner(user_id, workspace_id, id)
 
-
-
-    def find_all_provider(self, workspace_id: UUID) -> List[Provider]:
+    def find_all_provider(self, workspace_id: UUID) -> list[Provider]:
         providers = super().find_all({
             'workspace_id': workspace_id,
         })
@@ -61,7 +59,6 @@ class ProviderService(BaseService[Provider]):
             all_providers.append(provider)
 
         return all_providers
-
 
     def find_all_model(self, workspace_id: UUID):
         providers = super().find_all({

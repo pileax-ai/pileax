@@ -1,14 +1,17 @@
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import Depends
 
 from app.api.controllers.book_annotation_controller import BookAnnotationController
-from app.api.router import ApiRouter
-
+from app.api.models.book_annotation import (
+    BookAnnotationCreate,
+    BookAnnotationDetails,
+    BookAnnotationPublic,
+    BookAnnotationUpdate,
+)
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.book_annotation import BookAnnotationCreate, BookAnnotationUpdate, BookAnnotationPublic, \
-    BookAnnotationDetails
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/book/annotation", tags=["BookAnnotation"])
 
@@ -43,6 +46,6 @@ def query_details(query: PaginationQuery, controller: BookAnnotationController =
     return controller.query_details(query)
 
 
-@router.api_get("/all", response_model=List[BookAnnotationPublic])
+@router.api_get("/all", response_model=list[BookAnnotationPublic])
 def find_all_by_book(book_id: UUID, controller: BookAnnotationController = Depends()) -> Any:
     return controller.find_all_by_book(book_id)

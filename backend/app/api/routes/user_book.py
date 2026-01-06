@@ -1,13 +1,18 @@
 import uuid
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 
 from app.api.controllers.user_book_controller import UserBookController
-from app.api.router import ApiRouter
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.user_book import UserBookCreate, UserBookUpdate, UserBookPublic, UserBookDetails, \
-    UserBookUpdateReadingProgress
+from app.api.models.user_book import (
+    UserBookCreate,
+    UserBookDetails,
+    UserBookPublic,
+    UserBookUpdate,
+    UserBookUpdateReadingProgress,
+)
+from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/user/book", tags=["UserBook"])
 
@@ -25,6 +30,7 @@ def get(id: uuid.UUID, controller: UserBookController = Depends()) -> Any:
 @router.api_put("", response_model=UserBookPublic)
 def update(item_in: UserBookUpdate, controller: UserBookController = Depends()) -> Any:
     return controller.update(item_in)
+
 
 @router.api_put("/reading/progress", response_model=UserBookPublic)
 def update_reading_progress(item_in: UserBookUpdateReadingProgress, controller: UserBookController = Depends()) -> Any:
@@ -51,6 +57,6 @@ def query_details(query: PaginationQuery, controller: UserBookController = Depen
     return controller.query_details(query)
 
 
-@router.api_get("/stats", response_model=List[dict])
+@router.api_get("/stats", response_model=list[dict])
 def get_details(controller: UserBookController = Depends()) -> Any:
     return controller.get_stats()
