@@ -1,0 +1,32 @@
+{
+    "include": [
+        "."
+    ],
+    "exclude": [
+        ".cache",
+        ".venv",
+        "alembic",
+        "build",
+        "dist",
+        "hooks",
+        "tests"
+    ],
+    "reportUnusedVariable": true,
+    "reportGeneralTypeIssues": true,
+    "typeCheckingMode": "strict",
+    "reportUnknownMemberType": "hint",
+    "reportUnknownParameterType": "hint",
+    "reportUnknownArgumentType": "hint",
+    "reportUnknownVariableType": "hint",
+    "reportUnknownLambdaType": "hint",
+    "reportMissingParameterType": "hint",
+    "reportMissingTypeArgument": "hint",
+    "reportUnnecessaryComparison": "hint",
+    "reportUnnecessaryIsInstance": "hint",
+    "reportUntypedFunctionDecorator": "hint",
+    "reportUnnecessaryTypeIgnoreComment": "hint",
+    "reportArgumentType": "hint",
+    "reportAttributeAccessIssue": "hint",
+    "pythonVersion": "3.12",
+    "pythonPlatform": "All"
+}
