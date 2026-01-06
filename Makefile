@@ -56,7 +56,7 @@ format:
 
 check:
 	@echo "🔍 Running ruff check..."
-	@uv run --project api --dev ruff check ./api
+	@uv run --project backend --dev ruff check ./backend
 	@echo "✅ Code check complete"
 
 lint:

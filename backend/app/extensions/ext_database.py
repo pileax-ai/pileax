@@ -60,7 +60,7 @@ def run_migrations():
     Run migrations after app started.
     Use lock_file to ensure run once.
     """
-    logger.info(f"Running migrations: {str(app_config.SQLALCHEMY_DATABASE_URI)}")
+    logger.info("Running migrations: %s", str(app_config.SQLALCHEMY_DATABASE_URI))
     lock_file = get_migration_lock_file()
 
     with FileLock(lock_file):
@@ -85,4 +85,4 @@ def is_enabled():
 def setup(app: FastAPI | None = None):
     # run migration
     run_migrations()
-    logger.info(f"✅ [{app_config.DB_PROVIDER}] Database migration is setup.")
+    logger.info("✅ [%s] Database migration is setup.", app_config.DB_PROVIDER)

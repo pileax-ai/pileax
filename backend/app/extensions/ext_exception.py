@@ -54,7 +54,7 @@ async def integrity_exception_handler(request: Request, ex: IntegrityError):
     exc_type = type(ex).__name__
     exc_msg = str(ex).split('\n')[0]
     logger.error(
-        f"{request.method} {request.url.path} - {exc_type}: {exc_msg}"
+        "%s %s - %s: %s", request.method, request.url.path, exc_type, exc_msg
     )
     cleaned_msg = re.sub(r"^\([^\)]*\)\s*", "", exc_msg)
     return JSONResponse(
@@ -72,7 +72,7 @@ async def global_exception_handler(request: Request, ex: Exception):
     exc_type = type(ex).__name__
     exc_msg = str(ex).split('\n')[0]
     logger.error(
-        f"{request.method} {request.url.path} - {exc_type}: {exc_msg}"
+        "%s %s - %s: %s", request.method, request.url.path, exc_type, exc_msg
     )
     cleaned_msg = re.sub(r"^\([^\)]*\)\s*", "", exc_msg)
     response = JSONResponse(

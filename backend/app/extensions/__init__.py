@@ -3,9 +3,9 @@ Description: middlewares, exception handlers, and global setup etc.
 """
 import importlib
 import logging
-import pkgutil
+import operator
 import time
-from typing import Any, List, Tuple
+from typing import Any
 
 from fastapi import FastAPI
 
@@ -38,9 +38,9 @@ def setup_extensions(app: FastAPI):
             short_name = ext.__name__.split(".")[-1]
             extensions.append((ext, order, short_name))
 
-    extensions.sort(key=lambda x: x[1])
+    extensions.sort(key=operator.itemgetter(1))
     names = "\n".join([f"{i + 1}. {name} (order={order})" for i, (_, order, name) in enumerate(extensions)])
-    print("\nLoading Extensions:\n" + names + "\n")
+    logging.warning("\n\nLoading Extensions:\n%s \n", names)
 
     for ext, order, short_name in extensions:
         setup_extension(app, ext, short_name)

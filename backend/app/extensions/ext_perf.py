@@ -27,7 +27,7 @@ def setup_import_timer():
         module = original_import(name, *args, **kwargs)
         duration = time.time() - start
         if duration > 0.5:
-            logger.warning(f"[IMPORT SLOW] {name}: {duration:.3f}s")
+            logger.warning("[IMPORT SLOW] %s: %.3fs", name, duration)
         return module
 
     builtins.__import__ = timed_import

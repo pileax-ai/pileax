@@ -17,4 +17,4 @@ def setup(app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    logger.info(f"origin: {app_config.WEB_API_CORS_ALLOW_ORIGINS}, cookie domain: {app_config.COOKIE_DOMAIN}")
+    logger.info("origin: %s, cookie domain: %s", app_config.WEB_API_CORS_ALLOW_ORIGINS, app_config.COOKIE_DOMAIN)
