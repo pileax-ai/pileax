@@ -240,6 +240,7 @@ const onOpenFailed = (metadata: Indexable) => {
 }
 
 const savingBookRemote = async (metadata: any) => {
+  console.log('savingBookRemote', metadata)
   try {
     // Book uploaded, add to shelf
     const remoteBook = await bookService.getByUuid(metadata.sha1)

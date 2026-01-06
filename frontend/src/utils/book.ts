@@ -23,18 +23,32 @@ export const base64ToFile = (base64: string, name: string): File => {
   const arr = base64.split(',')
   if (arr.length < 2) throw new Error('Invalid base64 string')
 
+  const base64Content = arr[1] || ''
   const mimeMatch = arr[0]?.match(/:(.*?);/)
   console.log('mimeMatch', mimeMatch)
-  const mime = mimeMatch?.[1] ?? 'application/octet-stream'
+  let mime = mimeMatch?.[1] ?? 'application/octet-stream'
+  if (mime === 'application/octet-stream') {
+    mime = detectImageMime(base64Content)
+  }
 
   const extension = mime.split('/')[1] || 'png' // image/png -> png
   const filename = `${name}.${extension}`
 
-  const bstr = atob(arr[1] || '')
+  const bstr = atob(base64Content)
   const u8arr = new Uint8Array(bstr.length)
   for (let i = 0; i < bstr.length; i++) {
     u8arr[i] = bstr.charCodeAt(i)
   }
 
   return new File([u8arr], filename, { type: mime })
+}
+
+export const detectImageMime = (base64: string) => {
+  if (base64.startsWith('iVBORw0KGgo')) return 'image/png'
+  if (base64.startsWith('/9j/')) return 'image/jpeg'
+  if (base64.startsWith('R0lGOD')) return 'image/gif'
+  if (base64.startsWith('UklGR')) return 'image/webp'
+  if (base64.startsWith('Qk')) return 'image/bmp'
+
+  return 'application/octet-stream'
 }

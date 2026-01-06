@@ -14,6 +14,7 @@ from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.book_service import BookService
+from app.api.services.workspace_book_service import WorkspaceBookService
 from app.libs.book_uploader import BookUploader
 
 
@@ -25,6 +26,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         workspace: CurrentWorkspace,
     ):
         super().__init__(Book, session, user_id, workspace.id)
+        self.session = session
         self.workspace = workspace
         self.service = BookService(session)
         self.fm_controller = FileMetaController(session, user_id, workspace.id)
@@ -68,7 +70,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         workspace_book_in = WorkspaceBookCreate(book_id=book_id)
         workspace_book = self.wb_controller.save(workspace_book_in)
 
-        return WorkspaceBookRepository.build_details(workspace_book, book)
+        return WorkspaceBookService(self.session).get_details(workspace_book.id)
 
     def query_library(self, query: PaginationQuery) -> QueryResult[BookPublic]:
         return self.service.query_library(self.user_id, self.workspace_id, query)
