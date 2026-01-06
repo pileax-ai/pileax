@@ -15,8 +15,7 @@ class Base(ABC):
         ...
 
     @abstractmethod
-    def tts(self, audio):
-        ...
+    def tts(self, audio): ...
 
     def normalize_text(self, text):
         return re.sub(r"(\*\*|##\d+\$\$|#)", "", text)

@@ -25,15 +25,14 @@ prepare-docker:
 prepare-web:
 	@echo "🌐 Setting up web environment..."
 	@cp -n frontend/env/.env.example frontend/env/.env 2>/dev/null || echo "Web .env already exists"
-	@cd web && pnpm install
+	@cd frontend && yarn install
 	@echo "✅ Web environment prepared (not started)"
 
 # Step 3: Prepare API environment
 prepare-api:
 	@echo "🔧 Setting up API environment..."
-	@cp -n api/.env.example api/.env 2>/dev/null || echo "API .env already exists"
-	@cd api && uv sync --dev
-	@cd api && uv run flask db upgrade
+	@cp -n backend/.env.example backend/.env 2>/dev/null || echo "API .env already exists"
+	@cd backend && uv sync --dev
 	@echo "✅ API environment prepared (not started)"
 
 # Clean dev environment
@@ -45,7 +44,7 @@ dev-clean:
 	@rm -rf docker/volumes/redis
 	@rm -rf docker/volumes/plugin_daemon
 	@rm -rf docker/volumes/weaviate
-	@rm -rf api/storage
+	@rm -rf backend/.cache/storage
 	@echo "✅ Cleanup complete"
 
 # Backend Code Quality Commands
@@ -61,8 +60,8 @@ check:
 
 lint:
 	@echo "🔧 Running ruff format, check with fixes, and import linter..."
-	@uv run --project api --dev sh -c 'ruff format ./api && ruff check --fix ./api'
-	@uv run --directory api --dev lint-imports
+	@uv run --project backend --dev sh -c 'ruff format ./backend && ruff check --fix ./backend'
+	@uv run --directory backend --dev lint-imports
 	@echo "✅ Linting complete"
 
 lint-web:
@@ -72,7 +71,7 @@ lint-web:
 
 type-check:
 	@echo "📝 Running type check with basedpyright..."
-	@uv run --directory api --dev basedpyright
+	@uv run --directory backend --dev basedpyright
 	@echo "✅ Type check complete"
 
 # Build Docker images
