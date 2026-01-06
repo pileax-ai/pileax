@@ -41,8 +41,8 @@ class WorkspaceService(BaseService[Workspace]):
 
         # Workspace
         item = item_in.model_dump(by_alias=True)
-        item['tenant_id'] = current_workspace.tenant_id
-        item['user_id'] = current_workspace.user_id
+        item["tenant_id"] = current_workspace.tenant_id
+        item["user_id"] = current_workspace.user_id
         workspace = self.create(Workspace(**item), commit=False)
 
         # Workspace member

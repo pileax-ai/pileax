@@ -33,7 +33,11 @@ def api_response(model: type[T]):
     def decorator(func: Callable[..., Any]):
         @wraps(func)
         async def wrapper(*args, **kwargs) -> Response[T]:
-            result = await func(*args, **kwargs) if callable(func) and func.__code__.co_flags & 0x80 else func(*args, **kwargs)
+            result = (
+                await func(*args, **kwargs)
+                if callable(func) and func.__code__.co_flags & 0x80
+                else func(*args, **kwargs)
+            )
 
             if isinstance(result, BaseModel):
                 result = model(**result.model_dump(by_alias=True))
@@ -41,21 +45,18 @@ def api_response(model: type[T]):
             # elif isinstance(result, list) and result and isinstance(result[0], BaseModel):
             #     result = [model(**item.model_dump(by_alias=True)) for item in result]
 
-            return Response(
-                code=HTTPStatus.OK,
-                message="ok",
-                data=result
-            )
+            return Response(code=HTTPStatus.OK, message="ok", data=result)
+
         return wrapper
+
     return decorator
 
 
 class ApiRouter(APIRouter):
     def api_get(self, path: str, response_model: type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
-            return self.get(path, response_model=Response[response_model], **kwargs)(
-                api_response(response_model)(func)
-            )
+            return self.get(path, response_model=Response[response_model], **kwargs)(api_response(response_model)(func))
+
         return decorator
 
     def api_post(self, path: str, response_model: type[T], **kwargs):
@@ -77,9 +78,8 @@ class ApiRouter(APIRouter):
                 wrapped = api_response(response_model)(wrapped_fun)
                 return await wrapped()
 
-            return self.post(path, response_model=Response[response_model], **kwargs)(
-                wrapper
-            )
+            return self.post(path, response_model=Response[response_model], **kwargs)(wrapper)
+
         return decorator
 
     def api_post_old(self, path: str, response_model: type[T], **kwargs):
@@ -87,18 +87,19 @@ class ApiRouter(APIRouter):
             return self.post(path, response_model=Response[response_model], **kwargs)(
                 api_response(response_model)(func)
             )
+
         return decorator
 
     def api_put(self, path: str, response_model: type[T], **kwargs):
         def decorator(func: Callable[..., Any]):
-            return self.put(path, response_model=Response[response_model], **kwargs)(
-                api_response(response_model)(func)
-            )
+            return self.put(path, response_model=Response[response_model], **kwargs)(api_response(response_model)(func))
+
         return decorator
 
     def api_delete(self, path: str, response_model: type[T] = None, **kwargs):
         def decorator(func: Callable[..., Any]):
-            return self.delete(path, response_model=Response[response_model] if response_model else Response[dict], **kwargs)(
-                api_response(response_model or BaseModel)(func)
-            )
+            return self.delete(
+                path, response_model=Response[response_model] if response_model else Response[dict], **kwargs
+            )(api_response(response_model or BaseModel)(func))
+
         return decorator

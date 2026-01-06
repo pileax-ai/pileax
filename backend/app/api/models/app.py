@@ -16,14 +16,11 @@ class App(BaseSQLModel, BaseMixin, table=True):
     description: str | None = Field(default=None, description="Note content")
     icon: str | None = Field(default=None)
     status: int = Field(
-        default=Status.ACTIVE,
-        sa_type=Integer,
-        sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
+        default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
     )
     scope: int | None = Field(
-        default=Scope.WORKSPACE,
-        sa_type=Integer,
-        sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))})
+        default=Scope.WORKSPACE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))}
+    )
 
 
 class AppBase(BaseApiModel):

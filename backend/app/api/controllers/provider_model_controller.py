@@ -3,12 +3,7 @@ from app.api.services.provider_service import ProviderService
 
 
 class ProviderModelController:
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace: CurrentWorkspace
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace: CurrentWorkspace):
         self.user_id = user_id
         self.workspace = workspace
         self.service = ProviderService(session)

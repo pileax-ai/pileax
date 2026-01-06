@@ -47,6 +47,7 @@ class PaginationQuery(BaseModel):
         | `__startswith`  | Starts with                    |
         | `__istartswith` | Starts with (case-insensitive) |
     """
+
     pageIndex: int = Field(1, ge=1)
     pageSize: int = Field(10, ge=1)
     condition: Optional[Dict[str, object]] = Field(default_factory=dict)
@@ -63,6 +64,7 @@ class QueryResult(BaseModel, Generic[T]):
         pageSize (int): 每页数量。
         pageIndex (int): 当前页码。
     """
+
     total: int = Field(..., description="总记录数")
     list: List[T] = Field(..., description="当前页数据列表")
     pageSize: int = Field(..., description="每页数量")

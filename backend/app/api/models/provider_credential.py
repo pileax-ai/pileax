@@ -8,9 +8,7 @@ from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONStrin
 class ProviderCredential(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "provider_credential"
 
-    __table_args__ = (
-        UniqueConstraint("workspace_id", "provider", "name", name="unique_workspace_provider_name"),
-    )
+    __table_args__ = (UniqueConstraint("workspace_id", "provider", "name", name="unique_workspace_provider_name"),)
 
     workspace_id: uuid.UUID = uuid_field()
     provider: str = Field(..., max_length=255)

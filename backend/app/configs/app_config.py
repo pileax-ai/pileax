@@ -19,11 +19,7 @@ else:
     ENV_PATH = Path(env_file_from_env) if env_file_from_env else DEFAULT_ENV_PATH
 
 
-class AppConfig(
-    DeploymentConfig,
-    FeatureConfig,
-    MiddlewareConfig
-):
+class AppConfig(DeploymentConfig, FeatureConfig, MiddlewareConfig):
     print(f"Reading .env from: {str(ENV_PATH)}")
     model_config = SettingsConfigDict(
         # Use top level .env file

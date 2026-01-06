@@ -4,10 +4,5 @@ from app.api.models.app import App, AppCreate, AppUpdate
 
 
 class AppController(BaseController[App, AppCreate, AppUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         super().__init__(App, session, user_id, workspace_id)

@@ -30,12 +30,12 @@ class StringHelper:
         """
         Convert to camelCase
         """
-        parts = snake_str.split('_')
-        return parts[0].lower() + ''.join(word.capitalize() for word in parts[1:])
+        parts = snake_str.split("_")
+        return parts[0].lower() + "".join(word.capitalize() for word in parts[1:])
 
     @staticmethod
     def to_snake(camel_str: str) -> str:
         """
         Convert to snake case
         """
-        return re.sub(r'(?<!^)(?=[A-Z])', '_', camel_str).lower()
+        return re.sub(r"(?<!^)(?=[A-Z])", "_", camel_str).lower()

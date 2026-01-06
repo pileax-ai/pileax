@@ -53,9 +53,5 @@ def query_library(query: PaginationQuery, controller: BookController = Depends()
 
 
 @router.api_post("/upload", response_model=WorkspaceBookDetails)
-async def upload(
-    files: list[UploadFile],
-    book: str = Form(...),
-    controller: BookController = Depends()
-) -> Any:
+async def upload(files: list[UploadFile], book: str = Form(...), controller: BookController = Depends()) -> Any:
     return await controller.upload(book, files)

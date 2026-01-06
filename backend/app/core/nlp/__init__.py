@@ -26,7 +26,7 @@ def is_chinese(text):
         return False
     chinese = 0
     for ch in text:
-        if '\u4e00' <= ch <= '\u9fff':
+        if "\u4e00" <= ch <= "\u9fff":
             chinese += 1
     if chinese / len(text) > 0.2:
         return True

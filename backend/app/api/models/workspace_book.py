@@ -8,9 +8,7 @@ from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_fiel
 class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "workspace_book"
 
-    __table_args__ = (
-        UniqueConstraint("workspace_id", "book_id", "user_id", name="unique_workspace_user_book"),
-    )
+    __table_args__ = (UniqueConstraint("workspace_id", "book_id", "user_id", name="unique_workspace_user_book"),)
 
     workspace_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()

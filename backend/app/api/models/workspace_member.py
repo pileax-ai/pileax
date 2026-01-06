@@ -17,9 +17,7 @@ class WorkspaceMemberRole(enum.StrEnum):
 
 class WorkspaceMember(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "workspace_member"
-    __table_args__ = (
-        UniqueConstraint("workspace_id", "user_id", name="unique_workspace_member"),
-    )
+    __table_args__ = (UniqueConstraint("workspace_id", "user_id", name="unique_workspace_member"),)
 
     workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
@@ -56,4 +54,3 @@ class WorkspaceMemberPublicDetails(WorkspaceMemberPublic):
     user_name: str
     user_email: str
     last_active_time: str | None = None
-

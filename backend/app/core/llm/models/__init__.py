@@ -25,7 +25,4 @@ RerankModel = MODEL_FACTORY["rerank"]
 Seq2txtModel = MODEL_FACTORY["stt"]
 TTSModel = MODEL_FACTORY["tts"]
 
-__all__ = [
-    "ChatModel", "CvModel", "EmbeddingModel",
-    "RerankModel", "Seq2txtModel", "TTSModel"
-]
+__all__ = ["ChatModel", "CvModel", "EmbeddingModel", "RerankModel", "Seq2txtModel", "TTSModel"]

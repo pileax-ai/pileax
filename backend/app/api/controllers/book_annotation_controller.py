@@ -10,12 +10,7 @@ from app.api.services.book_annotation_service import BookAnnotationService
 
 
 class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCreate, BookAnnotationUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         super().__init__(BookAnnotation, session, user_id, workspace_id)
         self.service = BookAnnotationService(session)
 
@@ -23,14 +18,16 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
         """
         Find all by book id
         """
-        return self.service.find_all({
-            "book_id": book_id,
-            "user_id": self.user_id,
-        })
+        return self.service.find_all(
+            {
+                "book_id": book_id,
+                "user_id": self.user_id,
+            }
+        )
 
     def query_details(self, query: PaginationQuery):
-        if query.condition.get('userId') is None:
-            query.condition['userId'] = self.user_id
+        if query.condition.get("userId") is None:
+            query.condition["userId"] = self.user_id
         return self.service.query_details(query)
 
     def delete(self, id: UUID) -> Any:

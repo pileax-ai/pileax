@@ -29,10 +29,7 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
        """)
         with self.session as session:
             conn = session.connection()
-            result = conn.execute(sql, {
-                "user_id": str(user_id),
-                "workspace_id": str(workspace_id)
-            })
+            result = conn.execute(sql, {"user_id": str(user_id), "workspace_id": str(workspace_id)})
             rows = result.mappings().all()
 
         return rows
@@ -40,17 +37,19 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
     def query_book_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceBookCollection: ['book_collection_id', 'workspace_id'],
-            WorkspaceBook: ['user_id'],
+            WorkspaceBookCollection: ["book_collection_id", "workspace_id"],
+            WorkspaceBook: ["user_id"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(WorkspaceBookCollection, WorkspaceBook, Book)
+        stmt = (
+            select(WorkspaceBookCollection, WorkspaceBook, Book)
             .join(WorkspaceBook, WorkspaceBook.id == WorkspaceBookCollection.workspace_book_id, isouter=True)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
         )
-        count_stmt = (select(func.count())
+        count_stmt = (
+            select(func.count())
             .select_from(WorkspaceBookCollection)
             .join(WorkspaceBook, WorkspaceBook.id == WorkspaceBookCollection.workspace_book_id, isouter=True)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
@@ -77,7 +76,9 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
         )
 
     @staticmethod
-    def build_details(workspace_book_collection: WorkspaceBookCollection, workspace_book: WorkspaceBook, book: Book) -> dict:
+    def build_details(
+        workspace_book_collection: WorkspaceBookCollection, workspace_book: WorkspaceBook, book: Book
+    ) -> dict:
         return {
             **workspace_book.model_dump(),
             "tid": workspace_book_collection.id,

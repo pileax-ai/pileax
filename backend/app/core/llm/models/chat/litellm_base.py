@@ -81,7 +81,10 @@ class LiteLLMBase(Base):
 
         keywords_mapping = [
             (["quota", "capacity", "credit", "billing", "balance", "欠费"], LLMErrorCode.ERROR_QUOTA),
-            (["rate limit", "429", "tpm limit", "too many requests", "requests per minute"], LLMErrorCode.ERROR_RATE_LIMIT),
+            (
+                ["rate limit", "429", "tpm limit", "too many requests", "requests per minute"],
+                LLMErrorCode.ERROR_RATE_LIMIT,
+            ),
             (["auth", "key", "apikey", "401", "forbidden", "permission"], LLMErrorCode.ERROR_AUTHENTICATION),
             (["invalid", "bad request", "400", "format", "malformed", "parameter"], LLMErrorCode.ERROR_INVALID_REQUEST),
             (["server", "503", "502", "504", "500", "unavailable"], LLMErrorCode.ERROR_SERVER),
@@ -138,6 +141,7 @@ class LiteLLMBase(Base):
 
         if self.provider == SupportedLiteLLMProvider.OpenRouter:
             if self.provider_order:
+
                 def _to_order_list(x):
                     if x is None:
                         return []
@@ -146,6 +150,7 @@ class LiteLLMBase(Base):
                     if isinstance(x, (list, tuple)):
                         return [str(s).strip() for s in x if str(s).strip()]
                     return []
+
                 extra_body = {}
                 provider_cfg = {}
                 provider_order = _to_order_list(self.provider_order)
@@ -178,6 +183,7 @@ class LiteLLMBase(Base):
 
     def _chat_streamly(self, history, gen_conf, **kwargs):
         import litellm
+
         logging.info("[HISTORY STREAMLY]" + json.dumps(history, ensure_ascii=False, indent=4))
         reasoning_start = False
 
@@ -241,7 +247,9 @@ class LiteLLMBase(Base):
 
         if self._should_retry(error_code):
             delay = self._get_delay()
-            logging.warning(f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})")
+            logging.warning(
+                f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})"
+            )
             time.sleep(delay)
             return None
 

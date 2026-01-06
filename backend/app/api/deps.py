@@ -13,9 +13,7 @@ from app.configs import app_config
 from app.extensions.ext_database import get_db_session
 from app.libs.jwt_service import JWTService
 
-oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=f"{app_config.API_VERSION}/auth/token"
-)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{app_config.API_VERSION}/auth/token")
 
 
 SessionDep = Annotated[Session, Depends(get_db_session)]
@@ -39,10 +37,7 @@ def get_current_user(session: SessionDep, token: TokenDep) -> User:
     return user
 
 
-def get_workspace_id(
-    token: TokenDep,
-    x_workspace_id: Annotated[str | None, Header()] = None
-) -> UUID:
+def get_workspace_id(token: TokenDep, x_workspace_id: Annotated[str | None, Header()] = None) -> UUID:
     if x_workspace_id:
         return UUID(x_workspace_id)
 
@@ -51,10 +46,7 @@ def get_workspace_id(
     return UUID(token_data.sub)
 
 
-def get_current_workspace(
-    session: SessionDep,
-    workspace_id: UUID = Depends(get_workspace_id)
-) -> Workspace:
+def get_current_workspace(session: SessionDep, workspace_id: UUID = Depends(get_workspace_id)) -> Workspace:
     workspace: Optional[Workspace] = session.get(Workspace, workspace_id)
     if not workspace:
         raise HTTPException(status_code=403, detail="Workspace not found")

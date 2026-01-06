@@ -75,6 +75,7 @@ class BaseRepository(Generic[ModelType]):
     """
     Pagination query
     """
+
     def query(self, query: PaginationQuery) -> QueryResult[ModelType]:
         # 1. Basic Filter
         filters = DbHelper.get_filters(self.model, query.condition)

@@ -7,12 +7,7 @@ from app.api.services.tenant_service import TenantService
 
 
 class TenantController(BaseController[Tenant, TenantCreate, TenantUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         super().__init__(Tenant, session, user_id, workspace_id)
         self.service = TenantService(session, user_id)
 

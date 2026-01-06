@@ -13,11 +13,7 @@ class UserBookService(BaseService[UserBook]):
         self.session = session
 
     def get_user_book(self, user_id: UUID, book_id: UUID) -> UserBook:
-        stmt = (
-            select(UserBook)
-            .where(UserBook.user_id == user_id)
-            .where(UserBook.book_id == book_id)
-        )
+        stmt = select(UserBook).where(UserBook.user_id == user_id).where(UserBook.book_id == book_id)
         return self.session.exec(stmt).first()
 
     def create_user_book(self, user_id: UUID, book_id: UUID) -> UserBook:

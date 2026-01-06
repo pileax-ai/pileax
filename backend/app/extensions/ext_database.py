@@ -16,7 +16,7 @@ from app.libs.file_utils import get_cache_dir, get_root_dir
 logger = logging.getLogger(__name__)
 order = -1
 
-if app_config.DB_PROVIDER == 'sqlite':
+if app_config.DB_PROVIDER == "sqlite":
     connect_args = {"check_same_thread": False}
 else:
     connect_args = {}

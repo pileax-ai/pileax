@@ -9,9 +9,7 @@ from app.libs.db_helper import DbHelper
 
 
 class Book(BaseSQLModel, BaseMixin, table=True):
-    __table_args__ = (
-        UniqueConstraint("tenant_id", "uuid", name="unique_tenant_book"),
-    )
+    __table_args__ = (UniqueConstraint("tenant_id", "uuid", name="unique_tenant_book"),)
 
     tenant_id: uuid.UUID = uuid_field()
     workspace_id: uuid.UUID = uuid_field()
@@ -30,9 +28,8 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     publisher: str | None = Field(default=None)
     published: str | None = Field(default=None)
     scope: int | None = Field(
-        default=Scope.WORKSPACE,
-        sa_type=Integer,
-        sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))})
+        default=Scope.WORKSPACE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))}
+    )
 
 
 @event.listens_for(Book, "before_insert")

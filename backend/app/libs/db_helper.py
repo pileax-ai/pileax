@@ -12,9 +12,7 @@ from app.libs.helper import StringHelper
 class DbHelper:
     @staticmethod
     def get_filters(
-        model: type[SQLModel],
-        condition: Optional[dict[str, Any]],
-        fields: Optional[list[str]] = None
+        model: type[SQLModel], condition: Optional[dict[str, Any]], fields: Optional[list[str]] = None
     ) -> list[BinaryExpression]:
         """
         Get filters for a SQLModel.
@@ -83,10 +81,7 @@ class DbHelper:
         return filters
 
     @staticmethod
-    def build_filters(
-        field_mapping: dict[type[SQLModel], Optional[list[str]]],
-        condition: Optional[dict[str, Any]]
-    ):
+    def build_filters(field_mapping: dict[type[SQLModel], Optional[list[str]]], condition: Optional[dict[str, Any]]):
         """
         Build multiple table filters.
 
@@ -100,11 +95,7 @@ class DbHelper:
         return filters
 
     @staticmethod
-    def apply_sort(
-        stmt,
-        models: list[type[SQLModel]],
-        sort: Optional[dict[str, SortOrder]]
-    ):
+    def apply_sort(stmt, models: list[type[SQLModel]], sort: Optional[dict[str, SortOrder]]):
         """
         Sort, like {"user.name": "asc", "tenant.created_at": "desc"}
         """
@@ -134,6 +125,7 @@ class DbHelper:
     @staticmethod
     def parse_json_fields(data: dict, fields: list[str]):
         import json
+
         for f in fields:
             if isinstance(data.get(f), str):
                 try:
@@ -144,4 +136,4 @@ class DbHelper:
 
     @staticmethod
     def to_pinyin(s):
-        return ''.join(lazy_pinyin(s or ""))
+        return "".join(lazy_pinyin(s or ""))

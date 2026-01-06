@@ -9,12 +9,7 @@ from app.api.services.provider_service import ProviderService
 
 
 class ProviderController(BaseController[Provider, ProviderCreate, ProviderUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace: CurrentWorkspace
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace: CurrentWorkspace):
         super().__init__(Provider, session, user_id, workspace.id)
         self.user_id = user_id
         self.workspace = workspace

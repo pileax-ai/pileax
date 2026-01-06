@@ -13,7 +13,7 @@ def create_app() -> FastAPI:
         title=app_config.APPLICATION_NAME,
         version="0.0.1",
         openapi_url=f"{app_config.API_VERSION}/openapi.json",
-        docs_url=None
+        docs_url=None,
     )
     initialization(app)
 

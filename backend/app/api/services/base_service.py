@@ -69,25 +69,13 @@ class BaseService(Generic[ModelType]):
 
     def _check_owner(self, owner: Owner, obj: ModelType):
         if not obj:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"{self.repo.model.__name__} not found"
-            )
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"{self.repo.model.__name__} not found")
 
         if owner.tenant_id and hasattr(obj, "tenant_id") and str(obj.tenant_id) != str(owner.tenant_id):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Access denied"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
 
         if owner.workspace_id and hasattr(obj, "workspace_id") and str(obj.workspace_id) != str(owner.workspace_id):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Access denied"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
 
         if owner.user_id and hasattr(obj, "user_id") and str(obj.user_id) != str(owner.user_id):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Access denied"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")

@@ -18,8 +18,9 @@ def test_chat_model_litellm() -> None:
     model = model_cls(deepseek_api_key, model_name, base_url="", **extra)
 
     try:
-        m, tc = model.chat(None, [{"role": "user", "content": "Hello! How are you doing!"}],
-                                 {"temperature": 0.9, 'max_tokens': 50})
+        m, tc = model.chat(
+            None, [{"role": "user", "content": "Hello! How are you doing!"}], {"temperature": 0.9, "max_tokens": 50}
+        )
         print(f"success. {m} {tc}")
         if m.find("**ERROR**") >= 0:
             raise Exception(m)

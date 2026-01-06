@@ -7,12 +7,7 @@ from app.api.services.chat_service import ChatService
 
 
 class ChatController(BaseController[Message, MessageCreate, MessageUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace: CurrentWorkspace
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace: CurrentWorkspace):
         super().__init__(Message, session, user_id, workspace.id, workspace)
         self.service = ChatService(session, user_id, workspace)
 

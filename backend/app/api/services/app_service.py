@@ -16,12 +16,13 @@ class AppService(BaseService[App]):
             return app
 
         # Set default app's Id with tenant_id
-        return super().save(App(
-            id=self.workspace.tenant_id,
-            tenant_id=self.workspace.tenant_id,
-            workspace_id=self.workspace.id,
-            user_id=self.user_id,
-            name="default",
-            mode=mode
-        ))
-
+        return super().save(
+            App(
+                id=self.workspace.tenant_id,
+                tenant_id=self.workspace.tenant_id,
+                workspace_id=self.workspace.id,
+                user_id=self.user_id,
+                name="default",
+                mode=mode,
+            )
+        )

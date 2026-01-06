@@ -8,9 +8,7 @@ from app.api.models.provider_credential import Credential
 
 class ProviderDefaultModel(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "provider_default_model"
-    __table_args__ = (
-        UniqueConstraint("workspace_id", "model_type", name="unique_workspace_provider_model_type"),
-    )
+    __table_args__ = (UniqueConstraint("workspace_id", "model_type", name="unique_workspace_provider_model_type"),)
 
     workspace_id: uuid.UUID = uuid_field()
     provider: str = Field(...)

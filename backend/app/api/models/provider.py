@@ -7,9 +7,7 @@ from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_fiel
 
 
 class Provider(BaseSQLModel, BaseMixin, table=True):
-    __table_args__ = (
-        UniqueConstraint("workspace_id", "provider", name="unique_workspace_provider"),
-    )
+    __table_args__ = (UniqueConstraint("workspace_id", "provider", name="unique_workspace_provider"),)
 
     workspace_id: uuid.UUID = uuid_field()
     provider: str = Field(...)

@@ -28,16 +28,18 @@ class UserBookController(BaseController[UserBook, UserBookCreate, UserBookUpdate
         return self.service.delete_by_owner(Owner(user_id=self.user_id, workspace_id=self.workspace_id), id)
 
     def update_reading_progress(self, item_in: UserBookUpdateReadingProgress) -> UserBook:
-        user_book = self.service.find_one({
-            'user_id': self.user_id,
-            'book_id': item_in.book_id,
-        })
+        user_book = self.service.find_one(
+            {
+                "user_id": self.user_id,
+                "book_id": item_in.book_id,
+            }
+        )
         item = item_in.model_dump(by_alias=True)
         if user_book is None:
             user_book = super().save(UserBookCreate(**item))
 
         if user_book.reading_status == ReadStatus.NOT_STARTED:
-            item['readingStatus'] = ReadStatus.CURRENTLY_READING
+            item["readingStatus"] = ReadStatus.CURRENTLY_READING
 
-        item['id'] = user_book.id
+        item["id"] = user_book.id
         return self.update(UserBookUpdate(**item))

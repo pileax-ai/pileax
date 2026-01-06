@@ -1,6 +1,7 @@
 """
 Description: middlewares, exception handlers, and global setup etc.
 """
+
 import importlib
 import logging
 import operator
@@ -12,15 +13,15 @@ from fastapi import FastAPI
 logger = logging.getLogger(__name__)
 
 EXT_NAMES = [
-    'ai',
-    'cors',
-    'database',
-    'docs',
-    'exception',
-    'logging',
-    'perf',
-    'router',
-    'static',
+    "ai",
+    "cors",
+    "database",
+    "docs",
+    "exception",
+    "logging",
+    "perf",
+    "router",
+    "static",
 ]
 EXT_MODULES = [f"{__name__}.ext_{name}" for name in EXT_NAMES]
 

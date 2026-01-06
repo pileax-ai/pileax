@@ -1,5 +1,3 @@
-
-
 from app.api.models.base import BaseApiModel, BaseMixin
 
 

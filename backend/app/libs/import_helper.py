@@ -5,6 +5,7 @@ class ImportHelper:
     """
     Lazy Import Helper
     """
+
     _modules = {}
 
     @staticmethod
@@ -12,6 +13,7 @@ class ImportHelper:
         if module_name not in ImportHelper._modules:
             try:
                 import importlib
+
                 ImportHelper._modules[module_name] = importlib.import_module(module_name)
             except ImportError as e:
                 raise e

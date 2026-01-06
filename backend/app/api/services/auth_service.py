@@ -85,4 +85,3 @@ class AuthService:
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Invalid refresh token.",
             )
-

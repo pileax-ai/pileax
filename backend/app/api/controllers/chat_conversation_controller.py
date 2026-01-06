@@ -6,12 +6,7 @@ from app.constants.enums import LLMType
 
 
 class ChatConversationController(BaseController[Conversation, ConversationCreate, ConversationUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace: CurrentWorkspace
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace: CurrentWorkspace):
         super().__init__(Conversation, session, user_id, workspace.id)
         self.service = ConversationService(session, user_id, workspace)
 

@@ -51,7 +51,7 @@ dev-clean:
 # Backend Code Quality Commands
 format:
 	@echo "🎨 Running ruff format..."
-	@uv run --project api --dev ruff format ./api
+	@uv run --project backend --dev ruff format ./backend
 	@echo "✅ Code formatting complete"
 
 check:

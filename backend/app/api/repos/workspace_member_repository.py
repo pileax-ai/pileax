@@ -17,9 +17,7 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
 
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
-            select(WorkspaceMember, User)
-            .join(User, User.id == WorkspaceMember.user_id)
-            .where(WorkspaceMember.id == id)
+            select(WorkspaceMember, User).join(User, User.id == WorkspaceMember.user_id).where(WorkspaceMember.id == id)
         )
         result = self.session.exec(stmt).first()
         if result:
@@ -30,19 +28,14 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceMember: ['workspace_id', 'user_id'],
-            User: ['name'],
+            WorkspaceMember: ["workspace_id", "user_id"],
+            User: ["name"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(WorkspaceMember, User)
-            .join(User, User.id == WorkspaceMember.user_id)
-        )
-        count_stmt = (select(func.count())
-            .select_from(WorkspaceMember)
-            .join(User, User.id == WorkspaceMember.user_id)
-        )
+        stmt = select(WorkspaceMember, User).join(User, User.id == WorkspaceMember.user_id)
+        count_stmt = select(func.count()).select_from(WorkspaceMember).join(User, User.id == WorkspaceMember.user_id)
 
         if filters:
             stmt = stmt.where(*filters)

@@ -38,11 +38,7 @@ class UserBookRepository(BaseRepository[UserBook]):
         return [{"status": row.status, "count": row.count} for row in result.all()]
 
     def get_details(self, id: UUID) -> dict | None:
-        stmt = (
-            select(UserBook, Book)
-            .join(Book, Book.id == UserBook.book_id)
-            .where(UserBook.id == id)
-        )
+        stmt = select(UserBook, Book).join(Book, Book.id == UserBook.book_id).where(UserBook.id == id)
         result = self.session.exec(stmt).first()
         if result:
             user_book, book = result
@@ -52,19 +48,14 @@ class UserBookRepository(BaseRepository[UserBook]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            UserBook: ['workspace_id', 'user_id', 'reading_status'],
-            Book: ['title', 'extension'],
+            UserBook: ["workspace_id", "user_id", "reading_status"],
+            Book: ["title", "extension"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(UserBook, Book)
-            .join(Book, Book.id == UserBook.book_id)
-        )
-        count_stmt = (select(func.count())
-            .select_from(UserBook)
-            .join(Book, Book.id == UserBook.book_id)
-        )
+        stmt = select(UserBook, Book).join(Book, Book.id == UserBook.book_id)
+        count_stmt = select(func.count()).select_from(UserBook).join(Book, Book.id == UserBook.book_id)
         if filters:
             stmt = stmt.where(*filters)
             count_stmt = count_stmt.where(*filters)

@@ -31,9 +31,7 @@ class BookRepository(BaseRepository[Book]):
     def query_library(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
         # 1. Basic Filter
         filters = DbHelper.get_filters(Book, query.condition)
-        filters.append(
-            or_(Book.user_id == user_id, Book.workspace_id == workspace_id)
-        )
+        filters.append(or_(Book.user_id == user_id, Book.workspace_id == workspace_id))
 
         # 2. stmt
         stmt = select(Book)
@@ -62,10 +60,8 @@ class BookRepository(BaseRepository[Book]):
 
     @staticmethod
     def build_details(book: Book, user_book: UserBook | None = None) -> dict:
-
         return {
             **book.model_dump(),
-
             "user_book_id": user_book.id if user_book else None,
             "rating": user_book.rating if user_book else None,
             "reading_position": user_book.reading_position if user_book else None,

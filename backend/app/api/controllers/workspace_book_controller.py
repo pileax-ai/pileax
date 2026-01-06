@@ -43,10 +43,10 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
         return self.service.get_details(id)
 
     def query_details(self, query: PaginationQuery):
-        if query.condition.get('userId') is None:
-            query.condition['userId'] = self.user_id
-        if query.condition.get('workspaceId') is None:
-            query.condition['workspaceId'] = self.workspace_id
+        if query.condition.get("userId") is None:
+            query.condition["userId"] = self.user_id
+        if query.condition.get("workspaceId") is None:
+            query.condition["workspaceId"] = self.workspace_id
         return self.service.query_details(query)
 
     def get_stats(self):

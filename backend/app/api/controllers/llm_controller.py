@@ -5,12 +5,7 @@ from app.libs.provider_helper import ProviderHelper
 
 
 class LLMController:
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         pass
 
     def get_providers(self):
@@ -21,4 +16,3 @@ class LLMController:
         if not provider:
             raise HTTPException(status_code=404, detail=f"Provider {provider_id} not found")
         return provider
-

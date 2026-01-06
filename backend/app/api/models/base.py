@@ -17,6 +17,7 @@ class UUIDString(TypeDecorator):
     """
     UUID field
     """
+
     impl = CHAR(36)
     cache_ok = True
 
@@ -41,6 +42,7 @@ class JSONString(TypeDecorator):
     - MySQL: JSON
     - SQLite: TEXT
     """
+
     cache_ok = True
     impl = TEXT
 
@@ -84,6 +86,7 @@ class GUID(TypeDecorator):
     MySQL:      BINARY(16)
     SQLite:    CHAR(36)
     """
+
     impl = CHAR
     cache_ok = True
 
@@ -148,17 +151,15 @@ def utc_now():
     return datetime.now(UTC)
 
 
-def time_field(
-    *,
-    nullable: Union[bool, UndefinedType] = True,
-    comment: str | None = None
-):
+def time_field(*, nullable: Union[bool, UndefinedType] = True, comment: str | None = None):
     return Field(
         default_factory=utc_now if not nullable else None,
         nullable=nullable,
         sa_column_kwargs={
             "comment": comment,
-        } if comment else {},
+        }
+        if comment
+        else {},
     )
 
 
@@ -171,23 +172,23 @@ class BaseSQLModel(SQLModel):
 
 
 class BaseApiModel(BaseModel):
-    model_config = ConfigDict(
-        alias_generator=StringHelper.to_camel,
-        validate_by_name=True,
-        from_attributes=True
-    )
+    model_config = ConfigDict(alias_generator=StringHelper.to_camel, validate_by_name=True, from_attributes=True)
 
 
 class TimestampMixin:
     create_time: datetime = Field(
         default_factory=utc_now,
         nullable=False,
-        sa_column_kwargs={"comment": "Created time", },
+        sa_column_kwargs={
+            "comment": "Created time",
+        },
     )
     update_time: datetime = Field(
         default_factory=utc_now,
         nullable=False,
-        sa_column_kwargs={"comment": "Updated time", },
+        sa_column_kwargs={
+            "comment": "Updated time",
+        },
     )
 
 
@@ -200,4 +201,3 @@ class BaseMixin(TimestampMixin):
         sa_type=GUID,
         sa_column_kwargs={"primary_key": True, "unique": True},
     )
-

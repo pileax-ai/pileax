@@ -24,9 +24,11 @@ class LLMHelper:
                 assert provider in ChatModel, f"Chat model from {provider} is not supported yet."
                 model = ChatModel[provider](api_key, model_name, base_url, **extra)
                 try:
-                    m, tc = model.chat(None,
-                                       [{"role": "user", "content": "Hello! How are you doing!"}],
-                                       {"temperature": 0.9, 'max_tokens': 50})
+                    m, tc = model.chat(
+                        None,
+                        [{"role": "user", "content": "Hello! How are you doing!"}],
+                        {"temperature": 0.9, "max_tokens": 50},
+                    )
                     if m.find("**ERROR**") >= 0:
                         raise Exception(m)
                     chat_passed = True
@@ -35,7 +37,7 @@ class LLMHelper:
             elif not rerank_passed and model_type == LLMType.RERANK.value:
                 pass
             if any([embd_passed, chat_passed, rerank_passed]):
-                msg = ''
+                msg = ""
                 break
             if msg:
                 raise HTTPException(status_code=403, detail=f"{msg}")

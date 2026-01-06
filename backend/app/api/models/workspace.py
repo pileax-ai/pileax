@@ -18,15 +18,9 @@ class Workspace(BaseSQLModel, BaseMixin, table=True):
     name: str = Field(..., max_length=100)
     icon: str | None = Field(default=None)
     type: str = Field(
-        default=WorkspaceType.PERSONAL,
-        max_length=32,
-        sa_column=Column(String(32), default=WorkspaceType.PERSONAL)
+        default=WorkspaceType.PERSONAL, max_length=32, sa_column=Column(String(32), default=WorkspaceType.PERSONAL)
     )
-    status: int = Field(
-        default=Status.ACTIVE,
-        sa_type=Integer,
-        sa_column_kwargs={"default": Status.ACTIVE}
-    )
+    status: int = Field(default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"default": Status.ACTIVE})
 
 
 class WorkspaceBase(BaseApiModel):

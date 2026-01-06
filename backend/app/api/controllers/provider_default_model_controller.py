@@ -1,4 +1,3 @@
-
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
 from app.api.models.provider_default_model import (
@@ -9,13 +8,10 @@ from app.api.models.provider_default_model import (
 from app.api.services.provider_model_service import ProviderDefaultModelService
 
 
-class ProviderDefaultModelController(BaseController[ProviderDefaultModel, ProviderDefaultModelCreate, ProviderDefaultModelUpdate]):
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+class ProviderDefaultModelController(
+    BaseController[ProviderDefaultModel, ProviderDefaultModelCreate, ProviderDefaultModelUpdate]
+):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         super().__init__(ProviderDefaultModel, session, user_id, workspace_id)
         self.service = ProviderDefaultModelService(session, user_id, workspace_id)
         self.workspace_id = workspace_id
@@ -24,9 +20,7 @@ class ProviderDefaultModelController(BaseController[ProviderDefaultModel, Provid
         return self.service.create_update(item_in, self.workspace_id)
 
     def find_all(self) -> list[ProviderDefaultModel]:
-        return self.service.find_all({
-            'workspace_id': self.workspace_id
-        })
+        return self.service.find_all({"workspace_id": self.workspace_id})
 
     def get_by_type(self, model_type: str) -> ProviderDefaultModel:
         return self.service.get_by_type(self.workspace_id, model_type)

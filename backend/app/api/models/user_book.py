@@ -17,9 +17,7 @@ class ReadStatus(enum.IntEnum):
 
 class UserBook(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "user_book"
-    __table_args__ = (
-        UniqueConstraint("user_id", "book_id", name="unique_user_book"),
-    )
+    __table_args__ = (UniqueConstraint("user_id", "book_id", name="unique_user_book"),)
 
     book_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
@@ -27,16 +25,14 @@ class UserBook(BaseSQLModel, BaseMixin, table=True):
     reading_position: str | None = Field(default="")
     reading_percentage: float | None = Field(default=0.0, ge=0.0, le=100.0)
     reading_status: int = Field(
-        default=ReadStatus.NOT_STARTED, ge=0, le=3,
+        default=ReadStatus.NOT_STARTED,
+        ge=0,
+        le=3,
         sa_type=Integer,
-        sa_column_kwargs={"server_default": text(str(ReadStatus.NOT_STARTED))}
+        sa_column_kwargs={"server_default": text(str(ReadStatus.NOT_STARTED))},
     )
     reading_status_time: datetime | None = time_field()
-    tags: str = Field(
-        default="[]",
-        sa_type=String,
-        sa_column_kwargs={"server_default": "[]"}
-    )
+    tags: str = Field(default="[]", sa_type=String, sa_column_kwargs={"server_default": "[]"})
 
 
 class UserBookBase(BaseApiModel):

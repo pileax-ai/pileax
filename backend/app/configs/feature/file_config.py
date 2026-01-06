@@ -11,4 +11,3 @@ class FileConfig(BaseSettings):
         description="Public file root path",
         default="./public",
     )
-

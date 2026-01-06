@@ -33,10 +33,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             select(UserBook.reading_status.label("status"), func.count().label("count"))
             .select_from(WorkspaceBook)
             .join(UserBook, UserBook.book_id == WorkspaceBook.book_id, isouter=True)
-            .filter(
-                WorkspaceBook.workspace_id == str(workspace_id),
-                UserBook.user_id == str(user_id)
-            )
+            .filter(WorkspaceBook.workspace_id == str(workspace_id), UserBook.user_id == str(user_id))
             .group_by(UserBook.reading_status)
         )
         # print(stmt.compile(compile_kwargs={"literal_binds": True}))
@@ -47,7 +44,11 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         stmt = (
             select(WorkspaceBook, Book, UserBook)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
-            .join(UserBook, UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id, isouter=True)
+            .join(
+                UserBook,
+                UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id,
+                isouter=True,
+            )
             .where(WorkspaceBook.id == id)
         )
         result = self.session.exec(stmt).first()
@@ -59,28 +60,30 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceBook: ['workspace_id', 'user_id'],
-            Book: ['title', 'extension'],
-            UserBook: ['reading_status'],
+            WorkspaceBook: ["workspace_id", "user_id"],
+            Book: ["title", "extension"],
+            UserBook: ["reading_status"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(WorkspaceBook, Book, UserBook)
+        stmt = (
+            select(WorkspaceBook, Book, UserBook)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
             .join(
                 UserBook,
                 and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
-                isouter=True
+                isouter=True,
             )
         )
-        count_stmt = (select(func.count())
+        count_stmt = (
+            select(func.count())
             .select_from(WorkspaceBook)
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
             .join(
                 UserBook,
                 and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
-                isouter=True
+                isouter=True,
             )
         )
         if filters:
@@ -106,7 +109,6 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
 
     @staticmethod
     def build_details(workspace_book: WorkspaceBook, book: Book, user_book: UserBook | None = None) -> dict:
-
         return {
             **workspace_book.model_dump(),
             "owner": book.user_id,
@@ -122,7 +124,6 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "published": book.published,
             "scope": book.scope,
             "book_rating": book.rating,
-
             "user_book_id": user_book.id if user_book else None,
             "rating": user_book.rating if user_book else None,
             "reading_position": user_book.reading_position if user_book else None,

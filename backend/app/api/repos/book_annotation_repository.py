@@ -16,16 +16,13 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        filters = DbHelper.get_filters(BookAnnotation, query.condition, ['note', 'book_id', 'type', 'workspace_id', 'user_id'])
+        filters = DbHelper.get_filters(
+            BookAnnotation, query.condition, ["note", "book_id", "type", "workspace_id", "user_id"]
+        )
 
         # 2. stmt
-        stmt = (select(BookAnnotation, Book)
-            .join(Book, Book.id == BookAnnotation.book_id)
-        )
-        count_stmt = (select(func.count())
-            .select_from(BookAnnotation)
-            .join(Book, Book.id == BookAnnotation.book_id)
-        )
+        stmt = select(BookAnnotation, Book).join(Book, Book.id == BookAnnotation.book_id)
+        count_stmt = select(func.count()).select_from(BookAnnotation).join(Book, Book.id == BookAnnotation.book_id)
         if filters:
             stmt = stmt.where(*filters)
             count_stmt = count_stmt.where(*filters)

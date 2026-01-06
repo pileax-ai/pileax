@@ -16,10 +16,12 @@ class ProviderService(BaseService[Provider]):
         self.credential_service = ProviderCredentialService(session)
 
     def save(self, provider_in: Provider) -> Provider:
-        provider = self.find_one({
-            "workspace_id": provider_in.workspace_id,
-            "provider": provider_in.provider,
-        })
+        provider = self.find_one(
+            {
+                "workspace_id": provider_in.workspace_id,
+                "provider": provider_in.provider,
+            }
+        )
         if provider:
             return self.update_credential_id(provider, provider_in.credential_id)
 
@@ -37,20 +39,21 @@ class ProviderService(BaseService[Provider]):
 
         exist_credential = self.credential_service.exists(workspace_id=workspace_id, provider=provider.provider)
         if exist_credential:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Provider credential exists"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Provider credential exists")
 
         return super().delete_by_owner(user_id, workspace_id, id)
 
     def find_all_provider(self, workspace_id: UUID) -> list[Provider]:
-        providers = super().find_all({
-            'workspace_id': workspace_id,
-        })
-        credentials = self.credential_service.find_all({
-            'workspace_id': workspace_id,
-        })
+        providers = super().find_all(
+            {
+                "workspace_id": workspace_id,
+            }
+        )
+        credentials = self.credential_service.find_all(
+            {
+                "workspace_id": workspace_id,
+            }
+        )
 
         all_providers = []
         for p in providers:
@@ -61,9 +64,11 @@ class ProviderService(BaseService[Provider]):
         return all_providers
 
     def find_all_model(self, workspace_id: UUID):
-        providers = super().find_all({
-            'workspace_id': workspace_id,
-        })
+        providers = super().find_all(
+            {
+                "workspace_id": workspace_id,
+            }
+        )
 
         all_models = []
         for p in providers:
@@ -79,6 +84,4 @@ class ProviderService(BaseService[Provider]):
 
     def find_model_by_type(self, workspace_id: UUID, model_type: str) -> Any:
         all_models = self.find_all_model(workspace_id)
-        return [
-            x for x in all_models if x["model_type"].lower() == model_type.lower()
-        ]
+        return [x for x in all_models if x["model_type"].lower() == model_type.lower()]

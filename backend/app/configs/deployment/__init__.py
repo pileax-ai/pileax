@@ -38,7 +38,4 @@ class DeploymentConfig(BaseSettings):
         default="PRODUCTION",
     )
 
-    PORT: int = Field(
-        description="Listening port for deployment",
-        default=8000
-    )
+    PORT: int = Field(description="Listening port for deployment", default=8000)

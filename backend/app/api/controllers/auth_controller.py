@@ -17,11 +17,13 @@ UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
 class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, session,
-                 request: Optional[Request] = None,
-                 response: Optional[Response] = None,
-                 user_id: Optional[UUID] = None
-                 ):
+    def __init__(
+        self,
+        session,
+        request: Optional[Request] = None,
+        response: Optional[Response] = None,
+        user_id: Optional[UUID] = None,
+    ):
         self.service = AuthService(session)
         self.session = session
         self.request = request

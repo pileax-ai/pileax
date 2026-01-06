@@ -22,10 +22,7 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
         stmt = (
             select(Workspace)
             .join(WorkspaceMember, WorkspaceMember.workspace_id == Workspace.id)
-            .where(
-                WorkspaceMember.user_id == user_id,
-                Workspace.status == Status.ACTIVE
-            )
+            .where(WorkspaceMember.user_id == user_id, Workspace.status == Status.ACTIVE)
         )
         workspaces: list[Workspace] = list(self.session.exec(stmt).all())
         return workspaces
@@ -47,16 +44,15 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
         filter_mapping = {
-            WorkspaceMember: ['workspace_id', 'user_id'],
-            Workspace: ['name', 'plan', 'type'],
+            WorkspaceMember: ["workspace_id", "user_id"],
+            Workspace: ["name", "plan", "type"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (select(WorkspaceMember, Workspace)
-            .join(Workspace, Workspace.id == WorkspaceMember.workspace_id)
-        )
-        count_stmt = (select(func.count())
+        stmt = select(WorkspaceMember, Workspace).join(Workspace, Workspace.id == WorkspaceMember.workspace_id)
+        count_stmt = (
+            select(func.count())
             .select_from(WorkspaceMember)
             .join(Workspace, Workspace.id == WorkspaceMember.workspace_id)
         )

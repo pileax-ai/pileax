@@ -65,7 +65,10 @@ class Base(ABC):
 
         keywords_mapping = [
             (["quota", "capacity", "credit", "billing", "balance", "欠费"], LLMErrorCode.ERROR_QUOTA),
-            (["rate limit", "429", "tpm limit", "too many requests", "requests per minute"], LLMErrorCode.ERROR_RATE_LIMIT),
+            (
+                ["rate limit", "429", "tpm limit", "too many requests", "requests per minute"],
+                LLMErrorCode.ERROR_RATE_LIMIT,
+            ),
             (["auth", "key", "apikey", "401", "forbidden", "permission"], LLMErrorCode.ERROR_AUTHENTICATION),
             (["invalid", "bad request", "400", "format", "malformed", "parameter"], LLMErrorCode.ERROR_INVALID_REQUEST),
             (["server", "503", "502", "504", "500", "unavailable"], LLMErrorCode.ERROR_SERVER),
@@ -105,7 +108,7 @@ class Base(ABC):
             "tool_choice",
             "logprobs",
             "top_logprobs",
-            "extra_headers"
+            "extra_headers",
         }
 
         gen_conf = {k: v for k, v in gen_conf.items() if k in allowed_conf}
@@ -136,7 +139,9 @@ class Base(ABC):
 
         if self._should_retry(error_code):
             delay = self._get_delay()
-            logger.warning(f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})")
+            logger.warning(
+                f"Error: {error_code}. Retrying in {delay:.2f} seconds... (Attempt {attempt + 1}/{self.max_retries})"
+            )
             time.sleep(delay)
             return None
 
@@ -177,16 +182,24 @@ class Base(ABC):
         reasoning_start = False
 
         if kwargs.get("stop") or "stop" in gen_conf:
-            response = self.client.chat.completions.create(model=self.model_name, messages=history, stream=True, **gen_conf, stop=kwargs.get("stop"))
+            response = self.client.chat.completions.create(
+                model=self.model_name, messages=history, stream=True, **gen_conf, stop=kwargs.get("stop")
+            )
         else:
-            response = self.client.chat.completions.create(model=self.model_name, messages=history, stream=True, **gen_conf)
+            response = self.client.chat.completions.create(
+                model=self.model_name, messages=history, stream=True, **gen_conf
+            )
 
         for resp in response:
             if not resp.choices:
                 continue
             if not resp.choices[0].delta.content:
                 resp.choices[0].delta.content = ""
-            if kwargs.get("with_reasoning", True) and hasattr(resp.choices[0].delta, "reasoning_content") and resp.choices[0].delta.reasoning_content:
+            if (
+                kwargs.get("with_reasoning", True)
+                and hasattr(resp.choices[0].delta, "reasoning_content")
+                and resp.choices[0].delta.reasoning_content
+            ):
                 ans = ""
                 if not reasoning_start:
                     reasoning_start = True

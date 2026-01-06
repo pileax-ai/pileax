@@ -11,7 +11,7 @@ class BookService(BaseService[Book]):
         super().__init__(Book, session, BookRepository)
 
     def get_by_uuid(self, uuid: str, tenant_id: UUID) -> Book:
-        return self.find_one({'tenant_id': tenant_id, 'uuid': uuid}, True)
+        return self.find_one({"tenant_id": tenant_id, "uuid": uuid}, True)
 
     def get_details(self, id: UUID, user_id: UUID) -> BookDetails:
         return self.repo.get_details(id, user_id)

@@ -11,29 +11,26 @@ from app.api.services.workspace_member_service import WorkspaceMemberService
 
 
 class WorkspaceMemberController:
-    def __init__(
-        self,
-        session: SessionDep,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         self.service = WorkspaceMemberService(session)
         self.user_service = UserService(session)
         self.user_id = user_id
         self.workspace_id = workspace_id
 
     def invite(self, item_in: WorkspaceMemberInvite) -> WorkspaceMember:
-        user = self.user_service.find_one({'email': item_in.email})
+        user = self.user_service.find_one({"email": item_in.email})
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
 
-        return self.service.invite(WorkspaceMember(
-            workspace_id=self.workspace_id,
-            user_id=user.id,
-            role=item_in.role,
-            invited_by=self.user_id,
-            status=Status.PENDING
-        ))
+        return self.service.invite(
+            WorkspaceMember(
+                workspace_id=self.workspace_id,
+                user_id=user.id,
+                role=item_in.role,
+                invited_by=self.user_id,
+                status=Status.PENDING,
+            )
+        )
 
     def accept(self, id: UUID) -> WorkspaceMember:
         wm = self.service.get(id)

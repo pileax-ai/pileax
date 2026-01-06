@@ -1,4 +1,3 @@
-
 import logging
 import os
 import sys
@@ -14,8 +13,8 @@ order = 1
 def setup(app: FastAPI):
     app_name = app_config.APPLICATION_CODE
     filename = get_cache_dir("log", "console.log")
-    format = f'%(asctime)s - %(levelname)s \t[{app_name}] %(process)d [%(name)s] %(funcName)s \t: %(message)s'
-    datefmt = '%Y-%m-%d %H:%M:%S'
+    format = f"%(asctime)s - %(levelname)s \t[{app_name}] %(process)d [%(name)s] %(funcName)s \t: %(message)s"
+    datefmt = "%Y-%m-%d %H:%M:%S"
 
     # Log path
     if not os.path.exists(os.path.dirname(filename)):
@@ -24,7 +23,7 @@ def setup(app: FastAPI):
     formatter = logging.Formatter(format, datefmt)
 
     # File handler
-    file_handler = logging.FileHandler(filename, encoding='utf-8', mode='w')
+    file_handler = logging.FileHandler(filename, encoding="utf-8", mode="w")
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 

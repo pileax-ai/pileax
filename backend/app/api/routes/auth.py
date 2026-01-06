@@ -35,8 +35,7 @@ def signin(
     """
     signin for frontend with standard response
     """
-    return (AuthController(session, request, response)
-            .signin(form_data.username, form_data.password))
+    return AuthController(session, request, response).signin(form_data.username, form_data.password)
 
 
 @router.api_post("/refresh-token", response_model=TokenPublic)
@@ -48,8 +47,7 @@ def refresh_token(
     """
     Refresh access token
     """
-    return (AuthController(session, request, response)
-           .refresh_token())
+    return AuthController(session, request, response).refresh_token()
 
 
 @router.post("/token", response_model=TokenPublic)
@@ -62,5 +60,4 @@ def get_token(
     """
     token for swagger and oauth2
     """
-    return (AuthController(session, request, response)
-            .get_token(form_data.username, form_data.password))
+    return AuthController(session, request, response).get_token(form_data.username, form_data.password)

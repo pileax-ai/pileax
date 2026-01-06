@@ -9,12 +9,7 @@ from app.libs.file_uploader import FileUploader
 
 
 class FileUploadController(BaseController[FileMeta, FileMetaCreate, FileMetaUpdate]):
-    def __init__(
-        self,
-        session,
-        user_id: CurrentUserId,
-        workspace_id: CurrentWorkspaceId
-    ):
+    def __init__(self, session, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
         super().__init__(FileMeta, session, user_id, workspace_id)
 
     async def upload(self, file: UploadFile) -> Any:

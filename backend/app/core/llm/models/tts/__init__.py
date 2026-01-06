@@ -9,6 +9,6 @@ Modifications made by PileaX AI.
 from . import base, tongyi
 
 __all__ = [
-    'base',
-    'tongyi',
+    "base",
+    "tongyi",
 ]

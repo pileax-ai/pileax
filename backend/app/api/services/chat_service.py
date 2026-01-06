@@ -32,14 +32,13 @@ class ChatService(BaseService[Message]):
     def completions(self, item_in: MessageCreate) -> Any:
         conversation = self.conversation_service.get(item_in.conversation_id)
         if conversation is None:
-            raise HTTPException(status_code=404,
-                                detail=f"Conversation {item_in.conversation_id} not found.")
+            raise HTTPException(status_code=404, detail=f"Conversation {item_in.conversation_id} not found.")
 
         pdm_credential = None
 
         # user specific model
         if item_in.model_provider:
-            provider_credential = self.pc_service.find_one({'provider': item_in.model_provider})
+            provider_credential = self.pc_service.find_one({"provider": item_in.model_provider})
             if provider_credential:
                 pdm_credential = ProviderDefaultModelCredential(
                     provider=provider_credential.provider,
@@ -52,7 +51,9 @@ class ChatService(BaseService[Message]):
             pdm_credential = self.pdm_service.get_default_model_credential(self.workspace.id, LLMType.CHAT)
 
         if pdm_credential is None:
-            raise HTTPException(status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet.")
+            raise HTTPException(
+                status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet."
+            )
 
         # message
         messages = self.find_by_conversation(item_in.conversation_id)
@@ -64,7 +65,7 @@ class ChatService(BaseService[Message]):
 
         # Chat completions
         llm_service = LLMService(pdm_credential)
-        generator = llm_service.chat_streamly(None, history, {"temperature": 0.9, 'max_tokens': 50})
+        generator = llm_service.chat_streamly(None, history, {"temperature": 0.9, "max_tokens": 50})
 
         content = ""
         reasoning_content = ""
@@ -82,17 +83,14 @@ class ChatService(BaseService[Message]):
                         continue
 
                     # Prepare sse message
-                    content_type = 'content'
+                    content_type = "content"
                     if delta_ans.startswith("<think>") or delta_ans.endswith("</think>"):
-                        content_type = 'reasoning'
+                        content_type = "reasoning"
                         delta_ans = re.sub(r"</?think>", "", delta_ans)
                         reasoning_content += delta_ans
                     else:
                         content += delta_ans
-                    data = {
-                        "type": content_type,
-                        "content": delta_ans
-                    }
+                    data = {"type": content_type, "content": delta_ans}
                     yield f"data: {json.dumps(data)}\n\n"
 
                 # Done
@@ -126,7 +124,9 @@ class ChatService(BaseService[Message]):
         )
 
     def find_by_conversation(self, conversation_id: UUID) -> list[Message]:
-        return super().find_all({
-            'conversation_id': conversation_id,
-            'user_id': self.user_id,
-        })
+        return super().find_all(
+            {
+                "conversation_id": conversation_id,
+                "user_id": self.user_id,
+            }
+        )

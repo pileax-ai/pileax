@@ -24,7 +24,7 @@ FileAllowedTypes = {
         "fb2",
         "cbz",
         "pdf",
-    ]
+    ],
 }
 
 
@@ -63,7 +63,7 @@ class BookUploader:
         }
 
     def _get_filename(self, file: UploadFile) -> str:
-        name = 'book' if self.is_book(file) else 'cover'
+        name = "book" if self.is_book(file) else "cover"
         ext = Path(file.filename).suffix
         return f"{name}{ext}"
 
@@ -72,12 +72,12 @@ class BookUploader:
         file: 可以是 UploadFile 或文件名字符串
         mimetype: 如果 file 不是 UploadFile，则需要传 mimetype
         """
-        if hasattr(file, 'filename'):
+        if hasattr(file, "filename"):
             filename = file.filename
             mimetype = file.content_type
         else:
             filename = file
 
-        extname = Path(filename).suffix.lower().replace('.', '')
+        extname = Path(filename).suffix.lower().replace(".", "")
 
         return any(mimetype and e in mimetype or e in extname for e in FileAllowedTypes["book"])

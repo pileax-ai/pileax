@@ -23,8 +23,9 @@ class LLMService:
 
         langfuse_keys = {}  # todo
         self.langfuse = None
-        langfuse = Langfuse(public_key=langfuse_keys.public_key, secret_key=langfuse_keys.secret_key,
-                            host=langfuse_keys.host)
+        langfuse = Langfuse(
+            public_key=langfuse_keys.public_key, secret_key=langfuse_keys.secret_key, host=langfuse_keys.host
+        )
         if langfuse.auth_check():
             self.langfuse = langfuse
             trace_id = self.langfuse.create_trace_id()
@@ -52,10 +53,12 @@ class LLMService:
 
     def chat_streamly(self, system: str, history: list, gen_conf: dict = {}, **kwargs):
         if self.langfuse:
-            generation = self.langfuse.start_generation(trace_context=self.trace_context,
-                                                        name="chat_streamly",
-                                                        model=self.model_name,
-                                                        input={"system": system, "history": history})
+            generation = self.langfuse.start_generation(
+                trace_context=self.trace_context,
+                name="chat_streamly",
+                model=self.model_name,
+                input={"system": system, "history": history},
+            )
 
         ans = ""
         chat_partial = partial(self.mdl.chat_streamly, system, history, gen_conf)
