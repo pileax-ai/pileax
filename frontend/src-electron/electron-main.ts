@@ -10,6 +10,8 @@ import { spaServer } from './server/spa-server'
 import { WindowManager } from './app/window-manager'
 
 remoteMain.initialize()
+Application.initApp()
+
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
 let mainWindow = WindowManager.getMainWindow()

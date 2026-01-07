@@ -1,6 +1,5 @@
-import { ipcMain, nativeTheme } from 'electron'
+import { app, ipcMain, nativeTheme } from 'electron'
 import fs from 'node:fs'
-import path from 'node:path'
 
 import {
   readFile,
@@ -27,6 +26,13 @@ export class Application {
   static reload() {
     Application.initPath()
     Application.initLog()
+  }
+
+  static initApp() {
+    if (process.platform === 'linux') {
+      app.commandLine.appendSwitch('no-sandbox')
+      app.commandLine.appendSwitch('disable-setuid-sandbox')
+    }
   }
 
   static initPath() {
