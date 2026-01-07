@@ -318,12 +318,6 @@ export default defineConfig(((ctx) => {
               Type: 'Application'
             }
           },
-          appData: {
-            name: 'PileaX',
-            summary: 'One-stop AI knowledge base system',
-            description: 'PileaX is a one-stop AI knowledge base system',
-            homepage: 'https://pileax.ai'
-          }
         },
         win: {
           target: ['nsis']
