@@ -311,10 +311,12 @@ export default defineConfig(((ctx) => {
           category: 'Utility',
           icon: 'src-electron/icons/icon.png',
           desktop: {
-            Name: 'PileaX',
-            Comment: 'PileaX is a one-stop AI knowledge base system',
-            StartupWMClass: 'PileaX',
-            Type: 'Application'
+            entry: {
+              Name: 'PileaX',
+              Comment: 'PileaX is a one-stop AI knowledge base system',
+              StartupWMClass: 'PileaX',
+              Type: 'Application'
+            }
           },
           appData: {
             name: 'PileaX',
