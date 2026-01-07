@@ -286,7 +286,7 @@ export default defineConfig(((ctx) => {
 
         appId: 'ai.pileax.desktop',
         productName: 'PileaX',
-        metadata: {
+        extraMetadata: {
           homepage: 'https://pileax.ai',
           description: 'PileaX is a one-stop AI knowledge base system',
           license: 'MIT',
