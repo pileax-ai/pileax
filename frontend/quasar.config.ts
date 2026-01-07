@@ -2,12 +2,13 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app/wrappers'
+import type { ConfigureCallback } from '#q-app'
 import { fileURLToPath } from 'node:url'
 import path from 'path'
 import { viteConfig } from './core/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng'
 
-export default defineConfig((ctx) => {
+export default defineConfig(((ctx) => {
   console.log('ctx', ctx)
   let mode = ctx.modeName
   const targetName = (ctx as Indexable).targetName
@@ -286,10 +287,10 @@ export default defineConfig((ctx) => {
         appId: 'ai.pileax.desktop',
         productName: 'PileaX',
         mac: {
-          // identity: null,
+          target: ['dmg'],
           category: 'public.app-category.productivity',
           icon: 'src-electron/icons/icon.icns',
-          target: ['dmg'],
+          // identity: null,
           hardenedRuntime: true,
           gatekeeperAssess: false,
           entitlements: 'src-electron/mac/entitlements.mac.plist',
@@ -300,7 +301,18 @@ export default defineConfig((ctx) => {
           ],
         },
         linux: {
-          target: 'AppImage'
+          target: [
+            { target: 'AppImage', arch: ['x64', 'arm64'] },
+            { target: 'deb', arch: ['x64', 'arm64'] },
+            { target: 'rpm', arch: ['x64', 'arm64'] }
+          ],
+          category: 'Utility',
+          icon: 'src-electron/icons/icon.png',
+          desktop: {
+            Name: 'PileaX',
+            Comment: 'PileaX one-stop AI knowledge base system',
+            StartupWMClass: 'PileaX'
+          }
         },
         win: {
           target: ['nsis']
@@ -340,4 +352,4 @@ export default defineConfig((ctx) => {
       extraScripts: []
     }
   }
-})
+}) as ConfigureCallback)
