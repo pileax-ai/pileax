@@ -307,20 +307,20 @@ export default defineConfig(((ctx) => {
           ],
         },
         linux: {
-          target: [
-            { target: 'AppImage', arch: ['x64', 'arm64'] },
-            { target: 'deb', arch: ['x64', 'arm64'] },
-            { target: 'rpm', arch: ['x64', 'arm64'] }
-          ],
+          target: ['AppImage', 'deb', 'rpm'],
           category: 'Utility',
           icon: 'src-electron/icons/icon.png',
           desktop: {
-            entry: {
-              Name: 'PileaX',
-              Comment: 'PileaX is a one-stop AI knowledge base system',
-              StartupWMClass: 'PileaX',
-              Type: 'Application'
-            }
+            Name: 'PileaX',
+            Comment: 'PileaX is a one-stop AI knowledge base system',
+            StartupWMClass: 'PileaX',
+            Type: 'Application'
+          },
+          appData: {
+            name: 'PileaX',
+            summary: 'One-stop AI knowledge base system',
+            description: 'PileaX is a one-stop AI knowledge base system',
+            homepage: 'https://pileax.ai'
           }
         },
         win: {
