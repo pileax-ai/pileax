@@ -286,6 +286,12 @@ export default defineConfig(((ctx) => {
 
         appId: 'ai.pileax.desktop',
         productName: 'PileaX',
+        metadata: {
+          homepage: 'https://pileax.ai',
+          description: 'PileaX is a one-stop AI knowledge base system',
+          license: 'MIT',
+        },
+
         mac: {
           target: ['dmg'],
           category: 'public.app-category.productivity',
@@ -311,7 +317,7 @@ export default defineConfig(((ctx) => {
           desktop: {
             entry: {
               Name: 'PileaX',
-              Comment: 'PileaX one-stop AI knowledge base system',
+              Comment: 'PileaX is a one-stop AI knowledge base system',
               StartupWMClass: 'PileaX',
               Type: 'Application'
             }
