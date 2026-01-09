@@ -13,6 +13,8 @@ export default defineConfig(((ctx) => {
   let mode = ctx.modeName
   const targetName = (ctx as Indexable).targetName
   if (targetName) mode += '-' + targetName
+  const macSign = process.env.CI ? {} : { identity: null }
+
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -299,10 +301,10 @@ export default defineConfig(((ctx) => {
         ],
 
         mac: {
+          ...macSign,
           target: ['dmg'],
           category: 'public.app-category.productivity',
           icon: 'src-electron/icons/icon.icns',
-          // identity: null,
           hardenedRuntime: true,
           gatekeeperAssess: false,
           entitlements: 'src-electron/mac/entitlements.mac.plist',
