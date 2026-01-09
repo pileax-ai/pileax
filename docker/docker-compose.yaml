@@ -51,7 +51,7 @@ services:
     volumes:
       - ${PGDATA_HOST_VOLUME:-./volumes/db/data}:/var/lib/postgresql/data
     ports:
-      - "${EXPOSE_POSTGRES_PORT:-15432}:5432"
+      - "${EXPOSE_POSTGRES_PORT:-5432}:5432"
     healthcheck:
       test:
         [
