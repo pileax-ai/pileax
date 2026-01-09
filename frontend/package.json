@@ -87,6 +87,7 @@
     "bing-translate-api": "^4.2.0",
     "electron": "^34.2.0",
     "electron-builder": "^26.0.12",
+    "electron-updater": "^6.7.3",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^9.30.0",

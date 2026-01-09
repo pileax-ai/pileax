@@ -291,6 +291,12 @@ export default defineConfig(((ctx) => {
           description: 'PileaX is a one-stop AI knowledge base system',
           license: 'MIT',
         },
+        publish: [
+          {
+            provider: 'generic',
+            url: 'https://update.yourdomain.com/'
+          }
+        ],
 
         mac: {
           target: ['dmg'],

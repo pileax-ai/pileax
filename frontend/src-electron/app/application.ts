@@ -9,9 +9,10 @@ import {
 import { pathManager } from './path-manager'
 import { logManager } from './log-manager'
 import { TrayManager } from './tray-manager'
+import { updaterManager } from './updater-manager'
 import { server } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
-import { PROTOCOL_SCHEME, VIRTUAL_HOST, VIRTUAL_URL } from './constant'
+import { PROTOCOL_SCHEME, VIRTUAL_HOST } from './constant'
 import { joinPath } from '../utils/path'
 
 let trayManager: TrayManager
@@ -33,6 +34,10 @@ export class Application {
       app.commandLine.appendSwitch('no-sandbox')
       app.commandLine.appendSwitch('disable-setuid-sandbox')
     }
+  }
+
+  static initUpdater() {
+    updaterManager.check()
   }
 
   static initPath() {
