@@ -2,7 +2,7 @@ x-shared-env: &shared-api-worker-env
   DB_USERNAME: ${DB_USERNAME:-postgres}
   DB_PASSWORD: ${DB_PASSWORD:-admin123456}
   DB_HOST: ${DB_HOST:-db}
-  DB_PORT: ${DB_PORT:-15432}
+  DB_PORT: ${DB_PORT:-5432}
   DB_DATABASE: ${DB_DATABASE:-pileax}
   WEB_API_CORS_ALLOW_ORIGINS: ${WEB_API_CORS_ALLOW_ORIGINS:-http://localhost:9610}
 
@@ -51,7 +51,7 @@ services:
     volumes:
       - ${PGDATA_HOST_VOLUME:-./volumes/db/data}:/var/lib/postgresql/data
     ports:
-      - "${EXPOSE_POSTGRES_PORT:-15432}:15432"
+      - "${EXPOSE_POSTGRES_PORT:-15432}:5432"
     healthcheck:
       test:
         [

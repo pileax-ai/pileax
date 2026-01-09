@@ -85,6 +85,16 @@ build-api:
 	docker build -t $(API_IMAGE):$(VERSION) ./backend
 	@echo "API Docker image built successfully: $(API_IMAGE):$(VERSION)"
 
+buildx-web:
+	@echo "🌐 Building web Docker image: $(WEB_IMAGE):$(VERSION)..."
+	docker buildx build --platform linux/amd64,linux/arm64 -t $(WEB_IMAGE):$(VERSION) --push ./frontend
+	@echo "Web Docker image built successfully: $(WEB_IMAGE):$(VERSION)"
+
+buildx-api:
+	@echo "🥏 Building API Docker image: $(API_IMAGE):$(VERSION)..."
+	docker buildx build --platform linux/amd64,linux/arm64 -t $(API_IMAGE):$(VERSION) --push ./backend
+	@echo "API Docker image built successfully: $(API_IMAGE):$(VERSION)"
+
 # Push Docker images
 push-web:
 	@echo "📦 Pushing web Docker image: $(WEB_IMAGE):$(VERSION)..."
@@ -131,6 +141,9 @@ help:
 	@echo "  make build-all      - Build all Docker images"
 	@echo "  make push-all       - Push all Docker images"
 	@echo "  make build-push-all - Build and push all Docker images"
+	@echo ""
+	@echo "Docker Build Multiple Platforms:"
+	@echo "  make buildx-web      - Build and push web Docker image"
 
 # Phony targets
 .PHONY: build-web build-api push-web push-api build-all push-all build-push-all dev-setup prepare-docker prepare-web prepare-api dev-clean help format check lint type-check
