@@ -12,7 +12,6 @@ from app.api.models.book import Book, BookCreate, BookDetails, BookPublic, BookU
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate
-from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.book_service import BookService
 from app.api.services.workspace_book_service import WorkspaceBookService
 from app.libs.book_uploader import BookUploader

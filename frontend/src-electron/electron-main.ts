@@ -85,7 +85,7 @@ app.whenReady().then(async () => {
   await spaServer.start()
   await server.start()
   await createWindow()
-  Application.initUpdater()
+  // Application.initUpdater()
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     // Remove X-Frame-Options to allow open in iframe.

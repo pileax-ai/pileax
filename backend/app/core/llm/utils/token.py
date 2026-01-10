@@ -1,73 +1,106 @@
 import os
+from threading import Lock
 
 import tiktoken
 
 from app.libs.file_utils import get_cache_dir
 
 
-def singleton(cls, *args, **kw):
-    instances = {}
-
-    def _singleton():
-        key = str(cls) + str(os.getpid())
-        if key not in instances:
-            instances[key] = cls(*args, **kw)
-        return instances[key]
-
-    return _singleton
+_ENCODING_NAME = "cl100k_base"
+_TIKTOKEN_CACHE_DIR = get_cache_dir("tiktoken")
+os.environ.setdefault("TIKTOKEN_CACHE_DIR", _TIKTOKEN_CACHE_DIR)
 
 
-tiktoken_cache_dir = get_cache_dir("tiktoken")
-os.environ["TIKTOKEN_CACHE_DIR"] = tiktoken_cache_dir
-encoder = tiktoken.get_encoding("cl100k_base")
+# ---------------------------------------------------------------------
+# Encoder singleton (process-level)
+# ---------------------------------------------------------------------
+_encoder = None
+_lock = Lock()
 
 
-def num_tokens_from_string(string: str) -> int:
-    """Returns the number of tokens in a text string."""
-    try:
-        return len(encoder.encode(string))
-    except Exception:
+def get_encoder():
+    """
+    Lazily load tiktoken encoder.
+    Must NOT be executed at import time.
+    """
+    global _encoder
+
+    if _encoder is not None:
+        return _encoder
+
+    with _lock:
+        if _encoder is not None:
+            return _encoder
+
+        try:
+            _encoder = tiktoken.get_encoding(_ENCODING_NAME)
+            return _encoder
+        except Exception as e:
+            raise RuntimeError(
+                f"Failed to initialize tiktoken encoder '{_ENCODING_NAME}'. "
+                f"TIKTOKEN_CACHE_DIR={os.environ.get('TIKTOKEN_CACHE_DIR')}. "
+                "Ensure the cache is preloaded or network access is available."
+            ) from e
+
+
+# ---------------------------------------------------------------------
+# Token helpers
+# ---------------------------------------------------------------------
+def num_tokens_from_string(text: str) -> int:
+    """
+    Return token count for a string.
+
+    Returns 0 only if text is empty.
+    Any tokenizer failure is propagated.
+    """
+    if not text:
         return 0
 
+    encoder = get_encoder()
+    return len(encoder.encode(text))
 
+
+def truncate(text: str, max_len: int) -> str:
+    """
+    Truncate text by token length.
+    """
+    if not text or max_len <= 0:
+        return ""
+
+    encoder = get_encoder()
+    tokens = encoder.encode(text)
+    return encoder.decode(tokens[:max_len])
+
+
+# ---------------------------------------------------------------------
+# Response token extraction (defensive)
+# ---------------------------------------------------------------------
 def total_token_count_from_response(resp):
-    if hasattr(resp, "usage") and hasattr(resp.usage, "total_tokens"):
-        try:
-            return resp.usage.total_tokens
-        except Exception:
-            pass
+    """
+    Extract total token count from various LLM response formats.
+    Never raises.
+    """
+    try:
+        if hasattr(resp, "usage") and hasattr(resp.usage, "total_tokens"):
+            return int(resp.usage.total_tokens)
 
-    if hasattr(resp, "usage_metadata") and hasattr(resp.usage_metadata, "total_tokens"):
-        try:
-            return resp.usage_metadata.total_tokens
-        except Exception:
-            pass
+        if hasattr(resp, "usage_metadata") and hasattr(resp.usage_metadata, "total_tokens"):
+            return int(resp.usage_metadata.total_tokens)
 
-    if "usage" in resp and "total_tokens" in resp["usage"]:
-        try:
-            return resp["usage"]["total_tokens"]
-        except Exception:
-            pass
+        if isinstance(resp, dict):
+            usage = resp.get("usage")
+            if usage:
+                if "total_tokens" in usage:
+                    return int(usage["total_tokens"])
+                if "input_tokens" in usage and "output_tokens" in usage:
+                    return int(usage["input_tokens"]) + int(usage["output_tokens"])
 
-    if "usage" in resp and "input_tokens" in resp["usage"] and "output_tokens" in resp["usage"]:
-        try:
-            return resp["usage"]["input_tokens"] + resp["usage"]["output_tokens"]
-        except Exception:
-            pass
+            meta = resp.get("meta", {})
+            tokens = meta.get("tokens", {})
+            if "input_tokens" in tokens and "output_tokens" in tokens:
+                return int(tokens["input_tokens"]) + int(tokens["output_tokens"])
+    except Exception:
+        pass
 
-    if (
-        "meta" in resp
-        and "tokens" in resp["meta"]
-        and "input_tokens" in resp["meta"]["tokens"]
-        and "output_tokens" in resp["meta"]["tokens"]
-    ):
-        try:
-            return resp["meta"]["tokens"]["input_tokens"] + resp["meta"]["tokens"]["output_tokens"]
-        except Exception:
-            pass
     return 0
 
-
-def truncate(string: str, max_len: int) -> str:
-    """Returns truncated text if the length of text exceed max_len."""
-    return encoder.decode(encoder.encode(string)[:max_len])
