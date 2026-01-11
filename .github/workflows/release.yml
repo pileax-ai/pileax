@@ -19,7 +19,7 @@ jobs:
       # ------------------------------
       - name: Get latest Build Desktop run ID
         id: get_run
-        uses: octokit/request-action@v5
+        uses: octokit/request-action@v2.x
         with:
           route: GET /repos/${{ github.repository }}/actions/workflows/Build%20Desktop.yml/runs
           per_page: 1
