@@ -18,10 +18,19 @@ jobs:
       # 1. Get run ID of Build Desktop workflow
       # ------------------------------
       - name: Get latest Build Desktop run ID
+        id: get-run-id
         run: |
-          gh auth setup-git
-          RUN_ID=$(gh run list -w "Build Desktop" -L 1 --json databaseId -q ".[0].databaseId")
+          RUN_ID=$(gh run list --workflow="Build Desktop" --status=success --limit=1 --json databaseId --jq ".[0].databaseId")
+
+          if [ -z "$RUN_ID" ]; then
+            echo "错误: 未找到成功的 Build Desktop 工作流运行"
+            exit 1
+          fi
+
+          echo "找到运行ID: $RUN_ID"
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # ------------------------------
       # 2. Download all artifacts
@@ -32,9 +41,12 @@ jobs:
           workflow: "Build Desktop"
           run_id: ${{ env.RUN_ID }}
           path: artifacts
+          skip_unpack: true
 
       - name: List downloaded files
-        run: ls -R artifacts
+        run: |
+          echo "已下载的构件:"
+          find artifacts -type f | sort
 
       # ------------------------------
       # 3. Create Github Release
@@ -46,6 +58,13 @@ jobs:
           name: ${{ github.event.inputs.version }}
           draft: true
           prerelease: false
-          files: artifacts/**/*
+          files: |
+            artifacts/**/*.dmg
+            artifacts/**/*.exe
+            artifacts/**/*.AppImage
+            artifacts/**/*.deb
+            artifacts/**/*.rpm
+            artifacts/**/*.zip
+            artifacts/**/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
