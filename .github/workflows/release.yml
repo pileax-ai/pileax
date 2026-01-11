@@ -83,6 +83,6 @@ jobs:
       - name: Release Drafter
         uses: release-drafter/release-drafter@v6.1.0
         with:
-          version: ${{ github.event.inputs.version }}
+          custom-version: ${{ github.event.inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
