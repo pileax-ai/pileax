@@ -1,6 +1,6 @@
-version-template: $INPUT_VERSION
 name-template: 'v$RESOLVED_VERSION 📦'
 tag-template: 'v$RESOLVED_VERSION'
+version-template: $RESOLVED_VERSION
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 template: |
   # What's Changed
