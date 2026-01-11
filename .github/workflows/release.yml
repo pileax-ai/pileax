@@ -48,13 +48,10 @@ jobs:
           run_id: ${{ env.RUN_ID }}
           path: artifacts
           skip_unpack: false
-          name: |
-            pileax-macos-latest
-            pileax-ubuntu-latest
-            pileax-windows-latest
 
       - name: List downloaded files
         run: |
+          rm -rf artifacts/backend-*
           echo "Downloaded and unzipped artifacts:"
           find artifacts -type f | sort
 
