@@ -14,20 +14,47 @@ jobs:
       contents: write  # 必须
 
     steps:
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v4
+      # ------------------------------
+      # 1. Get run ID of Build Desktop workflow
+      # ------------------------------
+      - name: Get latest Build Desktop run ID
+        id: get_run
+        uses: octokit/request-action@v5
         with:
+          route: GET /repos/${{ github.repository }}/actions/workflows/Build%20Desktop.yml/runs
+          per_page: 1
+          status: completed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set RUN_ID environment variable
+        run: |
+          RUN_ID=$(jq '.workflow_runs[0].id' <<< "${{ steps.get_run.outputs.data }}")
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "Latest Build Desktop run ID: $RUN_ID"
+
+      # ------------------------------
+      # 2. Download all artifacts
+      # ------------------------------
+      - name: Download artifacts from latest Build
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: "Build Desktop"
+          run_id: ${{ env.RUN_ID }}
           path: artifacts
 
       - name: List downloaded files
         run: ls -R artifacts
 
+      # ------------------------------
+      # 3. Create Github Release
+      # ------------------------------
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: ${{ github.event.inputs.version }}
-          draft: false
+          draft: true
           prerelease: false
           files: artifacts/**/*
         env:
