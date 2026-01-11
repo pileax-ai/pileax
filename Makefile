@@ -144,6 +144,7 @@ help:
 	@echo ""
 	@echo "Docker Build Multiple Platforms:"
 	@echo "  make buildx-web      - Build and push web Docker image"
+	@echo "  make buildx-api      - Build and push API Docker image"
 
 # Phony targets
 .PHONY: build-web build-api push-web push-api build-all push-all build-push-all dev-setup prepare-docker prepare-web prepare-api dev-clean help format check lint type-check

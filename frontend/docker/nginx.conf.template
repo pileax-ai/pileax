@@ -4,6 +4,12 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
+    # Fix mjs MIME: pdf.worker.mjs
+    include /etc/nginx/mime.types;
+    types {
+        application/javascript mjs;
+    }
+
     # SPA
     location / {
         try_files $uri /index.html;
