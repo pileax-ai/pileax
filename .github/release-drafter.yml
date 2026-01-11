@@ -2,9 +2,11 @@ name-template: 'v$RESOLVED_VERSION 📦'
 tag-template: 'v$RESOLVED_VERSION'
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 template: |
-  # What's Changed
 
   $CHANGES
+
+  ## What's Changed
+  $ALL_CHANGES
 
   **Full Changelog**: [$PREVIOUS_TAG...v$RESOLVED_VERSION](https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION)
 
