@@ -315,7 +315,7 @@ export default defineConfig(((ctx) => {
           ],
         },
         linux: {
-          target: ['AppImage', 'deb', 'rpm'],
+          target: ['AppImage'],
           category: 'Utility',
           icon: 'src-electron/icons/icon.png',
           desktop: {
@@ -328,7 +328,8 @@ export default defineConfig(((ctx) => {
           },
         },
         win: {
-          target: ['nsis']
+          target: ['nsis'],
+          artifactName: 'PileaX-${version}.exe'
         },
         nsis: {
           oneClick: false,

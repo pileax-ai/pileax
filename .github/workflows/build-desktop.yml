@@ -186,4 +186,6 @@ jobs:
             frontend/dist/electron/Packaged/*.AppImage
             frontend/dist/electron/Packaged/*.deb
             frontend/dist/electron/Packaged/*.rpm
+            frontend/dist/electron/Packaged/*.blockmap
+            frontend/dist/electron/Packaged/latest*.yml
           if-no-files-found: ignore
