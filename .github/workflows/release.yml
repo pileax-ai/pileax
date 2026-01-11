@@ -1,4 +1,4 @@
-name: Release Desktop
+name: Release
 
 on:
   workflow_dispatch:
@@ -47,7 +47,7 @@ jobs:
           workflow: "Build Desktop"
           run_id: ${{ env.RUN_ID }}
           path: artifacts
-          skip_unpack: true
+          skip_unpack: false
 
       - name: List downloaded files
         run: |
