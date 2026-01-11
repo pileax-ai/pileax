@@ -48,6 +48,10 @@ jobs:
           run_id: ${{ env.RUN_ID }}
           path: artifacts
           skip_unpack: false
+          name: |
+            pileax-macos-latest
+            pileax-ubuntu-latest
+            pileax-windows-latest
 
       - name: List downloaded files
         run: |
@@ -83,3 +87,4 @@ jobs:
         uses: release-drafter/release-drafter@v6.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASED_VERSION: ${{ github.event.inputs.version }}
