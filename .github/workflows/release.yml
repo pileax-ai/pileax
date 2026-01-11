@@ -11,7 +11,7 @@ jobs:
   release-artifacts:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 必须
+      contents: write
 
     steps:
       # ------------------------------
@@ -29,11 +29,11 @@ jobs:
           --jq '.[0].databaseId')
 
           if [ -z "$RUN_ID" ]; then
-            echo "错误: 未找到成功的 Build Desktop 工作流运行"
+            echo "Error: No successful Build Desktop workflow found"
             exit 1
           fi
 
-          echo "找到运行ID: $RUN_ID"
+          echo "Found run ID: $RUN_ID"
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,7 +51,7 @@ jobs:
 
       - name: List downloaded files
         run: |
-          echo "已下载的构件:"
+          echo "Downloaded and unzipped artifacts:"
           find artifacts -type f | sort
 
       # ------------------------------
