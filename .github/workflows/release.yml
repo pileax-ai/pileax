@@ -20,7 +20,13 @@ jobs:
       - name: Get latest Build Desktop run ID
         id: get-run-id
         run: |
-          RUN_ID=$(gh run list --workflow="Build Desktop" --status=success --limit=1 --json databaseId --jq ".[0].databaseId")
+          RUN_ID=$(gh run list \
+          --repo "$GITHUB_REPOSITORY" \
+          --workflow="Build Desktop" \
+          --status=success \
+          --limit=1 \
+          --json databaseId \
+          --jq '.[0].databaseId')
 
           if [ -z "$RUN_ID" ]; then
             echo "错误: 未找到成功的 Build Desktop 工作流运行"
