@@ -8,7 +8,7 @@ on:
         required: true
 
 jobs:
-  release:
+  release-artifacts:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # 必须
@@ -74,3 +74,14 @@ jobs:
             artifacts/**/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-draft:
+    needs: release-artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Release Drafter
+        uses: release-drafter/release-drafter@v6.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
