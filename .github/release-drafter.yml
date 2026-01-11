@@ -1,6 +1,5 @@
 name-template: 'v$RESOLVED_VERSION 📦'
 tag-template: 'v$RESOLVED_VERSION'
-version-template: $CUSTOM_VERSION
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 template: |
   # What's Changed

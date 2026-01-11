@@ -56,7 +56,17 @@ jobs:
           find artifacts -type f | sort
 
       # ------------------------------
-      # 3. Create Github Release
+      # 3. Deploy to Cloudflare
+      # ------------------------------
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy artifacts/ --project-name=pileax
+
+      # ------------------------------
+      # 4. Create Github Release
       # ------------------------------
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
