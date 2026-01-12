@@ -189,5 +189,6 @@ jobs:
             frontend/dist/electron/Packaged/*.deb
             frontend/dist/electron/Packaged/*.rpm
             frontend/dist/electron/Packaged/*.blockmap
+            frontend/dist/electron/Packaged/*.zip
             frontend/dist/electron/Packaged/latest*.yml
           if-no-files-found: ignore
