@@ -48,7 +48,7 @@ jobs:
           $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
 
       - name: Upload backend artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: backend-${{ matrix.os }}
           path: backend/dist/runnable
