@@ -1,10 +1,14 @@
 {
   "name": "frontend",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "PileaX AI",
   "productName": "PileaX",
   "code": "pileax",
-  "author": "pileax <ipileax@gmail.com>",
+  "author": {
+    "name": "PileaX",
+    "email": "pileaxai@gmail.com"
+  },
+  "license": "MIT",
   "type": "module",
   "private": true,
   "scripts": {

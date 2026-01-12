@@ -5,7 +5,7 @@
         <q-list no-border link>
           <o-view-item :label="$t('name')" :value="appInfo.package.productName" />
           <o-view-item :label="$t('version')" :value="appInfo.package.version" />
-          <o-view-item :label="$t('buildTime')" :value="appInfo.build.time" />
+          <o-view-item :label="$t('buildTime')" :value="timeMulti(appInfo.build.time).timestamp()" />
 
           <q-separator class="bg-accent q-my-md" />
 
@@ -22,6 +22,7 @@
 import { APP_HOME_URL, APP_DOC_URL, APP_GITHUB_URL } from 'src/app/app'
 import SettingCard from './setting-card.vue'
 import OViewItem from 'core/components/list/OViewItem.vue'
+import { timeMulti } from 'core/utils/dayjs'
 
 const appInfo = __APP_INFO__
 </script>

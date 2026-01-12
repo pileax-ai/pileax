@@ -62,3 +62,7 @@ export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
     }
   }
 }
+
+export const getUtcTime = (format = 'YYYY/MM/DD HH:mm:ss') => {
+  return dayjs().utc().format(format)
+}

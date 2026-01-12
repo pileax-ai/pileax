@@ -37,7 +37,7 @@ export const viteConfig = (ctx: Indexable) => {
     },
     build: {
       mode: ctx.modeName,
-      time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      time: dayjs(),
     }
   }
 
