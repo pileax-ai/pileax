@@ -20,20 +20,25 @@ export class UpdaterManager {
     if (!app.isPackaged) return
 
     autoUpdater.on('checking-for-update', () => {
-      log.info('Checking for update...')
+      log.info('⭐ Checking for update...')
     })
 
     autoUpdater.on('update-available', info => {
-      log.info('Update available:', info.version)
+      log.info('✅ Update available:', info)
+      if (!autoUpdater.autoDownload) {
+        autoUpdater.downloadUpdate()
+      } else {
+        log.info('💡 AutoDownload enabled, download should start automatically')
+      }
     })
 
     autoUpdater.on('update-not-available', () => {
-      log.info('No update available')
+      log.info('⚠️ No update available')
     })
 
     autoUpdater.on('download-progress', progress => {
       log.info(
-        `Download speed: ${progress.bytesPerSecond},
+        `🫥 Download speed: ${progress.bytesPerSecond},
        Progress: ${progress.percent}%`
       )
     })
@@ -51,6 +56,10 @@ export class UpdaterManager {
             autoUpdater.quitAndInstall()
           }
         })
+    })
+
+    autoUpdater.on('error', err => {
+      log.error('❌ AutoUpdater Error:', err == null ? 'unknown' : (err.stack || err).toString())
     })
   }
 

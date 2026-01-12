@@ -295,14 +295,26 @@ export default defineConfig(((ctx) => {
         },
         publish: [
           {
-            provider: 'generic',
-            url: 'https://update.yourdomain.com/'
+            provider: 'github',
+            owner: 'pileax-ai',
+            repo: 'pileax',
+            releaseType: 'release'
           }
         ],
 
         mac: {
           ...macSign,
-          target: ['dmg'],
+          target: [
+            {
+              target: 'dmg',
+              arch: ['arm64', 'x64'] // Apple Silicon / Intel
+            },
+            {
+              target: 'zip',
+              arch: ['arm64', 'x64'] // Apple Silicon / Intel
+            }
+          ],
+          artifactName: 'PileaX-${version}-${arch}.${ext}',
           category: 'public.app-category.productivity',
           icon: 'src-electron/icons/icon.icns',
           hardenedRuntime: true,
@@ -329,7 +341,7 @@ export default defineConfig(((ctx) => {
         },
         win: {
           target: ['nsis'],
-          artifactName: 'PileaX-${version}.exe'
+          artifactName: 'PileaX-${version}-${arch}.exe'
         },
         nsis: {
           oneClick: false,
