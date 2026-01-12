@@ -79,6 +79,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
+      # Used for release
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Used for sign
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
