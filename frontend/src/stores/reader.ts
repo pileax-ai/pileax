@@ -1,0 +1,86 @@
+import { defineStore } from 'pinia'
+import { store } from 'stores/index'
+import { CODE } from 'core/app'
+import type { MenuItem } from 'core/types/menu'
+import { defaultReaderMenus } from 'src/app/default-reader-menu'
+import { nestMenu } from 'core/hooks/useMenu'
+import defaultSetting from 'src/app/default-reader-setting'
+
+export const useReaderStore = defineStore('reader', {
+  state: () => ({
+    leftDrawer: {
+      show: true,
+      hoverShow: false,
+      width: 300,
+      activity: '',
+    } as Indexable,
+    rightDrawer: {
+      show: true,
+      hoverShow: false,
+      width: 300,
+      split: false,
+    } as Indexable,
+    tts: {
+      provider: 'browser',
+      voiceName: '',
+      voiceGender: 'female',
+      lang: 'zh-CN',
+      rate: '1.0',
+      pitch: '1.0',
+      volume: '1.0',
+    } as Indexable,
+    menus: [] as MenuItem[],
+    consoleMenus: [] as MenuItem[],
+    queryTimer: 0,
+    mainService: [] as Indexable[],
+    secondaryService: [] as Indexable[],
+    settings: defaultSetting as Indexable
+  }),
+  getters: {
+    getActivity: (state) => state.leftDrawer.activity,
+    getConsoleMenus: (state) => {
+      const menus = state.menus.filter(e => e.type && e.type < 10 && e.isShow === 1)
+      if (menus.length === 0) {
+        return defaultReaderMenus
+      }
+      return nestMenu(menus)
+    },
+  },
+  actions: {
+    toggleLeftDrawer() {
+      this.leftDrawer.show = !this.leftDrawer.show
+    },
+    setLeftDrawerItem(kv: KeyValue) {
+      this.leftDrawer[kv.key] = kv.value
+    },
+    closeRightDrawer() {
+      this.rightDrawer.show = false
+    },
+    toggleRightDrawer() {
+      this.rightDrawer.show = !this.rightDrawer.show
+    },
+    showRightDrawer() {
+      this.rightDrawer.show = true
+    },
+    setRightDrawerItem(kv: KeyValue) {
+      this.rightDrawer[kv.key] = kv.value
+    },
+    setQueryTimer(time: number) {
+      this.queryTimer = time
+    },
+    setSettingItem(key: string, value: any) {
+      this.settings[key] = value
+    },
+    setTTSItem(key: string, value: any) {
+      console.log('setTTSItem', key, value)
+      this.tts[key] = value
+    },
+  },
+  persist: {
+    key: `${CODE}.reader`
+  }
+})
+
+export const useReaderStoreWithOut = () => {
+  return useReaderStore(store)
+}

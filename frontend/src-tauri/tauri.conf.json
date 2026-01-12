@@ -1,0 +1,39 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "pileax",
+  "version": "0.1.0",
+  "identifier": "ai.pileax.desktop.tauri",
+  "build": {
+    "frontendDist": "../dist/spa",
+    "devUrl": "http://localhost:21800",
+    "beforeDevCommand": "yarn dev",
+    "beforeBuildCommand": "yarn build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "PileaX",
+        "titleBarStyle": "Overlay",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "maximized": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

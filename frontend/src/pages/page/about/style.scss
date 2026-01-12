@@ -1,0 +1,60 @@
+/**
+ *  Styles
+ */
+
+.page-about {
+
+  .o-wide {
+    max-width: 1200px !important;
+  }
+
+  .template-content-wide {
+    padding-top: 100px;
+
+    &:last-child {
+      padding-bottom: 100px;
+    }
+  }
+
+  .introduction {
+    header {
+      text-align: center;
+      padding-bottom: 32px;
+
+      .title {
+        position: relative;
+        font-size: 50px;
+        font-weight: bold;
+
+        span {
+          position: absolute;
+          width: 180px;
+          height: 35px;
+          right: 0px;
+          top: 27px;
+          background: #413eff;
+          opacity: .2;
+        }
+      }
+      .sub-title {
+        font-weight: bold;
+      }
+    }
+
+    .feature {
+      padding: 18px;
+      border-radius: 10px;
+      min-height: 200px;
+
+      footer {
+        padding-top: 0px;
+      }
+
+      .name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+
+}

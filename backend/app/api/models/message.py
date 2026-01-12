@@ -1,0 +1,55 @@
+import uuid
+
+from sqlmodel import Column, Field, Integer
+
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.enums import Status
+
+
+class Message(BaseSQLModel, BaseMixin, table=True):
+    workspace_id: uuid.UUID = uuid_field()
+    user_id: uuid.UUID = uuid_field()
+    app_id: uuid.UUID = uuid_field()
+    conversation_id: uuid.UUID = uuid_field()
+    model_provider: str | None = Field(default=None)
+    model_name: str | None = Field(default=None)
+    model_type: str | None = Field(default=None)
+    message: str | None = Field(default="")
+    content: str | None = Field(default="")
+    reasoning_content: str | None = Field(default="")
+    result: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
+    total_tokens: int = Field(default=0, sa_column=Column(Integer, default=0))
+    favorite: int = Field(default=Status.PENDING, sa_column=Column(Integer, default=Status.PENDING))
+    status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
+
+
+class MessageBase(BaseApiModel):
+    id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    favorite: int | None = None
+
+
+class MessageCreate(MessageBase):
+    app_id: uuid.UUID | None = None
+    conversation_id: uuid.UUID
+    message: str | None = None
+    stream: bool | None = None
+    model_provider: str | None = None
+    model_name: str | None = None
+    model_type: str | None = None
+
+
+class MessageUpdate(MessageBase):
+    id: uuid.UUID
+
+
+class MessagePublic(MessageBase, BaseMixin):
+    app_id: uuid.UUID
+    conversation_id: uuid.UUID
+    model_provider: str | None = None
+    model_name: str | None = None
+    model_type: str | None = None
+    message: str | None = None
+    content: str | None = None
+    reasoning_content: str | None = None
+    result: int
+    favorite: int

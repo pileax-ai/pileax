@@ -1,0 +1,30 @@
+export default {
+  _: '笔记',
+  add: '添加笔记',
+  addIcon: '添加图标',
+  append: '添加内容',
+  appendTo: 'Append {content} to {note}',
+  chooseLocation: '选择位置',
+  create: '创建笔记',
+  createSub: '创建子笔记 {note} 于 {parent}',
+  duplicate: '创建副本',
+  favoriteAdd: '添加到收藏',
+  favoriteRemove: '从收藏中移除',
+  insert: '插入笔记',
+  moveTo: '移动到',
+  newTab: '在新标签页中打开',
+  newWindow: '在新窗口中打开',
+  notes: '笔记',
+  recent: '最近笔记',
+  search: '搜索笔记',
+  searchResults: '搜索结果',
+  style: {
+    defaultFont: '默认',
+    fullWidth: '全宽',
+    monoFont: '等宽体',
+    serifFont: '衬线体',
+    smallText: '小字号',
+    toc: '目录'
+  },
+  version: '版本历史'
+}

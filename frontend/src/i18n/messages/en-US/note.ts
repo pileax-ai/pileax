@@ -1,0 +1,30 @@
+export default {
+  _: 'Note',
+  add: 'Add note',
+  addIcon: 'Add Icon',
+  append: 'Append content',
+  appendTo: 'Append {content} to {note}',
+  chooseLocation: 'Choose location',
+  create: 'Create note',
+  createSub: 'Create sub note {note} under {parent}',
+  duplicate: 'Duplicate',
+  favoriteAdd: 'Add to favorite',
+  favoriteRemove: 'Remove from favorite',
+  insert: 'Insert note',
+  moveTo: 'Move to',
+  newTab: 'Open in new tab',
+  newWindow: 'Open in new window',
+  notes: 'Notes',
+  recent: 'Recent Notes',
+  search: 'Search note',
+  searchResults: 'Search Results',
+  style: {
+    defaultFont: 'Default',
+    fullWidth: 'Full width',
+    monoFont: 'Mono',
+    serifFont: 'Serif',
+    smallText: 'Small text',
+    toc: 'Table of contents'
+  },
+  version: 'Version history'
+}

@@ -1,0 +1,128 @@
+// Theme
+//
+// @see https://forum.quasar-framework.org/topic/1756/full-solution-to-dynamic-color-scheme-extras
+// --------------------------------------------------------------------------------
+body {
+  --p-split: #eceff1;
+}
+
+body.body--dark {
+  --p-split: #222336 !important;
+}
+
+
+
+$dark_separator_color: #222222;
+
+// --------------------------------------------------------------------------------
+// Light mode
+// --------------------------------------------------------------------------------
+.bg-tips {
+  background: rgba(#666, 0.1);
+}
+
+.text-tips {
+  color: #666;
+}
+
+.text-readable {
+  color: #5f6368;
+}
+
+.bg-deep {
+  background: #eceff1;
+}
+
+
+.q-menu,
+.tab-drawer.shadow-2,
+.o-side-dialog.card .q-dialog__inner .q-layout-container {
+  box-shadow:
+    0 -1px 3px rgba(0, 0, 0, 0.06),
+
+      /* 主投影（向下） */
+    0 10px 28px rgba(0, 0, 0, 0.12),
+
+      /* 近接触阴影 */
+    0 2px 6px rgba(0, 0, 0, 0.08),
+
+      /* 边框分离 */
+    0 0 0 1px rgba(0, 0, 0, 0.06) !important;
+}
+
+// --------------------------------------------------------------------------------
+// Dark mode
+// --------------------------------------------------------------------------------
+body.body--dark {
+  color: rgba(white, 0.85);
+
+  .bg-tips {
+    background: rgba(#B3BDD2, 0.1);
+  }
+  .text-tips {
+    color: rgba(#B3BDD2, 0.6);
+  }
+  .text-readable {
+    color: #9aa0a6;
+  }
+
+  .bg-deep {
+    background: #141824;
+  }
+
+  .q-list--dark, .q-item--dark {
+    color: rgba(white, 0.85);
+  }
+
+  // Form
+  .q-field--outlined .q-field__control:before {
+    border-color: rgba(white, 0.2);
+  }
+  .q-field--outlined:hover .q-field__control:before {
+    border-color: rgba(white, 0.5);
+  }
+
+  .q-separator--dark {
+    background: rgba($dark_separator_color, 0.8); // accent
+  }
+
+  .q-table--dark {
+    tr, th, td, .q-table__bottom {
+      border-color: rgba($dark_separator_color, 0.8) !important;
+    }
+  }
+
+  .q-menu--dark,
+  .tab-drawer.shadow-2,
+  .o-side-dialog.card .q-dialog__inner .q-layout-container {
+    box-shadow:
+      0 -2px 6px rgba(0, 0, 0, 0.25),
+      0 8px 24px rgba(0, 0, 0, 0.45),
+      0 2px 6px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 6px !important;
+  border-radius: 6px;
+  background: rgba(#272A3E, 0.2);
+}
+
+body.body--dark::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 0 0 6px 0;
+  background: #324057!important;
+}
+
+body.body--dark::-webkit-scrollbar-thumb
+{
+  border-radius: 6px;
+  -webkit-box-shadow: rgba(0,0,0,.3);
+  background-color: rgba(#B3BDD2, 0.3);
+}
+

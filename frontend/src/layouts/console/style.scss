@@ -1,0 +1,32 @@
+/**
+ *  Styles
+ */
+
+.layout-console {
+  .q-page-container {
+    overflow: hidden !important;
+  }
+
+  .drawer-handler {
+    position: fixed;
+    z-index: 10;
+    width: 60px;
+    top: 80px;
+    bottom: 80px;
+    //background: red;
+  }
+
+  .o-top-header {
+    z-index: 1;
+  }
+
+  .q-drawer {
+    z-index: 2002;
+  }
+
+
+  .fixed-bottom {
+    z-index: 1;
+  }
+}
+

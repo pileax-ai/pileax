@@ -1,0 +1,55 @@
+name: Build Backend Only
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  # ------------------------
+  # Build backend per OS
+  # ------------------------
+  backend:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare env files
+        run: |
+          cp backend/.env.example backend/.env
+          cp frontend/env/.env.example frontend/env/.env
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Build backend
+        shell: bash
+        run: |
+          cd backend
+          python -m venv .venv
+
+          if [ -f ".venv/bin/python" ]; then
+            VENV_PY=".venv/bin/python"
+          else
+            VENV_PY=".venv/Scripts/python.exe"
+          fi
+
+          $VENV_PY -m pip install uv
+          $VENV_PY -m uv sync
+          $VENV_PY -m uv add --dev pyinstaller
+          $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-${{ matrix.os }}
+          path: backend/dist/runnable
+          include-hidden-files: true

@@ -1,0 +1,957 @@
+[
+    {
+        "name": "af-ZA-AdriNeural",
+        "locale": "Female",
+        "gender": "Well-Rounded, Animated, Bright"
+    },
+    {
+        "name": "ar-AE-FatimaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "ar-DZ-AminaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "ar-EG-SalmaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "ar-KW-NouraNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "ar-MA-MounaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "ar-OM-AyshaNeural",
+        "locale": "Female",
+        "gender": "Sincere, Pleasant"
+    },
+    {
+        "name": "ar-SA-ZariyahNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "ar-SY-AmanyNeural",
+        "locale": "Female",
+        "gender": "Sincere, Pleasant"
+    },
+    {
+        "name": "ar-TN-ReemNeural",
+        "locale": "Female",
+        "gender": "Sincere, Pleasant"
+    },
+    {
+        "name": "bg-BG-BorislavNeural",
+        "locale": "Male",
+        "gender": "Light-Hearted, Whimsical, Friendly"
+    },
+    {
+        "name": "ca-ES-AlbaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "de-AT-JonasNeural",
+        "locale": "Male",
+        "gender": "Light-Hearted, Whimsical, Friendly"
+    },
+    {
+        "name": "de-DE-AmalaNeural",
+        "locale": "Female",
+        "gender": "Well-Rounded, Animated, Bright"
+    },
+    {
+        "name": "de-DE-ConradNeural",
+        "locale": "Male",
+        "gender": "Engaging, Friendly"
+    },
+    {
+        "name": "de-DE-FlorianMultilingualNeural",
+        "locale": "Male",
+        "gender": "Cheerful, Warm"
+    },
+    {
+        "name": "de-DE-GiselaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Cheerful, Bright"
+    },
+    {
+        "name": "de-DE-KatjaNeural",
+        "locale": "Female",
+        "gender": "Calm, Pleasant"
+    },
+    {
+        "name": "de-DE-SeraphinaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Casual, Casual"
+    },
+    {
+        "name": "en-AU-CarlyNeural",
+        "locale": "Female",
+        "gender": "Crisp, Cheerful, Bright"
+    },
+    {
+        "name": "en-AU-NatashaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "en-AU-WilliamMultilingualNeural",
+        "locale": "Male",
+        "gender": "Warm, Cheerful, Casual, Friendly, Pleasant"
+    },
+    {
+        "name": "en-AU-WilliamNeural",
+        "locale": "Male",
+        "gender": "Engaging, Strong"
+    },
+    {
+        "name": "en-CA-ClaraNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "en-GB-AdaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Warm, Gentle, Friendly"
+    },
+    {
+        "name": "en-GB-LibbyNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "en-GB-MaisieNeural",
+        "locale": "Female",
+        "gender": "Crisp, Cheerful, Bright"
+    },
+    {
+        "name": "en-GB-OllieMultilingualNeural",
+        "locale": "Male",
+        "gender": "Warm, Cheerful, Casual, Friendly, Pleasant"
+    },
+    {
+        "name": "en-GB-RyanNeural",
+        "locale": "Male",
+        "gender": "Bright, Engaging"
+    },
+    {
+        "name": "en-GB-SoniaNeural",
+        "locale": "Female",
+        "gender": "Gentle, Soft"
+    },
+    {
+        "name": "en-IE-ConnorNeural",
+        "locale": "Male",
+        "gender": "Light-Hearted, Whimsical, Friendly"
+    },
+    {
+        "name": "en-US-AdamMultilingualNeural",
+        "locale": "Male",
+        "gender": "warm, engaging, deep"
+    },
+    {
+        "name": "en-US-AlloyTurboMultilingualNeural",
+        "locale": "Male",
+        "gender": "Versatile"
+    },
+    {
+        "name": "en-US-AmandaMultilingualNeural",
+        "locale": "Female",
+        "gender": "clear, bright, youthful"
+    },
+    {
+        "name": "en-US-AmberNeural",
+        "locale": "Female",
+        "gender": "Whimsical, Upbeat, Light-Hearted"
+    },
+    {
+        "name": "en-US-AnaNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful, Engaging"
+    },
+    {
+        "name": "en-US-AndrewMultilingualNeural",
+        "locale": "Male",
+        "gender": "Confident, Casual, Warm"
+    },
+    {
+        "name": "en-US-AndrewNeural",
+        "locale": "Male",
+        "gender": "Confident, Authentic, Warm"
+    },
+    {
+        "name": "en-US-AriaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "en-US-AshleyNeural",
+        "locale": "Female",
+        "gender": "Sincere, Approachable, Honest"
+    },
+    {
+        "name": "en-US-AvaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Pleasant, Friendly, Caring"
+    },
+    {
+        "name": "en-US-AvaNeural",
+        "locale": "Female",
+        "gender": "Pleasant, Caring, Friendly"
+    },
+    {
+        "name": "en-US-BrandonMultilingualNeural",
+        "locale": "Male",
+        "gender": "Warm, Engaging, Authentic"
+    },
+    {
+        "name": "en-US-BrandonNeural",
+        "locale": "Male",
+        "gender": "Warm, Engaging, Authentic"
+    },
+    {
+        "name": "en-US-BrianMultilingualNeural",
+        "locale": "Male",
+        "gender": "Sincere, Calm, Approachable"
+    },
+    {
+        "name": "en-US-BrianNeural",
+        "locale": "Male",
+        "gender": "Sincere, Calm, Approachable"
+    },
+    {
+        "name": "en-US-ChristopherMultilingualNeural",
+        "locale": "Male",
+        "gender": "Deep, Warm"
+    },
+    {
+        "name": "en-US-ChristopherNeural",
+        "locale": "Male",
+        "gender": "Deep, Warm"
+    },
+    {
+        "name": "en-US-CoraMultilingualNeural",
+        "locale": "Female",
+        "gender": "Empathetic, Formal, Sincere"
+    },
+    {
+        "name": "en-US-CoraNeural",
+        "locale": "Female",
+        "gender": "Empathetic, Formal, Sincere"
+    },
+    {
+        "name": "en-US-DavisMultilingualNeural",
+        "locale": "Male",
+        "gender": "soothing, calm, smooth"
+    },
+    {
+        "name": "en-US-DavisNeural",
+        "locale": "Male",
+        "gender": "Soothing, Calm, Smooth"
+    },
+    {
+        "name": "en-US-DerekMultilingualNeural",
+        "locale": "Male",
+        "gender": "confident, knowledgable, formal"
+    },
+    {
+        "name": "en-US-DustinMultilingualNeural",
+        "locale": "Male",
+        "gender": "youthful, clear, thoughtful"
+    },
+    {
+        "name": "en-US-ElizabethNeural",
+        "locale": "Female",
+        "gender": "Authoritative, Formal, Serious"
+    },
+    {
+        "name": "en-US-EmmaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Light-Hearted, Casual"
+    },
+    {
+        "name": "en-US-EmmaNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Light-Hearted, Casual"
+    },
+    {
+        "name": "en-US-EricNeural",
+        "locale": "Male",
+        "gender": "Confident, Sincere, Warm"
+    },
+    {
+        "name": "en-US-GuyNeural",
+        "locale": "Male",
+        "gender": "Light-Hearted, Whimsical, Friendly"
+    },
+    {
+        "name": "en-US-JacobNeural",
+        "locale": "Male",
+        "gender": "Sincere, Formal, Confident"
+    },
+    {
+        "name": "en-US-JaneNeural",
+        "locale": "Female",
+        "gender": "Serious, Approachable, Upbeat"
+    },
+    {
+        "name": "en-US-JasonNeural",
+        "locale": "Male",
+        "gender": "Gentle, Shy, Polite"
+    },
+    {
+        "name": "en-US-JennyMultilingualNeural",
+        "locale": "Female",
+        "gender": "Sincere, Pleasant, Approachable"
+    },
+    {
+        "name": "en-US-JennyNeural",
+        "locale": "Female",
+        "gender": "Sincere, Pleasant, Approachable"
+    },
+    {
+        "name": "en-US-KaiNeural",
+        "locale": "Male",
+        "gender": "Sincere, Pleasant, Bright, Clear, Friendly, Warm"
+    },
+    {
+        "name": "en-US-LewisMultilingualNeural",
+        "locale": "Male",
+        "gender": "knowledgable, formal, confident"
+    },
+    {
+        "name": "en-US-LolaMultilingualNeural",
+        "locale": "Female",
+        "gender": "sincere, calm, warm"
+    },
+    {
+        "name": "en-US-LunaNeural",
+        "locale": "Female",
+        "gender": "Sincere, Pleasant, Bright, Clear, Friendly, Warm"
+    },
+    {
+        "name": "en-US-MichelleNeural",
+        "locale": "Female",
+        "gender": "Confident, Authentic, Warm"
+    },
+    {
+        "name": "en-US-MonicaNeural",
+        "locale": "Female",
+        "gender": "Mature, Authentic, Warm"
+    },
+    {
+        "name": "en-US-NancyMultilingualNeural",
+        "locale": "Female",
+        "gender": "casual, youthful, approachable"
+    },
+    {
+        "name": "en-US-NancyNeural",
+        "locale": "Female",
+        "gender": "Confident, Serious, Mature"
+    },
+    {
+        "name": "en-US-NovaTurboMultilingualNeural",
+        "locale": "Female",
+        "gender": "Deep, Resonant"
+    },
+    {
+        "name": "en-US-PhoebeMultilingualNeural",
+        "locale": "Female",
+        "gender": "youthful, upbeat, confident"
+    },
+    {
+        "name": "en-US-RogerNeural",
+        "locale": "Male",
+        "gender": "Serious, Formal, Confident"
+    },
+    {
+        "name": "en-US-RyanMultilingualNeural",
+        "locale": "Male",
+        "gender": "Professional, Authentic, Sincere"
+    },
+    {
+        "name": "en-US-SamuelMultilingualNeural",
+        "locale": "Male",
+        "gender": "sincere, warm, expressive"
+    },
+    {
+        "name": "en-US-SaraNeural",
+        "locale": "Female",
+        "gender": "Sincere, Calm, Confident"
+    },
+    {
+        "name": "en-US-SerenaMultilingualNeural",
+        "locale": "Female",
+        "gender": "formal, confident, mature"
+    },
+    {
+        "name": "en-US-SteffanMultilingualNeural",
+        "locale": "Male",
+        "gender": "Casual, Thoughtful"
+    },
+    {
+        "name": "en-US-SteffanNeural",
+        "locale": "Male",
+        "gender": "Mature, Authentic, Warm"
+    },
+    {
+        "name": "en-US-TonyNeural",
+        "locale": "Male",
+        "gender": "Thoughtful, Authentic, Sincere"
+    },
+    {
+        "name": "es-AR-ElenaNeural",
+        "locale": "Female",
+        "gender": "Bright, Clear"
+    },
+    {
+        "name": "es-ES-AlvaroNeural",
+        "locale": "Male",
+        "gender": "Confident, Animated"
+    },
+    {
+        "name": "es-ES-ArabellaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Friendly, Casual, Warm, Pleasant"
+    },
+    {
+        "name": "es-ES-ElviraNeural",
+        "locale": "Female",
+        "gender": "Bright, Clear"
+    },
+    {
+        "name": "es-ES-IreneNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "es-ES-IsidoraMultilingualNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Friendly, Warm, Casual"
+    },
+    {
+        "name": "es-ES-LiaNeural",
+        "locale": "Female",
+        "gender": "Animated, Bright"
+    },
+    {
+        "name": "es-ES-TristanMultilingualNeural",
+        "locale": "Male",
+        "gender": "Formal, Clear, Trusthworthy"
+    },
+    {
+        "name": "es-ES-XimenaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Formal, Serious, Upbeat"
+    },
+    {
+        "name": "es-ES-XimenaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Cheerful"
+    },
+    {
+        "name": "es-MX-DaliaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Warm, Cheerful, Casual, Friendly, Pleasant"
+    },
+    {
+        "name": "es-MX-DaliaNeural",
+        "locale": "Female",
+        "gender": "Bright, Upbeat"
+    },
+    {
+        "name": "es-MX-JorgeMultilingualNeural",
+        "locale": "Male",
+        "gender": "Warm, Cheerful, Casual, Friendly, Pleasant"
+    },
+    {
+        "name": "es-MX-JorgeNeural",
+        "locale": "Male",
+        "gender": "Curious, Deep, Confident"
+    },
+    {
+        "name": "es-MX-MarinaNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "fi-FI-NooraNeural",
+        "locale": "Female",
+        "gender": "Bright, Clear"
+    },
+    {
+        "name": "fr-CA-ThierryNeural",
+        "locale": "Male",
+        "gender": "Engaging, Caring"
+    },
+    {
+        "name": "fr-FR-DeniseNeural",
+        "locale": "Female",
+        "gender": "Bright, Engaging"
+    },
+    {
+        "name": "fr-FR-EloiseNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "fr-FR-HenriNeural",
+        "locale": "Male",
+        "gender": "Strong, Calm"
+    },
+    {
+        "name": "fr-FR-LucienMultilingualNeural",
+        "locale": "Male",
+        "gender": "Warm, Formal, Confident"
+    },
+    {
+        "name": "fr-FR-RemyMultilingualNeural",
+        "locale": "Male",
+        "gender": "Bright, Cheerful"
+    },
+    {
+        "name": "fr-FR-VivienneMultilingualNeural",
+        "locale": "Female",
+        "gender": "Warm, Casual"
+    },
+    {
+        "name": "fr-FR-YvetteNeural",
+        "locale": "Female",
+        "gender": "Animated, Bright"
+    },
+    {
+        "name": "hr-HR-SreckoNeural",
+        "locale": "Male",
+        "gender": "Whimsical, Friendly"
+    },
+    {
+        "name": "hu-HU-TamasNeural",
+        "locale": "Male",
+        "gender": "Whimsical, Friendly"
+    },
+    {
+        "name": "it-IT-AlessioMultilingualNeural",
+        "locale": "Male",
+        "gender": "Cheerful, Warm, Gentle, Cheerful, Friendly"
+    },
+    {
+        "name": "it-IT-DiegoNeural",
+        "locale": "Male",
+        "gender": "Animated, Upbeat"
+    },
+    {
+        "name": "it-IT-ElsaNeural",
+        "locale": "Female",
+        "gender": "Confident, Crisp"
+    },
+    {
+        "name": "it-IT-GiuseppeMultilingualNeural",
+        "locale": "Male",
+        "gender": "Expressive, Upbeat, Youthful"
+    },
+    {
+        "name": "it-IT-GiuseppeNeural",
+        "locale": "Male",
+        "gender": "Bright, Warm"
+    },
+    {
+        "name": "it-IT-IsabellaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Warm, Cheerful, Casual, Friendly, Pleasant"
+    },
+    {
+        "name": "it-IT-IsabellaNeural",
+        "locale": "Female",
+        "gender": "Upbeat, Bright"
+    },
+    {
+        "name": "it-IT-MarcelloMultilingualNeural",
+        "locale": "Male",
+        "gender": "Cheerful, Friendly, Casual, Warm, Pleasant"
+    },
+    {
+        "name": "it-IT-PalmiraNeural",
+        "locale": "Female",
+        "gender": "Animated, Bright"
+    },
+    {
+        "name": "it-IT-PierinaNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "ja-JP-AoiNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "ja-JP-KeitaNeural",
+        "locale": "Male",
+        "gender": "Casual, Engaging"
+    },
+    {
+        "name": "ja-JP-MayuNeural",
+        "locale": "Female",
+        "gender": "Animated, Bright"
+    },
+    {
+        "name": "ja-JP-NanamiNeural",
+        "locale": "Female",
+        "gender": "Bright, Cheerful"
+    },
+    {
+        "name": "ko-KR-HyunsuMultilingualNeural",
+        "locale": "Male",
+        "gender": "Formal, Clear, Confident"
+    },
+    {
+        "name": "ko-KR-HyunsuNeural",
+        "locale": "Male",
+        "gender": "Bright, Casual"
+    },
+    {
+        "name": "ko-KR-InJoonNeural",
+        "locale": "Male",
+        "gender": "Casual, Friendly"
+    },
+    {
+        "name": "ko-KR-SeoHyeonNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "ko-KR-SoonBokNeural",
+        "locale": "Female",
+        "gender": "Animated, Bright"
+    },
+    {
+        "name": "ko-KR-SunHiNeural",
+        "locale": "Female",
+        "gender": "Confident, Formal"
+    },
+    {
+        "name": "ms-MY-OsmanNeural",
+        "locale": "Male",
+        "gender": "Whimsical, Friendly"
+    },
+    {
+        "name": "nb-NO-IselinNeural",
+        "locale": "Female",
+        "gender": "Bright, Clear"
+    },
+    {
+        "name": "nl-NL-ColetteNeural",
+        "locale": "Female",
+        "gender": "Bright, Clear"
+    },
+    {
+        "name": "nl-NL-FennaNeural",
+        "locale": "Female",
+        "gender": "Bright, Confident"
+    },
+    {
+        "name": "nl-NL-MaartenNeural",
+        "locale": "Male",
+        "gender": "Formal, Upbeat"
+    },
+    {
+        "name": "pl-PL-ZofiaNeural",
+        "locale": "Female",
+        "gender": "Bright, Clear"
+    },
+    {
+        "name": "pt-BR-AntonioNeural",
+        "locale": "Male",
+        "gender": "Bright, Upbeat"
+    },
+    {
+        "name": "pt-BR-FranciscaNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Crisp"
+    },
+    {
+        "name": "pt-BR-LeticiaNeural",
+        "locale": "Female",
+        "gender": "Curious, Cheerful"
+    },
+    {
+        "name": "pt-BR-MacerioMultilingualNeural",
+        "locale": "Male",
+        "gender": "Clear, Confident, Upbeat"
+    },
+    {
+        "name": "pt-BR-ThalitaMultilingualNeural",
+        "locale": "Female",
+        "gender": "Confident, Formal, Warm, Cheerful, Casual"
+    },
+    {
+        "name": "pt-BR-ThalitaNeural",
+        "locale": "Female",
+        "gender": "Confident, Formal"
+    },
+    {
+        "name": "pt-BR-YaraNeural",
+        "locale": "Female",
+        "gender": "Well-Rounded, Animated, Bright"
+    },
+    {
+        "name": "pt-PT-DuarteNeural",
+        "locale": "Male",
+        "gender": "Serious, Deep"
+    },
+    {
+        "name": "pt-PT-FernandaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "pt-PT-RaquelNeural",
+        "locale": "Female",
+        "gender": "Calm, Bright"
+    },
+    {
+        "name": "ru-RU-DariyaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "sv-SE-HilleviNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "th-TH-AcharaNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "tr-TR-EmelNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "wuu-CN-XiaotongNeural",
+        "locale": "Female",
+        "gender": "Warm, Friendly, Soothing"
+    },
+    {
+        "name": "wuu-CN-YunzheNeural",
+        "locale": "Male",
+        "gender": "Calm, Deep, Gentle"
+    },
+    {
+        "name": "yue-CN-XiaoMinNeural",
+        "locale": "Female",
+        "gender": "Bright, Crisp, Confident"
+    },
+    {
+        "name": "yue-CN-YunSongNeural",
+        "locale": "Male",
+        "gender": "Deep, Calm, Formal"
+    },
+    {
+        "name": "zh-CN-XiaochenMultilingualNeural",
+        "locale": "Female",
+        "gender": "Friendly, Casual, Upbeat"
+    },
+    {
+        "name": "zh-CN-XiaochenNeural",
+        "locale": "Female",
+        "gender": "Friendly, Casual, Upbeat"
+    },
+    {
+        "name": "zh-CN-XiaohanNeural",
+        "locale": "Female",
+        "gender": "Gentle, Warm, Emotional"
+    },
+    {
+        "name": "zh-CN-XiaomengNeural",
+        "locale": "Female",
+        "gender": "Gentle, Upbeat, Friendly"
+    },
+    {
+        "name": "zh-CN-XiaomoNeural",
+        "locale": "Female",
+        "gender": "Deep, Casual, Calm"
+    },
+    {
+        "name": "zh-CN-XiaoqiuNeural",
+        "locale": "Female",
+        "gender": "Calm, Engaging, Soothing"
+    },
+    {
+        "name": "zh-CN-XiaorouNeural",
+        "locale": "Female",
+        "gender": "Cheerful, Engaging, Pleasant"
+    },
+    {
+        "name": "zh-CN-XiaoruiNeural",
+        "locale": "Female",
+        "gender": "Confident, Emotional, Hoarse"
+    },
+    {
+        "name": "zh-CN-XiaoshuangNeural",
+        "locale": "Female",
+        "gender": "Crisp, Cheerful, Bright"
+    },
+    {
+        "name": "zh-CN-XiaoxiaoDialectsNeural",
+        "locale": "Female",
+        "gender": "Warm, Animated, Bright"
+    },
+    {
+        "name": "zh-CN-XiaoxiaoMultilingualNeural",
+        "locale": "Female",
+        "gender": "Warm, Animated, Bright"
+    },
+    {
+        "name": "zh-CN-XiaoxiaoNeural",
+        "locale": "Female",
+        "gender": "Warm, Well-Rounded, Animated"
+    },
+    {
+        "name": "zh-CN-XiaoyanNeural",
+        "locale": "Female",
+        "gender": "Warm, Gentle, Empathetic"
+    },
+    {
+        "name": "zh-CN-XiaoyiNeural",
+        "locale": "Female",
+        "gender": "Bright, Emotional, Engaging"
+    },
+    {
+        "name": "zh-CN-XiaoyouNeural",
+        "locale": "Female",
+        "gender": "Crisp, Cheerful, Bright"
+    },
+    {
+        "name": "zh-CN-XiaoyuMultilingualNeural",
+        "locale": "Female",
+        "gender": "Deep, Confident, Casual"
+    },
+    {
+        "name": "zh-CN-XiaozhenNeural",
+        "locale": "Female",
+        "gender": "Calm, Serious, Confident"
+    },
+    {
+        "name": "zh-CN-YunfengNeural",
+        "locale": "Male",
+        "gender": "Confident, Animated, Emotional"
+    },
+    {
+        "name": "zh-CN-YunhaoNeural",
+        "locale": "Male",
+        "gender": "Warm, Soft, Upbeat"
+    },
+    {
+        "name": "zh-CN-YunjianNeural",
+        "locale": "Male",
+        "gender": "Deep, Casual, Engaging"
+    },
+    {
+        "name": "zh-CN-YunjieNeural",
+        "locale": "Male",
+        "gender": "Casual, Confident, Warm"
+    },
+    {
+        "name": "zh-CN-YunxiNeural",
+        "locale": "Male",
+        "gender": "Bright, Animated, Cheerful"
+    },
+    {
+        "name": "zh-CN-YunxiaNeural",
+        "locale": "Male",
+        "gender": "Cheerful, Friendly, Emotional"
+    },
+    {
+        "name": "zh-CN-YunxiaoMultilingualNeural",
+        "locale": "Male",
+        "gender": "Gentle, Casual, Friendly"
+    },
+    {
+        "name": "zh-CN-YunyangNeural",
+        "locale": "Male",
+        "gender": "Formal, Deep, Calm"
+    },
+    {
+        "name": "zh-CN-YunyeNeural",
+        "locale": "Male",
+        "gender": "Casual, Deep, Calm"
+    },
+    {
+        "name": "zh-CN-YunyiMultilingualNeural",
+        "locale": "Male",
+        "gender": "Gentle, Casual, Friendly"
+    },
+    {
+        "name": "zh-CN-YunzeNeural",
+        "locale": "Male",
+        "gender": "Deep, Confident, Formal"
+    },
+    {
+        "name": "zh-CN-henan-YundengNeural",
+        "locale": "Male",
+        "gender": "Casual, Friendly, Animated"
+    },
+    {
+        "name": "zh-CN-liaoning-XiaobeiNeural",
+        "locale": "Female",
+        "gender": "Friendly, Casual, Gentle"
+    },
+    {
+        "name": "zh-CN-shaanxi-XiaoniNeural",
+        "locale": "Female",
+        "gender": "Confident, Engaging, Casual"
+    },
+    {
+        "name": "zh-CN-shandong-YunxiangNeural",
+        "locale": "Male",
+        "gender": "Casual, Animated, Strong"
+    },
+    {
+        "name": "zh-CN-sichuan-YunxiNeural",
+        "locale": "Male",
+        "gender": "Casual, Animated, Gentle"
+    },
+    {
+        "name": "zh-HK-HiuGaaiNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "zh-HK-HiuMaanNeural",
+        "locale": "Female",
+        "gender": "Bright, Upbeat"
+    },
+    {
+        "name": "zh-HK-WanLungNeural",
+        "locale": "Male",
+        "gender": "Calm, Formal"
+    },
+    {
+        "name": "zh-TW-HsiaoChenNeural",
+        "locale": "Female",
+        "gender": "Soft, Caring"
+    },
+    {
+        "name": "zh-TW-HsiaoYuNeural",
+        "locale": "Female",
+        "gender": "Crisp, Bright, Clear"
+    },
+    {
+        "name": "zh-TW-YunJheNeural",
+        "locale": "Male",
+        "gender": "Engaging, Gentle"
+    }
+]

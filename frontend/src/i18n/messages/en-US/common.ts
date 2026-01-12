@@ -1,0 +1,227 @@
+export default {
+  about: 'About',
+  account: 'Account',
+  actions: 'Actions',
+  add: 'Add',
+  address: 'Address',
+  all: 'All',
+  appearance: 'Appearance',
+  appearances: {
+    background: {
+      _: 'Background',
+      blur: 'Background Blur',
+      image: 'Background Image'
+    },
+    colors: {
+      amber: 'Amber',
+      blue: 'Blue',
+      blueGrey: 'Blue Grey',
+      brown: 'Brown',
+      cyan: 'Cyan',
+      deepOrange: 'Deep Orange',
+      deepPurple: 'Deep Purple',
+      green: 'Green',
+      grey: 'Grey',
+      indigo: 'Indigo',
+      lightBlue: 'Light Blue',
+      lightGreen: 'Light Green',
+      lime: 'Lime',
+      none: 'No color',
+      orange: 'Orange',
+      pink: 'Pink',
+      purple: 'Purple',
+      red: 'Red',
+      teal: 'Teal',
+      yellow: 'Yellow'
+    },
+    font: {
+      _: 'Font',
+      color: 'Font Color',
+      family: 'Font Family',
+      size: 'Font Size'
+    },
+    layout: 'Layout',
+    layouts: {
+      group: 'Group',
+      navi: 'Navigation',
+      naviTips: 'Navigation layout',
+      tab: 'Tab'
+    },
+    modes: {
+      colorBlind: 'Color-blind Mode',
+      grayscale: 'Grayscale Mode'
+    },
+    theme: 'Theme',
+    themeColor: 'Theme Color',
+    themes: {
+      dark: 'Dark',
+      light: 'Light',
+      none: 'None',
+      system: 'System'
+    },
+    themeTips: 'Light or dark theme.',
+    typography: {
+      _: 'Typography',
+      letterSpacing: 'Letter Spacing',
+      lineSpacing: 'Line Spacing',
+      margin: 'Margin',
+      pageWidth: 'Page Width',
+      paragraphSpacing: 'Paragraph Spacing'
+    }
+  },
+  backHome: 'Return to Home',
+  buildTime: 'Build Time',
+  cancel: 'Cancel',
+  change: 'Change',
+  close: 'Close',
+  collapse: 'Collapse',
+  color: 'Color',
+  config: 'Config',
+  confirm: 'Confirm',
+  connect: 'Connect',
+  console: 'Console',
+  copied: 'Copied',
+  copy: 'Copy',
+  cover: 'Cover',
+  create: 'Create',
+  dashboard: 'Dashboard',
+  delete: 'Delete',
+  deleteConfirm: 'Are you sure to delete this item?',
+  description: 'Description',
+  details: 'Details',
+  developer: 'Developer',
+  discover: 'Discover',
+  dislike: 'Dislike',
+  docs: 'Docs',
+  document: 'Document',
+  download: 'Download',
+  edit: 'Edit',
+  email: 'Email',
+  enable: 'Enable',
+  expand: 'Expand',
+  export: 'Export',
+  favorite: 'Favorites',
+  file: 'File',
+  formRules: {
+    length: '{length} characters'
+  },
+  fullscreen: 'Full Screen',
+  fullscreenExit: 'Exit Full Screen',
+  general: 'General',
+  help: 'Help',
+  helps: {
+    center: 'Help Center',
+    faq: 'FAQ'
+  },
+  home: 'Home',
+  icon: 'Icon',
+  image: 'Image',
+  import: 'Import',
+  language: 'Language',
+  like: 'Like',
+  locales: {
+    language: 'Language',
+    languageTimezone: 'Language & Timezone',
+    languageTips: 'Change the language used in user interface',
+    timezone: 'Timezone',
+    timezoneTips: 'Current timezone setting.'
+  },
+  me: 'My',
+  model: 'Model',
+  more: 'More',
+  move: 'Move',
+  moveDown: 'Move down',
+  moveUp: 'Move up',
+  name: 'Name',
+  ok: 'Ok',
+  open: 'Open',
+  password: 'Password',
+  profile: 'Account Profile',
+  qrcode: 'QR code',
+  query: {
+    noMoreData: 'Found {total} records in total. No more data available.',
+    noRecords: 'No Records',
+    total: 'Total'
+  },
+  quickstart: 'Quick Start',
+  refresh: 'Refresh',
+  remove: 'Remove',
+  rename: 'Rename',
+  required: 'Required',
+  resource: 'Resources',
+  role: 'Role',
+  save: 'Save',
+  search: 'Search',
+  searchResults: 'Search Results',
+  select: 'Select',
+  settings: 'Settings',
+  signin: 'Signin',
+  signout: 'Sign out',
+  signup: 'Signup',
+  smartRename: 'Smart rename',
+  sortBy: {
+    note: 'Note',
+    recent: 'Recent',
+    title: 'Title'
+  },
+  status: 'Status',
+  submit: 'Submit',
+  symbol: 'Symbol',
+  system: 'System',
+  systems: {
+    log: 'System Log',
+    security: 'Security',
+    server: {
+      info: 'Server Info',
+      log: 'Server Log'
+    },
+    shortcut: 'Shortcut',
+    user: {
+      log: 'User Log'
+    }
+  },
+  tab: {
+    close: 'Close',
+    closeOther: 'Close Other Tabs',
+    closeToLeft: 'Close Tabs to the Left',
+    closeToRight: 'Close Tabs to the Right',
+    duplicate: 'Duplicate Tab',
+    new: 'New Tab',
+    newWindow: 'Move Tab to New Window',
+    pin: 'Pin Tab',
+    refresh: 'Refresh Tab',
+    unpin: 'Unpin Tab'
+  },
+  terms: {
+    privacy: 'Privacy Policy',
+    service: 'User Agreement'
+  },
+  test: 'Test',
+  time: 'Time',
+  times: {
+    last30Days: 'Within 30 days',
+    last7Days: 'Within 7 days',
+    yesterday: 'Yesterday'
+  },
+  tips: 'Tips',
+  title: 'Title',
+  toc: 'Table of Content',
+  today: 'Today',
+  toolkit: 'Toolkit',
+  tray: {
+    openApp: 'Open PileaX',
+    quit: 'Exit'
+  },
+  type: 'Type',
+  unstar: 'Unfavorite',
+  update: 'Update',
+  updateTime: 'Update Time',
+  upload: 'Upload',
+  version: 'Version',
+  view: {
+    grid: 'Grid',
+    list: 'List'
+  },
+  welcome: 'Welcome',
+  current: 'Current',
+}

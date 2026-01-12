@@ -1,0 +1,219 @@
+<template>
+  <o-console-page class="book-add"
+                  title=" "
+                  icon="book"
+                  v-bind="query"
+                  disable-meta
+                  enable-fullscreen fixed-header>
+    <template #header-left>
+      <q-btn icon="tune"
+             class="filter"
+             :class="filter ? 'bg-primary text-white' : 'bg-dark'"
+             @click="filter = !filter"
+             flat v-if="false" />
+      <div class="query-item no-drag-region">
+        <q-input v-model="condition.title"
+                 class="pi-field"
+                 :placeholder="$t('search')"
+                 debounce="800"
+                 standout dense clearable
+                 @update:model-value="doQuery">
+          <template #prepend>
+            <q-icon name="search" class="text-readable" />
+          </template>
+        </q-input>
+      </div>
+    </template>
+
+    <!--Actions-->
+    <template #actions>
+      <book-more-btn @view="onView" @sort="onSort" />
+    </template>
+
+    <section class="row full-width">
+      <nav class="col-auto" v-show="filter">
+        Book Filters
+      </nav>
+      <section class="col">
+        <template v-if="rows.length">
+          <section class="row col-12 q-col-gutter-lg grid-view" v-if="bookView === 'grid'">
+            <template v-for="(item, index) in rows" :key="index">
+              <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <book-grid-item :data="item"
+                                @click.stop
+                                @add="addBook(item)"
+                                @details="onDetails(item)" add />
+              </div>
+            </template>
+          </section>
+          <section class="row col-12 justify-center list-view" v-else>
+            <q-list>
+              <template v-for="(item, index) in rows" :key="index">
+                <book-list-item :data="item"
+                                @click.stop
+                                @add="addBook(item)"
+                                @details="onDetails(item)" add />
+              </template>
+            </q-list>
+          </section>
+        </template>
+        <template v-else>
+          <o-no-data :message="$t('query.noRecords')" image v-if="condition.title" />
+          <section class="row col-12 justify-center no-records" v-else>
+            <span class="text-readable">{{ $t('book.noBooks') }}</span>
+          </section>
+        </template>
+      </section>
+    </section>
+
+    <template #side-panel>
+      <book-details :data="data"
+                    @add="addBook(data)"
+                    @close="onClose"
+                    v-if="view==='details'" add />
+    </template>
+  </o-console-page>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref, watch } from 'vue'
+import { uploadBook } from 'src/api/service/ebook/book'
+import { bookService, workspaceBookService } from 'src/api/service/remote'
+import BookGridItem from './BookGridItem.vue'
+import BookListItem from './BookListItem.vue'
+import BookDetails from './BookDetails.vue'
+import BookMoreBtn from './BookMoreBtn.vue'
+import OFileUploader from 'core/components/fIle/OFileUploader.vue'
+
+import useReader from 'src/hooks/useReader'
+import useQuery from 'src/hooks/useQuery'
+import { notifyWarning } from 'core/utils/control'
+
+const emit = defineEmits(['close'])
+
+const { queryTimer } = useReader()
+const { view, query } = useQuery()
+
+const data = ref({})
+const condition = ref<Indexable>({})
+const rows = ref([])
+const loading = ref(false)
+const filter = ref(false)
+const bookView = ref('grid')
+const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
+const orderBy = ref<Indexable>({
+  updateTime: 'desc'
+})
+
+function onView(value: string) {
+  bookView.value = value
+}
+
+function onSort(value: Indexable) {
+  orderBy.value = value
+  doQuery()
+}
+
+function onDetails(item: any) {
+  data.value = item
+  query.value.openSide('480px', 'details')
+}
+
+function onClose() {
+  query.value.closeSide(false, false)
+  doQuery()
+}
+
+async function onAddReady(file: File, icon: string) {
+  loading.value = true
+  await uploadBook(file)
+  loading.value = false
+}
+
+
+function addBook(book: any) {
+  workspaceBookService.save({
+    bookId: book.id
+  }).then(res => {
+    emit('close')
+  }).catch(res => {
+    console.log('res', res)
+    const data = res.response.data
+    if (data.message.indexOf('UNIQUE') === 0) {
+      notifyWarning('已经添加本书')
+    } else {
+      notifyWarning(data.message)
+    }
+  })
+}
+
+function doQuery() {
+  const query = {
+    pageIndex: 1,
+    pageSize: 20,
+    condition: {
+      'title__icontains': condition.value.title
+    },
+    sort: orderBy.value
+  }
+
+  bookService.queryLibrary(query).then(res => {
+    console.log('res', res)
+    rows.value = res.list
+  })
+}
+
+function initData() {
+  doQuery()
+}
+
+watch(() => queryTimer.value, (newValue) => {
+  doQuery()
+})
+
+onMounted(() => {
+  initData()
+})
+</script>
+
+<style lang="scss">
+.book-add {
+  .o-console-section {
+    padding-top: 64px;
+
+    .fixed-header {
+      padding: 21px 21px 21px 21px;
+      border: none;
+      .console-toolbar {
+        padding: 0;
+      }
+    }
+  }
+
+
+  .filter {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  .list-view {
+    .q-list {
+      width: 100%;
+      max-width: 1000px;
+    }
+  }
+
+  .no-records {
+    padding: 60px 0;
+
+    .action {
+      margin-top: 21px;
+
+      .q-btn {
+        height: 48px;
+        width: 160px;
+      }
+    }
+  }
+}
+</style>

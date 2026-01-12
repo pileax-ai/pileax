@@ -1,0 +1,247 @@
+// --------------------------------------------------------------------------------
+// Global
+// --------------------------------------------------------------------------------
+.pi {
+  &-result {
+    &-title {
+      font-size: 1.6rem;
+    }
+    &-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  &-pagination {
+    .q-btn {
+      width: 32px;
+      height: 32px;
+      font-weight: normal;
+      background: var(--q-accent);
+    }
+
+    .size-dropdown {
+      width: unset;
+      min-height: unset;
+      margin: 0 10px;
+      padding: 4px 6px 4px 12px;
+
+      .q-btn-dropdown__arrow {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Field
+// --------------------------------------------------------------------------------
+.pi-field {
+  &.q-field--standout.q-field--focused, &.q-field--highlighted {
+    .q-field__control {
+      background: rgba(#000, 0.05) !important;
+      box-shadow: unset !important;
+      box-sizing: border-box !important;
+
+      input, .q-field__suffix {
+        color: var(--q-info);
+      }
+      .q-field__marginal, .q-field__native {
+        color: var(--q-info);
+      }
+
+    }
+  }
+
+  .q-field__control {
+    &:hover {
+      background-color: transparent!important;
+    }
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Menu
+// --------------------------------------------------------------------------------
+.pi-menu {
+  min-width: 160px !important;
+
+  .q-list {
+    padding: 8px 8px;
+    .q-item {
+      padding: 8px 10px;
+      min-height: unset;
+      border-radius: 4px;
+
+      &:not(:first-child) {
+        margin-top: 2px;
+      }
+
+      &__label {
+        .q-chip {
+          margin: 4px 0 4px 4px;
+        }
+      }
+
+      .q-avatar {
+        width: 2rem !important;
+        height: 2rem !important;
+      }
+    }
+    .q-separator {
+      margin: 8px -8px;
+    }
+  }
+
+  .q-item {
+    min-height: unset;
+    padding: 4px 8px;
+
+    &:has(.q-item__section--avatar) {
+      .q-item__section--main {
+        margin-left: 8px;
+      }
+    }
+
+    .side-label {
+      .q-icon {
+        font-size: 1rem;
+        visibility: hidden;
+      }
+
+      .q-btn {
+        padding: 4px 8px;
+      }
+    }
+
+    &.active, &:hover {
+      .q-icon {
+        visibility: visible;
+      }
+    }
+  }
+
+
+  &.dense {
+    .q-list {
+      .q-item {
+        padding: 2px 0;
+        &__section--main {
+          padding-left: 4px;
+        }
+        .side-label {
+          padding-right: 4px;
+        }
+      }
+    }
+  }
+
+  &.show-side-icon {
+    .side-label {
+      .q-icon {
+        visibility: visible;
+      }
+    }
+  }
+
+  &.flat {
+    .q-list {
+      padding: 0;
+    }
+  }
+}
+
+.pi-context-menu {
+  min-width: 200px !important;
+  max-height: 50vh !important;
+  border-radius: 6px;
+  .q-list {
+    padding: 6px 0;
+  }
+  .q-item {
+    min-height: unset !important;
+    padding: 0;
+    margin: 0 6px;
+    border-radius: 4px;
+
+    .q-item__section--main {
+      padding-right: 8px;
+    }
+
+    .q-avatar {
+      height: 28px;
+      width: 28px;
+      opacity: 0.5;
+    }
+
+    .q-icon {
+      font-size: 16px;
+    }
+
+    &[disabled="disabled"] {
+      opacity: 0.4 !important;
+    }
+  }
+  .q-separator {
+    margin: 4px 0;
+  }
+}
+
+.pi-btn-group {
+  .q-btn {
+    .on-left {
+      margin-right: 4px;
+    }
+
+    &:not(:first-child) {
+      border-left: solid 1px var(--q-secondary);
+    }
+  }
+
+  .q-tab {
+    background: var(--q-dark);
+    &:before {
+      border-radius: 0!important;
+    }
+
+    &:first-child {
+      border-radius: 4px 0 0 4px !important;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0 !important;
+    }
+
+    &:not(:first-child) {
+      border-left: solid 1px var(--q-secondary);
+    }
+  }
+}
+
+.pi-toolbar-btn {
+  width: 28px;
+  height: 28px;
+  padding: unset;
+  min-height: unset;
+  border-radius: 4px;
+  .q-icon {
+    font-size: 20px;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Layout & View
+// --------------------------------------------------------------------------------
+.pi-view {
+  &-grid {
+    display: grid;
+    gap: 21px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  &-list {
+    .q-list {
+      width: 100%;
+      max-width: 1000px;
+    }
+  }
+}

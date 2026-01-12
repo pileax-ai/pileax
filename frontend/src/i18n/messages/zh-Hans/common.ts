@@ -1,0 +1,227 @@
+export default {
+  about: 'About',
+  account: 'Account',
+  actions: '操作',
+  add: '添加',
+  address: '地址',
+  all: '全部',
+  appearance: '外观',
+  appearances: {
+    background: {
+      _: '背景',
+      blur: '背景模糊',
+      image: '背景图片'
+    },
+    colors: {
+      amber: '琥珀',
+      blue: '蓝色',
+      blueGrey: '蓝灰',
+      brown: '棕色',
+      cyan: '青色',
+      deepOrange: '深橙',
+      deepPurple: '深紫',
+      green: '绿色',
+      grey: '灰色',
+      indigo: '靛蓝',
+      lightBlue: '浅蓝',
+      lightGreen: '浅绿',
+      lime: '青柠',
+      none: '无色',
+      orange: '橙色',
+      pink: '粉色',
+      purple: '紫色',
+      red: '红色',
+      teal: '青绿',
+      yellow: '黄色'
+    },
+    font: {
+      _font: '字体',
+      color: '字体颜色',
+      family: '字体',
+      size: '字体大小'
+    },
+    layout: '布局',
+    layouts: {
+      group: '分组',
+      navi: '导航',
+      naviTips: '导航布局',
+      tab: '标签页'
+    },
+    modes: {
+      colorBlind: '色盲模式',
+      grayscale: '灰度模式'
+    },
+    theme: '主题',
+    themeColor: '主题色',
+    themes: {
+      dark: '深色',
+      light: '浅色',
+      none: '无',
+      system: '跟随系统'
+    },
+    themeTips: '浅色或深色主题',
+    typography: {
+      _: '排版',
+      letterSpacing: '字间距',
+      lineSpacing: '行间距',
+      margin: '边距',
+      pageWidth: '页宽',
+      paragraphSpacing: '段间距'
+    }
+  },
+  backHome: '返回首页',
+  buildTime: '构建时间',
+  cancel: '取消',
+  change: '更改',
+  close: '关闭',
+  collapse: '折叠',
+  color: '颜色',
+  config: '配置',
+  confirm: '确认',
+  connect: '连接',
+  console: '控制台',
+  copied: '已复制',
+  copy: '复制',
+  cover: '封面',
+  create: '创建',
+  dashboard: '仪表盘',
+  delete: '删除',
+  deleteConfirm: '你确定删除该项？',
+  description: '描述',
+  details: '详情',
+  developer: '开发者',
+  discover: '发现',
+  dislike: '不喜欢',
+  docs: '文档',
+  document: '文档',
+  download: '下载',
+  edit: '编辑',
+  email: '邮箱',
+  enable: '启用',
+  expand: '展开',
+  export: '导出',
+  favorite: '收藏',
+  file: '文件',
+  formRules: {
+    length: '{length} 字符'
+  },
+  fullscreen: '全屏',
+  fullscreenExit: '退出全屏',
+  general: '通用',
+  help: '帮助',
+  helps: {
+    center: '帮助中心',
+    faq: '常见问题'
+  },
+  home: '首页',
+  icon: '图标',
+  image: '图片',
+  import: '导入',
+  language: '语言',
+  like: '喜欢',
+  locales: {
+    language: '语言',
+    languageTimezone: '语言 & 时区',
+    languageTips: '更改用户界面使用的语言',
+    timezone: '时区',
+    timezoneTips: '当前的时区设置。'
+  },
+  me: '我的',
+  model: '模型',
+  more: '更多',
+  move: '移动',
+  moveDown: '向下移',
+  moveUp: '向上移',
+  name: '名称',
+  ok: '确定',
+  open: '打开',
+  password: '密码',
+  profile: '账户详情',
+  qrcode: '二维码',
+  query: {
+    noMoreData: '共{total}条记录，没有更多数据了',
+    noRecords: '没有记录',
+    total: '共计'
+  },
+  quickstart: '快速开始',
+  refresh: '刷新',
+  remove: '移除',
+  rename: '重命名',
+  required: '必填',
+  resource: '资源',
+  role: '角色',
+  save: '保存',
+  search: '搜索',
+  searchResults: '搜索结果',
+  select: '选择',
+  settings: '设置',
+  signin: '登录',
+  signout: '退出登录',
+  signup: '注册',
+  smartRename: '智能重命名',
+  sortBy: {
+    note: '笔记',
+    recent: '最近',
+    title: '标题'
+  },
+  status: '状态',
+  submit: '提交',
+  symbol: 'Symbol',
+  system: '系统',
+  systems: {
+    log: '系统日志',
+    security: '安全',
+    server: {
+      info: '服务信息',
+      log: '服务日志'
+    },
+    shortcut: '快捷键',
+    user: {
+      log: '操作日志'
+    }
+  },
+  tab: {
+    close: '关闭',
+    closeOther: '关闭其它',
+    closeToLeft: '关闭左侧标签页',
+    closeToRight: '关闭右侧标签页',
+    duplicate: '复制',
+    new: '新建标签页',
+    newWindow: '移至新窗口',
+    pin: '固定',
+    refresh: '刷新',
+    unpin: '取消固定'
+  },
+  terms: {
+    privacy: '隐私政策',
+    service: '用户协议'
+  },
+  test: '测试',
+  time: '时间',
+  times: {
+    last30Days: '30天内',
+    last7Days: '7天内',
+    yesterday: '昨天'
+  },
+  tips: '提示',
+  title: '标题',
+  toc: '目录',
+  today: '今天',
+  toolkit: '工具箱',
+  tray: {
+    openApp: '打开 PileaX',
+    quit: '退出'
+  },
+  type: '类型',
+  unstar: '取消收藏',
+  update: '更新',
+  updateTime: '更新时间',
+  upload: '上传',
+  version: '版本',
+  view: {
+    grid: '网格',
+    list: '列表'
+  },
+  welcome: '欢迎',
+  current: '当前',
+}

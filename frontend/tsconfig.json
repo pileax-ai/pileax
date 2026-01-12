@@ -1,0 +1,8 @@
+{
+  "extends": "./.quasar/tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "exactOptionalPropertyTypes": false
+  }
+}

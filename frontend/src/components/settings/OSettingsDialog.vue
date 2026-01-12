@@ -1,0 +1,334 @@
+<template>
+  <q-dialog ref="modal"
+            :seamless="seamless"
+            @show="$emit('show')"
+            @hide="onHide"
+            position="standard"
+            :class="`o-settings-dialog`" :maximized="isMaximized">
+    <q-layout view="lhh LpR lff" container :style="style"
+              class="bg-secondary">
+      <q-splitter v-model="splitterModel"
+                  :limits="[200, 400]"
+                  unit="px"
+                  class="fit">
+        <template v-slot:before>
+          <nav class="bg-accent navi">
+            <q-tabs v-model="currentTab"
+                    unix="px"
+                    vertical inline-label
+                    align="right"
+                    active-color="primary"
+                    class="text-info">
+              <template v-for="(item, index) of tabs" :key="index">
+                <template v-if="item.show">
+                  <div class="text-tips group" v-if="item.group">
+                    {{item.group}}
+                  </div>
+                  <q-tab class="o-navi-tab"
+                         :name="item.value"
+                         :icon="item.icon"
+                         :label="item.label" />
+                </template>
+              </template>
+            </q-tabs>
+          </nav>
+        </template>
+
+        <template v-slot:after>
+          <q-header class="bg-secondary text-info">
+            <q-toolbar>
+              <q-toolbar-title class="text-bold">
+                {{tab?.label}}
+              </q-toolbar-title>
+              <q-space />
+              <section class="text-tips actions no-drag-region">
+                <q-btn flat round dense @click="onMinimized">
+                  <o-icon :name="isMaximized ? 'icon-fluent-restore' : 'icon-fluent-maximize'" size="10px" />
+                </q-btn>
+                <q-btn flat round dense v-close-popup>
+                  <o-icon name="icon-fluent-close" size="10px" />
+                </q-btn>
+              </section>
+            </q-toolbar>
+            <q-separator class="bg-accent" />
+          </q-header>
+          <q-page-container>
+            <q-page class="bg-secondary">
+              <q-scroll-area ref="scrollRef" class="o-scroll-wrapper">
+                <q-tab-panels v-model="currentTab" class="fit col-12" vertical keep-alive>
+                  <template v-for="(item, index) of tabs" :key="index">
+                    <template v-if="item.show">
+                      <q-tab-panel :name="item.value">
+                        <component :is="item.component" />
+                      </q-tab-panel>
+                    </template>
+                  </template>
+                </q-tab-panels>
+              </q-scroll-area>
+            </q-page>
+          </q-page-container>
+        </template>
+      </q-splitter>
+    </q-layout>
+  </q-dialog>
+</template>
+
+<script setup lang="ts">
+import { computed, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
+import useDialog from 'core/hooks/useDialog'
+import useCommon from 'core/hooks/useCommon'
+
+import AboutTab from './tab/about-tab.vue'
+import AiTab from './tab/ai-tab.vue'
+import AppearanceTab from './tab/appearance-tab.vue'
+import GeneralTab from './tab/general-tab.vue'
+import ProfileTab from './tab/profile-tab.vue'
+import ReadingTab from './tab/reading-tab.vue'
+import ServiceLogTab from './tab/service-log-tab.vue'
+import ShortcutTab from './tab/shortcut-tab.vue'
+import UserLogTab from './tab/user-log-tab.vue'
+import WorkspaceTab from './tab/workspace-tab.vue'
+import WorkspaceMemberTab from './tab/workspace-member-tab.vue'
+import { QScrollArea } from 'quasar'
+import { ipcProvider } from 'src/api/ipc'
+
+
+const scrollRef = useTemplateRef<QScrollArea>('scrollRef')
+
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false
+  },
+  seamless: {
+    type: Boolean,
+    default: false
+  },
+  scrollable: {
+    type: Boolean,
+    default: false
+  },
+})
+const emit = defineEmits(['show'])
+
+const { dialog, onHide } = useDialog()
+const { t } = useCommon()
+const modal = ref()
+const splitterModel = ref(300)
+const currentTab = ref('profile')
+const isMaximized = ref(false)
+const style = computed(() => {
+  return isMaximized.value
+    ? {
+      height: '100vh',
+      width: '100vw',
+    }
+    : {
+      height: '90vh',
+      maxHeight: '90vh',
+      width: '90vw',
+      maxWidth: '1555px',
+    }
+})
+const tabs = computed(() => {
+  return [
+    {
+      label: t('profile'),
+      value: 'profile',
+      icon: 'o_person',
+      group: t('account'),
+      component: ProfileTab,
+      show: true,
+    },
+    {
+      label: t('general'),
+      value: 'general',
+      icon: 'o_settings',
+      component: GeneralTab,
+      show: true,
+    },
+    {
+      label: t('appearance'),
+      value: 'appearance',
+      icon: 'o_palette',
+      component: AppearanceTab,
+      show: true,
+    },
+    {
+      label: t('reading._'),
+      value: 'reading',
+      icon: 'o_chrome_reader_mode',
+      component: ReadingTab,
+      show: true,
+    },
+    {
+      label: t('workspace._'),
+      value: 'workspace',
+      icon: 'o_workspaces',
+      group: t('workspace._'),
+      component: WorkspaceTab,
+      show: true,
+    },
+    {
+      label: t('workspace.members'),
+      value: 'workspace-member',
+      icon: 'o_groups',
+      component: WorkspaceMemberTab,
+      show: true,
+    },
+    {
+      label: t('ai.providers.title'),
+      value: 'ai',
+      icon: 'mdi-creation-outline',
+      component: AiTab,
+      show: true,
+    },
+    {
+      label: t('systems.server.log'),
+      value: 'log',
+      icon: 'o_view_headline',
+      group: t('system'),
+      component: ServiceLogTab,
+      show: ipcProvider !== 'web',
+    },
+    // {
+    //   label: t('systems.user.log'),
+    //   value: 'user-log',
+    //   icon: 'o_article',
+    //   component: UserLogTab,
+    //   show: true,
+    // },
+    {
+      label: t('about'),
+      value: 'about',
+      icon: 'o_info',
+      group: t('help'),
+      component: AboutTab,
+      show: true,
+    },
+    // {
+    //   label: t('systems.shortcut'),
+    //   value: 'shortcut',
+    //   icon: 'o_keyboard',
+    //   component: ShortcutTab,
+    // },
+    // {
+    //   label: t('terms.privacy'),
+    //   value: 'about',
+    //   icon: 'o_policy',
+    //   component: AboutTab,
+    // },
+  ]
+})
+
+const tab = computed(() => {
+  return tabs.value.find(t => t.value === currentTab.value)
+})
+
+const type = computed(() => dialog.value.type)
+
+function onMinimized() {
+  isMaximized.value = !isMaximized.value
+}
+
+function scrollToBottom(duration = 0) {
+  const scrollTarget = scrollRef.value?.getScrollTarget()
+  const scrollHeight = scrollTarget?.scrollHeight || 0
+  scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration)
+}
+
+watch(() => type.value, (newValue) => {
+  if (newValue === 'settings') {
+    modal.value.show()
+  } else {
+    modal.value.hide()
+  }
+})
+
+onMounted(() => {
+  if (type.value === 'settings') {
+    modal.value.show()
+    currentTab.value = dialog.value.tab || 'profile'
+  }
+})
+
+provide('scrollToBottom', scrollToBottom)
+</script>
+
+<style lang="scss">
+.o-settings-dialog {
+  .q-splitter__before {
+    height: 100%;
+  }
+
+  .q-splitter__separator {
+    background-color: transparent !important;
+  }
+
+  nav {
+    height: 90vh;
+    padding: 40px 10px 16px 10px;
+    .group {
+      padding: 0 12px;
+      opacity: 0.5;
+      &:not(:first-child) {
+        margin-top: 16px;
+      }
+    }
+    .q-tab {
+      padding: 0 8px;
+      margin-bottom: 2px;
+      min-height: 36px;
+      border-radius: 4px;
+
+      &__label {
+        font-weight: 400;
+      }
+
+      &.q-tab--active {
+
+        &:before {
+          border-radius: 4px;
+        }
+      }
+
+      &.q-tab--active .q-tab__indicator {
+        top: 10px !important;
+        height: 20px !important;
+        display: none;
+      }
+    }
+  }
+
+  .q-tab-panel {
+    .q-btn {
+      //min-width: 100px;
+    }
+  }
+
+  .q-toolbar {
+    min-height: 52px;
+
+    .q-toolbar__title {
+      font-size: 1.4rem;
+      padding-left: 16px;
+    }
+
+    .q-icon {
+      font-size: 1.2rem;
+    }
+
+    .actions {
+      .q-btn {
+        border-radius: 4px !important;
+      }
+    }
+  }
+
+  .q-dialog__inner--maximized {
+    nav {
+      height: 100vh;
+    }
+  }
+}
+</style>

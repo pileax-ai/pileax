@@ -1,0 +1,28 @@
+# 使用更小的 Windows 基础镜像
+FROM python:3.11-windowsservercore-ltsc2022
+
+# 设置工作目录（使用正斜杠兼容所有平台）
+WORKDIR C:/app
+
+# 1. 仅复制依赖管理文件（利用 Docker 缓存）
+COPY pyproject.toml ./
+
+# 2. 安装 uv 并创建虚拟环境
+RUN pip install --no-cache-dir uv \
+    && uv venv .venv \
+    && .\.venv\Scripts\activate
+
+# 3. 同步依赖（使用 uv sync）
+RUN uv sync
+
+# 4. 安装 PyInstaller
+RUN pip install --no-cache-dir pyinstaller
+
+# 5. 复制应用程序源代码
+COPY . ./
+
+# 6. 构建可执行文件（使用单行命令避免续行问题）
+RUN pyinstaller --onedir --name runnable --add-data ".env;." --collect-all passlib --noconfirm app/main.py
+
+# 7. 设置输出目录
+VOLUME C:/app/dist

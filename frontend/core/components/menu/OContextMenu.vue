@@ -1,0 +1,63 @@
+<template>
+  <q-menu class="o-context-menu pi-menu"
+          :class="{ 'dense': dense }"
+          ref="menu"
+          :anchor="contextMenu ? 'bottom left' : anchor"
+          :self="contextMenu ? 'top left' : self"
+          :offset="offset"
+          :context-menu="contextMenu">
+    <q-list>
+      <template v-for="(item, index) in list" :key="index">
+        <q-separator class="bg-accent" v-if="item.separator" />
+        <o-common-item clickable closable
+                       v-bind="item"
+                       @click="emit('command', item)"
+                       v-if="!item.hidden" />
+      </template>
+      <slot name="list"></slot>
+    </q-list>
+  </q-menu>
+</template>
+
+<script setup lang="ts">
+import type {PropType} from 'vue'
+
+defineProps({
+  contextMenu: {
+    type: Boolean,
+    default: false
+  },
+  dense: {
+    type: Boolean,
+    default: false
+  },
+  anchor: {
+    type: String as PropType<PositionType>,
+    default: 'bottom right'
+  },
+  self: {
+    type: String as PropType<PositionType>,
+    default: 'top right'
+  },
+  offset: {
+    type: Array,
+    default: function () {
+      return [0, 8]
+    }
+  },
+  list: {
+    type: Array as PropType<Indexable[]>,
+    default: function () {
+      return []
+    }
+  }
+})
+const emit = defineEmits(['command'])
+</script>
+
+<style lang="scss">
+.o-context-menu {
+  width: 240px;
+  max-height: 400px;
+}
+</style>

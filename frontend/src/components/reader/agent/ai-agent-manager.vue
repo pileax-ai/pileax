@@ -1,0 +1,58 @@
+<template>
+  <section class="reader-add-ai-agent bg-secondary no-drag-region">
+    <header class="row col-12 justify-between items-center text-readable">
+      <section class="col row items-center">
+        <q-icon name="mdi-creation" size="20px" />
+        <span class="q-px-sm">
+          Add AI Agent
+        </span>
+      </section>
+
+      <section class="col-auto">
+        <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
+      </section>
+    </header>
+    <q-scroll-area class="o-scroll-wrapper">
+      <q-list>
+        <q-item-label class="text-readable">
+          推荐
+        </q-item-label>
+      </q-list>
+    </q-scroll-area>
+  </section>
+</template>
+
+<script setup lang="ts">
+import {computed, ref} from 'vue'
+
+const props = defineProps({
+  main: {
+    type: Boolean,
+    default: false
+  }
+})
+const emit = defineEmits(['close'])
+
+</script>
+
+<style lang="scss">
+.reader-add-ai-agent {
+  header {
+  }
+
+  .o-scroll-wrapper {
+    .q-list {
+      padding: 0 1rem;
+
+      .q-item {
+        padding: 8px;
+        border-radius: 4px;
+
+        &:not(:first-child) {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+}
+</style>

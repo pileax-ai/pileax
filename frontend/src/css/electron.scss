@@ -1,0 +1,108 @@
+// Electron css
+// --------------------------------------------------
+.drag-region {
+  -webkit-app-region: drag;
+}
+
+.no-drag-region {
+  -webkit-app-region: no-drag !important;
+}
+
+.electron {
+  &.platform-mac {
+    &.full-screen-page {
+      .o-console-section .console-header .console-toolbar {
+        padding-left: 75px !important;
+      }
+    }
+
+    .quick-settings {
+      &.group {
+        margin-top: 36px;
+      }
+      &.tab {
+        margin-left: 66px;
+      }
+    }
+
+    .navi-tabbar {
+      .navi-left.show {
+        padding-left: 75px;
+        padding-right: 8px;
+      }
+    }
+
+    .o-reader-page {
+      header.left-drawer-closed {
+        padding-left: 65px;
+      }
+    }
+
+    .o-side-dialog.full-screen {
+      .q-toolbar {
+        padding: 0 0 0 75px !important;
+
+        .actions {
+          padding-right: 8px;
+        }
+      }
+    }
+
+    .full-page-layout {
+      .top-navi {
+        height: 100px;
+
+        .q-toolbar, .o-toolbar-extra {
+        }
+
+        .q-toolbar {
+          padding-top: 20px;
+        }
+      }
+
+      .o-title-bar-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+
+  &.platform-linux {
+    border-radius: 8px !important;
+    border: 1px solid #e0e0e0 !important;
+    overflow: hidden !important;
+  }
+
+  &:not(.platform-mac) {
+    &.full-screen-page {
+      .o-console-section .console-header .console-toolbar {
+        padding-left: 10px !important;
+      }
+    }
+
+    .o-title-bar {
+      display: flex !important;
+    }
+    .o-title-bar-overlay {
+      display: flex !important;
+    }
+
+    .full-page-layout {
+      .top-navi {
+        height: 50px;
+
+        .q-toolbar {
+          min-height: unset;
+          padding: 0 0 0 20px;
+        }
+      }
+      .o-title-bar-overlay {
+        margin-top: -10px;
+        padding-left: 10px;
+      }
+    }
+  }
+
+
+}

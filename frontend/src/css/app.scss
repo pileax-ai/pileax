@@ -1,0 +1,586 @@
+// App global css
+// --------------------------------------------------
+
+html {
+  font-size: 14px;
+  overflow: hidden!important;
+}
+
+body {
+  font-family: "Roboto", "-apple-system", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol !important;
+  &.body--gray {
+    filter: grayscale(1);
+    overflow: hidden;
+  }
+  &.body--weak {
+    filter: invert(80%);
+    overflow: hidden;
+  }
+
+  &.q-body--prevent-scroll {
+    overflow: hidden;
+  }
+}
+
+a {
+  color: var(--q-info);
+  text-decoration: none;
+  word-break: break-all;
+}
+a:hover {
+  color: var(--q-primary);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+kbd {
+  font-family: Consolas, "Lucida Console", monospace;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0 4px;
+  margin: 2px;
+  font-size: small;
+  vertical-align: text-bottom;
+  background: #eee;
+  color: #555;
+  cursor: pointer;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+// --------------------------------------------------------------------------------
+// Quasar
+// --------------------------------------------------------------------------------
+.q-tooltip {
+  max-width: 400px;
+}
+
+.q-touch {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.q-btn.o-link {
+  padding: 0;
+  min-height: unset;
+}
+
+.q-btn, .q-btn:focus, a, a:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+.q-btn, .q-tab {
+  text-transform: unset;
+}
+
+.q-card, .q-menu, .q-tab-panels, .q-table__container {
+  &.q-dark, &:has(.q-dark) {
+    background: var(--q-secondary);
+  }
+}
+
+
+// --------------------------------------------------------------------------------
+// Page
+// --------------------------------------------------------------------------------
+.o-banner {
+  .name {
+    font-size: 3.5rem;
+    font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  }
+
+  .slogan {
+    font-size: 2rem;
+    font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  }
+
+  h3 {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 2rem;
+  }
+
+  .iconfont {
+    font-size: 2rem;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// List
+// --------------------------------------------------------------------------------
+
+
+// --------------------------------------------------------------------------------
+// Button
+// --------------------------------------------------------------------------------
+.o-action-btn {
+  min-height: 40px;
+  min-width: 120px;
+  border-radius: 20px;
+}
+
+// --------------------------------------------------------------------------------
+// Scroll
+// --------------------------------------------------------------------------------
+.o-scrollarea-page, .o-page-container, .o-scroll-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.o-scroll-wrapper.with-header {
+  top: 90px;
+}
+
+// --------------------------------------------------------------------------------
+// Form
+// --------------------------------------------------------------------------------
+.o-form {
+  padding: 0;
+
+  .label {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .action {
+    min-width: 120px;
+  }
+  .action:not(:first-child) {
+    margin-left: 1rem;
+  }
+
+  .q-field {
+    margin-bottom: 28px;
+
+    &--readonly {
+      margin-bottom: 14px;
+    }
+
+    .q-field__label {
+      font-size: 1rem;
+    }
+    .q-field__prefix {
+      color: #666;
+      margin-right: 8px;
+    }
+    .q-field__suffix {
+      color: #666;
+    }
+    .q-field__bottom {
+      padding: 4px 12px 0;
+    }
+  }
+  .q-field--with-bottom {
+    padding-bottom: 0;
+  }
+
+  .q-field--standout.q-field--focused .q-field__control {
+    background: transparent !important;
+
+    input, .q-field__suffix {
+      color: #000;
+    }
+    .q-field__marginal, .q-field__native {
+      color: #000;
+    }
+  }
+
+  .q-field--readonly {
+    .q-field__prefix {
+      padding: 0 8px 0 0;
+      min-width: 100px;
+      text-align: left !important;
+      justify-content: flex-start !important;
+    }
+    .q-field__native {
+      padding: 0;
+      min-height: unset;
+    }
+    .q-field__control {
+      height: 32px;
+      min-height: unset;
+      padding: 0 8px;
+      background: transparent !important;
+
+      &:before {
+        border: none !important;
+      }
+      &:hover {
+        cursor: pointer;
+        background: rgba(0,0,0,0.05) !important;
+      }
+    }
+    .q-field__append {
+      height: 30px;
+      min-height: unset;
+    }
+    .q-field__suffix {
+      line-height: unset;
+    }
+    .q-field__bottom, .q-select__dropdown-icon {
+      display: none;
+    }
+
+    &.q-textarea {
+      .q-field__control {
+        height: unset;
+      }
+    }
+  }
+  .q-select .q-field__input {
+    min-width: 20px !important;
+  }
+
+  .o-view-item .q-item__section--avatar {
+    min-width: 100px !important;
+  }
+
+  .q-editor {
+    margin-bottom: 28px;
+  }
+
+  &.dense {
+    padding: 0;
+  }
+
+  [class*='banner'] {
+    margin-bottom: 8px;
+  }
+  [class*='banner']:last-child {
+    margin-bottom: 20px;
+  }
+
+  .o-table {
+    .q-field {
+      margin-bottom: 0;
+    }
+  }
+
+  .o-input-select-left {
+    .q-field__control {
+      padding-left: 0;
+      .q-field__control {
+        padding-left: 12px;
+        border-radius: 3px 0 0 3px;
+        &:before, &:after {
+          border-radius: 3px 0 0 3px;
+        }
+      }
+    }
+  }
+
+  .o-input-select-right {
+    .q-field__control {
+      padding-right: 0;
+      .q-field__control {
+        padding-right: 12px;
+        border-radius: 0 3px 3px 0;
+        &:before, &:after {
+          border-radius: 0 3px 3px 0;
+        }
+      }
+    }
+  }
+
+  .q-expansion-item {
+    .header-item {
+      padding: 8px;
+      border-radius: 4px;
+    }
+    .q-expansion-item__content {
+      padding-left: 40px;
+    }
+  }
+}
+
+
+// --------------------------------------------------------------------------------
+// Table
+// --------------------------------------------------------------------------------
+.o-table {
+  .q-btn--dense.label {
+    //height: 20px;
+    min-height: unset !important;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+
+  tr:has(.is-active) {
+    background: var(--q-accent);
+  }
+
+  td {
+    .title {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .q-btn {
+      .q-icon {
+        font-size: 1.2rem;
+      }
+
+      &:not(:first-child) {
+        margin-left: 4px;
+      }
+    }
+
+    img {
+      display: block;
+    }
+
+    .q-expansion-item {
+      .q-item {
+        padding: 2px 0;
+
+        .q-item__section--avatar {
+          min-width: unset;
+        }
+      }
+    }
+  }
+
+  .q-card {
+    img {
+      //height: 200px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .title {
+      font-size: 2rem;
+    }
+
+    .intro {
+      height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ellipsis {
+    max-width: 200px;
+  }
+
+  .q-avatar {
+    .q-img {
+      width: 100%;
+      height: 100%;
+    }
+    img {
+      object-fit: cover;
+    }
+  }
+
+  .o-badge {
+    margin: 2px 0;
+  }
+
+  .responsive {
+    width: 160px;
+    img {
+      border-radius: 4px;
+      object-fit: cover;
+    }
+  }
+
+}
+
+.o-tab-container {
+  .card-header {
+    padding: 0 !important;
+
+    .q-tab {
+      height: 56px;
+    }
+  }
+
+  .q-tab-panel {
+    padding: 0;
+  }
+}
+
+.o-navi-tab {
+  justify-content: start!important;
+
+  &.q-tab--active:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--q-primary);
+    opacity: 0.08;
+  }
+}
+
+.q-notification {
+  .caption {
+    opacity: 0.6;
+  }
+}
+
+.o-notify-warning {
+  min-width: 360px;
+}
+
+.o-notify-done {
+  min-width: 100px;
+  min-height: 100px;
+  background: rgba(#000, 0.75) !important;
+
+  .q-notification__content {
+    justify-content: center;
+    .q-icon {
+      font-size: 32px;
+    }
+  }
+}
+
+.o-tag {
+  font-size: 14px;
+  border-radius: 24px;
+  min-height: 30px;
+}
+
+.o-links {
+  .q-btn--round {
+    min-width: 3rem !important;
+    margin-right: 8px;
+  }
+  .q-btn--round:last-child {
+    margin-right: 0;
+  }
+}
+
+
+// --------------------------------------------------------------------------------
+// media
+// --------------------------------------------------------------------------------
+.o-wide {
+  max-width: 1080px !important;
+}
+@media (min-width: 1440px) {
+  .q-header .q-tab__content {
+    min-width: unset;
+  }
+
+  .o-wide {
+    max-width: 1440px !important;
+  }
+}
+
+model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+}
+
+// --------------------------------------------------------------------------------
+// yiitap
+// --------------------------------------------------------------------------------
+.yiitap {
+  .o-dialog {
+    background: transparent;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Fonts
+// --------------------------------------------------------------------------------
+@font-face {
+  font-family: 'Segoe UI';
+  src: url("/fonts/segoe-ui/latest.eot"),
+  url("/fonts/segoe-ui/latest.eot") format("embedded-opentype");
+  src: local("Segoe UI Light"),
+  url("/fonts/segoe-ui/latest.woff2") format("woff2"),
+  url("/fonts/segoe-ui/latest.woff") format("woff"),
+  url("/fonts/segoe-ui/latest.ttf") format("truetype"),
+  url("/fonts/segoe-ui/latest.svg") format("svg");
+  font-weight: 200;
+}
+
+// --------------------------------------------------------------------------------
+// Animations
+// --------------------------------------------------------------------------------
+.ripple:after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  padding-top: 100%;
+  background: transparent;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  animation: ripple 1s infinite;
+}
+@keyframes ripple {
+  from {
+    transform:translate(-50%,-50%) scale(0);
+    /*background: rgba(0,0,0,.25);*/
+    //background: rgba(255,255,255,.4);
+    background: rgba(33,150,243,1);
+  }
+  to {
+    transform:translate(-50%,-50%) scale(1);
+    background: transparent;
+  }
+}
+
+.o-rotating-once {
+  transition: transform 1s ease-in-out;
+}
+.o-rotating-once:hover {
+  transform: rotateZ(720deg);
+}
+
+.o-rotating
+{
+  -webkit-animation: rotating 1s linear infinite;
+  -moz-animation: rotating 1s linear infinite;
+  -ms-animation: rotating 1s linear infinite;
+  -o-animation: rotating 1s linear infinite;
+  animation: rotating 1s linear infinite;
+}
+
+@keyframes rotating
+{
+  from
+  {
+    transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+  to
+  {
+    transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotating
+{
+  from
+  {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+  to
+  {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
