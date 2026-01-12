@@ -42,7 +42,7 @@ jobs:
       # 2. Download all artifacts
       # ------------------------------
       - name: Download artifacts from latest Build
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v12
         with:
           workflow: "Build Desktop"
           run_id: ${{ env.RUN_ID }}
