@@ -1,0 +1,33 @@
+name: Web Tests
+on:
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  web-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set node version to 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Lint codebase
+        run: |
+          make prepare-web
+          make lint-web
+
+      - name: Build web
+        run: |
+          yarn build

@@ -1,0 +1,26 @@
+name: CI
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  web-tests:
+    name: Web Tests
+    uses: ./.github/workflows/web-tests.yml
+
+  api-tests:
+    name: API Tests
+    needs: web-tests
+    uses: ./.github/workflows/api-tests.yml

@@ -48,6 +48,7 @@ jobs:
           $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
 
       - name: Upload backend artifact
+        if: ${{ env.SKIP != 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: backend-${{ matrix.os }}

@@ -1,0 +1,57 @@
+name: API Tests
+on:
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Prepare env and install dependencies
+        working-directory: backend
+        shell: bash
+        run: |
+          cp .env.example .env
+          python -m venv .venv
+
+          if [ -f ".venv/bin/python" ]; then
+            echo "VENV_PY=$PWD/.venv/bin/python" > .venv.env
+          else
+            echo "VENV_PY=$PWD/.venv/Scripts/python.exe" > .venv.env
+          fi
+
+          source .venv.env
+          $VENV_PY -m pip install uv
+          $VENV_PY -m uv sync
+
+      - name: Lint codebase
+        working-directory: backend
+        shell: bash
+        run: |
+          source .venv.env
+          $VENV_PY -m ruff check
+          $VENV_PY -m ruff format --check
+
+      - name: Build pyinstaller
+        working-directory: backend
+        shell: bash
+        run: |
+          source .venv.env
+          $VENV_PY -m uv add --dev pyinstaller
+          $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
