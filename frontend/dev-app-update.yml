@@ -1,0 +1,4 @@
+provider: github
+owner: pileax-ai
+repo: pileax
+releaseType: release

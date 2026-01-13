@@ -224,4 +224,15 @@ export default {
   },
   welcome: '欢迎',
   current: '当前',
+  updater: {
+    check: '检查更新',
+    update: '更新至 {version}',
+    currentVersion: '当前版本',
+    newVersion: '新版本',
+    notAvailable: '无可用更新',
+    title: '更新已就绪',
+    message: '新版本已下载，重启安装？',
+    restart: '立即重启',
+    later: '以后安装',
+  },
 }

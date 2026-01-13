@@ -17,6 +17,7 @@ export const useAppStore = defineStore('app', {
   state: (): AppState => ({
     setting: defaultAppState.setting,
     navi: defaultAppState.navi,
+    updater: {} as Indexable
   }),
   getters: {
     getSetting: (state) => state.setting,
@@ -47,6 +48,12 @@ export const useAppStore = defineStore('app', {
     setPageTransition(pageTransition :PageTransitionSetting) {
       this.setting.pageTransition = pageTransition
     },
+    setUpdater(value: Indexable) {
+      this.updater = {
+        ...this.updater,
+        ...value
+      }
+    }
   },
   persist: {
     key: `${CODE}.app`

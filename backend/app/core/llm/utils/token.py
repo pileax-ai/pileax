@@ -5,7 +5,6 @@ import tiktoken
 
 from app.libs.file_utils import get_cache_dir
 
-
 _ENCODING_NAME = "cl100k_base"
 _TIKTOKEN_CACHE_DIR = get_cache_dir("tiktoken")
 os.environ.setdefault("TIKTOKEN_CACHE_DIR", _TIKTOKEN_CACHE_DIR)
@@ -103,4 +102,3 @@ def total_token_count_from_response(resp):
         pass
 
     return 0
-

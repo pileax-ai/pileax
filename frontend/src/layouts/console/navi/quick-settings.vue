@@ -66,6 +66,7 @@
               </o-common-item>
             </template>
           </o-hover-menu>
+          <o-updater-item v-else-if="action.value === 'updater'" />
           <o-common-item v-bind="action"
                          @click="onAction(action)"
                          :closable="action.clickable" v-else>
@@ -100,9 +101,11 @@ import { computed } from 'vue'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import useSetting from 'core/hooks/useSetting'
+import useUpdater from 'core/hooks/useUpdater'
 import useAccount from 'src/hooks/useAccount'
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
+import OUpdaterItem from 'components/app/updater/OUpdaterItem.vue'
 import { openURL } from 'quasar'
 import { APP_DOC_URL } from 'src/app/app'
 import useShortcut from 'core/hooks/useShortcut'
@@ -125,6 +128,7 @@ const {
 const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
+const { updater } = useUpdater()
 const { nativeShortcut } = useShortcut()
 const offset = computed(() => {
   return props.type === 'tab' ? [-2, -2] : [-2, -2]
@@ -165,6 +169,12 @@ const actions = computed(() => {
       icon: 'o_view_headline',
       clickable: true,
       separator: true,
+    },
+    {
+      label: t('updater.check'),
+      value: 'updater',
+      icon: 'o_arrow_circle_up',
+      clickable: true,
     },
     {
       label: t('help'),
