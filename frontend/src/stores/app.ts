@@ -17,7 +17,8 @@ export const useAppStore = defineStore('app', {
   state: (): AppState => ({
     setting: defaultAppState.setting,
     navi: defaultAppState.navi,
-    updater: {} as Indexable
+    updater: {} as Indexable,
+    tour: {} as Indexable,
   }),
   getters: {
     getSetting: (state) => state.setting,
@@ -53,6 +54,9 @@ export const useAppStore = defineStore('app', {
         ...this.updater,
         ...value
       }
+    },
+    closeTour(name: string) {
+      this.tour[name] = true
     }
   },
   persist: {

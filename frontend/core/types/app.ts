@@ -7,5 +7,6 @@ export interface AppState {
     width: number,
     miniState: boolean,
   },
-  updater: Indexable
+  updater: Indexable,
+  tour: Indexable,
 }

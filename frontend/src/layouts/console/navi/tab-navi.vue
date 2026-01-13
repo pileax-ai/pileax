@@ -28,7 +28,8 @@
                 mobile-arrows>
           <template v-for="(item, index) in consoleMenus" :key="index">
             <div v-if="!item.meta?.hidden">
-              <q-tab :name="item.name">
+              <q-tab :name="item.name"
+                     :class="`tab-${item.name.split('.')[0]}`">
                 <o-icon :name="item.meta.icon" />
                 <o-tooltip>
                   {{menuLabel(item.name)}}

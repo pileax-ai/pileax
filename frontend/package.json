@@ -46,6 +46,7 @@
     "bignumber.js": "^9.1.2",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
+    "driver.js": "^1.4.0",
     "echarts": "^5.4.3",
     "electron-log": "^5.3.2",
     "electron-updater": "^6.7.3",

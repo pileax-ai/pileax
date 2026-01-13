@@ -7,6 +7,7 @@ import knowledge from './knowledge'
 import note from './note'
 import product from './product'
 import reading from './reading'
+import tour from './tour'
 import workspace from './workspace'
 
 export default {
@@ -19,5 +20,6 @@ export default {
   note,
   product,
   reading,
+  tour,
   workspace,
 }
