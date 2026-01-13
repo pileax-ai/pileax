@@ -30,6 +30,7 @@ export class Application {
   }
 
   static initApp() {
+    app.setName('pileax-desktop')
     if (process.platform === 'linux') {
       app.commandLine.appendSwitch('no-sandbox')
       app.commandLine.appendSwitch('disable-setuid-sandbox')
@@ -37,6 +38,7 @@ export class Application {
   }
 
   static initUpdater() {
+    console.log('⭐⭐⭐⭐⭐')
     updaterManager.check()
   }
 
@@ -140,7 +142,18 @@ export class Application {
     ipcMain.handle('update-tray-menu',
       async (event, options) => {
         trayManager?.updateTrayMenu(options)
-      })
+    })
+
+    ipcMain.handle('updater', (event, options) => {
+      switch (options.action) {
+        case 'check':
+          return updaterManager.check()
+        case 'download':
+          return updaterManager.download()
+        case 'update':
+          return updaterManager.update(options)
+      }
+    })
 
     ipcMain.handle('window-close', () => {
       WindowManager.closeWindow()

@@ -31,6 +31,10 @@ const onLoadUpdate = (callback: (data: string) => void) => {
 
 }
 
+const onUpdater = (callback: (data: string) => void) => {
+
+}
+
 window.webIpcAPI = {
   hi: mock as any,
   closeWindow: mock as any,
@@ -50,7 +54,9 @@ window.webIpcAPI = {
   saveImageFile: mock as any,
   setTheme: mock as any,
   showDialog: mock as any,
-  updateTrayMenu: mock as any
+  updateTrayMenu: mock as any,
+  updater: mock as any,
+  onUpdater: onUpdater as any,
 }
 
 export const createWebIpc = (): IpcService => {

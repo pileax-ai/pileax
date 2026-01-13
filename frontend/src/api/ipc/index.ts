@@ -22,6 +22,8 @@ export type IpcApi = {
   setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
   showDialog: (options: Indexable) => Promise<any>;
   updateTrayMenu: (options: any) => Promise<any>;
+  updater: (options: Indexable) => Promise<any>;
+  onUpdater: (callback: (data: Indexable) => void) => void;
 }
 
 export const ipcServiceKeys = [
@@ -44,6 +46,8 @@ export const ipcServiceKeys = [
   'setTheme',
   'showDialog',
   'updateTrayMenu',
+  'updater',
+  'onUpdater',
 ] as const
 
 export type IpcService = Pick<IpcApi, typeof ipcServiceKeys[number]>;

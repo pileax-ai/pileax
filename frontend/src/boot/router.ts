@@ -10,12 +10,12 @@ export default boot(({ router, store }) => {
   const appStore = useAppStore(store)
 
   router.beforeEach((to, from, next) => {
-    startPageLoading(appStore)
+    // startPageLoading(appStore)
     next()
   })
 
   router.afterEach((to, from) => {
-    stopPageLoading(appStore)
+    // stopPageLoading(appStore)
 
     const timeout = appStore.setting.pageTransition.enable ? 200 : 0
     setTimeout(() => {

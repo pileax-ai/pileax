@@ -5,12 +5,14 @@
 import { useApiStore } from 'stores/api'
 import { useNaviStore } from 'stores/navi'
 import useSetting from 'core/hooks/useSetting'
+import useUpdater from 'core/hooks/useUpdater'
 import { ipcService } from 'src/api/ipc'
 
 export const initApp = () => {
   initApi()
   initMenu()
   initSetting()
+  initListeners()
 }
 
 export const reloadApp = async () => {
@@ -41,3 +43,12 @@ const initApi = async () => {
   }
 }
 
+const initListeners = () => {
+  const { setUpdater } = useUpdater()
+  setUpdater({})
+
+  ipcService.onUpdater((data) => {
+    console.log('onUpdater', data)
+    setUpdater(data)
+  })
+}

@@ -224,4 +224,15 @@ export default {
   },
   welcome: 'Welcome',
   current: 'Current',
+  updater: {
+    check: 'Check update',
+    update: 'Update to {version}',
+    currentVersion: 'Current version',
+    newVersion: 'New version',
+    notAvailable: 'No update available',
+    title: 'Update Ready',
+    message: 'New version downloaded, restart to install?',
+    restart: 'Restart',
+    later: 'Later',
+  },
 }

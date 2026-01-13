@@ -87,6 +87,11 @@ const electronIpcAPI = {
   },
   updateTrayMenu: async (options: any) =>
     ipcRenderer.invoke('update-tray-menu', options),
+  updater: async (options: Indexable) =>
+    ipcRenderer.invoke('updater', options),
+  onUpdater: (callback: (data: any) => void) => {
+    ipcRenderer.on('updater', (_, data: any) => callback(data))
+  },
 }
 
 contextBridge.exposeInMainWorld('electronIpcAPI', electronIpcAPI)
