@@ -9,18 +9,40 @@ on:
       - main
 
 concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: ci-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
+  # Check which paths were changed to determine which tests to run
+  check-changes:
+    name: Check Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      api-changed: ${{ steps.changes.outputs.api }}
+      web-changed: ${{ steps.changes.outputs.web }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            api:
+              - 'backend/**'
+              - 'docker/**'
+              - '.github/workflows/api-tests.yml'
+            web:
+              - 'frontend/**'
   web-tests:
     name: Web Tests
+    needs: check-changes
+    if: needs.check-changes.outputs.web-changed == 'true'
     uses: ./.github/workflows/web-tests.yml
 
   api-tests:
     name: API Tests
-    needs: web-tests
+    needs: check-changes
+    if: needs.check-changes.outputs.api-changed == 'true'
     uses: ./.github/workflows/api-tests.yml
