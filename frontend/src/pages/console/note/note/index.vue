@@ -1,5 +1,7 @@
 <template>
-  <o-note-page ref="notePage" class="page-note">
+  <o-note-page ref="notePage"
+               class="page-note"
+               :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
     <header class="row items-center justify-between note-header text-readable">
       <note-breadcrumbs :id="id" />
       <note-actions @action="onAction" />
@@ -126,6 +128,27 @@ const options = computed(() => {
 
 const editor = computed(() => {
   return yiiEditor.value?.editor
+})
+
+const styles = computed(() => {
+  let s = {}
+  try {
+    s = JSON.parse(currentNote.value.styles || '')
+  } catch (err) {
+    // console.warn(err);
+  }
+  return s as Indexable
+})
+
+const font = computed(() => {
+  switch (styles.value.font) {
+    case 'serif':
+      return 'Lyon-Text, Georgia, "Songti SC", SimSun, serif'
+    case 'mono':
+      return 'iawriter-mono, Nitti, Menlo, Courier, monospace'
+    default:
+      return ''
+  }
 })
 
 function initEditor() {
@@ -296,6 +319,12 @@ onMounted(() => {
 
 <style lang="scss">
 .page-note {
+  .tiptap {
+    font-family: var(--note-font) !important;
+    font-size: var(--note-font-size) !important;
+  }
+
+
   .note-header {
     height: 50px;
     padding: 0 10px;
