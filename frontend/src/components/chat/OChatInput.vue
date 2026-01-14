@@ -83,12 +83,15 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  notify: {
+    type: String,
+    default: 'dialog'
+  },
 })
 const emit = defineEmits(['send', 'stop'])
 
-const { localModels } = useAi()
+const { localModels, checkAiSettings } = useAi()
 const input = ref()
-const reasoning = ref(false)
 
 const localDefaultModel = computed(() => {
   return localModels.value['chat'] || {}
@@ -112,6 +115,7 @@ function onKeydown(event: KeyboardEvent) {
 function onSend() {
   const message = input.value ? input.value.trim() : ''
   if (message === '') return
+  if (!checkAiSettings(props.notify)) return
 
   emit('send', {
     id: UUID(),

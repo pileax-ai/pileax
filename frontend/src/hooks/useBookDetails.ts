@@ -1,12 +1,10 @@
-import { useQuasar } from 'quasar'
 import useApi from 'src/hooks/useApi'
 import { userBookService, workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
 import useCommon from 'core/hooks/useCommon'
 
 export default function () {
-  const $q = useQuasar()
   const { getBookUrl } = useApi()
-  const { t } = useCommon()
+  const { t, confirm } = useCommon()
 
   const downloadBook = (book: Indexable) => {
     const url = getBookUrl(book)
@@ -42,36 +40,36 @@ export default function () {
 
   const removeBook = (book: Indexable) => {
     return new Promise((resolve, reject) => {
-      $q.dialog({
-        title: t('confirm'),
-        message: t('book.removeConfirm'),
-        cancel: true
-      }).onOk( () => {
-        workspaceBookService.delete(book.id).then(res => {
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      }).onCancel(() => {
-        reject(new Error('Use cancelled'))
+      confirm(t('book.removeConfirm'), {
+        label: book.title,
+        onOk: () => {
+          workspaceBookService.delete(book.id).then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        },
+        onCancel: () => {
+          reject(new Error('Use cancelled'))
+        }
       })
     })
   }
 
-  const removeBookFromCollection = (tid: string) => {
+  const removeBookFromCollection = (data: Indexable) => {
     return new Promise((resolve, reject) => {
-      $q.dialog({
-        title: t('confirm'),
-        message: t('book.collections.removeConfirm'),
-        cancel: true
-      }).onOk( () => {
-        workspaceBookCollectionService.delete(tid).then(res => {
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      }).onCancel(() => {
-        reject(new Error('Use cancelled'))
+      confirm(t('book.collections.removeConfirm'), {
+        label: data.title,
+        onOk: () => {
+          workspaceBookCollectionService.delete(data.tid).then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        },
+        onCancel: () => {
+          reject(new Error('Use cancelled'))
+        }
       })
     })
   }

@@ -123,12 +123,11 @@ export default function () {
   }
 
   function onDelete(api: string, id: string, label = '', notify = true) {
-    if (label) {
-      label = ` [<span class="text-orange text-bold">${label}</span>] `
-    }
-
-    confirm(`确认删除该数据项？${label}`, () => {
-      doDelete(api, id, notify)
+    confirm(t('deleteConfirm'), {
+      label: label,
+      onOk: () => {
+        doDelete(api, id, notify)
+      }
     })
   }
 

@@ -1,29 +1,20 @@
 <template>
-  <o-common-dialog class="tips-dialog dialog-theme"
-                   :show="dialog.type === 'tips'"
+  <o-common-dialog class="guide-dialog dialog-theme"
+                   :ok="dialog.ok"
+                   :show="dialog.type === 'guide'"
                    :content-style="style"
                    @close="onHide"
                    @ok="onOk"
                    show-cancel
                    show-ok>
     <header class="row justify-center items-center" v-touch-pan.prevent.mouse="onPan">
-      <o-icon :name="dialog.icon || 'info'" />
+      <q-icon :name="dialog.icon || 'info'" />
     </header>
     <section class="content">
       <div class="title">
         {{ dialog.title }}
       </div>
-      <div class="message" v-html="dialog.message" v-if="isString(dialog.message)"></div>
-      <div class="message row items-center" v-else>
-        <template v-for="(item, index) in dialog.message" :key="index">
-          <component
-            v-if="item.type === 'component'"
-            :is="item.component"
-            v-bind="item.props"
-          />
-          <span v-else v-html="item.content"></span>
-        </template>
-      </div>
+      <div class="message" v-html="dialog.message"></div>
     </section>
   </o-common-dialog>
 </template>
@@ -46,10 +37,6 @@ const style = computed(() => {
   }
 })
 
-const isString = (value: unknown): boolean => {
-  return typeof value === 'string'
-}
-
 const onPan = (evt: any) => {
   pos.x += evt.delta.x
   pos.y += evt.delta.y
@@ -58,6 +45,6 @@ const onPan = (evt: any) => {
 
 <style lang="scss">
 @import "./dialog-theme";
-.tips-dialog {
+.guide-dialog {
 }
 </style>

@@ -14,7 +14,7 @@ from app.api.services.base_service import BaseService
 from app.api.services.conversation_service import ConversationService
 from app.api.services.prompt_service import PromptService
 from app.api.services.provider_credential_service import ProviderCredentialService
-from app.api.services.provider_model_service import ProviderDefaultModelService
+from app.api.services.provider_default_model_service import ProviderDefaultModelService
 from app.constants.enums import LLMType
 from app.core.llm.services.llm_service import LLMService
 

@@ -86,7 +86,7 @@ function updateReadingStatus(status: number) {
 }
 
 function onRemoveCollection() {
-  removeBookFromCollection(props.data.tid).then(res => {
+  removeBookFromCollection(props.data).then(res => {
     emit('close', {
       action: 'remove',
       item: props.data

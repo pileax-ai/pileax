@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Generic, Optional, TypeVar, cast
 
-from sqlalchemy import exists
+from sqlalchemy import exists, delete
 from sqlmodel import Session, SQLModel, func, select
 
 from app.api.models.query import PaginationQuery, QueryResult
@@ -124,6 +124,26 @@ class BaseRepository(Generic[ModelType]):
 
         rows = self.session.exec(stmt).all()
         return cast(list[ModelType], rows)
+
+    def delete_all(self, condition: dict[str, Any]) -> int:
+        """
+        Batch delete by condition
+        :return: Row count
+        """
+        stmt = delete(self.model)
+
+        if condition:
+            for field, value in condition.items():
+                if hasattr(self.model, field):
+                    stmt = stmt.where(getattr(self.model, field) == value)
+
+        # Avoid deleting all
+        if not stmt._where_criteria:
+            return 0
+
+        result = self.session.exec(stmt)
+        self.session.commit()
+        return getattr(result, "rowcount", 0) or 0
 
     def exists(self, **filters: Any) -> bool:
         conditions = []

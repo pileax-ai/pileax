@@ -20,6 +20,9 @@ export default function () {
   }
 
   function onHide() {
+    if (typeof dialog.value.onCancel === 'function') {
+      dialog.value.onCancel()
+    }
     componentStore.setDialog({})
   }
 
@@ -27,7 +30,7 @@ export default function () {
     if (typeof dialog.value.onOk === 'function') {
       dialog.value.onOk()
     }
-    onHide()
+    componentStore.setDialog({})
   }
 
   return {

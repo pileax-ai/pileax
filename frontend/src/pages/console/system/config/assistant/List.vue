@@ -166,9 +166,11 @@ function onEdit(value: Indexable) {
 }
 
 function onDisable(value: Indexable) {
-  const label = ` [<span class="text-orange text-bold">${value.title}</span>] `
-  confirm(`确认禁用${label}？`, () => {
-    disable(value)
+  confirm('确认禁用？',  {
+    label: value.title,
+    onOk: () => {
+      disable(value)
+    },
   })
 }
 

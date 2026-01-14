@@ -4,7 +4,6 @@
                    content-class="search-card"
                    :content-style="{ minWidth: '600px', maxWidth: '1200px' }"
                    :show="dialog.type === 'ai-provider-search'"
-                   :header="false"
                    @close="onHide">
     <o-ai-provider-search />
   </o-common-dialog>

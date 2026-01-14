@@ -3,7 +3,8 @@
                     :show="dialog.type === 'chat-note-select'"
                     position="top"
                     scrollable
-                    @close="onHide" @show="onShow">
+                    @close="onHide"
+                    @show="onShow">
     <template #header>
       <q-input v-model="term"
                @update:model-value="onSearch"

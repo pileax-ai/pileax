@@ -18,10 +18,12 @@ export const useAiStore = defineWorkspaceStore('ai', {
     getLocalModel(type: string) {
       return this.localModels[type]
     },
-    getDefaultModels() {
-      pdmService.getAll().then(res => {
-        this.defaultModels = res
-      })
+    async getDefaultModels() {
+      try {
+        this.defaultModels = await pdmService.getAll()
+      } catch (err) {
+        //
+      }
     },
     updateLocalDefaultModels(item: Indexable) {
       const idx = this.defaultModels.findIndex(m => m.id === item.id)

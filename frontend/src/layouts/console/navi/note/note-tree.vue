@@ -208,13 +208,13 @@ function onOpenNote (note: Indexable) {
 }
 
 function onDelete(note: Indexable) {
-  confirm(
-    `${t('deleteConfirm')} [ <span class="text-bold text-amber">${note.title}</span> ]`,
-    () => {
-      deleteNote(note)
-    },
+  confirm(t('deleteConfirm'),
     {
-      showCancel: true
+      icon: note.icon,
+      label: note.title,
+      onOk: () => {
+        deleteNote(note)
+      }
     }
   )
 }

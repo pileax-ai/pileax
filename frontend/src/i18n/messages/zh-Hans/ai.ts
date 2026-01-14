@@ -32,7 +32,9 @@ export default {
       keyTips: '你的 API 密钥将使用 PKCS1_OAEP 技术加密存储。'
     },
     available: '可用提供商',
-    title: '模型提供商'
+    title: '模型提供商',
+    set: '设置 AI 模型提供商',
+    setTips: '设置服务提供商以启用 AI 功能',
   },
   regenerate: '重新生成',
   settings: 'AI 设置'

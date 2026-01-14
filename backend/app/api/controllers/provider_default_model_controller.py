@@ -5,7 +5,7 @@ from app.api.models.provider_default_model import (
     ProviderDefaultModelCreate,
     ProviderDefaultModelUpdate,
 )
-from app.api.services.provider_model_service import ProviderDefaultModelService
+from app.api.services.provider_default_model_service import ProviderDefaultModelService
 
 
 class ProviderDefaultModelController(
@@ -17,10 +17,10 @@ class ProviderDefaultModelController(
         self.workspace_id = workspace_id
 
     def save(self, item_in: ProviderDefaultModelCreate) -> ProviderDefaultModel:
-        return self.service.create_update(item_in, self.workspace_id)
+        return self.service.create_update(item_in)
 
     def find_all(self) -> list[ProviderDefaultModel]:
         return self.service.find_all({"workspace_id": self.workspace_id})
 
     def get_by_type(self, model_type: str) -> ProviderDefaultModel:
-        return self.service.get_by_type(self.workspace_id, model_type)
+        return self.service.get_by_type(model_type)

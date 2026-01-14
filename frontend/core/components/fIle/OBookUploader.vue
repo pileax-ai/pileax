@@ -78,7 +78,7 @@ defineProps({
 })
 const emit = defineEmits(['completed'])
 
-const { t, confirm } = useCommon()
+const { t } = useCommon()
 const value = ref(null)
 const error = ref('')
 const upload = reactive({

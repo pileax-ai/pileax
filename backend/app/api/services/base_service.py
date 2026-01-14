@@ -64,6 +64,9 @@ class BaseService(Generic[ModelType]):
     def find_all(self, condition: Optional[dict[str, object]] = None) -> list[ModelType]:
         return self.repo.find_all(condition)
 
+    def delete_all(self, condition: dict[str, Any]) -> int:
+        return self.repo.delete_all(condition)
+
     def exists(self, **filters: Any) -> bool:
         return self.repo.exists(**filters)
 
