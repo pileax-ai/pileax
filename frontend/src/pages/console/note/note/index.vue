@@ -2,47 +2,57 @@
   <o-note-page ref="notePage"
                class="page-note"
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
-    <header class="row items-center justify-between note-header text-readable">
+    <nav class="row items-center justify-between text-readable note-nav">
       <note-breadcrumbs :id="id" />
       <note-actions @action="onAction" />
-    </header>
+    </nav>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
-      <section class="col-12 cover"
-               v-if="currentNote.cover">
-        <img :src="currentNote.cover" alt="cover" />
-      </section>
-      <header class="row justify-center note-meta"
-              :class="`${pageView} ${currentNote.cover && currentNote.icon ? 'with-cover' : ''}`">
-        <section class="note-meta-wrapper">
-          <div class="icon text-readable" v-if="currentNote.icon">
+      <section class="layout" :class="[pageView]">
+        <header class="layout-full col-12 cover"
+                 v-if="currentNote.cover">
+          <img :src="currentNote.cover" alt="cover" />
+        </header>
+
+        <section class="layout-content row justify-center note-meta"
+                :class="`${pageView} ${currentNote.cover && currentNote.icon ? 'with-cover' : ''}`">
+          <section class="note-meta-wrapper">
+            <div class="icon text-readable" v-if="currentNote.icon">
             <span v-if="false">
               {{ currentNote.icon }}
             </span>
-            <o-icon :name="currentNote.icon" />
-            <o-general-icon-menu anchor="bottom left"
-                                 self="top left"
-                                 :offset="[0, 8]"
-                                 @select="setIcon" />
-          </div>
+              <o-icon :name="currentNote.icon" />
+              <o-general-icon-menu anchor="bottom left"
+                                   self="top left"
+                                   :offset="[0, 8]"
+                                   @select="setIcon" />
+            </div>
+          </section>
+          <section class="text-readable note-meta-wrapper">
+            <q-btn icon="sentiment_satisfied_alt"
+                   :label="$t('note.addIcon')"
+                   flat
+                   @click="addIcon"
+                   v-if="!currentNote.icon" />
+            <q-btn icon="image"
+                   label="Add Cover"
+                   flat
+                   @click="addCover"
+                   v-if="!currentNote.cover" />
+          </section>
         </section>
-        <section class="text-readable note-meta-wrapper">
-          <q-btn icon="sentiment_satisfied_alt"
-                 :label="$t('note.addIcon')"
-                 flat
-                 @click="addIcon"
-                 v-if="!currentNote.icon" />
-          <q-btn icon="image"
-                 label="Add Cover"
-                 flat
-                 @click="addCover"
-                 v-if="!currentNote.cover" />
-        </section>
-      </header>
-      <YiiEditor ref="yiiEditor" v-bind="options" @update="onUpdate" />
+
+        <YiiEditor ref="yiiEditor"
+                   class="layout-content"
+                   v-bind="options"
+                   @update="onUpdate" />
+
+        <aside class="layout-right">
+          <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
+        </aside>
+      </section>
     </q-scroll-area>
 
-    <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
   </o-note-page>
 </template>
 
@@ -151,7 +161,7 @@ const styles = computed(() => {
 const font = computed(() => {
   switch (styles.value.font) {
     case 'serif':
-      return 'Lyon-Text, Georgia, "Songti SC", SimSun, serif'
+      return 'Lyon-Text, Georgia, ui-serif, SimSun, serif'
     case 'mono':
       return 'iawriter-mono, Nitti, Menlo, Courier, monospace'
     default:
@@ -327,13 +337,19 @@ onMounted(() => {
 
 <style lang="scss">
 .page-note {
-  .tiptap {
-    font-family: var(--note-font) !important;
-    font-size: var(--note-font-size) !important;
+  .yiitap {
+    .editor-content {
+      padding: 16px 0;
+    }
+
+    .tiptap {
+      font-family: var(--note-font), serif !important;
+      font-size: var(--note-font-size) !important;
+    }
   }
 
 
-  .note-header {
+  .note-nav {
     height: 50px;
     padding: 0 10px;
     background: linear-gradient(to right,
@@ -344,6 +360,44 @@ onMounted(() => {
 
   .o-scroll-wrapper {
     top: 50px;
+
+    .layout {
+      display: grid;
+      grid-template-rows:
+        auto
+        1fr;
+
+      &.page {
+        grid-template-columns:
+          [full-start] minmax(0, 1fr)
+          [content-start] minmax(200px, 800px)
+          [content-end] minmax(0, 1fr)
+          [full-end];
+      }
+
+      &.full {
+        grid-template-columns:
+          [full-start] 100px
+          [content-start] 1fr
+          [content-end] 100px
+          [full-end];
+      }
+    }
+
+    .layout-full {
+      grid-column: full;
+    }
+
+    .layout-content {
+      grid-column: content;
+    }
+
+    .layout-right {
+      position: sticky;
+      top: 0;
+      grid-column: content-end / full-end;
+      grid-row: 2;
+    }
 
     .cover {
       height: 280px;
@@ -356,12 +410,6 @@ onMounted(() => {
     }
 
     .note-meta {
-      padding: 0 100px;
-      &.page {
-        .note-meta-wrapper {
-          max-width: 800px;
-        }
-      }
       &.with-cover {
         margin-top: -40px;
       }
@@ -393,11 +441,6 @@ onMounted(() => {
           }
         }
       }
-    }
-
-    .editor-content.page-view {
-      width: 100%;
-      max-width: 1000px;
     }
   }
 
