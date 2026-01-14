@@ -15,6 +15,6 @@ export const markdownToHtml = (text: string) => {
 
 export const chatContentToHtml = (text: string, title = '') => {
   text = title ? `# ${title} \n ${text}` : text
-  console.log('chatContentToHtml', text)
+  // console.log('chatContentToHtml', text)
   return md.render(text)
 }

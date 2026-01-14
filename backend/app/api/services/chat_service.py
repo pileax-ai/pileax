@@ -99,8 +99,9 @@ class ChatService(BaseService[Message]):
                 result = Status.INACTIVE
                 yield f"event: [ERROR] {str(e)}\n"
 
-            # Save to db
+            # Save to db and update conversation
             save_message()
+            update_conversation()
 
         def save_message():
             nonlocal content, reasoning_content, total_tokens
@@ -117,6 +118,13 @@ class ChatService(BaseService[Message]):
             item["total_tokens"] = total_tokens
             item["result"] = result
             self.save(Message(**item))
+
+        def update_conversation():
+            self.conversation_service.update(item_in.conversation_id, {
+                "model_provider": pdm_credential.provider,
+                "model_name": pdm_credential.model_name,
+                "model_type": pdm_credential.model_type,
+            })
 
         return StreamingResponse(
             sse_gen(),

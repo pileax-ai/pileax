@@ -30,6 +30,7 @@
         >
             <span class="heading"
                   :class="{ selected: selectedId === item.id }"
+                  v-close-popup
                   @click="onClick((item))">
               {{ item.message }}
             </span>
