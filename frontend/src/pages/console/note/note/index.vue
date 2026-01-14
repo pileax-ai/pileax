@@ -8,10 +8,12 @@
     </header>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
-      <header class="row justify-center note-meta" :class="pageView">
-        <section class="col-12 cover" v-if="false">
-          Cover
-        </section>
+      <section class="col-12 cover"
+               v-if="currentNote.cover">
+        <img :src="currentNote.cover" alt="cover" />
+      </section>
+      <header class="row justify-center note-meta"
+              :class="`${pageView} ${currentNote.cover && currentNote.icon ? 'with-cover' : ''}`">
         <section class="note-meta-wrapper">
           <div class="icon text-readable" v-if="currentNote.icon">
             <span v-if="false">
@@ -28,8 +30,13 @@
           <q-btn icon="sentiment_satisfied_alt"
                  :label="$t('note.addIcon')"
                  flat
-                 @click="addIcon" v-if="!currentNote.icon" />
-          <q-btn icon="image" label="Add Cover" flat v-if="false" />
+                 @click="addIcon"
+                 v-if="!currentNote.icon" />
+          <q-btn icon="image"
+                 label="Add Cover"
+                 flat
+                 @click="addCover"
+                 v-if="!currentNote.cover" />
         </section>
       </header>
       <YiiEditor ref="yiiEditor" v-bind="options" @update="onUpdate" />
@@ -64,6 +71,7 @@ const {
   currentNote,
   noteService,
   setCurrentNote,
+  addCover,
   addIcon,
   setIcon,
 } = useNote()
@@ -337,14 +345,27 @@ onMounted(() => {
   .o-scroll-wrapper {
     top: 50px;
 
+    .cover {
+      height: 280px;
+      img {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 280px;
+      }
+    }
+
     .note-meta {
-      //margin-top: 50px;
       padding: 0 100px;
       &.page {
         .note-meta-wrapper {
           max-width: 800px;
         }
       }
+      &.with-cover {
+        margin-top: -40px;
+      }
+
       .note-meta-wrapper {
         width: 100%;
 
@@ -354,7 +375,7 @@ onMounted(() => {
           font-size: 80px;
           line-height: 1.1;
           &:hover {
-            background: var(--q-accent);
+            background: rgba(0,0,0,0.1);
             border-radius: 4px;
             cursor: pointer;
           }
@@ -383,7 +404,6 @@ onMounted(() => {
 
   .o-doc-toc {
     position: absolute;
-
     right: 20px;
   }
 }

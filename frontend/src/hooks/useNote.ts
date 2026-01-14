@@ -165,6 +165,21 @@ export default function () {
     })
   }
 
+  function addCover() {
+    const covers = [
+      '/images/book/dark-bubble_nebula.jpg',
+      '/images/book/dark-pillars_of_creation.jpg',
+      '/images/book/light-old_book.png',
+      '/images/book/light-willow_bank.jpg',
+    ]
+    const index = Math.floor(Math.random() * covers.length)
+    const cover = covers[index]
+    saveNote({
+      id: currentNote.value.id,
+      cover: cover
+    })
+  }
+
   function setIcon(option: Indexable) {
     saveNote({
       id: currentNote.value.id,
@@ -283,6 +298,7 @@ export default function () {
     beforeDeleteNote,
     deleteNote,
     saveNote,
+    addCover,
     addIcon,
     setIcon,
     setParent,
