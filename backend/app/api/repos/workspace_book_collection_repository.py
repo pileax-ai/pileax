@@ -63,7 +63,7 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
-        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         total = self.session.exec(count_stmt).one()

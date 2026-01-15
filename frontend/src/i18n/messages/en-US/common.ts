@@ -162,7 +162,9 @@ export default {
   sortBy: {
     note: 'Note',
     recent: 'Recent',
-    title: 'Title'
+    title: 'Title',
+    recentAdd: 'Recent Add',
+    recentRead: 'Recent Read',
   },
   status: 'Status',
   submit: 'Submit',

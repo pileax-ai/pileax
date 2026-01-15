@@ -81,7 +81,7 @@ function onAction (action :any) {
         orderDesc.value = true
       }
       orderField.value = value
-      emit('sort', { update_time: orderDesc.value ? 'desc' : 'asc' })
+      emit('sort', { 'workspacebookcollection.update_time': orderDesc.value ? 'desc' : 'asc' })
       break
     case 'title':
       if (orderField.value === value) {
@@ -90,7 +90,7 @@ function onAction (action :any) {
         orderDesc.value = false
       }
       orderField.value = value
-      emit('sort', { title: orderDesc.value ? 'desc' : 'asc' })
+      emit('sort', { 'book.title_pinyin': orderDesc.value ? 'desc' : 'asc' })
       break
     default:
       break

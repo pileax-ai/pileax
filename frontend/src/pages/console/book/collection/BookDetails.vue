@@ -54,7 +54,7 @@
                :label="$t('book.startReading')"
                class="bg-primary text-white action"
                flat
-               @click="openBook" v-else />
+               @click="openBook(data)" v-else />
       </q-card-section>
     </q-card>
   </section>
@@ -64,9 +64,8 @@
 import { onMounted, ref } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
-import { ipcService } from 'src/api/ipc'
-import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
+import useReading from 'src/hooks/useReading'
 
 const props = defineProps({
   data: {
@@ -83,6 +82,7 @@ const props = defineProps({
 const emit = defineEmits(['add', 'close', 'edit'])
 
 const { getCoverUrl } = useApi()
+const { openBook } = useReading()
 const coverUrl = ref('')
 
 function onEdit() {
@@ -91,12 +91,6 @@ function onEdit() {
 
 function onClose(args: Indexable) {
   emit('close', args)
-}
-
-function openBook() {
-  const item = props.data
-  ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
-    READER_TITLE_BAR_HEIGHT)
 }
 
 function init() {

@@ -17,6 +17,10 @@ export class WorkspaceBookService extends BaseService {
     return GET({ name: this.apiName, path: '/stats'})
   }
 
+  async queryDetails(body: Indexable): Promise<any> {
+    return POST({ name: this.apiName, path: '/query/details', body })
+  }
+
 }
 
 export const workspaceBookService = new WorkspaceBookService()

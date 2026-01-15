@@ -17,11 +17,11 @@ defineProps({
   },
   message: {
     type: String,
-    default: 'No records'
+    default: ''
   },
   contentClass: {
     type: String,
-    default: 'No records'
+    default: ''
   },
 })
 </script>

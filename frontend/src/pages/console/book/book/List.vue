@@ -147,14 +147,14 @@ import OBookUploader from 'core/components/fIle/OBookUploader.vue'
 import OSplitPage from 'core/page/template/OSplitPage.vue'
 
 import useReader from 'src/hooks/useReader'
+import useReading from 'src/hooks/useReading'
 import useLoadMore from 'src/hooks/useLoadMore'
-import { ipcService } from 'src/api/ipc'
-import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import useCommon from 'core/hooks/useCommon'
 
 const { t } = useCommon()
 const { queryTimer } = useReader()
+const { openBook } = useReading()
 const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
@@ -225,16 +225,12 @@ async function onUploadCompleted() {
   query.value.onQuery()
 }
 
-function openBook(item: any) {
-  ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
-    READER_TITLE_BAR_HEIGHT)
-}
-
 function initData() {
   initQuery({
     api: 'workspaceBook',
     path: '/query/details',
-    title: t('book._')
+    title: t('book._'),
+    sortBy: { 'userbook.update_time': 'desc' }
   })
 }
 

@@ -163,7 +163,9 @@ export default {
   sortBy: {
     note: '笔记',
     recent: '最近',
-    title: '标题'
+    title: '标题',
+    recentAdd: '最近添加',
+    recentRead: '最近阅读',
   },
   status: '状态',
   submit: '提交',

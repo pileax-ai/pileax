@@ -48,7 +48,7 @@
                :label="$t('book.startPreview')"
                class="bg-cyan text-white action"
                flat
-               @click="openBook" />
+               @click="openBookAnnotation(data)" />
         <div class="col-12 text-center text-tips caption q-mt-md">
           {{ $t('book.previewTips') }}
         </div>
@@ -60,9 +60,9 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
-import { ipcService } from 'src/api/ipc'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'
+import useReading from 'src/hooks/useReading'
 
 const props = defineProps({
   data: {
@@ -80,6 +80,7 @@ const emit = defineEmits(['close'])
 
 const { t } = useCommon()
 const { crud } = useCrud()
+const { openBookAnnotation } = useReading()
 
 const actions = computed(() => {
   return [
@@ -113,12 +114,6 @@ function onRemove() {
       })
     }
   })
-}
-
-
-function openBook() {
-  const item = props.data
-  ipcService.openNewWindow(item.id, `/reader/annotation?id=${item.id}`)
 }
 
 onMounted(() => {

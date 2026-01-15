@@ -73,9 +73,9 @@ export default function () {
     }
   }
 
-  async function getRecentNotes() {
+  async function getRecentNotes(size = 1000) {
     const query = {
-      pageSize: 1000,
+      pageSize: size,
       sort: {
         update_time: 'desc'
       }

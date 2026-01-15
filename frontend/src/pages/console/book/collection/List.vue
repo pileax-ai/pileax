@@ -121,12 +121,12 @@ import OSplitPage from 'core/page/template/OSplitPage.vue'
 
 import useReader from 'src/hooks/useReader'
 import useLoadMore from 'src/hooks/useLoadMore'
-import { ipcService } from 'src/api/ipc'
-import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import useCommon from 'core/hooks/useCommon'
+import useReading from 'src/hooks/useReading'
 
 const { t } = useCommon()
 const { queryTimer } = useReader()
+const { openBook } = useReading()
 const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
@@ -206,11 +206,6 @@ async function onUploadCompleted() {
   doQuery()
 }
 
-function openBook(item: any) {
-  ipcService.openNewWindow(item.bookId, `/reader/book?id=${item.bookId}`,
-    READER_TITLE_BAR_HEIGHT)
-}
-
 function doQuery() {
   condition.value['bookCollectionId'] = collectionId.value
   query.value.onQuery()
@@ -220,7 +215,8 @@ function initData() {
   initQuery({
     api: 'workspaceBookCollection',
     path: '/query/book/details',
-    title: t('book._')
+    title: t('book._'),
+    sortBy: { 'workspacebookcollection.update_time': 'desc' }
   })
 }
 
