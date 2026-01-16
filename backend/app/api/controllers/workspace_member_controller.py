@@ -43,14 +43,13 @@ class WorkspaceMemberController:
         wm = self.service.get(id)
 
         # Check permission
-        my_member = self.service.find_one({
-            "workspace_id": wm.workspace_id,
-            "user_id": self.user_id,
-        })
-        if my_member is None or my_member.role not in (
-                WorkspaceMemberRole.OWNER,
-                WorkspaceMemberRole.ADMIN
-        ):
+        my_member = self.service.find_one(
+            {
+                "workspace_id": wm.workspace_id,
+                "user_id": self.user_id,
+            }
+        )
+        if my_member is None or my_member.role not in (WorkspaceMemberRole.OWNER, WorkspaceMemberRole.ADMIN):
             raise HTTPException(status_code=403, detail="Do not have permission")
 
         return self.service.assign_role(id, role)
@@ -65,14 +64,13 @@ class WorkspaceMemberController:
         wm = self.service.get(id)
 
         # Check permission
-        my_member = self.service.find_one({
-            "workspace_id": wm.workspace_id,
-            "user_id": self.user_id,
-        })
-        if my_member is None or my_member.role not in (
-                WorkspaceMemberRole.OWNER,
-                WorkspaceMemberRole.ADMIN
-        ):
+        my_member = self.service.find_one(
+            {
+                "workspace_id": wm.workspace_id,
+                "user_id": self.user_id,
+            }
+        )
+        if my_member is None or my_member.role not in (WorkspaceMemberRole.OWNER, WorkspaceMemberRole.ADMIN):
             raise HTTPException(status_code=403, detail="Do not have permission")
 
         return self.service.update_status(id, status)

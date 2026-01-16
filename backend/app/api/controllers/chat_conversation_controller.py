@@ -23,6 +23,4 @@ class ChatConversationController(BaseController[Conversation, ConversationCreate
         super().delete(id)
 
         # delete related message
-        self.chat_service.delete_all({
-            "conversation_id": id
-        })
+        self.chat_service.delete_all({"conversation_id": id})

@@ -42,10 +42,13 @@ class ProviderService(BaseService[Provider]):
         if exist_credential:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Provider credential exists")
 
-        return super().delete_by_owner(Owner(
-            user_id=user_id,
-            workspace_id=workspace_id,
-        ), id)
+        return super().delete_by_owner(
+            Owner(
+                user_id=user_id,
+                workspace_id=workspace_id,
+            ),
+            id,
+        )
 
     def find_all_provider(self, workspace_id: UUID) -> list[Provider]:
         providers = super().find_all(
@@ -73,10 +76,7 @@ class ProviderService(BaseService[Provider]):
                 "workspace_id": workspace_id,
             }
         )
-        filtered_providers = [
-            p for p in providers
-            if p.credential_id is not None
-        ]
+        filtered_providers = [p for p in providers if p.credential_id is not None]
 
         all_models = []
         for p in filtered_providers:

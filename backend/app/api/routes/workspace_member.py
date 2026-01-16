@@ -4,7 +4,6 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.workspace_member_controller import WorkspaceMemberController
-from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_member import WorkspaceMemberInvite, WorkspaceMemberPublic, WorkspaceMemberPublicDetails
 from app.api.router import ApiRouter

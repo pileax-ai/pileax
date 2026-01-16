@@ -18,7 +18,7 @@ class ProviderDefaultModelService(BaseService[ProviderDefaultModel]):
         self.user_id = user_id
         self.workspace_id = workspace_id
 
-    def create_update(self, item_in: ProviderDefaultModelCreate, updatable = True) -> ProviderDefaultModel:
+    def create_update(self, item_in: ProviderDefaultModelCreate, updatable=True) -> ProviderDefaultModel:
         model = self.find_one(
             {
                 "workspace_id": self.workspace_id,
@@ -55,11 +55,14 @@ class ProviderDefaultModelService(BaseService[ProviderDefaultModel]):
         for llm in llm_list:
             model_type = llm["model_type"]
             if model_type not in model_type_list:
-                self.create_update(ProviderDefaultModelCreate(
-                    provider=provider,
-                    model_name=llm["llm_name"],
-                    model_type=llm["model_type"],
-                ), False)
+                self.create_update(
+                    ProviderDefaultModelCreate(
+                        provider=provider,
+                        model_name=llm["llm_name"],
+                        model_type=llm["model_type"],
+                    ),
+                    False,
+                )
                 model_type_list.append(model_type)
 
     def get_by_type(self, model_type: str) -> ProviderDefaultModel:
@@ -77,10 +80,12 @@ class ProviderDefaultModelService(BaseService[ProviderDefaultModel]):
         return self.repo.get_default_model_credential(workspace_id, model_type)
 
     def remove_by_provider(self, provider: str):
-        return super().delete_all({
-            "workspace_id": self.workspace_id,
-            "provider": provider,
-        })
+        return super().delete_all(
+            {
+                "workspace_id": self.workspace_id,
+                "provider": provider,
+            }
+        )
 
     def model_instance(self, workspace_id: UUID, model_type: str):
         pdm_credential = self.get_default_model_credential(workspace_id, model_type)

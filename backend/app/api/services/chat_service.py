@@ -120,11 +120,14 @@ class ChatService(BaseService[Message]):
             self.save(Message(**item))
 
         def update_conversation():
-            self.conversation_service.update(item_in.conversation_id, {
-                "model_provider": pdm_credential.provider,
-                "model_name": pdm_credential.model_name,
-                "model_type": pdm_credential.model_type,
-            })
+            self.conversation_service.update(
+                item_in.conversation_id,
+                {
+                    "model_provider": pdm_credential.provider,
+                    "model_name": pdm_credential.model_name,
+                    "model_type": pdm_credential.model_type,
+                },
+            )
 
         return StreamingResponse(
             sse_gen(),

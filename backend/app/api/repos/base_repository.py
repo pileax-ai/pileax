@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Generic, Optional, TypeVar, cast
 
-from sqlalchemy import exists, delete
+from sqlalchemy import delete, exists
 from sqlmodel import Session, SQLModel, func, select
 
 from app.api.models.query import PaginationQuery, QueryResult

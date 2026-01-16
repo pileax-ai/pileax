@@ -1,17 +1,12 @@
 import uuid
 from itertools import starmap
-from uuid import UUID
 
-from sqlalchemy import func
-from sqlalchemy.util import deprecated
 from sqlmodel import select
 
 from app.api.models.enums import Status
-from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.workspace import Workspace, WorkspaceDetailsPublic
+from app.api.models.workspace import Workspace
 from app.api.models.workspace_member import WorkspaceMember
 from app.api.repos.base_repository import BaseRepository
-from app.libs.db_helper import DbHelper
 
 
 class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
@@ -25,7 +20,7 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
             .where(
                 WorkspaceMember.user_id == user_id,
                 WorkspaceMember.status == Status.ACTIVE,
-                Workspace.status == Status.ACTIVE
+                Workspace.status == Status.ACTIVE,
             )
         )
         workspaces: list[Workspace] = list(self.session.exec(stmt).all())
@@ -35,13 +30,9 @@ class UserWorkspaceRepository(BaseRepository[WorkspaceMember]):
         stmt = (
             select(Workspace, WorkspaceMember)
             .join(WorkspaceMember, WorkspaceMember.workspace_id == Workspace.id)
-            .where(
-                WorkspaceMember.user_id == user_id,
-                Workspace.status == Status.ACTIVE
-            )
+            .where(WorkspaceMember.user_id == user_id, Workspace.status == Status.ACTIVE)
         )
         return list(starmap(self._build_details, self.session.exec(stmt).all()))
-
 
     def _build_details(self, workspace: Workspace, workspace_member: WorkspaceMember) -> dict:
         return {

@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.workspace_controller import WorkspaceController
-from app.api.models.workspace import WorkspaceCreate, WorkspacePublic, WorkspaceUpdate, WorkspaceDetailsPublic
+from app.api.models.workspace import WorkspaceCreate, WorkspaceDetailsPublic, WorkspacePublic, WorkspaceUpdate
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/workspace", tags=["Workspace"])
