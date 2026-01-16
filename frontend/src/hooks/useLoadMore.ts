@@ -37,11 +37,17 @@ export default function () {
   const { t, confirm, dialog } = useCommon()
   const componentStore = useComponentStoreWithOut()
 
-  function initQuery({api = '', path = '/query', title = ''}) {
+  function initQuery({
+                       api = '',
+                       path = '/query',
+                       title = '',
+                       sortBy = { updateTime: 'desc' } as Indexable
+  }) {
     initial.value = true
     apiName.value = api
     apiPath.value = path
     itemTitle.value = title
+    sort.value = sortBy
   }
 
   function prepareQuery() {

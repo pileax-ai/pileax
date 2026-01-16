@@ -86,7 +86,10 @@ export const useAccountStore = defineStore('account', {
         this.workspace = value
         workspaceManager.switchWorkspace(value.id)
       }
-    }
+    },
+    setWorkspaces(value: Indexable[]) {
+      this.workspaces = value
+    },
   },
   persist: {
     key: `${CODE}.account`

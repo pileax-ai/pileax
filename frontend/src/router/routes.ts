@@ -139,19 +139,25 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: '/system',
+    path: '/ai',
     component: ConsoleLayout,
     children: [
       {
-        path: 'config/providers',
-        component: () => import('pages/console/system/config/provider/List.vue'),
-        name: 'ai-config-providers'
+        path: 'app/agents',
+        component: () => import('pages/console/ai/agent/List.vue'),
+        name: 'ai-app-agents'
       },
       {
-        path: 'config/assistants',
-        component: () => import('pages/console/system/config/assistant/List.vue'),
-        name: 'ai-config-assistants'
+        path: 'app/assistants',
+        component: () => import('pages/console/ai/assistant/List.vue'),
+        name: 'ai-app-assistants'
       },
+    ]
+  },
+  {
+    path: '/system',
+    component: ConsoleLayout,
+    children: [
       {
         path: 'files',
         component: () => import('pages/console/system/content/file/List.vue'),

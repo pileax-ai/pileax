@@ -2,9 +2,14 @@
 import { useAiStore } from 'stores/ai'
 import { computed } from 'vue'
 import { useAccountStore } from 'stores/account'
+import useCommon from 'core/hooks/useCommon'
+import useDialog from 'core/hooks/useDialog'
+import { notifyWarning } from 'core/utils/control'
 
 export default function() {
   const accountStore = useAccountStore()
+  const { t } = useCommon()
+  const { openDialog } = useDialog()
 
   const aiStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId
@@ -23,12 +28,37 @@ export default function() {
     return aiStore.value.defaultModels
   })
 
-  const initAiSettings = () => {
-    getDefaultModels()
+  const initAiSettings = async () => {
+    await getDefaultModels()
   }
 
-  const getDefaultModels = () => {
-    aiStore.value.getDefaultModels()
+  const checkAiSettings = (notify = 'dialog') => {
+    const aiAvailable = (defaultModels.value.length > 0)
+    if (!aiAvailable) {
+      if (notify === 'dialog') {
+        openDialog({
+          type: 'guide',
+          icon: 'mdi-creation-outline',
+          title: t('ai.providers.set'),
+          message: t('ai.providers.setTips'),
+          ok: t('ai.settings'),
+          onOk: () => {
+            setTimeout(() => {
+              openDialog({type: 'settings', tab: 'ai'})
+            }, 0)
+          }
+        })
+      } else if (notify === 'notify') {
+        notifyWarning('Set AI providers to enable AI capabilities.', {
+          position: 'top-right'
+        })
+      }
+    }
+    return aiAvailable
+  }
+
+  const getDefaultModels = async () => {
+    await aiStore.value.getDefaultModels()
   }
 
   const updateLocalDefaultModels = (item: Indexable) => {
@@ -49,6 +79,7 @@ export default function() {
     localModels,
     defaultModels,
     initAiSettings,
+    checkAiSettings,
     getDefaultModels,
     updateLocalDefaultModels,
     setLocalModel,

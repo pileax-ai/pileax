@@ -41,7 +41,12 @@
           </o-common-item>
         </template>
       </template>
-      <o-no-data image v-else />
+      <o-no-data image content-class="q-pa-md" v-else>
+        <q-btn :label="$t('ai.settings')"
+               class="bg-primary text-white"
+               style="min-width: 120px;"
+               flat @click="openDialog({type: 'settings', tab: 'ai'})" />
+      </o-no-data>
     </template>
 
     <slot></slot>
@@ -56,6 +61,7 @@ import ONoData from 'core/components/misc/ONoData.vue'
 import { providerModelService, pdmService } from 'src/api/service/remote'
 import { notifyDone } from 'core/utils/control'
 import useAi from 'src/hooks/useAi'
+import useDialog from 'core/hooks/useDialog'
 
 const props = defineProps({
   type: {
@@ -116,6 +122,7 @@ const {
   getLocalModel,
   setLocalModel
 } = useAi()
+const { openDialog } = useDialog()
 const singleModels = ref<Indexable[]>([])
 
 const typeModels = computed(() => {

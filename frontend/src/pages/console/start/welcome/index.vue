@@ -1,102 +1,103 @@
 <template>
-  <o-common-page class="page-welcome">
+  <o-common-page class="page-welcome" scrollable>
     <o-common-card class="row items-end app">
-      <section class="">
+      <section class="text-center">
         <div class="name">
           {{$t('product.name')}}
         </div>
-        <div>
+        <div class="text-tips">
           {{$t('product.slogan')}}
         </div>
       </section>
     </o-common-card>
 
-    <section class="relative-position col-12 navi-card">
-      <section class="row col-12 q-col-gutter-lg">
-        <section class="col-12">
-          <o-common-card :title="$t('quickstart')" accent header>
-            <section class="row col-12 q-col-gutter-x-lg q-pa-md">
-              <div class="col-3" v-for="(item, index) of favoriteMenus" :key="index">
-                <o-common-item size="4rem"
-                               :icon="item.icon"
-                               :color="item.color"
-                               :label="item.name"
-                               @click="onAction({path: item.path})"
-                               clickable>
-                </o-common-item>
-              </div>
-              <div>
-                服务信息: {{serverInfo || 'N/A'}}
-              </div>
-            </section>
+    <section class="navi-cards">
+      <div class="row col-12 justify-center panel">
+        <o-common-card icon="o_forum"
+                       :title="$t('chat._')"
+                       header-class="text-tips"
+                       separator-class="transparent"
+                       header>
+          <conversation-list :items="conversations" />
+        </o-common-card>
+      </div>
 
-          </o-common-card>
-        </section>
+      <div class="row col-12 justify-center panel">
+        <o-common-card icon="o_notes"
+                       :title="$t('note._')"
+                       header-class="text-tips"
+                       separator-class="transparent"
+                       header>
+          <note-list :items="notes" />
+        </o-common-card>
+      </div>
 
-        <section class="col-12 stars" v-if="starMenus.length">
-          <o-common-card title="收藏" class="bg-secondary" header>
-            <template #right>
-              <q-btn icon="delete_outline" round flat @click="clearStarMenus">
-                <o-tooltip>清除</o-tooltip>
-              </q-btn>
-            </template>
-
-            <section class="row col-12 justify-start q-col-gutter-lg q-pa-lg">
-              <div class="col-2" v-for="(item, index) of starMenus"
-                   :key="index">
-                <o-common-item :icon="item.icon"
-                               :color="item.color"
-                               :label="item.name"
-                               size="3rem"
-                               class="bg-accent"
-                               @click="onAction(item as Action)"
-                               clickable right-side round>
-                  <template #side>
-                    <q-btn icon="close" size="10px" class="unstar" flat round
-                           @click.stop="unstarMenu(item)">
-                      <o-tooltip>{{$t('unstar')}}</o-tooltip>
-                    </q-btn>
-                  </template>
-                </o-common-item>
-              </div>
-            </section>
-          </o-common-card>
-        </section>
-      </section>
+      <div class="row col-12 justify-center panel">
+        <o-common-card icon="o_chrome_reader_mode"
+                       :title="$t('reading._')"
+                       header-class="text-tips"
+                       separator-class="transparent"
+                       header>
+          <book-list :items="books" />
+        </o-common-card>
+      </div>
     </section>
   </o-common-page>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { onAction } from 'core/hooks/useRouter'
-import useNavi from 'src/hooks/useNavi'
-import { GET } from 'src/hooks/useRequest'
-import { ipcService } from 'src/api/ipc'
-
+import { computed, ref, onMounted, onActivated } from 'vue'
 import OCommonPage from 'core/page/template/OCommonPage.vue'
+import ConversationList from './conversation/ConversationList.vue'
+import NoteList from './note/NoteList.vue'
+import BookList from './reading/BookList.vue'
 
-const route = useRoute()
-const { favoriteMenus, starMenus, clearStarMenus, unstarMenu } = useNavi()
-const serverInfo = ref({})
+import {
+  chatConversationService,
+  noteService,
+  workspaceBookService
+} from 'src/api/service/remote'
+
+const conversations = ref<Indexable[]>()
+const notes = ref<Indexable[]>()
+const books = ref<Indexable[]>()
+const recentQuery = {
+  pageSize: 12,
+  sort: {
+    updateTime: 'desc'
+  }
+}
 
 function init() {
-  console.log('env', process.env.VITE_APP_NAME, window.__TAURI_INTERNALS__)
-  ipcService.getServerInfo().then((res: any) => {
-    serverInfo.value = res
-  }).catch((err: any) => {
-    console.error('Electron IPC：', err)
-  })
+  getRecentConversations()
+  getRecentNotes()
+  getRecentBooks()
+}
 
-  GET({name: 'systemHealthCheck'}).then(res => {
-    console.log('res', res)
-  }).catch((err: Error) => {
-    console.error('Request：', err)
+const getRecentConversations = () => {
+  chatConversationService.query(recentQuery).then(res => {
+    conversations.value = res.list
   })
 }
 
-onMounted(() => {
+const getRecentNotes = () => {
+  noteService.query(recentQuery).then(res => {
+    notes.value = res.list
+  })
+}
+
+const getRecentBooks = () => {
+  workspaceBookService.queryDetails({
+    ...recentQuery,
+    sort: {
+      'userbook.update_time': 'desc'
+    }
+  }).then(res => {
+    books.value = res.list
+  })
+}
+
+onActivated(() => {
   init()
 })
 </script>
@@ -112,55 +113,28 @@ onMounted(() => {
     }
   }
 
-  .navi-card {
-    padding: 21px;
-  }
+  .navi-cards {
+    padding: 1rem 0;
 
-  .o-common-card {
-    .title {
-      font-size: 18px;
-    }
-  }
-
-  .recent {
-    .o-common-item {
-      padding: 0 6px;
-    }
-  }
-
-  .stars {
-    .q-item {
-      padding-right: 6px!important;
-      min-width: 180px;
-
-      .unstar {
-        visibility: hidden;
-      }
-
-      &:hover {
-        .unstar {
-          visibility: visible;
-        }
+    .panel {
+      &:not(:first-child) {
+        margin-top: 1rem;
       }
     }
-    .q-item:not(:first-child) {
-      margin-left: 1rem;
+
+    .o-common-card {
+      width: 100%;
+      max-width: 840px;
+
+      .card-header {
+        padding: 0;
+      }
+
+      .card-content {
+        padding: 0.5rem 1rem;
+      }
     }
   }
 }
 
-.mobile {
-  .page-welcome {
-    .app {
-      padding: 0 16px;
-      .name {
-        font-size: 32px;
-      }
-    }
-
-    .navi-card {
-      padding: 16px;
-    }
-  }
-}
 </style>

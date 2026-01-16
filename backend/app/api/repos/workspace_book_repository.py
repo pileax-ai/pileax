@@ -91,7 +91,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             count_stmt = count_stmt.where(*filters)
 
         # 3. Sort
-        stmt = DbHelper.apply_sort(stmt, [WorkspaceBook, Book], query.sort)
+        stmt = DbHelper.apply_sort(stmt, [WorkspaceBook, Book, UserBook], query.sort)
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)

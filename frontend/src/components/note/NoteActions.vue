@@ -15,17 +15,17 @@
               class="o-note-action-menu pi-menu dense">
         <section style="min-width: 260px;">
           <header class="row col-12 justify-around">
-            <q-btn class="col-4" :class="{ 'active': font === 'default' }"
+            <q-btn class="col-4" :class="{ 'active': styles.font === 'default' }"
                    stack flat @click="onFont('default')">
               <div>Ag</div>
               <div class="text-tips font">{{ $t('note.style.defaultFont') }}</div>
             </q-btn>
-            <q-btn class="col-4" :class="{ 'active': font === 'serif' }"
+            <q-btn class="col-4" :class="{ 'active': styles.font === 'serif' }"
                    stack flat @click="onFont('serif')">
               <div class="serif">Ag</div>
               <div class="text-tips font">{{ $t('note.style.serifFont') }}</div>
             </q-btn>
-            <q-btn class="col-4" :class="{ 'active': font === 'mono' }"
+            <q-btn class="col-4" :class="{ 'active': styles.font === 'mono' }"
                    stack flat @click="onFont('mono')">
               <div class="mono">Ag</div>
               <div class="text-tips font">{{ $t('note.style.monoFont') }}</div>
@@ -73,7 +73,11 @@ const { t } = useCommon()
 const {
   currentNote,
   saveNote,
-  toggleFavorite
+  beforeDeleteNote,
+  toggleFavorite,
+  duplicateNote,
+  newTab,
+  newWindow,
 } = useNote()
 
 const styles = ref({
@@ -82,7 +86,6 @@ const styles = ref({
   fullWidth: false,
   toc: true,
 })
-const font = ref('default')
 
 const actions = computed(() => {
   return [
@@ -109,18 +112,18 @@ const actions = computed(() => {
       label: t('note.duplicate'),
       value: "duplicate",
       icon: "copy_all",
-      sideLabel: "⌘D",
+      // sideLabel: "⌘D",
       clickable: true,
       separator: true,
     },
-    {
-      label: t('note.moveTo'),
-      value: "moveTo",
-      icon: "keyboard_return",
-      iconClass: "rotate-180",
-      clickable: true,
-      sideLabel: "⌘⇧P",
-    },
+    // {
+    //   label: t('note.moveTo'),
+    //   value: "moveTo",
+    //   icon: "keyboard_return",
+    //   iconClass: "rotate-180",
+    //   clickable: true,
+    //   sideLabel: "⌘⇧P",
+    // },
     {
       label: t('delete'),
       value: "delete",
@@ -165,12 +168,19 @@ const actions = computed(() => {
 })
 
 function onAction (action: Indexable, value: any) {
+  const data = currentNote.value
   switch (action.value) {
-    case 'close':
+    case 'duplicate':
+      duplicateNote(data)
       break
-    case 'closeOther':
+    case 'delete':
+      beforeDeleteNote(data)
       break
-    case 'closeToRight':
+    case 'newTab':
+      newTab(data)
+      break
+    case 'newWindow':
+      newWindow(data)
       break
     case 'smallText':
     case 'fullWidth':
@@ -190,7 +200,8 @@ function onStyles() {
 }
 
 function onFont(value: string) {
-  font.value = value
+  styles.value.font = value
+  onStyles()
 }
 
 onBeforeMount(() => {

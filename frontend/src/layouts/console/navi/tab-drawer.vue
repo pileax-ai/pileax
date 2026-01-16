@@ -22,16 +22,19 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref, watch} from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { DRAWER_DEFAULT_SIZE } from 'core/constants/style'
 
 import ResizableDrawer from 'core/components/layout/ResizableDrawer.vue'
 import TabNavi from './tab-navi.vue'
 import useNavi from 'src/hooks/useNavi'
+import useTour from 'src/hooks/useTour'
 
 const emit = defineEmits(['leave'])
 
 const { leftDrawerShow, leftDrawerHoverShow } = useNavi()
+const { createTour } = useTour()
+const tour = createTour('navi')
 const width = ref(DRAWER_DEFAULT_SIZE)
 const drawerOpen = ref(true)
 const overlay = ref(false)
@@ -56,6 +59,9 @@ onBeforeMount(() => {
   drawerOpen.value = leftDrawerShow.value
 })
 
+onMounted(() => {
+  tour.start()
+})
 </script>
 
 <style lang="scss">

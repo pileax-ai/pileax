@@ -245,3 +245,201 @@
     }
   }
 }
+
+
+// --------------------------------------------------------------------------------
+// Tour
+// --------------------------------------------------------------------------------
+.pi-tour {
+  &.driver-popover {
+    padding: 20px;
+    background: var(--q-primary) url("/images/bg_map.png") center no-repeat !important;
+    color: #ffffff !important;
+
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.05);
+    min-width: 320px;
+  }
+
+  .driver-popover {
+    &-description {
+      margin: 10px 0 20px 0 !important;
+      opacity: 0.8;
+    }
+
+    &-close-btn, &-progress-text {
+      color: #ffffff !important;
+      opacity: 0.4;
+    }
+
+    &-arrow {
+      &.driver-popover-arrow-side-left {
+        border-left-color: var(--q-primary);
+      }
+      &.driver-popover-arrow-side-right {
+        border-right-color: var(--q-primary);
+      }
+      &.driver-popover-arrow-side-top {
+        border-top-color: var(--q-primary);
+      }
+      &.driver-popover-arrow-side-bottom {
+        border-bottom-color: var(--q-primary);
+      }
+    }
+
+    &-footer button {
+      text-shadow: none !important;
+      border: none !important;
+      padding: 6px 8px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      border-radius: 6px !important;
+      transition: all 0.2s ease;
+    }
+  }
+}
+
+.body--dark, .group-drawer {
+  .driver-active-element {
+    color: #ffffff !important;
+    &:before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #ffffff !important;
+      background-color: #ffffff;
+      border-radius: 4px;
+      opacity: 0.3;
+    }
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Dialog
+// --------------------------------------------------------------------------------
+.pi-dialog-theme {
+  width: 480px;
+  border-radius: 1rem !important;
+
+  .q-dialog {
+    &__title {
+      display: flex;
+      align-items: center;
+      height: 100px;
+      color: #ffffff;
+      background: var(--q-primary) url("/images/bg_map.png") center no-repeat !important;
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: url("/images/icons/help.svg") center no-repeat !important;
+        background-size: 80px 80px !important;
+        opacity: 0.2;
+      }
+    }
+
+    &__message {
+      padding: 24px 16px !important;
+
+      .tag {
+        font-size: 0.9rem;
+        display: inline-flex;
+        color: red;
+        background: rgba(red, 0.1);
+        padding: 0 6px;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .q-card__actions {
+    height: unset;
+    padding: 1rem !important;
+    justify-content: end;
+
+    .q-btn {
+      width: unset;
+      min-width: 100px !important;
+      border-radius: 24px;
+
+      &:first-child {
+        color: var(--p-text-readable) !important;
+        background: var(--q-accent);
+      }
+
+      &:last-child {
+        color: #ffffff !important;
+        background: var(--q-primary);
+      }
+    }
+  }
+}
+
+.pi-card-dialog-theme {
+  .dialog-card {
+    border-radius: 1rem !important;
+  }
+
+  .q-bar, .header {
+    display: flex;
+    align-items: center;
+    height: 100px !important;
+    color: #ffffff;
+    background: var(--q-primary) url("/images/bg_map.png") center no-repeat !important;
+
+    .q-toolbar {
+      &__title {
+        color: #ffffff;
+        .o-icon {
+          font-size: 2.8rem !important;
+        }
+        .o-svg-icon {
+          color: #ffffff !important;
+          width: 2.8rem !important;
+          height: 2.8rem !important;
+        }
+        font-size: 2rem !important;
+
+        .title {
+          opacity: 0.7;
+        }
+      }
+
+      .actions {
+        .q-btn {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .q-card__actions {
+    height: unset;
+    padding: 1rem !important;
+    justify-content: end;
+
+    .q-btn {
+      width: unset;
+      min-width: 100px !important;
+      border-radius: 24px;
+
+      &:first-child {
+        color: var(--p-text-readable) !important;
+        background: var(--q-accent);
+      }
+
+      &:last-child {
+        color: #ffffff !important;
+        background: var(--q-primary);
+      }
+    }
+  }
+}

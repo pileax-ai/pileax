@@ -82,6 +82,7 @@ export default defineConfigWithVueTs(
       semi: ["error", "never"],
 
       // PileaX
+      '@typescript-eslint/await-thenable': 'off',
       '@typescript-eslint/consistent-type-imports': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
@@ -90,7 +91,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/prefer-promise-reject-errors': 'off',
       '@typescript-eslint/require-await': 'off',
-      // '@typescript-eslint/require-thenable': 'off',
+      '@typescript-eslint/require-thenable': 'off',
       'vue/multi-word-component-names': 'off',
     }
   },

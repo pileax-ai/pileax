@@ -3,7 +3,7 @@
     <img :src="$public('/images/ui/page/no-data.svg')" v-if="image" />
     <div class="q-pt-lg text-tips" v-if="message">{{ message }}</div>
 
-    <div>
+    <div :class="contentClass">
       <slot></slot>
     </div>
   </div>
@@ -17,7 +17,11 @@ defineProps({
   },
   message: {
     type: String,
-    default: 'No records'
+    default: ''
+  },
+  contentClass: {
+    type: String,
+    default: ''
   },
 })
 </script>

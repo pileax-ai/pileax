@@ -84,6 +84,7 @@ export default {
   copy: '复制',
   cover: '封面',
   create: '创建',
+  current: '当前',
   dashboard: '仪表盘',
   delete: '删除',
   deleteConfirm: '你确定删除该项？',
@@ -92,6 +93,7 @@ export default {
   developer: '开发者',
   discover: '发现',
   dislike: '不喜欢',
+  disable: '禁用',
   docs: '文档',
   document: '文档',
   download: '下载',
@@ -162,7 +164,9 @@ export default {
   sortBy: {
     note: '笔记',
     recent: '最近',
-    title: '标题'
+    title: '标题',
+    recentAdd: '最近添加',
+    recentRead: '最近阅读',
   },
   status: '状态',
   submit: '提交',
@@ -215,6 +219,17 @@ export default {
   type: '类型',
   unstar: '取消收藏',
   update: '更新',
+  updater: {
+    check: '检查更新',
+    currentVersion: '当前版本',
+    later: '以后安装',
+    message: '新版本已下载，重启安装？',
+    newVersion: '新版本',
+    notAvailable: '无可用更新',
+    restart: '立即重启',
+    title: '更新已就绪',
+    update: '更新至 {version}'
+  },
   updateTime: '更新时间',
   upload: '上传',
   version: '版本',
@@ -222,17 +237,5 @@ export default {
     grid: '网格',
     list: '列表'
   },
-  welcome: '欢迎',
-  current: '当前',
-  updater: {
-    check: '检查更新',
-    update: '更新至 {version}',
-    currentVersion: '当前版本',
-    newVersion: '新版本',
-    notAvailable: '无可用更新',
-    title: '更新已就绪',
-    message: '新版本已下载，重启安装？',
-    restart: '立即重启',
-    later: '以后安装',
-  },
+  welcome: '欢迎'
 }

@@ -5,11 +5,11 @@
                       enable-actions>
     <o-field :label="$t('name')" required>
       <q-input v-model="form.name" :placeholder="$t('name')"
-               class="pi-field"
+               class="pi-field name"
                standout dense clearable
                :error="v$.name.$errors.length > 0"
                :error-message="$t('required')">
-        <template #prepend>
+        <template #before>
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" />
             <o-general-icon-menu anchor="center left" self="center right"
@@ -18,7 +18,14 @@
         </template>
       </q-input>
     </o-field>
-    <o-field :label="$t('type')" side required>
+    <o-field :label="$t('description')" required>
+      <q-input v-model="form.desc" type="textarea" :placeholder="$t('description')"
+               class="pi-field"
+               counter maxlength="256"
+               standout dense clearable>
+      </q-input>
+    </o-field>
+    <o-field :label="$t('type')" side required v-if="false">
       <q-select v-model="form.type"
                 class="col-md-6 col-sm-12 col-xs-12"
                 :options="WorkspaceTypes"
@@ -60,12 +67,11 @@ const props = defineProps({
 const emit = defineEmits(['success'])
 
 
-const { getArrayItem, WorkspaceTypes } = useMetadata()
+const { WorkspaceTypes } = useMetadata()
 const { form, loading, actions } = useForm()
 
 const rules = {
   name: { required },
-  type: { required },
 }
 const v$ = useVuelidate(rules, form)
 
@@ -74,6 +80,7 @@ function load () {
   if (props.id) {
     GET({name: apiName, query: {id: props.id}}).then((data) => {
       form.value.name = data.name
+      form.value.desc = data.desc
       form.value.type = data.type
       form.value.icon = data.icon
     })
@@ -103,13 +110,8 @@ function onSubmit () {
       emit('success')
     },
     (err) => {
-      if (err.response.status === 403) {
-        notifyWarning('API Key 无效')
-      } else {
-        const message = getErrorMessage(err)
-        notifyWarning(message)
-        console.error(err)
-      }
+      const message = getErrorMessage(err)
+      notifyWarning(message)
     }
   )
 }
@@ -121,6 +123,24 @@ onMounted(() => {
 
 <style lang="scss">
 .ai-provider {
+  .name {
+    .q-field__before {
+      width: 40px;
+      color: unset!important;
+      background: var(--q-accent);
+      margin-right: 6px;
+      padding: 0;
+      border-radius: 4px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+
+      .o-icon {
+        font-size: 30px;
+      }
+    }
+  }
+
   .q-field__prefix {
     min-width: 80px;
   }

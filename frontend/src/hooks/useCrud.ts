@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import useCommon from 'core/hooks/useCommon'
 import { DELETE, POST, PUT } from 'src/hooks/useRequest'
 import { notifyDone } from 'core/utils/control'
+import OBadge from 'core/components/misc/OBadge.vue'
 
 export default function () {
   const apiName = ref('')
@@ -41,16 +42,18 @@ export default function () {
   }
 
   function remove(id: string, {
+    icon = '',
     label = '',
     notify = true,
     callback = (res: any) => {} } = {}
   ) {
-    if (label) {
-      label = ` [<span class="text-orange text-bold">${label}</span>] `
-    }
-
-    confirm(`${t('deleteConfirm')} ${label}`, () => {
-      doDelete(id, notify, callback)
+    confirm(t('deleteConfirm'),  {
+      badge: 'o_delete',
+      icon: icon,
+      label: label,
+      onOk: () => {
+        doDelete(id, notify, callback)
+      },
     })
   }
 

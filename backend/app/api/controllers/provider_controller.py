@@ -17,7 +17,7 @@ class ProviderController(BaseController[Provider, ProviderCreate, ProviderUpdate
         self.credential_service = ProviderCredentialService(session)
 
     def delete(self, id: UUID) -> Any:
-        return self.service.delete_provider(id, self.workspace.id, self.user_id)
+        return self.service.delete_provider(id, self.user_id, self.workspace.id)
 
     def find_all(self) -> list[Provider]:
         return self.service.find_all_provider(self.workspace.id)

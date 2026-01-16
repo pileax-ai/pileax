@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi import HTTPException, status
 
+from app.api.models.owner import Owner
 from app.api.models.provider import Provider
 from app.api.repos.provider_repository import ProviderRepository
 from app.api.services.base_service import BaseService
@@ -32,7 +33,7 @@ class ProviderService(BaseService[Provider]):
             return super().update(provider.id, {"credential_id": credential_id})
         return provider
 
-    def delete_provider(self, id: UUID, workspace_id: UUID, user_id: UUID) -> Any:
+    def delete_provider(self, id: UUID, user_id: UUID, workspace_id: UUID) -> Any:
         provider = super().get(id)
         if provider is None:
             return None
@@ -41,7 +42,13 @@ class ProviderService(BaseService[Provider]):
         if exist_credential:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Provider credential exists")
 
-        return super().delete_by_owner(user_id, workspace_id, id)
+        return super().delete_by_owner(
+            Owner(
+                user_id=user_id,
+                workspace_id=workspace_id,
+            ),
+            id,
+        )
 
     def find_all_provider(self, workspace_id: UUID) -> list[Provider]:
         providers = super().find_all(
@@ -69,9 +76,10 @@ class ProviderService(BaseService[Provider]):
                 "workspace_id": workspace_id,
             }
         )
+        filtered_providers = [p for p in providers if p.credential_id is not None]
 
         all_models = []
-        for p in providers:
+        for p in filtered_providers:
             provider = ProviderHelper.get_provider(p.provider)
             if provider:
                 llm = provider["llm"]

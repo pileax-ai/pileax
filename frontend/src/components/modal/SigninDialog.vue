@@ -1,21 +1,27 @@
 <template>
-  <o-common-dialog class="signin-dialog"
-                   icon="login"
-                   :title="$t('signin')"
+  <o-common-dialog class="signin-dialog dialog-theme"
                    :show="dialog.type === 'signin'"
-                   show-ok
-                   show-cancel
                    :content-style="style"
                    @close="onHide"
-                   @ok="onOk" header>
+                   @ok="onOk"
+                   show-ok
+                   show-cancel>
+    <header class="row justify-center items-center" v-touch-pan.prevent.mouse="onPan">
+      <q-icon name="login" />
+    </header>
     <section class="content">
-      API凭证已经失效，须重新登录
+      <div class="title">
+        {{ $t('signin') }}
+      </div>
+      <div class="message">
+        {{ $t('auth.tokenExpired') }}
+      </div>
     </section>
   </o-common-dialog>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 
 import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
 import useDialog from 'core/hooks/useDialog'
@@ -23,14 +29,21 @@ import useAccount from 'src/hooks/useAccount'
 
 const { dialog, onHide } = useDialog()
 const { logout } = useAccount()
+const pos = reactive({ x: 0, y: 0 })
 
 const style = computed(() => {
   return {
-    minWidth: '400px',
-    maxWidth: '400px',
-    padding: '0px'
+    minWidth: '540px',
+    maxWidth: '540px',
+    padding: '0px',
+    transform: `translate(${pos.x}px, ${pos.y}px)`
   }
 })
+
+const onPan = (evt: any) => {
+  pos.x += evt.delta.x
+  pos.y += evt.delta.y
+}
 
 const onOk = () => {
   logout()
@@ -39,13 +52,7 @@ const onOk = () => {
 </script>
 
 <style lang="scss">
+@import "./dialog-theme";
 .signin-dialog {
-  .dialog-content {
-    padding: 24px 16px;
-
-    .content {
-      font-size: 1.1rem;
-    }
-  }
 }
 </style>

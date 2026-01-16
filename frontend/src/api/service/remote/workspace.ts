@@ -16,6 +16,13 @@ export class WorkspaceService extends BaseService {
     })
   }
 
+  async getWorkspacesDetails(): Promise<any> {
+    return GET({
+      name: this.apiName,
+      path: '/workspaces/details'
+    })
+  }
+
 }
 
 export const workspaceService = new WorkspaceService()

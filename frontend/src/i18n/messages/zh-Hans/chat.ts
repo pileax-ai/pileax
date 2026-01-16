@@ -1,5 +1,5 @@
 export default {
-  _: '聊天',
+  _: '对话',
   assistant: {
     add: '添加助手',
     tips: '我是你的AI助手，请把你的任务交给我吧~',

@@ -91,6 +91,7 @@
         <o-chat-input :loading="isLoading"
                       :tag="tag"
                       :dense="dense"
+                      :notify="refType === 'book' ? 'notify' : 'dialog'"
                       @send="onSend"
                       @stop="onStop">
           <template #menu>

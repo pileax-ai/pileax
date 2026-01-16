@@ -92,6 +92,7 @@ export default {
   developer: 'Developer',
   discover: 'Discover',
   dislike: 'Dislike',
+  disable: 'Disable',
   docs: 'Docs',
   document: 'Document',
   download: 'Download',
@@ -162,7 +163,9 @@ export default {
   sortBy: {
     note: 'Note',
     recent: 'Recent',
-    title: 'Title'
+    title: 'Title',
+    recentAdd: 'Recent Add',
+    recentRead: 'Recent Read',
   },
   status: 'Status',
   submit: 'Submit',

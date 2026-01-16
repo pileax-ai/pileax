@@ -72,10 +72,11 @@ import { llmService } from 'src/api/service/remote/llm'
 import { providerService } from 'src/api/service/remote/provider'
 import { providerCredentialService } from 'src/api/service/remote/provider-credential'
 import { notifyDone } from 'core/utils/control'
+import useCommon from 'core/hooks/useCommon'
 
 const $q = useQuasar()
+const { t } = useCommon()
 const myProviders = ref<Indexable[]>()
-
 const providers = ref<Indexable[]>()
 const provider = ref<Indexable>()
 const credentialId = ref('')
@@ -87,7 +88,7 @@ const side = reactive<Indexable>({
   icon: 'vpn_key',
   position: 'standard',
   style: {width: '30vw', minWidth: '600px'},
-  contentClass: 'card'
+  contentClass: 'card pi-card-dialog-theme'
 })
 
 const addedProviderNames = computed(() => {
@@ -146,8 +147,10 @@ const onEdit = (credential: Indexable, item: Indexable) => {
 
 const onDelete = (credential: Indexable) => {
   $q.dialog({
-    title: '确认',
-    message: `你确定删除该配置吗？[${credential.name}]`,
+    class: 'pi-dialog-theme',
+    title: t('confirm'),
+    message: `${t('deleteConfirm')} <div class="tag">${credential.name}</div>`,
+    html: true,
     cancel: true
   }).onOk( () => {
     providerCredentialService.delete(credential.id).then(res => {
@@ -169,8 +172,10 @@ const onActiveCredential = (credential: Indexable, item: Indexable) => {
 
 const onRemoveProvider = (item: Indexable) => {
   $q.dialog({
-    title: '确认',
-    message: `你确定删除该提供商吗？[${item.name}]`,
+    class: 'pi-dialog-theme',
+    title: t('confirm'),
+    message: `${t('deleteConfirm')} <div class="tag">${item.name}</div>`,
+    html: true,
     cancel: true
   }).onOk( () => {
     providerService.delete(item.id).then(res => {

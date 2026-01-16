@@ -35,6 +35,7 @@ jobs:
               - '.github/workflows/api-tests.yml'
             web:
               - 'frontend/**'
+              - '.github/workflows/web-tests.yml'
   web-tests:
     name: Web Tests
     needs: check-changes

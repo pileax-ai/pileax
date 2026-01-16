@@ -51,11 +51,13 @@
 <script setup lang="ts">
 import type { PropType} from 'vue'
 import { computed, ref } from 'vue'
+import { router } from 'src/router'
 import { chatConversationService } from 'src/api/service/remote/chat-conversation'
 import type { ChatConversation } from 'src/types/chat'
-import { refresh } from 'core/hooks/useRouter'
 import { timeMulti } from 'core/utils/format'
 import useCommon from 'core/hooks/useCommon'
+import { notifyDone } from 'core/utils/control'
+import { useRoute } from 'vue-router'
 
 const props = defineProps({
   item: {
@@ -73,9 +75,10 @@ const props = defineProps({
     default: false
   },
 })
-const emit = defineEmits(['open', 'updated'])
+const emit = defineEmits(['open', 'deleted', 'updated'])
 
-const { t } = useCommon()
+const route = useRoute()
+const { t, confirm } = useCommon()
 const clicked = ref(false)
 const name = ref('')
 const editable = ref(false)
@@ -94,12 +97,8 @@ function onAction (action: Indexable) {
       editable.value = true
       name.value = props.item.name
       break
-    case 'closeOther':
-      break
-    case 'closeToRight':
-      break
-    case 'reload':
-      refresh()
+    case 'delete':
+      onDelete()
       break
   }
 }
@@ -115,10 +114,6 @@ function onBlur() {
   })
 }
 
-function openConversation(item: ChatConversation) {
-  emit('open', item)
-}
-
 function onToggleFavorite() {
   const favorite = props.item.favorite === 1 ? 0 : 1
   chatConversationService.save({
@@ -127,6 +122,32 @@ function onToggleFavorite() {
   }).then(res => {
     emit('updated', res)
   })
+}
+
+function onDelete() {
+  confirm(t('deleteConfirm'), {
+    label: props.item.name,
+    onOk: () => {
+      doDelete()
+    }
+  })
+}
+
+function doDelete() {
+  chatConversationService.delete(props.item.id).then(res => {
+    notifyDone()
+    emit('deleted', res)
+
+    const name = route.name
+    const id = route.params.id
+    if (name === 'chat-conversation' && id === props.item.id) {
+      router.replace({name: 'chat-start'})
+    }
+  })
+}
+
+function openConversation(item: ChatConversation) {
+  emit('open', item)
 }
 </script>
 

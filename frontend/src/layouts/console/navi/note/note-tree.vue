@@ -84,6 +84,7 @@ import { useTabStore } from 'stores/tab'
 import { ipcService } from 'src/api/ipc'
 import useCommon from 'core/hooks/useCommon'
 import useShortcut from 'core/hooks/useShortcut'
+import { workspaceManager } from 'core/workspace/workspace-manager'
 
 const props = defineProps({
   scope: {
@@ -99,12 +100,14 @@ const {
   currentNote,
   addNote,
   openNote,
-  deleteNote,
+  beforeDeleteNote,
   buildNoteTree,
   buildFavoriteTree,
   setParent,
   toggleFavorite,
   duplicateNote,
+  newTab,
+  newWindow,
 } = useNote()
 const tabStore = useTabStore()
 const selected = ref('')
@@ -131,16 +134,16 @@ function noteCommands(note: Indexable) {
       label: t('note.duplicate'),
       value: 'duplicate',
       icon: 'copy_all',
-      sideLabel: nativeShortcut('mod + D'),
+      // sideLabel: nativeShortcut('mod + D'),
       separator: true
     },
-    {
-      label: t('note.moveTo'),
-      value: 'moveTo',
-      icon: 'keyboard_return',
-      iconClass: 'rotate-180',
-      sideLabel: nativeShortcut('mod + shift + P')
-    },
+    // {
+    //   label: t('note.moveTo'),
+    //   value: 'moveTo',
+    //   icon: 'keyboard_return',
+    //   iconClass: 'rotate-180',
+    //   sideLabel: nativeShortcut('mod + shift + P')
+    // },
     {
       label: t('delete'),
       value: 'delete',
@@ -151,7 +154,7 @@ function noteCommands(note: Indexable) {
       label: t('note.newTab'),
       value: 'newTab',
       icon: 'open_in_new',
-      sideLabel: '⌘⇧',
+      // sideLabel: '⌘⇧',
       separator: true
     },
     {
@@ -171,23 +174,13 @@ function onCommand (command: Indexable, data: Indexable) {
       toggleFavorite(data)
       break
     case 'delete':
-      onDelete(data)
+      beforeDeleteNote(data)
       break
     case 'newTab':
-      tabStore.newTab({
-        id: data.id,
-        name: data.title,
-        path: `/note/${data.id}`,
-        action: 1,
-        meta: {
-          type: 'note',
-          icon: data.icon || '✍',
-          iconClass: 'emoji'
-        }
-      })
+      newTab(data)
       break
     case 'newWindow':
-      ipcService.openNewWindow(data.id, `/note/${data.id}`)
+      newWindow(data)
       break
   }
 }
@@ -205,18 +198,6 @@ function onOpenNote (note: Indexable) {
     selected.value = id
     openNote(note)
   }
-}
-
-function onDelete(note: Indexable) {
-  confirm(
-    `${t('deleteConfirm')} [ <span class="text-bold text-amber">${note.title}</span> ]`,
-    () => {
-      deleteNote(note)
-    },
-    {
-      showCancel: true
-    }
-  )
 }
 
 function onDragStart (e: DragEvent, node: Indexable) {

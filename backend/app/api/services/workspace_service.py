@@ -60,3 +60,6 @@ class WorkspaceService(BaseService[Workspace]):
 
     def get_user_workspaces(self, user_id: uuid.UUID) -> list[Workspace]:
         return UserWorkspaceRepository(Workspace, self.session).get_user_workspaces(user_id)
+
+    def get_user_workspaces_details(self, user_id: uuid.UUID) -> list[dict]:
+        return UserWorkspaceRepository(Workspace, self.session).get_user_workspaces_details(user_id)

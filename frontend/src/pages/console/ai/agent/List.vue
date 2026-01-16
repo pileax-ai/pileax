@@ -1,5 +1,5 @@
 <template>
-  <o-query-page class="ai-config-assistants"
+  <o-query-page class="ai-app-assistants"
                 v-bind="query"
                 @dense="query.onDense"
                 @query="query.onQuery"
@@ -166,9 +166,11 @@ function onEdit(value: Indexable) {
 }
 
 function onDisable(value: Indexable) {
-  const label = ` [<span class="text-orange text-bold">${value.title}</span>] `
-  confirm(`确认禁用${label}？`, () => {
-    disable(value)
+  confirm('确认禁用？',  {
+    label: value.title,
+    onOk: () => {
+      disable(value)
+    },
   })
 }
 
@@ -185,7 +187,7 @@ onActivated(() => {
 </script>
 
 <style lang="scss">
-.ai-config-assistants {
+.ai-app-assistants {
   .console-content {
     padding: 0 21px 21px 21px !important;
   }

@@ -15,6 +15,7 @@
             <div class="" @mouseenter="onEnter">
               <template v-for="(item, index) in consoleMenus" :key="index">
                 <q-tab :name="item.name"
+                       :class="`tab-${item.name.split('.')[0]}`"
                        @click="onClickTab(item)"
                        v-if="!item.meta?.hidden">
                   <o-icon :name="item.meta?.icon" />
@@ -66,9 +67,10 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, ref, watch} from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import useDialog from 'core/hooks/useDialog'
 import useNavi from 'src/hooks/useNavi'
+import useTour from 'src/hooks/useTour'
 import { menuLabel } from 'core/hooks/useMenu'
 import { DRAWER_DEFAULT_SIZE } from 'core/constants/style'
 
@@ -85,6 +87,10 @@ const {
   toggleLeftMiniState,
   setActivity,
 } = useNavi()
+const { createTour } = useTour()
+const tour = createTour('navi', {
+  stagePadding: 4,
+})
 
 const width = ref(DRAWER_DEFAULT_SIZE)
 const miniWidth = ref(ipcProvider === 'web' ? 48 : 68)
@@ -136,6 +142,10 @@ watch(() => consoleMenus.value, (newValue) => {
 
 onBeforeMount(() => {
   initActivity()
+})
+
+onMounted(() => {
+  tour.start()
 })
 </script>
 

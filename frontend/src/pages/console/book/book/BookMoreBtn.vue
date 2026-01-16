@@ -30,7 +30,7 @@ const emit = defineEmits(['view', 'sort'])
 
 const { t, confirm } = useCommon()
 const bookView = ref('grid')
-const orderField = ref('recent')
+const orderField = ref('recentRead')
 const orderDesc = ref(true)
 
 const actions = computed(() => {
@@ -48,12 +48,19 @@ const actions = computed(() => {
       selected: bookView.value === 'list',
     },
     {
-      label: t('sortBy.recent'),
-      value: 'recent',
+      label: t('sortBy.recentRead'),
+      value: 'recentRead',
       icon: 'schedule',
-      selected: orderField.value === 'recent',
+      selected: orderField.value === 'recentRead',
       sortable: true,
       separator: true
+    },
+    {
+      label: t('sortBy.recentAdd'),
+      value: 'recentAdd',
+      icon: 'schedule',
+      selected: orderField.value === 'recentAdd',
+      sortable: true,
     },
     {
       label: t('sortBy.title'),
@@ -73,7 +80,7 @@ function onAction (action :any) {
       bookView.value = value
       emit('view', value)
       break
-    case 'recent':
+    case 'recentAdd':
       if (orderField.value === value) {
         orderDesc.value = !orderDesc.value
       } else {
@@ -81,6 +88,15 @@ function onAction (action :any) {
       }
       orderField.value = value
       emit('sort', { 'workspacebook.update_time': orderDesc.value ? 'desc' : 'asc' })
+      break
+    case 'recentRead':
+      if (orderField.value === value) {
+        orderDesc.value = !orderDesc.value
+      } else {
+        orderDesc.value = true
+      }
+      orderField.value = value
+      emit('sort', { 'userbook.update_time': orderDesc.value ? 'desc' : 'asc' })
       break
     case 'title':
       if (orderField.value === value) {

@@ -38,6 +38,10 @@ export default function () {
     accountStore.setWorkspace(value)
   }
 
+  const setWorkspaces = (value: Indexable[]) => {
+    accountStore.setWorkspaces(value)
+  }
+
   const switchWorkspace = (workspace: Indexable) => {
     accountStore.switchWorkspace(workspace)
     tabStore.updateWorkspace(workspace.id)
@@ -71,5 +75,6 @@ export default function () {
     setWorkspace,
     switchWorkspace,
     switchWorkspaceByTab,
+    setWorkspaces,
   }
 }

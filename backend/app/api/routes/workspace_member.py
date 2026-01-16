@@ -21,6 +21,21 @@ def accept(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> 
     return controller.accept(id)
 
 
+@router.api_post("/role", response_model=WorkspaceMemberPublic)
+def assign_role(id: uuid.UUID, role: str, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.assign_role(id, role)
+
+
+@router.api_post("/enable", response_model=WorkspaceMemberPublic)
+def enable(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.enable(id)
+
+
+@router.api_post("/disable", response_model=WorkspaceMemberPublic)
+def disable(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.disable(id)
+
+
 @router.api_get("/details", response_model=WorkspaceMemberPublicDetails)
 def get_details(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
     return controller.get_details(id)

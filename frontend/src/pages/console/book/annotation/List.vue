@@ -41,11 +41,12 @@
           </section>
         </template>
         <template v-else>
-          <o-no-data :message="$t('query.noRecords')" image
-                     v-if="condition.title__icontains" />
-          <section class="row col-12 justify-center no-records" v-else>
-            <span class="text-readable">{{ $t('book.annotations.noRecords') }}</span>
-          </section>
+          <o-no-data image>
+            {{ condition.note__icontains
+                ? $t('query.noRecords')
+                : $t('book.annotations.noRecords')
+            }}
+          </o-no-data>
         </template>
 
         <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
@@ -73,17 +74,14 @@ import useLoadMore from 'src/hooks/useLoadMore'
 import useCommon from 'core/hooks/useCommon'
 
 const { t } = useCommon()
-const { condition, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
+const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const isActivated = ref(false)
 const data = ref({})
 const coverUrl = ref('')
-const orderBy = ref<Indexable>({
-  updateTime: 'desc'
-})
 
 function onSort(value: Indexable) {
-  orderBy.value = value
+  sort.value = value
   query.value.onQuery()
 }
 

@@ -1,39 +1,58 @@
 <template>
-  <o-note-page ref="notePage" class="page-note">
-    <header class="row items-center justify-between note-header text-readable">
+  <o-note-page ref="notePage"
+               class="page-note"
+               :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
+    <nav class="row items-center justify-between text-readable note-nav">
       <note-breadcrumbs :id="id" />
       <note-actions @action="onAction" />
-    </header>
+    </nav>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
-      <header class="row justify-center note-meta" :class="pageView">
-        <section class="col-12 cover" v-if="false">
-          Cover
-        </section>
-        <section class="note-meta-wrapper">
-          <div class="icon text-readable" v-if="currentNote.icon">
+      <section class="layout" :class="[pageView]">
+        <header class="layout-full col-12 cover"
+                 v-if="currentNote.cover">
+          <img :src="currentNote.cover" alt="cover" />
+        </header>
+
+        <section class="layout-content row justify-center note-meta"
+                :class="`${pageView} ${currentNote.cover && currentNote.icon ? 'with-cover' : ''}`">
+          <section class="note-meta-wrapper">
+            <div class="icon text-readable" v-if="currentNote.icon">
             <span v-if="false">
               {{ currentNote.icon }}
             </span>
-            <o-icon :name="currentNote.icon" />
-            <o-general-icon-menu anchor="bottom left"
-                                 self="top left"
-                                 :offset="[0, 8]"
-                                 @select="setIcon" />
-          </div>
+              <o-icon :name="currentNote.icon" />
+              <o-general-icon-menu anchor="bottom left"
+                                   self="top left"
+                                   :offset="[0, 8]"
+                                   @select="setIcon" />
+            </div>
+          </section>
+          <section class="text-readable note-meta-wrapper">
+            <q-btn icon="sentiment_satisfied_alt"
+                   :label="$t('note.addIcon')"
+                   flat
+                   @click="addIcon"
+                   v-if="!currentNote.icon" />
+            <q-btn icon="image"
+                   label="Add Cover"
+                   flat
+                   @click="addCover"
+                   v-if="!currentNote.cover" />
+          </section>
         </section>
-        <section class="text-readable note-meta-wrapper">
-          <q-btn icon="sentiment_satisfied_alt"
-                 :label="$t('note.addIcon')"
-                 flat
-                 @click="addIcon" v-if="!currentNote.icon" />
-          <q-btn icon="image" label="Add Cover" flat v-if="false" />
-        </section>
-      </header>
-      <YiiEditor ref="yiiEditor" v-bind="options" @update="onUpdate" />
+
+        <YiiEditor ref="yiiEditor"
+                   class="layout-content"
+                   v-bind="options"
+                   @update="onUpdate" />
+
+        <aside class="layout-right">
+          <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
+        </aside>
+      </section>
     </q-scroll-area>
 
-    <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
   </o-note-page>
 </template>
 
@@ -62,6 +81,7 @@ const {
   currentNote,
   noteService,
   setCurrentNote,
+  addCover,
   addIcon,
   setIcon,
 } = useNote()
@@ -126,6 +146,27 @@ const options = computed(() => {
 
 const editor = computed(() => {
   return yiiEditor.value?.editor
+})
+
+const styles = computed(() => {
+  let s = {}
+  try {
+    s = JSON.parse(currentNote.value.styles || '')
+  } catch (err) {
+    // console.warn(err);
+  }
+  return s as Indexable
+})
+
+const font = computed(() => {
+  switch (styles.value.font) {
+    case 'serif':
+      return 'Lyon-Text, Georgia, ui-serif, SimSun, serif'
+    case 'mono':
+      return 'iawriter-mono, Nitti, Menlo, Courier, monospace'
+    default:
+      return ''
+  }
 })
 
 function initEditor() {
@@ -296,7 +337,19 @@ onMounted(() => {
 
 <style lang="scss">
 .page-note {
-  .note-header {
+  .yiitap {
+    .editor-content {
+      padding: 16px 0;
+    }
+
+    .tiptap {
+      font-family: var(--note-font), serif !important;
+      font-size: var(--note-font-size) !important;
+    }
+  }
+
+
+  .note-nav {
     height: 50px;
     padding: 0 10px;
     background: linear-gradient(to right,
@@ -308,14 +361,59 @@ onMounted(() => {
   .o-scroll-wrapper {
     top: 50px;
 
-    .note-meta {
-      //margin-top: 50px;
-      padding: 0 100px;
+    .layout {
+      display: grid;
+      grid-template-rows:
+        auto
+        1fr;
+
       &.page {
-        .note-meta-wrapper {
-          max-width: 800px;
-        }
+        grid-template-columns:
+          [full-start] minmax(0, 1fr)
+          [content-start] minmax(200px, 800px)
+          [content-end] minmax(0, 1fr)
+          [full-end];
       }
+
+      &.full {
+        grid-template-columns:
+          [full-start] 100px
+          [content-start] 1fr
+          [content-end] 100px
+          [full-end];
+      }
+    }
+
+    .layout-full {
+      grid-column: full;
+    }
+
+    .layout-content {
+      grid-column: content;
+    }
+
+    .layout-right {
+      position: sticky;
+      top: 0;
+      grid-column: content-end / full-end;
+      grid-row: 2;
+    }
+
+    .cover {
+      height: 280px;
+      img {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 280px;
+      }
+    }
+
+    .note-meta {
+      &.with-cover {
+        margin-top: -40px;
+      }
+
       .note-meta-wrapper {
         width: 100%;
 
@@ -325,7 +423,7 @@ onMounted(() => {
           font-size: 80px;
           line-height: 1.1;
           &:hover {
-            background: var(--q-accent);
+            background: rgba(0,0,0,0.1);
             border-radius: 4px;
             cursor: pointer;
           }
@@ -344,17 +442,11 @@ onMounted(() => {
         }
       }
     }
-
-    .editor-content.page-view {
-      width: 100%;
-      max-width: 1000px;
-    }
   }
 
 
   .o-doc-toc {
     position: absolute;
-
     right: 20px;
   }
 }

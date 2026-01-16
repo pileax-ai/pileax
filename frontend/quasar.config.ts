@@ -13,7 +13,7 @@ export default defineConfig(((ctx) => {
   let mode = ctx.modeName
   const targetName = (ctx as Indexable).targetName
   if (targetName) mode += '-' + targetName
-  const macSign = process.env.CI ? {} : {  }
+  const macSign = process.env.CI ? {} : { identity: null }
 
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature

@@ -1,16 +1,22 @@
 import { computed, ref } from 'vue'
+import { useAccountStore } from 'stores/account'
 import { useNaviStore } from 'stores/navi'
 import { useNoteStore } from 'stores/note'
+import { useTabStore } from 'stores/tab'
 import type { Note } from 'src/types/note'
 import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
 import { router } from 'src/router'
+import useCommon from 'core/hooks/useCommon'
+import { ipcService } from 'src/api/ipc'
 import { noteService } from 'src/api/service/remote/note'
-import { useAccountStore } from 'stores/account'
+import { workspaceManager } from 'core/workspace/workspace-manager'
 
 export default function () {
   const naviStore = useNaviStore()
   const accountStore = useAccountStore()
+  const tabStore = useTabStore()
+  const { t, confirm } = useCommon()
   const recentNotes = ref<Note[]>([])
 
   const noteStore = computed(() => {
@@ -67,9 +73,9 @@ export default function () {
     }
   }
 
-  async function getRecentNotes() {
+  async function getRecentNotes(size = 1000) {
     const query = {
-      pageSize: 1000,
+      pageSize: size,
       sort: {
         update_time: 'desc'
       }
@@ -102,6 +108,18 @@ export default function () {
         query
       })
     }
+  }
+
+  function beforeDeleteNote(note: Indexable) {
+    confirm(t('deleteConfirm'),
+      {
+        icon: note.icon,
+        label: note.title,
+        onOk: () => {
+          deleteNote(note)
+        }
+      }
+    )
   }
 
   function deleteNote(note: Indexable) {
@@ -147,6 +165,21 @@ export default function () {
     })
   }
 
+  function addCover() {
+    const covers = [
+      '/images/book/dark-bubble_nebula.jpg',
+      '/images/book/dark-pillars_of_creation.jpg',
+      '/images/book/light-old_book.png',
+      '/images/book/light-willow_bank.jpg',
+    ]
+    const index = Math.floor(Math.random() * covers.length)
+    const cover = covers[index]
+    saveNote({
+      id: currentNote.value.id,
+      cover: cover
+    })
+  }
+
   function setIcon(option: Indexable) {
     saveNote({
       id: currentNote.value.id,
@@ -171,7 +204,7 @@ export default function () {
   function duplicateNote(data: Indexable) {
     saveNote({
       parent: data.parent,
-      title: data.title,
+      title: `${data.title} (1)`,
       favorite: data.favorite,
       content: data.content,
       icon: data.icon,
@@ -228,6 +261,24 @@ export default function () {
     return list
   }
 
+  function newTab(note: Indexable) {
+    tabStore.newTab({
+      id: note.id,
+      name: note.title,
+      path: `/note/${note.id}`,
+      workspaceId: workspaceManager.getCurrentWorkspaceId(),
+      meta: {
+        type: 'note',
+        icon: note.icon || '✍',
+        iconClass: 'emoji'
+      }
+    })
+  }
+
+  function newWindow(note: Indexable) {
+    ipcService.openNewWindow(note.id, `/note/${note.id}`)
+  }
+
   return {
     noteStore,
     noteService,
@@ -244,12 +295,16 @@ export default function () {
     buildFavoriteTree,
     addNote,
     openNote,
+    beforeDeleteNote,
     deleteNote,
     saveNote,
+    addCover,
     addIcon,
     setIcon,
     setParent,
     toggleFavorite,
     duplicateNote,
+    newTab,
+    newWindow,
   }
 }

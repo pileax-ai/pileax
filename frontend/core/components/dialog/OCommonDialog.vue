@@ -156,7 +156,13 @@ onMounted(() => {
   .dialog-actions {
     //background: red;
     height: 60px;
+
+    .q-btn {
+      padding: 4px 16px;
+    }
   }
+
+
 }
 
 .mobile {

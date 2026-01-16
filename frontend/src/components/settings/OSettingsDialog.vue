@@ -88,7 +88,6 @@ import ServiceLogTab from './tab/service-log-tab.vue'
 import ShortcutTab from './tab/shortcut-tab.vue'
 import UserLogTab from './tab/user-log-tab.vue'
 import WorkspaceTab from './tab/workspace-tab.vue'
-import WorkspaceMemberTab from './tab/workspace-member-tab.vue'
 import { QScrollArea } from 'quasar'
 import { ipcProvider } from 'src/api/ipc'
 
@@ -167,13 +166,6 @@ const tabs = computed(() => {
       icon: 'o_workspaces',
       group: t('workspace._'),
       component: WorkspaceTab,
-      show: true,
-    },
-    {
-      label: t('workspace.members'),
-      value: 'workspace-member',
-      icon: 'o_groups',
-      component: WorkspaceMemberTab,
       show: true,
     },
     {

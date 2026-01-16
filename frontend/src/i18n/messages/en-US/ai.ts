@@ -32,7 +32,9 @@ export default {
       keyTips: 'Your API KEY will be encrypted and stored using PKCS1_OAEP technology.'
     },
     available: 'Available Providers',
-    title: 'Model Providers'
+    title: 'Model Providers',
+    set: 'Set AI providers',
+    setTips: 'Set AI providers to enable AI capabilities.',
   },
   regenerate: 'Re-generate',
   settings: 'AI Settings'

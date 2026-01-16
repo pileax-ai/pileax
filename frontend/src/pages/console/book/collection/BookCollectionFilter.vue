@@ -29,7 +29,12 @@
                   <template v-for="(action, _index) in actions" :key="_index">
                     <o-common-item v-bind="action"
                                    class="text-readable"
-                                   @click="onAction({...action, value: item.value, itemLabel: item.label})"
+                                   @click="onAction({
+                                      ...action, value:
+                                      item.value,
+                                      itemLabel: item.label,
+                                      itemIcon: item.icon
+                                   })"
                                    clickable
                                    closable>
                     </o-common-item>
@@ -118,6 +123,7 @@ function onAction (item :Indexable) {
 
 function onDelete(item: Indexable) {
   crud.remove(item.value, {
+    icon: item.itemIcon,
     label: item.itemLabel,
     callback: () => {
       refresh()

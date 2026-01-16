@@ -2,7 +2,9 @@
   <section class="column col-12 fit o-assistant-chat">
     <header class="row col-auto justify-between text-tips">
       <div class="row">
-        <o-ai-model-select-btn type="chat" single icon-only local>
+        <o-ai-model-select-btn type="chat"
+                               icon="mdi-creation"
+                               single icon-only local>
           <o-tooltip position="left" transition>
             AI Model
           </o-tooltip>
@@ -129,7 +131,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['send', 'stop', 'expand'])
 
-const { localModels } = useAi()
+const { localModels, checkAiSettings } = useAi()
 const input = ref()
 const expanded = ref(false)
 
@@ -160,6 +162,7 @@ function onKeydown(event: KeyboardEvent) {
 function onSend() {
   const message = input.value ? input.value.trim() : ''
   if (message === '') return
+  if (!checkAiSettings()) return
 
   emit('send', {
     id: UUID(),

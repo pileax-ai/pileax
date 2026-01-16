@@ -28,5 +28,6 @@ export default {
     nameError: '请输入正确名称',
     passwordError: '请输入正确密码'
   },
-  useToConsent: '使用即代表您同意我们的'
+  useToConsent: '使用即代表您同意我们的',
+  tokenExpired: 'API凭证已经失效，须重新登录',
 }

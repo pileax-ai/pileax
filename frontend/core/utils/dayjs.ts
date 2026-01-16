@@ -48,8 +48,6 @@ export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
   const { locale, timezone } = useSetting()
 
   const d = () => {
-    console.log('timezones abc', timezone.value)
-    // return dayjs.utc(time).local()
     return dayjs.utc(time).tz(timezone.value)
   }
 

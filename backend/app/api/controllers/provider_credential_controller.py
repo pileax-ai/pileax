@@ -13,6 +13,7 @@ from app.api.models.provider_credential import (
     ProviderCredentialUpdate,
 )
 from app.api.services.provider_credential_service import ProviderCredentialService
+from app.api.services.provider_default_model_service import ProviderDefaultModelService
 from app.api.services.provider_service import ProviderService
 from app.constants import HIDDEN_VALUE
 from app.core.llm.utils.llm_helper import LLMHelper
@@ -27,6 +28,7 @@ class ProviderCredentialController(
         self.workspace = workspace
         self.service = ProviderCredentialService(session)
         self.provider_service = ProviderService(session)
+        self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
 
     def save(self, item_in: ProviderCredentialCreate) -> Any:
         # Check provider
@@ -48,6 +50,9 @@ class ProviderCredentialController(
         self.provider_service.save(
             Provider(workspace_id=self.workspace.id, provider=provider, credential_id=item_out.id)
         )
+
+        # Init default models
+        self.pdm_service.init(provider_info)
 
         return ProviderCredentialPublic.model_validate(item_out)
 
@@ -84,5 +89,9 @@ class ProviderCredentialController(
         )
         credential_id = new_provider_credential.id if new_provider_credential else None
         self.provider_service.update(provider.id, {"credential_id": credential_id})
+
+        # remove default model if no credentials
+        if new_provider_credential is None:
+            self.pdm_service.remove_by_provider(provider_credential.provider)
 
         return None

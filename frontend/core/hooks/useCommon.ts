@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { notifySuccess } from 'core/utils/control'
 import { useComponentStoreWithOut } from 'stores/component'
 import { ipcProvider, ipcService } from 'src/api/ipc'
+import OBadge from 'core/components/misc/OBadge.vue'
 
 export const isMobile = Platform.is.mobile
 export const getArrayItem = (array :Indexable[], value :string, field = '') => {
@@ -29,19 +30,35 @@ export default function () {
 
   const confirm = (
     message: string,
-    callback: () => void,
     {
-      showCancel = false
+      badge = 'error',
+      icon = '',
+      label = '',
+      color = 'red',
+      onCancel = (res: any) => {},
+      onOk = (res: any) => {},
     } = {}
   ) => {
+    const messages: Indexable[] = [
+      { type: 'html', content: message }
+    ]
+    if (label) {
+      messages.push({
+        type: 'component', component: OBadge, props: {
+          icon: icon,
+          label: label,
+          color: color
+        }
+      },)
+    }
+
     componentStore.setDialog({
       type: 'tips',
-      icon: 'error',
+      icon: badge,
       title: t('tips'),
-      message: message,
-      showOk: true,
-      showCancel: showCancel,
-      onOk: callback
+      message: messages,
+      onCancel: onCancel,
+      onOk: onOk,
     })
   }
 

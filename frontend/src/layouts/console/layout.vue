@@ -57,7 +57,7 @@ const appStore = useAppStore()
 const naviStore = useNaviStore()
 const { addKeyBindings, removeKeyBindings } = useShortcut()
 
-const { initAiSettings } = useAi()
+const { initAiSettings, checkAiSettings } = useAi()
 const { initWorkspace } = useAccount()
 const {
   setActivity,
@@ -79,11 +79,13 @@ async function initConsole () {
 
   // First
   await initWorkspace()
-  initAiSettings()
+  await initAiSettings()
+
+  initCheck()
 }
 
-function initNote() {
-
+function initCheck() {
+  checkAiSettings()
 }
 
 function onRouteChanged() {
@@ -104,7 +106,7 @@ function onRouteChanged() {
       activity = reduceActivity(path)
       break
   }
-  console.log('onRouteChanged', activity)
+  // console.log('onRouteChanged', activity)
   if (!activity) return
   setActivity(activity)
 }
@@ -116,6 +118,10 @@ watch(() => route.fullPath, (newValue) => {
 onBeforeMount(() => {
   initConsole()
   addKeyBindings()
+})
+
+onMounted(() => {
+
 })
 
 onUnmounted(() => {

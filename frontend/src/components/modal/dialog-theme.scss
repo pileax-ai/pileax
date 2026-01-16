@@ -1,0 +1,53 @@
+/**
+ *  Styles
+ */
+.dialog-theme {
+  .dialog-content {
+    padding: 0;
+
+    header {
+      height: 100px;
+      cursor: grab;
+      background: var(--q-primary) url("/images/bg_map.png") center no-repeat !important;
+
+      .o-icon, .q-icon {
+        font-size: 80px;
+        color: #ffffff;
+        opacity: 0.2;
+      }
+    }
+
+    .content {
+      padding: 16px;
+      font-size: 1.1rem;
+
+      .title {
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+
+      .message {
+        margin-top: 1rem;
+        opacity: 0.8;
+
+        .o-badge {
+          display: block;
+          //max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  .dialog-actions {
+    height: unset;
+    padding: 1rem;
+    justify-content: end;
+
+    .q-btn {
+      width: unset;
+      min-width: 100px !important;
+    }
+  }
+}
