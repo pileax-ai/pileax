@@ -92,6 +92,7 @@ export default {
   developer: 'Developer',
   discover: 'Discover',
   dislike: 'Dislike',
+  disable: 'Disable',
   docs: 'Docs',
   document: 'Document',
   download: 'Download',

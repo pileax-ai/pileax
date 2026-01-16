@@ -1,5 +1,5 @@
 <template>
-  <o-query-page class="ai-config-llm"
+  <o-query-page class="ai-app-assistants"
                 v-bind="query"
                 @dense="query.onDense"
                 @query="query.onQuery"
@@ -48,35 +48,45 @@
 
     <!--Results-->
     <template #results>
-      <q-table ref="tableRef" row-key="index" class="col-12"
+      <q-table ref="tableRef" row-key="index" class="col-12 o-table"
                v-bind="table"
                v-model:pagination="table.paging"
                :grid="tableView==='grid'"
                @request="query.onRequest" @update:pagination="onPagination">
         <!-- List -->
-        <template #body-cell-home="props">
+        <template #body-cell-path="props">
           <q-td :props="props">
-            <a :href="`${props.value}`" target="_blank">
-              {{props.value}}
-              <q-icon name="open_in_new" />
-            </a>
+            <div class="row items-center">
+              <div class="responsive">
+                <q-responsive :ratio="16/9">
+                  <q-img :src="getFileUrl(props.value)" spinner-size="1rem" />
+                </q-responsive>
+              </div>
+            </div>
+          </q-td>
+        </template>
+        <template #body-cell-refType="props">
+          <q-td :props="props">
+            <o-badge v-bind="getArrayItem(RefTypes, props.value)" />
+          </q-td>
+        </template>
+        <template #body-cell-status="props">
+          <q-td :props="props">
+            <o-badge v-bind="getArrayItem(Status, props.value)" />
           </q-td>
         </template>
         <template #body-cell-actions="props">
           <q-td :props="props">
-            <q-btn color="primary" icon="edit" @click="query.onDetails(props.row.id, '640px')" flat dense>
-              <o-tooltip :message="$t('edit')" />
-            </q-btn>
-            <q-btn color="red" icon="delete" @click="query.onDelete(apiName, props.row.id, props.row.title)" flat dense>
-              <o-tooltip :message="$t('delete')" />
+            <q-btn color="primary" icon="info" @click="query.onDetails(props.row.id)" flat dense>
+              <o-tooltip :message="$t('details')" />
             </q-btn>
           </q-td>
         </template>
 
         <!-- Grid -->
         <template v-slot:item="props">
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 row-item">
-            <provider-card :data="props.row"
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 row-item">
+            <item-card :data="props.row"
                         @edit="onEdit(props.row)"
                         @disable="onDisable(props.row)" />
           </div>
@@ -87,7 +97,6 @@
     <!--Side Panel-->
     <template #side-panel>
       <Item :id="`${id}`"
-            :data="data"
             @success="query.closeSide(true, true)"
             v-if="view==='details'" />
     </template>
@@ -98,15 +107,18 @@
 <script setup lang="ts">
 import {computed, ref, onActivated} from 'vue'
 
-import { TableViews } from 'src/app/metadata'
+import { getArrayItem, RefTypes, Status, TableViews } from 'src/app/metadata'
 import useCommon from 'core/hooks/useCommon'
 import useQuery from 'src/hooks/useQuery'
 import { aiProviderService } from 'src/api/service/remote/ai-provider'
 
-import Item from './item/index.vue'
-import ProviderCard from './ProviderCard.vue'
+import Item from './Item.vue'
+import ItemCard from './ItemCard.vue'
 import { notifyDone } from 'core/utils/control'
+import useApi from 'src/hooks/useApi'
+import { formatFileSize } from 'core/utils/format'
 
+const { getFileUrl } = useApi()
 const { confirm } = useCommon()
 const {
   id,
@@ -119,16 +131,17 @@ const {
   initQuery,
 } = useQuery()
 
-const apiName = 'aiProvider'
+const apiName = 'file'
 const data = ref<Indexable>({})
 const columns = computed(() => {
   return [
-    { field: 'name', label: '名称', align: 'left', name: 'name' },
-    { field: 'title', label: '标题', align: 'left', name: 'title' },
-    { field: 'description', label: '简介', align: 'left', name: 'description', classes: 'ellipsis' },
-    { field: 'home', label: '主页', align: 'left', name: 'home' },
-    { field: 'huggingface', label: 'HuggingGace', align: 'left', name: 'huggingface' },
-    { field: 'status', label: '状态', align: 'left', name: 'status', sortable: true },
+    { field: 'path', label: '预览', align: 'left', name: 'path' },
+    { field: 'originalName', label: '名称', align: 'left', name: 'originalName', classes: 'ellipsis' },
+    { field: 'mimetype', label: 'MimeType', align: 'left', name: 'mimetype' },
+    { field: 'refType', label: '业务类型', align: 'left', name: 'refType' },
+    { field: 'size', label: '大小', align: 'left', name: 'size', sortable: true, format: (val: number) => formatFileSize(val) },
+    { field: 'status', label: '状态', align: 'left', name: 'status' },
+    { field: 'updateTime', label: '时间', align: 'left', name: 'updateTime', sortable: true },
     { field: 'actions', label: '操作', name: 'actions', align: 'right' }
   ]
 })
@@ -138,12 +151,12 @@ function onPagination(pagination: Indexable) {
 }
 
 function init() {
-  tableView.value = 'grid'
+  // tableView.value = 'grid';
   initQuery({
     api: apiName,
-    path: '/all',
+    path: '/query',
     columnList: columns.value as Indexable[],
-    title: 'AI Provider'
+    title: 'File'
   })
 }
 
@@ -174,32 +187,18 @@ onActivated(() => {
 </script>
 
 <style lang="scss">
-.ai-config-llm {
+.ai-app-assistants {
   .console-content {
     padding: 0 21px 21px 21px !important;
   }
 
   .query-wrap {
-    .q-separator {
-      display: none;
-    }
-
-    .condition {
-      .col-auto {
-        display: none;
-      }
-    }
-
     .q-table__grid-content {
       margin: -0.5rem;
       .row-item {
         padding: 0.5rem;
       }
     }
-  }
-
-  .query-table-actions {
-    //display: none;
   }
 
 }

@@ -1,5 +1,5 @@
 <template>
-  <o-query-page class="ai-config-assistants"
+  <o-query-page class="ai-app-assistants"
                 v-bind="query"
                 @dense="query.onDense"
                 @query="query.onQuery"
@@ -187,7 +187,7 @@ onActivated(() => {
 </script>
 
 <style lang="scss">
-.ai-config-assistants {
+.ai-app-assistants {
   .console-content {
     padding: 0 21px 21px 21px !important;
   }

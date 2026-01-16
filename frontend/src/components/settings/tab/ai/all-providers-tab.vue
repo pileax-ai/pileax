@@ -88,7 +88,7 @@ const side = reactive<Indexable>({
   icon: 'vpn_key',
   position: 'standard',
   style: {width: '30vw', minWidth: '600px'},
-  contentClass: 'card'
+  contentClass: 'card pi-card-dialog-theme'
 })
 
 const addedProviderNames = computed(() => {

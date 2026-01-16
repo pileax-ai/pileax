@@ -17,7 +17,16 @@ class WorkspaceController(BaseController[Workspace, WorkspaceCreate, WorkspaceUp
         self.service = WorkspaceService(session, workspace_id)
 
     def get_user_workspaces(self) -> Any:
+        """
+        Get user active workspaces
+        """
         return self.service.get_user_workspaces(self.user_id)
+
+    def get_user_workspaces_details(self) -> Any:
+        """
+        Get user all workspaces with membership details
+        """
+        return self.service.get_user_workspaces_details(self.user_id)
 
     def save(self, item_in: WorkspaceCreate) -> Workspace:
         return self.service.save(item_in)

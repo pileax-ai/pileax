@@ -14,7 +14,9 @@
         <q-toolbar>
           <q-toolbar-title class="row items-center text-bold">
             <o-icon :name="icon" size="1.4rem" class="q-mr-sm" colored v-if="icon" />
-            {{title}}
+            <span class="title">
+              {{title}}
+            </span>
           </q-toolbar-title>
 
           <div class="row text-tips actions">
@@ -36,7 +38,9 @@
         <q-toolbar>
           <q-toolbar-title class="row items-center text-bold">
             <o-icon :name="icon" size="1.4rem" class="q-mr-sm" colored v-if="icon" />
-            {{title}}
+            <span class="title">
+              {{title}}
+            </span>
           </q-toolbar-title>
           <div class="row text-tips actions">
             <q-btn flat round dense icon="print" @click="onPrint" v-if="printable" />
@@ -110,7 +114,7 @@ const props = defineProps({
   },
   contentClass: {
     type: String,
-    default: 'card'
+    default: ''
   },
   style: {
     type: Object,

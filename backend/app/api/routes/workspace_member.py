@@ -4,6 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.workspace_member_controller import WorkspaceMemberController
+from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_member import WorkspaceMemberInvite, WorkspaceMemberPublic, WorkspaceMemberPublicDetails
 from app.api.router import ApiRouter
@@ -19,6 +20,21 @@ def invite(item_in: WorkspaceMemberInvite, controller: WorkspaceMemberController
 @router.api_post("/accept", response_model=WorkspaceMemberPublic)
 def accept(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
     return controller.accept(id)
+
+
+@router.api_post("/role", response_model=WorkspaceMemberPublic)
+def assign_role(id: uuid.UUID, role: str, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.assign_role(id, role)
+
+
+@router.api_post("/enable", response_model=WorkspaceMemberPublic)
+def enable(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.enable(id)
+
+
+@router.api_post("/disable", response_model=WorkspaceMemberPublic)
+def disable(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.disable(id)
 
 
 @router.api_get("/details", response_model=WorkspaceMemberPublicDetails)

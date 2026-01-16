@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="modal"
-            class="library-dialog"
+            class="library-dialog pi-card-dialog-theme"
             @hide="onHide"
             @show="onShow">
     <q-card class="dialog-card" :style="style">
@@ -183,7 +183,7 @@ watch(() => props.modelValue, (newValue) => {
 
   .q-bar {
     height: 40px;
-    margin-top: 4px;
+    //margin-top: 4px;
 
     .title-icon {
       font-size: 1.8rem !important;

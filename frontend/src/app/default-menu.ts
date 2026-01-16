@@ -120,24 +120,24 @@ export const defaultConsoleMenus: MenuItem[] = [
     ]
   },
   {
-    id: 'system-group',
+    id: 'ai-group',
     name: 'ai.apps',
     path: '',
     action: 1,
     meta: {icon: 'mdi-creation'},
     children: [
       {
-        id: 'chat-assistants',
+        id: 'ai-app-assistants',
         name: 'chat.assistants',
         action: 1,
-        path: '/system/config/assistants',
+        path: '/ai/app/assistants',
         meta: {icon: 'assistant_navigation'}
       },
       {
-        id: 'ai-agents',
+        id: 'ai-app-agents',
         name: 'ai.agents',
         action: 1,
-        path: '/system/config/agents',
+        path: '/ai/app/agents',
         meta: {icon: 'assignment'}
       },
     ]

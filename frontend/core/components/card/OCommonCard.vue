@@ -6,7 +6,7 @@
                     :class="`${headerClass}`"
                     v-if="header">
       <div class="row items-center title">
-        <q-icon :name="icon" v-if="icon" /> {{title}}
+        <q-icon :name="icon" class="icon" v-if="icon" /> {{title}}
         <slot name="header"></slot>
       </div>
       <div class="row items-center card-header-right">
@@ -125,7 +125,7 @@ function toggleExpand() {
       font-size: 1.2rem;
       font-weight: bold;
 
-      .q-icon {
+      .icon {
         padding-right: 8px;
       }
     }

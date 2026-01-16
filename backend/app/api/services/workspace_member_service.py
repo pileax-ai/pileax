@@ -17,12 +17,26 @@ class WorkspaceMemberService(BaseService[WorkspaceMember]):
         return self.save(item)
 
     def accept(self, id: UUID) -> WorkspaceMember:
-        obj = self.repo.get(id)
-        if not obj:
-            raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
+        obj = super().get(id)
 
         # update status
         obj.status = Status.ACCEPTED
+
+        return self.repo.update_obj(obj)
+
+    def assign_role(self, id: UUID, role: str) -> WorkspaceMember:
+        obj = super().get(id)
+
+        # update role
+        obj.role = role
+
+        return self.repo.update_obj(obj)
+
+    def update_status(self, id: UUID, status: int) -> WorkspaceMember:
+        obj = super().get(id)
+
+        # update role
+        obj.status = status
 
         return self.repo.update_obj(obj)
 

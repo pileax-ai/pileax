@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.workspace_controller import WorkspaceController
-from app.api.models.workspace import WorkspaceCreate, WorkspacePublic, WorkspaceUpdate
+from app.api.models.workspace import WorkspaceCreate, WorkspacePublic, WorkspaceUpdate, WorkspaceDetailsPublic
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/workspace", tags=["Workspace"])
@@ -33,3 +33,8 @@ def delete(id: uuid.UUID, controller: WorkspaceController = Depends()) -> Any:
 @router.api_get("/workspaces", response_model=list[WorkspacePublic])
 def get_user_workspaces(controller: WorkspaceController = Depends()) -> Any:
     return controller.get_user_workspaces()
+
+
+@router.api_get("/workspaces/details", response_model=list[WorkspaceDetailsPublic])
+def get_user_workspaces_details(controller: WorkspaceController = Depends()) -> Any:
+    return controller.get_user_workspaces_details()

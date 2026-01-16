@@ -93,6 +93,7 @@ export default {
   developer: '开发者',
   discover: '发现',
   dislike: '不喜欢',
+  disable: '禁用',
   docs: '文档',
   document: '文档',
   download: '下载',

@@ -13,6 +13,22 @@ export class WorkspaceMemberService extends BaseService {
     return POST({ name: this.apiName, path: '/query/details', body })
   }
 
+  async acceptInvite(id: string): Promise<any> {
+    return POST({ name: this.apiName, path: '/accept', query: { id } })
+  }
+
+  async enable(id: string): Promise<any> {
+    return POST({ name: this.apiName, path: '/enable', query: { id } })
+  }
+
+  async disable(id: string): Promise<any> {
+    return POST({ name: this.apiName, path: '/disable', query: { id } })
+  }
+
+  async assignRole(id: string, role: string): Promise<any> {
+    return POST({ name: this.apiName, path: '/role', query: { id, role } })
+  }
+
 }
 
 export const workspaceMemberService = new WorkspaceMemberService()

@@ -382,3 +382,64 @@
     }
   }
 }
+
+.pi-card-dialog-theme {
+  .dialog-card {
+    border-radius: 1rem !important;
+  }
+
+  .q-bar, .header {
+    display: flex;
+    align-items: center;
+    height: 100px !important;
+    color: #ffffff;
+    background: var(--q-primary) url("/images/bg_map.png") center no-repeat !important;
+
+    .q-toolbar {
+      &__title {
+        color: #ffffff;
+        .o-icon {
+          font-size: 2.8rem !important;
+        }
+        .o-svg-icon {
+          color: #ffffff !important;
+          width: 2.8rem !important;
+          height: 2.8rem !important;
+        }
+        font-size: 2rem !important;
+
+        .title {
+          opacity: 0.7;
+        }
+      }
+
+      .actions {
+        .q-btn {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .q-card__actions {
+    height: unset;
+    padding: 1rem !important;
+    justify-content: end;
+
+    .q-btn {
+      width: unset;
+      min-width: 100px !important;
+      border-radius: 24px;
+
+      &:first-child {
+        color: var(--p-text-readable) !important;
+        background: var(--q-accent);
+      }
+
+      &:last-child {
+        color: #ffffff !important;
+        background: var(--q-primary);
+      }
+    }
+  }
+}
