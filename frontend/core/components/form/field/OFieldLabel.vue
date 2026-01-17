@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 o-field-label" :class="{ 'dense': dense }">
     <div class="row col-12 justify-between items-center main-label" v-if="side">
-      <div class="">
+      <div class="col-auto label">
         <span class="text-readable">{{label}}</span>
         <span class="text-red" v-if="required">*</span>
       </div>

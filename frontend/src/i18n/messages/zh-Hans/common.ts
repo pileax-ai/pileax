@@ -239,5 +239,6 @@ export default {
     grid: '网格',
     list: '列表'
   },
-  welcome: '欢迎'
+  welcome: '欢迎',
+  noShowAgain: '不再显示',
 }

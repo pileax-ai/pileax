@@ -11,6 +11,7 @@ import type { RequestOptions } from 'core/types/request'
  * API Url Registration
  */
 const urls: Indexable = {
+  accountSecurity: '/account/security',
   aiProvider: '/ai/provider',
   auth: '/auth',
   book: '/book',

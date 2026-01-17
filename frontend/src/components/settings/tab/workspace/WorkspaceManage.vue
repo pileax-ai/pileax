@@ -74,7 +74,6 @@
       </section>
     </o-common-card>
 
-
     <o-side-dialog v-bind="side"
                    :seamless="false"
                    scrollable
@@ -102,7 +101,7 @@ import useMetadata from 'src/hooks/useMetadata'
 const emit = defineEmits(['view'])
 
 const { t } = useCommon()
-const { workspace, setWorkspaces, switchWorkspace } = useAccount()
+const { workspace, setWorkspace, setWorkspaces, switchWorkspace } = useAccount()
 const {
   getArrayItem,
   WorkspaceMemberRoles,
@@ -218,7 +217,11 @@ const onEditWorkspace = (item: Indexable) => {
   side.icon = 'edit'
 }
 
-const onClose = () => {
+const onClose = (item: Indexable) => {
+  console.log('item', item)
+  if (workspace.value.id === item.id) {
+    setWorkspace(item)
+  }
   side.show = false
   getWorkspaces()
 }

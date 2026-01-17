@@ -14,7 +14,8 @@
         <o-field :label="$t('email')">
           <q-input v-model="form.username"
                    :placeholder="$t('email')"
-                   outlined dense
+                   tabindex="1"
+                   outlined dense clearable
                    :rules="[val => !!val]">
             <template #prepend>
               <q-icon name="mail_outline" />
@@ -25,9 +26,10 @@
           <q-input v-model="form.password"
                    :placeholder="$t('password')"
                    :type="type"
+                   tabindex="2"
                    autocomplete="current-password"
                    class="password"
-                   outlined dense
+                   outlined dense clearable
                    :rules="[val => !!val]">
             <template #prepend>
               <q-icon name="lock_outline" />

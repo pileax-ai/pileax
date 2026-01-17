@@ -74,7 +74,7 @@
         </template>
         <template #body-cell-actions="props">
           <q-td :props="props">
-            <q-btn color="primary" icon="info" @click="query.onDetails(props.row.id)" flat dense>
+            <q-btn color="primary" icon="o_info" @click="query.onDetails(props.row.id, {icon: 'o_info'})" flat dense>
               <o-tooltip :message="$t('details')" />
             </q-btn>
           </q-td>

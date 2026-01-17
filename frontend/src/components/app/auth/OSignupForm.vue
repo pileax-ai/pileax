@@ -15,6 +15,7 @@
           <q-input v-model="form.email"
                    :placeholder="$t('email')"
                    autocomplete="email"
+                   tabindex="1"
                    outlined dense
                    :error="v$.email.$errors.length > 0"
                    :error-message="$t('auth.signup.emailError')"
@@ -27,6 +28,7 @@
         <o-field :label="$t('name')">
           <q-input v-model="form.name" :placeholder="$t('name')"
                    autocomplete="name"
+                   tabindex="2"
                    outlined dense
                    :error="v$.name.$errors.length > 0"
                    :error-message="$t('auth.signup.nameError')">
@@ -39,6 +41,7 @@
           <q-input v-model="form.password" :placeholder="$t('password')"
                    :type="type"
                    autocomplete="new-password"
+                   tabindex="3"
                    class="password"
                    outlined dense
                    :error="v$.password.$errors.length > 0"
@@ -58,6 +61,7 @@
           <q-input v-model="form.confirmPassword"
                    :placeholder="$t('auth.signup.confirmPassword')"
                    :type="type"
+                   tabindex="4"
                    class="password"
                    outlined dense
                    :error="v$.confirmPassword.$errors.length > 0"

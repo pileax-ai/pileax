@@ -17,7 +17,7 @@ export const useReaderStore = defineStore('reader', {
     rightDrawer: {
       show: true,
       hoverShow: false,
-      width: 300,
+      width: 400,
       split: false,
     } as Indexable,
     tts: {

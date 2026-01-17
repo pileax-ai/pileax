@@ -8,6 +8,8 @@ export default {
       passkeys: '通行密钥',
       password: '密码',
       password_action: '修改密码',
+      password_new: '新密码',
+      password_incorrect: '原密码不正确',
       password_tips: '修改你的登录密码。',
       title: '安全'
     },

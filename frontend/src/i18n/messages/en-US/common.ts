@@ -240,4 +240,5 @@ export default {
     restart: 'Restart',
     later: 'Later',
   },
+  noShowAgain: 'Do not show again',
 }

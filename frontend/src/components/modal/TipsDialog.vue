@@ -16,11 +16,9 @@
       <div class="message" v-html="dialog.message" v-if="isString(dialog.message)"></div>
       <div class="message row items-center" v-else>
         <template v-for="(item, index) in dialog.message" :key="index">
-          <component
-            v-if="item.type === 'component'"
-            :is="item.component"
-            v-bind="item.props"
-          />
+          <component :is="item.component"
+                     v-bind="item.props"
+                     v-if="item.type === 'component'" />
           <span v-else v-html="item.content"></span>
         </template>
       </div>

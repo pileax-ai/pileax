@@ -58,7 +58,7 @@ async def get_current_user(
         raise HTTPException(status_code=400, detail="Inactive user")
 
     # check token
-    cached_token = await cache.get(get_key("user", "access_token", user_id, x_device_id))
+    cached_token = await cache.get(get_key("user", "access_token", user_id, device_id))
     if token != cached_token:
         raise HTTPException(status_code=403, detail="Inactive token")
 

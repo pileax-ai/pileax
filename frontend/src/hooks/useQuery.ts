@@ -96,7 +96,9 @@ export default function () {
     dense.value = value
   }
 
-  function onDetails(idAlt: string, width = '30vw', viewAlt = 'details', icon = '', title = '') {
+  function onDetails(idAlt: string, {
+    width = '30vw', viewAlt = 'details', icon = '', title = ''
+  } = {}) {
     id.value = idAlt
     icon = icon || (idAlt ? 'edit' : 'add')
     openSide(width, viewAlt, icon, title)

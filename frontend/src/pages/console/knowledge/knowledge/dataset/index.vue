@@ -62,10 +62,10 @@
                    flat dense>
               <o-tooltip message="分成比例"/>
             </q-btn>
-            <q-btn color="primary" icon="edit" @click="query.onDetails(props.row.id, '640px')" flat dense>
+            <q-btn color="primary" icon="edit" @click="query.onDetails(props.row.id, {width: '640px'})" flat dense>
               <o-tooltip :message="$t('edit')" />
             </q-btn>
-            <q-btn color="primary" icon="download" @click="query.onDetails(props.row.id, '640px')" flat dense>
+            <q-btn color="primary" icon="download" @click="query.onDetails(props.row.id, {width: '640px'})" flat dense>
               <o-tooltip :message="$t('download')" />
             </q-btn>
             <q-btn color="red" icon="delete" @click="query.onDelete(apiName, props.row.id, props.row.title)" flat dense>

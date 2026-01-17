@@ -8,6 +8,8 @@ export default {
       passkeys: 'Passkeys',
       password: 'Password',
       password_action: 'Change Password',
+      password_new: 'New Password',
+      password_incorrect: 'Incorrect old password',
       password_tips: 'Change your login password.',
       title: 'Security'
     },
