@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await asyncio.to_thread(ext_database.setup)
-    ext_cache.setup(app)
+    await ext_cache.setup(app)
 
     # startup
     logger.info("===== startup =====")

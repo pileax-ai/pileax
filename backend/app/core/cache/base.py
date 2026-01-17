@@ -12,11 +12,11 @@ class Cache(ABC):
         self.repo = DatabaseCacheRepository(DatabaseCache, self.session)
 
     @abstractmethod
-    def get(self, key: str) -> Optional[Any]:
+    async def get(self, key: str) -> Optional[Any]:
         ...
 
     @abstractmethod
-    def set(
+    async def set(
         self,
         key: str,
         value: Any,
@@ -26,27 +26,27 @@ class Cache(ABC):
         ...
 
     @abstractmethod
-    def delete(self, key: str) -> None:
+    async def delete(self, key: str) -> None:
         ...
 
     @abstractmethod
-    def clear(self) -> None:
+    async def clear(self) -> None:
         ...
 
     @abstractmethod
-    def test_connection(self) -> bool:
+    async def test_connection(self) -> bool:
         ...
 
-    def persist(self, key: str, value: Any) -> None:
+    async def persist(self, key: str, value: Any) -> None:
         self.repo.create(DatabaseCache(
             key=key,
             value=value,
         ))
 
-    def load(self) -> int:
+    async def load(self) -> int:
         self.repo.delete_older_than(30)
         list = self.repo.find_all()
         for item in list:
-            self.set(item.key, item.value)
+            await self.set(item.key, item.value)
 
         return len(list)

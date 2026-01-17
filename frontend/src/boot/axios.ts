@@ -4,6 +4,8 @@ import axios from 'axios'
 import { getCommonHeaders } from 'core/utils/common'
 import useDialog from 'core/hooks/useDialog'
 import { refreshToken, refreshTokenThrottle } from 'src/utils/auth'
+import { getErrorMessage } from 'src/utils/request'
+import { notifyWarning } from 'core/utils/control'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -54,7 +56,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
     const data = error.response?.data
-    const message = data?.message
+    const message = getErrorMessage(error)
     const status = error.response?.status || data?.code
     console.error('API Error:', error)
 
@@ -76,6 +78,8 @@ api.interceptors.response.use(
           return Promise.reject(refreshError)
         }
       }
+    } else if (status === 500) {
+      notifyWarning(message)
     }
 
     return Promise.reject(error)

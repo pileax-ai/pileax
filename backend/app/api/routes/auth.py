@@ -13,7 +13,7 @@ router = ApiRouter(prefix="/auth", tags=["Auth"])
 
 
 @router.api_post("/signup", response_model=SigninPublic)
-def signup(
+async def signup(
     item_in: UserCreate,
     session: SessionDep,
     request: Request,
@@ -22,11 +22,11 @@ def signup(
     """
     signup for new user
     """
-    return AuthController(session, request, response).signup(item_in)
+    return await AuthController(session, request, response).signup(item_in)
 
 
 @router.api_post("/signin", response_model=SigninPublic)
-def signin(
+async def signin(
     session: SessionDep,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     request: Request,
@@ -35,11 +35,11 @@ def signin(
     """
     signin for frontend with standard response
     """
-    return AuthController(session, request, response).signin(form_data.username, form_data.password)
+    return await AuthController(session, request, response).signin(form_data.username, form_data.password)
 
 
 @router.api_post("/refresh-token", response_model=TokenPublic)
-def refresh_token(
+async def refresh_token(
     session: SessionDep,
     request: Request,
     response: Response,
@@ -47,11 +47,11 @@ def refresh_token(
     """
     Refresh access token
     """
-    return AuthController(session, request, response).refresh_token()
+    return await AuthController(session, request, response).refresh_token()
 
 
 @router.post("/token", response_model=TokenPublic)
-def get_token(
+async def get_token(
     session: SessionDep,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     request: Request,

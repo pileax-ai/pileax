@@ -20,34 +20,35 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{app_config.API_VERSION}/auth/to
 
 SessionDep = Annotated[Session, Depends(get_db_session)]
 TokenDep = Annotated[str, Depends(oauth2_scheme)]
+CurrentCache = Annotated[Cache, Depends(get_cache)]
 
 
-def get_user_id(
-    token: TokenDep,
-    x_device_id: Annotated[str | None, Header()] = None
-) -> UUID:
+def get_device_id(x_device_id: Annotated[str | None, Header()] = None) -> str:
     if not x_device_id:
-        raise HTTPException(status_code=400, detail="Missing x-device-id header")
+        raise HTTPException(status_code=400, detail="Missing X-Device-ID header")
+    return x_device_id
 
+
+async def get_user_id(
+    token: TokenDep,
+    device_id: str = Depends(get_device_id),
+) -> UUID:
     payload = JWTService().decode(token)
     user_id = payload.get("sub")
 
     # check token
-    cached_token = cache.get(get_key("user", "access_token", user_id, x_device_id))
+    cached_token = await cache.get(get_key("user", "access_token", user_id, device_id))
     if token != cached_token:
         raise HTTPException(status_code=403, detail="Inactive token")
 
     return UUID(user_id)
 
 
-def get_current_user(
+async def get_current_user(
     session: SessionDep,
     token: TokenDep,
-    x_device_id: Annotated[str | None, Header()] = None
+    device_id: str = Depends(get_device_id),
 ) -> User:
-    if not x_device_id:
-        raise HTTPException(status_code=400, detail="Missing x-device-id header")
-
     payload = JWTService().decode(token)
     user_id = payload.get("sub")
     user: Optional[User] = session.get(User, user_id)
@@ -57,7 +58,7 @@ def get_current_user(
         raise HTTPException(status_code=400, detail="Inactive user")
 
     # check token
-    cached_token = cache.get(get_key("user", "access_token", user_id, x_device_id))
+    cached_token = await cache.get(get_key("user", "access_token", user_id, x_device_id))
     if token != cached_token:
         raise HTTPException(status_code=403, detail="Inactive token")
 
@@ -82,7 +83,6 @@ def get_current_workspace(session: SessionDep, workspace_id: UUID = Depends(get_
     return workspace
 
 
-CurrentCache = Annotated[Cache, Depends(get_cache)]
 CurrentUserId = Annotated[UUID, Depends(get_user_id)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
 CurrentWorkspaceId = Annotated[UUID, Depends(get_workspace_id)]

@@ -73,6 +73,8 @@ import NoteActions from 'components/note/NoteActions.vue'
 import ONotePage from 'components/page/ONotePage.vue'
 import { chatContentToHtml } from 'src/utils/note'
 import { router } from 'src/router'
+import { notifyWarning } from 'core/utils/control'
+import { getErrorMessage } from 'src/utils/request'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
@@ -198,7 +200,9 @@ async function getAndLoadNote() {
     loading.value = false
     loadingNote(note as Note)
   }).catch((err) => {
-    createNote()
+    if (err.response.status === 404) {
+      createNote()
+    }
   })
 }
 

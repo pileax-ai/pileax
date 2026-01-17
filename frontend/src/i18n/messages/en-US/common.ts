@@ -204,7 +204,9 @@ export default {
   times: {
     last30Days: 'Within 30 days',
     last7Days: 'Within 7 days',
-    yesterday: 'Yesterday'
+    yesterday: 'Yesterday',
+    today: 'Today',
+    byMonth: 'By month',
   },
   tips: 'Tips',
   title: 'Title',

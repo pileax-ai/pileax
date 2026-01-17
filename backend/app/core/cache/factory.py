@@ -15,7 +15,7 @@ def get_cache() -> Cache:
     Create cache instance
     """
     if app_config.DB_PROVIDER != "sqlite":
-        from redis import Redis
+        from redis.asyncio import Redis
 
         redis_url = app_config.REDIS_URL
         if not redis_url:

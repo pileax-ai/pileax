@@ -2,7 +2,7 @@ import logging
 
 from fastapi import FastAPI
 
-from app.core.cache.factory import get_cache
+from app.core.cache.factory import cache
 
 logger = logging.getLogger(__name__)
 order = -1
@@ -12,13 +12,12 @@ def is_enabled():
     return False
 
 
-def test_connection():
-    cache = get_cache()
+async def test_connection():
     cache_name = cache.__class__.__name__
 
     if cache_name == "RedisCache":
         try:
-            connected = cache.test_connection()
+            connected = await cache.test_connection()
             if connected:
                 logger.info("✅ Cache connected.")
             else:
@@ -29,12 +28,11 @@ def test_connection():
     return cache_name
 
 
-def load_cache():
-    cache = get_cache()
-    return cache.load()
+async def load_cache():
+    return await cache.load()
 
 
-def setup(app: FastAPI | None = None):
-    cache_name = test_connection()
-    cache_len = load_cache()
+async def setup(app: FastAPI | None = None):
+    cache_name = await test_connection()
+    cache_len = await load_cache()
     logger.info("✅ [%s] Cache backend is setup. %s keys loaded", cache_name, cache_len)

@@ -10,10 +10,10 @@ class RedisCache(Cache):
         super().__init__()
         self.redis = redis
 
-    def get(self, key: str):
-        return self.redis.get(key)
+    async def get(self, key: str):
+        return await self.redis.get(key)
 
-    def set(
+    async def set(
         self,
         key: str,
         value: Any,
@@ -21,21 +21,21 @@ class RedisCache(Cache):
         persist: Optional[bool] = False,
     ) -> None:
         if ttl:
-            self.redis.setex(key, ttl, value)
+            await self.redis.setex(key, ttl, value)
         else:
-            self.redis.set(key, value)
+            await self.redis.set(key, value)
 
         if persist:
-            super().persist(key,value)
+            await super().persist(key,value)
 
-    def delete(self, key: str) -> None:
-        self.redis.delete(key)
+    async def delete(self, key: str) -> None:
+        await self.redis.delete(key)
 
-    def clear(self) -> None:
-        self.redis.flushdb()
+    async def clear(self) -> None:
+        await self.redis.flushdb()
 
-    def test_connection(self) -> bool:
-        pong = self.redis.ping()
+    async def test_connection(self) -> bool:
+        pong = await self.redis.ping()
         if pong:
             return True
         else:

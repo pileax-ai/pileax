@@ -1,5 +1,5 @@
 import time
-import threading
+import asyncio
 from typing import Any, Optional
 
 from .base import Cache
@@ -14,10 +14,10 @@ class MemoryCache(Cache):
     def __init__(self):
         super().__init__()
         self._data: dict[str, tuple[Any, Optional[int]]] = {}
-        self._lock = threading.Lock()
+        self._lock = asyncio.Lock()
 
-    def get(self, key: str) -> Optional[Any]:
-        with self._lock:
+    async def get(self, key: str) -> Optional[Any]:
+        async with self._lock:
             item = self._data.get(key)
             if not item:
                 return None
@@ -30,7 +30,7 @@ class MemoryCache(Cache):
 
             return value
 
-    def set(
+    async def set(
         self,
         key: str,
         value: Any,
@@ -38,19 +38,19 @@ class MemoryCache(Cache):
         persist: Optional[bool] = False,
     ) -> None:
         expires_at = int(time.time()) + ttl if ttl else None
-        with self._lock:
+        async with self._lock:
             self._data[key] = (value, expires_at)
 
         if persist:
-            super().persist(key,value)
+            await super().persist(key,value)
 
-    def delete(self, key: str) -> None:
-        with self._lock:
+    async def delete(self, key: str) -> None:
+        async with self._lock:
             self._data.pop(key, None)
 
-    def clear(self) -> None:
-        with self._lock:
+    async def clear(self) -> None:
+        async with self._lock:
             self._data.clear()
 
-    def test_connection(self) -> bool:
+    async def test_connection(self) -> bool:
         return True

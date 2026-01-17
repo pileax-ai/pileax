@@ -12,30 +12,30 @@ router = ApiRouter(prefix="/file/meta", tags=["FileMeta"])
 
 
 @router.api_post("", response_model=FileMetaPublic)
-def save(item_in: FileMetaCreate, controller: FileMetaController = Depends()) -> Any:
+async def save(item_in: FileMetaCreate, controller: FileMetaController = Depends()) -> Any:
     return controller.save(item_in)
 
 
 @router.api_get("", response_model=FileMetaPublic)
-def get(id: uuid.UUID, controller: FileMetaController = Depends()) -> Any:
+async def get(id: uuid.UUID, controller: FileMetaController = Depends()) -> Any:
     return controller.get(id)
 
 
 @router.api_put("", response_model=FileMetaPublic)
-def update(item_in: FileMetaUpdate, controller: FileMetaController = Depends()) -> Any:
+async def update(item_in: FileMetaUpdate, controller: FileMetaController = Depends()) -> Any:
     return controller.update(item_in)
 
 
 @router.api_delete("")
-def delete(id: uuid.UUID, controller: FileMetaController = Depends()) -> Any:
+async def delete(id: uuid.UUID, controller: FileMetaController = Depends()) -> Any:
     return controller.delete(id)
 
 
 @router.api_post("/query", response_model=QueryResult[FileMetaPublic])
-def query(query: PaginationQuery, controller: FileMetaController = Depends()) -> Any:
+async def query(query: PaginationQuery, controller: FileMetaController = Depends()) -> Any:
     return controller.query(query)
 
 
 @router.api_post("/all", response_model=list[FileMetaPublic])
-def find_all(controller: FileMetaController = Depends()) -> Any:
+async def find_all(controller: FileMetaController = Depends()) -> Any:
     return controller.find_all_by_workspace()
