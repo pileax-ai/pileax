@@ -4,10 +4,10 @@
  * @author Xman
  * @version 1.0
  */
-import { Platform, Cookies } from 'quasar'
+import { Platform } from 'quasar'
 import packageInfo from '../../package.json'
-import { getItem, getItemObject } from 'core/utils/storage'
-import { getAuthorization, getWorkspaceId } from 'src/utils/auth'
+import { getItem } from 'core/utils/storage'
+import { getAuthorization, getDeviceId, getWorkspaceId } from 'src/utils/auth'
 
 export const getCommonHeaders = () => {
   const platform = Platform.is
@@ -19,13 +19,6 @@ export const getCommonHeaders = () => {
     'x-os': platform.platform,
     'x-os-version': platform.versionNumber,
     'x-workspace-id': getWorkspaceId(),
-  }
-}
-
-export const getCommonReport = () => {
-  return {
-    platform: Platform.is.platform,
-    name: name,
-    version: packageInfo.version,
+    'x-device-id': getDeviceId(),
   }
 }

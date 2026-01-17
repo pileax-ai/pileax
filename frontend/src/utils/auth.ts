@@ -4,13 +4,12 @@
  * @author Xman
  * @version 1.0
  */
-import { debounce, throttle } from 'quasar'
 import { jwtDecode } from 'jwt-decode'
-import sha1 from 'crypto-js/sha1'
 
-import { getItemObject, getSessionItem, saveItemObject } from 'core/utils/storage'
+import { getCookieItem, getItem, getItemObject, getSessionItem, saveItem, saveItemObject } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import type { MenuItem } from 'core/types/menu'
+import { UUID } from 'core/utils/crypto'
 
 // -----------------------------------------------------------------------------
 // Authentication Util
@@ -53,6 +52,18 @@ export const getWorkspaceId = (): string => {
   }
 
   return workspaceId
+}
+
+
+export const getDeviceId = (): string => {
+  let deviceId = getItem('did') as string
+
+  if (!deviceId) {
+    deviceId = UUID()
+    saveItem('did', deviceId)
+  }
+
+  return deviceId
 }
 
 
@@ -110,6 +121,7 @@ export const refreshTokenThrottle = () => {
   if (now - lastRefreshTime < 10 * 1000) {
     return
   }
+  // console.log('throttle', now, lastRefreshTime)
   lastRefreshTime = now
 
   if (isTokenNeedRefresh()) {
@@ -117,8 +129,7 @@ export const refreshTokenThrottle = () => {
   }
 }
 
-export const refreshToken = (retry = false) => {
-  console.log('Refresh token', retry)
+export const refreshToken = () => {
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
       const token = res
@@ -133,6 +144,11 @@ export const refreshToken = (retry = false) => {
   })
 }
 
+export const validateRefreshToken = () => {
+  const refreshToken = getCookieItem('refresh_token', '') || ''
+  console.log('refresh_token', refreshToken)
+  return validateJwtToken(refreshToken)
+}
 
 // -----------------------------------------------------------------------------
 // Permission

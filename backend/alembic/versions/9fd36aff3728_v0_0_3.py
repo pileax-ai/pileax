@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: 923d46c33dea
+Revision ID: 9fd36aff3728
 Revises:
-Create Date: 2025-12-29 17:57:54.948820
+Create Date: 2026-01-17 08:45:38.956339
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '923d46c33dea'
+revision: str = '9fd36aff3728'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -37,8 +37,7 @@ def upgrade() -> None:
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('status', sa.Integer(), server_default=sa.text('1'), nullable=False),
     sa.Column('scope', sa.Integer(), server_default=sa.text('2'), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('book',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -62,7 +61,6 @@ def upgrade() -> None:
     sa.Column('published', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('scope', sa.Integer(), server_default=sa.text('2'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('tenant_id', 'uuid', name='unique_tenant_book')
     )
     op.create_table('book_annotation',
@@ -79,8 +77,7 @@ def upgrade() -> None:
     sa.Column('color', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('chapter', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('page', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('book_collection',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -94,8 +91,7 @@ def upgrade() -> None:
     sa.Column('cover', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('color', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('position', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('conversation',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -112,8 +108,15 @@ def upgrade() -> None:
     sa.Column('status', sa.Integer(), nullable=True),
     sa.Column('ref_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('database_cache',
+    sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
+    sa.Column('update_time', sa.DateTime(), nullable=False, comment='Updated time'),
+    sa.Column('id', app.api.models.base.GUID(), nullable=False),
+    sa.Column('key', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('value', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('file_meta',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -130,8 +133,7 @@ def upgrade() -> None:
     sa.Column('ref_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('status', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('message',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -151,8 +153,7 @@ def upgrade() -> None:
     sa.Column('total_tokens', sa.Integer(), nullable=True),
     sa.Column('favorite', sa.Integer(), nullable=True),
     sa.Column('status', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('note',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -169,8 +170,7 @@ def upgrade() -> None:
     sa.Column('styles', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('provider',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -180,7 +180,6 @@ def upgrade() -> None:
     sa.Column('provider', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('credential_id', app.api.models.base.GUID(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_id', 'provider', name='unique_workspace_provider')
     )
     op.create_table('provider_credential',
@@ -188,11 +187,10 @@ def upgrade() -> None:
     sa.Column('update_time', sa.DateTime(), nullable=False, comment='Updated time'),
     sa.Column('id', app.api.models.base.GUID(), nullable=False),
     sa.Column('workspace_id', app.api.models.base.GUID(), nullable=False),
-    sa.Column('provider', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('provider', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('credential', app.api.models.base.JSONString(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_id', 'provider', 'name', name='unique_workspace_provider_name')
     )
     op.create_table('provider_default_model',
@@ -204,7 +202,6 @@ def upgrade() -> None:
     sa.Column('model_name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('model_type', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_id', 'model_type', name='unique_workspace_provider_model_type')
     )
     op.create_table('tenant',
@@ -218,8 +215,7 @@ def upgrade() -> None:
     sa.Column('type', sa.String(length=32), nullable=True),
     sa.Column('public_key', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=True),
     sa.Column('status', sa.Integer(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -238,8 +234,7 @@ def upgrade() -> None:
     sa.Column('last_login_ip', sqlmodel.sql.sqltypes.AutoString(length=64), nullable=True),
     sa.Column('last_active_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('id')
+    sa.UniqueConstraint('email', name='unique_email')
     )
     op.create_table('user_book',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -254,7 +249,6 @@ def upgrade() -> None:
     sa.Column('reading_status_time', sa.DateTime(), nullable=True),
     sa.Column('tags', sa.String(), server_default='[]', nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('user_id', 'book_id', name='unique_user_book')
     )
     op.create_table('workspace',
@@ -265,10 +259,10 @@ def upgrade() -> None:
     sa.Column('user_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=100), nullable=False),
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('desc', sqlmodel.sql.sqltypes.AutoString(length=256), nullable=True),
     sa.Column('type', sa.String(length=32), nullable=True),
     sa.Column('status', sa.Integer(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('workspace_book',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
@@ -278,7 +272,6 @@ def upgrade() -> None:
     sa.Column('book_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('user_id', app.api.models.base.GUID(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_id', 'book_id', 'user_id', name='unique_workspace_user_book')
     )
     op.create_table('workspace_book_collection',
@@ -289,7 +282,6 @@ def upgrade() -> None:
     sa.Column('book_collection_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('workspace_book_id', app.api.models.base.GUID(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_book_id', 'book_collection_id', name='unique_workspace_book_collection')
     )
     op.create_table('workspace_member',
@@ -302,7 +294,6 @@ def upgrade() -> None:
     sa.Column('invited_by', app.api.models.base.GUID(), nullable=True),
     sa.Column('status', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('workspace_id', 'user_id', name='unique_workspace_member')
     )
     # ### end Alembic commands ###
@@ -324,6 +315,7 @@ def downgrade() -> None:
     op.drop_table('note')
     op.drop_table('message')
     op.drop_table('file_meta')
+    op.drop_table('database_cache')
     op.drop_table('conversation')
     op.drop_table('book_collection')
     op.drop_table('book_annotation')

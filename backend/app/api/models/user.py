@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 
+from sqlalchemy import UniqueConstraint
 from sqlmodel import Column, Field, Integer
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field
@@ -8,8 +9,10 @@ from app.api.models.enums import Status
 
 
 class User(BaseSQLModel, BaseMixin, table=True):
+    __table_args__ = (UniqueConstraint("email", name="unique_email"),)
+
     name: str = Field(..., max_length=100)
-    email: str = Field(..., max_length=255, unique=True)
+    email: str = Field(..., max_length=255)
     password: str = Field(..., max_length=255)
     password_salt: str = Field(default=None, max_length=255)
     avatar: str | None = Field(default=None, max_length=255)

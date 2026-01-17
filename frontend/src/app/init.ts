@@ -7,6 +7,7 @@ import { useNaviStore } from 'stores/navi'
 import useSetting from 'core/hooks/useSetting'
 import useUpdater from 'core/hooks/useUpdater'
 import { ipcService } from 'src/api/ipc'
+import { getDeviceId } from 'src/utils/auth'
 
 export const initApp = () => {
   initApi()
@@ -33,11 +34,12 @@ const initSetting = () => {
 }
 
 const initApi = async () => {
-  const apiStore = useApiStore()
+  const deviceId = getDeviceId()
+  // console.log('Init device id', deviceId)
 
+  const apiStore = useApiStore()
   try {
     await apiStore.resetServer()
-    // await initAccount();
   } catch (err) {
     console.error('initApi', err)
   }

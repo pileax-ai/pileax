@@ -29,6 +29,7 @@ dependencies = [
     "edge-tts>=7.2.3",
     "dashscope>=1.25.2",
     "pypinyin>=0.55.0",
+    "redis>=7.1.0",
 ]
 
 [tool.uv]

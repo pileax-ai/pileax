@@ -4,7 +4,7 @@ from fastapi import Depends, Request, Response
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.controllers.auth_controller import AuthController
-from app.api.deps import SessionDep
+from app.api.deps import SessionDep, CurrentUserId
 from app.api.models.auth import SigninPublic, TokenPublic
 from app.api.models.user import UserCreate
 from app.api.router import ApiRouter

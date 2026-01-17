@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 EXT_NAMES = [
     "ai",
+    "cache",
     "cors",
     "database",
     "docs",

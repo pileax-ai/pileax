@@ -5,11 +5,13 @@ from fastapi import HTTPException, Request, Response, status
 from pydantic import BaseModel
 from sqlmodel import SQLModel
 
-from app.api.models.auth import Signin, SigninPublic, TokenPublic, UserSimple
+from app.api.models.auth import Signin, SigninPublic, TokenPublic, UserSimple, Token
 from app.api.models.user import User
 from app.api.services.auth_service import AuthService
+from app.core.cache.factory import cache, get_key
 from app.libs.cookie_helper import CookieHelper
 from app.libs.helper import extract_remote_ip
+from app.libs.jwt_service import JWTService
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -20,8 +22,8 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(
         self,
         session,
-        request: Optional[Request] = None,
-        response: Optional[Response] = None,
+        request: Request,
+        response: Response,
         user_id: Optional[UUID] = None,
     ):
         self.service = AuthService(session)
@@ -43,6 +45,9 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         ip = extract_remote_ip(self.request)
         token = self.service.login(user, ip)
 
+        # cache token
+        self._cache_token(str(user.id), token)
+
         # set cookies
         CookieHelper.set_token(self.response, token)
 
@@ -58,13 +63,23 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="No refresh token.",
             )
-        # todo: check refresh_token
+
+        # check refresh_token
+        payload = JWTService().decode(cookie_refresh_token)
+        user_id = payload.get("sub")
+        cached_refresh_token = cache.get(get_key("user", "refresh_token", user_id, self._device_id()))
+        if cached_refresh_token != cookie_refresh_token:
+            raise HTTPException(status_code=403, detail="Inactive refresh token")
+
+        # issue new token
         token = self.service.refresh_token(cookie_refresh_token)
 
         # set cookies
         CookieHelper.set_token(self.response, token)
 
-        # todo: remove old refresh_token
+        # cache token
+        self._cache_token(user_id, token)
+
         return TokenPublic(**token.model_dump(by_alias=True))
 
     def get_token(self, email: str, password: str) -> TokenPublic:
@@ -72,3 +87,18 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         ip = extract_remote_ip(self.request)
         token = self.service.login(user, ip)
         return TokenPublic(**token.model_dump(by_alias=True))
+
+    def _device_id(self):
+        return self.request.headers.get("X-Device-ID")
+
+    def _cache_token(self, user_id: str, token: Token):
+        cache.set(
+            get_key("user", "access_token", user_id, self._device_id()),
+            token.access_token,
+            persist=True
+        )
+        cache.set(
+            get_key("user", "refresh_token", user_id, self._device_id()),
+            token.refresh_token,
+            persist=True
+        )

@@ -56,10 +56,10 @@ api.interceptors.response.use(
     const data = error.response?.data
     const message = data?.message
     const status = error.response?.status || data?.code
-    // console.error('API Error:', error);
+    console.error('API Error:', error)
 
     if (status === 401) {
-      if (originalRequest._retry) {
+      if (originalRequest._retry || originalRequest.url === '/auth/refresh-token') {
         // Guide to signin again
         openDialog({ type: 'signin' })
       } else {
@@ -67,7 +67,7 @@ api.interceptors.response.use(
         originalRequest._retry = true
 
         try {
-          const token = await refreshToken(true)
+          const token = await refreshToken()
           const accessToken = (token as Indexable).access_token
           originalRequest.headers.Authorization = `Bearer ${accessToken}`
           return api(originalRequest)

@@ -22,7 +22,7 @@
         <template v-else>
           <template v-if="(group as ChatConversation[]).length">
             <q-item-label class="text-tips bg-secondary group">
-              {{ $t(groupName) }}
+              {{ $t(`times.${groupName}`) }}
             </q-item-label>
             <template v-for="(item, index) in group as ChatConversation[]"
                       :key="index">
