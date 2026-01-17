@@ -17,35 +17,39 @@ router = ApiRouter(prefix="/workspace/book/collection", tags=["WorkspaceWorkspac
 
 
 @router.api_post("", response_model=WorkspaceBookCollectionPublic)
-def save(item_in: WorkspaceBookCollectionCreate, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def save(
+    item_in: WorkspaceBookCollectionCreate, controller: WorkspaceBookCollectionController = Depends()
+) -> Any:
     return controller.save(item_in)
 
 
 @router.api_get("", response_model=WorkspaceBookCollectionPublic)
-def get(id: UUID, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def get(id: UUID, controller: WorkspaceBookCollectionController = Depends()) -> Any:
     return controller.get(id)
 
 
 @router.api_put("", response_model=WorkspaceBookCollectionPublic)
-def update(item_in: WorkspaceBookCollectionUpdate, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def update(
+    item_in: WorkspaceBookCollectionUpdate, controller: WorkspaceBookCollectionController = Depends()
+) -> Any:
     return controller.update(item_in)
 
 
 @router.api_delete("")
-def delete(id: UUID, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def delete(id: UUID, controller: WorkspaceBookCollectionController = Depends()) -> Any:
     return controller.delete(id)
 
 
 @router.api_post("/query", response_model=QueryResult[WorkspaceBookCollectionPublic])
-def query(query: PaginationQuery, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def query(query: PaginationQuery, controller: WorkspaceBookCollectionController = Depends()) -> Any:
     return controller.query(query)
 
 
 @router.api_get("/all", response_model=list[dict])
-def get_all(controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def get_all(controller: WorkspaceBookCollectionController = Depends()) -> Any:
     return controller.get_all()
 
 
 @router.api_post("/query/book/details", response_model=QueryResult[WorkspaceCollectionBookDetails])
-def query_details(query: PaginationQuery, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def query_details(query: PaginationQuery, controller: WorkspaceBookCollectionController = Depends()) -> Any:
     return controller.query_book_details(query)

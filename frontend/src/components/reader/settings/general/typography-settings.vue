@@ -1,7 +1,7 @@
 <template>
   <section class="typography-settings">
     <o-field-label :label="$t('appearances.typography.letterSpacing')"
-                   content-class="col-8" side>
+                   content-class="col" side>
       <q-slider v-model="letterSpacing"
                 :min="0" :max="10" :step="1"
                 :label-value="`${letterSpacing}`"
@@ -11,7 +11,7 @@
                 @update:modelValue="onValueChanged('letterSpacing', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.typography.lineSpacing')"
-                   content-class="col-8" side>
+                   content-class="col" side>
       <q-slider v-model="spacing"
                 :min="1" :max="2" :step="0.1"
                 :label-value="`${spacing}`"
@@ -21,7 +21,8 @@
                 @update:modelValue="onValueChanged('spacing', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.typography.paragraphSpacing')"
-                   content-class="col-8" side>
+                   content-class="col"
+                   side>
       <q-slider v-model="paragraphSpacing"
                 :min="0" :max="2" :step="0.1"
                 :label-value="`${paragraphSpacing}`"
@@ -31,7 +32,7 @@
                 @update:modelValue="onValueChanged('paragraphSpacing', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.typography.margin')"
-                   content-class="col-8" side>
+                   content-class="col" side>
       <q-slider v-model="sideMargin"
                 :min="1" :max="10" :step="1"
                 :label-value="`${sideMargin}%`"
@@ -41,7 +42,7 @@
                 @update:modelValue="onValueChanged('sideMargin', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.typography.pageWidth')"
-                   content-class="col-8" side>
+                   content-class="col" side>
       <q-slider v-model="maxInlineSize"
                 :min="720" :max="1440" :step="10"
                 :label-value="`${maxInlineSize}px`"
@@ -81,6 +82,17 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .typography-settings {
+  .o-field-label {
+    margin-top: 24px;
 
+    .label {
+      width: 100px;
+    }
+
+    .side {
+      padding-left: 10px;
+      max-width: 80%;
+    }
+  }
 }
 </style>

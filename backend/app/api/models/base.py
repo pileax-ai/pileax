@@ -196,8 +196,7 @@ class BaseMixin(TimestampMixin):
     id: uuid.UUID = Field(
         default_factory=uuid.uuid4,
         primary_key=True,
-        unique=True,
         nullable=False,
         sa_type=GUID,
-        sa_column_kwargs={"primary_key": True, "unique": True},
+        sa_column_kwargs={"primary_key": True},
     )

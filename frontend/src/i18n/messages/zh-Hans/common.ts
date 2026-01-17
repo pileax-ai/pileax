@@ -205,7 +205,9 @@ export default {
   times: {
     last30Days: '30天内',
     last7Days: '7天内',
-    yesterday: '昨天'
+    yesterday: '昨天',
+    today: '今天',
+    byMonth: '按月',
   },
   tips: '提示',
   title: '标题',
@@ -237,5 +239,6 @@ export default {
     grid: '网格',
     list: '列表'
   },
-  welcome: '欢迎'
+  welcome: '欢迎',
+  noShowAgain: '不再显示',
 }

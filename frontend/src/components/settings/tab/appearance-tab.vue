@@ -15,7 +15,7 @@
             <o-common-item :label="$t('appearances.modes.colorBlind')">
               <q-toggle v-model="themeWeak" @update:model-value="setThemeWeak" />
             </o-common-item>
-            <o-common-item :label="$t('appearances.modes.colorBlind')">
+            <o-common-item :label="$t('appearances.modes.grayscale')">
               <q-toggle v-model="themeGray" @update:model-value="setThemeGray" />
             </o-common-item>
           </section>

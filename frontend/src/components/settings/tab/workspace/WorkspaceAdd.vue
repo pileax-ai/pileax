@@ -5,6 +5,7 @@
                       enable-actions>
     <o-field :label="$t('name')" required>
       <q-input v-model="form.name" :placeholder="$t('name')"
+               tabindex="1"
                class="pi-field name"
                standout dense clearable
                :error="v$.name.$errors.length > 0"
@@ -20,6 +21,7 @@
     </o-field>
     <o-field :label="$t('description')" required>
       <q-input v-model="form.desc" type="textarea" :placeholder="$t('description')"
+               tabindex="2"
                class="pi-field"
                counter maxlength="256"
                standout dense clearable>
@@ -107,7 +109,7 @@ function onSubmit () {
   actions.submit(
     body,
     (data) => {
-      emit('success')
+      emit('success', data)
     },
     (err) => {
       const message = getErrorMessage(err)

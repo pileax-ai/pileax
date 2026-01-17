@@ -85,7 +85,9 @@ async function initConsole () {
 }
 
 function initCheck() {
-  checkAiSettings()
+  setTimeout(() => {
+    checkAiSettings()
+  }, 30 * 1000)
 }
 
 function onRouteChanged() {

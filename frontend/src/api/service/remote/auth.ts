@@ -33,6 +33,14 @@ export class RemoteAuthService {
     })
   }
 
+  signout(): Promise<any> {
+    return POST({
+      name: this.apiName,
+      path: '/signout',
+      withCredentials: true
+    })
+  }
+
   refreshToken(): Promise<any> {
     return POST({
       name: this.apiName,

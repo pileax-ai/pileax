@@ -14,5 +14,7 @@ export const defaultAppState: AppState = {
     show: true,
     width: 300,
     miniState: false,
-  }
+  },
+  updater: {},
+  tour: {}
 }

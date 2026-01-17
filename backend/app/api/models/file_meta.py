@@ -32,7 +32,7 @@ class FileMetaBase(BaseApiModel):
     path: str | None = Field(default="")
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general")
-    status: int | None = Field(default=0)
+    status: int | None = Field(default=1)
 
 
 class FileMetaCreate(FileMetaBase):

@@ -88,7 +88,7 @@ const emit = defineEmits(['add'])
     right: 0;
     bottom: 0;
     padding: 8px 0;
-    background: rgba(0, 0, 0, 0.47);
+    background: rgba(0, 0, 0, 0.2);
     //background: var(--q-dark);
     visibility: hidden;
     opacity: 0;

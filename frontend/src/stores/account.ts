@@ -45,9 +45,13 @@ export const useAccountStore = defineStore('account', {
       }
       return result.user
     },
-    logout() {
-      clearUserCache()
-      this.router.push('/auth/signin')
+    async logout() {
+      try {
+        await authService.signout()
+      } finally {
+        clearUserCache()
+        this.router.push('/auth/signin')
+      }
     },
     initWorkspaces() {
       return new Promise((resolve, reject) => {

@@ -13,42 +13,42 @@ router = ApiRouter(prefix="/book", tags=["Book"])
 
 
 @router.api_post("", response_model=BookPublic)
-def save(item_in: BookCreate, controller: BookController = Depends()) -> Any:
+async def save(item_in: BookCreate, controller: BookController = Depends()) -> Any:
     return controller.save(item_in)
 
 
 @router.api_get("", response_model=BookPublic)
-def get(id: UUID, controller: BookController = Depends()) -> Any:
+async def get(id: UUID, controller: BookController = Depends()) -> Any:
     return controller.get(id)
 
 
 @router.api_get("/details", response_model=BookDetails)
-def get_details(id: UUID, controller: BookController = Depends()) -> Any:
+async def get_details(id: UUID, controller: BookController = Depends()) -> Any:
     return controller.get_details(id)
 
 
 @router.api_get("/uuid", response_model=BookPublic)
-def get_by_uuid(uuid: str, controller: BookController = Depends()) -> Any:
+async def get_by_uuid(uuid: str, controller: BookController = Depends()) -> Any:
     return controller.get_by_uuid(uuid)
 
 
 @router.api_put("", response_model=BookPublic)
-def update(item_in: BookUpdate, controller: BookController = Depends()) -> Any:
+async def update(item_in: BookUpdate, controller: BookController = Depends()) -> Any:
     return controller.update_by_user(item_in)
 
 
 @router.api_delete("")
-def delete(id: UUID, controller: BookController = Depends()) -> Any:
+async def delete(id: UUID, controller: BookController = Depends()) -> Any:
     return controller.delete(id)
 
 
 @router.api_post("/query", response_model=QueryResult[BookPublic])
-def query(query: PaginationQuery, controller: BookController = Depends()) -> Any:
+async def query(query: PaginationQuery, controller: BookController = Depends()) -> Any:
     return controller.query(query)
 
 
 @router.api_post("/query/library", response_model=QueryResult[BookPublic])
-def query_library(query: PaginationQuery, controller: BookController = Depends()) -> Any:
+async def query_library(query: PaginationQuery, controller: BookController = Depends()) -> Any:
     return controller.query_library(query)
 
 

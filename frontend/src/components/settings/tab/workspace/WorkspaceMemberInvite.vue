@@ -4,18 +4,20 @@
                       @submit="onSubmit" enable-actions>
     <o-field :label="$t('email')" required>
       <q-input v-model="form.email" :placeholder="$t('email')"
+               tabindex="1"
                class="pi-field"
                standout dense clearable
                :error="v$.email.$errors.length > 0"
-               :error-message="$t('label.required')">
+               :error-message="$t('required')">
       </q-input>
     </o-field>
     <o-field :label="$t('role')" required>
       <q-select v-model="form.role"
+                tabindex="2"
                 class="pi-field"
                 :options="WorkspaceMemberRoles.filter(item => item.value !== 'owner')"
                 :error="v$.role.$errors.length > 0"
-                :error-message="$t('label.required')"
+                :error-message="$t('required')"
                 map-options
                 emit-value
                 standout dense />

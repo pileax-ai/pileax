@@ -4,12 +4,14 @@ import { computed } from 'vue'
 import { useAccountStore } from 'stores/account'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
+import useGuide from 'src/hooks/useGuide'
 import { notifyWarning } from 'core/utils/control'
 
 export default function() {
   const accountStore = useAccountStore()
   const { t } = useCommon()
   const { openDialog } = useDialog()
+  const { showGuide } = useGuide()
 
   const aiStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId
@@ -36,8 +38,7 @@ export default function() {
     const aiAvailable = (defaultModels.value.length > 0)
     if (!aiAvailable) {
       if (notify === 'dialog') {
-        openDialog({
-          type: 'guide',
+        showGuide('ai-guide', {
           icon: 'mdi-creation-outline',
           title: t('ai.providers.set'),
           message: t('ai.providers.setTips'),

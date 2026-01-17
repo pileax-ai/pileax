@@ -198,6 +198,16 @@ onMounted(() => {
 
     .console-content {
       padding: 21px;
+
+      &.fixed-header {
+        padding: 56px 21px 21px 21px;
+      }
+    }
+
+    &.query-full-screen {
+      .console-content {
+        padding-top: 0;
+      }
     }
   }
 

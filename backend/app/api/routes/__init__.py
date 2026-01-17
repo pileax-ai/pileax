@@ -5,6 +5,7 @@ from fastapi import APIRouter
 api_router = APIRouter()
 
 EXT_NAMES = [
+    "account_security",
     "app",
     "auth",
     "book",

@@ -7,7 +7,7 @@
         <div class="q-py-md">
           <template v-if="data.id">
             <q-icon name="o_timer" class="q-mr-xs" />
-            {{ timeMulti(data.updateTime, 'YYYY/MM/DD').timestamp() }}
+            {{ timeMulti(data.updateTime, 'YYYY/MM/DD').fromNow() }}
           </template>
           <template v-else>
             {{ $t('book.add') }}

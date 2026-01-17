@@ -3,6 +3,7 @@
  */
 export default {
   fontSize: 1.2,
+  font: 'book',
   fontName: 'book',
   letterSpacing: 0,
   spacing: 1.7,

@@ -4,7 +4,7 @@
     side="right"
     :default-width="width"
     :min-width="400"
-    :max-width="1000"
+    :max-width="800"
     :overlay="rightDrawerHoverShow"
     class="right-drawer"
     :class="{'hover-show': rightDrawerHoverShow}"

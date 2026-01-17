@@ -93,8 +93,9 @@ export function removeAll(prefix = PREFIX) {
 /**
  * 获取
  */
-export function getCookieItem (name: string, prefix = PREFIX) {
-  let item = Cookies.get(prefix + name)
+export function getCookieItem (name: string, prefix = PREFIX, options = COOKIE_OPTIONS) {
+  console.log('cookie', Cookies.getAll())
+  let item = Cookies.get(prefix + name, )
   item = (item === 'undefined') ? '' : item
   return item
 }

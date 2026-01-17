@@ -48,7 +48,6 @@ onMounted(() => {
 })
 
 onActivated(() => {
-  console.log('activated: conversation list')
   conversationsRef.value?.refresh()
 })
 </script>

@@ -23,20 +23,25 @@
       </q-card-section>
 
       <q-card-actions class="dialog-actions"
-                      align="around"
+                      align="between"
                       v-if="showCancel || showOk">
-        <q-btn class="col-5 bg-accent text-readable"
-               v-close-popup rounded flat
-               v-if="showCancel">
-          {{$t('cancel')}}
-        </q-btn>
-        <q-btn class="col-5 bg-primary text-white"
-               :loading="okLoading"
-               @click="$emit('ok')"
-               rounded flat
-               v-if="showOk">
-          {{ok || $t('ok')}}
-        </q-btn>
+        <div>
+          <slot name="left-actions"></slot>
+        </div>
+        <div class="row">
+          <q-btn class="bg-accent text-readable"
+                 v-close-popup rounded flat
+                 v-if="showCancel">
+            {{$t('cancel')}}
+          </q-btn>
+          <q-btn class="bg-primary text-white"
+                 :loading="okLoading"
+                 @click="$emit('ok')"
+                 rounded flat
+                 v-if="showOk">
+            {{ok || $t('ok')}}
+          </q-btn>
+        </div>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -154,11 +159,14 @@ onMounted(() => {
   }
 
   .dialog-actions {
-    //background: red;
     height: 60px;
 
     .q-btn {
       padding: 4px 16px;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
     }
   }
 

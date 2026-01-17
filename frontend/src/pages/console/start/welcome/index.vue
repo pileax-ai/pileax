@@ -46,7 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onActivated } from 'vue'
+import { ref, onActivated, watch } from 'vue'
+import { useDocumentVisibility } from '@vueuse/core'
 import OCommonPage from 'core/page/template/OCommonPage.vue'
 import ConversationList from './conversation/ConversationList.vue'
 import NoteList from './note/NoteList.vue'
@@ -58,6 +59,7 @@ import {
   workspaceBookService
 } from 'src/api/service/remote'
 
+const visibility = useDocumentVisibility()
 const conversations = ref<Indexable[]>()
 const notes = ref<Indexable[]>()
 const books = ref<Indexable[]>()
@@ -97,6 +99,12 @@ const getRecentBooks = () => {
   })
 }
 
+watch(visibility, (state) => {
+  if (state === 'visible') {
+    init()
+  }
+})
+
 onActivated(() => {
   init()
 })
@@ -127,7 +135,7 @@ onActivated(() => {
       max-width: 840px;
 
       .card-header {
-        padding: 0;
+        padding: 0 1rem;
       }
 
       .card-content {

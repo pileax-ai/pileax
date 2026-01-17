@@ -25,15 +25,23 @@
     <o-common-card icon="o_security" :title="$t('auth.account.security.title')" small header padding>
       <section class="col-12">
         <q-list no-border link>
-          <o-common-item :label="$t('auth.account.security.email')" :sub-label="account.email" />
-          <o-common-item :label="$t('auth.account.security.password')" :sub-label="$t('auth.account.security.password_tips')">
+          <o-common-item :label="$t('auth.account.security.email')"
+                         :sub-label="account.email" />
+          <o-common-item :label="$t('auth.account.security.password')"
+                         :sub-label="$t('auth.account.security.password_tips')">
             <div>
-              <q-btn :label="$t('auth.account.security.password_action')" class="bg-accent text-tips" flat />
+              <q-btn :label="$t('auth.account.security.password_action')"
+                     class="bg-accent text-tips"
+                     flat
+                     @click="onChangePassword" />
             </div>
           </o-common-item>
-          <o-common-item :label="$t('auth.account.security.passkeys')" :sub-label="$t('auth.account.security.passkey_tips')">
+          <o-common-item :label="$t('auth.account.security.passkeys')"
+                         :sub-label="$t('auth.account.security.passkey_tips')">
             <div>
-              <q-btn :label="$t('auth.account.security.passkey_action')" class="bg-accent text-tips" flat />
+              <q-btn :label="$t('auth.account.security.passkey_action')"
+                     class="bg-accent text-tips"
+                     flat />
             </div>
           </o-common-item>
         </q-list>
@@ -51,23 +59,54 @@
         </q-list>
       </section>
     </o-common-card>
+
+    <o-side-dialog v-bind="side"
+                   :seamless="false"
+                   scrollable
+                   @show="side.show = true"
+                   @close="side.show = false">
+      <template #content>
+        <change-password @success="onClose" v-if="view === 'change-password'" />
+      </template>
+    </o-side-dialog>
   </setting-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { userService } from 'src/api/service/remote/user'
 import useAccount from 'src/hooks/useAccount'
+import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import SettingCard from './setting-card.vue'
+import ChangePassword from './profile/ChangePassword.vue'
+import useCommon from 'core/hooks/useCommon'
 
+const { t } = useCommon()
 const { account, setAccount } = useAccount()
 const name = ref('')
 const avatar = ref('')
+const view = ref('change-password')
+const side = reactive<Indexable>({
+  show: false,
+  title: t('auth.account.security.password_action'),
+  icon: 'edit',
+  position: 'standard',
+  style: {width: '30vw', minWidth: '600px'},
+  contentClass: 'card pi-card-dialog-theme'
+})
 
-function onUpdateName() {
+const onUpdateName = () => {
   console.log('name', name.value)
   setAccount({ ...account.value, name: name.value })
   userService.save({ id: account.value.id, name: name.value })
+}
+
+const onChangePassword = () => {
+  side.show = true
+}
+
+const onClose = () => {
+  side.show = false
 }
 
 onMounted(() => {
