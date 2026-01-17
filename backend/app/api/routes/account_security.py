@@ -12,4 +12,3 @@ router = ApiRouter(prefix="/account/security", tags=["AccountSecurity"])
 @router.api_put("/password", response_model=dict)
 async def change_password(item_in: ChangePassword, controller: AccountSecurityController = Depends()) -> Any:
     return controller.change_password(item_in)
-

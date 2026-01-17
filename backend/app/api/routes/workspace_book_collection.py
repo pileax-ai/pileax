@@ -17,7 +17,9 @@ router = ApiRouter(prefix="/workspace/book/collection", tags=["WorkspaceWorkspac
 
 
 @router.api_post("", response_model=WorkspaceBookCollectionPublic)
-async def save(item_in: WorkspaceBookCollectionCreate, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def save(
+    item_in: WorkspaceBookCollectionCreate, controller: WorkspaceBookCollectionController = Depends()
+) -> Any:
     return controller.save(item_in)
 
 
@@ -27,7 +29,9 @@ async def get(id: UUID, controller: WorkspaceBookCollectionController = Depends(
 
 
 @router.api_put("", response_model=WorkspaceBookCollectionPublic)
-async def update(item_in: WorkspaceBookCollectionUpdate, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+async def update(
+    item_in: WorkspaceBookCollectionUpdate, controller: WorkspaceBookCollectionController = Depends()
+) -> Any:
     return controller.update(item_in)
 
 

@@ -6,6 +6,7 @@ class RedisConfig(BaseSettings):
     """
     Configuration settings for Redis connection
     """
+
     @computed_field
     @property
     def REDIS_URL(self) -> str | None:

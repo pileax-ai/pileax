@@ -12,8 +12,7 @@ class Cache(ABC):
         self.repo = DatabaseCacheRepository(DatabaseCache, self.session)
 
     @abstractmethod
-    async def get(self, key: str) -> Optional[Any]:
-        ...
+    async def get(self, key: str) -> Optional[Any]: ...
 
     @abstractmethod
     async def set(
@@ -22,24 +21,16 @@ class Cache(ABC):
         value: Any,
         ttl: Optional[int] = None,
         persist: Optional[bool] = False,
-    ) -> None:
-        ...
+    ) -> None: ...
 
     @abstractmethod
-    async def delete(
-        self,
-        key: str,
-        persist: Optional[bool] = False
-    ) -> None:
-        ...
+    async def delete(self, key: str, persist: Optional[bool] = False) -> None: ...
 
     @abstractmethod
-    async def clear(self) -> None:
-        ...
+    async def clear(self) -> None: ...
 
     @abstractmethod
-    async def test_connection(self) -> bool:
-        ...
+    async def test_connection(self) -> bool: ...
 
     async def set_persist(self, key: str, value: Any) -> None:
         obj = self.repo.find_one({"key": key})

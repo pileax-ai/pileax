@@ -6,7 +6,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from app.configs import app_config
-from app.extensions import ext_database, ext_perf, setup_extensions, ext_cache
+from app.extensions import ext_cache, ext_database, ext_perf, setup_extensions
 
 logger = logging.getLogger(__name__)
 

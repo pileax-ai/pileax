@@ -1,10 +1,9 @@
 from functools import lru_cache
 
+from ...configs import app_config
 from .base import Cache
 from .memory_cache import MemoryCache
 from .redis_cache import RedisCache
-from ...configs import app_config
-
 
 PREFIX = "pileax"
 

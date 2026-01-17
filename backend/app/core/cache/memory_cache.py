@@ -1,5 +1,5 @@
-import time
 import asyncio
+import time
 from typing import Any, Optional
 
 from .base import Cache
@@ -43,13 +43,9 @@ class MemoryCache(Cache):
             self._data[key] = (value, expires_at)
 
         if persist and self.enable_persist:
-            await super().set_persist(key,value)
+            await super().set_persist(key, value)
 
-    async def delete(
-        self,
-        key: str,
-        persist: Optional[bool] = False
-    ) -> None:
+    async def delete(self, key: str, persist: Optional[bool] = False) -> None:
         async with self._lock:
             self._data.pop(key, None)
 

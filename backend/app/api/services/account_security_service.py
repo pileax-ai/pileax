@@ -26,4 +26,4 @@ class AccountSecurityService(BaseService[User]):
         password_hashed = hash_password(data.new_password, salt)
         new_password = base64.b64encode(password_hashed).decode()
 
-        super().update(self.user.id, {'password': new_password})
+        super().update(self.user.id, {"password": new_password})

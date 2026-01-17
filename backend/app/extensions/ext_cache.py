@@ -23,7 +23,7 @@ async def test_connection():
             else:
                 logger.info("❌ Cache not connected.")
         except Exception as e:
-            logger.error("❌ Cache connection failed. %s", e)
+            logger.exception("❌ Cache connection failed.")
 
     return cache_name
 

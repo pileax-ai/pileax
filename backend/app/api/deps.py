@@ -11,7 +11,7 @@ from app.api.models.user import User
 from app.api.models.workspace import Workspace
 from app.configs import app_config
 from app.core.cache.base import Cache
-from app.core.cache.factory import get_cache, cache, get_key
+from app.core.cache.factory import cache, get_cache, get_key
 from app.extensions.ext_database import get_db_session
 from app.libs.jwt_service import JWTService
 

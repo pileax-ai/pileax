@@ -33,7 +33,9 @@ async def update(item_in: UserBookUpdate, controller: UserBookController = Depen
 
 
 @router.api_put("/reading/progress", response_model=UserBookPublic)
-async def update_reading_progress(item_in: UserBookUpdateReadingProgress, controller: UserBookController = Depends()) -> Any:
+async def update_reading_progress(
+    item_in: UserBookUpdateReadingProgress, controller: UserBookController = Depends()
+) -> Any:
     return controller.update_reading_progress(item_in)
 
 

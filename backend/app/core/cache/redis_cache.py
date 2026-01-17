@@ -2,8 +2,8 @@ from typing import Any, Optional
 
 from redis.asyncio import Redis
 
-
 from .base import Cache
+
 
 class RedisCache(Cache):
     def __init__(self, redis: Redis):
@@ -27,13 +27,9 @@ class RedisCache(Cache):
             await self.redis.set(key, value)
 
         if persist and self.enable_persist:
-            await super().set_persist(key,value)
+            await super().set_persist(key, value)
 
-    async def delete(
-        self,
-        key: str,
-        persist: Optional[bool] = False
-    ) -> None:
+    async def delete(self, key: str, persist: Optional[bool] = False) -> None:
         await self.redis.delete(key)
 
         if persist and self.enable_persist:

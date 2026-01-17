@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from sqlalchemy import delete
-from sqlmodel import select
 
 from app.api.models.database_cache import DatabaseCache
 from app.api.repos.base_repository import BaseRepository
@@ -16,8 +15,7 @@ class DatabaseCacheRepository(BaseRepository[DatabaseCache]):
         Deletes older entries older than `days`
         """
         threshold = datetime.utcnow() - timedelta(days=days)
-        stmt = (delete(self.model)
-                .where(self.model.create_time < threshold))
+        stmt = delete(self.model).where(self.model.create_time < threshold)
         result = self.session.exec(stmt)
         self.session.commit()
 
