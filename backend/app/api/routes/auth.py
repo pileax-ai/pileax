@@ -38,6 +38,19 @@ async def signin(
     return await AuthController(session, request, response).signin(form_data.username, form_data.password)
 
 
+@router.api_post("/signout", response_model=dict)
+async def signout(
+    session: SessionDep,
+    request: Request,
+    response: Response,
+    user_id: CurrentUserId,
+):
+    """
+    signout
+    """
+    return await AuthController(session, request, response).signout(user_id)
+
+
 @router.api_post("/refresh-token", response_model=TokenPublic)
 async def refresh_token(
     session: SessionDep,

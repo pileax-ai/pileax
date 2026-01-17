@@ -50,7 +50,29 @@ class CookieHelper:
         )
 
     @staticmethod
-    def set_token(response: Response, token: Token):
-        # CookieHelper.set_access_token(response, token.access_token)
+    def clear_cookie(
+        response: Response,
+        key: str,
+        samesite: str = "Lax",
+        httponly: bool = True,
+    ):
+        response.set_cookie(
+            key,
+            "",
+            expires=0,
+            path="/",
+            domain=app_config.COOKIE_DOMAIN,
+            secure=False,
+            httponly=httponly,
+            samesite=samesite,
+        )
+
+    @staticmethod
+    def set_tokens(response: Response, token: Token):
         CookieHelper.set_refresh_token(response, token.refresh_token, samesite="Strict")
         CookieHelper.set_csrf_token(response, token.csrf_token, samesite="Strict")
+
+    @staticmethod
+    def clear_tokens(response: Response):
+        CookieHelper.clear_cookie(response, COOKIE_NAME_REFRESH_TOKEN, samesite="Strict")
+        CookieHelper.clear_cookie(response, COOKIE_NAME_CSRF_TOKEN, samesite="Strict")

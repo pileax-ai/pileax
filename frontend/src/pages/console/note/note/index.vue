@@ -373,9 +373,9 @@ onMounted(() => {
 
       &.page {
         grid-template-columns:
-          [full-start] minmax(0, 1fr)
-          [content-start] minmax(200px, 800px)
-          [content-end] minmax(0, 1fr)
+          [full-start] minmax(100px, 1fr)
+          [content-start] minmax(400px, 800px)
+          [content-end] minmax(100px, 1fr)
           [full-end];
       }
 

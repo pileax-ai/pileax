@@ -26,7 +26,11 @@ class Cache(ABC):
         ...
 
     @abstractmethod
-    async def delete(self, key: str) -> None:
+    async def delete(
+        self,
+        key: str,
+        persist: Optional[bool] = False
+    ) -> None:
         ...
 
     @abstractmethod
@@ -37,16 +41,20 @@ class Cache(ABC):
     async def test_connection(self) -> bool:
         ...
 
-    async def persist(self, key: str, value: Any) -> None:
-        self.repo.create(DatabaseCache(
-            key=key,
-            value=value,
-        ))
+    async def set_persist(self, key: str, value: Any) -> None:
+        obj = self.repo.find_one({"key": key})
+        if obj:
+            self.repo.update(obj, {"value": value})
+        else:
+            self.repo.create(DatabaseCache(key=key, value=value))
+
+    async def delete_persist(self, key: str) -> None:
+        self.repo.delete_all({"key": key})
 
     async def load(self) -> int:
         self.repo.delete_older_than(30)
-        list = self.repo.find_all()
-        for item in list:
+        items = self.repo.find_all()
+        for item in items:
             await self.set(item.key, item.value)
 
-        return len(list)
+        return len(items)

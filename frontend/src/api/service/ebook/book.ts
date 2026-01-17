@@ -255,11 +255,11 @@ const savingBookRemote = async (metadata: any) => {
     return remoteBook
   } catch (err) {
     // New upload
-    const coverFile = base64ToFile(metadata.cover, 'cover')
     const book = buildBook(metadata, {
       path: metadata.sha1,
       fileName: metadata.file.name,
     })
+    const coverFile = base64ToFile(metadata.cover, book.title)
     try {
       return await bookService.upload(metadata.file, coverFile, book)
     } catch (err) {

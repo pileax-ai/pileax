@@ -9,6 +9,7 @@ class RedisCache(Cache):
     def __init__(self, redis: Redis):
         super().__init__()
         self.redis = redis
+        self.enable_persist = True
 
     async def get(self, key: str):
         return await self.redis.get(key)
@@ -25,11 +26,18 @@ class RedisCache(Cache):
         else:
             await self.redis.set(key, value)
 
-        if persist:
-            await super().persist(key,value)
+        if persist and self.enable_persist:
+            await super().set_persist(key,value)
 
-    async def delete(self, key: str) -> None:
+    async def delete(
+        self,
+        key: str,
+        persist: Optional[bool] = False
+    ) -> None:
         await self.redis.delete(key)
+
+        if persist and self.enable_persist:
+            await super().delete_persist(key)
 
     async def clear(self) -> None:
         await self.redis.flushdb()

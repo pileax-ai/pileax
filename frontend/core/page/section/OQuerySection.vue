@@ -56,7 +56,7 @@
           </q-card-section>
         </q-card>
 
-        <q-separator class="bg-accent" />
+        <q-separator class="bg-accent" v-if="false" />
 
         <q-card flat class="query-result-card" :class="{ 'show-query-action': showQueryAction }">
           <q-card-section class="row justify-around relative-position query-results"

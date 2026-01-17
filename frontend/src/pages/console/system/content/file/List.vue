@@ -7,10 +7,11 @@
                 enable-fullscreen fixed-header>
 
     <!--Condition-->
-    <template #condition>
-      <div class="col-lg-2 col-md-3 col-sm-4 query-item">
-        <q-input v-model="condition.name"
+    <template #header-left>
+      <div class="query-item q-ml-md">
+        <q-input v-model="condition.original_name__icontains"
                  placeholder="名称"
+                 class="pi-field"
                  debounce="800"
                  standout dense clearable
                  @update:model-value="query.onQuery">
@@ -29,7 +30,6 @@
         text-color="readable"
         toggle-color="cyan"
         toggle-text-color="white"
-        rounded
         unelevated
         dense
         size="12px"
@@ -41,9 +41,6 @@
       <div class="q-mx-sm">
         <q-separator class="bg-accent" vertical />
       </div>
-    </template>
-
-    <template #actions>
     </template>
 
     <!--Results-->
@@ -58,7 +55,7 @@
           <q-td :props="props">
             <div class="row items-center">
               <div class="responsive">
-                <q-responsive :ratio="1">
+                <q-responsive :ratio="16/9">
                   <q-img :src="getFileUrl(props.value)" spinner-size="1rem" />
                 </q-responsive>
               </div>
@@ -192,10 +189,6 @@ onActivated(() => {
 
 <style lang="scss">
 .system-files {
-  .console-content {
-    //padding: 50px 21px 21px 21px !important;
-  }
-
   .query-wrap {
     .q-table__grid-content {
       margin: -0.5rem;
@@ -204,6 +197,6 @@ onActivated(() => {
       }
     }
   }
-
 }
+
 </style>

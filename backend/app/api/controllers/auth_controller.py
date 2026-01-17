@@ -1,4 +1,4 @@
-from typing import Generic, Optional, TypeVar
+from typing import Generic, Optional, TypeVar, Any
 from uuid import UUID
 
 from fastapi import HTTPException, Request, Response, status
@@ -39,6 +39,13 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         user = self.service.signin(Signin(email=email, password=password))
         return await self.login(user)
 
+    async def signout(self, user_id: UUID) -> Any:
+        # remove token in cache
+        await self._remove_token_cache(str(user_id))
+
+        # clear cookie
+        CookieHelper.clear_tokens(self.response)
+
     async def login(self, user: User) -> SigninPublic:
         ip = extract_remote_ip(self.request)
         token = self.service.login(user, ip)
@@ -47,7 +54,7 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await self._cache_token(str(user.id), token)
 
         # set cookies
-        CookieHelper.set_token(self.response, token)
+        CookieHelper.set_tokens(self.response, token)
 
         return SigninPublic(
             user=UserSimple(**user.model_dump(by_alias=True)),
@@ -73,7 +80,7 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         token = self.service.refresh_token(cookie_refresh_token)
 
         # set cookies
-        CookieHelper.set_token(self.response, token)
+        CookieHelper.set_tokens(self.response, token)
 
         # cache token
         await self._cache_token(user_id, token)
@@ -98,5 +105,24 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await cache.set(
             get_key("user", "refresh_token", user_id, self._device_id()),
             token.refresh_token,
+            persist=True
+        )
+        await cache.set(
+            get_key("user", "csrf_token", user_id, self._device_id()),
+            token.refresh_token,
+            persist=True
+        )
+
+    async def _remove_token_cache(self, user_id: str):
+        await cache.delete(
+            get_key("user", "access_token", user_id, self._device_id()),
+            persist=True
+        )
+        await cache.delete(
+            get_key("user", "refresh_token", user_id, self._device_id()),
+            persist=True
+        )
+        await cache.delete(
+            get_key("user", "csrf_token", user_id, self._device_id()),
             persist=True
         )

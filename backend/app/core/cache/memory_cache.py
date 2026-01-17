@@ -13,6 +13,7 @@ class MemoryCache(Cache):
 
     def __init__(self):
         super().__init__()
+        self.enable_persist = True
         self._data: dict[str, tuple[Any, Optional[int]]] = {}
         self._lock = asyncio.Lock()
 
@@ -41,12 +42,19 @@ class MemoryCache(Cache):
         async with self._lock:
             self._data[key] = (value, expires_at)
 
-        if persist:
-            await super().persist(key,value)
+        if persist and self.enable_persist:
+            await super().set_persist(key,value)
 
-    async def delete(self, key: str) -> None:
+    async def delete(
+        self,
+        key: str,
+        persist: Optional[bool] = False
+    ) -> None:
         async with self._lock:
             self._data.pop(key, None)
+
+        if persist and self.enable_persist:
+            await super().delete_persist(key)
 
     async def clear(self) -> None:
         async with self._lock:

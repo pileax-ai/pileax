@@ -71,7 +71,7 @@
       </section>
     </section>
 
-    <!--Header-->
+    <!--Footer-->
     <footer>
       <slot name="footer"></slot>
     </footer>
