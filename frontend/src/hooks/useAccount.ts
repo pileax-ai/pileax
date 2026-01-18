@@ -24,13 +24,15 @@ export default function () {
   })
 
   const initWorkspace = async () => {
-    if (isLogin.value) {
-      accountStore.initWorkspaces().then(res => {
-        const defaultWorkspaceId = (res as Indexable).id
-        if (defaultWorkspaceId) {
-          tabStore.updateWorkspace(defaultWorkspaceId)
+    try {
+      if (isLogin.value) {
+        const defaultWorkspace = await accountStore.initWorkspaces() as Indexable
+        if (defaultWorkspace.id) {
+          tabStore.updateWorkspace(defaultWorkspace.id)
         }
-      })
+      }
+    } catch (err) {
+      //
     }
   }
 

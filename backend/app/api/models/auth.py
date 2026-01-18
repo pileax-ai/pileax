@@ -2,23 +2,26 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
 from sqlmodel import Field, SQLModel
 
-from app.api.models.base import BaseSQLModel
+from app.api.models.base import BaseSQLModel, BaseApiModel
 
 
-class Signin(BaseModel):
+class Signin(BaseApiModel):
     email: str
-    password: str | None = None
+    password: str
 
 
-class LoginUpdate(BaseModel):
+class Signup(Signin):
+    name: str
+
+
+class LoginUpdate(BaseApiModel):
     last_login_ip: Optional[str] = None
     last_login_time: Optional[datetime] = None
 
 
-class TokenPublic(BaseModel):
+class TokenPublic(BaseApiModel):
     access_token: str
     token_type: str = "Bearer"
 
@@ -34,7 +37,7 @@ class TokenPayload(SQLModel):
     exp: int | None = None
 
 
-class UserSimple(BaseModel):
+class UserSimple(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     name: str | None = None
     email: str | None = None

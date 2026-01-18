@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n'
-import { useNaviStore } from 'stores/navi.setup'
+import { useNaviStore } from 'stores/navi'
 
 import type { MenuItem } from 'core/types/menu'
 

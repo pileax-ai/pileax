@@ -1,11 +1,9 @@
-from typing import Any, Generic, TypeVar
+from typing import Any
 from uuid import UUID
 
 from fastapi import HTTPException, Request, Response, status
-from pydantic import BaseModel
-from sqlmodel import SQLModel
 
-from app.api.models.auth import Signin, SigninPublic, Token, TokenPublic, UserSimple
+from app.api.models.auth import Signin, Signup, SigninPublic, Token, TokenPublic, UserSimple
 from app.api.models.user import User
 from app.api.services.auth_service import AuthService
 from app.core.cache.factory import cache, get_key
@@ -13,12 +11,8 @@ from app.libs.cookie_helper import CookieHelper
 from app.libs.helper import extract_remote_ip
 from app.libs.jwt_service import JWTService
 
-ModelType = TypeVar("ModelType", bound=SQLModel)
-CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
-UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
-
-class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+class AuthController:
     def __init__(
         self,
         session,
@@ -30,7 +24,7 @@ class AuthController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.request = request
         self.response = response
 
-    async def signup(self, item_in: CreateSchemaType) -> SigninPublic:
+    async def signup(self, item_in: Signup) -> SigninPublic:
         item = item_in.model_dump(by_alias=True)
         user = self.service.signup(User(**item))
         return await self.login(user)

@@ -7,7 +7,6 @@ export default function () {
   const accountStore = useAccountStore()
   const tabStore = useTabStore()
 
-
   const isLogin = computed(() => {
     return accountStore.accountId !== undefined
   })

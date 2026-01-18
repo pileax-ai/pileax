@@ -5,6 +5,7 @@
  * @version 1.0
  */
 import { Cookies, LocalStorage, SessionStorage } from 'quasar'
+import { getActivePinia, type Pinia } from 'pinia'
 import { CODE } from 'core/app'
 
 export const COOKIE_OPTIONS = {
@@ -180,7 +181,7 @@ export function removeUserData(prefix = PREFIX) {
   // localStorage
   let keys = Object.keys(localStorage)
   for (const k of keys) {
-    console.log('localStorage', k)
+    // console.log('clear localStorage', k)
     if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
       LocalStorage.remove(k)
     }
@@ -189,10 +190,26 @@ export function removeUserData(prefix = PREFIX) {
   // sessionStorage
   keys = Object.keys(sessionStorage)
   for (const k of keys) {
-    console.log('sessionStorage', k)
+    // console.log('clear sessionStorage', k)
     if (userKeys.some(u => k.startsWith(`${prefix}${u}`))) {
       SessionStorage.remove(k)
     }
+  }
+
+  // Pinia stores
+  const storeKeys = ['ai', 'chat', 'navi', 'note', 'tab']
+  const pinia = getActivePinia()
+  if (pinia) {
+    const stores = (pinia as Pinia & { _s: Map<string, any> })._s
+    stores.forEach((store, id) => {
+      console.log('to clear', id)
+      if (storeKeys.some(k => id.startsWith(k))) {
+        store.$reset()
+        console.log('clear store', id)
+      }
+    })
+  } else {
+    console.warn('Pinia not found')
   }
 }
 

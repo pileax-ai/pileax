@@ -27,20 +27,14 @@ class User(BaseSQLModel, BaseMixin, table=True):
 
 class UserBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
+    name: str | None = None
     avatar: str | None = None
     bio: str | None = None
 
 
-class UserCreate(BaseApiModel):
-    name: str
-    email: str
-    password: str
-
-
 class UserUpdate(UserBase):
     id: uuid.UUID
-    name: str | None = None
 
 
-class UserPublic(UserCreate, BaseMixin):
+class UserPublic(UserBase, BaseMixin):
     pass

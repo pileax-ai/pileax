@@ -93,7 +93,7 @@ import { toggleClass } from 'core/utils/misc'
 import { MenuItem } from 'core/types/menu'
 import { findMenuByPath, menuLabel } from 'core/hooks/useMenu'
 import { openPath } from 'core/hooks/useRouter'
-import { useNaviStore } from 'stores/navi.setup'
+import { useNaviStore } from 'stores/navi'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
 const props = defineProps({

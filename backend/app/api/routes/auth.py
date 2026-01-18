@@ -5,8 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.controllers.auth_controller import AuthController
 from app.api.deps import CurrentUserId, SessionDep
-from app.api.models.auth import SigninPublic, TokenPublic
-from app.api.models.user import UserCreate
+from app.api.models.auth import SigninPublic, TokenPublic, Signup
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/auth", tags=["Auth"])
@@ -14,7 +13,7 @@ router = ApiRouter(prefix="/auth", tags=["Auth"])
 
 @router.api_post("/signup", response_model=SigninPublic)
 async def signup(
-    item_in: UserCreate,
+    item_in: Signup,
     session: SessionDep,
     request: Request,
     response: Response,

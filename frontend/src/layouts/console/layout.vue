@@ -32,37 +32,37 @@
       <NaviTabbar />
     </q-footer>
 
-    <!--Others-->
+    <!--Dialogs-->
     <modal-entry />
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import {computed, onBeforeMount, onMounted, onUnmounted, ref, watch} from 'vue'
+import {computed, onBeforeMount, onUnmounted, watch} from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from 'stores/app'
 import { useNaviStore } from 'stores/navi'
 import useShortcut from 'core/hooks/useShortcut'
 import useAccount from 'src/hooks/useAccount'
 import useNavi from 'src/hooks/useNavi'
+import useConsole from 'src/hooks/useConsole'
 
 import TabDrawer from './navi/tab-drawer.vue'
 import GroupDrawer from './navi/group-drawer.vue'
 import NaviTabbar from './tabbar/NaviTabbar.vue'
 import ModalEntry from 'components/modal/ModalEntry.vue'
-import useAi from 'src/hooks/useAi'
 
 const route = useRoute()
 const appStore = useAppStore()
 const naviStore = useNaviStore()
 const { addKeyBindings, removeKeyBindings } = useShortcut()
 
-const { initAiSettings, checkAiSettings } = useAi()
-const { initWorkspace } = useAccount()
+const { workspace, initWorkspace } = useAccount()
+const { initWorkspaceData } = useConsole() // Init again when workspace switched
 const {
+  leftDrawerShow,
   setActivity,
   reduceActivity,
-  leftDrawerShow,
   onLeftDrawerEnter,
   onLeftDrawerLeave,
 } = useNavi()
@@ -78,16 +78,9 @@ async function initConsole () {
   onRouteChanged()
 
   // First
+  console.log('initConsole')
   await initWorkspace()
-  await initAiSettings()
-
-  initCheck()
-}
-
-function initCheck() {
-  setTimeout(() => {
-    checkAiSettings()
-  }, 30 * 1000)
+  console.log('initWorkspace', workspace.value)
 }
 
 function onRouteChanged() {
@@ -117,13 +110,10 @@ watch(() => route.fullPath, (newValue) => {
   onRouteChanged()
 })
 
+
 onBeforeMount(() => {
   initConsole()
   addKeyBindings()
-})
-
-onMounted(() => {
-
 })
 
 onUnmounted(() => {

@@ -22,7 +22,7 @@ import { computed } from 'vue'
 import ONaviExpansionItem from 'core/components/navi/ONaviExpansionItem.vue'
 import ONaviItem from 'core/components/navi/ONaviItem.vue'
 import type { MenuItem } from 'core/types/menu'
-import { useNaviStore } from 'stores/navi.setup'
+import { useNaviStore } from 'stores/navi'
 
 const props = defineProps({
   level: { type: Number, default: 0 },

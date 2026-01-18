@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { RouteLocationNormalized } from 'vue-router'
 import { CODE } from 'core/app'
-import type { MenuItem } from 'core/types/menu'
+import type { MenuItem, TabItem } from 'core/types/menu'
 import { GET } from 'src/hooks/useRequest'
 import { flattenMenu, nestMenu } from 'core/hooks/useMenu'
 import { defaultConsoleMenus } from 'src/app/default-menu'
@@ -79,13 +79,13 @@ export const useNaviStore = defineStore('navi', () => {
       addOpenedMenu(menu)
     }
     const tabStore = useTabStore()
-    tabStore.updateTab(menu)
+    tabStore.updateTab(menu as TabItem)
   }
   function addOpenedMenu(menu: MenuItem) {
     const index = openedMenus.value.findIndex((e: MenuItem) => e.path === menu.path)
     // console.log('add', menu);
     if (index < 0) {
-      openedMenus.value.push(menu)
+      openedMenus.value.unshift(menu)
     } else {
       openedMenus.value.splice(index, 1, menu)
     }

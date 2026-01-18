@@ -39,7 +39,7 @@ export const getAuthorization = () => {
   const token = account.token
   if (!token) return ''
 
-  return `${token.token_type} ${token.access_token}`
+  return `${token.tokenType} ${token.accessToken}`
 }
 
 export const getWorkspaceId = (): string => {

@@ -39,6 +39,7 @@ export const useAccountStore = defineStore('account', {
     },
     afterLogin(result: Indexable, redirect = '/welcome') {
       saveAccount(result)
+      this.reset()
       this.account = result.user
       if (redirect) {
         this.router.push(redirect)
@@ -62,7 +63,8 @@ export const useAccountStore = defineStore('account', {
           // Default workspace
           if (!this.workspace?.id && this.workspaces.length) {
             const defaultWorkspace = this.workspaces[0]
-            this.switchWorkspace(defaultWorkspace!)
+            // console.log('defaultWorkspace', defaultWorkspace)
+            this.switchWorkspace(defaultWorkspace!, '')
             resolve(defaultWorkspace)
           }
           resolve({})
@@ -93,7 +95,11 @@ export const useAccountStore = defineStore('account', {
     },
     setWorkspaces(value: Indexable[]) {
       this.workspaces = value
+      workspaceManager.setWorkspaces(value as any)
     },
+    reset() {
+      this.$reset()
+    }
   },
   persist: {
     key: `${CODE}.account`
