@@ -18,6 +18,17 @@ export default function () {
    * Init workspace data
    */
   async function initWorkspaceData() {
+    if (workspace.value.id) {
+      await initAiSettings()
+      initCheck()
+      initNoteData()
+    }
+  }
+
+  /**
+   * Refresh workspace data
+   */
+  async function refreshWorkspaceData() {
     await initAiSettings()
     initCheck()
     initNoteData()
@@ -26,7 +37,7 @@ export default function () {
   watch(workspace, (newValue, oldValue) => {
     console.log(`workspace: ${oldValue.id} -> ${newValue.id}`)
     if (newValue.id) {
-      initWorkspaceData()
+      refreshWorkspaceData()
     }
   })
 

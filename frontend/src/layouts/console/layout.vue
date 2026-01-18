@@ -81,6 +81,7 @@ async function initConsole () {
   console.log('initConsole')
   await initWorkspace()
   console.log('initWorkspace', workspace.value)
+  await initWorkspaceData()
 }
 
 function onRouteChanged() {
