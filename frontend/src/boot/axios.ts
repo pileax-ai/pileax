@@ -6,6 +6,7 @@ import useDialog from 'core/hooks/useDialog'
 import { refreshToken, refreshTokenThrottle } from 'src/utils/auth'
 import { getErrorMessage } from 'src/utils/request'
 import { notifyWarning } from 'core/utils/control'
+import { TokenRefreshManager } from 'src/utils/token-refresh-manager'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -51,6 +52,7 @@ api.interceptors.request.use(
 
 // Response interceptors
 // =========================================================
+const tokenRefreshManager = new TokenRefreshManager(api)
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -58,25 +60,45 @@ api.interceptors.response.use(
     const data = error.response?.data
     const message = getErrorMessage(error)
     const status = error.response?.status || data?.code
-    console.error('API Error:', error)
+    // console.error('API Error:', error)
 
     if (status === 401) {
       if (originalRequest._retry || originalRequest.url === '/auth/refresh-token') {
         // Guide to signin again
         openDialog({ type: 'signin' })
-      } else {
-        // Retry
-        originalRequest._retry = true
+        return Promise.reject(error)
+      }
 
-        try {
-          const token = await refreshToken()
-          const accessToken = (token as Indexable).access_token
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`
-          return api(originalRequest)
-        } catch (refreshError) {
-          openDialog({ type: 'signin' })
-          return Promise.reject(refreshError)
-        }
+      // console.log('isRefreshing', tokenRefreshManager.getIsRefreshing())
+      if (tokenRefreshManager.getIsRefreshing()){
+        return new Promise((resolve, reject) => {
+          tokenRefreshManager.addToFailedQueue({
+            resolve, reject, config: originalRequest
+          })
+        })
+      }
+
+      // Start retrying
+      tokenRefreshManager.setIsRefreshing(true)
+      originalRequest._retry = true
+
+      try {
+        const token = await refreshToken() as Indexable
+        const authorization = `${token.tokenType} ${token.accessToken}`
+
+        // Success
+        tokenRefreshManager.onRefreshSuccess(authorization)
+
+        // Retry current request
+        originalRequest.headers.Authorization = authorization
+        return api(originalRequest)
+      } catch (refreshError) {
+        // Failed
+        tokenRefreshManager.onRefreshFailure(refreshError)
+        openDialog({ type: 'signin' })
+        return Promise.reject(refreshError)
+      } finally {
+        tokenRefreshManager.setIsRefreshing(false)
       }
     } else if (status === 500) {
       notifyWarning(message)

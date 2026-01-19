@@ -13,8 +13,27 @@
         <template #before>
           <div class="cursor-pointer">
             <o-icon :name="form.icon || '🍃'" />
-            <o-general-icon-menu anchor="center left" self="center right"
+            <o-general-icon-menu anchor="center left"
+                                 self="center right"
+                                 :offset="[8, 0]"
                                  @select="onSelectIcon" />
+          </div>
+        </template>
+        <template #after>
+          <div class="cursor-pointer">
+            <o-icon :name="form.color ? 'circle' : 'hide_source'"
+                    :color="form.color" />
+            <q-menu class="pi-menu"
+                    anchor="center left"
+                    self="center right"
+                    :offset="[8, 0]">
+              <section class="row q-pa-md"
+                       style="max-width: 316px;">
+                <o-color-select v-model="form.color"
+                                class="row"
+                                @select="onSelectColor" />
+              </section>
+            </q-menu>
           </div>
         </template>
       </q-input>
@@ -52,11 +71,13 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
+import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
+import OColorSelect from 'core/components/form/OColorSelect.vue'
+
 import { GET } from 'src/hooks/useRequest'
 import { notifyWarning } from 'core/utils/control'
 import useForm from 'src/hooks/useForm'
 import { getErrorMessage } from 'src/utils/request'
-import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 import useMetadata from 'src/hooks/useMetadata'
 
 const apiName = 'workspace'
@@ -67,7 +88,6 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['success'])
-
 
 const { WorkspaceTypes } = useMetadata()
 const { form, loading, actions } = useForm()
@@ -85,6 +105,7 @@ function load () {
       form.value.desc = data.desc
       form.value.type = data.type
       form.value.icon = data.icon
+      form.value.color = data.color
     })
   } else {
     form.value.type = 'team'
@@ -95,6 +116,10 @@ function load () {
 
 function onSelectIcon(options: Indexable) {
   form.value.icon = options.value
+}
+
+function onSelectColor(options: Indexable) {
+  form.value.color = options.value
 }
 
 function onSubmit () {
@@ -126,21 +151,32 @@ onMounted(() => {
 <style lang="scss">
 .ai-provider {
   .name {
-    .q-field__before {
+    .q-field__before, .q-field__after {
       width: 40px;
       color: unset!important;
       background: var(--q-accent);
-      margin-right: 6px;
       padding: 0;
       border-radius: 4px;
       text-align: center;
       justify-content: center;
       align-items: center;
 
+      &:hover {
+        background: var(--q-dark);
+      }
+
       .o-icon {
         font-size: 30px;
       }
     }
+  }
+
+  .q-field__before {
+    margin-right: 6px;
+  }
+
+  .q-field__after {
+    margin-left: 6px;
   }
 
   .q-field__prefix {

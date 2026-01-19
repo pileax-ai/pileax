@@ -142,6 +142,17 @@ function onAction (action: Indexable, item: MenuItem) {
 </script>
 
 <style lang="scss">
-.navi-tab {
+.navi-tabs {
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px !important;
+    background: red !important;
+    opacity: 0.8;
+    z-index: 1000;
+  }
 }
 </style>
