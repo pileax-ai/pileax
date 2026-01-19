@@ -4,7 +4,7 @@ from typing import Optional
 
 from sqlmodel import Field, SQLModel
 
-from app.api.models.base import BaseSQLModel, BaseApiModel
+from app.api.models.base import BaseApiModel, BaseSQLModel
 
 
 class Signin(BaseApiModel):

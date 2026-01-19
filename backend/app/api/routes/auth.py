@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.controllers.auth_controller import AuthController
 from app.api.deps import CurrentUserId, SessionDep
-from app.api.models.auth import SigninPublic, TokenPublic, Signup
+from app.api.models.auth import SigninPublic, Signup, TokenPublic
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/auth", tags=["Auth"])

@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'axios'
 import axios from 'axios'
 import { getCommonHeaders } from 'core/utils/common'
 import useDialog from 'core/hooks/useDialog'
-import { refreshToken, refreshTokenThrottle } from 'src/utils/auth'
+import { isTokenNeedRefresh, refreshToken } from 'src/utils/auth'
 import { getErrorMessage } from 'src/utils/request'
 import { notifyWarning } from 'core/utils/control'
 import { TokenRefreshManager } from 'src/utils/token-refresh-manager'
@@ -30,16 +30,38 @@ const api = axios.create({
 // Request interceptors
 // =========================================================
 api.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     // Headers
     if (config.url && config.url.indexOf('http') < 0) {
       const headers = getCommonHeaders()
       config.headers = Object.assign(config.headers, headers)
     }
 
-    // Auto refresh token
-    if (!config.url?.includes('refresh-token')) {
-      refreshTokenThrottle()
+    // refresh-token request
+    if (config.url?.includes('refresh-token')) {
+      return config
+    }
+
+    // Add requests to waiting queue when pre refreshing
+    if (tokenRefreshManager.getIsPreRefreshing()) {
+      return new Promise((resolve, reject) => {
+        tokenRefreshManager.addToWaitingQueue({
+          resolve, reject, config
+        })
+      })
+    }
+
+    // Pre refresh token
+    if (isTokenNeedRefresh()) {
+      tokenRefreshManager.setIsPreRefreshing(true)
+      const requestPromise = new Promise((resolve, reject) => {
+        tokenRefreshManager.addToWaitingQueue({
+          resolve, reject, config
+        })
+      })
+      tokenRefreshManager.preRefresh()
+
+      return requestPromise
     }
 
     return config
@@ -83,7 +105,7 @@ api.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const token = await refreshToken() as Indexable
+        const token = await refreshToken()
         const authorization = `${token.tokenType} ${token.accessToken}`
 
         // Success

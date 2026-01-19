@@ -3,7 +3,7 @@ from uuid import UUID
 
 from fastapi import HTTPException, Request, Response, status
 
-from app.api.models.auth import Signin, Signup, SigninPublic, Token, TokenPublic, UserSimple
+from app.api.models.auth import Signin, SigninPublic, Signup, Token, TokenPublic, UserSimple
 from app.api.models.user import User
 from app.api.services.auth_service import AuthService
 from app.core.cache.factory import cache, get_key

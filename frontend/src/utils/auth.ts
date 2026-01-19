@@ -130,7 +130,7 @@ export const refreshTokenThrottle = () => {
   }
 }
 
-export const refreshToken = (source = 'retry') => {
+export const refreshToken = (source = 'retry'): Promise<Indexable> => {
   console.log('refreshToken', source)
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
