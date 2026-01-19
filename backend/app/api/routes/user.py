@@ -3,21 +3,13 @@ from typing import Any
 
 from fastapi import APIRouter
 
-from app.api.deps import SessionDep, TokenDep
+from app.api.deps import SessionDep
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.user import User, UserCreate, UserPublic, UserUpdate
+from app.api.models.user import UserPublic, UserUpdate
 from app.api.router import Response, send_ok
 from app.api.services.user_service import UserService
 
 router = APIRouter(prefix="/user", tags=["User"])
-
-
-@router.post("", response_model=Response[UserPublic])
-async def save(item_in: UserCreate, session: SessionDep, token: TokenDep) -> Any:
-    item = User(**item_in.model_dump(by_alias=True))
-    service = UserService(session)
-    service.save(item)
-    return send_ok(item)
 
 
 @router.get("", response_model=Response[UserPublic])

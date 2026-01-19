@@ -101,7 +101,6 @@ import { computed } from 'vue'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import useSetting from 'core/hooks/useSetting'
-import useUpdater from 'core/hooks/useUpdater'
 import useAccount from 'src/hooks/useAccount'
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
@@ -128,7 +127,6 @@ const {
 const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
-const { updater } = useUpdater()
 const { nativeShortcut } = useShortcut()
 const offset = computed(() => {
   return props.type === 'tab' ? [-2, -2] : [-2, -2]

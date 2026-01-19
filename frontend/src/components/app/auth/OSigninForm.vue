@@ -46,7 +46,11 @@
                     :label="$t('auth.rememberMe')"
                     style="margin-top: -12px;" />
 
-        <q-btn type="submit" :label="$t('signin')" class="bg-primary text-white col-12" flat />
+        <q-btn type="submit"
+               :label="$t('signin')"
+               class="bg-primary text-white col-12"
+               :loading="loading"
+               flat />
       </q-form>
     </q-card-section>
     <q-card-section class="footer">
@@ -72,6 +76,7 @@ import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['success'])
 const type = ref<'text' | 'password'>('password')
+const loading = ref(false)
 const remember = ref(false)
 const form = reactive({
   username: '',
@@ -82,6 +87,7 @@ const { t } = useCommon()
 const accountStore = useAccountStore()
 
 async function onSubmit () {
+  loading.value = true
   try {
     const account = await accountStore.login(form)
     emit('success')
@@ -95,6 +101,8 @@ async function onSubmit () {
   } catch (err) {
     const message = getErrorMessage(err)
     notifyError(t(message))
+  } finally {
+    loading.value = false
   }
 }
 

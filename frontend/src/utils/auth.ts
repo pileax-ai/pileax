@@ -15,7 +15,7 @@ import { UUID } from 'core/utils/crypto'
 // Authentication Util
 // -----------------------------------------------------------------------------
 export const saveAccount = (account: Indexable) => {
-  account.token.exp = getJwtTokenExp(account.token.access_token)
+  account.token.exp = getJwtTokenExp(account.token.accessToken)
 
   return saveItemObject('user', account)
 }
@@ -39,7 +39,7 @@ export const getAuthorization = () => {
   const token = account.token
   if (!token) return ''
 
-  return `${token.token_type} ${token.access_token}`
+  return `${token.tokenType} ${token.accessToken}`
 }
 
 export const getWorkspaceId = (): string => {
@@ -73,7 +73,7 @@ export const getDeviceId = (): string => {
 export const getJwtToken = () => {
   const account = getAccount()
   const token = account.token
-  return token.access_token || ''
+  return token.accessToken || ''
 }
 
 export const getJwtTokenExp = (token: string) => {
@@ -111,7 +111,8 @@ export const isJwtTokenNeedRefresh = (): boolean => {
 export const isTokenNeedRefresh = (): boolean => {
   const exp = getTokenExp()
   const currentTime = Math.floor(Date.now() / 1000)
-  return exp - currentTime < 5 * 60 // 5 minutes
+  const validTime = exp - currentTime
+  return validTime > 0 && validTime < 5 * 60 // 5 minutes
 }
 
 
@@ -125,15 +126,16 @@ export const refreshTokenThrottle = () => {
   lastRefreshTime = now
 
   if (isTokenNeedRefresh()) {
-    refreshToken()
+    refreshToken('pre-refresh')
   }
 }
 
-export const refreshToken = () => {
+export const refreshToken = (source = 'retry'): Promise<Indexable> => {
+  console.log('refreshToken', source)
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
       const token = res
-      token.exp = getJwtTokenExp(token.access_token)
+      token.exp = getJwtTokenExp(token.accessToken)
       const user = getAccount()
       user.token = token
       saveItemObject('user', user)

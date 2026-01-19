@@ -17,6 +17,7 @@ class Workspace(BaseSQLModel, BaseMixin, table=True):
     user_id: uuid.UUID = uuid_field()
     name: str = Field(..., max_length=100)
     icon: str | None = Field(default=None)
+    color: str | None = Field(default=None)
     desc: str | None = Field(default=None, max_length=256)
     type: str = Field(
         default=WorkspaceType.PERSONAL, max_length=32, sa_column=Column(String(32), default=WorkspaceType.PERSONAL)
@@ -28,13 +29,12 @@ class WorkspaceBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     name: str | None = None
     icon: str | None = None
+    color: str | None = None
     desc: str | None = None
 
 
-class WorkspaceCreate(BaseApiModel):
+class WorkspaceCreate(WorkspaceBase):
     name: str
-    icon: str | None = None
-    desc: str | None = None
     type: str
 
 

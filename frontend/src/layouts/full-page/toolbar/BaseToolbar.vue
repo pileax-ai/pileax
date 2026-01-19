@@ -44,7 +44,6 @@ import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 const { account, isLogin } = useAccount()
 
 function onConsole() {
-  console.log('console')
   router.push('/welcome')
 }
 </script>

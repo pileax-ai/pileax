@@ -68,7 +68,6 @@ const { openDialog } = useDialog()
 const { nativeShortcut } = useShortcut()
 const {
   noteStore,
-  getAllNotes,
   addNote,
 } = useNote()
 
@@ -112,7 +111,6 @@ function onSearch () {
 
 onBeforeMount(() => {
   favoriteTop.value = noteStore.value.favoriteTop
-  getAllNotes()
 })
 
 </script>

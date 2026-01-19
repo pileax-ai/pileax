@@ -124,7 +124,7 @@ async function onAdd() {
 }
 
 function onTabChanged(id: string) {
-  // console.log('onTabChanged', id);
+  // console.log('onTabChanged', id)
   const openedTab = tabStore.openTab(id, route.path)
   if (openedTab) {
     switchWorkspaceByTab(openedTab)

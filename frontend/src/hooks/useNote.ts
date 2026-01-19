@@ -59,7 +59,7 @@ export default function () {
     naviStore.setCurrentMenu(menu)
   }
 
-  async function getAllNotes() {
+  async function initNoteData() {
     const notes = await noteService.getAll()
     noteStore.value.setNotes(notes)
   }
@@ -69,7 +69,7 @@ export default function () {
     if (index >= 0) {
       notes.value.splice(index, 1, note)
     } else {
-      getAllNotes()
+      initNoteData()
     }
   }
 
@@ -288,15 +288,13 @@ export default function () {
     currentNote,
 
     setCurrentNote,
-    getAllNotes,
-    refreshNote,
+    initNoteData,
     getRecentNotes,
     buildNoteTree,
     buildFavoriteTree,
     addNote,
     openNote,
     beforeDeleteNote,
-    deleteNote,
     saveNote,
     addCover,
     addIcon,

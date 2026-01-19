@@ -58,8 +58,10 @@ import {
   noteService,
   workspaceBookService
 } from 'src/api/service/remote'
+import useWorkspace from 'src/hooks/useWorkspace'
 
 const visibility = useDocumentVisibility()
+const { workspaceId } = useWorkspace()
 const conversations = ref<Indexable[]>()
 const notes = ref<Indexable[]>()
 const books = ref<Indexable[]>()
@@ -71,9 +73,12 @@ const recentQuery = {
 }
 
 function init() {
-  getRecentConversations()
-  getRecentNotes()
-  getRecentBooks()
+  // First console page, make sure workspace initialized.
+  if (workspaceId.value) {
+    getRecentConversations()
+    getRecentNotes()
+    getRecentBooks()
+  }
 }
 
 const getRecentConversations = () => {
@@ -106,6 +111,7 @@ watch(visibility, (state) => {
 })
 
 onActivated(() => {
+  console.log('welcome onActivated', workspaceId.value)
   init()
 })
 </script>
