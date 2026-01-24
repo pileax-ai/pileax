@@ -86,7 +86,6 @@ const onTranslate = (lang: Indexable) => {
 }
 
 const onChats = (value: Indexable[]) => {
-  console.log('chats', value)
   chats.value = value
 }
 </script>

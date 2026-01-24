@@ -34,13 +34,15 @@ export function createDB(): DB {
 
     return {
       fetch: async (documentName) => {
+        const id = documentName.replaceAll('note@', '')
         const { rows } = await pool.query(
           'SELECT doc FROM note WHERE id = $1',
-          [documentName],
+          [id],
         )
         return rows[0]?.doc ?? null
       },
       store: async (documentName, state, document) => {
+        const id = documentName.replaceAll('note@', '')
         const { title, icon, cover } = getMetadata(document)
         await pool.query(
           `
@@ -48,7 +50,7 @@ export function createDB(): DB {
           SET doc=$1, title=$2, icon=$3, cover=$4, update_time=NOW()
           WHERE id=$5
           `,
-          [state, title, icon, cover, documentName],
+          [state, title, icon, cover, id],
         )
       },
     }
@@ -58,17 +60,19 @@ export function createDB(): DB {
 
     return {
       fetch: async (documentName) => {
-        const row = db.prepare('SELECT doc FROM note WHERE id = ?').get(documentName)
+        const id = documentName.replaceAll('note@', '')
+        const row = db.prepare('SELECT doc FROM note WHERE id = ?').get(id)
         // @ts-ignore
         return row ? row.doc : null
       },
       store: async (documentName, state, document) => {
+        const id = documentName.replaceAll('note@', '')
         const { title, icon, cover } = getMetadata(document)
         db.prepare(`
           UPDATE note
           SET doc=?, title=?, icon=?, cover=?, update_time = CURRENT_TIMESTAMP
           WHERE id=?
-        `).run(state, title, icon, cover, documentName)
+        `).run(state, title, icon, cover, id)
       },
     }
   }

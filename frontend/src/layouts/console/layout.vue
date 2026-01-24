@@ -78,9 +78,8 @@ async function initConsole () {
   onRouteChanged()
 
   // First
-  console.log('initConsole')
+  console.log('First initConsole')
   await initWorkspace()
-  console.log('initWorkspace', workspace.value)
   await initWorkspaceData()
 }
 
@@ -110,7 +109,6 @@ function onRouteChanged() {
 watch(() => route.fullPath, (newValue) => {
   onRouteChanged()
 })
-
 
 onBeforeMount(() => {
   initConsole()

@@ -40,6 +40,5 @@ export const isIcon = (text: string) => {
 export const colorById = (id: string) => {
   const hash = [...id].reduce((sum, c) => sum + c.charCodeAt(0), 0)
   const color = StandardColors[hash % StandardColors.length]
-  console.log('color', hash, StandardColors.length, color)
   return color?.hex
 }

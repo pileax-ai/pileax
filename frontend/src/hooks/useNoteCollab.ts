@@ -1,4 +1,4 @@
-import { computed, onUnmounted, ref, shallowRef } from 'vue'
+import { computed, onDeactivated, ref, shallowRef, watch } from 'vue'
 import * as Y from 'yjs'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 
@@ -8,7 +8,7 @@ import { NoteDefaultIcon } from 'core/constants/constant'
 
 export default function () {
   const { currentNote, saveNote, setCurrentNote } = useNote()
-  const metaKeys = ['icon', 'cover']
+  const metaKeys = ['icon', 'cover', 'title']
 
   const noteId = ref('')
   const ydocId = ref('')
@@ -16,6 +16,7 @@ export default function () {
   const hpProvider = shallowRef<HocuspocusProvider | null>(null)
   const collabReady = ref(false)
   const collaboration = ref(true)
+  const localUpdate = ref(false)
 
   const collab = ref({
     ydocId,
@@ -27,11 +28,21 @@ export default function () {
 
   let cleanMetaObserve: (() => void) | null = null
   const setupMetadataSync = (ydoc: Y.Doc) => {
+    let isFirstLoad = true
     const metaMap: Y.Map<any> = ydoc.getMap('metadata')
 
     // 1. Callback
     const observer = (event: Y.YMapEvent<any>): void => {
-      // event.keysChanged 是一个 Set，记录了变动的字段名
+      // Check if the change from local
+      const isLocal = event.transaction.local
+      // console.log(`isLocal: ${isLocal}, isFirstLoad: ${isFirstLoad}`)
+
+      // Ignore when first load
+      if (isFirstLoad) {
+        isFirstLoad = false
+        return
+      }
+
       for (const key of metaKeys) {
         if (event.keysChanged.has(key)) {
           const newValue = metaMap.get(key) ?? ''
@@ -39,7 +50,7 @@ export default function () {
           setCurrentNote({
             ...currentNote.value,
             [key]: newValue
-          })
+          }, true, true)
         }
       }
     }
@@ -47,11 +58,7 @@ export default function () {
     // 2. Binding
     metaMap.observe(observer)
 
-    // 3. Init load
-    const initialIcon = metaMap.get('icon') ?? ''
-    console.log('initialIcon', initialIcon)
-
-    // 4. Return a cleanup
+    // 3. Return a cleanup
     return () => {
       metaMap.unobserve(observer)
     }
@@ -61,9 +68,12 @@ export default function () {
     if (!collaboration.value) return
     resetCollab()
 
-    ydocId.value = noteId.value
+    ydocId.value = `note@${noteId.value}`
     const doc = new Y.Doc({
       gc: false
+    })
+    doc.on('update', (update, origin, doc, tr) => {
+      localUpdate.value = tr.local
     })
     const provider = new HocuspocusProvider({
       url: 'ws://localhost:9611',
@@ -71,9 +81,9 @@ export default function () {
       document: doc,
       token: getCollabToken(),
       onConnect() {
-        console.log('Hocuspocus connected')
+        console.log('[Note] Hocuspocus connected')
         collabReady.value = true
-      }
+      },
     })
     ydoc.value = doc
     hpProvider.value = provider
@@ -82,6 +92,7 @@ export default function () {
   }
 
   const resetCollab = () => {
+    collabReady.value = false
     if (cleanMetaObserve) {
       cleanMetaObserve()
       cleanMetaObserve = null
@@ -96,8 +107,6 @@ export default function () {
       ydoc.value?.destroy()
       ydoc.value = null
     }
-
-    collabReady.value = false
   }
 
   const setMeta = (key: string, value: string) => {
@@ -146,8 +155,14 @@ export default function () {
     setMeta('cover', cover)
   }
 
+  watch(() => currentNote.value.title, (newValue) => {
+    if (collabReady.value && localUpdate.value) {
+      console.log(`title: ${newValue}, id: ${currentNote.value.id}, isLocal: ${localUpdate.value}`)
+      setMeta('title', newValue)
+    }
+  })
 
-  onUnmounted(() => {
+  onDeactivated(() => {
     resetCollab()
   })
 

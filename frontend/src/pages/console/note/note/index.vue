@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { computed, onActivated, onMounted, provide, ref, watch, shallowRef } from 'vue'
+import { computed, onActivated, onMounted, provide, ref, watch, shallowRef, onDeactivated, onUnmounted } from 'vue'
 import { debounce } from 'quasar'
 
 import { YiiEditor, ODocToc } from '@yiitap/vue'
@@ -87,12 +87,14 @@ const {
   noteStore,
   currentNote,
   noteService,
+  saveNote,
   setCurrentNote,
 } = useNote()
 const {
   noteId,
   collab,
   initCollab,
+  resetCollab,
   addIcon,
   updateIcon,
   setCover,
@@ -202,6 +204,8 @@ const font = computed(() => {
 function onCreate() {
   editorReady.value = true
   // console.log('editor created', editor.value?.utils)
+  // editor.value?.on('transaction', ({ transaction }) => {
+  // })
 }
 
 
@@ -243,13 +247,13 @@ async function createNote() {
     content = chatContentToHtml(noteStore.value.chatToNote.content, noteStore.value.chatToNote.message)
     focusPosition = 'end'
   }
-  noteService.save({
+  saveNote({
     id: noteId.value,
     parent: parent.value || '',
     title: 'New page',
     content: content
   }).then(note => {
-    loadNote(note, content, focusPosition, emitUpdate)
+    loadNote(note as Note, content, focusPosition, emitUpdate)
   }).finally(() => {
     loading.value = false
   })

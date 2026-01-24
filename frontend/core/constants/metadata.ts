@@ -71,11 +71,11 @@ export const StandardColors = [
   { label: 'green', value: 'green', color: 'green', hex: '#4caf50' },
   { label: 'light-green', value: 'light-green', color: 'light-green', hex: '#8bc34a' },
   { label: 'lime', value: 'lime', color: 'lime', hex: '#cddc39' },
-  { label: 'yellow', value: 'yellow', color: 'yellow', hex: '#ffeb3b' },
+  // { label: 'yellow', value: 'yellow', color: 'yellow', hex: '#ffeb3b' },
   { label: 'amber', value: 'amber', color: 'amber', hex: '#ffc107' },
   { label: 'orange', value: 'orange', color: 'orange', hex: '#ff9800' },
   { label: 'deep-orange', value: 'deep-orange', color: 'deep-orange', hex: '#ff5722' },
   { label: 'brown', value: 'brown', color: 'brown', hex: '#795548' },
-  { label: 'grey', value: 'grey', color: 'grey', hex: '#9e9e9e' },
+  // { label: 'grey', value: 'grey', color: 'grey', hex: '#9e9e9e' },
   { label: 'blue-grey', value: 'blue-grey', color: 'blue-grey', hex: '#607d8b' },
 ]

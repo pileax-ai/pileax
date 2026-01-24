@@ -15,13 +15,20 @@ const db = createDB()
 const server = new Server({
   name: 'pileax-collab',
   port: Number(process.env.PORT) || 1234,
+  // debounce: 1000,
 
   extensions: [
     new Database({
       async fetch({ documentName }) {
+        if (!documentName.startsWith('note')) {
+          return null
+        }
         return db.fetch(documentName)
       },
       async store({ documentName, state, document }) {
+        if (!documentName.startsWith('note')) {
+          return
+        }
         await db.store(documentName, state, document)
       },
     }),
@@ -36,12 +43,28 @@ const server = new Server({
     return { user: payload }
   },
 
+  async onStateless({ payload, documentName, document, connection }) {
+    try {
+      // 1. Parse payload { event, meta }
+      const data = JSON.parse(payload)
+      console.log(`[Event] ${data.event} received in room ${documentName}`)
+
+      // 2. broadcast to all connections based on document
+      // filter: exclude current connections
+      document.broadcastStateless(payload, (conn) => {
+        return conn != connection
+      })
+    } catch (e) {
+      console.error('Failed to broadcast stateless message', e)
+    }
+  },
+
   async connected() {
     console.log(`Client connected`)
   },
 
   async onDisconnect(data) {
-    console.log(`Client disconnected: ${data.context.user.name}`)
+    console.log(`Client disconnected: ${data.documentName}`)
   },
 })
 

@@ -8,15 +8,18 @@ import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
 import { router } from 'src/router'
 import useCommon from 'core/hooks/useCommon'
+import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
 import { ipcService } from 'src/api/ipc'
 import { noteService } from 'src/api/service/remote/note'
 import { workspaceManager } from 'core/workspace/workspace-manager'
+import { CollabEvent } from 'src/types/collab'
 
 export default function () {
   const naviStore = useNaviStore()
   const accountStore = useAccountStore()
   const tabStore = useTabStore()
   const { t, confirm } = useCommon()
+  const { publishCollabEvent } = useWorkspaceCollab()
   const recentNotes = ref<Note[]>([])
 
   const noteStore = computed(() => {
@@ -36,13 +39,12 @@ export default function () {
     return noteStore.value.noteId
   })
 
-  function setCurrentNote(note: Note | null) {
+  function setCurrentNote(note: Note | null, refresh = true, publish = false) {
     // console.log('setCurrentNote', note)
     if (!note) return
 
     // update current note
     noteStore.value.setCurrentNote(note)
-    refreshNote(note)
 
     // update menu/tab
     const menu = {
@@ -57,6 +59,11 @@ export default function () {
       }
     } as MenuItem
     naviStore.setCurrentMenu(menu)
+
+    // refresh
+    if (refresh) {
+      refreshNote(note, publish)
+    }
   }
 
   async function initNoteData() {
@@ -64,14 +71,24 @@ export default function () {
     noteStore.value.setNotes(notes)
   }
 
-  function refreshNote(note: Note) {
+  function refreshNote(note: Note, publish = true) {
+    // console.log('refreshNote', publish)
     const index = notes.value.findIndex((n) => n.id === note.id)
     if (index >= 0) {
       notes.value.splice(index, 1, note)
     } else {
       initNoteData()
     }
+
+    if (note.id === currentNote.value.id) {
+      setCurrentNote(note, false)
+    }
+
+    if (publish) {
+      publishCollabEvent(CollabEvent.NOTE_REFRESH, note)
+    }
   }
+
 
   async function getRecentNotes(size = 1000) {
     const query = {
@@ -142,17 +159,15 @@ export default function () {
     noteService.delete(note.id)
   }
 
-  async function saveNote(data: Indexable, {
-    refresh = false
-    } = {}
-  ) {
-    const note = await noteService.save(data)
-    if (note.id === currentNote.value.id) {
-      setCurrentNote(note)
-    }
-    if (refresh) {
-      refreshNote(note)
-    }
+  function saveNote(data: Indexable) {
+    return new Promise((resolve, reject) => {
+      noteService.save(data).then(res => {
+        refreshNote(res)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 
   function addIcon() {
@@ -191,14 +206,14 @@ export default function () {
     saveNote({
       id: id,
       parent: newParent
-    }, { refresh: true })
+    })
   }
 
   function toggleFavorite(data: Indexable) {
     saveNote({
       id: data.id,
       favorite: data.favorite === 1 ? 0 : 1
-    }, { refresh: true })
+    })
   }
 
   function duplicateNote(data: Indexable) {
@@ -210,7 +225,7 @@ export default function () {
       icon: data.icon,
       cover: data.cover,
       styles: data.styles,
-    }, { refresh: true })
+    })
   }
 
   function buildNoteTree(items: Note[], id: string | null = null, addEmptyNode = false) {
@@ -304,5 +319,6 @@ export default function () {
     duplicateNote,
     newTab,
     newWindow,
+    refreshNote,
   }
 }
