@@ -42,6 +42,13 @@ export const getAuthorization = () => {
   return `${token.tokenType} ${token.accessToken}`
 }
 
+export const getCollabToken = () => {
+  const account = getAccount()
+  const token = account.token
+
+  return token?.collabToken ?? ''
+}
+
 export const getWorkspaceId = (): string => {
   let workspaceId = getSessionItem('workspace') as string
 

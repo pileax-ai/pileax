@@ -37,6 +37,11 @@ class AuthConfig(BaseSettings):
         default=60,
     )
 
+    COLLAB_TOKEN_EXPIRE_DAYS: PositiveInt = Field(
+        description="Expiration time for collab tokens in days",
+        default=30,
+    )
+
     REFRESH_TOKEN_EXPIRE_DAYS: PositiveInt = Field(
         description="Expiration time for refresh tokens in days",
         default=30,

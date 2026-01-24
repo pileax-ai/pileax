@@ -1,9 +1,10 @@
 import uuid
 
 from pydantic import field_validator
+from sqlalchemy import LargeBinary, Column
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, JSONString
 
 
 class Note(BaseSQLModel, BaseMixin, table=True):
@@ -12,10 +13,15 @@ class Note(BaseSQLModel, BaseMixin, table=True):
     parent: uuid.UUID | None = uuid_field(default_none=True)
     title: str = Field(..., max_length=255, description="Note title")
     content: str = Field(..., description="Note content")
+    doc: bytes | None = Field(
+        default=None,
+        sa_column=Column(LargeBinary),
+        description="Yjs binary state"
+    )
     icon: str | None = Field(default=None)
     cover: str | None = Field(default=None)
     favorite: int | None = Field(default=0, ge=0, le=1, description="Favorite: 0.no, 1.yes")
-    styles: str | None = Field(default=None)
+    styles: dict | None = Field(default=None, sa_type=JSONString)
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general", description="Ref type: general, chat, book, etc.")
 

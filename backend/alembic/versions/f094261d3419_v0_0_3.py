@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: fb6c2beb9069
+Revision ID: f094261d3419
 Revises:
-Create Date: 2026-01-17 18:15:40.896474
+Create Date: 2026-01-23 15:42:08.847118
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = 'fb6c2beb9069'
+revision: str = 'f094261d3419'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -165,12 +165,25 @@ def upgrade() -> None:
     sa.Column('parent', app.api.models.base.GUID(), nullable=True),
     sa.Column('title', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('content', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('doc', sa.LargeBinary(), nullable=True),
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('cover', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('favorite', sa.Integer(), nullable=True),
-    sa.Column('styles', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('styles', app.api.models.base.JSONString(), nullable=True),
     sa.Column('ref_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('ref_type', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('note_version',
+    sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
+    sa.Column('update_time', sa.DateTime(), nullable=False, comment='Updated time'),
+    sa.Column('id', app.api.models.base.GUID(), nullable=False),
+    sa.Column('workspace_id', app.api.models.base.GUID(), nullable=False),
+    sa.Column('user_id', app.api.models.base.GUID(), nullable=False),
+    sa.Column('note_id', app.api.models.base.GUID(), nullable=False),
+    sa.Column('doc', sa.LargeBinary(), nullable=False),
+    sa.Column('type', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('remarks', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('provider',
@@ -260,6 +273,7 @@ def upgrade() -> None:
     sa.Column('user_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=100), nullable=False),
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('color', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('desc', sqlmodel.sql.sqltypes.AutoString(length=256), nullable=True),
     sa.Column('type', sa.String(length=32), nullable=True),
     sa.Column('status', sa.Integer(), nullable=False),
@@ -313,6 +327,7 @@ def downgrade() -> None:
     op.drop_table('provider_default_model')
     op.drop_table('provider_credential')
     op.drop_table('provider')
+    op.drop_table('note_version')
     op.drop_table('note')
     op.drop_table('message')
     op.drop_table('file_meta')

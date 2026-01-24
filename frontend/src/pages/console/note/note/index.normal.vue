@@ -3,7 +3,7 @@
                class="page-note"
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
     <nav class="row items-center justify-between text-readable note-nav">
-      <note-breadcrumbs :id="noteId" />
+      <note-breadcrumbs :id="id" />
       <note-actions @action="onAction" />
     </nav>
 
@@ -25,7 +25,7 @@
               <o-general-icon-menu anchor="bottom left"
                                    self="top left"
                                    :offset="[0, 8]"
-                                   @select="updateIcon" />
+                                   @select="setIcon" />
             </div>
           </section>
           <section class="text-readable note-meta-wrapper">
@@ -37,7 +37,7 @@
             <q-btn icon="image"
                    label="Add Cover"
                    flat
-                   @click="setCover()"
+                   @click="addCover"
                    v-if="!currentNote.cover" />
           </section>
         </section>
@@ -45,10 +45,7 @@
         <YiiEditor ref="yiiEditor"
                    class="layout-content"
                    v-bind="options"
-                   :key="editorKey"
-                   @create="onCreate"
-                   @update="onUpdate"
-                   v-if="!collab.collaboration || collab.collabReady" />
+                   @update="onUpdate" />
 
         <aside class="layout-right">
           <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
@@ -60,17 +57,15 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { computed, onActivated, onMounted, provide, ref, watch, shallowRef } from 'vue'
-import { debounce } from 'quasar'
-
 import { YiiEditor, ODocToc } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
+import { useRoute } from 'vue-router'
+import { computed, onActivated, onMounted, provide, ref, watch } from 'vue'
+import { debounce } from 'quasar'
+
 import useSetting from 'core/hooks/useSetting'
 import useNote from 'src/hooks/useNote'
-import useNoteCollab from 'src/hooks/useNoteCollab'
-import useAccount from 'src/hooks/useAccount'
 import type { Note } from 'src/types/note'
 import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue'
@@ -78,29 +73,25 @@ import NoteActions from 'components/note/NoteActions.vue'
 import ONotePage from 'components/page/ONotePage.vue'
 import { chatContentToHtml } from 'src/utils/note'
 import { router } from 'src/router'
-import { colorById } from 'core/utils/misc'
+import { notifyWarning } from 'core/utils/control'
+import { getErrorMessage } from 'src/utils/request'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
-const { account } = useAccount()
 const {
   noteStore,
   currentNote,
   noteService,
   setCurrentNote,
-} = useNote()
-const {
-  noteId,
-  collab,
-  initCollab,
+  addCover,
   addIcon,
-  updateIcon,
-  setCover,
-} = useNoteCollab()
+  setIcon,
+} = useNote()
 
 const notePage = ref<InstanceType<typeof ONotePage>>()
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
+const id = ref('')
 const parent = ref('')
 const source = ref('')
 const noteHtml = ref('')
@@ -114,15 +105,13 @@ const loading = ref(false)
 const editorReady = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
 
-
 const options = computed(() => {
   return {
     aiOption: aiOption.value,
     locale: localeAlt.value,
     darkMode: darkMode.value,
     title: true,
-    collaboration: collab.value.collaboration,
-    // content: '',
+    content: '',
     showMainMenu: false,
     showBubbleMenu: true,
     sideMenu: {
@@ -130,19 +119,8 @@ const options = computed(() => {
       add: 'menu',
     },
     pageView: pageView.value,
-    collab: {
-      enabled: collab.value.collaboration,
-      collaboration: {
-        document: collab.value.ydoc,
-      },
-      collaborationCaret: {
-        provider: collab.value.hpProvider,
-        user: {
-          name: account.value.name,
-          color: colorById(account.value.id) || '#f783ac',
-        },
-      },
-    },
+    mainMenu: [
+    ],
     extensions: [
       // 'Emoji',
       'InlineMath',
@@ -164,18 +142,12 @@ const options = computed(() => {
       'OSlashZh',
       'OTrailingNode',
       'OVideo',
-    ]
+    ],
   }
 })
 
 const editor = computed(() => {
   return yiiEditor.value?.editor
-})
-
-const editorKey = computed(() => {
-  return collab.value.collaboration
-    ? `collaboration-${collab.value.ydocId}`
-    : `normal-${noteId.value}`
 })
 
 const styles = computed(() => {
@@ -199,11 +171,12 @@ const font = computed(() => {
   }
 })
 
-function onCreate() {
-  editorReady.value = true
-  // console.log('editor created', editor.value?.utils)
+function initEditor() {
+  editorReady.value = false
+  editor.value?.on('create', () => {
+    editorReady.value = true
+  })
 }
-
 
 function onAction(action: Indexable) {
   switch (action.value) {
@@ -223,7 +196,7 @@ function onAction(action: Indexable) {
 
 async function getAndLoadNote() {
   loading.value = true
-  noteService.get(noteId.value).then((note: any) => {
+  noteService.get(id.value).then((note: any) => {
     loading.value = false
     loadingNote(note as Note)
   }).catch((err) => {
@@ -244,7 +217,7 @@ async function createNote() {
     focusPosition = 'end'
   }
   noteService.save({
-    id: noteId.value,
+    id: id.value,
     parent: parent.value || '',
     title: 'New page',
     content: content
@@ -272,13 +245,8 @@ function loadingNote(note: Note) {
 
 function loadNote(note: Note, content: string, focus: string,
                   emitUpdate = false) {
-  if (collab.value.collaboration) {
-    initCollab()
-  } else {
-    setContent(content, emitUpdate, focus)
-  }
-
   setCurrentNote(note)
+  setContent(content, emitUpdate, focus)
   noteStore.value.resetChatToNote()
   router.replace({ ...route, query: {} })
 }
@@ -299,7 +267,7 @@ function onUpdate({ json, html }: { json: any; html: string }) {
   // When editor created, there is one update which is no meaning.
   // Ignore this update.
   if (!editorReady.value) return
-  // console.log('update', html, editorReady.value, loading.value)
+  // console.log('update', html, editorReady.value, loading.value);
   noteJson.value = json
   noteHtml.value = html
 
@@ -318,20 +286,17 @@ const updateNoteNext = debounce( () => {
 async function updateNote() {
   const note = {
     ...currentNote.value,
-    id: noteId.value,
+    id: id.value,
     title: getTitle(),
     content: noteHtml.value
   }
   setCurrentNote(note)
-
-  if (!collab.value.collaboration) {
-    updateNoteNext()
-  }
+  updateNoteNext()
 }
 
 async function updateNoteRemote() {
   const note = await noteService.save({
-    id: noteId.value,
+    id: id.value,
     title: getTitle(),
     content: noteHtml.value
   })
@@ -363,11 +328,14 @@ watch(locale, (newValue) => {
 provide('insertContent', insertContent)
 
 onActivated(() => {
-  noteId.value = route.params.id as string
+  id.value = route.params.id as string
   parent.value = route.query.parent as string
   source.value = route.query.source as string
-
   getAndLoadNote()
+})
+
+onMounted(() => {
+  initEditor()
 })
 </script>
 

@@ -1,0 +1,4 @@
+packages:
+  - collab
+onlyBuiltDependencies:
+  - better-sqlite3
