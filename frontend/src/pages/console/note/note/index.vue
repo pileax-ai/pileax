@@ -94,7 +94,6 @@ const {
   noteId,
   collab,
   initCollab,
-  resetCollab,
   addIcon,
   updateIcon,
   setCover,

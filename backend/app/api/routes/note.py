@@ -39,3 +39,8 @@ async def query(query: PaginationQuery, controller: NoteController = Depends()) 
 @router.api_get("/all", response_model=list[NotePublic])
 async def find_all(controller: NoteController = Depends()) -> Any:
     return controller.find_all_by_workspace()
+
+
+@router.api_post("/duplicate", response_model=NotePublic)
+async def duplicated(id: uuid.UUID, controller: NoteController = Depends()) -> Any:
+    return controller.duplicate(id)

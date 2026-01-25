@@ -1,12 +1,12 @@
 import { shallowRef, markRaw } from 'vue'
 import * as Y from 'yjs'
-import { defineStore } from 'pinia'
 
 import { CODE } from 'core/app'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 import { CollabCallback, CollabEvent } from 'src/types/collab'
+import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
-export const useWorkspaceCollabStore = defineStore('workspace-collab', {
+export const useWorkspaceCollabStore = defineWorkspaceStore('workspace-collab', {
   state: () => ({
     enabled: false,
     provider: shallowRef<HocuspocusProvider | null>(null),

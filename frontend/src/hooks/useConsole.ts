@@ -8,7 +8,7 @@ import { CollabEvent } from 'src/types/collab'
 export default function () {
   const { workspace, initWorkspace } = useAccount()
   const { initAiSettings, checkAiSettings } = useAi()
-  const { initNoteData, refreshNote } = useNote()
+  const { initNoteData, refreshNote, deleteNote } = useNote()
   const { initCollab, resetCollab, subscribeCollabEvent } = useWorkspaceCollab()
 
   function initCheck() {
@@ -50,8 +50,11 @@ export default function () {
   }
 
   function initSubscriptions() {
-    const unsubscribe = subscribeCollabEvent(CollabEvent.NOTE_REFRESH, (meta) => {
+    const unsubscribeRefresh = subscribeCollabEvent(CollabEvent.NOTE_REFRESH, (meta) => {
       refreshNote(meta, false)
+    })
+    const unsubscribeDelete = subscribeCollabEvent(CollabEvent.NOTE_DELETE, (meta) => {
+      deleteNote(meta, false)
     })
 
     // onUnmounted(() => {

@@ -89,7 +89,6 @@ export default function () {
     }
   }
 
-
   async function getRecentNotes(size = 1000) {
     const query = {
       pageSize: size,
@@ -114,17 +113,26 @@ export default function () {
     })
   }
 
-  function openNote (note: Indexable, source = '') {
-    const id = note.id
-    if (id) {
-      const query = {} as Indexable
-      if (source) query.source = source
-      router.push({
-        name: 'note',
-        params: { id },
-        query
+  function saveNote(data: Indexable) {
+    return new Promise((resolve, reject) => {
+      noteService.save(data).then(res => {
+        refreshNote(res)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
       })
-    }
+    })
+  }
+
+  function duplicateNote(data: Indexable) {
+    return new Promise((resolve, reject) => {
+      noteService.duplicate(data.id).then(res => {
+        refreshNote(res)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 
   function beforeDeleteNote(note: Indexable) {
@@ -139,7 +147,7 @@ export default function () {
     )
   }
 
-  function deleteNote(note: Indexable) {
+  async function deleteNote(note: Indexable, publish = true) {
     // Remove from list
     const index = notes.value.findIndex((item) => item.id === note.id)
     if (index >= 0) {
@@ -155,51 +163,13 @@ export default function () {
       path: `/note/${note.id}`,
     } as MenuItem)
 
-    // Remove from database
-    noteService.delete(note.id)
-  }
+    if (publish) {
+      // Remove from database
+      await noteService.delete(note.id)
 
-  function saveNote(data: Indexable) {
-    return new Promise((resolve, reject) => {
-      noteService.save(data).then(res => {
-        refreshNote(res)
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    })
-  }
-
-  function addIcon() {
-    const icons = ['✍', '🏞', '🎵', '📹', '🎨', '👨‍👨‍👦', '🚴‍️', '🐶', '🐬', '🌾', '🍀', '🌴', '🍋', '🌏', '🚅', '🔥', '🥏', '💵', '🛠', '📖', '📗']
-    const index = Math.floor(Math.random() * icons.length)
-    const icon = icons[index]
-    saveNote({
-      id: currentNote.value.id,
-      icon: icon
-    })
-  }
-
-  function addCover() {
-    const covers = [
-      '/images/book/dark-bubble_nebula.jpg',
-      '/images/book/dark-pillars_of_creation.jpg',
-      '/images/book/light-old_book.png',
-      '/images/book/light-willow_bank.jpg',
-    ]
-    const index = Math.floor(Math.random() * covers.length)
-    const cover = covers[index]
-    saveNote({
-      id: currentNote.value.id,
-      cover: cover
-    })
-  }
-
-  function setIcon(option: Indexable) {
-    saveNote({
-      id: currentNote.value.id,
-      icon: option.value
-    })
+      // publish
+      publishCollabEvent(CollabEvent.NOTE_DELETE, note)
+    }
   }
 
   function setParent(id: string, newParent: string) {
@@ -213,18 +183,6 @@ export default function () {
     saveNote({
       id: data.id,
       favorite: data.favorite === 1 ? 0 : 1
-    })
-  }
-
-  function duplicateNote(data: Indexable) {
-    saveNote({
-      parent: data.parent,
-      title: `${data.title} (1)`,
-      favorite: data.favorite,
-      content: data.content,
-      icon: data.icon,
-      cover: data.cover,
-      styles: data.styles,
     })
   }
 
@@ -276,6 +234,19 @@ export default function () {
     return list
   }
 
+  function openNote(note: Indexable, source = '') {
+    const id = note.id
+    if (id) {
+      const query = {} as Indexable
+      if (source) query.source = source
+      router.push({
+        name: 'note',
+        params: { id },
+        query
+      })
+    }
+  }
+
   function newTab(note: Indexable) {
     tabStore.newTab({
       id: note.id,
@@ -311,14 +282,12 @@ export default function () {
     openNote,
     beforeDeleteNote,
     saveNote,
-    addCover,
-    addIcon,
-    setIcon,
     setParent,
     toggleFavorite,
     duplicateNote,
     newTab,
     newWindow,
     refreshNote,
+    deleteNote,
   }
 }

@@ -46,6 +46,7 @@ class NoteBase(BaseApiModel):
 class NoteCreate(NoteBase):
     title: str | None = None
     content: str | None = None
+    doc: bytes | None = None
 
 
 class NoteUpdate(NoteBase):
@@ -54,6 +55,8 @@ class NoteUpdate(NoteBase):
     content: str | None = None
 
 
-class NotePublic(NoteCreate, BaseMixin):
+class NotePublic(NoteBase, BaseMixin):
     workspace_id: uuid.UUID
+    title: str | None = None
+    content: str | None = None
     pass

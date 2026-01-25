@@ -8,40 +8,46 @@ import { useWorkspaceCollabStore } from 'stores/workspace-collab'
 import { CollabCallback, CollabEvent } from 'src/types/collab'
 
 export default function () {
-  const store = useWorkspaceCollabStore()
   const { workspace } = useAccount()
 
+  const store = computed(() => {
+    return useWorkspaceCollabStore(workspace.value.id)
+  })
+
   const enabled = computed(() => {
-    return store.enabled
+    return store.value.enabled
   })
 
   const ydocId = computed(() => {
     return `workspace@${workspace.value.id}`
   })
 
-  const provider = computed(() => {
-    return store.provider
+  const hpProvider = computed(() => {
+    return store.value.provider
   })
 
   const ydoc = computed(() => {
-    return store.ydoc
+    return store.value.ydoc
   })
 
   const collabReady = computed(() => {
-    return store.collabReady
+    return store.value.collabReady
   })
 
   const collab = ref({
     enabled,
     ydocId,
     ydoc,
-    provider,
+    hpProvider,
     collabReady,
   })
 
   const initCollab = async () => {
     console.debug('Init workspace collab ...')
-    resetCollab()
+    if (hpProvider.value) {
+      console.debug('Reuse workspace collab ...')
+      return
+    }
 
     const doc = new Y.Doc({
       gc: false
@@ -53,39 +59,39 @@ export default function () {
       token: getCollabToken(),
       onConnect: () => {
         console.log('[Workspace] Hocuspocus connected')
-        store.setCollabReady(true)
+        store.value.setCollabReady(true)
       },
       onDisconnect: () => {
-        store.setCollabReady(false)
+        store.value.setCollabReady(false)
       }
     })
     provider.on('stateless', ({ payload }: { payload: string }) => {
       const { event, meta } = JSON.parse(payload)
-      store.dispatchEvent(event, meta)
+      store.value.dispatchEvent(event, meta)
     })
 
-    store.setEnabled(true)
-    store.setYdoc(doc)
-    store.setYdocId(ydocId.value)
-    store.setProvider(provider)
+    store.value.setEnabled(true)
+    store.value.setYdoc(doc)
+    store.value.setYdocId(ydocId.value)
+    store.value.setProvider(provider)
   }
 
   const resetCollab = () => {
-    // console.debug('Reset workspace collab ...', provider.value)
-    if (provider.value) {
-      provider.value.destroy()
-      store.setProvider(null)
+    // console.debug('Reset workspace collab ...', hpProvider.value)
+    if (hpProvider.value) {
+      hpProvider.value.destroy()
+      store.value.setProvider(null)
     }
 
     if (ydoc.value) {
       ydoc.value.destroy()
-      store.setYdoc(null)
+      store.value.setYdoc(null)
     }
 
-    store.setEnabled(false)
-    store.setYdocId('')
-    store.setCollabReady(false)
-    store.resetEventBus()
+    store.value.setEnabled(false)
+    store.value.setYdocId('')
+    store.value.setCollabReady(false)
+    store.value.resetEventBus()
   }
 
   // ------------------------------------------------------------
@@ -93,7 +99,7 @@ export default function () {
   // ------------------------------------------------------------
   const publishCollabEvent = (event: CollabEvent, meta = {}) => {
     if (!enabled.value) return
-    provider.value?.sendStateless(JSON.stringify({
+    hpProvider.value?.sendStateless(JSON.stringify({
       event,
       meta
     }))
@@ -102,8 +108,8 @@ export default function () {
   const subscribeCollabEvent = (event: CollabEvent, cb: CollabCallback) => {
     if (!enabled.value) return
 
-    store.addSubscription(event, cb)
-    return () => store.removeSubscription(event, cb)
+    store.value.addSubscription(event, cb)
+    return () => store.value.removeSubscription(event, cb)
   }
 
   return {
