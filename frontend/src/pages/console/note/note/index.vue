@@ -51,7 +51,9 @@
                    v-if="!collab.collaboration || collab.collabReady" />
 
         <aside class="layout-right">
-          <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
+          <div class="sticky-top">
+            <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
+          </div>
         </aside>
       </section>
     </q-scroll-area>
@@ -61,9 +63,8 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { computed, onActivated, onMounted, provide, ref, watch, shallowRef, onDeactivated, onUnmounted } from 'vue'
+import { computed, onActivated, provide, ref, watch } from 'vue'
 import { debounce } from 'quasar'
-
 import { YiiEditor, ODocToc } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
@@ -436,6 +437,15 @@ onActivated(() => {
       top: 0;
       grid-column: content-end / full-end;
       grid-row: 2;
+
+      .sticky-top {
+        position: sticky;
+        top: 0;
+      }
+      .o-doc-toc {
+        position: absolute;
+        right: 20px;
+      }
     }
 
     .cover {
@@ -481,12 +491,6 @@ onActivated(() => {
         }
       }
     }
-  }
-
-
-  .o-doc-toc {
-    position: absolute;
-    right: 20px;
   }
 }
 </style>
