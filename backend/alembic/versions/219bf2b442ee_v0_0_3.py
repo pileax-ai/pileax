@@ -1,8 +1,8 @@
 """v0.0.3
 
-Revision ID: f094261d3419
+Revision ID: 219bf2b442ee
 Revises:
-Create Date: 2026-01-23 15:42:08.847118
+Create Date: 2026-01-30 07:10:17.754431
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = 'f094261d3419'
+revision: str = '219bf2b442ee'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -164,7 +164,8 @@ def upgrade() -> None:
     sa.Column('user_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('parent', app.api.models.base.GUID(), nullable=True),
     sa.Column('title', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
-    sa.Column('content', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('content', app.api.models.base.JSONString(), nullable=False),
+    sa.Column('content_markdown', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('doc', sa.LargeBinary(), nullable=True),
     sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('cover', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
@@ -181,11 +182,18 @@ def upgrade() -> None:
     sa.Column('workspace_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('user_id', app.api.models.base.GUID(), nullable=False),
     sa.Column('note_id', app.api.models.base.GUID(), nullable=False),
-    sa.Column('doc', sa.LargeBinary(), nullable=False),
+    sa.Column('content', app.api.models.base.JSONString(), nullable=True),
+    sa.Column('doc', sa.LargeBinary(), nullable=True),
+    sa.Column('icon', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('cover', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+    sa.Column('styles', app.api.models.base.JSONString(), nullable=True),
     sa.Column('type', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('remarks', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    with op.batch_alter_table('note_version', schema=None) as batch_op:
+        batch_op.create_index('idx_note_version_note_id', ['note_id'], unique=False)
+
     op.create_table('provider',
     sa.Column('create_time', sa.DateTime(), nullable=False, comment='Created time'),
     sa.Column('update_time', sa.DateTime(), nullable=False, comment='Updated time'),
@@ -327,6 +335,9 @@ def downgrade() -> None:
     op.drop_table('provider_default_model')
     op.drop_table('provider_credential')
     op.drop_table('provider')
+    with op.batch_alter_table('note_version', schema=None) as batch_op:
+        batch_op.drop_index('idx_note_version_note_id')
+
     op.drop_table('note_version')
     op.drop_table('note')
     op.drop_table('message')

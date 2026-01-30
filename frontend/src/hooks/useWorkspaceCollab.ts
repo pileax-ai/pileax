@@ -53,7 +53,7 @@ export default function () {
       gc: false
     })
     const provider = new HocuspocusProvider({
-      url: 'ws://localhost:9611',
+      url: window.APP_CONFIG?.WS_URL || process.env.WS_URL || 'ws://localhost:9611',
       name: ydocId.value,
       document: doc,
       token: getCollabToken(),

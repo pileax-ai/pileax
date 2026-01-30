@@ -26,5 +26,9 @@ export default {
     smallText: 'Small text',
     toc: 'Table of contents'
   },
-  version: 'Version history'
+  version: 'Version history',
+  versions: {
+    restore: 'Restore version',
+    restoreTips: 'Are you sure to restore to this version',
+  },
 }

@@ -44,7 +44,7 @@ export function createDB(): DB {
       store: async (documentName, state, document) => {
         const id = documentName.replaceAll('note@', '')
         const { title, icon, cover } = getMetadata(document)
-        await pool.query(
+        pool.query(
           `
           UPDATE note
           SET doc=$1, title=$2, icon=$3, cover=$4, update_time=NOW()

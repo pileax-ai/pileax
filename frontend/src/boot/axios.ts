@@ -24,7 +24,7 @@ declare module '@vue/runtime-core' {
 const { openDialog } = useDialog()
 const api = axios.create({
   baseURL: window.APP_CONFIG?.API_BASE_URL || process.env.API_BASE_URL,
-  timeout: 100000
+  timeout: parseInt(process.env.API_TIMEOUT || '100000')
 })
 
 // Request interceptors

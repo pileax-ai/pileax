@@ -4,7 +4,9 @@
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
     <nav class="row items-center justify-between text-readable note-nav">
       <note-breadcrumbs :id="noteId" />
-      <note-actions @action="onAction" />
+      <note-actions :ydoc="collab.ydoc!"
+                    @action="onAction"
+                    @restore="onRestore" />
     </nav>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
@@ -42,17 +44,28 @@
           </section>
         </section>
 
+        <section class="layout-content title">
+          <q-input :model-value="currentNote.title"
+                   placeholder="New Page"
+                   class=""
+                   borderless
+                   @update:modelValue="setTitle"
+                   @keyup.enter="onTitleEnter" />
+        </section>
+
         <YiiEditor ref="yiiEditor"
                    class="layout-content"
                    v-bind="options"
                    :key="editorKey"
                    @create="onCreate"
-                   @update="onUpdate"
                    v-if="!collab.collaboration || collab.collabReady" />
 
         <aside class="layout-right">
           <div class="sticky-top">
-            <o-doc-toc ref="tocRef" :editor="yiiEditor?.editor" :max-level="3" v-show="showToc" />
+            <o-doc-toc ref="tocRef"
+                       :editor="yiiEditor?.editor"
+                       :max-level="3"
+                       v-show="styles.toc" />
           </div>
         </aside>
       </section>
@@ -64,7 +77,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { computed, onActivated, provide, ref, watch } from 'vue'
-import { debounce } from 'quasar'
 import { YiiEditor, ODocToc } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
@@ -77,9 +89,9 @@ import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue'
 import NoteActions from 'components/note/NoteActions.vue'
 import ONotePage from 'components/page/ONotePage.vue'
-import { chatContentToHtml } from 'src/utils/note'
 import { router } from 'src/router'
 import { colorById } from 'core/utils/misc'
+import { Editor } from '@tiptap/core'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
@@ -89,15 +101,19 @@ const {
   currentNote,
   noteService,
   saveNote,
+  saveNoteRemote,
   setCurrentNote,
 } = useNote()
 const {
   noteId,
   collab,
   initCollab,
+  restoreVersion,
   addIcon,
   updateIcon,
   setCover,
+  setTitle,
+  throttleUpdateTime,
 } = useNoteCollab()
 
 const notePage = ref<InstanceType<typeof ONotePage>>()
@@ -105,31 +121,23 @@ const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const parent = ref('')
 const source = ref('')
-const noteHtml = ref('')
-const noteJson = ref<Indexable>({})
 const aiOption = ref<AiOption>({
   provider: 'deepseek',
 })
-const pageView = ref('page')
-const showToc = ref(true)
 const loading = ref(false)
 const editorReady = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
-
 
 const options = computed(() => {
   return {
     aiOption: aiOption.value,
     locale: localeAlt.value,
     darkMode: darkMode.value,
-    title: true,
     collaboration: collab.value.collaboration,
-    // content: '',
-    showMainMenu: false,
     showBubbleMenu: true,
     sideMenu: {
       show: true,
-      add: 'menu',
+      add: 'empty',
     },
     pageView: pageView.value,
     collab: {
@@ -146,7 +154,6 @@ const options = computed(() => {
       },
     },
     extensions: [
-      // 'Emoji',
       'InlineMath',
       'Markdown',
       'OAiBlock',
@@ -174,20 +181,27 @@ const editor = computed(() => {
   return yiiEditor.value?.editor
 })
 
+const markdown = computed(() => {
+  return editor.value?.markdown
+})
+
 const editorKey = computed(() => {
   return collab.value.collaboration
     ? `collaboration-${collab.value.ydocId}`
     : `normal-${noteId.value}`
 })
 
-const styles = computed(() => {
-  let s = {}
-  try {
-    s = JSON.parse(currentNote.value.styles || '')
-  } catch (err) {
-    // console.warn(err);
+const pageView = computed(() => {
+  return styles.value.fullWidth ? 'full' : 'page'
+})
+
+const styles: Indexable = computed(() => {
+  return currentNote.value.styles || {
+    font: 'default',
+    smallText: false,
+    fullWidth: false,
+    toc: true,
   }
-  return s as Indexable
 })
 
 const font = computed(() => {
@@ -201,28 +215,76 @@ const font = computed(() => {
   }
 })
 
-function onCreate() {
-  editorReady.value = true
-  // console.log('editor created', editor.value?.utils)
-  // editor.value?.on('transaction', ({ transaction }) => {
-  // })
-}
-
-
 function onAction(action: Indexable) {
   switch (action.value) {
-    case 'fullWidth':
-      pageView.value = action.actionValue ? 'full' : 'page'
-      break
     case 'split':
       notePage.value?.toggleSide()
-      break
-    case 'toc':
-      showToc.value = action.actionValue
       break
     default:
       break
   }
+}
+
+function onCreate() {
+  editorReady.value = true
+  // console.log('editor created', editor.value?.utils)
+  editor.value?.on('update', onUpdate)
+}
+
+function onUpdate({ editor }: { editor: Editor }) {
+  // Only update when editor is ready
+  if (!editorReady.value) return
+  // console.log('update', editorReady.value, loading.value)
+
+  // When editor is loading content, NO need to update.
+  if (loading.value) {
+    loading.value = false
+  } else {
+    updateNote()
+  }
+}
+
+
+function onScroll() {
+  const event: Event | undefined = undefined
+  tocRef.value?.onScroll(event as any)
+}
+
+function onTitleEnter() {
+  console.log('enter')
+  editor.value?.commands.focus('start')
+}
+
+function onRestore(version: Indexable) {
+  if (version.type === 'update') {
+    restoreVersion(version, editor.value?.schema)
+  } else {
+    restoreFullVersion(version)
+  }
+}
+
+function updateNote() {
+  if (!collab.value.collaboration) {
+    throttleUpdateTime()
+    const noteJson = editor.value!.getJSON()
+    saveNote({
+      id: noteId.value,
+      content: noteJson,
+      contentMarkdown: markdown.value?.serialize(noteJson)
+    })
+  }
+}
+
+function restoreFullVersion(version: Indexable) {
+  saveNoteRemote({
+    id: noteId.value,
+    title: version.title,
+    icon: version.icon,
+    cover: version.cover,
+    styles: version.styles,
+  }).then(res => {
+    setContent(version.content, false)
+  })
 }
 
 async function getAndLoadNote() {
@@ -238,22 +300,24 @@ async function getAndLoadNote() {
 }
 
 async function createNote() {
-  let content = ''
+  const docNode = { type: 'doc', content: [] } as Indexable
   let focusPosition = 'start'
   let emitUpdate = false
+  let title = 'New page'
   if (source.value === 'chat') {
     loading.value = false
-    emitUpdate = true
-    content = chatContentToHtml(noteStore.value.chatToNote.content, noteStore.value.chatToNote.message)
     focusPosition = 'end'
+    emitUpdate = true
+    title = noteStore.value.chatToNote.message
+    loadingChatNote(docNode)
   }
-  saveNote({
+  saveNoteRemote({
     id: noteId.value,
     parent: parent.value || '',
-    title: 'New page',
-    content: content
+    title: title,
+    content: docNode
   }).then(note => {
-    loadNote(note as Note, content, focusPosition, emitUpdate)
+    loadNote(note as Note, docNode, focusPosition, emitUpdate)
   }).finally(() => {
     loading.value = false
   })
@@ -261,25 +325,35 @@ async function createNote() {
 
 function loadingNote(note: Note) {
   parent.value = note.parent
-  let content = note.content
+  const docNode = note.content
   let focusPosition = 'start'
   let emitUpdate = false
   if (source.value ===  'chat') {
-    emitUpdate = true
-    const appendHtml = chatContentToHtml(noteStore.value.chatToNote.content)
-    content += appendHtml
-    focusPosition = 'end'
+    if (docNode.type === 'doc') {
+      focusPosition = 'end'
+      emitUpdate = true
+      loadingChatNote(docNode)
+    }
   }
-  loadNote(note, content, focusPosition, emitUpdate)
+  loadNote(note, docNode, focusPosition, emitUpdate)
   notePage.value?.refreshChat(note.id)
 }
 
-function loadNote(note: Note, content: string, focus: string,
+function loadingChatNote(docNode: Indexable) {
+  const contentNodes = markdown.value?.parse(noteStore.value.chatToNote.content)
+  if (Array.isArray(contentNodes)) {
+    docNode.content.push(...contentNodes)
+  } else {
+    docNode.content.push(contentNodes)
+  }
+}
+
+function loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
   if (collab.value.collaboration) {
     initCollab()
   } else {
-    setContent(content, emitUpdate, focus)
+    setContent(docNode, emitUpdate, focus)
   }
 
   setCurrentNote(note)
@@ -287,84 +361,19 @@ function loadNote(note: Note, content: string, focus: string,
   router.replace({ ...route, query: {} })
 }
 
-function setContent (content: string, emitUpdate = false, focus = 'start') {
-  editor.value?.commands.setContent(content, {
-    emitUpdate
-  })
+function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
+  editor.value?.commands.setContent(docNode, { emitUpdate })
   editor.value?.commands.focus(focus as 'start')
 }
 
-function onScroll() {
-  const event: Event | undefined = undefined
-  tocRef.value?.onScroll(event as any)
-}
-
-function onUpdate({ json, html }: { json: any; html: string }) {
-  // When editor created, there is one update which is no meaning.
-  // Ignore this update.
-  if (!editorReady.value) return
-  // console.log('update', html, editorReady.value, loading.value)
-  noteJson.value = json
-  noteHtml.value = html
-
-  // When editor is loading content, NO need to update to your server.
-  if (loading.value) {
-    loading.value = false
-  } else {
-    updateNote()
-  }
-}
-
-const updateNoteNext = debounce( () => {
-  updateNoteRemote()
-}, 500)
-
-async function updateNote() {
-  const note = {
-    ...currentNote.value,
-    id: noteId.value,
-    title: getTitle(),
-    content: noteHtml.value
-  }
-  setCurrentNote(note)
-
-  if (!collab.value.collaboration) {
-    updateNoteNext()
-  }
-}
-
-async function updateNoteRemote() {
-  const note = await noteService.save({
-    id: noteId.value,
-    title: getTitle(),
-    content: noteHtml.value
-  })
-  setCurrentNote(note)
-}
-
-function getTitle () {
-  let title = ''
-  const content = noteJson.value.content
-  if (content && content.length > 0) {
-    const c = content[0].content
-    if (c && c.length > 0) {
-      title = c[0].text
-    }
-  }
-  return title || 'New page'
-}
-
 const insertContent = (value: string) => {
-  const html = chatContentToHtml(value)
-  editor.value?.commands.insertContent(html)
-  console.log('insert', value)
+  const json = markdown.value?.parse(value)
+  editor.value?.commands.insertContent(json.content)
 }
 
 watch(locale, (newValue) => {
   localeAlt.value = newValue.toLowerCase()
 })
-
-provide('insertContent', insertContent)
 
 onActivated(() => {
   noteId.value = route.params.id as string
@@ -373,6 +382,8 @@ onActivated(() => {
 
   getAndLoadNote()
 })
+
+provide('insertContent', insertContent)
 </script>
 
 <style lang="scss">
@@ -445,6 +456,26 @@ onActivated(() => {
       .o-doc-toc {
         position: absolute;
         right: 20px;
+      }
+    }
+
+    .title {
+      margin-top: 10px;
+      font-family: var(--note-font), serif !important;
+      .q-field {
+        &__native {
+          font-size: 2.85rem;
+          font-weight: 600;
+          line-height: 1.2;
+
+          &::placeholder {
+            color: rgba(0, 0, 0, 0.2);
+          }
+        }
+
+        &__control {
+          padding: 0;
+        }
       }
     }
 

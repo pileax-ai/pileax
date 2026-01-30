@@ -26,5 +26,9 @@ export default {
     smallText: '小字号',
     toc: '目录'
   },
-  version: '版本历史'
+  version: '版本历史',
+  versions: {
+    restore: '恢复版本',
+    restoreTips: '确定恢复到这个版本？',
+  },
 }

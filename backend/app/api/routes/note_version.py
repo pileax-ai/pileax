@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.note_version_controller import NoteVersionController
-from app.api.models.note_version import NoteVersionCreate, NoteVersionPublic, NoteVersionUpdate
+from app.api.models.note_version import NoteVersionCreate, NoteVersionPublic, NoteVersionUpdate, NoteVersionDetails
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.router import ApiRouter
 
@@ -34,3 +34,8 @@ async def delete(id: uuid.UUID, controller: NoteVersionController = Depends()) -
 @router.api_post("/query", response_model=QueryResult[NoteVersionPublic])
 async def query(query: PaginationQuery, controller: NoteVersionController = Depends()) -> Any:
     return controller.query(query)
+
+
+@router.api_post("/query/details", response_model=QueryResult[NoteVersionDetails])
+async def query_details(query: PaginationQuery, controller: NoteVersionController = Depends()) -> Any:
+    return controller.query_details(query)

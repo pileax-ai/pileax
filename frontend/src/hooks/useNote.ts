@@ -13,6 +13,9 @@ import { ipcService } from 'src/api/ipc'
 import { noteService } from 'src/api/service/remote/note'
 import { workspaceManager } from 'core/workspace/workspace-manager'
 import { CollabEvent } from 'src/types/collab'
+import { timeDiff } from 'core/utils/dayjs'
+import { noteVersionService } from 'src/api/service/remote/note-version'
+import { debounce } from 'quasar'
 
 export default function () {
   const naviStore = useNaviStore()
@@ -21,6 +24,9 @@ export default function () {
   const { t, confirm } = useCommon()
   const { publishCollabEvent } = useWorkspaceCollab()
   const recentNotes = ref<Note[]>([])
+
+  // version
+  const lastVersionTime = ref('')
 
   const noteStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId
@@ -72,7 +78,7 @@ export default function () {
   }
 
   function refreshNote(note: Note, publish = true) {
-    // console.log('refreshNote', publish)
+    // console.log('refreshNote', note, publish)
     const index = notes.value.findIndex((n) => n.id === note.id)
     if (index >= 0) {
       notes.value.splice(index, 1, note)
@@ -113,7 +119,7 @@ export default function () {
     })
   }
 
-  function saveNote(data: Indexable) {
+  function saveNoteRemote(data: Indexable): Promise<Indexable> {
     return new Promise((resolve, reject) => {
       noteService.save(data).then(res => {
         refreshNote(res)
@@ -122,6 +128,15 @@ export default function () {
         reject(err)
       })
     })
+  }
+  const debounceSaveNoteRemote = debounce(saveNoteRemote, 5000)
+  function saveNote(data: Indexable) {
+    refreshNote({
+      ...currentNote.value,
+      ...data,
+    } as Note)
+    debounceSaveNoteRemote(data)
+    debounceCreateVersion()
   }
 
   function duplicateNote(data: Indexable) {
@@ -185,6 +200,33 @@ export default function () {
       favorite: data.favorite === 1 ? 0 : 1
     })
   }
+
+  const createVersion = () => {
+    if (!lastVersionTime.value) {
+      lastVersionTime.value = currentNote.value.updateTime || ''
+      return
+    }
+
+    // Save a new version every 3/10 minutes
+    const  timeDelta = timeDiff(lastVersionTime.value, currentNote.value.updateTime, 'second')
+    console.log('version time', timeDelta)
+    if (lastVersionTime.value && timeDelta < 3 * 60) return
+
+    // update time
+    lastVersionTime.value = currentNote.value.updateTime || ''
+
+    // save version
+    noteVersionService.save({
+      noteId: currentNote.value.id,
+      title: currentNote.value.title,
+      icon: currentNote.value.icon,
+      cover: currentNote.value.cover,
+      styles: currentNote.value.styles,
+      content: currentNote.value.content,
+      type: 'full'
+    })
+  }
+  const debounceCreateVersion = debounce(createVersion, 5000)
 
   function buildNoteTree(items: Note[], id: string | null = null, addEmptyNode = false) {
     const list: any[] = items
@@ -282,6 +324,7 @@ export default function () {
     openNote,
     beforeDeleteNote,
     saveNote,
+    saveNoteRemote,
     setParent,
     toggleFavorite,
     duplicateNote,

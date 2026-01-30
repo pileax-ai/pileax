@@ -2520,98 +2520,98 @@
   resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.11.tgz#b79de2d67389734c57c52595f7a7305e30c2d608"
   integrity sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==
 
-"@yiitap/core@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/core/-/core-0.11.0.tgz#3c0d8aafb42bb34ca669070f8d69c7218e788f90"
-  integrity sha512-raI/EO2zFZteA9Fmiqo6WQA5heCAbk5vG+JKlzIthHDsNPKmfYjdB6DI/DXjYWzAeOcx5UQTW9HiO+3kjela4w==
+"@yiitap/core@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/core/-/core-0.11.2.tgz#686ce325dff2956618d3b65685c96b6f3d045279"
+  integrity sha512-dTS0AZlPVNxhrr4xPhem9I4BxjxfBojtcpD480YXapbI5n5zhiYXUgCRfzx17RsX3Xb8BFHaZWiey+fw5+DS/w==
 
-"@yiitap/extension-ai-block@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-ai-block/-/extension-ai-block-0.11.0.tgz#a4bdaf2784f28b09643af20da9f8a91b14254e00"
-  integrity sha512-cnte+T0vBZ9hrZlwUlnBoX055cHtyhvqe6FFa+VX+oPV4f/jNXrnqDqP0YlPGxc9LJ16Gm7ThNKAtMtBCi/l1A==
+"@yiitap/extension-ai-block@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-ai-block/-/extension-ai-block-0.11.2.tgz#acc0b527bb98497f6826365ae9187730b3a3d3a5"
+  integrity sha512-nr+48e+AcnDDq6jYqqTQ3Grkm6DsKzm2wtkdMfyMTM5RmUTWD38kDx/CX3tQlmHDhofI1/y73JyckWC0oG1v4Q==
 
-"@yiitap/extension-callout@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-callout/-/extension-callout-0.11.0.tgz#bc14302c3781fe5f6986b973b24b7867de62183e"
-  integrity sha512-0NBW7Av67qGEshgiLvI3RXnwBlyQtYAiM/EPKLVc0hid4pKs+KcC+RjV11uyLSK7B/2QpYSLvP5imUHfXxX8jw==
+"@yiitap/extension-callout@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-callout/-/extension-callout-0.11.2.tgz#7992437569e0730397f102b8947fc725f84c6bd9"
+  integrity sha512-KNU9YpO4jbTzMH72fVvvpQBjD4PpNhyZSd8c4OGELPHd6TV/f/hWAHP21rL8vmDEm9I06ukJTB59K7zeBqtPdQ==
 
-"@yiitap/extension-char-command@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-char-command/-/extension-char-command-0.11.0.tgz#dc186e422b5f3277f9ceeea4260b22c6b7689817"
-  integrity sha512-hJYT8lYm7UkvKm2XzqJ6d6t3hG0WMB2eT2vR7TTwGKzUgzyujsQB/6pnoLX/XwMhfZ1UtYfy6CXq0m2lA289Dg==
+"@yiitap/extension-char-command@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-char-command/-/extension-char-command-0.11.2.tgz#06fbd7855424eb11bef7eb51a41bcf9beee6ef0f"
+  integrity sha512-DPYLecHM+4koAn4wnWjwS+iHjSyRDK6hKvDBRnBExaL86zYmQaaWiOJm7vG9OlGTo/7BzaeQjwF0fLpIdyTAJg==
   dependencies:
     "@tiptap/suggestion" "^3.16.0"
 
-"@yiitap/extension-color-highlighter@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-color-highlighter/-/extension-color-highlighter-0.11.0.tgz#2d5cf8701dc049d4b4099b82a5314f4ebe122add"
-  integrity sha512-Oec6VIy3HQJeyoEOCE5pHJqewGrej/ub7jxdgoUQvrwMQsUemfxI60JgS3NcK4nS8msi56mhp3vkuDdaImXChA==
+"@yiitap/extension-color-highlighter@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-color-highlighter/-/extension-color-highlighter-0.11.2.tgz#2bf36392c446531cc95bc4b3b5ec764f5697d265"
+  integrity sha512-BhDSNlJvOKO4eI9bCPmDCz+FFM+7N7fhPB3I3R1KvWwbki7HYke8H33YUGru3/JtF3doSDtNWE6rdoFqIdoSlw==
 
-"@yiitap/extension-focus@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-focus/-/extension-focus-0.11.0.tgz#129cceeda48fd10ba1baf5aa173cff779a234b8a"
-  integrity sha512-QkoP5fBJI8hDwkNQ94vAokt7tyCq8Z/kQd/NT5y9M6fx+vV4Wu8YMOUOMH/PUePEfOArcNfIsAvREIJ+EWiesw==
+"@yiitap/extension-focus@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-focus/-/extension-focus-0.11.2.tgz#6315caba5f6bde891c8848cb4474ffd89ee5ff45"
+  integrity sha512-G3s0Lu7F+/JAcS4TnHfjWQmdt2krlVbQ83ptDa0A7B0Dy+ybspQuzum6YGOkeCOkzxS3CNhB812m5nhtv9wKOQ==
 
-"@yiitap/extension-image@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-image/-/extension-image-0.11.0.tgz#a49785ab3e7f15045914e8937679f760b5c7e8dd"
-  integrity sha512-vWJtyMNSDucH/e0J/4g8JLAA0XFgA9YYIUSw4CN+biLagyKga3ozHVD/ZHzgOPy5btPnhGPC8deRD0zoQQW61g==
+"@yiitap/extension-image@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-image/-/extension-image-0.11.2.tgz#41d7d5552d90bba3a98cc7ee18efc974db47a0a6"
+  integrity sha512-h1a9pb0OU2AFPpFvKF45Q+GCyL+fVncxJ66dx0N9zxGyjdJp8Pr73AGOLZCzqh6SU/aIteEGaypjyoieILlmAQ==
   dependencies:
     "@tiptap/extension-image" "^3.16.0"
 
-"@yiitap/extension-inline-placeholder@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-inline-placeholder/-/extension-inline-placeholder-0.11.0.tgz#ef09631b685c07c87b890979b2766536c01c2a18"
-  integrity sha512-MCFv/gRKXmBMyGOspH/xUJ8iyJ2zP8LRmgJWwnnSxNQk7CRrygwz258Gb0rjtIifl7Dy9xDCHlF8Tl0npABpbQ==
+"@yiitap/extension-inline-placeholder@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-inline-placeholder/-/extension-inline-placeholder-0.11.2.tgz#37ccdf23b6344fee9a1eaa88c4a7fe6820fb57aa"
+  integrity sha512-uIZ6NTnbb9YVwfpz32sgJx7nZCm9FQ7HvPPDSXgP3u70C4bGfgQrUYBdo0OlT6WuYduwMBX3LCfL3qzseEFOVg==
 
-"@yiitap/extension-placeholder@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-placeholder/-/extension-placeholder-0.11.0.tgz#00f9e284ae18d0d9481075ad95d6f05c16db00b2"
-  integrity sha512-Bp3Y1+NgyK/dHzyMRyWnY7ZpwSHKn0+BWjXU+jyFF+ZgpvioC2i9uXE8g5ZYTRLltXCbVqzQOpOFPe71cY/Ydw==
+"@yiitap/extension-placeholder@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-placeholder/-/extension-placeholder-0.11.2.tgz#bcf8437e97df101d11b73d2498673a673131805f"
+  integrity sha512-kRIHENXqcjNKLZ3L70qfprgx6vhgzlfq5cuJS2bJVVX8dBX0Zo9mkFB/ne1EVr/gXXyad8fZ6Oir3qz7bkNB7w==
 
-"@yiitap/extension-selection-decoration@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-selection-decoration/-/extension-selection-decoration-0.11.0.tgz#ba6f9860b279f121b69674797c2c51f949a6f19a"
-  integrity sha512-l2b9r02o0KggFMJ1zpsT2iY10UkadZ7Rm5+FVutWZY2G9884VOs4D2NWa5IEvvkDMzKy1qg4NCGihJ/sepUO9Q==
+"@yiitap/extension-selection-decoration@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-selection-decoration/-/extension-selection-decoration-0.11.2.tgz#ffcfff506d2b7225939c29f5c0bce4ece2facea6"
+  integrity sha512-Zl1OaaiIDXINjEs5gl18C7KZDHMsyzbmraCq7nzdkcG8p9v6B2rY/mUXq61viCccAXAAwJYSDKi7W84CfAMbHQ==
 
-"@yiitap/extension-shortcut@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-shortcut/-/extension-shortcut-0.11.0.tgz#50ab7f5126fde7e6660c70beaf28fae81ac54083"
-  integrity sha512-ov/pBU+XH3AVAdkMni8dUOQsMmWutbvPzlgQMLSHf2ZMCoew33EfXbmakMp/4Qglsos2KRNPF12W2XeNzAmyvg==
+"@yiitap/extension-shortcut@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-shortcut/-/extension-shortcut-0.11.2.tgz#8c768eeb9107219f70e03329e76e41c0b9ac348c"
+  integrity sha512-EME+nV4T/2Q29Ofr947oivKZB1aDIjd/2toprnxiTYwAZUZqJ07w499WNVlWu3EjkRmKQAGidQclGwHDUSM1JQ==
 
-"@yiitap/extension-table-wrapper@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-table-wrapper/-/extension-table-wrapper-0.11.0.tgz#91acf0f5b9a510876f3ef71b4a9876406701e5cb"
-  integrity sha512-yHyxQfNJbuZzxpvqLyDfMxqeYbaETAYNZ9h10YN6aZzJng5kKgBKNT9Gi7R6+C9KEeEIjkqC0m7Osd7c1I1K3A==
+"@yiitap/extension-table-wrapper@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-table-wrapper/-/extension-table-wrapper-0.11.2.tgz#86aa3b4103672ebeebde1542287b5b54ce12a254"
+  integrity sha512-OKqoECxIAtBzdc6LvD/Pll4XMNftC0D0ZXbWXt4d/dYqz0xm1hBbPcsFAWT6Iv0rWsGucM6o42KyW1KwfNIOfA==
 
-"@yiitap/extension-table@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-table/-/extension-table-0.11.0.tgz#4ca2ce6e178a3ba3b8149cd05fc96f4681b40a20"
-  integrity sha512-dHoHJ2tubGLDvo83XQugqUaWf5EE+845Th+BCfI5m65XTpyZwzmXxrC24JBkE0y8zEsmulBettwJmjU+GdhB0g==
+"@yiitap/extension-table@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-table/-/extension-table-0.11.2.tgz#1d4e85d484666e9a6f2b247d36413a80439ef2a3"
+  integrity sha512-BK3VJNu9aVIxNackBffz7omZCvPFKlGp43abFl2OL0OTG4Zd9hCrIFg5WO9CR3FEKFUOVBot44h95SlIUhxEyA==
   dependencies:
     "@tiptap/extension-table" "^3.16.0"
 
-"@yiitap/extension-task-item@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-task-item/-/extension-task-item-0.11.0.tgz#c42412087b4e292508fc868a1d735f4ceee8968c"
-  integrity sha512-L+DsRk56Ys1VZ79R0I9KqeDtR7HM+fR43c5gYFxnXejAHXOdO4MQPhF6ALfUV8B4B0v7BGkj64d9qQgmxb4Hlg==
+"@yiitap/extension-task-item@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-task-item/-/extension-task-item-0.11.2.tgz#aea35954b6093b0b16ff5b714fe159436e8de9d6"
+  integrity sha512-XJMHLDscQq654WasWDyagxSCqTwccvPEl2YTAUZ3gOBOaqA8FPkBfLK0PhjLWCFwcqtsFGYuc+LtfeFTy8w6WA==
   dependencies:
     "@tiptap/extension-task-item" "^3.16.0"
 
-"@yiitap/extension-video@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-video/-/extension-video-0.11.0.tgz#106ac1bae3deaf6b0fd33dea9fb645cda5d64685"
-  integrity sha512-E9XiSR4GMGPlStrdSyWQO5Ss2A32sI86zdbCfilcxabSfg0pGkWAF17lOaOnw7qxUJ/ITVK99uwW2vNgnImScQ==
+"@yiitap/extension-video@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/extension-video/-/extension-video-0.11.2.tgz#73e890d7f8b0f75ce12c174b75448cfb3cab68b9"
+  integrity sha512-axMHcBkG5V//jZNmicU2swTGF66ZKkOqkVlNG7oEiHIy4MBmBFu94Cr4TBTSP8WLEeUXUEi3AtkxrCQkXpxmMg==
 
-"@yiitap/util-emoji@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/util-emoji/-/util-emoji-0.11.0.tgz#9f8f348eed233d96e0447e1cb4999873ca08461f"
-  integrity sha512-H+Yva3EjzbWCh7Mo7QABNMqihmFPPDniPsvfqc98472Lbz9gTwcVgiH70m4J4AYDUEiuJFQEwYidXZwGjaokrA==
+"@yiitap/util-emoji@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/util-emoji/-/util-emoji-0.11.2.tgz#cc54929ecf0eab319f9873fb15761aa13e3e0550"
+  integrity sha512-UtboT+rjvCoVoIyLeWehV+4zCqCeVIEWw0esEqGea6kRhnmVzjBy5fmFwGHzHN8+TCQ0+H3Jb8+Y4QTZynxoUw==
 
-"@yiitap/vue@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@yiitap/vue/-/vue-0.11.0.tgz#eb459d086cdcf6e0e8313292cec16f7677f23be4"
-  integrity sha512-1RzeuhNj1wO6EElqUZilvAA1Jk40LbrOE0W2keGIWGcX7jMCXtq4c4muSASJo3VHN9A5D9HeTmw0j+UXeLMQIw==
+"@yiitap/vue@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@yiitap/vue/-/vue-0.11.2.tgz#4e07ff25978d6f11ab966e9681435d6d0fdb54d2"
+  integrity sha512-JevDfuXgq/7HHvR1+AOtg606xt4ZY+dk0BLjQ940Giz4ucDPOTv1kMFNDu+TJpQsEpPW+mahAbCwp5X3Hhrb1A==
   dependencies:
     "@floating-ui/dom" "^1.7.4"
     "@mermaid-js/layout-elk" "^0.2.0"
@@ -5575,7 +5575,7 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lib0@^0.2.100, lib0@^0.2.85, lib0@^0.2.87, lib0@^0.2.99:
+lib0@^0.2.100, lib0@^0.2.109, lib0@^0.2.85, lib0@^0.2.87, lib0@^0.2.99:
   version "0.2.117"
   resolved "https://registry.npmjs.org/lib0/-/lib0-0.2.117.tgz#6c3f926475d28904af05b590703cbbbc29475716"
   integrity sha512-DeXj9X5xDCjgKLU/7RR+/HQEVzuuEUiwldwOGsHK/sfAfELGWEyTcf0x+uOvCvK3O2zPmZePXWL85vtia6GyZw==
@@ -8243,6 +8243,13 @@ xmlbuilder@>=11.0.1, xmlbuilder@^15.1.1:
   version "15.1.1"
   resolved "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-15.1.1.tgz#9dcdce49eea66d8d10b42cae94a79c3c8d0c2ec5"
   integrity sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==
+
+y-prosemirror@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.npmjs.org/y-prosemirror/-/y-prosemirror-1.3.7.tgz#f88e553da4ea33278b114cf0b6a0ea978b154e84"
+  integrity sha512-NpM99WSdD4Fx4if5xOMDpPtU3oAmTSjlzh5U4353ABbRHl1HtAFUx6HlebLZfyFxXN9jzKMDkVbcRjqOZVkYQg==
+  dependencies:
+    lib0 "^0.2.109"
 
 y-protocols@^1.0.7:
   version "1.0.7"

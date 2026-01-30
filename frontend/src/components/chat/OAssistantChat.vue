@@ -162,7 +162,7 @@ function onKeydown(event: KeyboardEvent) {
 function onSend() {
   const message = input.value ? input.value.trim() : ''
   if (message === '') return
-  if (!checkAiSettings()) return
+  if (!checkAiSettings({ alwaysShow: true })) return
 
   emit('send', {
     id: UUID(),

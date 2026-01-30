@@ -12,7 +12,8 @@ class Note(BaseSQLModel, BaseMixin, table=True):
     user_id: uuid.UUID = uuid_field()
     parent: uuid.UUID | None = uuid_field(default_none=True)
     title: str = Field(..., max_length=255, description="Note title")
-    content: str = Field(..., description="Note content")
+    content: dict = Field(..., sa_type=JSONString, description="Note JSON content")
+    content_markdown: str | None = Field(default=None, description="Note Markdown content")
     doc: bytes | None = Field(
         default=None,
         sa_column=Column(LargeBinary),
@@ -29,12 +30,12 @@ class Note(BaseSQLModel, BaseMixin, table=True):
 class NoteBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     parent: uuid.UUID | None = None
+    title: str | None = None
+    content: dict | None = None
     icon: str | None = None
     cover: str | None = None
     favorite: int | None = None
-    styles: str | None = None
-    ref_id: str | None = None
-    ref_type: str | None = None
+    styles: dict | None = None
 
     @field_validator("parent", mode="before")
     def parse_empty_string_as_none(cls, v):
@@ -44,19 +45,17 @@ class NoteBase(BaseApiModel):
 
 
 class NoteCreate(NoteBase):
-    title: str | None = None
-    content: str | None = None
     doc: bytes | None = None
+    ref_id: str | None = None
+    ref_type: str | None = None
 
 
 class NoteUpdate(NoteBase):
     id: uuid.UUID
-    title: str | None = None
-    content: str | None = None
 
 
 class NotePublic(NoteBase, BaseMixin):
     workspace_id: uuid.UUID
-    title: str | None = None
-    content: str | None = None
+    ref_id: str | None = None
+    ref_type: str | None = None
     pass

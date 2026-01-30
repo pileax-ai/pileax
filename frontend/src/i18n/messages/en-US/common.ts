@@ -207,6 +207,7 @@ export default {
     yesterday: 'Yesterday',
     today: 'Today',
     byMonth: 'By month',
+    favorite: 'Favorite',
   },
   tips: 'Tips',
   title: 'Title',
@@ -241,4 +242,5 @@ export default {
     later: 'Later',
   },
   noShowAgain: 'Do not show again',
+  restore: 'Restore',
 }

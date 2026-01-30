@@ -20,12 +20,13 @@ export default function () {
       label = '',
       color = 'blue',
       ok = '',
+      alwaysShow = false,
       onCancel = (res: any) => {},
       onOk = (res: any) => {},
     } = {}
   ) => {
     const noShowAgain = tour.value[key]
-    if (noShowAgain) return
+    if (noShowAgain && !alwaysShow) return
 
     const messages: Indexable[] = [
       { type: 'html', content: message }

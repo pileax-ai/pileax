@@ -1,5 +1,5 @@
 import { BaseService } from 'src/api/service/remote/base'
-import { GET, POST } from 'src/hooks/useRequest'
+import { POST } from 'src/hooks/useRequest'
 
 /**
  * Note Service

@@ -208,6 +208,7 @@ export default {
     yesterday: '昨天',
     today: '今天',
     byMonth: '按月',
+    favorite: '收藏',
   },
   tips: '提示',
   title: '标题',
@@ -241,4 +242,5 @@ export default {
   },
   welcome: '欢迎',
   noShowAgain: '不再显示',
+  restore: '恢复',
 }
