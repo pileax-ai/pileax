@@ -1,11 +1,11 @@
 import json
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timezone
 from typing import Union
 
 import sqlalchemy as sa
 from fastapi._compat import UndefinedType
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_serializer
 from sqlalchemy.dialects import mysql, postgresql
 from sqlalchemy.types import BINARY, CHAR, TypeDecorator
 from sqlmodel import TEXT, Field, SQLModel
@@ -190,6 +190,22 @@ class TimestampMixin:
             "comment": "Updated time",
         },
     )
+
+    @field_serializer("create_time", "update_time")
+    def serialize_dt(self, dt: datetime, _info):
+        """
+        Ensures the datetime is sent to the frontend with a 'Z' suffix.
+        Converts naive DB datetime to UTC-aware before formatting.
+        """
+        if dt is None:
+            return None
+
+        # If the datetime is naive (comes from DB), treat it as UTC
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+
+        # Convert to ISO format: 2026-01-31T14:16:29Z
+        return dt.isoformat().replace("+00:00", "Z")
 
 
 class BaseMixin(TimestampMixin):

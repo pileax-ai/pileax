@@ -188,7 +188,9 @@ export default function () {
 
   const createVersion = () => {
     if (!lastVersionTime.value) {
-      lastVersionTime.value = currentNote.value.updateTime || ''
+      lastVersionTime.value = currentNote.value.updateTime
+        || new Date().toISOString()
+      console.log('init lastVersionTime', lastVersionTime.value)
       return
     }
 
