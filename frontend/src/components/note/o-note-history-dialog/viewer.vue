@@ -101,14 +101,13 @@ const editor = computed(() => {
   return yiiEditor.value?.editor
 })
 
-const styles = computed(() => {
-  let s = {}
-  try {
-    s = JSON.parse(props.version.styles || '')
-  } catch (err) {
-    // console.warn(err);
+const styles: Indexable = computed(() => {
+  return props.version.styles || {
+    font: 'default',
+    smallText: false,
+    fullWidth: false,
+    toc: true,
   }
-  return s as Indexable
 })
 
 const font = computed(() => {
@@ -250,7 +249,9 @@ onMounted(() => {
     }
 
     .note-meta {
+      padding-top: 1rem;
       &.with-cover {
+        padding-top: 0 !important;
         margin-top: -40px;
       }
 

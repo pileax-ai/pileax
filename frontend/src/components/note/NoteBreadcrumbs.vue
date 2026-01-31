@@ -19,10 +19,10 @@
                         class="text-tips">
         <q-icon :name="currentNote.icon || NoteDefaultIcon" />
         <div class="label">
-          {{ currentNote.title }}
+          {{ currentNote.title || 'New page' }}
         </div>
         <o-tooltip position="bottom" :delay="800">
-          {{ currentNote.title }}
+          {{ currentNote.title || 'New page' }}
         </o-tooltip>
       </q-breadcrumbs-el>
     </q-breadcrumbs>

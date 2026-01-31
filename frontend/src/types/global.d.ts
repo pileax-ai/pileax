@@ -32,7 +32,8 @@ declare global {
 
     APP_CONFIG: {
       API_BASE_URL: string
-      WS_URL: string
+      COLLAB: boolean
+      COLLAB_PROVIDER_URL: string
     }
   }
 

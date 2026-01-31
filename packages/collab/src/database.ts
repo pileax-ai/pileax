@@ -16,7 +16,7 @@ export function createDB(): DB {
   const getMetadata = (document: Y.Doc) => {
     const metaMap = document.getMap('metadata')
     return {
-      title: metaMap.get('title') || 'New Page',
+      title: metaMap.get('title') || '',
       icon: metaMap.get('icon') || null,
       cover: metaMap.get('cover') || null
     }

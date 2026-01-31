@@ -40,7 +40,7 @@
           </header>
           <nav class="">
             <q-scroll-area class="o-scroll-wrapper">
-              <q-list>
+              <q-list v-if="versions.length">
                 <template v-for="(item, index) in versions" :key="index">
                   <o-common-item :icon="item.icon || 'history'"
                                  lines="2"
@@ -59,6 +59,7 @@
                   </o-common-item>
                 </template>
               </q-list>
+              <o-no-data :message="$t('query.noRecords')" image v-else />
             </q-scroll-area>
           </nav>
           <footer>
@@ -69,7 +70,11 @@
               </div>
               <q-space />
               <section class="text-tips actions no-drag-region">
-                <q-btn :label="$t('restore')" class="bg-primary text-white" flat @click="onRestore" />
+                <q-btn :label="$t('restore')"
+                       class="bg-primary text-white"
+                       flat
+                       :disable="versions.length === 0"
+                       @click="onRestore" />
               </section>
             </q-toolbar>
           </footer>

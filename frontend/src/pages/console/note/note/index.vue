@@ -45,8 +45,10 @@
         </section>
 
         <section class="layout-content title">
-          <q-input :model-value="currentNote.title"
-                   placeholder="New Page"
+          <q-input ref="title"
+                   :model-value="currentNote.title"
+                   debounce="500"
+                   placeholder="New page"
                    class=""
                    borderless
                    @update:modelValue="setTitle"
@@ -75,8 +77,10 @@
 </template>
 
 <script setup lang="ts">
+import { QInput } from 'quasar'
 import { useRoute } from 'vue-router'
-import { computed, onActivated, provide, ref, watch } from 'vue'
+import { computed, onActivated, provide, ref, useTemplateRef, watch } from 'vue'
+import { Editor } from '@tiptap/core'
 import { YiiEditor, ODocToc } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
@@ -91,7 +95,6 @@ import NoteActions from 'components/note/NoteActions.vue'
 import ONotePage from 'components/page/ONotePage.vue'
 import { router } from 'src/router'
 import { colorById } from 'core/utils/misc'
-import { Editor } from '@tiptap/core'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
@@ -102,6 +105,7 @@ const {
   noteService,
   saveNote,
   saveNoteRemote,
+  saveNoteMarkdown,
   setCurrentNote,
 } = useNote()
 const {
@@ -116,6 +120,7 @@ const {
   throttleUpdateTime,
 } = useNoteCollab()
 
+const titleRef = useTemplateRef<QInput>('title')
 const notePage = ref<InstanceType<typeof ONotePage>>()
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
@@ -123,6 +128,7 @@ const parent = ref('')
 const source = ref('')
 const aiOption = ref<AiOption>({
   provider: 'deepseek',
+  apiKey: ''
 })
 const loading = ref(false)
 const editorReady = ref(false)
@@ -227,8 +233,12 @@ function onAction(action: Indexable) {
 
 function onCreate() {
   editorReady.value = true
-  // console.log('editor created', editor.value?.utils)
   editor.value?.on('update', onUpdate)
+  collab.value.editor = editor.value
+
+  if (!currentNote.value.title) {
+    titleRef.value?.focus()
+  }
 }
 
 function onUpdate({ editor }: { editor: Editor }) {
@@ -264,6 +274,7 @@ function onRestore(version: Indexable) {
 }
 
 function updateNote() {
+  // Update only when collaboration is disabled
   if (!collab.value.collaboration) {
     throttleUpdateTime()
     const noteJson = editor.value!.getJSON()
@@ -301,12 +312,10 @@ async function getAndLoadNote() {
 
 async function createNote() {
   const docNode = { type: 'doc', content: [] } as Indexable
-  let focusPosition = 'start'
   let emitUpdate = false
-  let title = 'New page'
+  let title = ''
   if (source.value === 'chat') {
     loading.value = false
-    focusPosition = 'end'
     emitUpdate = true
     title = noteStore.value.chatToNote.message
     loadingChatNote(docNode)
@@ -317,7 +326,10 @@ async function createNote() {
     title: title,
     content: docNode
   }).then(note => {
+    const focusPosition = title === '' ? 'none' : 'end'
     loadNote(note as Note, docNode, focusPosition, emitUpdate)
+
+    titleRef.value?.focus()
   }).finally(() => {
     loading.value = false
   })
@@ -363,12 +375,17 @@ function loadNote(note: Note, docNode: Indexable, focus: string,
 
 function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
   editor.value?.commands.setContent(docNode, { emitUpdate })
-  editor.value?.commands.focus(focus as 'start')
+
+  if (focus !== 'none') {
+    editor.value?.commands.focus(focus as 'start')
+  }
 }
 
 const insertContent = (value: string) => {
   const json = markdown.value?.parse(value)
-  editor.value?.commands.insertContent(json.content)
+  if (json?.content) {
+    editor.value?.commands.insertContent(json.content)
+  }
 }
 
 watch(locale, (newValue) => {

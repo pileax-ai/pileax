@@ -39,7 +39,7 @@ class NoteVersionBase(BaseApiModel):
     title: str | None = None
     icon: str | None = None
     cover: str | None = None
-    styles: str | None = None
+    styles: dict | None = None
     type: str | None = None
     remarks: str | None = None
 

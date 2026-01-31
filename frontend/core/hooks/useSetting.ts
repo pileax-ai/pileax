@@ -21,7 +21,6 @@ export default function () {
   const i18n = useI18n()
 
   const setLocale = (locale :string, updateI18n = false) => {
-    console.log('locale', locale)
     if (updateI18n) {
       i18n.locale.value = locale
     }

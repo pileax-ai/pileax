@@ -4,26 +4,35 @@ import { HocuspocusProvider } from '@hocuspocus/provider'
 
 import useNote from 'src/hooks/useNote'
 import { getCollabToken } from 'src/utils/auth'
-import { NoteDefaultIcon } from 'core/constants/constant'
+import { NoteDefaultCovers, NoteDefaultIcon, NoteDefaultIcons } from 'core/constants/constant'
 import { timeDiff } from 'core/utils/dayjs'
 import { noteVersionService } from 'src/api/service/remote/note-version'
 import { base64ToUint8Array, uint8ArrayToBase64 } from 'core/utils/format'
 import { debounce, throttle } from 'quasar'
+import { Editor } from '@tiptap/core'
 
 export default function () {
-  const { currentNote, saveNote, setCurrentNote } = useNote()
-  const metaKeys = ['icon', 'cover', 'title']
+  const {
+    currentNote,
+    saveNote,
+    saveNoteMarkdown,
+    setCurrentNote
+  } = useNote()
 
+  const metaKeys = ['icon', 'cover', 'title']
   const noteId = ref('')
+
+  // collab
   const ydocId = ref('')
-  const ydocLoaded = ref(false)
   const ydoc = shallowRef<Y.Doc | null>(null)
   const hpProvider = shallowRef<HocuspocusProvider | null>(null)
   const collabReady = ref(false)
-  const collaboration = ref(false)
-  const localUpdate = ref(false)
+  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || true)
+  const editor = ref<Editor>()
 
   // version
+  const ydocLoaded = ref(false)
+  const localUpdate = ref(false)
   const lastVersionTime = ref('')
 
   const collab = ref({
@@ -32,6 +41,7 @@ export default function () {
     hpProvider,
     collabReady,
     collaboration,
+    editor,
   })
 
   let cleanMetaObserve: (() => void) | null = null
@@ -76,12 +86,18 @@ export default function () {
     if (!collaboration.value) return
     resetCollab()
 
-    ydocId.value = `note@${noteId.value}`
-    const doc = new Y.Doc()
+    // ydoc
+    const doc = new Y.Doc({
+      gc: false
+    })
     doc.on('update', onYdocUpdate)
 
+    // provider
+    ydocId.value = `note@${noteId.value}`
     const provider = new HocuspocusProvider({
-      url: window.APP_CONFIG?.WS_URL || process.env.WS_URL || 'ws://localhost:9611',
+      url: window.APP_CONFIG?.COLLAB_PROVIDER_URL
+        || process.env.COLLAB_PROVIDER_URL
+        || 'ws://localhost:9611',
       name: ydocId.value,
       document: doc,
       token: getCollabToken(),
@@ -90,9 +106,10 @@ export default function () {
         collabReady.value = true
       },
     })
+
+    // init values
     ydoc.value = doc
     hpProvider.value = provider
-
     cleanMetaObserve = setupMetadataSync(doc)
   }
 
@@ -121,8 +138,8 @@ export default function () {
   }
 
   const onYdocUpdate = (update: Uint8Array, origin: any, doc: Y.Doc, tr: Y.Transaction) => {
-    // Ignore metadata of title
-    if (tr.origin === 'metadata-set-title') return
+    // e.g use origin to check metadata changed
+    // if (tr.origin === 'metadata-set-title') return
 
     localUpdate.value = tr.local
 
@@ -131,8 +148,10 @@ export default function () {
     }
     ydocLoaded.value = true
 
+    // Create new version and save markdown only if local changed.
     if (tr.local) {
       debounceCreateVersion()
+      saveMarkdown()
     }
   }
 
@@ -159,6 +178,13 @@ export default function () {
     }
   }
   const debounceSetMeta = debounce(setMeta, 1000)
+
+  const saveMarkdown = () => {
+    if (editor.value) {
+      const noteJson = editor.value.getJSON()
+      saveNoteMarkdown(noteId.value, editor.value.markdown?.serialize(noteJson))
+    }
+  }
 
   const createVersion = () => {
     if (!lastVersionTime.value) {
@@ -206,6 +232,16 @@ export default function () {
 
         const nodes = historyFragment.toArray().map(node => node.clone())
         currentFragment.insert(0, nodes as any)
+
+        ydoc.value?.getMap('metadata').set('title', version.title)
+        ydoc.value?.getMap('metadata').set('icon', version.icon)
+        ydoc.value?.getMap('metadata').set('cover', version.cover)
+      })
+
+      // meta
+      saveNote({
+        id: version.noteId,
+        styles: version.styles
       })
     }
   }
@@ -214,7 +250,7 @@ export default function () {
    * Add or update icon
    */
   const addIcon = () => {
-    const icons = ['✍', '🏞', '🎵', '📹', '🎨', '👨‍👨‍👦', '🚴‍️', '🐶', '🐬', '🌾', '🍀', '🌴', '🍋', '🌏', '🚅', '🔥', '🥏', '💵', '🛠', '📖', '📗']
+    const icons = NoteDefaultIcons
     const index = Math.floor(Math.random() * icons.length)
     const icon = icons[index] ?? NoteDefaultIcon
     setMeta('icon', icon)
@@ -229,12 +265,7 @@ export default function () {
    */
   const setCover = (cover = '') => {
     if (!cover) {
-      const covers = [
-        '/images/book/dark-bubble_nebula.jpg',
-        '/images/book/dark-pillars_of_creation.jpg',
-        '/images/book/light-old_book.png',
-        '/images/book/light-willow_bank.jpg',
-      ]
+      const covers = NoteDefaultCovers
       const index = Math.floor(Math.random() * covers.length)
       cover = covers[index] ?? '/images/book/dark-bubble_nebula.jpg'
     }
@@ -243,6 +274,7 @@ export default function () {
 
   const setTitle = (title?: any ) => {
     setMeta('title', title || '')
+    // debounceSetMeta('title', title || '')
   }
 
   onDeactivated(() => {

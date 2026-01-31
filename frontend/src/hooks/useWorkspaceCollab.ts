@@ -10,6 +10,8 @@ import { CollabCallback, CollabEvent } from 'src/types/collab'
 export default function () {
   const { workspace } = useAccount()
 
+  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || true)
+
   const store = computed(() => {
     return useWorkspaceCollabStore(workspace.value.id)
   })
@@ -43,6 +45,8 @@ export default function () {
   })
 
   const initCollab = async () => {
+    if (!collaboration.value) return
+
     console.debug('Init workspace collab ...')
     if (hpProvider.value) {
       console.debug('Reuse workspace collab ...')
@@ -53,7 +57,9 @@ export default function () {
       gc: false
     })
     const provider = new HocuspocusProvider({
-      url: window.APP_CONFIG?.WS_URL || process.env.WS_URL || 'ws://localhost:9611',
+      url: window.APP_CONFIG?.COLLAB_PROVIDER_URL
+        || process.env.COLLAB_PROVIDER_URL
+        || 'ws://localhost:9611',
       name: ydocId.value,
       document: doc,
       token: getCollabToken(),

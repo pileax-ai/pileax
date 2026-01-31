@@ -55,7 +55,7 @@ export default function () {
     // update menu/tab
     const menu = {
       id: note.id,
-      name: note.title,
+      name: note.title || 'New page',
       path: `/note/${note.id}`,
       action: 1,
       meta: {
@@ -129,7 +129,9 @@ export default function () {
       })
     })
   }
+
   const debounceSaveNoteRemote = debounce(saveNoteRemote, 5000)
+
   function saveNote(data: Indexable) {
     refreshNote({
       ...currentNote.value,
@@ -138,6 +140,20 @@ export default function () {
     debounceSaveNoteRemote(data)
     debounceCreateVersion()
   }
+
+  function saveNoteMarkdownRemote(id: string, markdown?: string) {
+    return new Promise((resolve, reject) => {
+      noteService.save({
+        id,
+        contentMarkdown: markdown
+      }).then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+  const saveNoteMarkdown = debounce(saveNoteMarkdownRemote, 5000)
 
   function duplicateNote(data: Indexable) {
     return new Promise((resolve, reject) => {
@@ -235,7 +251,7 @@ export default function () {
         return {
           key: item.id,
           type: 'note',
-          label: item.title,
+          label: item.title || 'New page',
           header: (item.parent) ? '' : 'root',
           parent: item.parent,
           data: item,
@@ -325,6 +341,7 @@ export default function () {
     beforeDeleteNote,
     saveNote,
     saveNoteRemote,
+    saveNoteMarkdown,
     setParent,
     toggleFavorite,
     duplicateNote,
