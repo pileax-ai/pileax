@@ -9,8 +9,9 @@
 	"license": "MIT",
 	"private": true,
 	"scripts": {
-    "lint": "yarn lint:frontend",
-    "lint-fix": "yarn lint:frontend --fix",
+    "lint": "yarn lint:backend && yarn lint:frontend",
+    "lint-fix": "yarn lint:backend:fix && yarn lint:frontend:fix",
+    "lint:frontend:fix": "yarn lint:frontend --fix",
     "lint:frontend": "cd frontend && yarn lint",
     "lint:backend": "cd backend && ruff check",
     "lint:backend:fix": "cd backend && ruff check --fix",
@@ -18,7 +19,7 @@
 		"dev": "cd frontend && yarn dev",
 		"dev:electron": "cd frontend && yarn dev:electron",
 		"dev:tauri": "cd frontend && yarn dev:tauri",
-		"build": "yarn build:frontend",
+		"build": "yarn build:backend && yarn build:frontend",
 		"build:frontend": "cd frontend && yarn build",
 		"build:electron": "cd frontend && yarn build:electron",
 		"build:electron:win": "cd frontend && yarn && yarn build:electron:win",
@@ -27,7 +28,8 @@
     "build:backend": "cd backend && ./run.sh",
     "build:desktop": "yarn build:backend && yarn build:electron",
     "build:desktop:linux": "yarn build:backend && yarn build:electron:linux",
-    "build:desktop:win": "yarn build:backend && yarn build:electron:win"
+    "build:desktop:win": "yarn build:backend && yarn build:electron:win",
+    "preview": "cd frontend/dist/spa && quasar serve"
   },
 	"engines": {
 		"node": ">=20.9.0",

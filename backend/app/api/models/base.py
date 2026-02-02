@@ -172,11 +172,7 @@ class BaseSQLModel(SQLModel):
 
 
 class BaseApiModel(BaseModel):
-    model_config = ConfigDict(
-        alias_generator=StringHelper.to_camel,
-        validate_by_name=True,
-        from_attributes=True
-    )
+    model_config = ConfigDict(alias_generator=StringHelper.to_camel, validate_by_name=True, from_attributes=True)
 
 
 class TimestampMixin:
