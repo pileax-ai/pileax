@@ -69,8 +69,16 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss">
-.q-drawer:has(.right-drawer) {
-  background: red;
+.q-drawer:has(.right-drawer.hover-show) {
+  //top: 10px;
+  //bottom: 10px;
+  //right: 10px;
+  //border-radius: 6px !important;
+  //
+  //.q-drawer__content {
+  //  border-radius: 6px !important;
+  //  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  //}
 }
 
 .right-drawer {

@@ -211,6 +211,10 @@
       border-radius: 0 4px 4px 0 !important;
     }
 
+    &:only-child {
+      border-radius: 4px !important;
+    }
+
     &:not(:first-child) {
       border-left: solid 1px var(--q-secondary);
     }
