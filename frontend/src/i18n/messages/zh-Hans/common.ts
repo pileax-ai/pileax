@@ -243,4 +243,5 @@ export default {
   welcome: '欢迎',
   noShowAgain: '不再显示',
   restore: '恢复',
+  pin: '固定',
 }

@@ -6,7 +6,9 @@
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
     class="resizable-drawer">
-    <slot></slot>
+    <div ref="drawerRef" class="drawer-inner">
+      <slot></slot>
+    </div>
     <div class="drawer-separator"
          :class="`${side} ${isResizing ? 'is-resizing' : '' }`">
       <div
@@ -19,6 +21,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
+import { QDrawer } from 'quasar'
 
 const props = defineProps({
   modelValue: {
@@ -43,6 +46,9 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['enter', 'leave', 'resize', 'update:modelValue'])
+
+const drawerRef = ref<HTMLElement | null>(null)
+
 const value = computed({
   get() {
     return props.modelValue
@@ -89,9 +95,25 @@ function onMouseEnter(event: MouseEvent) {
  * @param event MouseEvent
  */
 function onMouseLeave(event: MouseEvent) {
-  if (!isResizing.value) {
+  const isInsideDrawer = isMouseInsideDrawer(event)
+  if (!isResizing.value && !isInsideDrawer) {
     emit('leave', event)
   }
+}
+
+function isMouseInsideDrawer(event: MouseEvent) {
+  const el = drawerRef.value
+  const rect = el?.getBoundingClientRect()
+  if (!rect) return false
+
+  const { clientX: x, clientY: y } = event
+
+  return (
+    x >= rect.left &&
+    x <= rect.right &&
+    y >= rect.top &&
+    y <= rect.bottom
+  )
 }
 
 onBeforeMount(() => {
@@ -102,6 +124,13 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .resizable-drawer {
+  .drawer-inner {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
   .drawer-separator {
     position: absolute;
     top: 0;

@@ -17,12 +17,12 @@
     </header>
     <header class="row col-12 justify-between top-header" v-else>
       <div class="row col items-center header-left">
-        <quick-settings type="tab" />
+        <quick-settings type="tab" :offset="[4, 4]" />
       </div>
       <div class="col-auto sidebar-toggles">
         <q-btn icon="mdi-pin-outline" class="text-tips" flat round
-               @click="toggleLeftDrawer" v-if="false">
-          <o-tooltip :message="$t('expand')" position="right" />
+               @click="onPin">
+          <o-tooltip :message="$t('pin')" position="right" />
         </q-btn>
       </div>
     </header>
@@ -37,7 +37,7 @@
               <q-tab :name="item.name"
                      :class="`tab-${item.name.split('.')[0]}`">
                 <o-icon :name="item.meta.icon" />
-                <o-tooltip>
+                <o-tooltip position="bottom" :delay="400">
                   {{menuLabel(item.name)}}
                 </o-tooltip>
               </q-tab>
@@ -69,6 +69,7 @@ const props = defineProps({
     default: 300
   },
 })
+const emit = defineEmits(['leave'])
 
 const { openDialog } = useDialog()
 const {
@@ -87,6 +88,11 @@ const selectedActivity = computed({
 
 function initActivity() {
   selectedActivity.value = activity.value
+}
+
+function onPin() {
+  toggleLeftDrawer()
+  emit('leave')
 }
 
 watch(() => activity.value, (newValue) => {

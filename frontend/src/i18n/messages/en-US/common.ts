@@ -243,4 +243,5 @@ export default {
   },
   noShowAgain: 'Do not show again',
   restore: 'Restore',
+  pin: 'Pin',
 }
