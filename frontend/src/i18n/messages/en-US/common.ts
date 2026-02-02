@@ -94,7 +94,7 @@ export default {
   dislike: 'Dislike',
   disable: 'Disable',
   docs: 'Docs',
-  document: 'Document',
+  document: 'Documentation',
   download: 'Download',
   edit: 'Edit',
   email: 'Email',

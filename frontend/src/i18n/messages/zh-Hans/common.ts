@@ -1,6 +1,6 @@
 export default {
-  about: 'About',
-  account: 'Account',
+  about: '关于',
+  account: '账户',
   actions: '操作',
   add: '添加',
   address: '地址',

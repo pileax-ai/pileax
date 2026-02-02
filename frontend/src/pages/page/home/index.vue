@@ -1,30 +1,31 @@
 <template>
   <o-single-page class="page-home" footer>
-    <content-wide class="row col-12 downloads" content-class="q-py-xl">
-      <section class="row col-12 o-banner">
+    <content-wide class="row col-12 downloads">
+      <section class="row col-12 items-center o-banner">
         <section class="col-12">
-          <div class="name">{{$t('product.name')}}</div>
-          <div class="slogan">{{$t('product.intro')}}</div>
+          <div class="name">
+            <GradientText
+              :text="$t('product.name')"
+              :colors="['#ffffff', '#3f51b5', '#673ab7', '#00bcd4', '#ffffff']"
+              :animation-speed="8"
+              show-border
+              class-name="your-custom-class"
+            />
+          </div>
+          <div class="slogan">
+            {{$t('product.slogan')}}
+          </div>
         </section>
       </section>
     </content-wide>
 
-    <content-wide class="categories">
-      <header>
-        <div class="title">
-          AI Creation
-          <span></span>
-        </div>
-        <div class="sub-title">
-          Explore more options
-        </div>
-      </header>
+    <content-wide class="app">
     </content-wide>
 
     <content-wide class="introduction">
       <header>
         <div class="title">
-          {{$t('product.name')}}
+          {{$t('tour.features')}}
           <span></span>
         </div>
         <div class="sub-title">
@@ -36,12 +37,12 @@
           <section :class="isMobile ? 'col-12' : 'col-4'">
             <div class="bg-secondary feature">
               <header>
-                <o-icon name="icon-chat-sel-light" size="3rem" />
+                <o-icon name="chat" size="3rem" />
               </header>
               <footer>
-                <div class="name">ChatBot</div>
+                <div class="name">{{ $t('tour.navi.chatTitle') }}</div>
                 <div class="q-mt-md">
-                  Powerful & intelligent AI chatbot App.
+                  {{ $t('tour.navi.chatDesc') }}
                 </div>
               </footer>
             </div>
@@ -49,12 +50,12 @@
           <section :class="isMobile ? 'col-12' : 'col-4'">
             <div class="bg-secondary feature">
               <header>
-                <o-icon name="icon-find-sel-light" size="3rem" />
+                <o-icon name="notes" size="3rem" />
               </header>
               <footer>
-                <div class="name">AI Creation</div>
+                <div class="name">{{ $t('tour.navi.noteTitle') }}</div>
                 <div class="q-mt-md">
-                  Write brainstorm, poem, outline, essay, recipe, etc.
+                  {{ $t('tour.navi.noteDesc') }}
                 </div>
               </footer>
             </div>
@@ -62,12 +63,12 @@
           <section :class="isMobile ? 'col-12' : 'col-4'">
             <div class="bg-secondary feature">
               <header>
-                <o-icon name="icon-me-sel-light" size="3rem" />
+                <o-icon name="chrome_reader_mode" size="3rem" />
               </header>
               <footer>
-                <div class="name">AI Assistant</div>
+                <div class="name">{{ $t('tour.navi.readingTitle') }}</div>
                 <div class="q-mt-md">
-                  Acts like a personal assistant and answer any questions in your life.
+                  {{ $t('tour.navi.readingDesc') }}
                 </div>
               </footer>
             </div>
@@ -80,8 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-
+import GradientText from 'components/animated/GradientText.vue'
 import OSinglePage from 'core/page/template/OSinglePage.vue'
 import ContentWide from 'core/page/content/ContentWide.vue'
 

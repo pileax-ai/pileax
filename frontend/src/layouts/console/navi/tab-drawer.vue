@@ -87,8 +87,8 @@ onMounted(() => {
   .tab-navi {
     border-radius: 0 8px 8px 0;
     box-shadow: rgba(15, 15, 15, .05) 0 0 0 1px,
-    rgba(15, 15, 15, .1) 0 3px 6px,
-    rgba(15, 15, 15, .2) 0 9px 24px;
+    rgba(15, 15, 15, .05) 0 1px 2px,
+    rgba(15, 15, 15, .05) 0 1px 2px;
   }
 }
 

@@ -78,7 +78,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     name: 'knowledge.base',
     path: '',
     action: 1,
-    meta: {icon: 'icon-knowledge-base'},
+    meta: {icon: 'icon-knowledge-base', hidden: true},
     children: [
       {
         id: 'knowledge-start',

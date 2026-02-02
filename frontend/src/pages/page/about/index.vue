@@ -16,7 +16,7 @@
     <content-wide class="introduction">
       <header>
         <div class="title">
-          {{$t('product.name')}}
+          {{$t('tour.features')}}
           <span></span>
         </div>
         <div class="sub-title">
@@ -24,42 +24,42 @@
         </div>
       </header>
       <section class="col-12 relative-position">
-        <section class="row col-12 q-col-gutter-xl">
-          <section class="col-4">
+        <section class="row col-12" :class="isMobile ? 'q-col-gutter-md' : 'q-col-gutter-xl'">
+          <section :class="isMobile ? 'col-12' : 'col-4'">
             <div class="bg-secondary feature">
               <header>
-                <o-icon name="icon-chat-sel-light" size="3rem" />
+                <o-icon name="chat" size="3rem" />
               </header>
               <footer>
-                <div class="name">ChatBot</div>
+                <div class="name">{{ $t('tour.navi.chatTitle') }}</div>
                 <div class="q-mt-md">
-                  Powerful & intelligent AI chatbot App.
+                  {{ $t('tour.navi.chatDesc') }}
                 </div>
               </footer>
             </div>
           </section>
-          <section class="col-4">
+          <section :class="isMobile ? 'col-12' : 'col-4'">
             <div class="bg-secondary feature">
               <header>
-                <o-icon name="icon-find-sel-light" size="3rem" />
+                <o-icon name="notes" size="3rem" />
               </header>
               <footer>
-                <div class="name">AI Creation</div>
+                <div class="name">{{ $t('tour.navi.noteTitle') }}</div>
                 <div class="q-mt-md">
-                  Write brainstorm, poem, outline, essay, recipe, etc.
+                  {{ $t('tour.navi.noteDesc') }}
                 </div>
               </footer>
             </div>
           </section>
-          <section class="col-4">
+          <section :class="isMobile ? 'col-12' : 'col-4'">
             <div class="bg-secondary feature">
               <header>
-                <o-icon name="icon-me-sel-light" size="3rem" />
+                <o-icon name="chrome_reader_mode" size="3rem" />
               </header>
               <footer>
-                <div class="name">AI Assistant</div>
+                <div class="name">{{ $t('tour.navi.readingTitle') }}</div>
                 <div class="q-mt-md">
-                  Acts like a personal assistant and answer any questions in your life.
+                  {{ $t('tour.navi.readingDesc') }}
                 </div>
               </footer>
             </div>
@@ -74,6 +74,7 @@
 import { computed, ref } from 'vue'
 import OSinglePage from 'core/page/template/OSinglePage.vue'
 import ContentWide from 'core/page/content/ContentWide.vue'
+import { isMobile } from 'core/hooks/useCommon'
 
 const slide = ref('1')
 const slides = computed(() => {

@@ -17,5 +17,6 @@ export default {
 
     aiTitle: 'AI Apps',
     aiDesc: 'Create scenario-based AI tools to boost your productivity.',
-  }
+  },
+  features: 'Main Features',
 }

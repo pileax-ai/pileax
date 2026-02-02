@@ -13,5 +13,6 @@ export default {
     readingTitle: '阅读'
   },
   next: '下一步',
-  prev: '上一步'
+  prev: '上一步',
+  features: '主要特性',
 }

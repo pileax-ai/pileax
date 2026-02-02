@@ -1,6 +1,6 @@
 <template>
   <section class="tab-navi">
-    <header class="row col-12 justify-between top-header" v-if="header">
+    <header class="row col-12 justify-between top-header expanded" v-if="header">
       <div class="row col items-center header-left drag-region">
         <quick-settings class="text-tips" type="tab" />
       </div>
@@ -16,8 +16,14 @@
       </div>
     </header>
     <header class="row col-12 justify-between top-header" v-else>
-      <div class="row col items-center header-left drag-region">
+      <div class="row col items-center header-left">
         <quick-settings type="tab" />
+      </div>
+      <div class="col-auto sidebar-toggles">
+        <q-btn icon="mdi-pin-outline" class="text-tips" flat round
+               @click="toggleLeftDrawer" v-if="false">
+          <o-tooltip :message="$t('expand')" position="right" />
+        </q-btn>
       </div>
     </header>
     <section class="col-12 activity-bar" :class="{ 'no-header': !header }">
@@ -68,7 +74,6 @@ const { openDialog } = useDialog()
 const {
   consoleMenus,
   activity,
-  leftDrawerHoverShow,
   toggleLeftDrawer,
   setActivity,
 } = useNavi()

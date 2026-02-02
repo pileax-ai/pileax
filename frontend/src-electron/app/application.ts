@@ -135,7 +135,6 @@ export class Application {
 
     ipcMain.handle('set-theme',
       (event, theme: 'system' | 'light' | 'dark') => {
-      console.log('set-theme', theme)
       nativeTheme.themeSource = theme
     })
 
