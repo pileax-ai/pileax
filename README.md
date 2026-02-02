@@ -4,18 +4,25 @@ PileaX AI: One-Stop AI Knowledge Base System. 🍀
 
 
 <p align="center">
-    <a href="https://github.com/pileax-ai/pileax/actions/workflows/ci.yml" alt="Build Status">
-      <img src="https://github.com/pileax-ai/pileax/actions/workflows/ci.yml/badge.svg" />
-    </a>
-    <a href="https://github.com/pileax-ai/pileax/releases" alt="Version">
-      <img src="https://img.shields.io/badge/version-v0.0.3-blue?style=square" />
-    </a>
-    <a href="https://github.com/badges/shields/pulse" alt="Activity">
-      <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" />
-    </a>
-    <a href="https://github.com/pileax-ai/pileax/blob/main/LICENSE" alt="License">
-      <img src="https://img.shields.io/badge/license-MIT-green?style=square" />
-    </a>
+  <a href="https://github.com/pileax-ai/pileax/actions/workflows/ci.yml" alt="Build Status">
+    <img src="https://github.com/pileax-ai/pileax/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="https://github.com/pileax-ai/pileax/releases/latest">
+    <img src="https://img.shields.io/github/v/release/pileax-ai/pileax" alt="Latest Release"></a>
+  <a href="https://github.com/pileax-ai/pileax/releases">
+    <img src="https://img.shields.io/github/v/release/pileax-ai/pileax?include_prereleases&label=pre-release" alt="Pre-release"></a>
+  <a href="https://github.com/pileax-ai/pileax/releases">
+    <img src="https://img.shields.io/github/downloads/pileax-ai/pileax/total" alt="Downloads"></a>
+  <a href="https://github.com/badges/shields/pulse" alt="Activity">
+    <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" /></a>
+  <a href="https://github.com/pileax-ai/pileax/blob/main/LICENSE" alt="License">
+    <img src="https://img.shields.io/badge/license-MIT-green?style=square" /></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Anxcye/anx-reader#platform-support">
+    <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue" alt="Platforms"></a>
+  <a href="https://github.com/Anxcye/anx-reader#supported-formats">
+    <img src="https://img.shields.io/badge/formats-EPUB%20%7C%20MOBI%20%7C%20AWZ3%20%7C%20FB2%20%7C%20CBZ%20%7C%20PDF-teal" alt="Supported Formats"></a>
 </p>
 
 

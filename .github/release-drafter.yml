@@ -15,6 +15,7 @@ categories:
       - 'feature'
   - title: '⚡ Enhancements'
     labels:
+      - 'dependencies'
       - 'enhancement'
       - 'perf'
       - 'style'
