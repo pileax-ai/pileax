@@ -10,7 +10,7 @@ import { CollabCallback, CollabEvent } from 'src/types/collab'
 export default function () {
   const { workspace } = useAccount()
 
-  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || true)
+  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || false)
 
   const store = computed(() => {
     return useWorkspaceCollabStore(workspace.value.id)

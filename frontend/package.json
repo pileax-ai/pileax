@@ -135,8 +135,6 @@
     "@tauri-apps/cli": "^2.4.0",
     "@types/mime-types": "^3.0.1",
     "@types/node": "^20.5.9",
-    "@typescript-eslint/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/parser": "^5.10.0",
     "@vitalets/google-translate-api": "^9.2.1",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.4.0",
@@ -151,6 +149,7 @@
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
+    "typescript-eslint": "8.18.0",
     "vite-plugin-checker": "^0.9.0",
     "vite-plugin-svg-icons-ng": "^1.4.0",
     "vue-tsc": "^2.0.29"

@@ -27,7 +27,7 @@ export default function () {
   const ydoc = shallowRef<Y.Doc | null>(null)
   const hpProvider = shallowRef<HocuspocusProvider | null>(null)
   const collabReady = ref(false)
-  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || true)
+  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || false)
   const editor = ref<Editor>()
 
   // version

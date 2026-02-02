@@ -166,13 +166,17 @@ def time_field(*, nullable: Union[bool, UndefinedType] = True, comment: str | No
 class BaseSQLModel(SQLModel):
     model_config = ConfigDict(
         alias_generator=StringHelper.to_camel,
-        validate_by_name=True,
+        populate_by_name=True,
         arbitrary_types_allowed=True,
     )
 
 
 class BaseApiModel(BaseModel):
-    model_config = ConfigDict(alias_generator=StringHelper.to_camel, validate_by_name=True, from_attributes=True)
+    model_config = ConfigDict(
+        alias_generator=StringHelper.to_camel,
+        validate_by_name=True,
+        from_attributes=True
+    )
 
 
 class TimestampMixin:

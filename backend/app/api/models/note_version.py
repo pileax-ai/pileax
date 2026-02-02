@@ -1,30 +1,23 @@
 import base64
 import uuid
-import zlib
 from typing import Any
 
-from pydantic import field_validator, field_serializer
-from sqlalchemy import Column, LargeBinary, Index
+from pydantic import field_serializer, field_validator
+from sqlalchemy import Column, Index, LargeBinary
 from sqlmodel import Field
 
-from app.api.models.base import BaseMixin, BaseSQLModel, uuid_field, BaseApiModel, JSONString
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 
 
 class NoteVersion(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "note_version"
-    __table_args__ = (
-        Index("idx_note_version_note_id", "note_id"),
-    )
+    __table_args__ = (Index("idx_note_version_note_id", "note_id"),)
 
     workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     note_id: uuid.UUID = uuid_field()
     content: dict | None = Field(default=None, sa_type=JSONString, description="Note JSON content")
-    doc: bytes | None = Field(
-        default=None,
-        sa_column=Column(LargeBinary),
-        description="Yjs update binary state"
-    )
+    doc: bytes | None = Field(default=None, sa_column=Column(LargeBinary), description="Yjs update binary state")
     title: str | None = Field(default=None, max_length=255, description="Note title")
     icon: str | None = Field(default=None)
     cover: str | None = Field(default=None)
@@ -49,7 +42,7 @@ class NoteVersionCreate(NoteVersionBase):
     content: dict | None = None
     doc: bytes | None = None
 
-    @field_validator('doc', mode='before')
+    @field_validator("doc", mode="before")
     @classmethod
     def validate_doc(cls, v: Any) -> bytes | None:
         raw_data = v
@@ -71,7 +64,7 @@ class NoteVersionCreate(NoteVersionBase):
 
         # Bytes
         if not isinstance(raw_data, (bytes, bytearray)):
-            raise ValueError(f"Document needs to be bytes or bytearray")
+            raise ValueError("Document needs to be bytes or bytearray")
 
         return raw_data
 
@@ -81,12 +74,12 @@ class NoteVersionUpdate(NoteVersionBase):
 
 
 class NoteVersionPublic(NoteVersionCreate, BaseMixin):
-    @field_serializer('doc')
+    @field_serializer("doc")
     def serialize_doc(self, v: bytes) -> str | None:
         if v is None:
             return None
 
-        return base64.b64encode(v).decode('utf-8')
+        return base64.b64encode(v).decode("utf-8")
 
 
 class NoteVersionDetails(NoteVersionPublic):

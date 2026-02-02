@@ -1,10 +1,10 @@
 import uuid
 
 from pydantic import field_validator
-from sqlalchemy import LargeBinary, Column
+from sqlalchemy import Column, LargeBinary
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, JSONString
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 
 
 class Note(BaseSQLModel, BaseMixin, table=True):
@@ -14,11 +14,7 @@ class Note(BaseSQLModel, BaseMixin, table=True):
     title: str = Field(..., max_length=255, description="Note title")
     content: dict = Field(..., sa_type=JSONString, description="Note JSON content")
     content_markdown: str | None = Field(default=None, description="Note Markdown content")
-    doc: bytes | None = Field(
-        default=None,
-        sa_column=Column(LargeBinary),
-        description="Yjs binary state"
-    )
+    doc: bytes | None = Field(default=None, sa_column=Column(LargeBinary), description="Yjs binary state")
     icon: str | None = Field(default=None)
     cover: str | None = Field(default=None)
     favorite: int | None = Field(default=0, ge=0, le=1, description="Favorite: 0.no, 1.yes")

@@ -1,0 +1,71 @@
+name: DB Migration Test
+
+on:
+  workflow_call:
+
+concurrency:
+  group: db-migration-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  db-migration-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        db-type: [ postgres, sqlite ]
+      fail-fast: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup UV and Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          python-version: "3.12"
+          cache-dependency-glob: backend/uv.lock
+
+      - name: Install dependencies
+        run: uv sync --project backend
+
+      - name: Ensure Offline migration are supported
+        # upgrade: from base to head
+        # downgrade: from head back to base
+        run: |
+          uv run --directory backend alembic upgrade head --sql
+          uv run --directory backend alembic downgrade head:base --sql
+
+      - name: Prepare middleware env
+        if: matrix.db-type == 'postgres'
+        run: |
+          cp docker/middleware.env.example docker/middleware.env
+
+      - name: Set up Postgres Middlewares
+        if: matrix.db-type == 'postgres'
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: docker/docker-compose.middleware.yaml
+          services: db
+
+      - name: Prepare configs
+        run: |
+          cd backend
+          cp .env.example .env
+
+      - name: Run DB Migration
+        env:
+          DEBUG: true
+          DB_PROVIDER: ${{ matrix.db-type == 'sqlite' && 'sqlite' || 'postgresql' }}
+          DB_DATABASE: ${{ matrix.db-type == 'sqlite' && './.cache/storage/metadata.db' || 'pileax' }}
+        run: |
+          echo "Testing Database: ${{ matrix.db-type }}"
+          if [ "${{ matrix.db-type }}" == "sqlite" ]; then
+            mkdir -p backend/.cache/storage/
+            echo "SQLite directory created."
+          fi
+
+          uv run --directory backend alembic upgrade head

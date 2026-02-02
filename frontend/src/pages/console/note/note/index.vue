@@ -362,6 +362,7 @@ function loadingChatNote(docNode: Indexable) {
 
 function loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
+  console.log('collab', collab.value)
   if (collab.value.collaboration) {
     initCollab()
   } else {

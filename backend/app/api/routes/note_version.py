@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.note_version_controller import NoteVersionController
-from app.api.models.note_version import NoteVersionCreate, NoteVersionPublic, NoteVersionUpdate, NoteVersionDetails
+from app.api.models.note_version import NoteVersionCreate, NoteVersionDetails, NoteVersionPublic, NoteVersionUpdate
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.router import ApiRouter
 

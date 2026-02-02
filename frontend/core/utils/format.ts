@@ -80,11 +80,11 @@ export const dayDiff = (time :string) => {
 
 
 export const uint8ArrayToBase64 = (bytes: Uint8Array) => {
-  const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
-  return window.btoa(binString);
+  const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("")
+  return window.btoa(binString)
 }
 
 export const base64ToUint8Array = (base64String: string) => {
-  const binString = window.atob(base64String);
+  const binString = window.atob(base64String)
   return Uint8Array.from(binString, (m) => m.codePointAt(0)!)
 }

@@ -16,12 +16,14 @@ class NoteController(BaseController[Note, NoteCreate, NoteUpdate]):
 
     def duplicate(self, id: uuid.UUID) -> Note:
         note = super().get(id)
-        return super().save(NoteCreate(
-            parent=note.parent,
-            title=f"{note.title}(1)",
-            content=note.content,
-            icon=note.icon,
-            cover=note.cover,
-            styles=note.styles,
-            doc=note.doc,
-        ))
+        return super().save(
+            NoteCreate(
+                parent=note.parent,
+                title=f"{note.title}(1)",
+                content=note.content,
+                icon=note.icon,
+                cover=note.cover,
+                styles=note.styles,
+                doc=note.doc,
+            )
+        )

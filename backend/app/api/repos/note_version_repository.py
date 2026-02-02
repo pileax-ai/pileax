@@ -22,14 +22,9 @@ class NoteVersionRepository(BaseRepository[NoteVersion]):
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
         # 2. stmt
-        stmt = (
-            select(NoteVersion, User)
-            .join(User, NoteVersion.user_id == User.id, isouter=True)
-        )
+        stmt = select(NoteVersion, User).join(User, NoteVersion.user_id == User.id, isouter=True)
         count_stmt = (
-            select(func.count())
-            .select_from(NoteVersion)
-            .join(User, NoteVersion.user_id == User.id, isouter=True)
+            select(func.count()).select_from(NoteVersion).join(User, NoteVersion.user_id == User.id, isouter=True)
         )
         if filters:
             stmt = stmt.where(*filters)
@@ -40,7 +35,7 @@ class NoteVersionRepository(BaseRepository[NoteVersion]):
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
-        print(stmt.compile(compile_kwargs={"literal_binds": True}))
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
@@ -53,9 +48,7 @@ class NoteVersionRepository(BaseRepository[NoteVersion]):
         )
 
     @staticmethod
-    def build_details(
-        note_version: NoteVersion, user: User
-    ) -> dict:
+    def build_details(note_version: NoteVersion, user: User) -> dict:
         return {
             **note_version.model_dump(),
             "user_name": user.name,
