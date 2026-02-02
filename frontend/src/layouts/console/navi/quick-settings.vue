@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type PropType } from 'vue'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import useSetting from 'core/hooks/useSetting'
@@ -114,6 +114,12 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  offset: {
+    type: Array as PropType<number[]>,
+    default: () => {
+      return [-2, -2]
+    }
+  },
 })
 
 const {
@@ -128,9 +134,6 @@ const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
 const { nativeShortcut } = useShortcut()
-const offset = computed(() => {
-  return props.type === 'tab' ? [-2, -2] : [-2, -2]
-})
 
 const actions = computed(() => {
   return [

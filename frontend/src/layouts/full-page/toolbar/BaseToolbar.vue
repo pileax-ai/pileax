@@ -1,6 +1,7 @@
 <template>
   <q-toolbar class="base-toolbar drag-region">
-    <div class="row items-center cursor-pointer app" @click="$router.push('/')">
+    <div class="row items-center cursor-pointer app no-drag-region"
+         @click="$router.push('/')">
       <q-avatar size="40px">
         <img :src="$public('/logo.svg')">
       </q-avatar>

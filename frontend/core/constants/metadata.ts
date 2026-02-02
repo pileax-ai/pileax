@@ -57,3 +57,25 @@ export const Timezones = [
   { label: 'Moscow', value: 'Europe/Moscow' },
   { label: 'Ljubljana', value: 'Europe/Ljubljana' }
 ]
+
+export const StandardColors = [
+  { label: 'red', value: 'red', color: 'red', hex: '#f44336' },
+  { label: 'pink', value: 'pink', color: 'pink', hex: '#e91e63' },
+  { label: 'purple', value: 'purple', color: 'purple', hex: '#9c27b0' },
+  { label: 'deep-purple', value: 'deep-purple', color: 'deep-purple', hex: '#673ab7' },
+  { label: 'indigo', value: 'indigo', color: 'indigo', hex: '#3f51b5' },
+  { label: 'blue', value: 'blue', color: 'blue', hex: '#2196f3' },
+  { label: 'light-blue', value: 'light-blue', color: 'light-blue', hex: '#03a9f4' },
+  { label: 'cyan', value: 'cyan', color: 'cyan', hex: '#00bcd4' },
+  { label: 'teal', value: 'teal', color: 'teal', hex: '#009688' },
+  { label: 'green', value: 'green', color: 'green', hex: '#4caf50' },
+  { label: 'light-green', value: 'light-green', color: 'light-green', hex: '#8bc34a' },
+  { label: 'lime', value: 'lime', color: 'lime', hex: '#cddc39' },
+  // { label: 'yellow', value: 'yellow', color: 'yellow', hex: '#ffeb3b' },
+  { label: 'amber', value: 'amber', color: 'amber', hex: '#ffc107' },
+  { label: 'orange', value: 'orange', color: 'orange', hex: '#ff9800' },
+  { label: 'deep-orange', value: 'deep-orange', color: 'deep-orange', hex: '#ff5722' },
+  { label: 'brown', value: 'brown', color: 'brown', hex: '#795548' },
+  // { label: 'grey', value: 'grey', color: 'grey', hex: '#9e9e9e' },
+  { label: 'blue-grey', value: 'blue-grey', color: 'blue-grey', hex: '#607d8b' },
+]

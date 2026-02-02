@@ -62,14 +62,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, type PropType, ref } from 'vue'
 import useNote from 'src/hooks/useNote'
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
+import useDialog from 'core/hooks/useDialog'
+import * as Y from 'yjs'
 
-const emit = defineEmits(['action'])
+const props = defineProps({
+  ydoc: {
+    type: Object as PropType<Y.Doc>,
+    default: () => {}
+  },
+})
+const emit = defineEmits(['action', 'restore'])
 
 const { t } = useCommon()
+const { openDialog } = useDialog()
 const {
   currentNote,
   saveNote,
@@ -80,7 +89,7 @@ const {
   newWindow,
 } = useNote()
 
-const styles = ref({
+const styles = ref<Indexable>({
   font: 'default',
   smallText: false,
   fullWidth: false,
@@ -182,8 +191,17 @@ function onAction (action: Indexable, value: any) {
     case 'newWindow':
       newWindow(data)
       break
-    case 'smallText':
+    case 'version':
+      openDialog({
+        type: 'note-history',
+        ydoc: props.ydoc,
+        onOk: (version: Indexable) => {
+          emit('restore', version)
+        }
+      })
+      break
     case 'fullWidth':
+    case 'smallText':
     case 'toc':
       onStyles()
       emit('action', { ...action, actionValue: value })
@@ -195,7 +213,7 @@ function onStyles() {
   console.log('style', styles.value)
   saveNote({
     id: currentNote.value.id,
-    styles: JSON.stringify(styles.value)
+    styles: styles.value
   })
 }
 
@@ -206,7 +224,12 @@ function onFont(value: string) {
 
 onBeforeMount(() => {
   try {
-    styles.value = JSON.parse(currentNote.value.styles || '')
+    styles.value = (currentNote.value.styles || {
+      font: 'default',
+      smallText: false,
+      fullWidth: false,
+      toc: true
+    }) as Indexable
   } catch (err) {
     // console.warn(err);
   }

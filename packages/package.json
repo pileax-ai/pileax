@@ -1,0 +1,10 @@
+{
+  "name": "packages",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "collab/*"
+  ],
+  "packageManager": "pnpm@10.6.2"
+}

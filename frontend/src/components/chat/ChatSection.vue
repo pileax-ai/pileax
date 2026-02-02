@@ -206,7 +206,6 @@ const localDefaultModel = computed(() => {
 })
 
 function init(from = '') {
-  console.log('init from', from)
   start.value = props.multiSession
   getLatestSession()
   // console.log('init', from, props.refId);

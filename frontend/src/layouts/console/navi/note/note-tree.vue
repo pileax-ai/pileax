@@ -242,7 +242,7 @@ function onDrop (e: DragEvent, node: Indexable) {
   const data = JSON.parse(e.dataTransfer?.getData('text') || '{}')
   if (data.contentType === 'note') {
     const note = node.data
-    console.log('drop', data.id, note.id)
+    // console.log('drop', data.id, note.id)
     if ((data.id !== note.id) && (data.parent !== note.id)) {
       setParent(data.id, note.id)
     }

@@ -111,7 +111,7 @@ watch(visibility, (state) => {
 })
 
 onActivated(() => {
-  console.log('welcome onActivated', workspaceId.value)
+  // console.log('welcome onActivated', workspaceId.value)
   init()
 })
 </script>

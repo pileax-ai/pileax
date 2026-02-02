@@ -26,9 +26,9 @@ export default function () {
     componentStore.setDialog({})
   }
 
-  function onOk() {
+  function onOk(options?: Indexable) {
     if (typeof dialog.value.onOk === 'function') {
-      dialog.value.onOk()
+      dialog.value.onOk(options)
     }
     componentStore.setDialog({})
   }

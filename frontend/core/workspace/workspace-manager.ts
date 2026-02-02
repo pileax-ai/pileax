@@ -31,7 +31,7 @@ export class WorkspaceManager {
       this.currentWorkspaceId = savedWorkspace as string
     }
 
-    console.log(`Init workspace manager，current workspace: ${this.currentWorkspaceId}`)
+    // console.log(`Init workspace manager，current workspace: ${this.currentWorkspaceId}`)
   }
 
   getCurrentWorkspaceId(): string {

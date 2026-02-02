@@ -61,6 +61,12 @@ export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
   }
 }
 
+export const timeDiff = (start?: string, end?: string, unit = 'minute') => {
+  const startTime = dayjs(start)
+  const endTime = dayjs(end)
+  return endTime.diff(startTime, unit as 'minute')
+}
+
 export const getUtcTime = (format = 'YYYY/MM/DD HH:mm:ss') => {
   return dayjs().utc().format(format)
 }

@@ -1,12 +1,15 @@
-import { computed, ref, watch } from 'vue'
+import { onUnmounted, watch } from 'vue'
 import useAccount from 'src/hooks/useAccount'
 import useAi from 'src/hooks/useAi'
 import useNote from 'src/hooks/useNote'
+import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
+import { CollabEvent } from 'src/types/collab'
 
 export default function () {
   const { workspace, initWorkspace } = useAccount()
   const { initAiSettings, checkAiSettings } = useAi()
-  const { initNoteData } = useNote()
+  const { initNoteData, refreshNote, deleteNote } = useNote()
+  const { initCollab, resetCollab, subscribeCollabEvent } = useWorkspaceCollab()
 
   function initCheck() {
     setTimeout(() => {
@@ -22,6 +25,7 @@ export default function () {
       await initAiSettings()
       initCheck()
       initNoteData()
+      initWorkspaceCollab()
     }
   }
 
@@ -34,10 +38,37 @@ export default function () {
     initNoteData()
   }
 
+  function initWorkspaceCollab() {
+    if (workspace.value.id) {
+      if (workspace.value.type === 'team') {
+        initCollab()
+        initSubscriptions()
+      } else {
+        resetCollab()
+      }
+    }
+  }
+
+  function initSubscriptions() {
+    const unsubscribeRefresh = subscribeCollabEvent(CollabEvent.NOTE_REFRESH, (meta) => {
+      refreshNote(meta, false)
+    })
+    const unsubscribeDelete = subscribeCollabEvent(CollabEvent.NOTE_DELETE, (meta) => {
+      deleteNote(meta, false)
+    })
+
+    // onUnmounted(() => {
+    //   if (unsubscribe) {
+    //     unsubscribe()
+    //   }
+    // })
+  }
+
   watch(workspace, (newValue, oldValue) => {
-    console.log(`workspace: ${oldValue.id} -> ${newValue.id}`)
+    console.log(`workspace: ${oldValue.id} -> ${newValue.id}`, newValue)
     if (newValue.id) {
       refreshWorkspaceData()
+      initWorkspaceCollab()
     }
   })
 

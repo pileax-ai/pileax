@@ -1,0 +1,32 @@
+{
+  "name": "collab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --watch --tsconfig tsconfig.app.json src/server.ts",
+    "build": "tsup src/server.ts --format esm --clean --tsconfig tsconfig.app.json",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@hocuspocus/extension-database": "^3.4.3",
+    "@hocuspocus/extension-logger": "^3.4.3",
+    "@hocuspocus/server": "^3.4.3",
+    "better-sqlite3": "^12.6.2",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.17.1",
+    "yjs": "^13.6.29"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.0.9",
+    "@types/pg": "^8.16.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

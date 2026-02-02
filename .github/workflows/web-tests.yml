@@ -30,4 +30,4 @@ jobs:
 
       - name: Build web
         run: |
-          yarn build
+          yarn build:frontend

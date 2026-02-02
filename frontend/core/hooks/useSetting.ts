@@ -14,6 +14,7 @@ import type {
   ThemeSetting
 } from 'core/types/setting'
 import { setDayjsLocale } from 'core/utils/dayjs'
+import { setQuasarLang } from 'src/i18n/quasar'
 
 export default function () {
   const appStore = useAppStoreWithOut()
@@ -26,6 +27,9 @@ export default function () {
     appStore.setLocale(locale)
     setDayjsLocale(locale)
     setTray()
+
+    // Quasar
+    setQuasarLang(locale as 'en')
   }
 
   const setTimeZone = (timezone: string) => {

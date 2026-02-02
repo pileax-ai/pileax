@@ -66,7 +66,7 @@ lint:
 
 lint-web:
 	@echo "🔧 Running eslint..."
-	@yarn lint
+	@yarn lint:frontend
 	@echo "✅ Linting complete"
 
 type-check:

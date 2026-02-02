@@ -67,7 +67,7 @@ const currentTab = ref('general')
 const tabs = computed(() => {
   return [
     { label: t('general'), value: 'general', icon: 'public', component: GeneralTab },
-    { label: t('systems.shortcut'), value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
+    // { label: t('systems.shortcut'), value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
   ]
 })
 const next = reactive<Indexable>({
@@ -119,6 +119,10 @@ watch(
         border: solid 1px var(--q-dark);
         border-radius: 8px;
         margin-top: 1rem;
+
+        &:last-child {
+          margin-bottom: 1rem;
+        }
 
         .header {
           border-radius: 8px 8px 0 0;

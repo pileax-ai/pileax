@@ -92,10 +92,12 @@ class AuthController:
 
     async def _cache_token(self, user_id: str, token: Token):
         await cache.set(get_key("user", "access_token", user_id, self._device_id()), token.access_token, persist=True)
+        await cache.set(get_key("user", "collab_token", user_id, self._device_id()), token.collab_token, persist=True)
         await cache.set(get_key("user", "refresh_token", user_id, self._device_id()), token.refresh_token, persist=True)
         await cache.set(get_key("user", "csrf_token", user_id, self._device_id()), token.refresh_token, persist=True)
 
     async def _remove_token_cache(self, user_id: str):
         await cache.delete(get_key("user", "access_token", user_id, self._device_id()), persist=True)
+        await cache.delete(get_key("user", "collab_token", user_id, self._device_id()), persist=True)
         await cache.delete(get_key("user", "refresh_token", user_id, self._device_id()), persist=True)
         await cache.delete(get_key("user", "csrf_token", user_id, self._device_id()), persist=True)

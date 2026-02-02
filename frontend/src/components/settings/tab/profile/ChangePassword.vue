@@ -36,12 +36,6 @@
                :error-message="$t('auth.signup.confirmPasswordError')">
       </q-input>
     </o-field>
-
-    <template #control>
-      <footer class="row col-12 items-center justify-center bg-accent text-tips">
-        Share workspaces.
-      </footer>
-    </template>
   </o-simple-form-page>
 </template>
 

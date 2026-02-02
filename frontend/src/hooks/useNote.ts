@@ -8,16 +8,25 @@ import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
 import { router } from 'src/router'
 import useCommon from 'core/hooks/useCommon'
+import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
 import { ipcService } from 'src/api/ipc'
 import { noteService } from 'src/api/service/remote/note'
 import { workspaceManager } from 'core/workspace/workspace-manager'
+import { CollabEvent } from 'src/types/collab'
+import { timeDiff } from 'core/utils/dayjs'
+import { noteVersionService } from 'src/api/service/remote/note-version'
+import { debounce } from 'quasar'
 
 export default function () {
   const naviStore = useNaviStore()
   const accountStore = useAccountStore()
   const tabStore = useTabStore()
   const { t, confirm } = useCommon()
+  const { publishCollabEvent } = useWorkspaceCollab()
   const recentNotes = ref<Note[]>([])
+
+  // version
+  const lastVersionTime = ref('')
 
   const noteStore = computed(() => {
     const currentWorkspaceId = accountStore.workspaceId
@@ -36,18 +45,17 @@ export default function () {
     return noteStore.value.noteId
   })
 
-  function setCurrentNote(note: Note | null) {
+  function setCurrentNote(note: Note | null, refresh = true, publish = false) {
     // console.log('setCurrentNote', note)
     if (!note) return
 
     // update current note
     noteStore.value.setCurrentNote(note)
-    refreshNote(note)
 
     // update menu/tab
     const menu = {
       id: note.id,
-      name: note.title,
+      name: note.title || 'New page',
       path: `/note/${note.id}`,
       action: 1,
       meta: {
@@ -57,6 +65,11 @@ export default function () {
       }
     } as MenuItem
     naviStore.setCurrentMenu(menu)
+
+    // refresh
+    if (refresh) {
+      refreshNote(note, publish)
+    }
   }
 
   async function initNoteData() {
@@ -64,12 +77,21 @@ export default function () {
     noteStore.value.setNotes(notes)
   }
 
-  function refreshNote(note: Note) {
+  function refreshNote(note: Note, publish = true) {
+    // console.log('refreshNote', note, publish)
     const index = notes.value.findIndex((n) => n.id === note.id)
     if (index >= 0) {
       notes.value.splice(index, 1, note)
     } else {
       initNoteData()
+    }
+
+    if (note.id === currentNote.value.id) {
+      setCurrentNote(note, false)
+    }
+
+    if (publish) {
+      publishCollabEvent(CollabEvent.NOTE_REFRESH, note)
     }
   }
 
@@ -97,17 +119,51 @@ export default function () {
     })
   }
 
-  function openNote (note: Indexable, source = '') {
-    const id = note.id
-    if (id) {
-      const query = {} as Indexable
-      if (source) query.source = source
-      router.push({
-        name: 'note',
-        params: { id },
-        query
+  function saveNoteRemote(data: Indexable): Promise<Indexable> {
+    return new Promise((resolve, reject) => {
+      noteService.save(data).then(res => {
+        refreshNote(res)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
       })
-    }
+    })
+  }
+
+  const debounceSaveNoteRemote = debounce(saveNoteRemote, 5000)
+
+  function saveNote(data: Indexable) {
+    refreshNote({
+      ...currentNote.value,
+      ...data,
+    } as Note)
+    debounceSaveNoteRemote(data)
+    debounceCreateVersion()
+  }
+
+  function saveNoteMarkdownRemote(id: string, markdown?: string) {
+    return new Promise((resolve, reject) => {
+      noteService.save({
+        id,
+        contentMarkdown: markdown
+      }).then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+  const saveNoteMarkdown = debounce(saveNoteMarkdownRemote, 5000)
+
+  function duplicateNote(data: Indexable) {
+    return new Promise((resolve, reject) => {
+      noteService.duplicate(data.id).then(res => {
+        refreshNote(res)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 
   function beforeDeleteNote(note: Indexable) {
@@ -122,7 +178,7 @@ export default function () {
     )
   }
 
-  function deleteNote(note: Indexable) {
+  async function deleteNote(note: Indexable, publish = true) {
     // Remove from list
     const index = notes.value.findIndex((item) => item.id === note.id)
     if (index >= 0) {
@@ -138,80 +194,55 @@ export default function () {
       path: `/note/${note.id}`,
     } as MenuItem)
 
-    // Remove from database
-    noteService.delete(note.id)
-  }
+    if (publish) {
+      // Remove from database
+      await noteService.delete(note.id)
 
-  async function saveNote(data: Indexable, {
-    refresh = false
-    } = {}
-  ) {
-    const note = await noteService.save(data)
-    if (note.id === currentNote.value.id) {
-      setCurrentNote(note)
+      // publish
+      publishCollabEvent(CollabEvent.NOTE_DELETE, note)
     }
-    if (refresh) {
-      refreshNote(note)
-    }
-  }
-
-  function addIcon() {
-    const icons = ['✍', '🏞', '🎵', '📹', '🎨', '👨‍👨‍👦', '🚴‍️', '🐶', '🐬', '🌾', '🍀', '🌴', '🍋', '🌏', '🚅', '🔥', '🥏', '💵', '🛠', '📖', '📗']
-    const index = Math.floor(Math.random() * icons.length)
-    const icon = icons[index]
-    saveNote({
-      id: currentNote.value.id,
-      icon: icon
-    })
-  }
-
-  function addCover() {
-    const covers = [
-      '/images/book/dark-bubble_nebula.jpg',
-      '/images/book/dark-pillars_of_creation.jpg',
-      '/images/book/light-old_book.png',
-      '/images/book/light-willow_bank.jpg',
-    ]
-    const index = Math.floor(Math.random() * covers.length)
-    const cover = covers[index]
-    saveNote({
-      id: currentNote.value.id,
-      cover: cover
-    })
-  }
-
-  function setIcon(option: Indexable) {
-    saveNote({
-      id: currentNote.value.id,
-      icon: option.value
-    })
   }
 
   function setParent(id: string, newParent: string) {
     saveNote({
       id: id,
       parent: newParent
-    }, { refresh: true })
+    })
   }
 
   function toggleFavorite(data: Indexable) {
     saveNote({
       id: data.id,
       favorite: data.favorite === 1 ? 0 : 1
-    }, { refresh: true })
+    })
   }
 
-  function duplicateNote(data: Indexable) {
-    saveNote({
-      parent: data.parent,
-      title: `${data.title} (1)`,
-      favorite: data.favorite,
-      content: data.content,
-      icon: data.icon,
-      cover: data.cover,
-      styles: data.styles,
-    }, { refresh: true })
+  const createVersion = () => {
+    if (!lastVersionTime.value) {
+      lastVersionTime.value = currentNote.value.updateTime || ''
+      return
+    }
+
+    // Save a new version every 3/10 minutes
+    const  timeDelta = timeDiff(lastVersionTime.value, currentNote.value.updateTime, 'second')
+    console.log('version time', timeDelta)
+    if (lastVersionTime.value && timeDelta < 3 * 60) return
+
+    // update time
+    lastVersionTime.value = currentNote.value.updateTime || ''
+
+    // save version
+    noteVersionService.save({
+      noteId: currentNote.value.id,
+      title: currentNote.value.title,
+      icon: currentNote.value.icon,
+      cover: currentNote.value.cover,
+      styles: currentNote.value.styles,
+      content: currentNote.value.content,
+      type: 'full'
+    })
   }
+  const debounceCreateVersion = debounce(createVersion, 5000)
 
   function buildNoteTree(items: Note[], id: string | null = null, addEmptyNode = false) {
     const list: any[] = items
@@ -220,7 +251,7 @@ export default function () {
         return {
           key: item.id,
           type: 'note',
-          label: item.title,
+          label: item.title || 'New page',
           header: (item.parent) ? '' : 'root',
           parent: item.parent,
           data: item,
@@ -261,6 +292,19 @@ export default function () {
     return list
   }
 
+  function openNote(note: Indexable, source = '') {
+    const id = note.id
+    if (id) {
+      const query = {} as Indexable
+      if (source) query.source = source
+      router.push({
+        name: 'note',
+        params: { id },
+        query
+      })
+    }
+  }
+
   function newTab(note: Indexable) {
     tabStore.newTab({
       id: note.id,
@@ -296,13 +340,14 @@ export default function () {
     openNote,
     beforeDeleteNote,
     saveNote,
-    addCover,
-    addIcon,
-    setIcon,
+    saveNoteRemote,
+    saveNoteMarkdown,
     setParent,
     toggleFavorite,
     duplicateNote,
     newTab,
     newWindow,
+    refreshNote,
+    deleteNote,
   }
 }

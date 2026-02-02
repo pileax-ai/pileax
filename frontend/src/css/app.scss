@@ -89,8 +89,9 @@ kbd {
 // --------------------------------------------------------------------------------
 .o-banner {
   .name {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+    font-weight: 600;
   }
 
   .slogan {
@@ -489,6 +490,10 @@ model-viewer {
 .yiitap {
   .o-dialog {
     background: transparent;
+  }
+
+  .collaboration-carets__label {
+    color: #ffffff !important;
   }
 }
 

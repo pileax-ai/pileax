@@ -94,7 +94,7 @@ export default {
   dislike: 'Dislike',
   disable: 'Disable',
   docs: 'Docs',
-  document: 'Document',
+  document: 'Documentation',
   download: 'Download',
   edit: 'Edit',
   email: 'Email',
@@ -207,6 +207,7 @@ export default {
     yesterday: 'Yesterday',
     today: 'Today',
     byMonth: 'By month',
+    favorite: 'Favorite',
   },
   tips: 'Tips',
   title: 'Title',
@@ -241,4 +242,6 @@ export default {
     later: 'Later',
   },
   noShowAgain: 'Do not show again',
+  restore: 'Restore',
+  pin: 'Pin',
 }

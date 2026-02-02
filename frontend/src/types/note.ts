@@ -2,7 +2,7 @@ export interface Note {
   id: string;
   parent: string;
   title: string;
-  content: string;
+  content: Indexable;
   icon?: string;
   cover?: string;
   favorite?: number;

@@ -4,6 +4,7 @@
     :default-width="width"
     :breakpoint="200"
     :overlay="leftDrawerHoverShow || overlay"
+    persistent
     class="tab-drawer"
     :class="{
       'hover-shown': leftDrawerHoverShow || !leftDrawerShow,
@@ -15,7 +16,10 @@
       <transition appear
                   enter-active-class="animated slideInLeft"
                   leave-active-class="animated slideOutLeft">
-        <tab-navi :width="width" class="bg-accent" :header="leftDrawerShow" />
+        <tab-navi :width="width"
+                  class="bg-accent"
+                  :header="leftDrawerShow"
+                  @leave="emit('leave')" />
       </transition>
     </section>
   </resizable-drawer>
@@ -48,6 +52,7 @@ watch(() => leftDrawerShow.value, (newValue) => {
 })
 
 watch(() => leftDrawerHoverShow.value, (newValue) => {
+  console.log('abc', newValue)
   drawerOpen.value = newValue
 })
 
@@ -87,8 +92,8 @@ onMounted(() => {
   .tab-navi {
     border-radius: 0 8px 8px 0;
     box-shadow: rgba(15, 15, 15, .05) 0 0 0 1px,
-    rgba(15, 15, 15, .1) 0 3px 6px,
-    rgba(15, 15, 15, .2) 0 9px 24px;
+    rgba(15, 15, 15, .05) 0 1px 2px,
+    rgba(15, 15, 15, .05) 0 1px 2px;
   }
 }
 

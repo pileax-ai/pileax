@@ -211,6 +211,10 @@
       border-radius: 0 4px 4px 0 !important;
     }
 
+    &:only-child {
+      border-radius: 4px !important;
+    }
+
     &:not(:first-child) {
       border-left: solid 1px var(--q-secondary);
     }
@@ -352,10 +356,15 @@
       .tag {
         font-size: 0.9rem;
         display: inline-flex;
-        color: red;
-        background: rgba(red, 0.1);
+        color: #f44336;
+        background: rgba(#f44336, 0.1);
         padding: 0 6px;
         border-radius: 4px;
+
+        &.blue {
+          color: #2196f3;
+          background: rgba(#2196f3, 0.1);
+        }
       }
     }
   }

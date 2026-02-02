@@ -1,6 +1,6 @@
 <template>
   <section class="tab-navi">
-    <header class="row col-12 justify-between top-header" v-if="header">
+    <header class="row col-12 justify-between top-header expanded" v-if="header">
       <div class="row col items-center header-left drag-region">
         <quick-settings class="text-tips" type="tab" />
       </div>
@@ -16,8 +16,14 @@
       </div>
     </header>
     <header class="row col-12 justify-between top-header" v-else>
-      <div class="row col items-center header-left drag-region">
-        <quick-settings type="tab" />
+      <div class="row col items-center header-left">
+        <quick-settings type="tab" :offset="[4, 4]" />
+      </div>
+      <div class="col-auto sidebar-toggles">
+        <q-btn icon="mdi-pin-outline" class="text-tips" flat round
+               @click="onPin">
+          <o-tooltip :message="$t('pin')" position="right" />
+        </q-btn>
       </div>
     </header>
     <section class="col-12 activity-bar" :class="{ 'no-header': !header }">
@@ -31,7 +37,7 @@
               <q-tab :name="item.name"
                      :class="`tab-${item.name.split('.')[0]}`">
                 <o-icon :name="item.meta.icon" />
-                <o-tooltip>
+                <o-tooltip position="bottom" :delay="400">
                   {{menuLabel(item.name)}}
                 </o-tooltip>
               </q-tab>
@@ -63,12 +69,12 @@ const props = defineProps({
     default: 300
   },
 })
+const emit = defineEmits(['leave'])
 
 const { openDialog } = useDialog()
 const {
   consoleMenus,
   activity,
-  leftDrawerHoverShow,
   toggleLeftDrawer,
   setActivity,
 } = useNavi()
@@ -82,6 +88,11 @@ const selectedActivity = computed({
 
 function initActivity() {
   selectedActivity.value = activity.value
+}
+
+function onPin() {
+  toggleLeftDrawer()
+  emit('leave')
 }
 
 watch(() => activity.value, (newValue) => {

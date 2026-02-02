@@ -115,7 +115,10 @@ function onKeydown(event: KeyboardEvent) {
 function onSend() {
   const message = input.value ? input.value.trim() : ''
   if (message === '') return
-  if (!checkAiSettings(props.notify)) return
+  if (!checkAiSettings({
+    notify: props.notify,
+    alwaysShow: true
+  })) return
 
   emit('send', {
     id: UUID(),

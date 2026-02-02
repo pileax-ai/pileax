@@ -34,7 +34,7 @@ export default function() {
     await getDefaultModels()
   }
 
-  const checkAiSettings = (notify = 'dialog') => {
+  const checkAiSettings = ({notify = 'dialog', alwaysShow = false} = {}) => {
     const aiAvailable = (defaultModels.value.length > 0)
     if (!aiAvailable) {
       if (notify === 'dialog') {
@@ -43,6 +43,7 @@ export default function() {
           title: t('ai.providers.set'),
           message: t('ai.providers.setTips'),
           ok: t('ai.settings'),
+          alwaysShow: alwaysShow,
           onOk: () => {
             setTimeout(() => {
               openDialog({type: 'settings', tab: 'ai'})

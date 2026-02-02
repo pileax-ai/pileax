@@ -25,6 +25,15 @@ class JWTService:
         }
         return self.issue(payload)
 
+    def issue_collab_token(self, user_id: str) -> str:
+        expires_delta = timedelta(days=app_config.COLLAB_TOKEN_EXPIRE_DAYS)
+        expire = datetime.now(UTC) + expires_delta
+        payload = {
+            "sub": user_id,
+            "exp": expire,
+        }
+        return self.issue(payload)
+
     def issue_refresh_token(self, user_id: str) -> str:
         expires_delta = timedelta(days=app_config.REFRESH_TOKEN_EXPIRE_DAYS)
         expire = datetime.now(UTC) + expires_delta

@@ -64,6 +64,7 @@ class AuthService:
 
         return Token(
             access_token=JWTService().issue_access_token(str(user.id)),
+            collab_token=JWTService().issue_collab_token(str(user.id)),
             refresh_token=JWTService().issue_refresh_token(str(user.id)),
             csrf_token=JWTService().issue_csrf_token(str(user.id)),
         )
@@ -77,6 +78,7 @@ class AuthService:
 
             return Token(
                 access_token=JWTService().issue_access_token(user_id),
+                collab_token=JWTService().issue_collab_token(str(user_id)),
                 refresh_token=JWTService().issue_refresh_token(user_id),
                 csrf_token=JWTService().issue_csrf_token(user_id),
             )

@@ -23,11 +23,13 @@ jobs:
     outputs:
       api-changed: ${{ steps.changes.outputs.api }}
       web-changed: ${{ steps.changes.outputs.web }}
+      migration-changed: ${{ steps.changes.outputs.migration }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: changes
         with:
+          base: ${{ github.event.pull_request.base.ref || 'main' }}
           filters: |
             api:
               - 'backend/**'
@@ -36,6 +38,9 @@ jobs:
             web:
               - 'frontend/**'
               - '.github/workflows/web-tests.yml'
+            migration:
+              - 'backend/alembic/versions/**'
+              - '.github/workflows/db-migration-test.yml'
   web-tests:
     name: Web Tests
     needs: check-changes
@@ -47,3 +52,10 @@ jobs:
     needs: check-changes
     if: needs.check-changes.outputs.api-changed == 'true'
     uses: ./.github/workflows/api-tests.yml
+
+
+  db-migration-test:
+    name: DB Migration Test
+    needs: check-changes
+    if: needs.check-changes.outputs.migration-changed == 'true'
+    uses: ./.github/workflows/db-migration-test.yml
