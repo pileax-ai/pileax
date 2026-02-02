@@ -192,3 +192,71 @@ jobs:
             frontend/dist/electron/Packaged/*.zip
             frontend/dist/electron/Packaged/latest*.yml
           if-no-files-found: ignore
+
+      - name: Upload build status
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p status
+          echo "${{ job.status }}" > status/status.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: status-${{ matrix.os }}
+          path: status/status.txt
+
+  # ------------------------
+  # 3. Notify
+  # ------------------------
+  summary:
+    name: Build Summary
+    needs: frontend
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all status artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: status-*
+          path: statuses
+
+      - name: Build summary message
+        shell: bash
+        run: |
+          echo "Building summary..."
+
+          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          summary="Build Desktop [PileaX]\n"
+          summary="$summary\nRun: $run_url\n\n"
+
+          for file in $(ls statuses/*/status.txt | sort); do
+            os=$(basename "$(dirname "$file")" | sed 's/^status-//')
+            status=$(cat "$file")
+
+            if [ "$status" = "success" ]; then
+              icon="✅"
+            else
+              icon="❌"
+            fi
+
+            summary="$summary$icon $os : $status\n"
+          done
+
+          echo -e "$summary"
+          echo "$summary" > summary.txt
+
+      - name: Send Feishu summary
+        shell: bash
+        env:
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: |
+          jq -n --rawfile text summary.txt '{
+            msg_type: "text",
+            content: { text: $text }
+          }' | curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -d @- \
+            "$FEISHU_WEBHOOK"

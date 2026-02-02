@@ -19,20 +19,20 @@ PileaX AI: One-Stop AI Knowledge Base System. 🍀
 </p>
 
 <p align="center">
-  <a href="https://github.com/Anxcye/anx-reader#platform-support">
+  <a href="https://github.com/pileax-ai/pileax#platform-support">
     <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue" alt="Platforms"></a>
-  <a href="https://github.com/Anxcye/anx-reader#supported-formats">
+  <a href="https://github.com/pileax-ai/pileax#supported-formats">
     <img src="https://img.shields.io/badge/formats-EPUB%20%7C%20MOBI%20%7C%20AWZ3%20%7C%20FB2%20%7C%20CBZ%20%7C%20PDF-teal" alt="Supported Formats"></a>
 </p>
 
 
 ## Features
 
-🚀 **AI Chat** – Your AI assistant, ready to answer questions and tackle tasks.
-📝 **Notes** - Modern Notion-style editor.
-🤖 **Reading** – Build your personal library and enjoy AI-powered reading.
-🌗 Light & Dark mode.
-🆓 MIT Licensed.
+🚀 **AI Chat** – Your AI assistant, ready to answer questions and tackle tasks. <br/>
+📝 **Notes** - Modern Notion-style editor. <br/>
+🤖 **Reading** – Build your personal library and enjoy AI-powered reading. <br/>
+🌗 Light & Dark mode. <br/>
+🆓 MIT Licensed. <br/>
 
 ## Quick start
 
