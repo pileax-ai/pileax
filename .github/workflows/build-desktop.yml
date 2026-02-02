@@ -222,41 +222,51 @@ jobs:
           pattern: status-*
           path: statuses
 
-      - name: Build summary message
+      - name: Build Markdown summary
         shell: bash
         run: |
-          echo "Building summary..."
+          set -euo pipefail
 
-          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
-          summary="Build Desktop [PileaX]\n"
-          summary="$summary\nRun: $run_url\n\n"
+          SUMMARY="**Build Desktop [PileaX]**\n\nRun: [查看 Actions]($RUN_URL)\n\n"
 
-          for file in $(ls statuses/*/status.txt | sort); do
-            os=$(basename "$(dirname "$file")" | sed 's/^status-//')
-            status=$(cat "$file")
+          for status_dir in $(ls -d statuses/* | sort); do
+          OS=$(basename "$status_dir" | sed 's/^status-//')
+          STATUS=$(cat "$status_dir/status.txt")
 
-            if [ "$status" = "success" ]; then
-              icon="✅"
-            else
-              icon="❌"
-            fi
+          if [ "$STATUS" = "success" ]; then
+           ICON="✅"
+          else
+           ICON="❌"
+          fi
 
-            summary="$summary$icon $os : $status\n"
+          SUMMARY="$SUMMARY$ICON $OS : $STATUS\n"
           done
 
-          echo -e "$summary"
-          echo "$summary" > summary.txt
+          # 写入 summary.md
+          echo -e "$SUMMARY" > summary.md
+          cat summary.md
 
-      - name: Send Feishu summary
+      - name: Send Feishu summary (Markdown)
         shell: bash
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
         run: |
-          jq -n --rawfile text summary.txt '{
-            msg_type: "text",
-            content: { text: $text }
-          }' | curl -s -X POST \
-            -H "Content-Type: application/json" \
-            -d @- \
-            "$FEISHU_WEBHOOK"
+          TEXT=$(cat summary.md)
+
+          jq -n --arg text "$TEXT" '{
+            msg_type: "post",
+            content: {
+              post: {
+                zh_cn: {
+                  title: "Build Desktop [PileaX]",
+                  content: [
+                    [
+                      { "tag": "text", "text": $text }
+                    ]
+                  ]
+                }
+              }
+            }
+          }' | curl -fSs -X POST -H "Content-Type: application/json" -d @- "$FEISHU_WEBHOOK"
