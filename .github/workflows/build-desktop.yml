@@ -119,6 +119,19 @@ jobs:
           cd frontend
           yarn install
 
+      - name: Export frontend version
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          mkdir -p meta
+          jq -r '.version' frontend/package.json > meta/version.txt
+
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: frontend-version
+          path: meta/version.txt
+
       # ===============================
       # ⭐ macOS code sign: Import Developer ID
       # ===============================
@@ -222,40 +235,39 @@ jobs:
           pattern: status-*
           path: statuses
 
-      - name: Build Markdown summary
-        shell: bash
-        run: |
-          set -euo pipefail
+      - name: Download frontend version
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-version
+          path: meta
 
-          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-
-          SUMMARY="**Build Desktop [PileaX]**\n\nRun: [查看 Actions]($RUN_URL)\n\n"
-
-          for status_dir in $(ls -d statuses/* | sort); do
-          OS=$(basename "$status_dir" | sed 's/^status-//')
-          STATUS=$(cat "$status_dir/status.txt")
-
-          if [ "$STATUS" = "success" ]; then
-           ICON="✅"
-          else
-           ICON="❌"
-          fi
-
-          SUMMARY="$SUMMARY$ICON $OS : $STATUS\n"
-          done
-
-          # 写入 summary.md
-          echo -e "$SUMMARY" > summary.md
-          cat summary.md
-
-      - name: Send Feishu summary (Markdown)
+      - name: Send Feishu summary (Rich Text)
         shell: bash
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
         run: |
-          TEXT=$(cat summary.md)
+          set -euo pipefail
 
-          jq -n --arg text "$TEXT" '{
+          VERSION=$(cat meta/version.txt)
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          # Status
+          STATUS_LINES=""
+          for status_dir in $(ls -d statuses/* | sort); do
+            OS=$(basename "$status_dir" | sed 's/^status-//')
+            STATUS=$(cat "$status_dir/status.txt")
+
+            if [ "$STATUS" = "success" ]; then
+              ICON="✅"
+            else
+              ICON="❌"
+            fi
+
+            STATUS_LINES="$STATUS_LINES$ICON $OS : $STATUS\n"
+          done
+
+          # Feishu JSON
+          jq -n --arg version "$VERSION" --arg run "$RUN_URL" --arg status "$STATUS_LINES" '{
             msg_type: "post",
             content: {
               post: {
@@ -263,7 +275,13 @@ jobs:
                   title: "Build Desktop [PileaX]",
                   content: [
                     [
-                      { "tag": "text", "text": $text }
+                      { "tag": "text", "text": "🚀 " },
+                      { "tag": "text", "text": "Build Desktop [PileaX]\n", "bold": true },
+                      { "tag": "text", "text": "🔖 Version: " },
+                      { "tag": "text", "text": $version, "bold": true },
+                      { "tag": "text", "text": "\n🔗 Run: " },
+                      { "tag": "a", "text": "#${GITHUB_RUN_ID}", "href": $run },
+                      { "tag": "text", "text": "\n\n" + $status }
                     ]
                   ]
                 }
