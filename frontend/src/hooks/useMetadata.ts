@@ -64,11 +64,22 @@ export default function() {
     ]
   })
 
+  const LLMTypes = computed(() => {
+    return [
+      { label: t('ai.models.chat'), value: 'chat', color: 'blue' },
+      { label: t('ai.models.embedding'), value: 'embedding', color: 'indigo' },
+      { label: t('ai.models.rerank'), value: 'rerank', color: 'indigo' },
+      { label: t('ai.models.sttModel'), value: 'speech2text', color: 'indigo' },
+      { label: t('ai.models.tts'), value: 'tts', color: 'indigo' },
+    ]
+  })
+
   return {
     getArrayItem,
     StandardColors,
     WorkspaceMemberRoles,
     WorkspaceMemberStatus,
-    WorkspaceTypes
+    WorkspaceTypes,
+    LLMTypes,
   }
 }

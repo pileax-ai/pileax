@@ -56,7 +56,7 @@ export const useAccountStore = defineStore('account', {
     },
     initWorkspaces() {
       return new Promise((resolve, reject) => {
-        workspaceService.getWorkspaces().then(res => {
+        workspaceService.getWorkspacesDetails().then(res => {
           this.workspaces = res
           workspaceManager.setWorkspaces(res)
 

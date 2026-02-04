@@ -65,7 +65,7 @@ class ChatService(BaseService[Message]):
 
         # Chat completions
         llm_service = LLMService(pdm_credential)
-        generator = llm_service.chat_streamly(None, history, {"temperature": 0.9, "max_tokens": 50})
+        generator = llm_service.chat_streamly(None, history, {})
 
         content = ""
         reasoning_content = ""

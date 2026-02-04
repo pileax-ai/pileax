@@ -12,9 +12,11 @@ from app.api.models.provider_credential import (
     ProviderCredentialPublic,
     ProviderCredentialUpdate,
 )
+from app.api.models.workspace_llm import WorkspaceLLMCreate
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_default_model_service import ProviderDefaultModelService
 from app.api.services.provider_service import ProviderService
+from app.api.services.workspace_llm_service import WorkspaceLLMService
 from app.constants import HIDDEN_VALUE
 from app.core.llm.utils.llm_helper import LLMHelper
 from app.libs.provider_helper import ProviderHelper
@@ -27,8 +29,9 @@ class ProviderCredentialController(
         super().__init__(ProviderCredential, session, user_id, workspace.id)
         self.workspace = workspace
         self.service = ProviderCredentialService(session)
-        self.provider_service = ProviderService(session)
+        self.provider_service = ProviderService(session, workspace)
         self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
+        self.workspace_llm_service = WorkspaceLLMService(session, workspace)
 
     def save(self, item_in: ProviderCredentialCreate) -> Any:
         # Check provider
@@ -38,7 +41,12 @@ class ProviderCredentialController(
             raise HTTPException(status_code=404, detail="Provider not supported")
 
         # Check api_key
-        LLMHelper.validate_api_key(provider, item_in.credential.api_key, item_in.credential.base_url)
+        if item_in.llm:
+            LLMHelper.validate_llm_api_key(
+                provider, item_in.llm, item_in.credential.api_key, item_in.credential.base_url
+            )
+        else:
+            LLMHelper.validate_api_key(provider, item_in.credential.api_key, item_in.credential.base_url)
 
         # Save provider credential
         item = item_in.model_dump(by_alias=True)
@@ -50,6 +58,13 @@ class ProviderCredentialController(
         self.provider_service.save(
             Provider(workspace_id=self.workspace.id, provider=provider, credential_id=item_out.id)
         )
+
+        # Save workspace LLM
+        if item_in.llm:
+            llm_item_in = item_in.llm.model_dump(by_alias=True)
+            llm_item_in["provider"] = provider
+            llm_item_in["credential_id"] = item_out.id
+            self.workspace_llm_service.save(WorkspaceLLMCreate(**llm_item_in))
 
         # Init default models
         self.pdm_service.init(provider_info)
@@ -93,5 +108,8 @@ class ProviderCredentialController(
         # remove default model if no credentials
         if new_provider_credential is None:
             self.pdm_service.remove_by_provider(provider_credential.provider)
+
+        # remove workspace llm
+        self.workspace_llm_service.delete_all({"credential_id": id})
 
         return None

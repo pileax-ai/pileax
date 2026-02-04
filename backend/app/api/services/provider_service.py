@@ -4,16 +4,18 @@ from uuid import UUID
 from fastapi import HTTPException, status
 
 from app.api.models.owner import Owner
-from app.api.models.provider import Provider
+from app.api.models.provider import LLMInfoDetails, Provider
 from app.api.repos.provider_repository import ProviderRepository
 from app.api.services.base_service import BaseService
+from app.api.services.llm_service import LLMService
 from app.api.services.provider_credential_service import ProviderCredentialService
-from app.libs.provider_helper import ProviderHelper
 
 
 class ProviderService(BaseService[Provider]):
-    def __init__(self, session):
+    def __init__(self, session, workspace):
         super().__init__(Provider, session, ProviderRepository)
+        self.workspace = workspace
+        self.llm_service = LLMService(session, workspace)
         self.credential_service = ProviderCredentialService(session)
 
     def save(self, provider_in: Provider) -> Provider:
@@ -70,7 +72,7 @@ class ProviderService(BaseService[Provider]):
 
         return all_providers
 
-    def find_all_model(self, workspace_id: UUID):
+    def find_all_model(self, workspace_id: UUID) -> list[LLMInfoDetails]:
         providers = super().find_all(
             {
                 "workspace_id": workspace_id,
@@ -78,18 +80,19 @@ class ProviderService(BaseService[Provider]):
         )
         filtered_providers = [p for p in providers if p.credential_id is not None]
 
-        all_models = []
+        all_models: list[LLMInfoDetails] = []
         for p in filtered_providers:
-            provider = ProviderHelper.get_provider(p.provider)
+            provider = self.llm_service.get_provider(p.provider)
             if provider:
-                llm = provider["llm"]
+                llm = provider.llm
                 for item in llm:
-                    item["provider"] = provider["name"]
-                    item["logo"] = provider["logo"]
-                    all_models.append(item)
+                    item_details = LLMInfoDetails.model_validate(item.model_dump())
+                    item_details.provider = provider.name
+                    item_details.logo = provider.logo
+                    all_models.append(item_details)
 
         return all_models
 
     def find_model_by_type(self, workspace_id: UUID, model_type: str) -> Any:
         all_models = self.find_all_model(workspace_id)
-        return [x for x in all_models if x["model_type"].lower() == model_type.lower()]
+        return [x for x in all_models if x.model_type.lower() == model_type.lower()]

@@ -57,6 +57,12 @@
       background-color: transparent!important;
     }
   }
+
+  &.q-field--dense {
+    .q-btn {
+      height: 40px;
+    }
+  }
 }
 
 // --------------------------------------------------------------------------------

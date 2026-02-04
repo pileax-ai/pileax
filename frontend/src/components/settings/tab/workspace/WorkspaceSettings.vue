@@ -133,7 +133,7 @@
                    @show="side.show = true"
                    @close="onSideClose">
       <template #content>
-        <workspace-member-invite @success="onClose" />
+        <workspace-member-invite :workspace-id="data.id" @success="onClose" />
       </template>
     </o-side-dialog>
   </section>

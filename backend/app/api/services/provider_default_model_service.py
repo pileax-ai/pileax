@@ -2,6 +2,7 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
+from app.api.models.provider import ProviderInfo
 from app.api.models.provider_default_model import (
     ProviderDefaultModel,
     ProviderDefaultModelCreate,
@@ -44,22 +45,22 @@ class ProviderDefaultModelService(BaseService[ProviderDefaultModel]):
         item["workspace_id"] = self.workspace_id
         return super().save(ProviderDefaultModel(**item))
 
-    def init(self, provider_info: dict):
+    def init(self, provider_info: ProviderInfo):
         """
         Init all types default models when creating provider credential
         :param provider_info: Provider info
         """
-        provider = provider_info["name"]
-        llm_list = provider_info["llm"]
+        provider = provider_info.name
+        llm_list = provider_info.llm
         model_type_list = []
         for llm in llm_list:
-            model_type = llm["model_type"]
+            model_type = llm.model_type
             if model_type not in model_type_list:
                 self.create_update(
                     ProviderDefaultModelCreate(
                         provider=provider,
-                        model_name=llm["llm_name"],
-                        model_type=llm["model_type"],
+                        model_name=llm.model_name,
+                        model_type=llm.model_type,
                     ),
                     False,
                 )

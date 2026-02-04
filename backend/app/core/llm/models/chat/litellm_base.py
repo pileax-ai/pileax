@@ -42,6 +42,7 @@ FACTORY_NAMES = [
     "01.AI",
     "GiteeAI",
     "302.AI",
+    "MiniMax",
 ]
 
 

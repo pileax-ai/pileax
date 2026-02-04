@@ -22,7 +22,7 @@
         </q-list>
       </section>
     </o-common-card>
-    <o-common-card :title="$t('appearances.layout')" small header>
+    <o-common-card :title="$t('appearances.layout')" small header padding>
       <section class="col-12">
         <q-list no-border link>
           <o-common-item :label="$t('appearances.layouts.navi')"

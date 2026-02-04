@@ -24,7 +24,7 @@ class WorkspaceMemberController:
 
         return self.service.invite(
             WorkspaceMember(
-                workspace_id=self.workspace_id,
+                workspace_id=item_in.workspace_id,
                 user_id=user.id,
                 role=item_in.role,
                 invited_by=self.user_id,

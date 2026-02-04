@@ -56,7 +56,7 @@ const { navi, setNavi } = useSetting()
     .item {
       width: 10px;
       height: 10px;
-      background: #dddddd;
+      background: #cccccc;
       border-radius: 2px;
       margin: 1px;
     }

@@ -51,10 +51,10 @@
                    @show="side.show = true"
                    @close="onSideClose">
       <template #content>
-        <provider-api-key :id="credentialId"
-                          :data="provider"
-                          @success="onClose"
-                          v-if="view === 'api-key'" />
+        <provider-config :id="credentialId"
+                         :data="provider"
+                         @success="onClose"
+                         v-if="view === 'api-key'" />
       </template>
     </o-side-dialog>
   </section>
@@ -65,7 +65,7 @@ import { computed, onActivated, reactive, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import AddedProviderCard from './children/AddedProviderCard.vue'
 import ProviderCard from './children/ProviderCard.vue'
-import ProviderApiKey from './children/ProviderApiKey.vue'
+import ProviderConfig from './children/provider-config/index.vue'
 import OSideDialog from 'core/components/dialog/OSideDialog.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
 import { llmService } from 'src/api/service/remote/llm'
@@ -154,7 +154,7 @@ const onDelete = (credential: Indexable) => {
     cancel: true
   }).onOk( () => {
     providerCredentialService.delete(credential.id).then(res => {
-      getAddedProviders()
+      initData()
       notifyDone()
     })
   })
@@ -187,7 +187,7 @@ const onRemoveProvider = (item: Indexable) => {
 
 const onClose = () => {
   side.show = false
-  getAddedProviders()
+  initData()
 }
 
 const onSideClose = () => {

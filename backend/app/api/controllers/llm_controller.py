@@ -1,18 +1,15 @@
-from fastapi import HTTPException
-
-from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
-from app.libs.provider_helper import ProviderHelper
+from app.api.deps import CurrentWorkspace, SessionDep
+from app.api.models.provider import ProviderInfo
+from app.api.services.llm_service import LLMService
 
 
 class LLMController:
-    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
-        pass
+    def __init__(self, session: SessionDep, workspace: CurrentWorkspace):
+        self.workspace = workspace
+        self.service = LLMService(session, workspace)
 
-    def get_providers(self):
-        return ProviderHelper.get_providers()
+    def get_providers(self) -> list[ProviderInfo]:
+        return self.service.get_providers()
 
-    def get_provider(self, provider_id: str) -> dict:
-        provider = ProviderHelper.get_provider(provider_id)
-        if not provider:
-            raise HTTPException(status_code=404, detail=f"Provider {provider_id} not found")
-        return provider
+    def get_provider(self, provider_id: str) -> ProviderInfo:
+        return self.service.get_provider(provider_id)

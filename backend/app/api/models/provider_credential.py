@@ -3,11 +3,11 @@ import uuid
 from sqlmodel import Field, UniqueConstraint
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
+from app.api.models.llm import LLM
 
 
 class ProviderCredential(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "provider_credential"
-
     __table_args__ = (UniqueConstraint("workspace_id", "provider", "name", name="unique_workspace_provider_name"),)
 
     workspace_id: uuid.UUID = uuid_field()
@@ -17,7 +17,7 @@ class ProviderCredential(BaseSQLModel, BaseMixin, table=True):
 
 
 class Credential(BaseApiModel):
-    api_key: str
+    api_key: str | None = None
     base_url: str | None = None
 
 
@@ -29,7 +29,7 @@ class ProviderCredentialBase(BaseApiModel):
 
 
 class ProviderCredentialCreate(ProviderCredentialBase):
-    pass
+    llm: LLM | None = None
 
 
 class ProviderCredentialUpdate(ProviderCredentialBase):
