@@ -151,7 +151,7 @@ const actions = computed(() => {
       value: 'settings',
       icon: 'tune',
       roles: 'owner,admin',
-      status: '1',
+      status: '0,1',
     },
     {
       label: t('workspace.details'),

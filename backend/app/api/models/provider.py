@@ -39,3 +39,23 @@ class ProviderCredential(BaseApiModel):
 
 class ProviderAllPublic(ProviderBase, BaseMixin):
     credentials: List[ProviderCredential] | None
+
+
+class LLMInfo(BaseApiModel):
+    model_name: str
+    model_type: str
+    tags: str | None
+    max_tokens: int
+
+
+class LLMInfoDetails(LLMInfo):
+    provider: str | None = ""
+    logo: str | None = ""
+
+
+class ProviderInfo(BaseApiModel):
+    name: str
+    logo: str | None = ""
+    tags: str | None = ""
+    api_key_url: str | None = ""
+    llm: list[LLMInfo] | None

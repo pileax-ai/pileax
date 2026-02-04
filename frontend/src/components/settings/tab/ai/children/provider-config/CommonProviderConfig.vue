@@ -1,5 +1,5 @@
 <template>
-  <o-simple-form-page class="ai-provider"
+  <o-simple-form-page class="common-provider-config"
                       :loading="loading"
                       @submit="onSubmit"
                       enable-actions>
@@ -130,7 +130,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.ai-provider {
+.common-provider-config {
   .q-field__prefix {
     min-width: 80px;
   }

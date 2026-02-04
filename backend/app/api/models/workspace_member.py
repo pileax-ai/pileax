@@ -38,6 +38,7 @@ class WorkspaceMemberCreate(BaseApiModel):
 
 
 class WorkspaceMemberInvite(BaseApiModel):
+    workspace_id: str
     email: str
     role: str
 

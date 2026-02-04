@@ -20,7 +20,7 @@ services:
     volumes:
       - ${PGDATA_HOST_VOLUME:-./volumes/db/data}:/var/lib/postgresql/data
     ports:
-      - "${EXPOSE_POSTGRES_PORT:-5432}:5432"
+      - "${EXPOSE_POSTGRES_PORT:-15432}:5432"
     healthcheck:
       test:
         [
@@ -51,7 +51,7 @@ services:
     # Set the redis password when startup redis server.
     command: redis-server --requirepass ${REDIS_PASSWORD:-admin123456}
     ports:
-      - "${EXPOSE_REDIS_PORT:-6379}:6379"
+      - "${EXPOSE_REDIS_PORT:-16379}:6379"
     healthcheck:
       test:
         [

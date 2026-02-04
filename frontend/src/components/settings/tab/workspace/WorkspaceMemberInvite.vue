@@ -44,7 +44,7 @@ import useMetadata from 'src/hooks/useMetadata'
 
 const apiName = 'workspaceMember'
 const props = defineProps({
-  id: {
+  workspaceId: {
     type: String,
     default: ''
   },
@@ -70,7 +70,7 @@ function onSubmit () {
   }
   const body = {
     ...form.value,
-    id: props.id,
+    workspaceId: props.workspaceId,
   }
 
   actions.submit(

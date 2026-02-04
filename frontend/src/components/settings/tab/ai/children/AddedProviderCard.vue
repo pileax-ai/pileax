@@ -69,14 +69,14 @@
                   flat dropdown>
         <template #menu>
           <template v-for="(item, index) in data.llm" :key="index">
-            <o-common-item :icon="`icon-${data.logo}`" :label="item.llm_name" right-side clickable>
+            <o-common-item :icon="`icon-${data.logo}`" :label="item.modelName" right-side clickable style="min-height: 40px;">
               <template #label>
                 <template v-for="(tag, index) in item.tags.split(',')" :key="index">
                   <q-chip size="10px" dense square v-if="tag">{{tag}}</q-chip>
                 </template>
               </template>
               <template #side>
-                <q-toggle v-model="models[index]" />
+                <q-toggle v-model="models[index]" v-if="false" />
               </template>
             </o-common-item>
           </template>

@@ -35,42 +35,44 @@
 
       <q-list :style="{minWidth: '300px'}">
         <template v-for="(action, index) in actions" :key="`action-${index}`">
-          <q-separator class="bg-dark" v-if="action.separator" />
+          <template v-if="action.show">
+            <q-separator class="bg-dark" v-if="action.separator" />
 
-          <o-hover-menu menu-class="pi-menu"
-                        anchor="top right" self="top left"
-                        :offset="[12, 8]"
-                        v-if="action.value === 'workspace'">
-            <template #trigger>
-              <o-common-item v-bind="action"
-                             :closable="false" />
-            </template>
+            <o-hover-menu menu-class="pi-menu"
+                          anchor="top right" self="top left"
+                          :offset="[12, 8]"
+                          v-if="action.value === 'workspace'">
+              <template #trigger>
+                <o-common-item v-bind="action"
+                               :closable="false" />
+              </template>
 
-            <o-common-item icon="o_workspaces"
-                           :label="$t('workspace.admin')"
-                           clickable closable
-                           right-side
-                           @click="onAction({value: 'workspace'})" />
-            <q-separator class="bg-dark" />
-
-            <template v-for="(item, index) in workspaces" :key="index">
-              <o-common-item :icon="item.icon || '🍃'"
-                             :label="item.name"
-                             :class="{ 'active': item.id === workspace.id }"
+              <o-common-item icon="o_workspaces"
+                             :label="$t('workspace.admin')"
                              clickable closable
                              right-side
-                             @click="onSwitchWorkspace(item)">
-                <template #side>
-                  <q-icon name="done" v-if="item.id === workspace.id" />
-                </template>
-              </o-common-item>
-            </template>
-          </o-hover-menu>
-          <o-updater-item v-else-if="action.value === 'updater'" />
-          <o-common-item v-bind="action"
-                         @click="onAction(action)"
-                         :closable="action.clickable" v-else>
-          </o-common-item>
+                             @click="onAction({value: 'workspace'})" />
+              <q-separator class="bg-dark" />
+
+              <template v-for="(item, index) in workspaces" :key="index">
+                <o-common-item :icon="item.icon || '🍃'"
+                               :label="item.name"
+                               :class="{ 'active': item.id === workspace.id }"
+                               clickable closable
+                               right-side
+                               @click="onSwitchWorkspace(item)">
+                  <template #side>
+                    <q-icon name="done" v-if="item.id === workspace.id" />
+                  </template>
+                </o-common-item>
+              </template>
+            </o-hover-menu>
+            <o-updater-item v-else-if="action.value === 'updater'" />
+            <o-common-item v-bind="action"
+                           @click="onAction(action)"
+                           :closable="action.clickable" v-else>
+            </o-common-item>
+          </template>
         </template>
 
         <q-separator class="bg-dark" />
@@ -108,6 +110,7 @@ import OUpdaterItem from 'components/app/updater/OUpdaterItem.vue'
 import { openURL } from 'quasar'
 import { APP_DOC_URL } from 'src/app/app'
 import useShortcut from 'core/hooks/useShortcut'
+import { ipcProvider } from 'src/api/ipc'
 
 const props = defineProps({
   type: {
@@ -142,6 +145,7 @@ const actions = computed(() => {
       value: 'workspace',
       icon: 'o_workspaces',
       sideIcon: 'chevron_right',
+      show: true,
       separator: true,
     },
     {
@@ -149,6 +153,7 @@ const actions = computed(() => {
       value: 'profile',
       icon: 'o_account_circle',
       clickable: true,
+      show: true,
       separator: true,
     },
     {
@@ -157,18 +162,21 @@ const actions = computed(() => {
       icon: 'o_settings',
       sideLabel: nativeShortcut('mod G', ' '),
       clickable: true,
+      show: true,
     },
     {
       label: t('ai.settings'),
       value: 'ai',
       icon: 'mdi-creation-outline',
       clickable: true,
+      show: workspace.value.memberRole === 'owner',
     },
     {
       label: t('systems.log'),
       value: 'log',
       icon: 'o_view_headline',
       clickable: true,
+      show: ipcProvider !== 'web',
       separator: true,
     },
     {
@@ -176,6 +184,7 @@ const actions = computed(() => {
       value: 'updater',
       icon: 'o_arrow_circle_up',
       clickable: true,
+      show: ipcProvider !== 'web',
     },
     {
       label: t('help'),
@@ -183,12 +192,15 @@ const actions = computed(() => {
       icon: 'o_support',
       sideIcon: 'open_in_new',
       clickable: true,
+      show: true,
+      separator: ipcProvider === 'web',
     },
     {
       label: t('about'),
       value: 'about',
       icon: 'o_info',
       clickable: true,
+      show: true,
     },
   ]
 })

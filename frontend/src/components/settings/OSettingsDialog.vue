@@ -90,6 +90,7 @@ import UserLogTab from './tab/user-log-tab.vue'
 import WorkspaceTab from './tab/workspace-tab.vue'
 import { QScrollArea } from 'quasar'
 import { ipcProvider } from 'src/api/ipc'
+import useAccount from 'src/hooks/useAccount'
 
 
 const scrollRef = useTemplateRef<QScrollArea>('scrollRef')
@@ -110,6 +111,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['show'])
 
+const { workspace } = useAccount()
 const { dialog, onHide } = useDialog()
 const { t } = useCommon()
 const modal = ref()
@@ -173,7 +175,7 @@ const tabs = computed(() => {
       value: 'ai',
       icon: 'mdi-creation-outline',
       component: AiTab,
-      show: true,
+      show: workspace.value.memberRole === 'owner',
     },
     {
       label: t('systems.server.log'),

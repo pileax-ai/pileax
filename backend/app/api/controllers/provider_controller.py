@@ -13,7 +13,7 @@ class ProviderController(BaseController[Provider, ProviderCreate, ProviderUpdate
         super().__init__(Provider, session, user_id, workspace.id)
         self.user_id = user_id
         self.workspace = workspace
-        self.service = ProviderService(session)
+        self.service = ProviderService(session, workspace)
         self.credential_service = ProviderCredentialService(session)
 
     def delete(self, id: UUID) -> Any:

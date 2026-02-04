@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 o-field" :class="{ 'dense': dense }">
+  <div class="o-field" :class="{ 'dense': dense }">
     <div class="row col-12 justify-start items-center" v-if="side">
       <div class="row col-3 main-label">
         <span>{{label}}</span>

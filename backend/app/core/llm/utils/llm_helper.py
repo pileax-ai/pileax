@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 
+from app.api.models.llm import LLM
 from app.constants.enums import LLMType
 from app.core.llm.models import ChatModel
 from app.libs.provider_helper import ProviderHelper
@@ -12,12 +13,16 @@ class LLMHelper:
         if not provide_info:
             raise HTTPException(status_code=404, detail=f"Provider {provider} not found")
 
+        llm_list = provide_info.llm
+        if len(llm_list) == 0:
+            raise HTTPException(status_code=404, detail=f"LLM of {provider} not found")
+
         chat_passed, embd_passed, rerank_passed = False, False, False
         extra = {"provider": provider}
         msg = ""
-        for llm in provide_info["llm"]:
-            model_name = llm["llm_name"]
-            model_type = llm["model_type"]
+        for llm in llm_list:
+            model_name = llm.model_name
+            model_type = llm.model_type
             if not embd_passed and model_type == LLMType.EMBEDDING.value:
                 pass
             elif not chat_passed and model_type == LLMType.CHAT.value:
@@ -27,7 +32,7 @@ class LLMHelper:
                     m, tc = model.chat(
                         None,
                         [{"role": "user", "content": "Hello! How are you doing!"}],
-                        {"temperature": 0.9, "max_tokens": 50},
+                        {"max_tokens": 50},
                     )
                     if m.find("**ERROR**") >= 0:
                         raise Exception(m)
@@ -41,5 +46,36 @@ class LLMHelper:
                 break
             if msg:
                 raise HTTPException(status_code=403, detail=f"{msg}")
+
+        return True
+
+    @staticmethod
+    def validate_llm_api_key(provider: str, llm: LLM, api_key: str, base_url: str | None = None) -> bool:
+        provide_info = ProviderHelper.get_provider(provider)
+        if not provide_info:
+            raise HTTPException(status_code=404, detail=f"Provider {provider} not found")
+
+        extra = {"provider": provider}
+        model_name = llm.model_name
+        model_type = llm.model_type
+        if model_type == LLMType.EMBEDDING.value:
+            return True
+        elif model_type == LLMType.CHAT.value:
+            assert provider in ChatModel, f"Chat model from {provider} is not supported yet."
+            model = ChatModel[provider](api_key, model_name, base_url, **extra)
+            try:
+                m, tc = model.chat(
+                    None,
+                    [{"role": "user", "content": "Hello! How are you doing!"}],
+                    {"max_tokens": 50},
+                )
+                if m.find("**ERROR**") >= 0:
+                    raise Exception(m)
+                return True
+            except Exception as e:
+                msg = f"\nFail to access model({provider}/{model_name}) using this api key." + str(e)
+                raise HTTPException(status_code=403, detail=f"{msg}")
+        elif model_type == LLMType.RERANK.value:
+            return True
 
         return True

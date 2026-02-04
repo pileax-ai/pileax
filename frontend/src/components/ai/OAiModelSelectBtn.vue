@@ -26,7 +26,7 @@
       <template v-if="typeModels.length">
         <template v-for="(item, index) in typeModels" :key="index">
           <o-common-item :icon="`icon-${item.logo}`"
-                         :label="item.llm_name"
+                         :label="item.modelName"
                          @click="onSelect(item)"
                          right-side clickable closable>
             <template #label>
@@ -36,7 +36,7 @@
             </template>
             <template #side>
               <q-icon name="check_circle" color="primary"
-                      v-if="item.llm_name === defaultModel.modelName && item.provider === defaultModel.provider" />
+                      v-if="item.modelName === defaultModel.modelName && item.provider === defaultModel.provider" />
             </template>
           </o-common-item>
         </template>
@@ -128,7 +128,7 @@ const singleModels = ref<Indexable[]>([])
 const typeModels = computed(() => {
   return props.single
     ? singleModels.value
-    : props.models.filter(m => m.model_type === props.type)
+    : props.models.filter(m => m.modelType === props.type)
 })
 
 const defaultModel = computed(() => {
@@ -136,7 +136,7 @@ const defaultModel = computed(() => {
     return localDefaultModel.value
   } else {
     const dm = defaultModels.value.find(m => m.modelType === props.type) || {}
-    const m = typeModels.value.find(m => m.llm_name === dm.modelName && m.provider === dm.provider) || {}
+    const m = typeModels.value.find(m => m.modelName === dm.modelName && m.provider === dm.provider) || {}
     return {
       ...m,
       ...dm,
@@ -151,8 +151,8 @@ const localDefaultModel = computed(() => {
 const onSelect = (item: Indexable) => {
   const body = {
     provider: item.provider,
-    modelName: item.llm_name,
-    modelType: item.model_type
+    modelName: item.modelName,
+    modelType: item.modelType
   }
   if (props.local) {
     setLocalModel(props.type, {...body,

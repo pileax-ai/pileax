@@ -23,13 +23,22 @@ export default {
   providers: {
     added: '已添加提供商',
     api: {
-      baseUrl: '自定义 API 接口地址',
+      namePlaceholder: '配置名称',
+      baseUrl: '基础 URL',
       baseUrlGet: '从 {name} 获取你的 API 密钥',
-      baseUrlPlaceholder: 'API Base URL',
+      baseUrlPlaceholder: 'API 基础 URL',
       key: 'API 密钥',
       keyInvalid: '你提供的 API 密钥无效',
       keys: 'API 密钥',
       keyTips: '你的 API 密钥将使用 PKCS1_OAEP 技术加密存储。'
+    },
+    model: {
+      _: '模型',
+      llm: 'LLM',
+      name: '模型名称',
+      type: '模型类型',
+      maxTokens: '最大Token数',
+      get: '获取模型',
     },
     available: '可用提供商',
     title: '模型提供商',

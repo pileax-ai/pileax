@@ -23,13 +23,22 @@ export default {
   providers: {
     added: 'Added Providers',
     api: {
-      baseUrl: 'Custom API endpoint URL',
+      namePlaceholder: 'Config Name',
+      baseUrl: 'Base URL',
       baseUrlGet: 'Get your API Key from {name}',
       baseUrlPlaceholder: 'API Base URL',
       key: 'API Key',
       keyInvalid: 'Your API Key is invalid',
       keys: 'API Keys',
       keyTips: 'Your API KEY will be encrypted and stored using PKCS1_OAEP technology.'
+    },
+    model: {
+      _: 'Model',
+      llm: 'LLM',
+      name: 'Model Name',
+      type: 'Model Type',
+      maxTokens: 'Max Tokens',
+      get: 'List Models',
     },
     available: 'Available Providers',
     title: 'Model Providers',
