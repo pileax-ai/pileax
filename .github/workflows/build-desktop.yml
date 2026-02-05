@@ -263,11 +263,16 @@ jobs:
               ICON="❌"
             fi
 
-            STATUS_LINES="$STATUS_LINES$ICON $OS : $STATUS\n"
+            STATUS_LINES="${STATUS_LINES}${ICON} ${OS} : ${STATUS}"$'\n'
           done
 
           # Feishu JSON
-          jq -n --arg version "$VERSION" --arg run "$RUN_URL" --arg status "$STATUS_LINES" '{
+          jq -n \
+            --arg version "$VERSION" \
+            --arg run "$RUN_URL" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg status "$STATUS_LINES" \
+          '{
             msg_type: "post",
             content: {
               post: {
@@ -280,7 +285,7 @@ jobs:
                       { "tag": "text", "text": "🔖 Version: " },
                       { "tag": "text", "text": $version, "bold": true },
                       { "tag": "text", "text": "\n🔗 Run: " },
-                      { "tag": "a", "text": "#${GITHUB_RUN_ID}", "href": $run },
+                      { "tag": "a", "text": "#$run_id", "href": $run },
                       { "tag": "text", "text": "\n\n\($status)" }
                     ]
                   ]
