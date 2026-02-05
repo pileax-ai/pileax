@@ -281,7 +281,7 @@ jobs:
                       { "tag": "text", "text": $version, "bold": true },
                       { "tag": "text", "text": "\n🔗 Run: " },
                       { "tag": "a", "text": "#${GITHUB_RUN_ID}", "href": $run },
-                      { "tag": "text", "text": "\n\n" + $status }
+                      { "tag": "text", "text": "\n\n\($status)" }
                     ]
                   ]
                 }
