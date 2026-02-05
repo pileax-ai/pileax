@@ -285,7 +285,7 @@ jobs:
                       { "tag": "text", "text": "🔖 Version: " },
                       { "tag": "text", "text": $version, "bold": true },
                       { "tag": "text", "text": "\n🔗 Run: " },
-                      { "tag": "a", "text": "#$run_id", "href": $run },
+                      { "tag": "a", "text": "#\($run_id)", "href": $run },
                       { "tag": "text", "text": "\n\n\($status)" }
                     ]
                   ]
