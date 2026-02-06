@@ -64,7 +64,7 @@
     "label": "日本語 (日本)",
     "value": "ja-JP",
     "locale": "ja",
-    "base": "zh-Hans",
+    "base": "en-US",
     "prompt_name": "Japanese",
     "example": "こんにちは、PileaX!",
     "supported": false
@@ -73,7 +73,7 @@
     "label": "한국어 (대한민국)",
     "value": "ko-KR",
     "locale": "ko",
-    "base": "zh-Hans",
+    "base": "en-US",
     "prompt_name": "Korean",
     "example": "안녕하세요, PileaX!",
     "supported": false
