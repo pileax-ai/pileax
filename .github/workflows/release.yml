@@ -1,4 +1,4 @@
-name: Release-${{ inputs.version }}
+name: Release
 
 on:
   workflow_dispatch:
@@ -6,6 +6,8 @@ on:
       version:
         description: 'Release version (e.g. v1.0.0)'
         required: true
+
+run-name: Release - ${{ inputs.version || github.sha }}
 
 jobs:
   release-artifacts:
@@ -61,8 +63,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          name: ${{ github.event.inputs.version }}
+          tag_name: ${{ inputs.version }}
+          name: ${{ inputs.version }}
           draft: true
           prerelease: false
           files: |
@@ -80,6 +82,6 @@ jobs:
       - name: Release Drafter
         uses: release-drafter/release-drafter@v6.2.0
         with:
-          custom-version: ${{ github.event.inputs.version }}
+          custom-version: ${{ inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

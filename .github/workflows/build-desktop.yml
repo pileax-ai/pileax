@@ -1,4 +1,4 @@
-name: Build Desktop-${{ inputs.version }}
+name: Build Desktop
 
 on:
   workflow_dispatch:
@@ -19,6 +19,8 @@ on:
         description: 'Build version (e.g. v1.0.0)'
         required: true
 
+run-name: Build Desktop - ${{ inputs.version || github.sha }}
+
 jobs:
 
   # ------------------------
@@ -27,7 +29,7 @@ jobs:
   backend:
     strategy:
       matrix:
-        os: ${{ fromJSON(github.event.inputs.platforms) }}
+        os: ${{ fromJSON(inputs.platforms) }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -78,7 +80,7 @@ jobs:
     needs: backend
     strategy:
       matrix:
-        os: ${{ fromJSON(github.event.inputs.platforms) }}
+        os: ${{ fromJSON(inputs.platforms) }}
     runs-on: ${{ matrix.os }}
 
     env:
