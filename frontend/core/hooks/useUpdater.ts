@@ -9,8 +9,8 @@ export default function () {
     return appStore.updater
   })
 
-  const setUpdater = (value: Indexable) => {
-    appStore.setUpdater(value)
+  const setUpdater = (key: string, value?: any) => {
+    appStore.setUpdater(key, value)
   }
 
   return {

@@ -47,10 +47,11 @@ const initApi = async () => {
 
 const initListeners = () => {
   const { setUpdater } = useUpdater()
-  setUpdater({})
 
-  ipcService.onUpdater((data) => {
-    console.log('onUpdater', data)
-    setUpdater(data)
+  ipcService.onUpdater((event, data) => {
+    setUpdater(event, data)
+    if (import.meta.env.DEV) {
+      console.log('onUpdater', event, data)
+    }
   })
 }

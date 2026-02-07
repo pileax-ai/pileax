@@ -5,7 +5,11 @@
     <o-icon name="🍃" v-else />
 
     <template v-if="type === 'tab'">
-      <div class="label q-ml-sm">{{workspace.name}}</div>
+      <div class="row items-center label q-ml-sm">
+        {{workspace.name}}
+        <q-badge color="red" rounded align="middle" class="dot"
+                 v-if="updater.info?.version && updater.info?.version !== updater.ignore" />
+      </div>
       <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
     </template>
 
@@ -111,6 +115,7 @@ import { openURL } from 'quasar'
 import { APP_DOC_URL } from 'src/app/app'
 import useShortcut from 'core/hooks/useShortcut'
 import { ipcProvider } from 'src/api/ipc'
+import useUpdater from 'core/hooks/useUpdater'
 
 const props = defineProps({
   type: {
@@ -137,6 +142,7 @@ const { t } = useCommon()
 const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
 const { nativeShortcut } = useShortcut()
+const { updater } = useUpdater()
 
 const actions = computed(() => {
   return [

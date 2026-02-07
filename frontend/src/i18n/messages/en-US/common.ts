@@ -96,6 +96,7 @@ export default {
   docs: 'Docs',
   document: 'Documentation',
   download: 'Download',
+  downloaded: 'Downloaded',
   edit: 'Edit',
   email: 'Email',
   enable: 'Enable',
@@ -224,6 +225,7 @@ export default {
   updateTime: 'Update Time',
   upload: 'Upload',
   version: 'Version',
+  ready: 'Ready',
   view: {
     grid: 'Grid',
     list: 'List'
@@ -240,6 +242,7 @@ export default {
     message: 'New version downloaded, restart to install?',
     restart: 'Restart',
     later: 'Later',
+    ignoreThisVersion: 'Ignore this version',
   },
   noShowAgain: 'Do not show again',
   restore: 'Restore',

@@ -19,7 +19,7 @@ export class UpdaterManager {
 
     if (process.env.DEV) {
       autoUpdater.forceDevUpdateConfig = true
-      autoUpdater.currentVersion = '0.0.2' // uncomment this line to test
+      // autoUpdater.currentVersion = '0.0.2' // uncomment this line to test
     }
 
     this.setup()
@@ -28,17 +28,18 @@ export class UpdaterManager {
   setup() {
     autoUpdater.on('checking-for-update', () => {
       log.info('⭐ Checking for update...')
+      this.send('checking')
     })
 
     autoUpdater.on('update-available', info => {
       log.info('✅ Update available:', info)
       this.updateInfo = info
-      this.send(info)
+      this.send('info', info)
     })
 
     autoUpdater.on('update-not-available', () => {
       log.info('⚠️ No update available')
-      this.send({notAvailable: true})
+      this.send('notAvailable')
     })
 
     autoUpdater.on('download-progress', progress => {
@@ -47,13 +48,13 @@ export class UpdaterManager {
        Progress: ${progress.percent}%`
       )
       this.downloading = true
-      this.send({progress: progress})
+      this.send('progress', progress)
     })
 
     autoUpdater.on('update-downloaded', () => {
       this.downloading = false
       this.downloaded = true
-      this.send({downloaded: true})
+      this.send('downloaded')
     })
 
     autoUpdater.on('error', err => {
@@ -62,7 +63,13 @@ export class UpdaterManager {
   }
 
   check() {
-    return autoUpdater.checkForUpdates()
+    return new Promise((resolve, reject) => {
+      autoUpdater.checkForUpdates().then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 
   download() {
@@ -91,9 +98,9 @@ export class UpdaterManager {
       })
   }
 
-  private send(data: Indexable) {
-    WindowManager.getMainWindow()?.webContents.send('updater', data)
+  private send(event: string, data?: any) {
+    WindowManager.getMainWindow()?.webContents.send('updater', event, data)
   }
 }
 
-export const updaterManager = new UpdaterManager()
+export const updaterManager = new UpdaterManager(true)

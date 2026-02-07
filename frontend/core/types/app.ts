@@ -7,6 +7,13 @@ export interface AppState {
     width: number,
     miniState: boolean,
   },
-  updater: Indexable,
+  updater: {
+    checking?: boolean,
+    downloaded?: boolean,
+    ignore?: string,
+    info?: Indexable,
+    notAvailable?: boolean,
+    progress?: Indexable,
+  },
   tour: Indexable,
 }

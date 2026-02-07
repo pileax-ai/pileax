@@ -49,10 +49,32 @@ export const useAppStore = defineStore('app', {
     setPageTransition(pageTransition :PageTransitionSetting) {
       this.setting.pageTransition = pageTransition
     },
-    setUpdater(value: Indexable) {
-      this.updater = {
-        ...this.updater,
-        ...value
+    setUpdater(key: string, value?: any) {
+      switch (key) {
+        case 'checking':
+          this.updater.checking = true
+          break
+        case 'notAvailable':
+          this.updater = {
+            checking: false,
+            notAvailable: true
+          }
+          break
+        case 'ignore':
+          this.updater.ignore = this.updater.info?.version
+          break
+        case 'info':
+          this.updater = {
+            checking: false,
+            info: value
+          }
+          break
+        case 'progress':
+          this.updater.progress = value
+          break
+        case 'downloaded':
+          this.updater.downloaded = true
+          break
       }
     },
     closeTour(name: string) {

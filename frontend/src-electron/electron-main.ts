@@ -69,8 +69,16 @@ const createWindow = async () => {
   }
 
   // Open url in system browser
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (url.startsWith('http')) {
+      event.preventDefault()
+      shell.openExternal(url)
+    }
+  })
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url)
+    if (url.startsWith('http')) {
+      shell.openExternal(url)
+    }
     return { action: 'deny' }
   })
 
