@@ -23,7 +23,7 @@ export type IpcApi = {
   showDialog: (options: Indexable) => Promise<any>;
   updateTrayMenu: (options: any) => Promise<any>;
   updater: (options: Indexable) => Promise<any>;
-  onUpdater: (callback: (data: Indexable) => void) => void;
+  onUpdater: (callback: (event: string, data?: any) => void) => void;
 }
 
 export const ipcServiceKeys = [

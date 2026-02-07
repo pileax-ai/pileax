@@ -2,6 +2,7 @@
   <o-common-dialog class="tips-dialog dialog-theme"
                    :show="dialog.type === 'tips'"
                    :content-style="style"
+                   :ok="dialog.ok"
                    @close="onHide"
                    @ok="onOk"
                    show-cancel
@@ -10,7 +11,7 @@
       <o-icon :name="dialog.icon || 'info'" />
     </header>
     <section class="content">
-      <div class="title">
+      <div class="title" v-if="dialog.title">
         {{ dialog.title }}
       </div>
       <div class="message" v-html="dialog.message" v-if="isString(dialog.message)"></div>

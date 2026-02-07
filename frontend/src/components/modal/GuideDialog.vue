@@ -11,7 +11,7 @@
       <q-icon :name="dialog.icon || 'info'" />
     </header>
     <section class="content">
-      <div class="title">
+      <div class="title" v-if="dialog.title">
         {{ dialog.title }}
       </div>
       <div class="message" v-html="dialog.message" v-if="isString(dialog.message)"></div>
@@ -27,7 +27,7 @@
 
     <template #left-actions>
       <q-checkbox v-model="noShowAgain"
-                  :label="$t('noShowAgain')"
+                  :label="dialog.noShowAgain || $t('noShowAgain')"
                   style="margin-left: -8px;"
                   @update:modelValue="onNoShowAgain"
                   v-if="key" />
@@ -70,7 +70,11 @@ const onPan = (evt: any) => {
 }
 
 const onNoShowAgain = () => {
-  closeGuide(key.value)
+  if (typeof dialog.value.onNoShowAgain === 'function') {
+    dialog.value.onNoShowAgain()
+  } else {
+    closeGuide(key.value)
+  }
 }
 </script>
 

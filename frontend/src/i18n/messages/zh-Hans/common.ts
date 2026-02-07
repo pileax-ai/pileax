@@ -97,6 +97,8 @@ export default {
   docs: '文档',
   document: '文档',
   download: '下载',
+  downloaded: '已下载',
+  ready: '就绪',
   edit: '编辑',
   email: '邮箱',
   enable: '启用',
@@ -231,7 +233,8 @@ export default {
     notAvailable: '无可用更新',
     restart: '立即重启',
     title: '更新已就绪',
-    update: '更新至 {version}'
+    update: '更新至 {version}',
+    ignoreThisVersion: '忽略此版本',
   },
   updateTime: '更新时间',
   upload: '上传',

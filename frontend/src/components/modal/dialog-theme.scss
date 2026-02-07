@@ -21,13 +21,18 @@
       padding: 16px;
       font-size: 1.1rem;
 
+      &:has(.title) {
+        .message {
+          margin-top: 1rem;
+        }
+      }
+
       .title {
         font-size: 1.8rem;
         font-weight: 600;
       }
 
       .message {
-        margin-top: 1rem;
         opacity: 0.8;
 
         .o-badge {

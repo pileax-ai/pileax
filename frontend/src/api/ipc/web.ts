@@ -31,7 +31,7 @@ const onLoadUpdate = (callback: (data: string) => void) => {
 
 }
 
-const onUpdater = (callback: (data: string) => void) => {
+const onUpdater = (callback: (event: string, data?: any) => void) => {
 
 }
 

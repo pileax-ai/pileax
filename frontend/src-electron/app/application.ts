@@ -38,7 +38,7 @@ export class Application {
   }
 
   static initUpdater() {
-    console.log('⭐⭐⭐⭐⭐')
+    console.log('⭐ Init and auto check update')
     updaterManager.check()
   }
 
@@ -144,6 +144,7 @@ export class Application {
     })
 
     ipcMain.handle('updater', (event, options) => {
+      console.log('updater', options)
       switch (options.action) {
         case 'check':
           return updaterManager.check()

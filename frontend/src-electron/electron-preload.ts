@@ -89,8 +89,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('update-tray-menu', options),
   updater: async (options: Indexable) =>
     ipcRenderer.invoke('updater', options),
-  onUpdater: (callback: (data: any) => void) => {
-    ipcRenderer.on('updater', (_, data: any) => callback(data))
+  onUpdater: (callback: (event: string, data?: any) => void) => {
+    ipcRenderer.on('updater', (_, event: string, data?: any) => callback(event, data))
   },
 }
 
