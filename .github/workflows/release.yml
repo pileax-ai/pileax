@@ -7,6 +7,8 @@ on:
         description: 'Release version (e.g. v1.0.0)'
         required: true
 
+run-name: Release - ${{ inputs.version || github.sha }}
+
 jobs:
   release-artifacts:
     runs-on: ubuntu-latest
@@ -61,12 +63,19 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          name: ${{ github.event.inputs.version }}
+          tag_name: ${{ inputs.version }}
+          name: ${{ inputs.version }}
           draft: true
           prerelease: false
           files: |
-            artifacts/**/*
+            artifacts/**/*.exe
+            artifacts/**/*.zip
+            artifacts/**/*.dmg
+            artifacts/**/*.AppImage
+            artifacts/**/*.yml
+            artifacts/**/*.blockmap
+          overwrite: true
+          fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -79,6 +88,7 @@ jobs:
       - name: Release Drafter
         uses: release-drafter/release-drafter@v6.2.0
         with:
-          custom-version: ${{ github.event.inputs.version }}
+          version: ${{ inputs.version }}
+          tag: ${{ inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
