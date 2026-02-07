@@ -68,8 +68,14 @@ jobs:
           draft: true
           prerelease: false
           files: |
-            artifacts/**/*
-            !artifacts/**/status.txt
+            artifacts/**/*.exe
+            artifacts/**/*.zip
+            artifacts/**/*.dmg
+            artifacts/**/*.AppImage
+            artifacts/**/*.yml
+            artifacts/**/*.blockmap
+          overwrite: true
+          fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -82,6 +88,7 @@ jobs:
       - name: Release Drafter
         uses: release-drafter/release-drafter@v6.2.0
         with:
-          custom-version: ${{ inputs.version }}
+          version: ${{ inputs.version }}
+          tag: ${{ inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
