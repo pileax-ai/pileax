@@ -19,7 +19,7 @@ export class UpdaterManager {
 
     if (process.env.DEV) {
       autoUpdater.forceDevUpdateConfig = true
-      // autoUpdater.currentVersion = '0.0.2' // uncomment this line to test
+      autoUpdater.currentVersion = '0.0.2' // uncomment this line to test
     }
 
     this.setup()
