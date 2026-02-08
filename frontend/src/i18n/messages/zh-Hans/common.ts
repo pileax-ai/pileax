@@ -226,6 +226,7 @@ export default {
   update: '更新',
   updater: {
     check: '检查更新',
+    checking: '检查中',
     currentVersion: '当前版本',
     later: '以后安装',
     message: '新版本已下载，重启安装？',

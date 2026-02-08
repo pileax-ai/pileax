@@ -234,6 +234,7 @@ export default {
   current: 'Current',
   updater: {
     check: 'Check update',
+    checking: 'Checking',
     update: 'Update to {version}',
     currentVersion: 'Current version',
     newVersion: 'New version',
