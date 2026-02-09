@@ -60,7 +60,12 @@
       </div>
       <div class="row label">
         <span class="text-tips">{{ $t('auth.useToConsent') }}</span>
-        <q-btn flat dense>{{ $t('terms.service') }} & {{ $t('terms.privacy') }}</q-btn>
+        <q-btn flat
+               dense
+               href="https://docs.pileax.ai/agreement"
+               target="_blank">
+          {{ $t('terms.service') }} & {{ $t('terms.privacy') }}
+        </q-btn>
       </div>
     </q-card-section>
   </q-card>

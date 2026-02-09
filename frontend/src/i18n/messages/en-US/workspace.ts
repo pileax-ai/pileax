@@ -2,13 +2,14 @@ export default {
   _: 'Workspace',
   add: 'Add Workspace',
   admin: 'Manage Workspaces',
+  assignRoleConfirm: 'Will assign a new role to {name}?',
   current: 'Current Workspace',
-  switch: 'Switch to this workspace',
+  details: 'Workspace Details',
   invites: {
-    member: 'Invite member',
-    tips: 'Invite new members to join your workspace.',
-    joined: 'Joined',
     accept: 'Accept invitation',
+    joined: 'Joined',
+    member: 'Invite member',
+    tips: 'Invite new members to join your workspace.'
   },
   memberRoles: {
     admin: 'Admin',
@@ -24,8 +25,7 @@ export default {
   },
   name: 'Workspace Name',
   settings: 'Workspace Settings',
-  details: 'Workspace Details',
-  assignRoleConfirm: 'Will assign a new role to {name}?',
+  switch: 'Switch to this workspace',
   types: {
     personal: 'Personal',
     team: 'Team'

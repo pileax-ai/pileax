@@ -23,27 +23,27 @@ export default {
   providers: {
     added: '已添加提供商',
     api: {
-      namePlaceholder: '配置名称',
       baseUrl: '基础 URL',
       baseUrlGet: '从 {name} 获取你的 API 密钥',
       baseUrlPlaceholder: 'API 基础 URL',
       key: 'API 密钥',
       keyInvalid: '你提供的 API 密钥无效',
       keys: 'API 密钥',
-      keyTips: '你的 API 密钥将使用 PKCS1_OAEP 技术加密存储。'
-    },
-    model: {
-      _: '模型',
-      llm: 'LLM',
-      name: '模型名称',
-      type: '模型类型',
-      maxTokens: '最大Token数',
-      get: '获取模型',
+      keyTips: '你的 API 密钥将使用 PKCS1_OAEP 技术加密存储。',
+      namePlaceholder: '配置名称'
     },
     available: '可用提供商',
-    title: '模型提供商',
+    model: {
+      _: '模型',
+      get: '获取模型',
+      llm: 'LLM',
+      maxTokens: '最大Token数',
+      name: '模型名称',
+      type: '模型类型'
+    },
     set: '设置 AI 模型提供商',
     setTips: '设置服务提供商以启用 AI 功能',
+    title: '模型提供商'
   },
   regenerate: '重新生成',
   settings: 'AI 设置'

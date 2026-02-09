@@ -6,7 +6,7 @@
                                icon="mdi-creation"
                                single icon-only local>
           <o-tooltip position="left" transition>
-            AI Model
+            {{ $t('ai.model') }}
           </o-tooltip>
         </o-ai-model-select-btn>
         <q-btn icon="language" flat />

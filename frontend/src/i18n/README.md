@@ -10,6 +10,10 @@ yarn i18n-generate
 yarn i18n-generate-zh
 ```
 
+## messages
+### Blank value
+Blank value means translation errors, try next time.
+
 ## All Languages
 All languages defined in `config/language.json`:
 
@@ -23,7 +27,10 @@ All languages defined in `config/language.json`:
 ### Add new language
 1. Add new language item in `src/i18n/generate/config/language.json`
 2. Add new dayjs locale import in `core/utils/dayjs.ts`
-3. Generate by `yarn i18n-generate`
+3. Add new item in `src/i18n/quasar.ts`
+4. Generate
+   - `yarn i18n-generate`
+   - `yarn i18n-generate-zh`
 
 ### Links
 

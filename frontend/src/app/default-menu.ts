@@ -124,7 +124,7 @@ export const defaultConsoleMenus: MenuItem[] = [
     name: 'ai.apps',
     path: '',
     action: 1,
-    meta: {icon: 'mdi-creation'},
+    meta: {icon: 'mdi-creation', hidden: true},
     children: [
       {
         id: 'ai-app-assistants',

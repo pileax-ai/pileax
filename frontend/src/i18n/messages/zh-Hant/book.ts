@@ -1,22 +1,22 @@
 export default {
   _: '書籍',
-  add: '添加書籍',
+  add: '新增書籍',
   addTime: '添加時間',
-  addToCollection: '添加至書單',
+  addToCollection: '新增至書單',
   addToWant: '標記為想讀',
   annotation: '書摘',
   annotations: {
     _: '書摘',
     add: '添加書摘',
-    noRecords: '還沒有書摘記錄，快去閱讀添加吧'
+    noRecords: '還沒有書摘紀錄，快去閱讀添加吧'
   },
   author: '作者',
   chapter: '章節',
   collection: '書單',
   collections: {
     _: '書單',
-    add: '添加書單',
-    removeConfirm: '你確定從書單中移除嗎？'
+    add: '新增書單',
+    removeConfirm: '你確定從書單移除嗎？'
   },
   filter: {
     all: '全部',
@@ -28,19 +28,19 @@ export default {
   lastReadTime: '最後閱讀時間',
   library: {
     _: '書庫',
-    add: '從書庫中添加',
-    noBooks: '書庫中還沒有記錄，快來添加吧'
+    add: '從書庫中新增',
+    noBooks: '書庫還沒有記錄，快來添加吧'
   },
   markFinished: '標記為已讀',
-  previewTips: '預覽模式下，不會保存閱讀進度',
-  publisher: '出版社',
+  previewTips: '預覽模式下，不會儲存閱讀進度',
+  publisher: '出版商',
   removeConfirm: '你確定從書架中移除嗎？',
   shelf: '書架',
   startPreview: '開始預覽',
   startReading: '開始閱讀',
   uploader: {
     completed: '圖書已成功上傳至伺服器',
-    label: '將文件拖到此處，或點擊上傳',
+    label: '將文件拖曳到此處，或點擊上傳',
     success: '成功',
     total: '共計'
   },

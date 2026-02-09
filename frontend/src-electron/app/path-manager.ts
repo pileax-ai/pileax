@@ -151,6 +151,7 @@ export class PathManager {
 
   async migrateLibrary(options: MigrateLibraryOptions) {
     const newDir = options.location
+    const newDir = options.location
     const type = options.type
     if (!isDirectoryExists(newDir)) {
       return { success: false, message: 'Location does not exist', code: `noExist` }

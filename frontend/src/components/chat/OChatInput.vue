@@ -23,7 +23,7 @@
       <div class="row items-end">
         <o-ai-model-select-btn type="chat" single icon-only local round>
           <o-tooltip position="left" transition>
-            AI Model
+            {{ $t('ai.model') }}
           </o-tooltip>
         </o-ai-model-select-btn>
       </div>

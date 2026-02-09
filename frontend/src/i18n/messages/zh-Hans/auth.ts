@@ -8,8 +8,8 @@ export default {
       passkeys: '通行密钥',
       password: '密码',
       password_action: '修改密码',
-      password_new: '新密码',
       password_incorrect: '原密码不正确',
+      password_new: '新密码',
       password_tips: '修改你的登录密码。',
       title: '安全'
     },
@@ -30,6 +30,6 @@ export default {
     nameError: '请输入正确名称',
     passwordError: '请输入正确密码'
   },
-  useToConsent: '使用即代表您同意我们的',
   tokenExpired: 'API凭证已经失效，须重新登录',
+  useToConsent: '使用即代表您同意我们的'
 }

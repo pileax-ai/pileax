@@ -1,0 +1,49 @@
+export default {
+  _: 'Książka',
+  add: 'Dodaj książkę',
+  addTime: 'Dodaj czas',
+  addToCollection: 'Dodaj do kolekcji',
+  addToWant: 'Dodaj do „Chcę przeczytać”',
+  annotation: 'Adnotacja do książki',
+  annotations: {
+    _: 'Adnotacje do książek',
+    add: 'Dodaj adnotację',
+    no: 'Dodaj adnotację',
+    noRecords: 'Brak jeszcze adnotacji. Zacznij czytać i zaznacz niektóre.'
+  },
+  author: 'Autor',
+  chapter: 'Rozdział',
+  collection: 'Kolekcja książek',
+  collections: {
+    _: 'Kolekcje książek',
+    add: 'Dodaj kolekcję',
+    removeConfirm: 'Czy na pewno chcesz usunąć z kolekcji?'
+  },
+  filter: {
+    all: 'Wszystko',
+    book: 'Książki',
+    pdf: 'Pliki PDF'
+  },
+  format: 'Format',
+  info: 'Informacje o książce',
+  lastReadTime: 'Ostatni czas odczytu',
+  library: {
+    _: 'Biblioteka',
+    add: 'Dodaj z biblioteki',
+    noBooks: 'W bibliotece nie ma jeszcze żadnych książek. Dodaj je teraz.'
+  },
+  markFinished: 'Oznacz jako ukończone',
+  previewTips: 'W trybie podglądu postęp czytania nie zostanie zapisany.',
+  publisher: 'Wydawca',
+  removeConfirm: 'Czy na pewno chcesz usunąć z półki?',
+  shelf: 'Półka na książki',
+  startPreview: 'Rozpocznij podgląd',
+  startReading: 'Zacznij czytać',
+  uploader: {
+    completed: 'Zakończono przesyłanie książek na serwer',
+    label: 'Przeciągnij pliki tutaj lub kliknij, aby je przesłać.',
+    success: 'Sukces',
+    total: 'Całkowity'
+  },
+  uploadTime: 'Czas przesyłania'
+}

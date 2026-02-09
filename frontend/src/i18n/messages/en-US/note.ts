@@ -29,6 +29,6 @@ export default {
   version: 'Version history',
   versions: {
     restore: 'Restore version',
-    restoreTips: 'Are you sure to restore to this version',
-  },
+    restoreTips: 'Are you sure to restore to this version'
+  }
 }

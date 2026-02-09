@@ -1,18 +1,16 @@
 <template>
-  <span class="o-icon" v-if="emoji">
+  <span v-bind="$attrs" class="o-icon" v-if="emoji">
     {{ emoji }}
   </span>
-  <template v-else>
-    <o-svg-icon v-bind="{...props, ...$attrs}" class="o-icon"
-                v-if="name.indexOf('icon') === 0" />
-    <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"
-         v-else-if="name.indexOf('png') === 0" />
-    <img :src="name" alt="icon" class="o-icon" v-bind="$attrs"
-         v-else-if="name.indexOf('http') === 0" />
-    <q-icon :name="name" class="o-icon" :size="size" :color="color" v-bind="$attrs"
-            v-else-if="isIcon(name)" />
-    <span class="o-icon" :style="{ fontSize: size }" v-else>{{name}}</span>
-  </template>
+  <o-svg-icon v-bind="{...props, ...$attrs}" class="o-icon"
+              v-else-if="name.indexOf('icon') === 0" />
+  <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"
+       v-else-if="name.indexOf('png') === 0" />
+  <img :src="name" alt="icon" class="o-icon" v-bind="$attrs"
+       v-else-if="name.indexOf('http') === 0" />
+  <q-icon :name="name" class="o-icon" :size="size" :color="color" v-bind="$attrs"
+          v-else-if="isIcon(name)" />
+  <span class="o-icon" :style="{ fontSize: size }" v-else>{{name}}</span>
 </template>
 
 <script setup lang="ts">
