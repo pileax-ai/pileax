@@ -542,4 +542,16 @@ provide('insertContent', insertContent)
     }
   }
 }
+
+.o-layout:has(.splitHorizontal) {
+  .q-drawer, .o-top-header {
+    z-index: 0;
+  }
+
+  .page-note {
+    .o-scroll-wrapper {
+      contain: unset;
+    }
+  }
+}
 </style>
