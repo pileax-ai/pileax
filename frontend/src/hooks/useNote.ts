@@ -137,7 +137,7 @@ export default function () {
       ...currentNote.value,
       ...data,
     } as Note)
-    debounceSaveNoteRemote(data)
+    saveNoteRemote(data)
     debounceCreateVersion()
   }
 

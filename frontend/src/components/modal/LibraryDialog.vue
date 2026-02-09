@@ -86,8 +86,9 @@ const migrateResult = ref<Indexable>({
 
 const typeOptions = computed(() => {
   return  [
-    { label: t('reading.libraries.locations.open'), value: 'open', color: 'indigo' },
-    { label: t('reading.libraries.locations.create'), value: 'create', color: 'green' },
+    // todo: open, create
+    // { label: t('reading.libraries.locations.open'), value: 'open', color: 'indigo' },
+    // { label: t('reading.libraries.locations.create'), value: 'create', color: 'green' },
     { label: t('reading.libraries.locations.move'), value: 'move', color: 'blue' }
   ]
 })

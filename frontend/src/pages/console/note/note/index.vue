@@ -47,7 +47,7 @@
         <section class="layout-content title">
           <q-input ref="title"
                    :model-value="currentNote.title"
-                   debounce="500"
+                   debounce="800"
                    placeholder="New page"
                    class=""
                    borderless

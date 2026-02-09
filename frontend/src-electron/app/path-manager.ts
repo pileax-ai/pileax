@@ -126,53 +126,72 @@ export class PathManager {
     return path.join(this.appLibraryPath(), 'public')
   }
 
-  async migrate(key: string, newDir: string, cut: boolean): Promise<MigrateResult> {
+  async migrate(key: string, newDir: string): Promise<MigrateResult> {
+    const isEmpty = await isDirectoryEmpty(newDir)
+    if (!isEmpty) {
+      return MigrationMessage.error('New location is not empty', 'notEmpty')
+    }
+
     const oldDir = this.getPath(key)
     if (oldDir === newDir) {
-      return { success: false, message: 'Location not changed', code: 'sameLocation' }
+      return MigrationMessage.error('Location not changed', 'sameLocation')
     }
 
     try {
       await fs.ensureDir(newDir)
 
       await fs.copy(oldDir, newDir, { overwrite: true })
-      this.setPath(key, newDir)
 
-      if (cut) {
-        await fs.remove(oldDir)
-      }
+      // don't remove before reloading
+      // await fs.remove(oldDir)
 
-      return { success: true, message: `Migrated ${key} to ${newDir}`, code: '' }
+      return MigrationMessage.success(`Migrated ${key} to ${newDir}`)
     } catch (err: any) {
       log.error(`Failed to migrate ${key}:`, err)
-      return { success: false, message: err.message || String(err), code: 'error' }
+      return MigrationMessage.error(err.message || String(err), 'error')
+    }
+  }
+
+  async migrateCreate(newDir: string): Promise<MigrateResult> {
+    if (await isDirectoryEmpty(newDir)) {
+      return MigrationMessage.success(`Create new library at ${newDir}`)
+    } else {
+      return MigrationMessage.error('New location is not empty', 'notEmpty')
+    }
+  }
+
+  async migrateExist(newDir: string): Promise<MigrateResult> {
+    const dbPath = path.join(newDir, 'metadata.db')
+    if (await fs.pathExists(dbPath)) {
+      return MigrationMessage.success(`Use exist library at ${newDir}`)
+    } else {
+      return MigrationMessage.error('No metadata.db file found', 'notFound')
     }
   }
 
   async migrateLibrary(options: MigrateLibraryOptions) {
-    const newDir = options.location
-    const newDir = options.location
+    const libraryKey = 'library'
+    const oldDir = this.getPath(libraryKey)
+    let newDir = options.location
     const type = options.type
     if (!isDirectoryExists(newDir)) {
-      return { success: false, message: 'Location does not exist', code: `noExist` }
+      return MigrationMessage.error('Location does not exist', 'noExist')
     }
 
     log.info(`🚚 Migrating [${type}] library to ${newDir} ...`)
+
     // migrate
-    let result = { success: true, message: '', code: '' }
+    let result = MigrationMessage.success('')
     switch (type) {
       case 'create':
-        result.message = `Create new library at ${newDir}`
+        newDir = path.join(newDir, 'pileax-library')
+        result = await this.migrateCreate(newDir)
         break
       case 'open':
-        result.message = `Use exist library at ${newDir}`
+        result = await this.migrateExist(newDir)
         break
       case 'move':
-        if (await isDirectoryEmpty(newDir)) {
-          result = (await this.migrate('library', newDir, true)) as any
-        } else {
-          result = { success: false, message: 'New location is not empty', code: 'notEmpty' }
-        }
+        result = await this.migrate(libraryKey, newDir)
         break
     }
 
@@ -180,12 +199,43 @@ export class PathManager {
     if (result.success) {
       this.setPath('library', newDir)
 
+      if (type === 'move') {
+        this.setPath('library_old', oldDir) // save to remove it later
+      }
+
       // Reload app
       Application.reload()
       await sleep(3000)
     }
 
     return result
+  }
+
+  async cleanOldLibrary() {
+    const oldLibrary = this.getPath('library_old')
+    const library = this.getPath('library')
+    if (oldLibrary && oldLibrary !== library) {
+      try {
+        // don't remove before reloading
+        await fs.remove(oldLibrary)
+        this.setPath('library_old', '')
+        log.info(`✅ Successfully removed the old - library ${oldLibrary}`)
+      } catch (err: any) {
+        log.error(`❌ Failed to remove old library ${oldLibrary}:`, err)
+      }
+    } else {
+      log.info(`📁 Old library does not exist`)
+    }
+  }
+}
+
+class MigrationMessage {
+  static success(message: string): MigrateResult {
+    return { success: true, message: message, code: '' }
+  }
+
+  static error(message: string, code: string): MigrateResult {
+    return { success: false, message: message, code: code }
   }
 }
 
