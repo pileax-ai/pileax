@@ -6,7 +6,7 @@
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
     class="resizable-drawer">
-    <div ref="drawerRef" class="drawer-inner">
+    <div ref="drawerRef" class="row drawer-inner">
       <slot></slot>
     </div>
     <div class="drawer-separator"

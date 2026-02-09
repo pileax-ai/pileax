@@ -16,7 +16,7 @@ source .venv/bin/activate
 
 ### Star server
 ```shell
-fastapi run --reload app/main.py
+fastapi run --reload --port 9620 app/main.py
 
 # or
 python app/main.py

@@ -65,7 +65,7 @@ export default function () {
   }
 
   watch(workspace, (newValue, oldValue) => {
-    console.log(`workspace: ${oldValue.id} -> ${newValue.id}`, newValue)
+    // console.log(`workspace: ${oldValue.id} -> ${newValue.id}`, newValue)
     if (newValue.id) {
       refreshWorkspaceData()
       initWorkspaceCollab()

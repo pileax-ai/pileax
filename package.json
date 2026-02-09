@@ -29,7 +29,7 @@
     "build:desktop": "yarn build:backend && yarn build:electron",
     "build:desktop:linux": "yarn build:backend && yarn build:electron:linux",
     "build:desktop:win": "yarn build:backend && yarn build:electron:win",
-    "preview": "cd frontend/dist/spa && quasar serve",
+    "preview": "cd frontend/dist/spa && quasar serve --port 9601",
     "i18n-generate": "cd frontend && yarn i18n-generate",
     "i18n-generate-zh": "cd frontend && yarn i18n-generate-zh"
   },

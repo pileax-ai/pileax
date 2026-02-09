@@ -197,7 +197,7 @@ export function removeUserData(prefix = PREFIX) {
   }
 
   // Pinia stores
-  const storeKeys = ['ai', 'chat', 'collab', 'navi', 'note', 'tab']
+  const storeKeys = ['ai', 'chat', 'collab', 'note', 'tab']
   const pinia = getActivePinia()
   if (pinia) {
     const stores = (pinia as Pinia & { _s: Map<string, any> })._s

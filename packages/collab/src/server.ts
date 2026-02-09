@@ -14,7 +14,7 @@ const db = createDB()
 
 const server = new Server({
   name: 'pileax-collab',
-  port: Number(process.env.PORT) || 1234,
+  port: Number(process.env.COLLAB_PORT) || 9611,
   debounce: 1000,
 
   extensions: [

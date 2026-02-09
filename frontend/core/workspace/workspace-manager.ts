@@ -65,8 +65,7 @@ export class WorkspaceManager {
 
     // Persist to sessionStorage
     saveSessionItem(cacheKey, workspaceId)
-
-    console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`)
+    // console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`)
   }
 
   loadWorkspace(): void {

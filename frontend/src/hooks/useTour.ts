@@ -52,22 +52,22 @@ export default function() {
             side: 'right'
           }
         },
-        {
-          element: '.tab-knowledge',
-          popover: {
-            title: t('tour.navi.knowledgeTitle'),
-            description: t('tour.navi.knowledgeDesc'),
-            side: 'right'
-          }
-        },
-        {
-          element: '.tab-ai',
-          popover: {
-            title: t('tour.navi.aiTitle'),
-            description: t('tour.navi.aiDesc'),
-            side: 'right'
-          }
-        },
+        // {
+        //   element: '.tab-knowledge',
+        //   popover: {
+        //     title: t('tour.navi.knowledgeTitle'),
+        //     description: t('tour.navi.knowledgeDesc'),
+        //     side: 'right'
+        //   }
+        // },
+        // {
+        //   element: '.tab-ai',
+        //   popover: {
+        //     title: t('tour.navi.aiTitle'),
+        //     description: t('tour.navi.aiDesc'),
+        //     side: 'right'
+        //   }
+        // },
       ]
     } as Indexable
   })

@@ -9,7 +9,7 @@ export function verifyToken(token?: string) {
     token = token.replace('Bearer ', '')
   }
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!)
+    const payload = jwt.verify(token, process.env.SECRET_KEY!)
     return {
       user: {
         id: payload.sub
