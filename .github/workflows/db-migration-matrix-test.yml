@@ -15,7 +15,7 @@ jobs:
       revs: ${{ steps.set-revs.outputs.revs }}
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v7
       - id: set-revs
         run: |
           echo "revs=$(uv run --directory backend python scripts/get_alemibic_revisions.py)" >> $GITHUB_OUTPUT
@@ -37,7 +37,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup UV and Python
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
           python-version: "3.12"
