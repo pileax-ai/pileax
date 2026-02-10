@@ -5,12 +5,11 @@
         <img :src="$public('/images/ui/page/404.svg')" alt="404" />
       </div>
       <section class="pi-result">
-        <div class="text-center pi-result-title">404</div>
-        <div class="text-tips pi-result-subtitle">Sorry, the page you visited does not exist.</div>
+        <div class="text-center text-readable pi-result-title text-uppercase">{{ $t('pageNotFound') }}</div>
       </section>
 
       <div class="row col-12 justify-center">
-        <q-btn :label="$t('back.home')" to="/" class="bg-primary text-white" flat />
+        <q-btn :label="$t('backToHome')" to="/" class="bg-primary text-white" flat />
       </div>
     </section>
   </o-single-page>
@@ -35,6 +34,11 @@ import OSinglePage from 'core/page/template/OSinglePage.vue'
 
   .pi-result {
     padding-bottom: 40px;
+
+    &-title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
   }
 }
 </style>

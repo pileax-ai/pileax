@@ -2,6 +2,7 @@ import type { ChildProcess} from 'child_process'
 import { spawn } from 'child_process'
 import getPort from 'get-port'
 import log from 'electron-log'
+import http from 'node:http'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import os from 'os'
@@ -19,9 +20,9 @@ class FastAPIServer {
   private serverPath?: string
   private serverEntry?: string
 
-  private readonly dbPath: string
-  private readonly cachePath: string
-  private readonly publicPath: string
+  private dbPath: string
+  private cachePath: string
+  private publicPath: string
 
   constructor() {
     this.dbPath = pathManager.appDbFilePath()
@@ -81,10 +82,62 @@ class FastAPIServer {
     })
   }
 
-  public async restart() {
+  public async restart(waitForReady = false) {
     log.info('🔄️ Restarting server process ...')
+    this.resetPath()
+
     await this.stop('restart')
     await this.start()
+
+    if (waitForReady) {
+      await this.waitUntilReady()
+    }
+  }
+
+  public async isReady() {
+    return new Promise((resolve, reject) => {
+      const req = http.get(
+        {
+          host: 'localhost',
+          port: this.port,
+          path: '/api/v1/system/health-check'
+        },
+        (res) => {
+          resolve(res.statusCode !== undefined && res.statusCode >= 200 && res.statusCode < 300)
+          res.resume()
+        }
+      )
+      req.on('timeout', () => {
+        req.destroy()
+        resolve(false)
+      })
+      req.on('error', () => {
+        resolve(false)
+      })
+    })
+  }
+
+  public async waitUntilReady(
+    options?: {
+      timeout?: number
+      interval?: number
+    }
+  ): Promise<void> {
+    const timeout = options?.timeout ?? 10_000
+    const interval = options?.interval ?? 500
+    const start = Date.now()
+
+    while (true) {
+      if (await this.isReady()) {
+        return
+      }
+
+      if (Date.now() - start > timeout) {
+        throw new Error('FastAPI server startup timeout')
+      }
+
+      await new Promise((r) => setTimeout(r, interval))
+    }
   }
 
   get serverInfo(): Indexable {
@@ -94,6 +147,12 @@ class FastAPIServer {
       apiDocs: `http://localhost:${this.port}/docs`,
       appBase: `http://localhost:${this.port}`,
     }
+  }
+
+  private resetPath() {
+    this.dbPath = pathManager.appDbFilePath()
+    this.cachePath = pathManager.appCachePath()
+    this.publicPath = pathManager.appPublicPath()
   }
 
   private async startProd() {

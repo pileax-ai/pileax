@@ -26,11 +26,10 @@ export class Application {
 
   static reload() {
     Application.initPath()
-    Application.initLog()
   }
 
   static initApp() {
-    app.setName('pileax-desktop')
+    app.setName('PileaX')
     if (process.platform === 'linux') {
       app.commandLine.appendSwitch('no-sandbox')
       app.commandLine.appendSwitch('disable-setuid-sandbox')
@@ -101,7 +100,8 @@ export class Application {
       async (event, options) => {
         const  result = await pathManager.migrateLibrary(options)
         if (result.success) {
-          await server.restart()
+          await server.restart(true)
+          pathManager.cleanOldLibrary()
         }
         return result
       })

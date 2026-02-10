@@ -11,8 +11,8 @@ export const IconSets = [
 ]
 
 // Locale
-export const Locales = languages
-// export const Locales = languages.filter(item => item.supported)
+// export const Locales = languages
+export const Locales = languages.filter(item => item.supported)
 
 export const Languages = languages.map(item => {
   return {

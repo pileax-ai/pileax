@@ -9,7 +9,8 @@
       </div>
       <div class="row items-center" v-else>
         <div>{{ label }}</div>
-        <q-badge color="red" rounded align="middle" class="dot q-ml-xs" />
+        <q-badge color="red" rounded align="middle" class="dot q-ml-xs"
+                 v-if="updater.info?.version" />
       </div>
     </template>
     <template #side>
@@ -36,13 +37,18 @@ const percent = ref(0)
 
 const label = computed(() => {
   const info = updater.value.info
+  const checking = updater.value.checking
   const notAvailable = updater.value.notAvailable
   if (info?.version) {
     return t('updater.update', {version: info.version})
   } else {
-    return notAvailable
-      ? t('updater.notAvailable')
-      : t('updater.check')
+    if (checking) {
+      return t('updater.checking')
+    } else {
+      return notAvailable
+        ? t('updater.notAvailable')
+        : t('updater.check')
+    }
   }
 })
 

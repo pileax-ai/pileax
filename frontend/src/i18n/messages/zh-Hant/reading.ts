@@ -3,7 +3,7 @@ export default {
   agent: {
     _: 'AI智能體',
     agents: 'AI智能體',
-    manage: '管理AI智慧體'
+    manage: '管理AI智能體'
   },
   aiReading: 'AI 朗讀',
   libraries: {
@@ -11,12 +11,12 @@ export default {
     locations: {
       choose: '請選擇位置',
       create: '在新位置建立一個空的書庫',
-      current: '當前位置',
-      move: '將當前書庫移動到新位置',
+      current: '目前位置',
+      move: '將目前書庫移至新位置',
       new: '新位置',
       open: '使用已有的書庫'
     },
-    locationTips: '書庫的存儲位置'
+    locationTips: '書庫的儲存位置'
   },
   library: '書庫',
   nextPage: '下一頁',
@@ -56,13 +56,13 @@ export default {
     },
     font: {
       book: '隨書',
-      custom: '自定義',
+      custom: '自訂',
       mono: '等寬體',
       serif: '襯線體',
       system: '系統'
     },
     pageTurningMode: '翻頁模式',
-    scroll: '上下捲動',
+    scroll: '上下滾動',
     slide: '左右滑動'
   },
   settings: '閱讀設定',

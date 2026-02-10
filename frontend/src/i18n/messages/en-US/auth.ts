@@ -8,8 +8,8 @@ export default {
       passkeys: 'Passkeys',
       password: 'Password',
       password_action: 'Change Password',
-      password_new: 'New Password',
       password_incorrect: 'Incorrect old password',
+      password_new: 'New Password',
       password_tips: 'Change your login password.',
       title: 'Security'
     },
@@ -30,6 +30,6 @@ export default {
     nameError: 'Please enter correct name',
     passwordError: 'Please enter correct password'
   },
-  useToConsent: 'Use constitutes your consent to our',
   tokenExpired: 'The API token have expired. Please signin again.',
+  useToConsent: 'Use constitutes your consent to our'
 }

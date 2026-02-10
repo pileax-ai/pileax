@@ -1,15 +1,19 @@
 x-shared-env: &shared-api-worker-env
   DB_USERNAME: ${DB_USERNAME:-postgres}
   DB_PASSWORD: ${DB_PASSWORD:-admin123456}
-  DB_HOST: ${DB_HOST:-db}
+  DB_HOST: db
   DB_PORT: ${DB_PORT:-5432}
   DB_DATABASE: ${DB_DATABASE:-pileax}
+  REDIS_HOST: redis
+  REDIS_PORT: ${DB_PORT:-6379}
   WEB_API_CORS_ALLOW_ORIGINS: ${WEB_API_CORS_ALLOW_ORIGINS:-http://localhost:9610}
 
 services:
   api:
     image: pileax/pileax-api:latest
     restart: always
+    env_file:
+      - ./backend.env
     environment:
       <<: *shared-api-worker-env
     ports:
@@ -18,17 +22,40 @@ services:
       db:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
     volumes:
       - ./volumes/api/cache:/app/.cache
     networks:
       - ssrf_proxy_network
       - default
+
+  collab:
+    image: pileax/pileax-collab:latest
+    restart: always
+    env_file:
+      - ./backend.env
+    environment:
+      <<: *shared-api-worker-env
+    ports:
+      - "9621:9621"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./volumes/collab/cache:/app/.cache
+    networks:
+      - ssrf_proxy_network
+      - default
+
   web:
     image: pileax/pileax-web:latest
     restart: always
     environment:
       API_BASE_URL: ${API_BASE_URL:-http://localhost:9620/api/v1}
+      COLLAB: ${COLLAB:-true}
+      COLLAB_PROVIDER_URL: ${COLLAB_PROVIDER_URL:-ws://localhost:9621}
     ports:
       - "9610:80"
   db:
@@ -51,7 +78,7 @@ services:
     volumes:
       - ${PGDATA_HOST_VOLUME:-./volumes/db/data}:/var/lib/postgresql/data
     ports:
-      - "${EXPOSE_POSTGRES_PORT:-5432}:5432"
+      - "${EXPOSE_POSTGRES_PORT:-15432}:5432"
     healthcheck:
       test:
         [
@@ -82,7 +109,7 @@ services:
     # Set the redis password when startup redis server.
     command: redis-server --requirepass ${REDIS_PASSWORD:-admin123456}
     ports:
-      - "${EXPOSE_REDIS_PORT:-6379}:6379"
+      - "${EXPOSE_REDIS_PORT:-16379}:6379"
     healthcheck:
       test:
         [

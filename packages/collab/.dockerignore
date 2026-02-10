@@ -1,0 +1,11 @@
+# Logs
+logs
+*.log*
+
+# node
+node_modules
+.husky
+.next
+
+# build
+dist

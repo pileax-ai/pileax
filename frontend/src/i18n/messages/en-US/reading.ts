@@ -10,7 +10,7 @@ export default {
     location: 'Library Location',
     locations: {
       choose: 'Please choose location',
-      create: 'Create an empty library a the new location',
+      create: 'Create an empty library at the new location',
       current: 'Current location',
       move: 'Move current library to new location',
       new: 'New location',

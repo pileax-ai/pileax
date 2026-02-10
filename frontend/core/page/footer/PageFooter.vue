@@ -70,7 +70,7 @@
                        href="https://docs.pileax.ai/agreement"
                        target="_blank" />
                 <q-btn :label="$t('terms.privacy')" flat
-                       to="https://docs.pileax.ai/privacy"
+                       href="https://docs.pileax.ai/privacy"
                        target="_blank" />
               </section>
             </section>

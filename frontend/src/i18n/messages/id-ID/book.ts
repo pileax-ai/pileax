@@ -1,0 +1,49 @@
+export default {
+  _: 'Buku',
+  add: 'Tambahkan buku',
+  addTime: 'Tambahkan Waktu',
+  addToCollection: 'Tambahkan ke Koleksi',
+  addToWant: 'Tambahkan ke Daftar Bacaan',
+  annotation: 'Catatan Buku',
+  annotations: {
+    _: 'Catatan Buku',
+    add: 'Tambahkan Anotasi',
+    no: 'Tambahkan Anotasi',
+    noRecords: 'Belum ada anotasi. Mulai membaca dan sorot beberapa bagian.'
+  },
+  author: 'Pengarang',
+  chapter: 'Bab',
+  collection: 'Koleksi Buku',
+  collections: {
+    _: 'Koleksi Buku',
+    add: 'Tambahkan Koleksi',
+    removeConfirm: 'Apakah Anda yakin ingin menghapusnya dari koleksi?'
+  },
+  filter: {
+    all: 'Semua',
+    book: 'Buku',
+    pdf: 'PDF'
+  },
+  format: 'Format',
+  info: 'Informasi Buku',
+  lastReadTime: 'Waktu Baca Terakhir',
+  library: {
+    _: 'Perpustakaan',
+    add: 'Tambahkan dari Perpustakaan',
+    noBooks: 'Belum ada buku di perpustakaan. Tambahkan beberapa sekarang.'
+  },
+  markFinished: 'Tandai sebagai Selesai',
+  previewTips: 'Dalam mode pratinjau, kemajuan membaca tidak akan disimpan.',
+  publisher: 'Penerbit',
+  removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
+  shelf: 'Rak buku',
+  startPreview: 'Mulai Pratinjau',
+  startReading: 'Mulai Membaca',
+  uploader: {
+    completed: 'Unggahan buku ke server selesai.',
+    label: 'Seret file ke sini, atau klik untuk mengunggah.',
+    success: 'Kesuksesan',
+    total: 'Total'
+  },
+  uploadTime: 'Waktu Unggah'
+}

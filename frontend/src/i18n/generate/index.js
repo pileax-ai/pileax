@@ -1,6 +1,8 @@
 import fs from 'node:fs'
-import googleTranslateApi from '@vitalets/google-translate-api'
+import dotenv from 'dotenv'
 import bingTranslateApi from 'bing-translate-api'
+import { v2 as GoogleTranslate } from '@google-cloud/translate'
+import googleTranslateApi from '@vitalets/google-translate-api'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
@@ -8,11 +10,25 @@ import { HttpProxyAgent } from 'http-proxy-agent'
 import languages from './config/languages.json' with { type: 'json' }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const agent = new HttpProxyAgent('http://127.0.0.1:7890')
+dotenv.config({
+  path: path.resolve(__dirname, '../../../env/.env'),
+})
 
+// ==================================================
+// Config
+// ==================================================
+// Translator
+// - google: default
+// - google-free
+// - bing-free
+const TRANSLATOR = 'google'
+const TRANSLATOR_INTERVAL = 100            // translate interval
+const HttpProxy = 'http://127.0.0.1:7890'   // leave blank if proxy is not required
+
+// ==================================================
+// Constants
+// ==================================================
 const ARGS = parseArgs(process.argv)
-
-const TRANSLATOR = 'bing'
 const BASE_LANG = ARGS.base || 'en-US'
 const MANUAL_LANGS = ['en-US', 'zh-Hans']
 const TARGET_LANGS = languages.filter(item => item.supported && item.base === BASE_LANG)
@@ -22,6 +38,10 @@ const LOCALE_DIR = path.join(__dirname, '../messages')
 const BASE_LANG_DIR = path.join(LOCALE_DIR, BASE_LANG)
 const META_DIR = path.join(__dirname, 'meta')
 const BASE_META_FILE = path.join(META_DIR, `${BASE_LANG}.meta.json`)
+
+let googleTranslateClient = null
+let TRANSLATE_ERROR = false
+let TRANSLATE_ERROR_MSG = ''
 
 // ==================================================
 // Utility
@@ -135,30 +155,24 @@ function serializeToTs(obj, indent = 2, level = 0) {
 // ==================================================
 async function translateText(text, lang) {
   console.log(`➡️ Translating (${lang.value}): ${text}`)
-  await sleep(200 + Math.random() * 600)
+  // Return blank text if translate failed, and try next time
+  if (TRANSLATE_ERROR) {
+    return ''
+  }
+
+  await sleep(TRANSLATOR_INTERVAL + Math.random() * TRANSLATOR_INTERVAL * 2)
 
   switch (TRANSLATOR) {
-    case 'bing':
-      return bintTranslate(text, lang)
+    case 'bing-free':
+      return bingFreeTranslate(text, lang)
+    case 'google-free':
+      return googleFreeTranslate(text, lang)
     default:
       return googleTranslate(text, lang)
   }
 }
 
-async function googleTranslate(text, lang) {
-  try {
-    const res = await googleTranslateApi.translate(text, {
-      to: lang.value,
-      fetchOptions: { agent }
-    })
-    return res.text
-  } catch (err) {
-    console.error(`❌ Translation failed：`, err.message)
-    return text // Return original text if failed
-  }
-}
-
-async function bintTranslate(text, lang) {
+async function bingFreeTranslate(text, lang) {
   try {
     const res = await bingTranslateApi.translate(
       text,
@@ -168,7 +182,133 @@ async function bintTranslate(text, lang) {
     return res.translation
   } catch (err) {
     console.error(`❌ Translation failed：`, err.message)
-    return text // Return original text if failed
+    TRANSLATE_ERROR = true
+    TRANSLATE_ERROR_MSG = err.message
+    return '' // Return blank text if failed
+  }
+}
+
+function initGoogleTranslate() {
+  if (!googleTranslateClient) {
+    let fetchOptions = {}
+    if (HttpProxy) {
+      const agent = new HttpProxyAgent(HttpProxy)
+      fetchOptions = { agent }
+    }
+
+    googleTranslateClient = new GoogleTranslate.Translate({
+      key: process.env.GOOGLE_API_KEY,
+      requestOptions: fetchOptions,
+    })
+  }
+}
+
+async function googleTranslate(text, lang) {
+  try {
+    initGoogleTranslate()
+
+    const [result] = await googleTranslateClient.translate(text, {
+      to: lang.value,
+      format: 'text',
+    })
+    return result
+  } catch (err) {
+    console.error(`❌ Translation failed：`, err.message)
+    TRANSLATE_ERROR = true
+    TRANSLATE_ERROR_MSG = err.message
+    return '' // Return blank text if failed
+  }
+}
+
+async function googleFreeTranslate(text, lang) {
+  try {
+    let fetchOptions = {}
+    if (HttpProxy) {
+      const agent = new HttpProxyAgent(HttpProxy)
+      fetchOptions = { agent }
+    }
+    const res = await googleTranslateApi.translate(text, {
+      to: lang.value,
+      fetchOptions: fetchOptions
+    })
+    return res.text
+  } catch (err) {
+    console.error(`❌ Translation failed：`, err.message)
+    TRANSLATE_ERROR = true
+    TRANSLATE_ERROR_MSG = err.message
+    return '' // Return blank text if failed
+  }
+}
+
+
+// ==================================================
+// Sync removed key
+// ==================================================
+function pruneRemovedKeys(baseObj, targetObj, metaObj, parentKey = '') {
+  if (typeof targetObj !== 'object' || targetObj === null) {
+    return targetObj
+  }
+
+  const result = Array.isArray(targetObj) ? [] : {}
+
+  for (const key in targetObj) {
+    const fullKey = parentKey ? `${parentKey}.${key}` : key
+    const existsInBase = baseObj && key in baseObj
+    const manual = metaObj?.[fullKey]?.manual
+
+    // ❌ base deleted
+    if (!existsInBase) {
+      if (manual) {
+        result[key] = targetObj[key]
+        console.log(`🛑 Keep manual key: ${fullKey}`)
+      } else {
+        console.log(`🗑 Remove key: ${fullKey}`)
+        delete metaObj[fullKey]
+      }
+      continue
+    }
+
+    const baseVal = baseObj[key]
+    const targetVal = targetObj[key]
+
+    if (
+      typeof baseVal === 'object' &&
+      baseVal !== null &&
+      typeof targetVal === 'object'
+    ) {
+      const pruned = pruneRemovedKeys(baseVal, targetVal, metaObj, fullKey)
+
+      // Blank object
+      if (
+        typeof pruned === 'object' &&
+        pruned !== null &&
+        Object.keys(pruned).length === 0
+      ) {
+        delete metaObj[fullKey]
+      } else {
+        result[key] = pruned
+      }
+    } else {
+      result[key] = targetVal
+    }
+  }
+
+  return result
+}
+
+function pruneMetaByBase(baseObj, metaObj, parentKey = '') {
+  for (const key in metaObj) {
+    const path = key.split('.')
+    let cur = baseObj
+
+    for (const p of path) {
+      if (!cur || typeof cur !== 'object' || !(p in cur)) {
+        console.log(`🧹 Remove stale meta: ${key}`)
+        delete metaObj[key]
+        break
+      }
+      cur = cur[p]
+    }
   }
 }
 
@@ -289,6 +429,7 @@ async function main() {
   console.log(`📌 Target languages: ${TARGET_LANGS.map(item => item.value).join(', ')}`)
   console.log('')
 
+  const fullBaseObj = {}
   const baseFiles = getLocaleFiles(BASE_LANG_DIR)
   for (const lang of TARGET_LANGS) {
     console.log('============================================================')
@@ -326,7 +467,8 @@ async function main() {
       const updatedList = []
       const rootKey = getRootKey(file)
 
-      const merged = await fillTranslations(
+      // Translate
+      const filled = await fillTranslations(
         baseObj,
         targetObj,
         metaObj,
@@ -335,18 +477,40 @@ async function main() {
         rootKey
       )
 
-      writeTsFile(targetFile, merged)
+      // Clean removed
+      const cleaned = pruneRemovedKeys(baseObj, filled, metaObj, '')
+
+      writeTsFile(targetFile, cleaned)
 
       if (updatedList.length) {
         console.log(`🔄 ${file}: ${updatedList.length} updated`)
       } else {
         console.log(`✨ ${file}: up to date`)
       }
+
+      // Prune meta
+      if (rootKey) {
+        fullBaseObj[rootKey] = baseObj
+      } else {
+        Object.assign(fullBaseObj, baseObj)
+      }
     }
 
     console.log('============================================================')
+
+    // Break if translate failed
+    if (TRANSLATE_ERROR) {
+      console.log(`🛑 Translator encounter problems → ${lang.value} | ${lang.prompt_name}`)
+      console.log(`❌ Error: ${TRANSLATE_ERROR_MSG}`)
+      console.log('============================================================')
+      console.log('')
+      break
+    }
     console.log('')
   }
+
+  // Prune meta
+  pruneMetaByBase(fullBaseObj, baseMeta)
 
   // Save meta file
   fs.mkdirSync(META_DIR, { recursive: true })

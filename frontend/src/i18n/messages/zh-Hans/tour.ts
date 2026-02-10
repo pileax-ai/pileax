@@ -1,5 +1,6 @@
 export default {
   done: '完成',
+  features: '主要特性',
   navi: {
     aiDesc: '创建场景化 AI 应用，让工作事半功倍',
     aiTitle: 'AI 应用',
@@ -13,6 +14,5 @@ export default {
     readingTitle: '阅读'
   },
   next: '下一步',
-  prev: '上一步',
-  features: '主要特性',
+  prev: '上一步'
 }

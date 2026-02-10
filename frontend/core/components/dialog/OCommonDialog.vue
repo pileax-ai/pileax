@@ -107,7 +107,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['ok', 'close', 'show'])
+const emit = defineEmits(['ok', 'close', 'open', 'show'])
 
 const modal = ref()
 

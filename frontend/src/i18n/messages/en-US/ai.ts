@@ -23,27 +23,27 @@ export default {
   providers: {
     added: 'Added Providers',
     api: {
-      namePlaceholder: 'Config Name',
       baseUrl: 'Base URL',
       baseUrlGet: 'Get your API Key from {name}',
       baseUrlPlaceholder: 'API Base URL',
       key: 'API Key',
       keyInvalid: 'Your API Key is invalid',
       keys: 'API Keys',
-      keyTips: 'Your API KEY will be encrypted and stored using PKCS1_OAEP technology.'
-    },
-    model: {
-      _: 'Model',
-      llm: 'LLM',
-      name: 'Model Name',
-      type: 'Model Type',
-      maxTokens: 'Max Tokens',
-      get: 'List Models',
+      keyTips: 'Your API KEY will be encrypted and stored using PKCS1_OAEP technology.',
+      namePlaceholder: 'Config Name'
     },
     available: 'Available Providers',
-    title: 'Model Providers',
+    model: {
+      _: 'Model',
+      get: 'List Models',
+      llm: 'LLM',
+      maxTokens: 'Max Tokens',
+      name: 'Model Name',
+      type: 'Model Type'
+    },
     set: 'Set AI providers',
     setTips: 'Set AI providers to enable AI capabilities.',
+    title: 'Model Providers'
   },
   regenerate: 'Re-generate',
   settings: 'AI Settings'

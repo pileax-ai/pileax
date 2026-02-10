@@ -23,11 +23,13 @@ packages/*/types
 *.sln
 
 # .env files
+.env
 .env.local*
 
 # custom
 foliate-js.backup
 
 # Docker
+docker/backend.env
 docker/middleware.env
 docker/volumes
