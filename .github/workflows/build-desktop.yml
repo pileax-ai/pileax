@@ -194,7 +194,8 @@ jobs:
 
           cd frontend
           node_modules/.bin/electron-rebuild
-          yarn build:electron
+          yarn build:electron --publish never || exit 1
+          echo "Build step finished successfully"
 
       - name: Upload Electron build
         uses: actions/upload-artifact@v4
