@@ -7,7 +7,7 @@ from alembic.script import ScriptDirectory
 
 
 def get_all_revisions():
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../backend"))
     ini_path = os.path.join(base_dir, "alembic.ini")
 
     config = Config(ini_path)

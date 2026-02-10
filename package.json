@@ -1,6 +1,6 @@
 {
 	"name": "pileax-ai",
-  "version": "0.1.0",
+  "version": "0.2.0",
 	"description": "PileaX AI",
 	"author": {
 		"name": "PileaX",
@@ -30,6 +30,7 @@
     "build:desktop:linux": "yarn build:backend && yarn build:electron:linux",
     "build:desktop:win": "yarn build:backend && yarn build:electron:win",
     "preview": "cd frontend/dist/spa && quasar serve --port 9601",
+    "bump-version": "python scripts/update_version.py",
     "i18n-generate": "cd frontend && yarn i18n-generate",
     "i18n-generate-zh": "cd frontend && yarn i18n-generate-zh"
   },

@@ -12,7 +12,6 @@
     "@hocuspocus/extension-database": "^3.4.3",
     "@hocuspocus/extension-logger": "^3.4.3",
     "@hocuspocus/server": "^3.4.3",
-    "better-sqlite3": "^12.6.2",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.17.1",
