@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Powrót do strony głównej',
+  backToHome: 'Powrót do strony głównej',
   buildTime: 'Czas budowy',
   cancel: 'Anulować',
   change: 'Zmiana',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Nie pokazuj ponownie',
   ok: 'OK',
   open: 'Otwarte',
+  pageNotFound: 'Strona nie znaleziona',
   password: 'Hasło',
   pin: 'Szpilka',
   profile: 'Profil konta',
@@ -231,6 +233,7 @@ export default {
     check: 'Sprawdź aktualizację',
     checking: 'Kontrola',
     currentVersion: 'Aktualna wersja',
+    downloading: 'Pobieranie ...',
     ignoreThisVersion: 'Zignoruj tę wersję',
     later: 'Później',
     message: 'Pobrano nową wersję. Czy uruchomić ponownie komputer w celu instalacji?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Brak dostępnych aktualizacji',
     restart: 'Uruchom ponownie',
     title: 'Aktualizacja gotowa',
-    update: 'Aktualizacja do {wersji}'
+    update: 'Aktualizacja do {wersji}',
+    upToDate: 'Aktualny'
   },
   updateTime: 'Czas aktualizacji',
   upload: 'Wgrywać',

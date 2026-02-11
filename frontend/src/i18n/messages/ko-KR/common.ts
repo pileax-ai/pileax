@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: '홈으로 돌아가기',
+  backToHome: '홈으로 돌아가기',
   buildTime: '빌드 시간',
   cancel: '취소',
   change: '변화',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: '다시 표시하지 않음',
   ok: '좋아요',
   open: '열려 있는',
+  pageNotFound: '페이지를 찾을 수 없습니다',
   password: '비밀번호',
   pin: '핀',
   profile: '계정 프로필',
@@ -231,6 +233,7 @@ export default {
     check: '업데이트 확인',
     checking: '확인 중',
     currentVersion: '현재 버전',
+    downloading: '다운로드 중...',
     ignoreThisVersion: '이 버전은 무시하세요',
     later: '나중에',
     message: '새 버전이 다운로드되었습니다. 설치를 위해 재시작하시겠습니까?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: '업데이트할 내용이 없습니다.',
     restart: '재시작',
     title: '업데이트 준비 완료',
-    update: '{버전}으로 업데이트하세요'
+    update: '{버전}으로 업데이트하세요',
+    upToDate: '최신 정보'
   },
   updateTime: '업데이트 시간',
   upload: '업로드',

@@ -1,4 +1,2 @@
-provider: github
-owner: pileax-ai
-repo: pileax
-releaseType: release
+provider: generic
+url: https://file.pileax.ai/updater/desktop/

@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Torna alla Home',
+  backToHome: 'Torna alla Home',
   buildTime: 'Tempo di costruzione',
   cancel: 'Cancellare',
   change: 'Modifica',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Non mostrare più',
   ok: 'OK',
   open: 'Aprire',
+  pageNotFound: 'Pagina non trovata',
   password: 'Password',
   pin: 'Spillo',
   profile: 'Profilo dell\'account',
@@ -231,6 +233,7 @@ export default {
     check: 'Controlla l\'aggiornamento',
     checking: 'Controllo',
     currentVersion: 'Versione attuale',
+    downloading: 'Scaricamento in corso...',
     ignoreThisVersion: 'Ignora questa versione',
     later: 'Dopo',
     message: 'Nuova versione scaricata, riavviare per installare?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Nessun aggiornamento disponibile',
     restart: 'Ricomincia',
     title: 'Aggiornamento pronto',
-    update: 'Aggiorna a {versione}'
+    update: 'Aggiorna a {versione}',
+    upToDate: 'Aggiornato'
   },
   updateTime: 'Tempo di aggiornamento',
   upload: 'Caricamento',

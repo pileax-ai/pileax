@@ -2,8 +2,14 @@ import { app, dialog } from 'electron'
 import updater from 'electron-updater'
 import log from 'electron-log'
 import { WindowManager } from './window-manager'
+import { AllPublishOptions, PublishConfiguration } from 'builder-util-runtime'
 
 const { autoUpdater } = updater
+
+const providers: PublishConfiguration[] | AllPublishOptions[] = [
+  { provider: 'github', owner: 'pileax-ai', repo: 'pileax', releaseType: 'release' },
+  { provider: 'generic', url: 'https://file.pileax.ai/updater/desktop/' }
+]
 
 export class UpdaterManager {
   private autoDownload: boolean = true
@@ -62,14 +68,19 @@ export class UpdaterManager {
     })
   }
 
-  check() {
-    return new Promise((resolve, reject) => {
-      autoUpdater.checkForUpdates().then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    })
+  async check() {
+    for (const provider of providers) {
+      try {
+        autoUpdater.setFeedURL(provider)
+        const result = await autoUpdater.checkForUpdates()
+        log.info('✅ Check success:', provider)
+        this.send('provider', (provider as Indexable).provider)
+        return result
+      } catch (err) {
+        log.error('❌ Check Error:', provider)
+      }
+    }
+    return {}
   }
 
   download() {

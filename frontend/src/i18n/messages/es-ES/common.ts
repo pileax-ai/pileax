@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Regresar a Inicio',
+  backToHome: 'Volver a Inicio',
   buildTime: 'Tiempo de construcción',
   cancel: 'Cancelar',
   change: 'Cambiar',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'No volver a mostrar',
   ok: 'De acuerdo',
   open: 'Abierto',
+  pageNotFound: 'Página no encontrada',
   password: 'Contraseña',
   pin: 'Alfiler',
   profile: 'Perfil de la cuenta',
@@ -231,6 +233,7 @@ export default {
     check: 'Comprobar actualización',
     checking: 'De cheques',
     currentVersion: 'Versión actual',
+    downloading: 'Descargando...',
     ignoreThisVersion: 'Ignorar esta versión',
     later: 'Más tarde',
     message: '¿Nueva versión descargada, reiniciar para instalar?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'No hay actualizaciones disponibles',
     restart: 'Reanudar',
     title: 'Actualización lista',
-    update: 'Actualizar a {versión}'
+    update: 'Actualizar a {versión}',
+    upToDate: 'A hoy'
   },
   updateTime: 'Hora de actualización',
   upload: 'Subir',

@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Kembali ke Halaman Utama',
+  backToHome: 'Kembali ke Beranda',
   buildTime: 'Waktu Pembuatan',
   cancel: 'Membatalkan',
   change: 'Mengubah',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Jangan tampilkan lagi',
   ok: 'Oke',
   open: 'Membuka',
+  pageNotFound: 'Halaman tidak ditemukan',
   password: 'Kata sandi',
   pin: 'Pin',
   profile: 'Profil Akun',
@@ -231,6 +233,7 @@ export default {
     check: 'Periksa pembaruan',
     checking: 'Memeriksa',
     currentVersion: 'Versi saat ini',
+    downloading: 'Sedang mengunduh...',
     ignoreThisVersion: 'Abaikan versi ini',
     later: 'Nanti',
     message: 'Versi baru telah diunduh, restart untuk menginstal?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Tidak ada pembaruan yang tersedia.',
     restart: 'Mulai ulang',
     title: 'Pembaruan Siap',
-    update: 'Pembaruan ke {versi}'
+    update: 'Pembaruan ke {versi}',
+    upToDate: 'Terkini'
   },
   updateTime: 'Waktu Pembaruan',
   upload: 'Mengunggah',

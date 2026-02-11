@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: '返回首页',
+  backToHome: '返回首页',
   buildTime: '构建时间',
   cancel: '取消',
   change: '更改',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: '不再显示',
   ok: '确定',
   open: '打开',
+  pageNotFound: '页面没找到',
   password: '密码',
   pin: '固定',
   profile: '账户详情',
@@ -229,8 +231,9 @@ export default {
   update: '更新',
   updater: {
     check: '检查更新',
-    checking: '检查中',
+    checking: '检查更新中 ...',
     currentVersion: '当前版本',
+    downloading: '下载中 ...',
     ignoreThisVersion: '忽略此版本',
     later: '以后安装',
     message: '新版本已下载，重启安装？',
@@ -238,7 +241,8 @@ export default {
     notAvailable: '无可用更新',
     restart: '立即重启',
     title: '更新已就绪',
-    update: '更新至 {version}'
+    update: '更新至 {version}',
+    upToDate: '已是最新版本'
   },
   updateTime: '更新时间',
   upload: '上传',
@@ -247,7 +251,5 @@ export default {
     grid: '网格',
     list: '列表'
   },
-  welcome: '欢迎',
-  backToHome: '返回首页',
-  pageNotFound: '页面没找到',
+  welcome: '欢迎'
 }

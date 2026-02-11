@@ -286,7 +286,7 @@
   "reading.aiReading": "16f76787",
   "reading.libraries.location": "d4e92dad",
   "reading.libraries.locations.choose": "b38079b6",
-  "reading.libraries.locations.create": "9a468858",
+  "reading.libraries.locations.create": "a8e08e29",
   "reading.libraries.locations.current": "cec99c77",
   "reading.libraries.locations.move": "28a1ab18",
   "reading.libraries.locations.new": "35ca01d4",
@@ -414,7 +414,7 @@
   "unstar": "fbe0203f",
   "update": "06933067",
   "updater.check": "a785bc36",
-  "updater.checking": "19591757",
+  "updater.checking": "6af27567",
   "updater.currentVersion": "011fedf4",
   "updater.ignoreThisVersion": "60a2f02b",
   "updater.later": "61057a0c",
@@ -452,5 +452,9 @@
   "workspace.settings": "45785738",
   "workspace.switch": "467ab65d",
   "workspace.types.personal": "184daff6",
-  "workspace.types.team": "ac848fa2"
+  "workspace.types.team": "ac848fa2",
+  "backToHome": "6957b0b6",
+  "pageNotFound": "d0fbda98",
+  "updater.downloading": "14ab93af",
+  "updater.upToDate": "092671d6"
 }

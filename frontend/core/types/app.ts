@@ -12,6 +12,7 @@ export interface AppState {
     downloaded?: boolean,
     ignore?: string,
     info?: Indexable,
+    provider?: string,
     notAvailable?: boolean,
     progress?: Indexable,
   },
