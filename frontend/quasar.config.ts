@@ -143,7 +143,15 @@ export default defineConfig(((ctx) => {
     devServer: {
       // https: true,
       port: 9600,
-      open: false // opens browser window automatically
+      open: false, // opens browser window automatically
+      watch: {
+        ignored: [
+          '**/node_modules/**',
+          '**/.git/**',
+          '**/dist/**',
+          '**/.quasar/**'
+        ]
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

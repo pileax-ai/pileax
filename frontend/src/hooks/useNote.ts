@@ -130,14 +130,19 @@ export default function () {
     })
   }
 
-  const debounceSaveNoteRemote = debounce(saveNoteRemote, 5000)
+  const debounceSaveNoteRemote = debounce(saveNoteRemote, 500)
 
-  function saveNote(data: Indexable) {
+  function saveNote(data: Indexable, debounce = false) {
     refreshNote({
       ...currentNote.value,
       ...data,
     } as Note)
-    saveNoteRemote(data)
+
+    if (debounce) {
+      debounceSaveNoteRemote(data)
+    } else {
+      saveNoteRemote(data)
+    }
     debounceCreateVersion()
   }
 
