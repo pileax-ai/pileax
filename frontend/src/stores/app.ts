@@ -51,6 +51,11 @@ export const useAppStore = defineStore('app', {
     },
     setUpdater(key: string, value?: any) {
       switch (key) {
+        case 'init':
+          this.updater = {
+            ignore: this.updater.ignore
+          }
+          break
         case 'checking':
           this.updater.checking = true
           break
@@ -68,6 +73,9 @@ export const useAppStore = defineStore('app', {
             checking: false,
             info: value
           }
+          break
+        case 'provider':
+          this.updater.provider = value
           break
         case 'progress':
           this.updater.progress = value

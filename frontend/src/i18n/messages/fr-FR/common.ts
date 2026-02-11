@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Retour à l\'accueil',
+  backToHome: 'Retour à l\'accueil',
   buildTime: 'Temps de construction',
   cancel: 'Annuler',
   change: 'Changement',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Ne plus afficher',
   ok: 'D\'accord',
   open: 'Ouvrir',
+  pageNotFound: 'Page introuvable',
   password: 'Mot de passe',
   pin: 'Épingle',
   profile: 'Profil du compte',
@@ -231,6 +233,7 @@ export default {
     check: 'Vérifier la mise à jour',
     checking: 'Vérification',
     currentVersion: 'Version actuelle',
+    downloading: 'Téléchargement en cours...',
     ignoreThisVersion: 'Ignorez cette version',
     later: 'Plus tard',
     message: 'Nouvelle version téléchargée, redémarrer pour installer ?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Aucune mise à jour disponible',
     restart: 'Redémarrage',
     title: 'Prêt pour la mise à jour',
-    update: 'Mise à jour vers {version}'
+    update: 'Mise à jour vers {version}',
+    upToDate: 'À jour'
   },
   updateTime: 'Heure de mise à jour',
   upload: 'Télécharger',

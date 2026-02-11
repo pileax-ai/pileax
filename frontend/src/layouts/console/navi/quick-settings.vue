@@ -8,7 +8,7 @@
       <div class="row items-center label q-ml-sm">
         {{workspace.name}}
         <q-badge color="red" rounded align="middle" class="dot"
-                 v-if="updater.info?.version && updater.info?.version !== updater.ignore" />
+                 v-if="indicatorUpdate" />
       </div>
       <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
     </template>
@@ -104,6 +104,7 @@
 
 <script setup lang="ts">
 import { computed, type PropType } from 'vue'
+import { packageInfo } from 'core/app'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import useSetting from 'core/hooks/useSetting'
@@ -143,6 +144,12 @@ const { openDialog } = useDialog()
 const { darkMode, toggleTheme } = useSetting()
 const { nativeShortcut } = useShortcut()
 const { updater } = useUpdater()
+
+const indicatorUpdate = computed(() => {
+  return updater.value.info?.version
+    && updater.value.info.version !== packageInfo.version
+    && updater.value.info.version !== updater.value.ignore
+})
 
 const actions = computed(() => {
   return [

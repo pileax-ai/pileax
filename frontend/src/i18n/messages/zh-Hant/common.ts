@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: '回首頁',
+  backToHome: '回首頁',
   buildTime: '建構時間',
   cancel: '取消',
   change: '變更',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: '不再顯示',
   ok: '確定',
   open: '打開',
+  pageNotFound: '頁面沒找到',
   password: '密碼',
   pin: '固定',
   profile: '帳戶詳情',
@@ -229,8 +231,9 @@ export default {
   update: '更新',
   updater: {
     check: '檢查更新',
-    checking: '檢查中',
+    checking: '檢查更新中 ...',
     currentVersion: '目前版本',
+    downloading: '下載中 ...',
     ignoreThisVersion: '忽略此版本',
     later: '以後安裝',
     message: '新版已下載，重新啟動安裝？',
@@ -238,7 +241,8 @@ export default {
     notAvailable: '無可用更新',
     restart: '立即重啟',
     title: '更新已就緒',
-    update: '更新至 {version}'
+    update: '更新至 {version}',
+    upToDate: '已是最新版本'
   },
   updateTime: '更新時間',
   upload: '上傳',

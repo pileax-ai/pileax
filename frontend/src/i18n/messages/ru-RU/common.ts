@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Вернуться на главную',
+  backToHome: 'Вернуться на главную',
   buildTime: 'Время сборки',
   cancel: 'Отмена',
   change: 'Изменять',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Больше не показываться',
   ok: 'Хорошо',
   open: 'Открыть',
+  pageNotFound: 'Страница не найдена',
   password: 'Пароль',
   pin: 'Приколоть',
   profile: 'Профиль учетной записи',
@@ -231,6 +233,7 @@ export default {
     check: 'Проверьте обновление',
     checking: 'Проверка',
     currentVersion: 'Текущая версия',
+    downloading: 'Загрузка...',
     ignoreThisVersion: 'Игнорируйте эту версию',
     later: 'Позже',
     message: 'Загружена новая версия, нужно перезагрузиться для установки?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Обновление недоступно',
     restart: 'Перезапуск',
     title: 'Обновление готово',
-    update: 'Обновить до {версия}'
+    update: 'Обновить до {версия}',
+    upToDate: 'До настоящего времени'
   },
   updateTime: 'Время обновления',
   upload: 'Загрузить',

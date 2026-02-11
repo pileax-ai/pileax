@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Trở về Trang chủ',
+  backToHome: 'Trở về Trang chủ',
   buildTime: 'Thời gian xây dựng',
   cancel: 'Hủy bỏ',
   change: 'Thay đổi',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Không hiển thị lại',
   ok: 'Được rồi',
   open: 'Mở',
+  pageNotFound: 'Không tìm thấy trang',
   password: 'Mật khẩu',
   pin: 'Ghim',
   profile: 'Hồ sơ tài khoản',
@@ -231,6 +233,7 @@ export default {
     check: 'Kiểm tra cập nhật',
     checking: 'Kiểm tra',
     currentVersion: 'Phiên bản hiện tại',
+    downloading: 'Đang tải xuống...',
     ignoreThisVersion: 'Bỏ qua phiên bản này',
     later: 'Sau đó',
     message: 'Phiên bản mới đã được tải xuống, khởi động lại để cài đặt?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Không có bản cập nhật nào.',
     restart: 'Khởi động lại',
     title: 'Sẵn sàng cập nhật',
-    update: 'Cập nhật lên {phiên bản}'
+    update: 'Cập nhật lên {phiên bản}',
+    upToDate: 'Đã cập nhật'
   },
   updateTime: 'Thời gian cập nhật',
   upload: 'Tải lên',

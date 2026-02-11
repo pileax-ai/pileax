@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Return to Home',
+  backToHome: 'Back to Home',
   buildTime: 'Build Time',
   cancel: 'Cancel',
   change: 'Change',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Do not show again',
   ok: 'Ok',
   open: 'Open',
+  pageNotFound: 'Page not found',
   password: 'Password',
   pin: 'Pin',
   profile: 'Account Profile',
@@ -229,8 +231,9 @@ export default {
   update: 'Update',
   updater: {
     check: 'Check update',
-    checking: 'Checking',
+    checking: 'Checking update ...',
     currentVersion: 'Current version',
+    downloading: 'Downloading ...',
     ignoreThisVersion: 'Ignore this version',
     later: 'Later',
     message: 'New version downloaded, restart to install?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'No update available',
     restart: 'Restart',
     title: 'Update Ready',
-    update: 'Update to {version}'
+    update: 'Update to {version}',
+    upToDate: 'Up to date'
   },
   updateTime: 'Update Time',
   upload: 'Upload',
@@ -247,7 +251,5 @@ export default {
     grid: 'Grid',
     list: 'List'
   },
-  welcome: 'Welcome',
-  backToHome: 'Back to Home',
-  pageNotFound: 'Page not found',
+  welcome: 'Welcome'
 }

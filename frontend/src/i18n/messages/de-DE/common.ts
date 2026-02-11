@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Zurück zur Startseite',
+  backToHome: 'Zurück zur Startseite',
   buildTime: 'Bauzeit',
   cancel: 'Stornieren',
   change: 'Ändern',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Nicht erneut anzeigen',
   ok: 'OK',
   open: 'Offen',
+  pageNotFound: 'Seite nicht gefunden',
   password: 'Passwort',
   pin: 'Stift',
   profile: 'Kontoprofil',
@@ -231,6 +233,7 @@ export default {
     check: 'Aktualisierung prüfen',
     checking: 'Überprüfung',
     currentVersion: 'Aktuelle Version',
+    downloading: 'Wird heruntergeladen ...',
     ignoreThisVersion: 'Diese Version ignorieren',
     later: 'Später',
     message: 'Neue Version heruntergeladen, Neustart zur Installation erforderlich?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Keine Aktualisierung verfügbar',
     restart: 'Neustart',
     title: 'Update bereit',
-    update: 'Aktualisierung auf {Version}'
+    update: 'Aktualisierung auf {Version}',
+    upToDate: 'Aktuell'
   },
   updateTime: 'Aktualisierungszeit',
   upload: 'Hochladen',

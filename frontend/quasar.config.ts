@@ -13,7 +13,10 @@ export default defineConfig(((ctx) => {
   let mode = ctx.modeName
   const targetName = (ctx as Indexable).targetName
   if (targetName) mode += '-' + targetName
-  const macSign = process.env.CI ? {} : { identity: null }
+  const enableSign = false // false by default
+  const macSign = process.env.CI || enableSign
+    ? {}
+    : { identity: null }
 
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -297,13 +300,19 @@ export default defineConfig(((ctx) => {
           description: 'PileaX is a one-stop AI knowledge base system',
           license: 'MIT',
         },
+
+        // Set providers in updater-manger.ts
         publish: [
           {
             provider: 'github',
             owner: 'pileax-ai',
             repo: 'pileax',
             releaseType: 'release'
-          }
+          },
+          {
+            provider: 'generic',
+            url: 'https://file.pileax.ai/updater/desktop/',
+          },
         ],
 
         mac: {

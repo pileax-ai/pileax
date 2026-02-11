@@ -410,7 +410,7 @@
   "unstar": "f22cec28",
   "update": "32ac152b",
   "updater.check": "4ff13370",
-  "updater.checking": "69ac5a39",
+  "updater.checking": "1cb45a8e",
   "updater.currentVersion": "9b601b8e",
   "updater.ignoreThisVersion": "24fe2f60",
   "updater.later": "94f58776",
@@ -448,5 +448,9 @@
   "workspace.settings": "2c491fe9",
   "workspace.switch": "5f866c72",
   "workspace.types.personal": "6a0e0419",
-  "workspace.types.team": "4675fbaf"
+  "workspace.types.team": "4675fbaf",
+  "backToHome": "5a136705",
+  "pageNotFound": "f1e6825b",
+  "updater.downloading": "fddffba4",
+  "updater.upToDate": "b520fb4d"
 }

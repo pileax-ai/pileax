@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Întoarcerea acasă',
+  backToHome: 'Înapoi la pagina principală',
   buildTime: 'Timp de construcție',
   cancel: 'Anula',
   change: 'Schimba',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Nu mai afișa',
   ok: 'Bine',
   open: 'Deschide',
+  pageNotFound: 'Pagina nu a fost găsită',
   password: 'Parolă',
   pin: 'Fixează',
   profile: 'Profilul contului',
@@ -231,6 +233,7 @@ export default {
     check: 'Verificați actualizarea',
     checking: 'Control',
     currentVersion: 'Versiunea curentă',
+    downloading: 'Se descarcă ...',
     ignoreThisVersion: 'Ignorați această versiune',
     later: 'Mai târziu',
     message: 'Versiune nouă descărcată, reporniți pentru instalare?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Nicio actualizare disponibilă',
     restart: 'Repornire',
     title: 'Gata de actualizare',
-    update: 'Actualizare la {versiunea}'
+    update: 'Actualizare la {versiunea}',
+    upToDate: 'La zi'
   },
   updateTime: 'Ora actualizării',
   upload: 'Încărcare',

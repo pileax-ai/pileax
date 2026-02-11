@@ -11,5 +11,14 @@ python scripts/get_alembic_revisions.py
 ```shell
 python scripts/update_version.py 0.2.0
 
+# or
 yarn bump-version 0.2.0
+```
+
+## Release sync
+Download release assets from Github and sync to R2
+
+```shell
+python scripts/release_sync.py download
+python scripts/release_sync.py upload
 ```

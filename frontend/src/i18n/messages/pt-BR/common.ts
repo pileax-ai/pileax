@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'Voltar para a página inicial',
+  backToHome: 'Voltar para a página inicial',
   buildTime: 'Tempo de compilação',
   cancel: 'Cancelar',
   change: 'Mudar',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: 'Não mostrar novamente',
   ok: 'OK',
   open: 'Abrir',
+  pageNotFound: 'Página não encontrada',
   password: 'Senha',
   pin: 'Alfinete',
   profile: 'Perfil da conta',
@@ -229,8 +231,9 @@ export default {
   update: 'Atualizar',
   updater: {
     check: 'Verifique as atualizações',
-    checking: 'Verificando',
+    checking: 'Verificando atualizações...',
     currentVersion: 'Versão atual',
+    downloading: 'Baixando...',
     ignoreThisVersion: 'Ignore esta versão',
     later: 'Mais tarde',
     message: 'Nova versão baixada, reiniciar para instalar?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: 'Nenhuma atualização disponível',
     restart: 'Reiniciar',
     title: 'Atualização pronta',
-    update: 'Atualizar para {version}'
+    update: 'Atualizar para {version}',
+    upToDate: 'Atualizado'
   },
   updateTime: 'Hora da atualização',
   upload: 'Carregar',

@@ -70,6 +70,7 @@ export default {
     }
   },
   backHome: 'ホームに戻る',
+  backToHome: 'ホームに戻る',
   buildTime: 'ビルド時間',
   cancel: 'キャンセル',
   change: '変化',
@@ -139,6 +140,7 @@ export default {
   noShowAgain: '再度表示しない',
   ok: 'わかりました',
   open: '開ける',
+  pageNotFound: 'ページが見つかりません',
   password: 'パスワード',
   pin: 'ピン',
   profile: 'アカウントプロフィール',
@@ -231,6 +233,7 @@ export default {
     check: 'アップデートを確認する',
     checking: 'チェック中',
     currentVersion: '現在のバージョン',
+    downloading: 'ダウンロード中...',
     ignoreThisVersion: 'このバージョンを無視',
     later: '後で',
     message: '新しいバージョンがダウンロードされました。インストールするには再起動しますか?',
@@ -238,7 +241,8 @@ export default {
     notAvailable: '更新情報はありません',
     restart: '再起動',
     title: 'アップデート準備完了',
-    update: '{バージョン}に更新'
+    update: '{バージョン}に更新',
+    upToDate: '最新の'
   },
   updateTime: '更新時間',
   upload: 'アップロード',
