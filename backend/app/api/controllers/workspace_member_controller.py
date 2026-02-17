@@ -2,20 +2,21 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
-from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
+from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery
 from app.api.models.workspace_member import WorkspaceMember, WorkspaceMemberInvite, WorkspaceMemberRole
 from app.api.services.user_service import UserService
 from app.api.services.workspace_member_service import WorkspaceMemberService
+from app.core.cache.factory import cache, get_key
 
 
 class WorkspaceMemberController:
-    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
+    def __init__(self, session: SessionDep, user: CurrentUser, workspace: CurrentWorkspace):
         self.service = WorkspaceMemberService(session)
         self.user_service = UserService(session)
-        self.user_id = user_id
-        self.workspace_id = workspace_id
+        self.user_id = user.id
+        self.workspace_id = workspace.id
 
     def invite(self, item_in: WorkspaceMemberInvite) -> WorkspaceMember:
         user = self.user_service.find_one({"email": item_in.email})
@@ -54,13 +55,13 @@ class WorkspaceMemberController:
 
         return self.service.assign_role(id, role)
 
-    def enable(self, id: UUID) -> WorkspaceMember:
-        return self.update_status(id, Status.ACTIVE)
+    async def enable(self, id: UUID) -> WorkspaceMember:
+        return await self.update_status(id, Status.ACTIVE)
 
-    def disable(self, id: UUID) -> WorkspaceMember:
-        return self.update_status(id, Status.INACTIVE)
+    async def disable(self, id: UUID) -> WorkspaceMember:
+        return await self.update_status(id, Status.INACTIVE)
 
-    def update_status(self, id: UUID, status: int) -> WorkspaceMember:
+    async def update_status(self, id: UUID, status: int) -> WorkspaceMember:
         wm = self.service.get(id)
 
         # Check permission
@@ -72,6 +73,9 @@ class WorkspaceMemberController:
         )
         if my_member is None or my_member.role not in (WorkspaceMemberRole.OWNER, WorkspaceMemberRole.ADMIN):
             raise HTTPException(status_code=403, detail="Do not have permission")
+
+        # Reset cache
+        await cache.delete(get_key("workspace_member", "details", str(wm.user_id), str(wm.workspace_id)))
 
         return self.service.update_status(id, status)
 

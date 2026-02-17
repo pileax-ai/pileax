@@ -58,7 +58,7 @@
                              @click="onAction({value: 'workspace'})" />
               <q-separator class="bg-dark" />
 
-              <template v-for="(item, index) in workspaces" :key="index">
+              <template v-for="(item, index) in activeWorkspaces" :key="index">
                 <o-common-item :icon="item.icon || '🍃'"
                                :label="item.name"
                                :class="{ 'active': item.id === workspace.id }"
@@ -134,7 +134,7 @@ const props = defineProps({
 const {
   account,
   workspace,
-  workspaces,
+  activeWorkspaces,
   logout,
   initWorkspace,
   switchWorkspace

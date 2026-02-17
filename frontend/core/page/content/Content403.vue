@@ -2,15 +2,22 @@
   <section class="col-12 content-403" >
     <section class="row col-12 justify-center tips">
       <div class="col-12 text-center title">
-        <img src="images/ui/page/no-data.svg" height="300" />
+        <img :src="$public('/images/ui/page/no-data.svg')" height="300" />
       </div>
-      <div class="col-12 text-center text-tips desc">
-        无法访问当前页面
+      <div class="row col-12 justify-center items-center text-tips desc">
+        <q-icon name="lock" />
+        <span>{{ $t('auth.page.noPermission') }}</span>
+      </div>
+      <div v-if="false">
+        {{pageData}}
       </div>
     </section>
     <section class="row col-12 actions">
       <div class="row col-12 justify-center">
-        <q-btn class="color-button-green" :label="$t('back.home')" to="/welcome" />
+        <q-btn class="color-button-blue"
+               :label="$t('backHome')"
+               to="/welcome"
+               flat />
       </div>
     </section>
   </section>
@@ -21,8 +28,10 @@ import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { checkPagePermission } from 'src/utils/auth'
+import usePage from 'core/hooks/usePage'
 
 const route = useRoute()
+const { pageData } = usePage()
 
 function refresh() {
   checkPagePermission(route)

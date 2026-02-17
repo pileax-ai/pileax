@@ -1,10 +1,24 @@
-/**
- *  Styles
- */
+<template>
+  <q-layout view="hHh Lpr lFf" class="o-layout layout-error">
+    <q-header class="top-navi full-width">
+      <simple-toolbar />
+    </q-header>
 
+    <q-page-container>
+      <page403 />
+    </q-page-container>
+  </q-layout>
+</template>
+
+<script setup lang="ts">
+import SimpleToolbar from '../full-page/toolbar/SimpleToolbar.vue'
+import Page403 from 'pages/error/403.vue'
+</script>
+
+<style lang="scss">
 $dheight:  80px;
 $mheight:  60px;
-.layout-page {
+.layout-error {
   .q-drawer {
     background: transparent!important;
   }
@@ -29,6 +43,10 @@ $mheight:  60px;
     position: fixed;
     background: transparent!important;
     z-index: 100;
+
+    .q-toolbar {
+      height: 100%;
+    }
   }
 
   .q-page-container.blur {
@@ -59,3 +77,4 @@ $mheight:  60px;
     }
   }
 }
+</style>

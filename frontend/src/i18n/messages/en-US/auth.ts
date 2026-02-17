@@ -19,7 +19,8 @@ export default {
   accountNo: 'Don\'t have an account?',
   rememberMe: 'Remember me',
   signin: {
-    incorrect: 'Incorrect email or password.'
+    incorrect: 'Incorrect email or password.',
+    inactive: 'This account has been temporarily disabled.',
   },
   signup: {
     confirmPassword: 'Confirm password',
@@ -31,5 +32,11 @@ export default {
     passwordError: 'Please enter correct password'
   },
   tokenExpired: 'The API token have expired. Please signin again.',
-  useToConsent: 'Use constitutes your consent to our'
+  useToConsent: 'Use constitutes your consent to our',
+  page: {
+    accessDenied: 'Access Denied',
+    notFound: 'Page not found',
+    notFountTips: 'The page you’re looking for doesn’t exist.',
+    noPermission: 'You don’t have permission to access this page.',
+  }
 }

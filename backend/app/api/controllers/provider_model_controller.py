@@ -1,10 +1,9 @@
-from app.api.deps import CurrentUserId, CurrentWorkspace, SessionDep
+from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.services.provider_service import ProviderService
 
 
 class ProviderModelController:
-    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace: CurrentWorkspace):
-        self.user_id = user_id
+    def __init__(self, session: SessionDep, user: CurrentUser, workspace: CurrentWorkspace):
         self.workspace = workspace
         self.service = ProviderService(session, workspace)
 

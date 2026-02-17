@@ -8,11 +8,14 @@ from sqlmodel import Session
 from app.api.models.auth import TokenPayload
 from app.api.models.enums import Status
 from app.api.models.user import User
-from app.api.models.workspace import Workspace
+from app.api.models.workspace import Workspace, WorkspaceDetails
+from app.api.models.workspace_member import WorkspaceMember
+from app.api.repos.workspace_member_repository import WorkspaceMemberRepository
 from app.configs import app_config
 from app.core.cache.base import Cache
 from app.core.cache.factory import cache, get_cache, get_key
 from app.extensions.ext_database import get_db_session
+from app.libs.exception.business_error import BusinessError
 from app.libs.jwt_service import JWTService
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{app_config.API_VERSION}/auth/token")
@@ -39,9 +42,33 @@ async def get_user_id(
     # check token
     cached_token = await cache.get(get_key("user", "access_token", user_id, device_id))
     if token != cached_token:
-        raise HTTPException(status_code=403, detail="Inactive token")
+        raise HTTPException(status_code=401, detail="Inactive token")
 
     return UUID(user_id)
+
+
+async def get_cache_user(session, user_id: str) -> Optional[User]:
+    key = get_key("user", "get", user_id)
+
+    # Try to get from cache
+    user_dict = await cache.get(key)
+    if user_dict:
+        return User(**user_dict)
+
+    # Fallback to DB
+    user: Optional[User] = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.status != Status.ACTIVE:
+        raise BusinessError(status_code=403, detail="Access denied", data={
+            "type": "user",
+            "message": "Inactive user",
+            "scope": "global"
+        })
+
+    # cache
+    await cache.set(key, user.model_dump(mode="json"))
+    return user
 
 
 async def get_current_user(
@@ -51,18 +78,13 @@ async def get_current_user(
 ) -> User:
     payload = JWTService().decode(token)
     user_id = payload.get("sub")
-    user: Optional[User] = session.get(User, user_id)
-    if not user:
-        raise HTTPException(status_code=403, detail="User not found")
-    if user.status != Status.ACTIVE:
-        raise HTTPException(status_code=400, detail="Inactive user")
 
     # check token
     cached_token = await cache.get(get_key("user", "access_token", user_id, device_id))
     if token != cached_token:
-        raise HTTPException(status_code=403, detail="Inactive token")
+        raise HTTPException(status_code=401, detail="Inactive token")
 
-    return user
+    return await get_cache_user(session, user_id)
 
 
 def get_workspace_id(token: TokenDep, x_workspace_id: Annotated[str | None, Header()] = None) -> UUID:
@@ -74,17 +96,42 @@ def get_workspace_id(token: TokenDep, x_workspace_id: Annotated[str | None, Head
     return UUID(token_data.sub)
 
 
-def get_current_workspace(session: SessionDep, workspace_id: UUID = Depends(get_workspace_id)) -> Workspace:
-    workspace: Optional[Workspace] = session.get(Workspace, workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=403, detail="Workspace not found")
-    if workspace.status != Status.ACTIVE:
-        raise HTTPException(status_code=400, detail="Inactive workspace")
-    return workspace
+async def get_cache_workspace(session, user_id: str, workspace_id: str) -> Optional[WorkspaceDetails]:
+    key = get_key("workspace_member", "details", user_id, workspace_id)
+
+    # Try to get from cache
+    wd_dict = await cache.get(key)
+    if wd_dict:
+        return WorkspaceDetails(**wd_dict)
+
+    # Fallback to DB
+    wd: Optional[WorkspaceDetails] = (WorkspaceMemberRepository(WorkspaceMember, session)
+                                      .get_user_workspace(UUID(user_id), UUID(workspace_id)))
+    if not wd:
+        raise BusinessError(status_code=403, detail="Access denied", data={
+            "type": "workspace",
+            "message": "Not workspace member",
+            "scope": "global"
+        })
+
+    # Cache
+    await cache.set(key, wd.model_dump(mode="json"))
+    return wd
+
+
+async def get_current_workspace(
+    session: SessionDep,
+    token: TokenDep,
+    workspace_id: UUID = Depends(get_workspace_id)
+) -> WorkspaceDetails:
+    payload = JWTService().decode(token)
+    user_id = payload.get("sub")
+
+    return await get_cache_workspace(session, user_id, str(workspace_id))
 
 
 CurrentUserId = Annotated[UUID, Depends(get_user_id)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
 CurrentWorkspaceId = Annotated[UUID, Depends(get_workspace_id)]
-CurrentWorkspace = Annotated[Workspace, Depends(get_current_workspace)]
+CurrentWorkspace = Annotated[WorkspaceDetails, Depends(get_current_workspace)]
 CurrentWorkspaceOptional = Annotated[Optional[Workspace], Depends(get_current_workspace)]

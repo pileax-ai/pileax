@@ -1,4 +1,5 @@
 import asyncio
+import copy
 import time
 from typing import Any, Optional
 
@@ -29,7 +30,7 @@ class MemoryCache(Cache):
                 del self._data[key]
                 return None
 
-            return value
+            return copy.deepcopy(value)
 
     async def set(
         self,
@@ -39,11 +40,21 @@ class MemoryCache(Cache):
         persist: Optional[bool] = False,
     ) -> None:
         expires_at = int(time.time()) + ttl if ttl else None
+
+        # Standardization: If it's a Pydantic model, convert to dict
+        # This ensures MemoryCache stores the same data format as RedisCache
+        if hasattr(value, "model_dump"):
+            processed_value = value.model_dump()
+        elif hasattr(value, "dict"):
+            processed_value = value.dict()
+        else:
+            processed_value = copy.deepcopy(value)
+
         async with self._lock:
-            self._data[key] = (value, expires_at)
+            self._data[key] = (processed_value, expires_at)
 
         if persist and self.enable_persist:
-            await super().set_persist(key, value)
+            await super().set_persist(key, processed_value)
 
     async def delete(self, key: str, persist: Optional[bool] = False) -> None:
         async with self._lock:

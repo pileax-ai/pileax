@@ -16,6 +16,7 @@ export const useAccountStore = defineStore('account', {
   getters: {
     accountId: (state) => state.account.id,
     workspaceId: (state) => state.workspace.id,
+    activeWorkspaces: (state) => state.workspaces.filter(w => w.memberStatus === 1),
   },
   actions: {
     setAccount(value: Indexable) {
@@ -61,8 +62,8 @@ export const useAccountStore = defineStore('account', {
           workspaceManager.setWorkspaces(res)
 
           // Default workspace
-          if (!this.workspace?.id && this.workspaces.length) {
-            const defaultWorkspace = this.workspaces[0]
+          if (!this.workspace?.id && this.activeWorkspaces.length) {
+            const defaultWorkspace = this.activeWorkspaces[0]
             // console.log('defaultWorkspace', defaultWorkspace)
             this.switchWorkspace(defaultWorkspace!, '')
             resolve(defaultWorkspace)
@@ -81,12 +82,12 @@ export const useAccountStore = defineStore('account', {
     },
     switchWorkspace(value: Indexable, redirect = '/welcome') {
       if (redirect) {
-        this.router.push(redirect)
+        this.workspace = value
+        workspaceManager.switchWorkspace(value.id)
 
         // switch after redirect completed
         setTimeout(() => {
-          this.workspace = value
-          workspaceManager.switchWorkspace(value.id)
+          this.router.push(redirect)
         }, 100)
       } else {
         this.workspace = value

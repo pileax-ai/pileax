@@ -7,6 +7,7 @@ from sqlmodel import Session, SQLModel
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
 from app.api.repos.base_repository import BaseRepository
+from app.libs.exception.business_error import BusinessError
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 RepositoryType = TypeVar("RepositoryType", bound=BaseRepository)
@@ -21,6 +22,11 @@ class BaseService(Generic[ModelType]):
         obj = self.repo.get(id)
         if not obj and raise_exception:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
+        return obj
+
+    def get_by_owner(self, ower: Owner, id: UUID, raise_exception=True) -> ModelType:
+        obj = self.repo.get(id)
+        self._check_read_permission(ower, obj)
         return obj
 
     def save(self, obj: ModelType, commit: bool = True) -> ModelType:
@@ -82,3 +88,28 @@ class BaseService(Generic[ModelType]):
 
         if owner.user_id and hasattr(obj, "user_id") and str(obj.user_id) != str(owner.user_id):
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+    def _check_read_permission(self, owner: Owner, obj: ModelType) -> bool:
+        """
+        Check if owner has read permission
+        workspace or user
+        """
+        if not obj:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"{self.repo.model.__name__} not found")
+
+        owner_workspace_id = owner.workspace.id if owner.workspace else owner.workspace_id
+        obj_workspace_id = obj.workspace_id if hasattr(obj, "workspace_id") else None
+        if obj_workspace_id and owner_workspace_id:
+            if owner_workspace_id == obj_workspace_id:
+                return True
+            else:
+                raise BusinessError(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Access denied",
+                    data={"type": "workspace", "message": "Not workspace member", "location": "service"},
+                )
+
+        if owner.user_id and hasattr(obj, "user_id") and str(obj.user_id) == str(owner.user_id):
+            return True
+        else:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied [User]")

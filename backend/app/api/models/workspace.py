@@ -50,3 +50,9 @@ class WorkspaceDetailsPublic(WorkspacePublic):
     workspace_member_id: uuid.UUID
     member_role: str
     member_status: int
+
+
+class WorkspaceDetails(WorkspaceBase):
+    tenant_id: uuid.UUID = uuid_field()
+    member_role: str
+    member_status: int

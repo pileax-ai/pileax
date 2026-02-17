@@ -1,5 +1,5 @@
 <template>
-  <q-page ref="pageRef" class="o-split-page"
+  <o-base-page ref="pageRef" class="o-split-page"
           :class="{'page-full-screen': fullScreen, 'closed': closed}">
     <q-splitter v-model="size"
                 :limits="[0, maxSize]"
@@ -30,12 +30,13 @@
         </q-scroll-area>
       </template>
     </q-splitter>
-  </q-page>
+  </o-base-page>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, PropType, ref, useTemplateRef, watch } from 'vue'
 import { useElementSize } from '@vueuse/core'
+import OBasePage from 'core/page/template/OBasePage.vue'
 
 const props = defineProps({
   horizontal: {

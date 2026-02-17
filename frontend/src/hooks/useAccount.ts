@@ -22,6 +22,9 @@ export default function () {
   const workspaces = computed(() => {
     return accountStore.workspaces
   })
+  const activeWorkspaces = computed(() => {
+    return accountStore.activeWorkspaces
+  })
 
   const initWorkspace = async () => {
     try {
@@ -70,6 +73,7 @@ export default function () {
     isLogin,
     workspace,
     workspaces,
+    activeWorkspaces,
 
     logout,
     setAccount,

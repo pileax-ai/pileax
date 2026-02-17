@@ -4,8 +4,10 @@ from uuid import UUID
 from sqlalchemy import func
 from sqlmodel import select
 
+from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user import User
+from app.api.models.workspace import Workspace, WorkspaceDetails
 from app.api.models.workspace_member import WorkspaceMember
 from app.api.repos.base_repository import BaseRepository
 from app.libs.db_helper import DbHelper
@@ -14,6 +16,23 @@ from app.libs.db_helper import DbHelper
 class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
     def __init__(self, model, session):
         super().__init__(model, session)
+
+    def get_user_workspace(self, user_id: UUID, workspace_id: UUID) -> WorkspaceDetails | None:
+        stmt = (
+            select(WorkspaceMember, Workspace, User)
+            .join(Workspace, Workspace.id == WorkspaceMember.workspace_id)
+            .join(User, User.id == WorkspaceMember.user_id)
+            .where(
+                WorkspaceMember.user_id == user_id,
+                WorkspaceMember.workspace_id == workspace_id,
+                WorkspaceMember.status == Status.ACTIVE
+            )
+        )
+        result = self.session.exec(stmt).first()
+        if result:
+            workspace_member, workspace, user = result
+            return WorkspaceDetails(**self._build_workspace_details(workspace_member, workspace, user))
+        return None
 
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
@@ -57,6 +76,13 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
             pageSize=query.pageSize,
             pageIndex=query.pageIndex,
         )
+
+    def _build_workspace_details(self, workspace_member: WorkspaceMember, workspace: Workspace, user: User) -> dict:
+        return {
+            **workspace.model_dump(),
+            "member_role": workspace_member.role,
+            "member_status": workspace_member.status,
+        }
 
     def _build_details(self, workspace_member: WorkspaceMember, user: User) -> dict:
         return {
