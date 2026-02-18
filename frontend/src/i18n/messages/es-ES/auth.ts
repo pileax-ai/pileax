@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: '¿Ya tienes una cuenta?',
   accountNo: '¿No tienes una cuenta?',
+  page: {
+    accessDenied: 'Acceso denegado',
+    noPermission: 'No tienes permiso para acceder a esta página.',
+    notFound: 'Página no encontrada',
+    notFountTips: 'La página que estás buscando no existe.'
+  },
   rememberMe: 'Acuérdate de mí',
   signin: {
+    inactive: 'Esta cuenta ha sido deshabilitada temporalmente.',
     incorrect: 'Correo electrónico o contraseña incorrectos'
   },
   signup: {

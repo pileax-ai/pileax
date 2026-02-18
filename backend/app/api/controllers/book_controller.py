@@ -7,9 +7,10 @@ from fastapi import UploadFile
 from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
-from app.api.deps import CurrentUserId, CurrentWorkspace, SessionDep
+from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.book import Book, BookCreate, BookDetails, BookPublic, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
+from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate
 from app.api.services.book_service import BookService
@@ -21,21 +22,22 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
     def __init__(
         self,
         session: SessionDep,
-        user_id: CurrentUserId,
+        user: CurrentUser,
         workspace: CurrentWorkspace,
     ):
-        super().__init__(Book, session, user_id, workspace.id)
+        super().__init__(Book, session, user, workspace)
         self.session = session
         self.workspace = workspace
         self.service = BookService(session)
-        self.fm_controller = FileMetaController(session, user_id, workspace.id)
-        self.wb_controller = WorkspaceBookController(session, user_id, workspace.id)
+        self.fm_controller = FileMetaController(session, user, workspace)
+        self.wb_controller = WorkspaceBookController(session, user, workspace)
 
     def get_by_uuid(self, uuid: str) -> Book:
         return self.service.get_by_uuid(uuid, self.workspace.tenant_id)
 
     def get_details(self, id: uuid.UUID) -> BookDetails:
-        return self.service.get_details(id, self.user_id)
+        book = self.service.get_by_owner(Owner(user_id=self.user.id, workspace=self.workspace), id)
+        return self.service.get_details(id, self.user.id)
 
     async def upload(self, book_str: str, files: list[UploadFile]) -> Any:
         """
@@ -72,4 +74,4 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         return WorkspaceBookService(self.session).get_details(workspace_book.id)
 
     def query_library(self, query: PaginationQuery) -> QueryResult[BookPublic]:
-        return self.service.query_library(self.user_id, self.workspace_id, query)
+        return self.service.query_library(self.user.id, self.workspace_id, query)

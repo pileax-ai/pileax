@@ -14,28 +14,35 @@
               transition-show="jump-down"
               class="o-note-action-menu pi-menu dense">
         <section style="min-width: 260px;">
-          <header class="row col-12 justify-around">
-            <q-btn class="col-4" :class="{ 'active': styles.font === 'default' }"
-                   stack flat @click="onFont('default')">
-              <div>Ag</div>
-              <div class="text-tips font">{{ $t('note.style.defaultFont') }}</div>
-            </q-btn>
-            <q-btn class="col-4" :class="{ 'active': styles.font === 'serif' }"
-                   stack flat @click="onFont('serif')">
-              <div class="serif">Ag</div>
-              <div class="text-tips font">{{ $t('note.style.serifFont') }}</div>
-            </q-btn>
-            <q-btn class="col-4" :class="{ 'active': styles.font === 'mono' }"
-                   stack flat @click="onFont('mono')">
-              <div class="mono">Ag</div>
-              <div class="text-tips font">{{ $t('note.style.monoFont') }}</div>
-            </q-btn>
+          <header class="row col-12 q-col-gutter-x-xs">
+            <div class="col-4">
+              <q-btn class="full-width" :class="{ 'active': styles.font === 'default' }"
+                     stack flat @click="onFont('default')">
+                <div>Ag</div>
+                <div class="text-tips font">{{ $t('note.style.defaultFont') }}</div>
+              </q-btn>
+            </div>
+            <div class="col-4">
+              <q-btn class="full-width" :class="{ 'active': styles.font === 'serif' }"
+                     stack flat @click="onFont('serif')">
+                <div class="serif">Ag</div>
+                <div class="text-tips font">{{ $t('note.style.serifFont') }}</div>
+              </q-btn>
+            </div>
+            <div class="col-4">
+              <q-btn class="full-width" :class="{ 'active': styles.font === 'mono' }"
+                     stack flat @click="onFont('mono')">
+                <div class="mono">Ag</div>
+                <div class="text-tips font">{{ $t('note.style.monoFont') }}</div>
+              </q-btn>
+            </div>
           </header>
           <q-list :style="{minWidth: '240px'}">
             <template v-for="(action, index) in actions" :key="`action-${index}`">
               <q-separator class="bg-accent" v-if="action.separator" />
               <o-common-item v-bind="action"
                              @click="onAction(action, '')"
+                             v-if="!action.hidden"
                              closable>
                 <template #side>
                   <q-toggle v-model="styles.smallText"
@@ -55,7 +62,8 @@
       </q-menu>
     </q-btn>
     <q-btn flat
-           @click="emit('action', { value: 'split' })">
+           @click="emit('action', { value: 'split' })"
+           v-permission="['owner', 'admin', 'editor']">
       <o-icon name="icon-sidebar-right" size="20px" />
     </q-btn>
   </section>
@@ -68,6 +76,7 @@ import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import * as Y from 'yjs'
+import usePermission from 'src/hooks/usePermission'
 
 const props = defineProps({
   ydoc: {
@@ -88,6 +97,7 @@ const {
   newTab,
   newWindow,
 } = useNote()
+const { hasPermission } = usePermission()
 
 const styles = ref<Indexable>({
   font: 'default',
@@ -123,7 +133,8 @@ const actions = computed(() => {
       icon: "copy_all",
       // sideLabel: "⌘D",
       clickable: true,
-      separator: true,
+      separator: hasPermission(['owner', 'admin', 'editor']).value,
+      hidden: !hasPermission(['owner', 'admin', 'editor']).value
     },
     // {
     //   label: t('note.moveTo'),
@@ -138,6 +149,7 @@ const actions = computed(() => {
       value: "delete",
       icon: "delete_outline",
       clickable: true,
+      hidden: !hasPermission(['owner', 'admin', 'editor']).value
     },
     {
       label: t('import'),
@@ -157,7 +169,8 @@ const actions = computed(() => {
       value: "version",
       icon: "o_web_stories",
       clickable: true,
-      separator: true,
+      separator: hasPermission(['owner', 'admin', 'editor']).value,
+      hidden: !hasPermission(['owner', 'admin', 'editor']).value
     },
     {
       label: t('note.newTab'),

@@ -1,8 +1,9 @@
 <template>
-  <o-scroll-section ref="scrollRef"
+  <o-base-section ref="scrollRef"
                     class="chat-conversation"
                     :class="{ 'start': start }"
-                    @scroll="onScroll">
+                    @scroll="onScroll"
+                  scrollable>
     <section class="row col-12 justify-center">
       <section class="row justify-center start-panel" v-if="start">
         <header>
@@ -50,13 +51,13 @@
     </section>
 
     <o-chat-toc ref="tocRef" :chats="chats" />
-  </o-scroll-section>
+  </o-base-section>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick, onActivated } from 'vue'
 import { useRoute } from 'vue-router'
-import OScrollSection from 'core/page/section/OScrollSection.vue'
+import OBaseSection from 'core/page/section/OBaseSection.vue'
 import OChatMessage from 'components/chat/OChatMessage.vue'
 import OChatToc from 'components/chat/OChatToc.vue'
 
@@ -78,7 +79,7 @@ const {
 } = useChatConversation()
 const { isLoading, startStream, cancelStream } = useStream()
 
-const scrollRef = ref<InstanceType<typeof OScrollSection>>()
+const scrollRef = ref<InstanceType<typeof OBaseSection>>()
 const start = ref(true)
 const chats = ref<Indexable[]>([])
 const newChat = ref<Indexable>({})

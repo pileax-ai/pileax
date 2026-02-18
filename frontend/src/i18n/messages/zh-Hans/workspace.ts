@@ -15,7 +15,7 @@ export default {
     admin: '管理员',
     editor: '编辑',
     normal: '普通',
-    owner: '拥有者'
+    owner: '所有者'
   },
   members: '成员',
   memberStatus: {

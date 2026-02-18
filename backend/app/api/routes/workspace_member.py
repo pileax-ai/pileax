@@ -28,12 +28,12 @@ async def assign_role(id: uuid.UUID, role: str, controller: WorkspaceMemberContr
 
 @router.api_post("/enable", response_model=WorkspaceMemberPublic)
 async def enable(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
-    return controller.enable(id)
+    return await controller.enable(id)
 
 
 @router.api_post("/disable", response_model=WorkspaceMemberPublic)
 async def disable(id: uuid.UUID, controller: WorkspaceMemberController = Depends()) -> Any:
-    return controller.disable(id)
+    return await controller.disable(id)
 
 
 @router.api_get("/details", response_model=WorkspaceMemberPublicDetails)

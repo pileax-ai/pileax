@@ -54,6 +54,9 @@ class AuthService:
         if user.password is None or not compare_password(data.password, user.password, user.password_salt):
             raise HTTPException(status_code=403, detail="auth.signin.incorrect")
 
+        if user.status != Status.ACTIVE:
+            raise HTTPException(status_code=403, detail="auth.signin.inactive")
+
         return user
 
     def login(self, user: User, ip: str | None = None) -> Token:

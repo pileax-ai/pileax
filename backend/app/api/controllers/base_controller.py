@@ -6,7 +6,8 @@ from sqlmodel import SQLModel
 
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace import Workspace
+from app.api.models.user import User
+from app.api.models.workspace import WorkspaceDetails
 from app.api.repos.base_repository import BaseRepository
 from app.api.services.base_service import BaseService
 
@@ -20,15 +21,14 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self,
         model: type[ModelType],
         session,
-        user_id: Optional[UUID] = None,
-        workspace_id: Optional[UUID] = None,
-        workspace: Optional[Workspace] = None,
+        user: User,
+        workspace: Optional[WorkspaceDetails] = None,
     ):
         self.model = model
         self.session = session
-        self.user_id = user_id
-        self.workspace_id = workspace_id
+        self.user = user
         self.workspace = workspace
+        self.workspace_id = workspace.id if workspace else None
         self.service = BaseService[ModelType](model, session, BaseRepository[ModelType])
 
     def save(self, item_in: CreateSchemaType) -> Any:
@@ -39,30 +39,30 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         if hasattr(self.model, "workspace_id") and item.get("workspace_id") is None:
             item["workspaceId"] = self.workspace_id
         if hasattr(self.model, "user_id"):
-            item["userId"] = self.user_id
+            item["userId"] = self.user.id
         return self.service.save(self.model(**item))
 
     def get(self, id: UUID) -> Any:
-        return self.service.get(id)
+        return self.service.get_by_owner(Owner(user_id=self.user.id, workspace=self.workspace), id)
 
     def update(self, item_in: UpdateSchemaType) -> Any:
         return self.service.update_by_owner(
-            Owner(workspace_id=self.workspace_id, user_id=self.user_id),
+            Owner(workspace_id=self.workspace_id, user_id=self.user.id),
             item_in.id,
             item_in.model_dump(exclude_unset=True, exclude_none=True),
         )
 
     def update_by_user(self, item_in: UpdateSchemaType) -> Any:
         return self.service.update_by_owner(
-            Owner(user_id=self.user_id), item_in.id, item_in.model_dump(exclude_unset=True, exclude_none=True)
+            Owner(user_id=self.user.id), item_in.id, item_in.model_dump(exclude_unset=True, exclude_none=True)
         )
 
     def delete(self, id: UUID) -> Any:
-        return self.service.delete_by_owner(Owner(workspace_id=self.workspace_id, user_id=self.user_id), id)
+        return self.service.delete_by_owner(Owner(workspace_id=self.workspace_id, user_id=self.user.id), id)
 
     def query(self, query: PaginationQuery, filter_by_user=False, filter_by_workspace=True) -> Any:
         if filter_by_user and query.condition.get("userId") is None:
-            query.condition["userId"] = self.user_id
+            query.condition["userId"] = self.user.id
 
         if filter_by_workspace and hasattr(self.model, "workspace_id") and query.condition.get("workspaceId") is None:
             query.condition["workspaceId"] = self.workspace_id

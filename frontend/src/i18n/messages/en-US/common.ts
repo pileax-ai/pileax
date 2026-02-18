@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Do not show again',
   ok: 'Ok',
   open: 'Open',
-  pageNotFound: 'Page not found',
   password: 'Password',
   pin: 'Pin',
   profile: 'Account Profile',

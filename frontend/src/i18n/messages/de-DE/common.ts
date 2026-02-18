@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Nicht erneut anzeigen',
   ok: 'OK',
   open: 'Offen',
-  pageNotFound: 'Seite nicht gefunden',
   password: 'Passwort',
   pin: 'Stift',
   profile: 'Kontoprofil',

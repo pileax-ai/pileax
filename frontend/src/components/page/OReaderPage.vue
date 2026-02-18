@@ -1,5 +1,5 @@
 <template>
-  <q-page class="o-reader-page bg-secondary full-width full-height"
+  <o-base-page class="o-reader-page bg-secondary full-width full-height"
           :style="`--reader-background-color: ${settings.backgroundColor};
                  --reader-background-image: url(${settings.backgroundImage});
                  --reader-background-blur: blur(${settings.backgroundBlur}px)`">
@@ -16,13 +16,14 @@
         </div>
       </dialog>
     </q-scroll-area>
-  </q-page>
+  </o-base-page>
 </template>
 
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from 'vue'
 import { vOnClickOutside } from '@vueuse/components'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import OBasePage from 'core/page/template/OBasePage.vue'
 
 const props = defineProps({
   contentClass: {

@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: '已有账户？',
   accountNo: '还没有账户？',
+  page: {
+    accessDenied: '拒绝访问',
+    noPermission: '你没有权限访问此页面',
+    notFound: '页面没找到',
+    notFountTips: '你访问的页面不存在'
+  },
   rememberMe: '记住我',
   signin: {
+    inactive: '该账号已被临时禁用',
     incorrect: '邮箱或密码不正确'
   },
   signup: {

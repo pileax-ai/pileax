@@ -1,11 +1,16 @@
 <template>
-  <o-single-page class="bg-accent page-error-404" content-class="bg-accent">
+  <o-single-page class="page-error bg-secondary">
     <section class="row col-12 justify-center">
       <div class="col-12 text-center image">
         <img :src="$public('/images/ui/page/404.svg')" alt="404" />
       </div>
       <section class="pi-result">
-        <div class="text-center text-readable pi-result-title text-uppercase">{{ $t('pageNotFound') }}</div>
+        <div class="pi-result-title">
+          {{ $t('auth.page.notFound') }}
+        </div>
+        <div class="text-readable">
+          {{ $t('auth.page.notFountTips') }}
+        </div>
       </section>
 
       <div class="row col-12 justify-center">
@@ -20,25 +25,5 @@ import OSinglePage from 'core/page/template/OSinglePage.vue'
 </script>
 
 <style lang="scss">
-.page-error-404 {
-  .o-scrollarea-page {
-    padding: 48px 0;
-  }
-
-  .image {
-    img {
-      width: 100%;
-      max-width: 400px;
-    }
-  }
-
-  .pi-result {
-    padding-bottom: 40px;
-
-    &-title {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-  }
-}
+@import "./styles";
 </style>

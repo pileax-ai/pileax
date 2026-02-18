@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'No volver a mostrar',
   ok: 'De acuerdo',
   open: 'Abierto',
-  pageNotFound: 'Página no encontrada',
   password: 'Contraseña',
   pin: 'Alfiler',
   profile: 'Perfil de la cuenta',

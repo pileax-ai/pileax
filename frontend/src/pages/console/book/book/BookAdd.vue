@@ -137,7 +137,6 @@ function addBook(book: any) {
   }).then(res => {
     emit('close')
   }).catch(res => {
-    console.log('res', res)
     const data = res.response.data
     if (data.message.indexOf('UNIQUE') === 0) {
       notifyWarning('已经添加本书')

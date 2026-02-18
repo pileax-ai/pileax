@@ -7,6 +7,8 @@ import { isTokenNeedRefresh, refreshToken } from 'src/utils/auth'
 import { getErrorMessage } from 'src/utils/request'
 import { notifyWarning } from 'core/utils/control'
 import { TokenRefreshManager } from 'src/utils/token-refresh-manager'
+import { usePageStoreWithOut } from 'stores/page'
+import { router } from 'src/router'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -22,6 +24,7 @@ declare module '@vue/runtime-core' {
 // "export default () => {}" function below (which runs individually
 // for each client)
 const { openDialog } = useDialog()
+const pageStore = usePageStoreWithOut()
 const api = axios.create({
   baseURL: window.APP_CONFIG?.API_BASE_URL || process.env.API_BASE_URL,
   timeout: parseInt(process.env.API_TIMEOUT || '100000')
@@ -121,6 +124,10 @@ api.interceptors.response.use(
         return Promise.reject(refreshError)
       } finally {
         tokenRefreshManager.setIsRefreshing(false)
+      }
+    } else if (status === 403) {
+      if (message.indexOf('Access denied') === 0) {
+        pageStore.setPageStatus(403, data?.data)
       }
     } else if (status === 500) {
       notifyWarning(message)

@@ -1,0 +1,23 @@
+.page-error {
+  .o-scrollarea-page {
+    padding: 48px 0;
+  }
+
+  .image {
+    img {
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+
+  .pi-result {
+    width: 400px;
+    padding-bottom: 40px;
+    text-align: center;
+
+    &-title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+}

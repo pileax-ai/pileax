@@ -27,11 +27,13 @@
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label style="font-size: 1.2rem;">
+            <q-item-label class="title">
               {{ account.name }}
             </q-item-label>
             <q-item-label caption>
               {{ workspace.name }}
+
+              <o-badge v-bind="getArrayItem(WorkspaceMemberRoles, workspace.memberRole)" />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -58,7 +60,7 @@
                              @click="onAction({value: 'workspace'})" />
               <q-separator class="bg-dark" />
 
-              <template v-for="(item, index) in workspaces" :key="index">
+              <template v-for="(item, index) in activeWorkspaces" :key="index">
                 <o-common-item :icon="item.icon || '🍃'"
                                :label="item.name"
                                :class="{ 'active': item.id === workspace.id }"
@@ -117,6 +119,7 @@ import { APP_DOC_URL } from 'src/app/app'
 import useShortcut from 'core/hooks/useShortcut'
 import { ipcProvider } from 'src/api/ipc'
 import useUpdater from 'core/hooks/useUpdater'
+import useMetadata from 'src/hooks/useMetadata'
 
 const props = defineProps({
   type: {
@@ -134,13 +137,14 @@ const props = defineProps({
 const {
   account,
   workspace,
-  workspaces,
+  activeWorkspaces,
   logout,
   initWorkspace,
   switchWorkspace
 } = useAccount()
 const { t } = useCommon()
 const { openDialog } = useDialog()
+const { WorkspaceMemberRoles, getArrayItem } = useMetadata()
 const { darkMode, toggleTheme } = useSetting()
 const { nativeShortcut } = useShortcut()
 const { updater } = useUpdater()
@@ -321,7 +325,24 @@ const onSwitchWorkspace = (item: Indexable) => {
 
       .q-item__section--main {
         padding-left: 0;
+        margin-left: 0 !important;
       }
+
+      .title {
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+
+      .text-caption {
+        font-size: 0.9rem;
+      }
+    }
+
+    .o-badge {
+      margin: 0 4px;
+      padding: 2px;
+      font-size: 0.8rem;
+      font-weight: 200;
     }
   }
 

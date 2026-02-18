@@ -28,6 +28,7 @@ export default defineConfig(((ctx) => {
     boot: [
       'axios',
       'component',
+      'directives',
       'i18n',
       'router',
       'tauri',
@@ -143,7 +144,16 @@ export default defineConfig(((ctx) => {
     devServer: {
       // https: true,
       port: 9600,
-      open: false // opens browser window automatically
+      open: false, // opens browser window automatically
+      watch: {
+        usePolling: true,
+        interval: 1000,
+        ignored: [
+          'node_modules/**',
+          'dist/**',
+          '.quasar/**'
+        ]
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

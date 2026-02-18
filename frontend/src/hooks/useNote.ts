@@ -16,6 +16,7 @@ import { CollabEvent } from 'src/types/collab'
 import { timeDiff } from 'core/utils/dayjs'
 import { noteVersionService } from 'src/api/service/remote/note-version'
 import { debounce } from 'quasar'
+import axios from 'axios'
 
 export default function () {
   const naviStore = useNaviStore()
@@ -73,8 +74,14 @@ export default function () {
   }
 
   async function initNoteData() {
-    const notes = await noteService.getAll()
-    noteStore.value.setNotes(notes)
+    try {
+      const notes = await noteService.getAll()
+      noteStore.value.setNotes(notes)
+    } catch (err) {
+      if (axios.isAxiosError(err) && err?.response?.status === 403) {
+        noteStore.value.setNotes([])
+      }
+    }
   }
 
   function refreshNote(note: Note, publish = true) {
@@ -130,14 +137,19 @@ export default function () {
     })
   }
 
-  const debounceSaveNoteRemote = debounce(saveNoteRemote, 5000)
+  const debounceSaveNoteRemote = debounce(saveNoteRemote, 2500)
 
-  function saveNote(data: Indexable) {
+  function saveNote(data: Indexable, debounce = false) {
     refreshNote({
       ...currentNote.value,
       ...data,
     } as Note)
-    saveNoteRemote(data)
+
+    if (debounce) {
+      debounceSaveNoteRemote(data)
+    } else {
+      saveNoteRemote(data)
+    }
     debounceCreateVersion()
   }
 

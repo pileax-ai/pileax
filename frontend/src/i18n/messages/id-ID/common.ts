@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Jangan tampilkan lagi',
   ok: 'Oke',
   open: 'Membuka',
-  pageNotFound: 'Halaman tidak ditemukan',
   password: 'Kata sandi',
   pin: 'Pin',
   profile: 'Profil Akun',

@@ -1,5 +1,6 @@
 <template>
-  <Layout>
+  <ErrorLayout v-if="globalAccessDenied" />
+  <ReaderLayout v-else>
     <router-view v-slot="{ Component, route }">
       <transition appear
                   :name="transitionName"
@@ -9,16 +10,19 @@
         </keep-alive>
       </transition>
     </router-view>
-  </Layout>
+  </ReaderLayout>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import useSetting from 'core/hooks/useSetting'
 
-import Layout from './layout.vue'
+import ReaderLayout from './layout.vue'
+import ErrorLayout from '../error/index.vue'
+import usePermission from 'src/hooks/usePermission'
 
 const { pageTransition } = useSetting()
+const { globalAccessDenied } = usePermission()
 const transitionName = computed(() => {
   return pageTransition.value.enable ? pageTransition.value.name : ''
 })

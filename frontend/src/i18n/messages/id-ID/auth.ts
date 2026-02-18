@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: 'Sudah punya akun?',
   accountNo: 'Belum punya akun?',
+  page: {
+    accessDenied: 'Akses ditolak',
+    noPermission: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
+    notFound: 'Halaman tidak ditemukan',
+    notFountTips: 'Halaman yang Anda cari tidak ada.'
+  },
   rememberMe: 'Ingatlah aku',
   signin: {
+    inactive: 'Akun ini telah dinonaktifkan sementara.',
     incorrect: 'Email atau kata sandi salah.'
   },
   signup: {

@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Não mostrar novamente',
   ok: 'OK',
   open: 'Abrir',
-  pageNotFound: 'Página não encontrada',
   password: 'Senha',
   pin: 'Alfinete',
   profile: 'Perfil da conta',

@@ -5,12 +5,12 @@ import edge_tts
 from fastapi import HTTPException
 from starlette.responses import StreamingResponse
 
-from app.api.deps import CurrentUserId, CurrentWorkspaceId, SessionDep
+from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.edge import EdgeTTS
 
 
 class EdgeController:
-    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace_id: CurrentWorkspaceId):
+    def __init__(self, session: SessionDep, user: CurrentUser, workspace: CurrentWorkspace):
         pass
 
     def get_voices(self):

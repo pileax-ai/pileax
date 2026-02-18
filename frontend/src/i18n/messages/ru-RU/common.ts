@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Больше не показываться',
   ok: 'Хорошо',
   open: 'Открыть',
-  pageNotFound: 'Страница не найдена',
   password: 'Пароль',
   pin: 'Приколоть',
   profile: 'Профиль учетной записи',

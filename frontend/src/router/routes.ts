@@ -196,6 +196,17 @@ const routes: RouteRecordRaw[] = [
 
 export const commonRoutes: RouteRecordRaw[] = [
   { // Always leave this as last one
+    path: '/403',
+    component: PageLayout,
+    children: [
+      {
+        path: '',
+        component: () => import('pages/error/403.vue'),
+        name: 'page-no-permission'
+      },
+    ]
+  },
+  { // Always leave this as last one
     path: '/:catchAll(.*)*',
     component: PageLayout,
     children: [

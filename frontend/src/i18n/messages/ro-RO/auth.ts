@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: 'Ai deja un cont?',
   accountNo: 'Nu aveți un cont?',
+  page: {
+    accessDenied: 'Acces interzis',
+    noPermission: 'Nu aveți permisiunea de a accesa această pagină.',
+    notFound: 'Pagina nu a fost găsită',
+    notFountTips: 'Pagina pe care o cauți nu există.'
+  },
   rememberMe: 'Ține-mă minte',
   signin: {
+    inactive: 'Acest cont a fost dezactivat temporar.',
     incorrect: 'Adresă de e-mail sau parolă incorectă.'
   },
   signup: {

@@ -174,7 +174,7 @@ export default function () {
       saveNote({
         id: currentNote.value.id,
         [key]: value
-      })
+      }, true)
     }
   }
   const debounceSetMeta = debounce(setMeta, 1000)
@@ -197,7 +197,7 @@ export default function () {
     // Save a new version every 3/10 minutes
     const  timeDelta = timeDiff(lastVersionTime.value, currentNote.value.updateTime, 'second')
     console.log('version time', timeDelta)
-    if (lastVersionTime.value && timeDelta < 3 * 60) return
+    if (lastVersionTime.value && timeDelta < 2 * 60) return
 
     // update time
     lastVersionTime.value = currentNote.value.updateTime || ''
@@ -275,8 +275,8 @@ export default function () {
   }
 
   const setTitle = (title?: any ) => {
+    // console.log('setTitle', title)
     setMeta('title', title || '')
-    // debounceSetMeta('title', title || '')
   }
 
   onDeactivated(() => {

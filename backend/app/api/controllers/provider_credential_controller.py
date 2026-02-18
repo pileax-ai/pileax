@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import HTTPException
 
 from app.api.controllers.base_controller import BaseController
-from app.api.deps import CurrentUserId, CurrentWorkspace, SessionDep
+from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.provider import Provider
 from app.api.models.provider_credential import (
     ProviderCredential,
@@ -25,12 +25,12 @@ from app.libs.provider_helper import ProviderHelper
 class ProviderCredentialController(
     BaseController[ProviderCredential, ProviderCredentialCreate, ProviderCredentialUpdate]
 ):
-    def __init__(self, session: SessionDep, user_id: CurrentUserId, workspace: CurrentWorkspace):
-        super().__init__(ProviderCredential, session, user_id, workspace.id)
+    def __init__(self, session: SessionDep, user: CurrentUser, workspace: CurrentWorkspace):
+        super().__init__(ProviderCredential, session, user, workspace)
         self.workspace = workspace
         self.service = ProviderCredentialService(session)
         self.provider_service = ProviderService(session, workspace)
-        self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
+        self.pdm_service = ProviderDefaultModelService(session, user.id, workspace.id)
         self.workspace_llm_service = WorkspaceLLMService(session, workspace)
 
     def save(self, item_in: ProviderCredentialCreate) -> Any:

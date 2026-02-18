@@ -119,6 +119,7 @@
   "auth.tokenExpired": "9a0f631d",
   "auth.useToConsent": "894c4b0f",
   "backHome": "56cf8b33",
+  "backToHome": "6957b0b6",
   "book._": "2b1f94ef",
   "book.add": "437d4df5",
   "book.addTime": "6f5fcfe6",
@@ -416,6 +417,7 @@
   "updater.check": "a785bc36",
   "updater.checking": "6af27567",
   "updater.currentVersion": "011fedf4",
+  "updater.downloading": "14ab93af",
   "updater.ignoreThisVersion": "60a2f02b",
   "updater.later": "61057a0c",
   "updater.message": "5142d9f3",
@@ -424,6 +426,7 @@
   "updater.restart": "51cfbcff",
   "updater.title": "dbacf814",
   "updater.update": "e39a54c2",
+  "updater.upToDate": "092671d6",
   "updateTime": "19eb3e8d",
   "upload": "91412465",
   "version": "34b6cd75",
@@ -453,8 +456,9 @@
   "workspace.switch": "467ab65d",
   "workspace.types.personal": "184daff6",
   "workspace.types.team": "ac848fa2",
-  "backToHome": "6957b0b6",
-  "pageNotFound": "d0fbda98",
-  "updater.downloading": "14ab93af",
-  "updater.upToDate": "092671d6"
+  "auth.page.accessDenied": "095afbf2",
+  "auth.page.noPermission": "fd31796a",
+  "auth.page.notFound": "d0fbda98",
+  "auth.page.notFountTips": "a7bbf991",
+  "auth.signin.inactive": "382d3d99"
 }

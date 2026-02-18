@@ -1,9 +1,21 @@
+import json
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+from uuid import UUID
 
 from app.api.models.database_cache import DatabaseCache
 from app.api.repos.database_cache_repository import DatabaseCacheRepository
 from app.extensions.ext_database import get_db_session
+
+
+class UUIDEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle UUID objects."""
+
+    def default(self, obj):
+        if isinstance(obj, UUID):
+            # If the object is a UUID, convert it to a string
+            return str(obj)
+        return super().default(obj)
 
 
 class Cache(ABC):

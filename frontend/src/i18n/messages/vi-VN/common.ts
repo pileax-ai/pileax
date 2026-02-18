@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Không hiển thị lại',
   ok: 'Được rồi',
   open: 'Mở',
-  pageNotFound: 'Không tìm thấy trang',
   password: 'Mật khẩu',
   pin: 'Ghim',
   profile: 'Hồ sơ tài khoản',

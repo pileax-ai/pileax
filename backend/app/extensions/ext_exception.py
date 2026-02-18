@@ -8,6 +8,8 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from app.libs.exception.business_error import BusinessError
+
 logger = logging.getLogger(__name__)
 order = 99
 
@@ -21,6 +23,15 @@ def get_cors_response(response: JSONResponse):
 
 def get_trace_id(request: Request) -> str:
     return request.headers.get("X-Trace-Id") or str(uuid.uuid4())
+
+
+async def business_exception_handler(request: Request, ex: BusinessError):
+    # logger.warning(f"[HTTPException] {request.url} - {ex.status_code}: {ex.detail}")
+    response = JSONResponse(
+        status_code=ex.status_code,
+        content={"code": ex.status_code, "message": ex.detail, "data": ex.data},
+    )
+    return get_cors_response(response)
 
 
 async def http_exception_handler(request: Request, ex: StarletteHTTPException):
@@ -71,6 +82,7 @@ async def global_exception_handler(request: Request, ex: Exception):
 
 
 def setup(app):
+    app.add_exception_handler(BusinessError, business_exception_handler)
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
     app.add_exception_handler(IntegrityError, integrity_exception_handler)

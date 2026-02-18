@@ -34,7 +34,7 @@ defineProps({
   },
   contentClass: {
     type: String,
-    default: 'bg-accent'
+    default: ''
   },
   layout: {
     type: String,

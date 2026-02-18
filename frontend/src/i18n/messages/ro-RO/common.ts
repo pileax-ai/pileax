@@ -140,7 +140,6 @@ export default {
   noShowAgain: 'Nu mai afișa',
   ok: 'Bine',
   open: 'Deschide',
-  pageNotFound: 'Pagina nu a fost găsită',
   password: 'Parolă',
   pin: 'Fixează',
   profile: 'Profilul contului',
