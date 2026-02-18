@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: 'Bạn đã có tài khoản chưa?',
   accountNo: 'Bạn chưa có tài khoản?',
+  page: {
+    accessDenied: 'Quyền truy cập bị từ chối',
+    noPermission: 'Bạn không có quyền truy cập vào trang này.',
+    notFound: 'Không tìm thấy trang',
+    notFountTips: 'Trang bạn đang tìm kiếm không tồn tại.'
+  },
   rememberMe: 'Hãy nhớ đến tôi',
   signin: {
+    inactive: 'Tài khoản này đã tạm thời bị vô hiệu hóa.',
     incorrect: 'Địa chỉ email hoặc mật khẩu không chính xác.'
   },
   signup: {

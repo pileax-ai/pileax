@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: 'すでにアカウントをお持ちですか?',
   accountNo: 'アカウントをお持ちではありませんか？',
+  page: {
+    accessDenied: 'アクセスが拒否されました',
+    noPermission: 'このページにアクセスする権限がありません。',
+    notFound: 'ページが見つかりません',
+    notFountTips: '探しているページは存在しません。'
+  },
   rememberMe: '私を覚えてますか',
   signin: {
+    inactive: 'このアカウントは一時的に無効になっています。',
     incorrect: 'メールアドレスまたはパスワードが間違っています。'
   },
   signup: {

@@ -1,4 +1,3 @@
-
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.tenant import Tenant, TenantCreate, TenantUpdate

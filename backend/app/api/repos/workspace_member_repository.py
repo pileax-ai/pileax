@@ -25,7 +25,7 @@ class WorkspaceMemberRepository(BaseRepository[WorkspaceMember]):
             .where(
                 WorkspaceMember.user_id == user_id,
                 WorkspaceMember.workspace_id == workspace_id,
-                WorkspaceMember.status == Status.ACTIVE
+                WorkspaceMember.status == Status.ACTIVE,
             )
         )
         result = self.session.exec(stmt).first()

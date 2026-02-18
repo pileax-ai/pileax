@@ -10,6 +10,7 @@ from app.extensions.ext_database import get_db_session
 
 class UUIDEncoder(json.JSONEncoder):
     """Custom JSON encoder to handle UUID objects."""
+
     def default(self, obj):
         if isinstance(obj, UUID):
             # If the object is a UUID, convert it to a string

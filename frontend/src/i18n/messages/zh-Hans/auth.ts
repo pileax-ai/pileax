@@ -17,10 +17,16 @@ export default {
   },
   accountAlready: '已有账户？',
   accountNo: '还没有账户？',
+  page: {
+    accessDenied: '拒绝访问',
+    noPermission: '你没有权限访问此页面',
+    notFound: '页面没找到',
+    notFountTips: '你访问的页面不存在'
+  },
   rememberMe: '记住我',
   signin: {
-    incorrect: '邮箱或密码不正确',
-    inactive: '该账号已被临时禁用'
+    inactive: '该账号已被临时禁用',
+    incorrect: '邮箱或密码不正确'
   },
   signup: {
     confirmPassword: '重复密码',
@@ -32,11 +38,5 @@ export default {
     passwordError: '请输入正确密码'
   },
   tokenExpired: 'API凭证已经失效，须重新登录',
-  useToConsent: '使用即代表您同意我们的',
-  page: {
-    accessDenied: '拒绝访问',
-    notFound: '页面没找到',
-    notFountTips: '你访问的页面不存在',
-    noPermission: '你没有权限访问此页面',
-  }
+  useToConsent: '使用即代表您同意我们的'
 }

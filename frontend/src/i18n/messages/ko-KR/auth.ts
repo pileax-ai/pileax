@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: '이미 계정이 있으신가요?',
   accountNo: '계정이 없으신가요?',
+  page: {
+    accessDenied: '접근 불가',
+    noPermission: '이 페이지에 접근할 권한이 없습니다.',
+    notFound: '페이지를 찾을 수 없습니다',
+    notFountTips: '찾으시는 페이지가 존재하지 않습니다.'
+  },
   rememberMe: '나를 기억해줘',
   signin: {
+    inactive: '이 계정은 일시적으로 비활성화되었습니다.',
     incorrect: '이메일 주소 또는 비밀번호가 잘못되었습니다.'
   },
   signup: {

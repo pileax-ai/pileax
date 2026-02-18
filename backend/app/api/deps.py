@@ -60,11 +60,11 @@ async def get_cache_user(session, user_id: str) -> Optional[User]:
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     if user.status != Status.ACTIVE:
-        raise BusinessError(status_code=403, detail="Access denied", data={
-            "type": "user",
-            "message": "Inactive user",
-            "scope": "global"
-        })
+        raise BusinessError(
+            status_code=403,
+            detail="Access denied",
+            data={"type": "user", "message": "Inactive user", "scope": "global"},
+        )
 
     # cache
     await cache.set(key, user.model_dump(mode="json"))
@@ -105,14 +105,15 @@ async def get_cache_workspace(session, user_id: str, workspace_id: str) -> Optio
         return WorkspaceDetails(**wd_dict)
 
     # Fallback to DB
-    wd: Optional[WorkspaceDetails] = (WorkspaceMemberRepository(WorkspaceMember, session)
-                                      .get_user_workspace(UUID(user_id), UUID(workspace_id)))
+    wd: Optional[WorkspaceDetails] = WorkspaceMemberRepository(WorkspaceMember, session).get_user_workspace(
+        UUID(user_id), UUID(workspace_id)
+    )
     if not wd:
-        raise BusinessError(status_code=403, detail="Access denied", data={
-            "type": "workspace",
-            "message": "Not workspace member",
-            "scope": "global"
-        })
+        raise BusinessError(
+            status_code=403,
+            detail="Access denied",
+            data={"type": "workspace", "message": "Not workspace member", "scope": "global"},
+        )
 
     # Cache
     await cache.set(key, wd.model_dump(mode="json"))
@@ -120,9 +121,7 @@ async def get_cache_workspace(session, user_id: str, workspace_id: str) -> Optio
 
 
 async def get_current_workspace(
-    session: SessionDep,
-    token: TokenDep,
-    workspace_id: UUID = Depends(get_workspace_id)
+    session: SessionDep, token: TokenDep, workspace_id: UUID = Depends(get_workspace_id)
 ) -> WorkspaceDetails:
     payload = JWTService().decode(token)
     user_id = payload.get("sub")

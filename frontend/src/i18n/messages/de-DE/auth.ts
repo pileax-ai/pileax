@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: 'Sie haben bereits ein Konto?',
   accountNo: 'Sie haben noch kein Konto?',
+  page: {
+    accessDenied: 'Zugriff verweigert',
+    noPermission: 'Sie haben keine Berechtigung, auf diese Seite zuzugreifen.',
+    notFound: 'Seite nicht gefunden',
+    notFountTips: 'Die gesuchte Seite existiert nicht.'
+  },
   rememberMe: 'Erinnere dich an mich',
   signin: {
+    inactive: 'Dieses Konto wurde vorübergehend deaktiviert.',
     incorrect: 'Falsche E-Mail-Adresse oder falsches Passwort.'
   },
   signup: {

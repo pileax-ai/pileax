@@ -17,8 +17,15 @@ export default {
   },
   accountAlready: '已有帳戶？',
   accountNo: '還沒有帳戶？',
+  page: {
+    accessDenied: '拒絕訪問',
+    noPermission: '你沒有權限訪問此頁面',
+    notFound: '頁面沒找到',
+    notFountTips: '你造訪的頁面不存在'
+  },
   rememberMe: '記住我',
   signin: {
+    inactive: '該帳號已暫時停用',
     incorrect: '信箱或密碼不正確'
   },
   signup: {
