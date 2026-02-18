@@ -20,11 +20,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import useSetting from 'core/hooks/useSetting'
-import usePage from 'core/hooks/usePage'
+import usePermission from 'src/hooks/usePermission'
 import useWorkspace from 'src/hooks/useWorkspace'
 
 const { workspaceId } = useWorkspace()
-const { globalAccessDenied } = usePage()
+const { globalAccessDenied } = usePermission()
 
 import ConsoleLayout from './layout.vue'
 import FrameLayout from './frame-layout.vue'

@@ -5,7 +5,8 @@ import type { LoginParams } from 'src/api/models/account'
 import { clearUserCache, } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import { workspaceService } from 'src/api/service/remote/workspace'
-import { WorkspaceInfo, workspaceManager } from 'core/workspace/workspace-manager'
+import { workspaceManager } from 'core/workspace/workspace-manager'
+import { store } from 'stores/index'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
@@ -106,3 +107,7 @@ export const useAccountStore = defineStore('account', {
     key: `${CODE}.account`
   }
 })
+
+export const useAccountStoreWithOut = () => {
+  return useAccountStore(store)
+}

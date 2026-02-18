@@ -28,6 +28,7 @@ export default defineConfig(((ctx) => {
     boot: [
       'axios',
       'component',
+      'directives',
       'i18n',
       'router',
       'tauri',

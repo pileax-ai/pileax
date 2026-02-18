@@ -20,17 +20,16 @@
                 :class="`${pageView} ${currentNote.cover && currentNote.icon ? 'with-cover' : ''}`">
           <section class="note-meta-wrapper">
             <div class="icon text-readable" v-if="currentNote.icon">
-            <span v-if="false">
-              {{ currentNote.icon }}
-            </span>
               <o-icon :name="currentNote.icon" />
               <o-general-icon-menu anchor="bottom left"
                                    self="top left"
                                    :offset="[0, 8]"
-                                   @select="updateIcon" />
+                                   @select="updateIcon"
+                                   v-permission="['owner', 'admin', 'editor']" />
             </div>
           </section>
-          <section class="text-readable note-meta-wrapper">
+          <section class="text-readable note-meta-wrapper"
+                   v-permission="['owner', 'admin', 'editor']">
             <q-btn icon="sentiment_satisfied_alt"
                    :label="$t('note.addIcon')"
                    flat
@@ -51,6 +50,7 @@
                    placeholder="New page"
                    class=""
                    borderless
+                   :readonly="!hasPermission(['owner', 'admin', 'editor']).value"
                    @update:modelValue="setTitle"
                    @keyup.enter="onTitleEnter" />
         </section>
@@ -95,6 +95,7 @@ import NoteActions from 'components/note/NoteActions.vue'
 import ONotePage from 'components/page/ONotePage.vue'
 import { router } from 'src/router'
 import { colorById } from 'core/utils/misc'
+import usePermission from 'src/hooks/usePermission'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
@@ -119,6 +120,7 @@ const {
   setTitle,
   throttleUpdateTime,
 } = useNoteCollab()
+const { hasPermission } = usePermission()
 
 const titleRef = useTemplateRef<QInput>('title')
 const notePage = ref<InstanceType<typeof ONotePage>>()
@@ -136,6 +138,7 @@ const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
   return {
+    editable: hasPermission(['owner', 'admin', 'editor']).value,
     aiOption: aiOption.value,
     locale: localeAlt.value,
     darkMode: darkMode.value,

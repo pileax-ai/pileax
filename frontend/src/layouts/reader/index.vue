@@ -19,10 +19,10 @@ import useSetting from 'core/hooks/useSetting'
 
 import ReaderLayout from './layout.vue'
 import ErrorLayout from '../error/index.vue'
-import usePage from 'core/hooks/usePage'
+import usePermission from 'src/hooks/usePermission'
 
 const { pageTransition } = useSetting()
-const { globalAccessDenied } = usePage()
+const { globalAccessDenied } = usePermission()
 const transitionName = computed(() => {
   return pageTransition.value.enable ? pageTransition.value.name : ''
 })

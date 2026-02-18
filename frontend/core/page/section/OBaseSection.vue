@@ -22,7 +22,7 @@
 import {ref} from 'vue'
 import { QScrollArea } from 'quasar'
 import Content403 from 'core/page/content/Content403.vue'
-import usePage from 'core/hooks/usePage'
+import usePermission from 'src/hooks/usePermission'
 
 const props = defineProps({
   scrollable: {
@@ -40,7 +40,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['scroll'])
 
-const { pageStatus } = usePage()
+const { pageStatus } = usePermission()
 const scrollRef = ref<InstanceType<typeof QScrollArea>>()
 const scrollTop = ref(0)
 const scrollDirection = ref('')

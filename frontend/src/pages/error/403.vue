@@ -17,6 +17,7 @@
         <q-btn label="切换空间" class="bg-primary text-white" flat>
           <q-menu class="pi-menu show-side-icon"
                   transition-show="jump-down"
+                  :offset="[0, 4]"
                   @before-show="onBeforeShow">
             <q-list style="min-width: 200px;">
               <template v-for="(item, index) in activeWorkspaces" :key="index">
@@ -52,10 +53,10 @@
  */
 import OSinglePage from 'core/page/template/OSinglePage.vue'
 import useAccount from 'src/hooks/useAccount'
-import usePage from 'core/hooks/usePage'
+import usePermission from 'src/hooks/usePermission'
 import { computed } from 'vue'
 
-const { pageData, resetPageStatus } = usePage()
+const { pageData, resetPageStatus } = usePermission()
 const {
   workspace,
   activeWorkspaces,

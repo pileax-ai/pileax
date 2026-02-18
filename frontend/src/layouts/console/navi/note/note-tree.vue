@@ -55,7 +55,8 @@
       <!--Actions-->
       <section class="row justify-end text-tips actions" v-if="prop.node.type==='note'">
         <q-btn icon="add" class="action" flat
-               @click.stop="addNote(prop.node.key)" />
+               @click.stop="addNote(prop.node.key)"
+               v-permission="['owner', 'admin', 'editor']" />
         <q-btn icon="more_horiz" class="action" flat
                @click.stop="() => {}">
           <o-context-menu anchor="top end" self="top start"
@@ -80,11 +81,11 @@ import { timeMulti } from 'core/utils/format'
 import { NoteDefaultIcon } from 'core/constants/constant'
 import OContextMenu from 'core/components/menu/OContextMenu.vue'
 import useNote from 'src/hooks/useNote'
+import usePermission from 'src/hooks/usePermission'
 import { useTabStore } from 'stores/tab'
 import { ipcService } from 'src/api/ipc'
 import useCommon from 'core/hooks/useCommon'
 import useShortcut from 'core/hooks/useShortcut'
-import { workspaceManager } from 'core/workspace/workspace-manager'
 
 const props = defineProps({
   scope: {
@@ -109,6 +110,7 @@ const {
   newTab,
   newWindow,
 } = useNote()
+const { hasPermission } = usePermission()
 const tabStore = useTabStore()
 const selected = ref('')
 
@@ -135,7 +137,8 @@ function noteCommands(note: Indexable) {
       value: 'duplicate',
       icon: 'copy_all',
       // sideLabel: nativeShortcut('mod + D'),
-      separator: true
+      separator: hasPermission(['owner', 'admin', 'editor']).value,
+      hidden: !hasPermission(['owner', 'admin', 'editor']).value
     },
     // {
     //   label: t('note.moveTo'),
@@ -148,7 +151,8 @@ function noteCommands(note: Indexable) {
       label: t('delete'),
       value: 'delete',
       icon: 'delete_outline',
-      class: 'text-red'
+      class: 'text-red',
+      hidden: !hasPermission(['owner', 'admin', 'editor']).value
     },
     {
       label: t('note.newTab'),

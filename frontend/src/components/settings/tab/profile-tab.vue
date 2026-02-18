@@ -29,7 +29,7 @@
                          :sub-label="account.email" />
           <o-common-item :label="$t('auth.account.security.password')"
                          :sub-label="$t('auth.account.security.password_tips')">
-            <div>
+            <div class="row items-center">
               <q-btn :label="$t('auth.account.security.password_action')"
                      class="bg-accent text-tips"
                      flat
@@ -38,7 +38,7 @@
           </o-common-item>
           <o-common-item :label="$t('auth.account.security.passkeys')"
                          :sub-label="$t('auth.account.security.passkey_tips')">
-            <div>
+            <div class="row items-center">
               <q-btn :label="$t('auth.account.security.passkey_action')"
                      class="bg-accent text-tips"
                      flat />

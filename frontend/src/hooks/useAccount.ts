@@ -2,6 +2,8 @@ import { computed, ref } from 'vue'
 import { useAccountStore } from 'stores/account'
 import { useTabStore } from 'stores/tab'
 import type { TabItem } from 'core/types/menu'
+import { checkPermission } from 'src/utils/permission'
+import { hasPermission } from 'src/directives/permission'
 
 export default function () {
   const accountStore = useAccountStore()
@@ -66,6 +68,7 @@ export default function () {
   function logout() {
     accountStore.logout()
   }
+
 
   return {
     accountStore,

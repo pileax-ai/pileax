@@ -28,10 +28,10 @@ import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { checkPagePermission } from 'src/utils/auth'
-import usePage from 'core/hooks/usePage'
+import usePermission from 'src/hooks/usePermission'
 
 const route = useRoute()
-const { pageData } = usePage()
+const { pageData } = usePermission()
 
 function refresh() {
   checkPagePermission(route)
