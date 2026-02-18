@@ -137,7 +137,7 @@ export default function () {
     })
   }
 
-  const debounceSaveNoteRemote = debounce(saveNoteRemote, 500)
+  const debounceSaveNoteRemote = debounce(saveNoteRemote, 2500)
 
   function saveNote(data: Indexable, debounce = false) {
     refreshNote({

@@ -285,7 +285,7 @@ function updateNote() {
       id: noteId.value,
       content: noteJson,
       contentMarkdown: markdown.value?.serialize(noteJson)
-    })
+    }, true)
   }
 }
 
