@@ -121,11 +121,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: 'yarn'
+          cache-dependency-path: frontend/yarn.lock
 
       - name: Install dependencies
         run: |
           cd frontend
-          yarn install
+          yarn install --frozen-lockfile
 
       - name: Export frontend version
         if: matrix.os == 'ubuntu-latest'
@@ -167,15 +169,9 @@ jobs:
 
           security find-identity -v -p codesigning
 
-      - name: Set macOS signing environment variables
-        if: runner.os == 'macOS'
-        run: |
-          export CSC_LINK=certificate.p12
-          export CSC_KEY_PASSWORD=${{ secrets.MAC_CERT_PASSWORD }}
-          export CSC_IDENTITY_AUTO_DISCOVERY=true
-          export APPLE_ID=${{ secrets.APPLE_ID }}
-          export APPLE_PASSWORD=${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          export APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}
+          # Set Env for Electron Builder in GITHUB_ENV
+          echo "CSC_LINK=$GITHUB_WORKSPACE/certificate.p12" >> $GITHUB_ENV
+          echo "CSC_KEY_PASSWORD=$MAC_CERT_PASSWORD" >> $GITHUB_ENV
 
       - name: Pre-sign Python Backend
         if: runner.os == 'macOS'
@@ -191,7 +187,6 @@ jobs:
       - name: Build Electron app
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEBUG: electron-builder*
         run: |
           if [[ "$RUNNER_OS" != "Windows_NT" ]]; then

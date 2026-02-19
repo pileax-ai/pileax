@@ -312,25 +312,25 @@ export default defineConfig(((ctx) => {
         },
 
         // Set providers in updater-manger.ts
-        // publish: [
-        //   {
-        //     provider: 'github',
-        //     owner: 'pileax-ai',
-        //     repo: 'pileax',
-        //     releaseType: 'release'
-        //   },
-        // ],
+        publish: [
+          {
+            provider: 'github',
+            owner: 'pileax-ai',
+            repo: 'pileax',
+            releaseType: 'release'
+          },
+        ],
 
         mac: {
           ...macSign,
           target: [
             {
               target: 'dmg',
-              arch: ['arm64', 'x64'] // Apple Silicon / Intel
+              arch: ['arm64'] // Apple Silicon / Intel
             },
             {
               target: 'zip',
-              arch: ['arm64', 'x64'] // Apple Silicon / Intel
+              arch: ['arm64'] // Apple Silicon / Intel
             }
           ],
           artifactName: 'PileaX-${version}-${arch}.${ext}',
