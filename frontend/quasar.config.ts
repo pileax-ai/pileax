@@ -312,14 +312,14 @@ export default defineConfig(((ctx) => {
         },
 
         // Set providers in updater-manger.ts
-        publish: [
-          {
-            provider: 'github',
-            owner: 'pileax-ai',
-            repo: 'pileax',
-            releaseType: 'release'
-          },
-        ],
+        // publish: [
+        //   {
+        //     provider: 'github',
+        //     owner: 'pileax-ai',
+        //     repo: 'pileax',
+        //     releaseType: 'release'
+        //   },
+        // ],
 
         mac: {
           ...macSign,
