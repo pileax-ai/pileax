@@ -130,14 +130,14 @@ jobs:
           yarn install --frozen-lockfile
 
       - name: Export frontend version
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'macos-latest'
         shell: bash
         run: |
           mkdir -p meta
           jq -r '.version' frontend/package.json > meta/version.txt
 
       - uses: actions/upload-artifact@v4
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'macos-latest'
         with:
           name: frontend-version
           path: meta/version.txt
@@ -172,14 +172,6 @@ jobs:
           # Set Env for Electron Builder in GITHUB_ENV
           echo "CSC_LINK=$GITHUB_WORKSPACE/certificate.p12" >> $GITHUB_ENV
           echo "CSC_KEY_PASSWORD=$MAC_CERT_PASSWORD" >> $GITHUB_ENV
-
-      - name: Pre-sign Python Backend
-        if: runner.os == 'macOS'
-        run: |
-          IDENTITY=$(security find-identity -v -p codesigning build.keychain | grep "Developer ID Application" | head -n 1 | awk -F '"' '{print $2}')
-          echo "Using Identity: $IDENTITY"
-
-          codesign --force --options runtime --timestamp --deep --sign "$IDENTITY" --keychain build.keychain backend/dist/runnable
 
       # ===============================
       # Build Electron (Auto sign)
