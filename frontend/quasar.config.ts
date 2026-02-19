@@ -319,10 +319,6 @@ export default defineConfig(((ctx) => {
             repo: 'pileax',
             releaseType: 'release'
           },
-          {
-            provider: 'generic',
-            url: 'https://file.pileax.ai/updater/desktop/',
-          },
         ],
 
         mac: {
