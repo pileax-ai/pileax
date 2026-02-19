@@ -82,6 +82,7 @@ jobs:
       matrix:
         os: ${{ fromJSON(inputs.platforms) }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
 
     env:
       # Used for release
@@ -187,6 +188,11 @@ jobs:
       # ===============================
       - name: Build Electron app
         shell: bash
+        env:
+          CSC_LINK: certificate.p12
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+          CSC_IDENTITY_AUTO_DISCOVERY: true
+          DEBUG: electron-builder*
         run: |
           if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
             chmod +x backend/dist/runnable/runnable
@@ -194,7 +200,7 @@ jobs:
 
           cd frontend
           node_modules/.bin/electron-rebuild
-          yarn build:electron --publish never || exit 1
+          yarn build:electron --publish never --verbose || exit 1
           echo "Build step finished successfully"
 
       - name: Upload Electron build
