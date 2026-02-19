@@ -189,9 +189,6 @@ jobs:
       - name: Build Electron app
         shell: bash
         env:
-          CSC_LINK: certificate.p12
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
-          CSC_IDENTITY_AUTO_DISCOVERY: true
           DEBUG: electron-builder*
         run: |
           if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
