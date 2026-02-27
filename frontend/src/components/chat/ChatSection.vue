@@ -26,7 +26,7 @@
       </header>
 
       <section class="row col-12 justify-center">
-        <section class="row col-12 justify-center start-panel" v-if="start">
+        <section class="row col-12 justify-center start-panel" v-if="start && false">
           <header>
             <div class="row justify-center items-center welcome">
               <img :src="$public('/logo.png')" alt="Logo" />
@@ -81,13 +81,13 @@
           <section class="row col-12 justify-center q-pb-lg scroll-bottom"
                    v-if="multiSession && chats.length && showScrollBtn">
             <div class="row col-12 justify-end btn-wrapper">
-              <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500)" />
+              <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500, true)" />
             </div>
           </section>
         </transition>
       </section>
 
-      <footer class="row col-12 justify-center footer" v-if="!start">
+      <footer class="row col-12 justify-center footer">
         <o-chat-input :loading="isLoading"
                       :tag="tag"
                       :dense="dense"
@@ -206,9 +206,12 @@ const localDefaultModel = computed(() => {
 })
 
 function init(from = '') {
+  // console.log('ChatSection init', from, props.refType, props.refId)
+  if (props.refType === 'book' && from === 'mount') {
+    return
+  }
   start.value = props.multiSession
   getLatestSession()
-  // console.log('init', from, props.refId);
 }
 
 function getLatestSession() {
@@ -251,7 +254,7 @@ function getAllChats() {
 
 async function onSend(data: ChatInput, reset = false) {
   newChat.value = data
-  scrollToBottom()
+  scrollToBottom(0, true)
 
   if (reset) {
     chatStore.value.removeChat(data.id)
@@ -307,8 +310,13 @@ async function chatCompletion(data: ChatInput) {
     modelName: conversation.value?.modelName,
   }
 
-  await startStream('/chat/completions', payload,
-    onProgress, onDone, onErrorDone)
+  await startStream({
+    url: '/chat/completions',
+    payload,
+    onProgress,
+    onDone,
+    onErrorDone
+  })
 }
 
 async function onProgress(reasoningText: string, text: string) {
@@ -341,8 +349,8 @@ function onNewChat() {
   reset()
 }
 
-async function scrollToBottom(duration = 0) {
-  if (!scrollable.value) return
+async function scrollToBottom(duration = 0, manual = false) {
+  if (!scrollable.value && !manual) return
   await nextTick()
   setTimeout(() => {
     // pageRef.value?.scrollToBottom(duration);
@@ -372,7 +380,6 @@ function onIntersection(entry: Indexable) {
   if (entry.isIntersecting) {
     scrollable.value = true
   }
-  console.log('inter', scrollable.value)
 }
 
 function reset() {
@@ -500,7 +507,7 @@ defineExpose({
   .scroll-bottom {
     position: fixed;
     right: 0;
-    bottom: 140px;
+    bottom: 180px;
     z-index: 1000;
     .btn-wrapper {
       width: 100%;
@@ -511,7 +518,7 @@ defineExpose({
   &.dense {
     .o-scroll-wrapper {
       top: 0 !important;
-      padding-bottom: 160px;
+      padding-bottom: 180px;
     }
     .chat-list {
       padding: 1rem 1rem 1rem 1rem;

@@ -183,7 +183,7 @@ class Base(ABC):
         return ans, total_token_count_from_response(response)
 
     def _chat_streamly(self, history, gen_conf, **kwargs):
-        logging.info("[HISTORY STREAMLY] %s", json.dumps(history, ensure_ascii=False, indent=4))
+        # logging.info("[HISTORY STREAMLY] %s", json.dumps(history, ensure_ascii=False, indent=4))
         reasoning_start = False
 
         if kwargs.get("stop") or "stop" in gen_conf:

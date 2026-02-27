@@ -7,7 +7,7 @@ from sqlmodel import select
 
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace_book import WorkspaceBook
+from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookDetails
 from app.api.models.workspace_book_collection import WorkspaceBookCollection
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.base_service import BaseService
@@ -35,6 +35,9 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
         )
         book = self.session.exec(stmt).first()
         return book
+
+    def get_workspace_book_details(self, book_id: UUID, user_id: UUID, workspace_id: UUID) -> WorkspaceBookDetails:
+        return self.repo.get_workspace_book_details(book_id, user_id, workspace_id)
 
     def get_stats(self, user_id: UUID, workspace_id: UUID) -> dict:
         extension_stat = self.repo.get_extension_stats(workspace_id)

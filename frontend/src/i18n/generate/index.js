@@ -361,7 +361,7 @@ async function fillTranslations(
       }
 
       // Update meta hash
-      baseMeta[fullKey] = currentHash
+      // baseMeta[fullKey] = currentHash
     } else if (typeof baseVal === 'object' && baseVal !== null) {
       result[key] = await fillTranslations(
         baseVal,
@@ -375,6 +375,19 @@ async function fillTranslations(
   }
 
   return result
+}
+
+function updateBaseMeta(obj, parentKey = '') {
+  for (const key in obj) {
+    const fullKey = parentKey ? `${parentKey}.${key}` : key
+    const val = obj[key]
+
+    if (typeof val === 'string') {
+      baseMeta[fullKey] = hashText(val)
+    } else if (typeof val === 'object' && val !== null) {
+      updateBaseMeta(val, fullKey)
+    }
+  }
 }
 
 // ==================================================
@@ -509,6 +522,12 @@ async function main() {
     console.log('')
   }
 
+  // Update meta hash
+  if (!TRANSLATE_ERROR) {
+    console.log('📝 Synchronizing base meta hashes...')
+    updateBaseMeta(fullBaseObj)
+  }
+
   // Prune meta
   pruneMetaByBase(fullBaseObj, baseMeta)
 
@@ -516,6 +535,7 @@ async function main() {
   fs.mkdirSync(META_DIR, { recursive: true })
   fs.writeFileSync(BASE_META_FILE, JSON.stringify(baseMeta, null, 2), 'utf8')
   console.log(`📝 Updated meta: ${BASE_META_FILE}`)
+  sortJsonKeys(BASE_META_FILE)
 
   console.log('')
   console.log('🎉 All languages have been updated completely!')

@@ -31,7 +31,7 @@ class MessageBase(BaseApiModel):
 class MessageCreate(MessageBase):
     app_id: uuid.UUID | None = None
     conversation_id: uuid.UUID
-    message: str | None = None
+    message: str
     stream: bool | None = None
     model_provider: str | None = None
     model_name: str | None = None
@@ -53,3 +53,8 @@ class MessagePublic(MessageBase, BaseMixin):
     reasoning_content: str | None = None
     result: int
     favorite: int
+
+
+class NoteMessageCreate(MessageCreate):
+    ref_id: str | None = None
+    ref_type: str | None = None

@@ -5,6 +5,12 @@ export default {
   append: 'Aggiungi contenuto',
   appendTo: 'Aggiungi {content} a {note}',
   chooseLocation: 'Scegli la posizione',
+  cover: {
+    add: 'Aggiungi copertura',
+    change: 'Modifica',
+    reposition: 'Riposizionare',
+    repositionDrag: 'Trascina per riposizionare'
+  },
   create: 'Crea nota',
   createSub: 'Crea una sotto-nota {note} sotto {parent}',
   duplicate: 'Duplicato',

@@ -4,17 +4,17 @@
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
     <nav class="row items-center justify-between text-readable note-nav">
       <note-breadcrumbs :id="noteId" />
-      <note-actions :ydoc="collab.ydoc!"
+      <note-actions :key="currentNote.id"
+                    :ydoc="collab.ydoc!"
                     @action="onAction"
                     @restore="onRestore" />
     </nav>
 
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
       <section class="layout" :class="[pageView]">
-        <header class="layout-full col-12 cover"
-                 v-if="currentNote.cover">
-          <img :src="currentNote.cover" alt="cover" />
-        </header>
+        <note-cover :key="currentNote.id"
+                    class="layout-full col-12" @cover="setCover($event)">
+        </note-cover>
 
         <section class="layout-content row justify-center note-meta"
                 :class="`${pageView} ${currentNote.cover && currentNote.icon ? 'with-cover' : ''}`">
@@ -25,7 +25,7 @@
                                    self="top left"
                                    :offset="[0, 8]"
                                    @select="updateIcon"
-                                   v-permission="['owner', 'admin', 'editor']" />
+                                   v-if="editable" />
             </div>
           </section>
           <section class="text-readable note-meta-wrapper"
@@ -36,9 +36,9 @@
                    @click="addIcon"
                    v-if="!currentNote.icon" />
             <q-btn icon="image"
-                   label="Add Cover"
+                   :label="$t('note.cover.add')"
                    flat
-                   @click="setCover()"
+                   @click="setCover('random')"
                    v-if="!currentNote.cover" />
           </section>
         </section>
@@ -57,10 +57,11 @@
 
         <YiiEditor ref="yiiEditor"
                    class="layout-content"
+                   :class="{ 'auto-numbering': styles.autoNumbering }"
                    v-bind="options"
                    :key="editorKey"
                    @create="onCreate"
-                   v-if="!collab.collaboration || collab.collabReady" />
+                   v-if="!collab.collabEnabled || collab.collabReady" />
 
         <aside class="layout-right">
           <div class="sticky-top">
@@ -72,7 +73,6 @@
         </aside>
       </section>
     </q-scroll-area>
-
   </o-note-page>
 </template>
 
@@ -81,21 +81,25 @@ import { QInput } from 'quasar'
 import { useRoute } from 'vue-router'
 import { computed, onActivated, provide, ref, useTemplateRef, watch } from 'vue'
 import { Editor } from '@tiptap/core'
-import { YiiEditor, ODocToc } from '@yiitap/vue'
+import { YiiEditor, ODocToc, OStarterKit, OAiBlock } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
 import useSetting from 'core/hooks/useSetting'
 import useNote from 'src/hooks/useNote'
+import useNoteAi from 'src/hooks/useNoteAi'
 import useNoteCollab from 'src/hooks/useNoteCollab'
 import useAccount from 'src/hooks/useAccount'
 import type { Note } from 'src/types/note'
+import ONotePage from 'components/page/ONotePage.vue'
 import OGeneralIconMenu from 'components/icon/OGeneralIconMenu.vue'
 import NoteBreadcrumbs from 'components/note/NoteBreadcrumbs.vue'
 import NoteActions from 'components/note/NoteActions.vue'
-import ONotePage from 'components/page/ONotePage.vue'
+import NoteCover from 'components/note/NoteCover.vue'
 import { router } from 'src/router'
 import { colorById } from 'core/utils/misc'
 import usePermission from 'src/hooks/usePermission'
+import { sanitizeContent } from 'src/utils/note'
+import { getDeviceId } from 'src/utils/auth'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
@@ -106,9 +110,9 @@ const {
   noteService,
   saveNote,
   saveNoteRemote,
-  saveNoteMarkdown,
   setCurrentNote,
 } = useNote()
+const { aiOptions, initNoteAi } = useNoteAi()
 const {
   noteId,
   collab,
@@ -128,21 +132,56 @@ const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const parent = ref('')
 const source = ref('')
-const aiOption = ref<AiOption>({
-  provider: 'deepseek',
-  apiKey: ''
-})
 const loading = ref(false)
+const loaded = ref(false)
 const editorReady = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
+  console.table(aiOptions.value.provider)
+  const extensions = [
+    OStarterKit.configure(),
+    OAiBlock.configure(aiOptions.value),
+    'InlineMath',
+    'Markdown',
+    'OAudio',
+    'OBlockMath',
+    'OColon',
+    'OColorHighlighter',
+    'ODetails',
+    'OImage',
+    'OModelViewer',
+    'OMultiColumn',
+    'OShortcut',
+    'OVideo',
+  ] as any
+  if (collab.value.collabReady) {
+    extensions.push(
+      {
+        name: 'Collaboration',
+        configure: {
+          document: collab.value.ydoc,
+        },
+      },
+      {
+        name: 'CollaborationCaret',
+        configure: {
+          provider: collab.value.hpProvider,
+          user: {
+            name: account.value.name,
+            color: colorById(account.value.id + getDeviceId()) || '#f783ac',
+          },
+        },
+      }
+    )
+  }
+
   return {
-    editable: hasPermission(['owner', 'admin', 'editor']).value,
-    aiOption: aiOption.value,
+    editable: editable.value,
+    aiOptions: aiOptions.value,
     locale: localeAlt.value,
     darkMode: darkMode.value,
-    collaboration: collab.value.collaboration,
+    collaboration: collab.value.collabEnabled,
     showBubbleMenu: true,
     sideMenu: {
       show: true,
@@ -150,39 +189,9 @@ const options = computed(() => {
     },
     pageView: pageView.value,
     collab: {
-      enabled: collab.value.collaboration,
-      collaboration: {
-        document: collab.value.ydoc,
-      },
-      collaborationCaret: {
-        provider: collab.value.hpProvider,
-        user: {
-          name: account.value.name,
-          color: colorById(account.value.id) || '#f783ac',
-        },
-      },
+      enabled: collab.value.collabEnabled,
     },
-    extensions: [
-      'InlineMath',
-      'Markdown',
-      'OAiBlock',
-      'OBlockMath',
-      'OBlockquote',
-      'OCallout',
-      'OCodeBlock',
-      'OColon',
-      'OColorHighlighter',
-      'ODetails',
-      'OHeading',
-      'OImage',
-      'OLink',
-      'OParagraph',
-      'OShortcut',
-      'OSlash',
-      'OSlashZh',
-      'OTrailingNode',
-      'OVideo',
-    ]
+    extensions: extensions
   }
 })
 
@@ -195,9 +204,13 @@ const markdown = computed(() => {
 })
 
 const editorKey = computed(() => {
-  return collab.value.collaboration
-    ? `collaboration-${collab.value.ydocId}`
+  return collab.value.collabEnabled
+    ? `collab-${collab.value.ydocId}`
     : `normal-${noteId.value}`
+})
+
+const editable = computed(() => {
+  return hasPermission(['owner', 'admin', 'editor']).value
 })
 
 const pageView = computed(() => {
@@ -242,6 +255,7 @@ function onCreate() {
   if (!currentNote.value.title) {
     titleRef.value?.focus()
   }
+
 }
 
 function onUpdate({ editor }: { editor: Editor }) {
@@ -255,8 +269,14 @@ function onUpdate({ editor }: { editor: Editor }) {
   } else {
     updateNote()
   }
-}
 
+  // Loading chat note
+  if (!loaded.value && collab.value.collabReady) {
+    loadingChatNodeCollab()
+  }
+
+  loaded.value = true
+}
 
 function onScroll() {
   const event: Event | undefined = undefined
@@ -264,7 +284,6 @@ function onScroll() {
 }
 
 function onTitleEnter() {
-  console.log('enter')
   editor.value?.commands.focus('start')
 }
 
@@ -277,8 +296,12 @@ function onRestore(version: Indexable) {
 }
 
 function updateNote() {
-  // Update only when collaboration is disabled
-  if (!collab.value.collaboration) {
+  // Logging
+  // console.log('updateNote', editor.value!.getJSON())
+  // console.log('html', editor.value!.getHTML())
+
+  // Update only when collab is disabled
+  if (!collab.value.collabEnabled) {
     throttleUpdateTime()
     const noteJson = editor.value!.getJSON()
     saveNote({
@@ -303,6 +326,7 @@ function restoreFullVersion(version: Indexable) {
 
 async function getAndLoadNote() {
   loading.value = true
+  loaded.value = false
   noteService.get(noteId.value).then((note: any) => {
     loading.value = false
     loadingNote(note as Note)
@@ -354,26 +378,51 @@ function loadingNote(note: Note) {
   notePage.value?.refreshChat(note.id)
 }
 
+/**
+ * Used in no collab
+ * @param docNode
+ */
 function loadingChatNote(docNode: Indexable) {
-  const contentNodes = markdown.value?.parse(noteStore.value.chatToNote.content)
-  if (Array.isArray(contentNodes)) {
-    docNode.content.push(...contentNodes)
+  if (!collab.value.collabEnabled) return
+
+  if (markdown.value && noteStore.value.chatToNote.content) {
+    const contentNodes = markdown.value?.parse(noteStore.value.chatToNote.content)
+    if (Array.isArray(contentNodes)) {
+      docNode.content.push(...contentNodes)
+    } else {
+      docNode.content.push(contentNodes)
+    }
+
+    // Reset after consuming
+    noteStore.value.resetChatToNote()
   } else {
-    docNode.content.push(contentNodes)
+    console.debug('Markdown parser is not ready')
+  }
+}
+
+function loadingChatNodeCollab() {
+  if (markdown.value && noteStore.value.chatToNote.content) {
+    editor.value?.commands.focus('end')
+    setTimeout(() => {
+      const content = noteStore.value.chatToNote.content
+      insertContent(content)
+
+      // Reset after consuming
+      noteStore.value.resetChatToNote()
+    }, 10)
   }
 }
 
 function loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
-  console.log('collab', collab.value)
-  if (collab.value.collaboration) {
+  console.debug('Collab', collab.value.collabEnabled)
+  if (collab.value.collabEnabled) {
     initCollab()
   } else {
     setContent(docNode, emitUpdate, focus)
   }
 
   setCurrentNote(note)
-  noteStore.value.resetChatToNote()
   router.replace({ ...route, query: {} })
 }
 
@@ -388,7 +437,7 @@ function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
 const insertContent = (value: string) => {
   const json = markdown.value?.parse(value)
   if (json?.content) {
-    editor.value?.commands.insertContent(json.content)
+    editor.value?.commands.insertContent(sanitizeContent(json))
   }
 }
 
@@ -402,6 +451,7 @@ onActivated(() => {
   source.value = route.query.source as string
 
   getAndLoadNote()
+  initNoteAi(noteId.value)
 })
 
 provide('insertContent', insertContent)
@@ -441,17 +491,17 @@ provide('insertContent', insertContent)
 
       &.page {
         grid-template-columns:
-          [full-start] minmax(100px, 1fr)
-          [content-start] minmax(400px, 800px)
-          [content-end] minmax(100px, 1fr)
+          [full-start] minmax(50px, 1fr)
+          [content-start] minmax(400px, 900px)
+          [content-end] minmax(50px, 1fr)
           [full-end];
       }
 
       &.full {
         grid-template-columns:
-          [full-start] 100px
+          [full-start] minmax(0, 50px)
           [content-start] 1fr
-          [content-end] 100px
+          [content-end] minmax(0, 50px)
           [full-end];
       }
     }
@@ -482,6 +532,7 @@ provide('insertContent', insertContent)
 
     .title {
       margin-top: 10px;
+      padding-inline: 54px;
       font-family: var(--note-font), serif !important;
       .q-field {
         &__native {
@@ -500,23 +551,19 @@ provide('insertContent', insertContent)
       }
     }
 
-    .cover {
+    .note-cover {
       height: 280px;
-      img {
-        display: block;
-        object-fit: cover;
-        width: 100%;
-        max-height: 280px;
-      }
     }
 
     .note-meta {
+      z-index: 1;
       &.with-cover {
         margin-top: -40px;
       }
 
       .note-meta-wrapper {
         width: 100%;
+        padding-inline: 54px;
 
         .icon {
           width: 80px;

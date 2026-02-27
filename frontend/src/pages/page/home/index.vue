@@ -16,10 +16,8 @@
             {{$t('product.slogan')}}
           </div>
         </section>
-      </section>
-    </content-wide>
 
-    <content-wide class="app">
+      </section>
     </content-wide>
 
     <content-wide class="introduction">
@@ -81,11 +79,27 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import { isMobile } from 'core/hooks/useCommon'
+import useSetting from 'core/hooks/useSetting'
+
 import GradientText from 'components/animated/GradientText.vue'
 import OSinglePage from 'core/page/template/OSinglePage.vue'
 import ContentWide from 'core/page/content/ContentWide.vue'
 
-import { isMobile } from 'core/hooks/useCommon'
+const { appMode, setAppMode } = useSetting()
+const mode = computed({
+  get() {
+    return appMode.value
+  },
+  set(value) {
+    setAppMode(value)
+  }
+})
+
+const onSelect = (val: string) => {
+  mode.value = val
+}
 </script>
 
 <style lang="scss">

@@ -88,3 +88,14 @@ export const base64ToUint8Array = (base64String: string) => {
   const binString = window.atob(base64String)
   return Uint8Array.from(binString, (m) => m.codePointAt(0)!)
 }
+
+export const parseBool = (value: any): boolean => {
+  if (typeof value === 'boolean') return value
+  if (typeof value === 'string') {
+    // Handle cases like 'TRUE', ' true ', or '1'
+    const normalized = value.trim().toLowerCase()
+    return normalized === 'true' || normalized === '1'
+  }
+
+  return false
+}

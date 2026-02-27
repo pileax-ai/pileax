@@ -41,6 +41,10 @@ export default function () {
     return store.queryTimer
   })
 
+  const currentMainService = computed(() => {
+    return store.currentMainService
+  })
+
   const mainService = computed(() => {
     return store.mainService
   })
@@ -110,6 +114,10 @@ export default function () {
     store.setQueryTimer(time)
   }
 
+  function setCurrentMainService(value: string) {
+    store.setCurrentMainService(value)
+  }
+
   return {
     consoleMenus,
     activity,
@@ -120,6 +128,7 @@ export default function () {
     rightDrawerHoverShow,
     rightDrawer,
     queryTimer,
+    currentMainService,
     mainService,
     secondaryService,
     style,
@@ -136,5 +145,6 @@ export default function () {
     setRightDrawerWidth,
     setRightDrawerTTS,
     setQueryTimer,
+    setCurrentMainService,
   }
 }

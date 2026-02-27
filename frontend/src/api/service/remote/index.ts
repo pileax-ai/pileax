@@ -11,6 +11,8 @@ import { bookCollectionService } from './book-collection'
 import { chatService } from './chat'
 import { chatConversationService } from './chat-conversation'
 import { edgeService } from './edge'
+import { fileService } from './file'
+import { fileMetaService } from './file-meta'
 import { noteService } from './note'
 import { providerService } from './provider'
 import { providerCredentialService } from './provider-credential'
@@ -33,6 +35,8 @@ export {
   chatService,
   chatConversationService,
   edgeService,
+  fileService,
+  fileMetaService,
   noteService,
   pdmService,
   providerService,

@@ -5,6 +5,12 @@ export default {
   append: 'Adăugați conținut',
   appendTo: 'Adaugă {content} la {note}',
   chooseLocation: 'Alegeți locația',
+  cover: {
+    add: 'Adăugați o copertă',
+    change: 'Schimba',
+    reposition: 'Repoziționare',
+    repositionDrag: 'Trageți pentru a repoziționa'
+  },
   create: 'Creați o notă',
   createSub: 'Creează o subnotă {note} sub {parent}',
   duplicate: 'Duplicat',

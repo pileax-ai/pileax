@@ -7,6 +7,10 @@ import { fileURLToPath } from 'node:url'
 import path from 'path'
 import { viteConfig } from './core/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons-ng'
+import { UserConfig } from 'vite'
+
+import * as dotenv from 'dotenv'
+dotenv.config({ path: path.resolve(__dirname, './env/.env') })
 
 export default defineConfig(((ctx) => {
   console.log('ctx', ctx)
@@ -90,6 +94,9 @@ export default defineConfig(((ctx) => {
       // polyfillModulePreload: true,
       // distDir
       envFolder: 'env',
+      env: {
+        COLLAB: mode === 'electron' ? 'false' : process.env.COLLAB
+      },
       rawDefine: viteConfig(ctx).rawDefine,
 
       extendViteConf: (config) => ({
@@ -106,6 +113,21 @@ export default defineConfig(((ctx) => {
         }
       }),
       // viteVuePluginOptions: {},
+      viteConfigHandlers: [
+        (config: UserConfig) => {
+          if (!config.server) config.server = {}
+          config.server.watch = {
+            usePolling: false,
+            ignored: [
+              '**/.git/**',
+              '**/.quasar/**',
+              '**/dist/**',
+              '**/node_modules/**',
+              '**/public/**',
+            ]
+          }
+        }
+      ],
 
       vitePlugins: [
         ['@intlify/unplugin-vue-i18n/vite', {
@@ -122,13 +144,6 @@ export default defineConfig(((ctx) => {
           include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ]
         }],
 
-        ['vite-plugin-checker', {
-          vueTsc: false,
-          eslint: {
-            lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
-            useFlatConfig: true
-          }
-        }, { server: false }],
         createSvgIconsPlugin({
           iconDirs: [ fileURLToPath(new URL('./public/icons/svg', import.meta.url)) ],
         }),
@@ -145,15 +160,6 @@ export default defineConfig(((ctx) => {
       // https: true,
       port: 9600,
       open: false, // opens browser window automatically
-      watch: {
-        usePolling: true,
-        interval: 1000,
-        ignored: [
-          'node_modules/**',
-          'dist/**',
-          '.quasar/**'
-        ]
-      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

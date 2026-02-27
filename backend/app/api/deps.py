@@ -26,6 +26,23 @@ TokenDep = Annotated[str, Depends(oauth2_scheme)]
 CurrentCache = Annotated[Cache, Depends(get_cache)]
 
 
+class CommonHeaders:
+    def __init__(
+        self,
+        # FastAPI will automatically convert 'x_device_id' to 'X-Device-ID'
+        x_device_id: Annotated[str | None, Header()] = None,
+        x_locale: Annotated[str | None, Header()] = None,
+        x_os: Annotated[str | None, Header()] = None,
+        x_os_version: Annotated[str | None, Header()] = None,
+        x_platform: Annotated[str | None, Header()] = None,
+    ):
+        self.device_id = x_device_id
+        self.locale = x_locale or "en"
+        self.os = x_os
+        self.os_version = x_os_version
+        self.platform = x_platform
+
+
 def get_device_id(x_device_id: Annotated[str | None, Header()] = None) -> str:
     if not x_device_id:
         raise HTTPException(status_code=400, detail="Missing X-Device-ID header")
@@ -134,3 +151,4 @@ CurrentUser = Annotated[User, Depends(get_current_user)]
 CurrentWorkspaceId = Annotated[UUID, Depends(get_workspace_id)]
 CurrentWorkspace = Annotated[WorkspaceDetails, Depends(get_current_workspace)]
 CurrentWorkspaceOptional = Annotated[Optional[Workspace], Depends(get_current_workspace)]
+CommonHeadersDep = Annotated[CommonHeaders, Depends(CommonHeaders)]

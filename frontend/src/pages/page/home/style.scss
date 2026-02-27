@@ -21,6 +21,63 @@
     }
   }
 
+  .downloads {
+  }
+  .modes {
+    .mode {
+      position: relative;
+      height: 200px;
+      padding: 2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      color: white;
+      font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+
+      &:hover {
+        box-shadow:
+          0 -1px 3px rgba(0, 0, 0, 0.06),
+          0 10px 28px rgba(0, 0, 0, 0.12),
+          0 2px 6px rgba(0, 0, 0, 0.08),
+          0 0 0 1px rgba(0, 0, 0, 0.06) !important;
+      }
+
+      &.selected {
+        .check {
+          visibility: visible;
+        }
+      }
+
+      .name {
+        font-size: 3.5rem;
+        font-weight: 600;
+      }
+      .desc {
+        font-size: 1.2rem;
+        font-weight: 400;
+      }
+
+      .check {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 80px;
+        height: 100%;
+        text-align: center;
+        visibility: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .q-icon {
+          color: rgba(255,255,255,0.8);
+          background: rgba(255,255,255,0.1);
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
   .app {
     height: 400px;
     position: relative;

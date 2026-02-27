@@ -5,6 +5,12 @@ export default {
   append: '添加内容',
   appendTo: 'Append {content} to {note}',
   chooseLocation: '选择位置',
+  cover: {
+    add: '添加封面',
+    change: '更改',
+    reposition: '调整位置',
+    repositionDrag: '拖放调整位置'
+  },
   create: '创建笔记',
   createSub: '创建子笔记 {note} 于 {parent}',
   duplicate: '创建副本',

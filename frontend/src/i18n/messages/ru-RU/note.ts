@@ -5,6 +5,12 @@ export default {
   append: 'Добавить содержимое',
   appendTo: 'Добавить {содержимое} к {примечание}',
   chooseLocation: 'Выберите местоположение',
+  cover: {
+    add: 'Добавить обложку',
+    change: 'Изменять',
+    reposition: 'Репозиционирование',
+    repositionDrag: 'Перетащите для изменения положения.'
+  },
   create: 'Создать заметку',
   createSub: 'Создать подзаметку {note} под {parent}',
   duplicate: 'Дубликат',

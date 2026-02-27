@@ -184,7 +184,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
         filePath: filePath
       }
 
-      console.log('openBook', cfi)
+      // console.log('openBook', cfi)
       ebookRender.open(bookElement, data,
         { cfi, userStyle: style.value })
       setManual(BookOperation.Load)
@@ -269,7 +269,7 @@ const savingBookRemote = async (metadata: any) => {
 }
 
 const saveBookProgress = (progress: any) => {
-  console.log('saveBookProgress', progress)
+  // console.log('saveBookProgress', progress)
   if (!progress.cfi || !progress.percentage) return
   const params = {
     book_id: bookId.value,

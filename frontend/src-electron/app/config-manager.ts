@@ -6,7 +6,8 @@ import { Application } from 'app/src-electron/app/application'
 import { sleep } from 'core/utils/misc'
 import { isDirectoryEmpty, isDirectoryExists } from 'app/src-electron/utils/file'
 
-export interface PathConfig {
+export interface AppConfig {
+  mode?: 'standalone' | 'cloud'
   paths?: Record<string, string>
 }
 
@@ -35,12 +36,12 @@ export interface MigrateResult {
  *     ├── book
  *     └── file
  */
-export class PathManager {
+export class ConfigManager {
   configPath: string
 
   private appName?: string
   private userData: string
-  private config: PathConfig
+  private config: AppConfig
   private defaultPaths: Record<string, string>
 
   constructor(appName?: string) {
@@ -58,13 +59,13 @@ export class PathManager {
   /**
    * Load config
    */
-  private loadConfig(): PathConfig {
+  private loadConfig(): AppConfig {
     try {
       if (fs.existsSync(this.configPath)) {
         return JSON.parse(fs.readFileSync(this.configPath, 'utf8'))
       }
     } catch (e) {
-      console.error('[PathManager] Failed to load config:', e)
+      console.error('[ConfigManager] Failed to load config:', e)
     }
     return { paths: {} }
   }
@@ -79,6 +80,15 @@ export class PathManager {
       this.configPath,
       JSON.stringify(this.config, null, 2)
     )
+  }
+
+  getAppMode(): string {
+    return this.config.mode || 'standalone'
+  }
+
+  setAppMode(mode: 'standalone' | 'cloud'): void {
+    this.config.mode = mode
+    this.saveConfig()
   }
 
   getPath(key: string): string {
@@ -239,4 +249,4 @@ class MigrationMessage {
   }
 }
 
-export const pathManager = new PathManager()
+export const configManager = new ConfigManager()

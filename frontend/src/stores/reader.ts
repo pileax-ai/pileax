@@ -32,6 +32,7 @@ export const useReaderStore = defineStore('reader', {
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
     queryTimer: 0,
+    currentMainService: 'chat',
     mainService: [] as Indexable[],
     secondaryService: [] as Indexable[],
     settings: defaultSetting as Indexable
@@ -75,6 +76,9 @@ export const useReaderStore = defineStore('reader', {
       console.log('setTTSItem', key, value)
       this.tts[key] = value
     },
+    setCurrentMainService(value: string) {
+      this.currentMainService = value
+    }
   },
   persist: {
     key: `${CODE}.reader`

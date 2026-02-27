@@ -3,14 +3,15 @@ import * as Y from 'yjs'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 
 import useAccount from 'src/hooks/useAccount'
+import useApi from 'src/hooks/useApi'
 import { getCollabToken } from 'src/utils/auth'
 import { useWorkspaceCollabStore } from 'stores/workspace-collab'
 import { CollabCallback, CollabEvent } from 'src/types/collab'
+import { parseBool } from 'core/utils/format'
 
 export default function () {
   const { workspace } = useAccount()
-
-  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || false)
+  const { collabEnabled, collabProvider } = useApi()
 
   const store = computed(() => {
     return useWorkspaceCollabStore(workspace.value.id)
@@ -45,11 +46,11 @@ export default function () {
   })
 
   const initCollab = async () => {
-    if (!collaboration.value) return
+    if (!collabEnabled.value) return
 
-    console.debug('Init workspace collab ...')
+    // console.debug('Init workspace collab ...')
     if (hpProvider.value) {
-      console.debug('Reuse workspace collab ...')
+      // console.debug('Reuse workspace collab ...')
       return
     }
 
@@ -57,14 +58,12 @@ export default function () {
       gc: false
     })
     const provider = new HocuspocusProvider({
-      url: window.APP_CONFIG?.COLLAB_PROVIDER_URL
-        || process.env.COLLAB_PROVIDER_URL
-        || 'ws://localhost:9611',
+      url: collabProvider.value,
       name: ydocId.value,
       document: doc,
       token: getCollabToken(),
       onConnect: () => {
-        console.log('[Workspace] Hocuspocus connected')
+        console.debug('[Workspace] Hocuspocus connected')
         store.value.setCollabReady(true)
       },
       onDisconnect: () => {

@@ -52,6 +52,16 @@
     }
   }
 
+  &.q-field--standout.q-field--readonly {
+    .q-field__control {
+      padding: 0;
+    }
+    .q-field__control:before {
+      border: unset;
+      background: var(--q-secondary);
+    }
+  }
+
   .q-field__control {
     &:hover {
       background-color: transparent!important;

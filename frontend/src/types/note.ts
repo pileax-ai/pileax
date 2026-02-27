@@ -6,7 +6,7 @@ export interface Note {
   icon?: string;
   cover?: string;
   favorite?: number;
-  styles?: string;
+  styles?: Indexable;
   createTime?: string;
   updateTime?: string;
 }

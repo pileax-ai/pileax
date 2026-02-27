@@ -5,6 +5,12 @@ export default {
   append: 'コンテンツを追加',
   appendTo: '{content}を{note}に追加',
   chooseLocation: '場所を選択',
+  cover: {
+    add: 'カバーを追加',
+    change: '変化',
+    reposition: '再配置',
+    repositionDrag: 'ドラッグして位置を変更します'
+  },
   create: 'メモを作成',
   createSub: '{parent} の下にサブノート {note} を作成します',
   duplicate: '重複',

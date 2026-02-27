@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import { YiiEditor } from '@yiitap/vue'
+import { YiiEditor, OStarterKit } from '@yiitap/vue'
 import '@yiitap/vue/dist/vue.css'
 import MarkdownIt from 'markdown-it'
 import useSetting from 'core/hooks/useSetting'
@@ -33,24 +33,13 @@ const options = computed(() => {
     content: '',
     pageView: 'full',
     extensions: [
-      'Emoji',
+      OStarterKit.configure(),
       'InlineMath',
       'Markdown',
-      'OAiBlock',
       'OBlockMath',
-      'OBlockquote',
-      'OCallout',
-      'OCodeBlock',
-      // 'OColon',
       'OColorHighlighter',
       'ODetails',
-      'OHeading',
       'OImage',
-      'OLink',
-      'OParagraph',
-      'OShortcut',
-      'OSlash',
-      'OSlashZh',
       'OVideo',
     ],
   }
@@ -79,6 +68,10 @@ onMounted(() => {
   .editor-content {
     padding: 0 !important;
     width: 100%;
+  }
+
+  .ProseMirror {
+    padding: 0;
   }
 
   table {

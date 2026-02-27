@@ -31,5 +31,7 @@ class ConversationService(BaseService[Conversation]):
         item = item_in.model_dump(by_alias=True)
         item["userId"] = self.user_id
         item["workspaceId"] = self.workspace.id
+        if item.get("name") is not None:
+            item["name"] = item.get("name")[:250]
 
         return super().save(Conversation(**item))

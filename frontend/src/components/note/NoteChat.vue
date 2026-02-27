@@ -25,17 +25,18 @@
                       dense note
                       @chats="onChats">
           <template #menu>
-            <template v-for="(item, index) in actions" :key="index">
-              <q-separator class="bg-accent" v-if="item.separator" />
-              <o-common-item v-bind="item"
-                             :closable="!item.sideIcon"
-                             clickable>
+            <template v-for="(action, index) in actions" :key="index">
+              <q-separator class="bg-accent" v-if="action.separator" />
+              <o-common-item v-bind="action"
+                             :closable="!action.sideIcon"
+                             clickable
+                             @click="onAction(action)">
                 <o-menu class="pi-menu"
                         anchor="top left"
                         self="bottom left"
                         :offset="[0, 4]"
                         :min-width="`${chatWidth - 36}px`"
-                        v-if="item.value === 'translate'">
+                        v-if="action.value === 'translate'">
                   <template v-for="(item, index) in Languages" :key="index">
                     <o-common-item v-bind="item"
                                    closable
@@ -75,13 +76,20 @@ const chatWidth = computed(() => (noteStore.value.chatWidth))
 
 const actions = computed(() => {
   return [
-    { label: 'Summary', value: 'summary', icon: 'text_snippet' },
+    { label: 'Summary', value: 'summary', icon: 'text_snippet', separator: false },
     { label: 'Translate to', value: 'translate', icon: 'translate', sideIcon: 'chevron_right' }
   ]
 })
 
+const onAction = (action: Indexable) => {
+  switch (action.value) {
+    case 'summary':
+      chatSection.value?.send('Summary current note')
+      break
+  }
+}
+
 const onTranslate = (lang: Indexable) => {
-  console.log('translate to', lang.subLabel)
   chatSection.value?.send(`Translate to ${lang.subLabel}`)
 }
 

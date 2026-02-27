@@ -130,6 +130,7 @@ const props = defineProps({
 
 const { t } = useCommon()
 const {
+  currentMainService,
   mainService,
   secondaryService,
   rightDrawer,
@@ -138,13 +139,21 @@ const {
   setRightDrawerSplit,
   setRightDrawerTTS,
   closeRightDrawer,
-  toggleRightDrawer
+  toggleRightDrawer,
+  setCurrentMainService
 } = useReader()
 
-const currentTab = ref('chat')
 const addAiAgentStatus = ref(false)
 const addServiceStatus = ref(false)
 const settingsStatus = ref(false)
+const currentTab = computed({
+  get() {
+    return currentMainService.value
+  },
+  set(val: string) {
+    setCurrentMainService(val)
+  }
+})
 const ttsStatus = computed({
   get() {
     return rightDrawer.value.tts
@@ -285,7 +294,6 @@ function toggleTTS() {
 }
 
 function onSelectTab(item: Indexable) {
-  console.log('tab', item)
   switch (item.value) {
     case 'agentAdd':
       showAiAgent(true)

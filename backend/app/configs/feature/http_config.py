@@ -37,6 +37,11 @@ class HttpConfig(BaseSettings):
     def WEB_API_CORS_ALLOW_ORIGINS(self) -> list[str]:
         return self.inner_WEB_API_CORS_ALLOW_ORIGINS.split(",")
 
+    WEB_API_CORS_ALLOW_ORIGIN_REGEX: str = Field(
+        description="allowed origin regex for CORS",
+        default="",
+    )
+
     HTTP_REQUEST_MAX_CONNECT_TIMEOUT: int = Field(
         ge=1, description="Maximum connection timeout in seconds for HTTP requests", default=10
     )

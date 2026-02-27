@@ -14,13 +14,11 @@ export default boot(({ router, store }) => {
   router.beforeEach((to, from, next) => {
     // startPageLoading(appStore)
     pageStore.setPageStatus(200)
-    console.log('pageStatus: before', pageStore.status)
     next()
   })
 
   router.afterEach((to, from) => {
     // stopPageLoading(appStore)
-    console.log('pageStatus: after', pageStore.status)
 
     const timeout = appStore.setting.pageTransition.enable ? 200 : 0
     setTimeout(() => {

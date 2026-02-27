@@ -175,6 +175,11 @@ class BaseApiModel(BaseModel):
     model_config = ConfigDict(alias_generator=StringHelper.to_camel, validate_by_name=True, from_attributes=True)
 
 
+class RefModel(BaseApiModel):
+    ref_id: str | None
+    ref_type: str | None
+
+
 class TimestampMixin:
     create_time: datetime = Field(
         default_factory=utc_now,

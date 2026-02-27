@@ -48,12 +48,15 @@ export const useAccountStore = defineStore('account', {
       }
       return result.user
     },
-    async logout() {
+    async logout(redirect = '/auth/signin') {
       try {
         await authService.signout()
       } finally {
         clearUserCache()
-        this.router.push('/auth/signin')
+
+        if (redirect) {
+          this.router.push(redirect)
+        }
       }
     },
     initWorkspaces() {

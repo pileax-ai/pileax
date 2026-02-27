@@ -22,7 +22,7 @@
         </template>
 
         <template #after>
-          <reader-side-panel />
+          <reader-side-panel v-if="false" />
         </template>
       </q-splitter>
     </section>

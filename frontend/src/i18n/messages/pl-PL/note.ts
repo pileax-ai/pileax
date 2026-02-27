@@ -5,6 +5,12 @@ export default {
   append: 'Dołącz zawartość',
   appendTo: 'Dołącz {content} do {note}',
   chooseLocation: 'Wybierz lokalizację',
+  cover: {
+    add: 'Dodaj okładkę',
+    change: 'Zmiana',
+    reposition: 'Zmiana położenia',
+    repositionDrag: 'Przeciągnij, aby zmienić położenie'
+  },
   create: 'Utwórz notatkę',
   createSub: 'Utwórz podnotatkę {note} w {parent}',
   duplicate: 'Duplikat',

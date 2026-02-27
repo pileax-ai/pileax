@@ -2,16 +2,18 @@ import { computed, onDeactivated, ref, shallowRef, watch } from 'vue'
 import * as Y from 'yjs'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 
+import useApi from 'src/hooks/useApi'
 import useNote from 'src/hooks/useNote'
 import { getCollabToken } from 'src/utils/auth'
 import { NoteDefaultCovers, NoteDefaultIcon, NoteDefaultIcons } from 'core/constants/constant'
 import { timeDiff } from 'core/utils/dayjs'
 import { noteVersionService } from 'src/api/service/remote/note-version'
-import { base64ToUint8Array, uint8ArrayToBase64 } from 'core/utils/format'
+import { base64ToUint8Array, parseBool, uint8ArrayToBase64 } from 'core/utils/format'
 import { debounce, throttle } from 'quasar'
 import { Editor } from '@tiptap/core'
 
 export default function () {
+  const { collabEnabled, collabProvider } = useApi()
   const {
     currentNote,
     saveNote,
@@ -27,7 +29,6 @@ export default function () {
   const ydoc = shallowRef<Y.Doc | null>(null)
   const hpProvider = shallowRef<HocuspocusProvider | null>(null)
   const collabReady = ref(false)
-  const collaboration = ref(window.APP_CONFIG?.COLLAB || process.env.COLLAB || false)
   const editor = ref<Editor>()
 
   // version
@@ -40,7 +41,7 @@ export default function () {
     ydoc,
     hpProvider,
     collabReady,
-    collaboration,
+    collabEnabled,
     editor,
   })
 
@@ -64,7 +65,6 @@ export default function () {
       for (const key of metaKeys) {
         if (event.keysChanged.has(key)) {
           const newValue = metaMap.get(key) ?? ''
-          // console.log('meta changed', key, newValue)
           setCurrentNote({
             ...currentNote.value,
             [key]: newValue
@@ -83,7 +83,8 @@ export default function () {
   }
 
   const initCollab = async () => {
-    if (!collaboration.value) return
+    console.debug('initCollab')
+    if (!collabEnabled.value) return
     resetCollab()
 
     // ydoc
@@ -95,14 +96,12 @@ export default function () {
     // provider
     ydocId.value = `note@${noteId.value}`
     const provider = new HocuspocusProvider({
-      url: window.APP_CONFIG?.COLLAB_PROVIDER_URL
-        || process.env.COLLAB_PROVIDER_URL
-        || 'ws://localhost:9611',
+      url: collabProvider.value,
       name: ydocId.value,
       document: doc,
       token: getCollabToken(),
       onConnect() {
-        console.log('[Note] Hocuspocus connected')
+        console.debug('[Note] Hocuspocus connected')
         collabReady.value = true
       },
     })
@@ -166,8 +165,9 @@ export default function () {
   const setMeta = (key: string, value: string) => {
     if (!metaKeys.includes(key)) return
 
-    if (collaboration.value) {
+    if (collabEnabled.value) {
       ydoc.value?.transact(() => {
+        // console.debug('setMeta', key, value)
         ydoc.value?.getMap('metadata').set(key, value)
       }, `metadata-set-${key}`)
     } else {
@@ -265,8 +265,8 @@ export default function () {
   /**
    * Set cover
    */
-  const setCover = (cover = '') => {
-    if (!cover) {
+  const setCover = (cover = 'random') => {
+    if (cover === 'random') {
       const covers = NoteDefaultCovers
       const index = Math.floor(Math.random() * covers.length)
       cover = covers[index] ?? '/images/book/dark-bubble_nebula.jpg'

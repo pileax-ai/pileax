@@ -45,15 +45,18 @@
                              v-if="!action.hidden"
                              closable>
                 <template #side>
-                  <q-toggle v-model="styles.smallText"
-                            @update:model-value="onAction(action, $event)"
-                            v-if="action.value === 'smallText'" />
                   <q-toggle v-model="styles.fullWidth"
                             @update:model-value="onAction(action, $event)"
                             v-if="action.value === 'fullWidth'" />
                   <q-toggle v-model="styles.toc"
                             @update:model-value="onAction(action, $event)"
                             v-if="action.value === 'toc'" />
+                  <q-toggle v-model="styles.smallText"
+                            @update:model-value="onAction(action, $event)"
+                            v-if="action.value === 'smallText'" />
+                  <q-toggle v-model="styles.autoNumbering"
+                            @update:model-value="onAction(action, $event)"
+                            v-if="action.value === 'autoNumbering'" />
                 </template>
               </o-common-item>
             </template>
@@ -70,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, type PropType, ref } from 'vue'
+import { computed, onActivated, onBeforeMount, onMounted, type PropType, reactive, ref, watch } from 'vue'
 import useNote from 'src/hooks/useNote'
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
@@ -101,19 +104,14 @@ const { hasPermission } = usePermission()
 
 const styles = ref<Indexable>({
   font: 'default',
-  smallText: false,
   fullWidth: false,
   toc: true,
+  smallText: false,
+  autoNumbering: false,
 })
 
 const actions = computed(() => {
   return [
-    {
-      label: t('note.style.smallText'),
-      value: "smallText",
-      icon: "mdi-format-font-size-decrease",
-      rightSide: true,
-    },
     {
       label: t('note.style.fullWidth'),
       value: "fullWidth",
@@ -126,6 +124,19 @@ const actions = computed(() => {
       value: "toc",
       icon: "toc",
       rightSide: true
+    },
+    {
+      label: t('note.style.smallText'),
+      value: "smallText",
+      icon: "mdi-format-font-size-decrease",
+      rightSide: true,
+      separator: true
+    },
+    {
+      label: '自动编号',
+      value: "autoNumbering",
+      icon: "format_list_numbered",
+      rightSide: true,
     },
     {
       label: t('note.duplicate'),
@@ -214,8 +225,9 @@ function onAction (action: Indexable, value: any) {
       })
       break
     case 'fullWidth':
-    case 'smallText':
     case 'toc':
+    case 'smallText':
+    case 'autoNumbering':
       onStyles()
       emit('action', { ...action, actionValue: value })
       break
@@ -223,7 +235,6 @@ function onAction (action: Indexable, value: any) {
 }
 
 function onStyles() {
-  console.log('style', styles.value)
   saveNote({
     id: currentNote.value.id,
     styles: styles.value
@@ -235,17 +246,17 @@ function onFont(value: string) {
   onStyles()
 }
 
-onBeforeMount(() => {
-  try {
-    styles.value = (currentNote.value.styles || {
-      font: 'default',
-      smallText: false,
-      fullWidth: false,
-      toc: true
-    }) as Indexable
-  } catch (err) {
-    // console.warn(err);
+function loadStyle() {
+  styles.value = currentNote.value.styles || {
+    font: 'default',
+    smallText: false,
+    fullWidth: false,
+    toc: true
   }
+}
+
+onMounted(() => {
+  loadStyle()
 })
 </script>
 

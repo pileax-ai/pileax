@@ -82,21 +82,21 @@
     <template #footer>
       <section class="row col-12 items-center full-height justify-between">
         <template v-if="selectedNote">
-          <div class="row items-center text-tips">
+          <div class="row col items-center text-tips">
               <span v-if="currentTab === 'add'">
                 Create sub-note <q-chip square dense>{{chat.message}}</q-chip> under
               </span>
               <span v-else>
-                Append content <q-chip square dense>{{chat.message}}</q-chip> to
+                Append content <q-chip class="title ellipsis" square dense>{{chat.message}}</q-chip> to
               </span>
-              <q-chip square dense>
+              <q-chip class="title" square dense>
                 <q-icon :name="selectedNote.icon || '✍'" size="1.2rem" />
                 <div class="q-ml-sm ellipsis">
                   {{ selectedNote.title }}
                 </div>
               </q-chip>
           </div>
-          <div class="row items-center text-tips actions">
+          <div class="row col-auto items-center text-tips actions">
             <q-btn :label="$t('ok')"
                    class="bg-primary text-white"
                    flat
@@ -324,6 +324,10 @@ onMounted( async () => {
     height: 60px;
     .q-chip {
       margin: 0 4px;
+      max-width: 200px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

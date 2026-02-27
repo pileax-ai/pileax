@@ -1,4 +1,4 @@
-import { pathManager } from './path-manager'
+import { configManager } from './config-manager'
 import fs from 'fs-extra'
 import log from 'electron-log'
 import { WindowManager } from 'app/src-electron/app/window-manager'
@@ -17,7 +17,7 @@ export class LogManager {
   private watcher: fs.FSWatcher | null = null
 
   constructor() {
-    this.logFilePath = pathManager.appLogFilePath()
+    this.logFilePath = configManager.appLogFilePath()
   }
 
   init() {

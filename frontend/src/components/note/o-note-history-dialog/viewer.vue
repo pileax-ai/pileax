@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, type PropType, ref, watch } from 'vue'
-import { YiiEditor } from '@yiitap/vue'
+import { OStarterKit, YiiEditor } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
 import useSetting from 'core/hooks/useSetting'
@@ -74,24 +74,18 @@ const options = computed(() => {
     },
     pageView: pageView.value,
     extensions: [
+      OStarterKit.configure(),
       'InlineMath',
       'Markdown',
-      'OAiBlock',
+      'OAudio',
       'OBlockMath',
-      'OBlockquote',
-      'OCallout',
-      'OCodeBlock',
       'OColon',
       'OColorHighlighter',
       'ODetails',
-      'OHeading',
       'OImage',
-      'OLink',
-      'OParagraph',
+      'OModelViewer',
+      'OMultiColumn',
       'OShortcut',
-      'OSlash',
-      'OSlashZh',
-      'OTrailingNode',
       'OVideo',
     ]
   }

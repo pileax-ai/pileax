@@ -5,6 +5,12 @@ export default {
   append: 'Thêm nội dung',
   appendTo: 'Thêm {content} vào {note}',
   chooseLocation: 'Chọn vị trí',
+  cover: {
+    add: 'Thêm bìa',
+    change: 'Thay đổi',
+    reposition: 'Định vị lại',
+    repositionDrag: 'Kéo để định vị lại'
+  },
   create: 'Tạo ghi chú',
   createSub: 'Tạo ghi chú phụ {note} dưới ghi chú cha {parent}',
   duplicate: 'Nhân bản',

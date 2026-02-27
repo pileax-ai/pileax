@@ -22,11 +22,9 @@
         <slot name="sublabel"></slot>
       </q-item-label>
     </q-item-section>
-    <q-item-section side v-if="sideIcon">
-      <o-icon :name="sideIcon" class="side-icon" />
-    </q-item-section>
-    <q-item-section class="side-label" side v-if="sideLabel || rightSide">
-      <q-item-label>{{sideLabel}}</q-item-label>
+    <q-item-section class="side-label" side v-if="sideIcon || sideLabel || rightSide">
+      <o-icon :name="sideIcon" class="side-icon" v-if="sideIcon" />
+      <q-item-label v-if="sideLabel">{{sideLabel}}</q-item-label>
       <q-item-label caption v-if="sideSublabel">{{sideSublabel}}</q-item-label>
       <slot name="side"></slot>
     </q-item-section>

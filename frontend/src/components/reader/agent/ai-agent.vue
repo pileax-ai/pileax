@@ -5,7 +5,7 @@
                   :ref-id="bookId"
                   description="基于本书问答"
                   tag="基于本书"
-                  dense v-if="bookId">
+                  dense multi-session v-if="bookId">
     </chat-section>
   </section>
 </template>
@@ -14,6 +14,7 @@
 import { ref, watch } from 'vue'
 import useBook from 'src/hooks/useBook'
 import ChatSection from 'components/chat/ChatSection.vue'
+import useReader from 'src/hooks/useReader'
 
 const props = defineProps({
   item: {
@@ -25,13 +26,14 @@ const props = defineProps({
 })
 
 const { bookId, keyword } = useBook()
+const { currentMainService } = useReader()
 const chatRef = ref<InstanceType<typeof ChatSection>>()
 
 watch(keyword, (newValue) => {
-  console.log('keyword', newValue)
-  // chatRef.value?.send({
-  //   message: newValue
-  // })
+  // console.log('keyword', currentMainService.value, props.item, newValue)
+  if (currentMainService.value === props.item.value) {
+    chatRef.value?.send(newValue)
+  }
 })
 </script>
 

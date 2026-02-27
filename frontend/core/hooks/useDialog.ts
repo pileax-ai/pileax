@@ -1,11 +1,11 @@
-
-import { useComponentStoreWithOut } from 'src/stores/component'
 import { computed } from 'vue'
+import { useComponentStoreWithOut } from 'src/stores/component'
 
 const componentStore = useComponentStoreWithOut()
 
 export default function () {
   const dialog = computed(() => componentStore.dialog)
+  const dialogType = computed(() => componentStore.dialog.type)
 
   function openDialog(dialog: Indexable) {
     componentStore.setDialog(dialog)
@@ -35,6 +35,7 @@ export default function () {
 
   return {
     dialog,
+    dialogType,
 
     openDialog,
     openNoteSearchDialog,

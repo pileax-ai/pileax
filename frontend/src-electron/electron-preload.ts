@@ -73,10 +73,16 @@ const electronIpcAPI = {
     ipcRenderer.invoke('read-image', filePath),
   reload: async (force: boolean) =>
     ipcRenderer.invoke('reload', force),
+  restart: async () =>
+    ipcRenderer.invoke('restart'),
   saveBookFiles: async (metadata: any) =>
     ipcRenderer.invoke('save-book-files', metadata),
   saveImageFile: async (metadata: any) =>
     ipcRenderer.invoke('save-image-file', metadata),
+  getAppMode: async (): Promise<string> =>
+    ipcRenderer.invoke('get-app-mode'),
+  setAppMode: async (mode: 'standalone' | 'cloud') =>
+    ipcRenderer.invoke('set-app-mode', mode),
   setTheme: async (theme: 'system' | 'light' | 'dark') =>
     ipcRenderer.invoke('set-theme', theme),
   showDialog: async (options: OpenDialogOptions) => {

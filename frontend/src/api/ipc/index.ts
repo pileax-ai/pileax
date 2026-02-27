@@ -18,7 +18,10 @@ export type IpcApi = {
   openNewWindow: (id: string, url: string, titleBarHeight?: number) => Promise<any>;
   publicPath: (path: string) => Promise<any>;
   reload: (force?: boolean) => Promise<any>;
+  restart: () => Promise<any>;
   saveImageFile: (metadata: any) => Promise<any>;
+  getAppMode: () => Promise<string>;
+  setAppMode: (mode: 'standalone' | 'cloud') => Promise<any>;
   setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
   showDialog: (options: Indexable) => Promise<any>;
   updateTrayMenu: (options: any) => Promise<any>;
@@ -42,7 +45,10 @@ export const ipcServiceKeys = [
   'openNewWindow',
   'publicPath',
   'reload',
+  'restart',
   'saveImageFile',
+  'getAppMode',
+  'setAppMode',
   'setTheme',
   'showDialog',
   'updateTrayMenu',

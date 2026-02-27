@@ -26,8 +26,20 @@ export default function() {
     return aiStore.value.localModels
   })
 
+  const localChatModel = computed(() => {
+    return localModels.value['chat']
+  })
+
   const defaultModels = computed(() => {
     return aiStore.value.defaultModels
+  })
+
+  const defaultChatModel = computed(() => {
+    return aiStore.value.defaultModels.find(m => m.modelType === 'chat')
+  })
+
+  const chatModel = computed(() => {
+    return localChatModel.value || defaultChatModel.value || {}
   })
 
   const initAiSettings = async () => {
@@ -79,7 +91,9 @@ export default function() {
     aiStore,
     provider,
     localModels,
+    localChatModel,
     defaultModels,
+    chatModel,
     initAiSettings,
     checkAiSettings,
     getDefaultModels,

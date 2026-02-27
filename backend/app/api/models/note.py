@@ -42,6 +42,7 @@ class NoteBase(BaseApiModel):
 
 class NoteCreate(NoteBase):
     doc: bytes | None = None
+    content_markdown: str | None = None
     ref_id: str | None = None
     ref_type: str | None = None
 
