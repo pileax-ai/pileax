@@ -105,7 +105,7 @@ jobs:
           cp frontend/env/.env.example frontend/env/.env
 
       - name: Download backend artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: backend-${{ matrix.os }}
           path: backend/.artifact
@@ -229,13 +229,13 @@ jobs:
 
     steps:
       - name: Download all status artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: status-*
           path: statuses
 
       - name: Download frontend version
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: frontend-version
           path: meta
