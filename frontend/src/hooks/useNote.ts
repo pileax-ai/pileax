@@ -8,6 +8,7 @@ import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
 import { router } from 'src/router'
 import useCommon from 'core/hooks/useCommon'
+import useApi from 'src/hooks/useApi'
 import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
 import { ipcService } from 'src/api/ipc'
 import { noteService } from 'src/api/service/remote/note'
@@ -24,6 +25,7 @@ export default function () {
   const tabStore = useTabStore()
   const { t, confirm } = useCommon()
   const { publishCollabEvent } = useWorkspaceCollab()
+  const { getFileUrl } = useApi()
   const recentNotes = ref<Note[]>([])
 
   // version
@@ -36,6 +38,11 @@ export default function () {
 
   const currentNote = computed(() => {
     return noteStore.value.currentNote
+  })
+
+  const currentNoteCover = computed(() => {
+    const cover = currentNote.value.cover
+    return cover?.startsWith('/image') ? cover : getFileUrl(cover!)
   })
 
   const notes = computed(() => {
@@ -340,8 +347,9 @@ export default function () {
     noteService,
     notes,
     recentNotes,
-    currentNoteId,
     currentNote,
+    currentNoteCover,
+    currentNoteId,
 
     setCurrentNote,
     initNoteData,

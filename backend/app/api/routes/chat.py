@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.chat_controller import ChatController
-from app.api.models.message import MessageCreate, MessagePublic, MessageUpdate
+from app.api.models.message import MessageCreate, MessagePublic, MessageUpdate, NoteMessageCreate
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.router import ApiRouter
 
@@ -34,6 +34,11 @@ async def query(query: PaginationQuery, controller: ChatController = Depends()) 
 @router.api_post("/completions", response_model=MessagePublic)
 async def completions(item_in: MessageCreate, controller: ChatController = Depends()) -> Any:
     return controller.completions(item_in)
+
+
+@router.api_post("/note/completions", response_model=MessagePublic)
+async def note_completions(item_in: NoteMessageCreate, controller: ChatController = Depends()) -> Any:
+    return controller.note_completions(item_in)
 
 
 @router.api_get("/messages", response_model=list[MessagePublic])

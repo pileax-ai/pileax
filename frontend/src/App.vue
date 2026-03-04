@@ -3,9 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onBeforeUnmount, onMounted } from 'vue'
 import 'virtual:svg-icons/register'
 import { initApp } from 'src/app/init'
+import { destroyApp } from 'src/app/destroy'
 
 function globalInit() {
   initApp()
@@ -13,5 +14,9 @@ function globalInit() {
 
 onMounted(() => {
   globalInit()
+})
+
+onBeforeUnmount(() => {
+  destroyApp()
 })
 </script>

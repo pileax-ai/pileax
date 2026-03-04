@@ -82,7 +82,13 @@ function init() {
 }
 
 const getRecentConversations = () => {
-  chatConversationService.query(recentQuery).then(res => {
+  const body = {
+    ...recentQuery,
+    condition: {
+      refType: 'general'
+    }
+  }
+  chatConversationService.query(body).then(res => {
     conversations.value = res.list
   })
 }

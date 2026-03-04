@@ -52,7 +52,6 @@ watch(() => leftDrawerShow.value, (newValue) => {
 })
 
 watch(() => leftDrawerHoverShow.value, (newValue) => {
-  console.log('abc', newValue)
   drawerOpen.value = newValue
 })
 

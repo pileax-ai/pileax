@@ -73,6 +73,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { fileService } from 'src/api/service/remote'
+import { getErrorMessage } from 'src/utils/request'
 
 const props = defineProps({
   type: {
@@ -107,21 +109,27 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  loading: {
-    type: Boolean,
-    default: false
-  },
   done: {
     type: Boolean,
     default: false
-  }
+  },
+  refId: {
+    type: String,
+    default: ''
+  },
+  refType: {
+    type: String,
+    default: ''
+  },
 })
-const emit = defineEmits(['ready'])
+const emit = defineEmits(['uploaded'])
 
 const value = ref(null)
 const selectedFile = ref<File>()
 const src = ref('')
 const error = ref('')
+
+const loading = ref(false)
 
 const fileIcon = computed(() => {
   if (selectedFile.value && selectedFile.value.type) {
@@ -152,7 +160,23 @@ function updateFiles (file: File) {
       return
     }
   }
-  emit('ready', file, fileIcon.value)
+
+  upload(file)
+}
+
+function upload(file: File) {
+  loading.value = true
+  const ref = {
+    refId: props.refId,
+    refType: props.refType,
+  }
+  fileService.upload(file, ref).then(res => {
+    loading.value = false
+    emit('uploaded', res)
+  }).catch(err => {
+    loading.value = false
+    error.value = getErrorMessage(err)
+  })
 }
 
 </script>

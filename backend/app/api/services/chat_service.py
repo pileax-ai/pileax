@@ -6,8 +6,10 @@ from uuid import UUID
 from fastapi import HTTPException
 from starlette.responses import StreamingResponse
 
+from app.api.deps import CommonHeaders
+from app.api.models.conversation import Conversation, ConversationCreate
 from app.api.models.enums import Status
-from app.api.models.message import Message, MessageCreate
+from app.api.models.message import Message, MessageCreate, NoteMessageCreate
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.api.repos.message_repository import MessageRepository
 from app.api.services.base_service import BaseService
@@ -29,11 +31,37 @@ class ChatService(BaseService[Message]):
         self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
         self.pc_service = ProviderCredentialService(session)
 
-    def completions(self, item_in: MessageCreate) -> Any:
+    def completions(self, item_in: MessageCreate, headers: CommonHeaders) -> Any:
         conversation = self.conversation_service.get(item_in.conversation_id)
-        if conversation is None:
-            raise HTTPException(status_code=404, detail=f"Conversation {item_in.conversation_id} not found.")
 
+        return self._completions(item_in, conversation, headers)
+
+    def note_completions(self, item_in: NoteMessageCreate, headers: CommonHeaders) -> Any:
+        conversation = self.conversation_service.get(item_in.conversation_id, raise_exception=False)
+        if conversation is None:
+            conversation = self.conversation_service.save(
+                ConversationCreate(
+                    id=item_in.conversation_id,
+                    name=item_in.message,
+                    model_provider=item_in.model_provider,
+                    model_name=item_in.model_name,
+                    model_type=item_in.model_type,
+                    ref_id=item_in.ref_id,
+                    ref_type=item_in.ref_type,
+                )
+            )
+
+        return self._completions(item_in, conversation, headers)
+
+    def find_by_conversation(self, conversation_id: UUID) -> list[Message]:
+        return super().find_all(
+            {
+                "conversation_id": conversation_id,
+                "user_id": self.user_id,
+            }
+        )
+
+    def _completions(self, item_in: MessageCreate, conversation: Conversation, headers: CommonHeaders) -> Any:
         pdm_credential = None
 
         # user specific model
@@ -55,12 +83,17 @@ class ChatService(BaseService[Message]):
                 status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet."
             )
 
-        # message
+        # Build history
         messages = self.find_by_conversation(item_in.conversation_id)
-        history = self.prompt_service.build_system_prompt(conversation.ref_type, conversation.ref_id)
-        for message in messages:
-            history.append({"role": "user", "content": message.message})
-            history.append({"role": "assistant", "content": message.content})
+        history = self.prompt_service.build_system_prompt(conversation.ref_type, conversation.ref_id, headers.locale)
+
+        # Do NOT include history in specific cases
+        if conversation.ref_type not in ["note", "note-content"]:
+            for message in messages:
+                history.append({"role": "user", "content": message.message})
+                history.append({"role": "assistant", "content": message.content})
+
+        # Last message
         history.append({"role": "user", "content": item_in.message})
 
         # Chat completions
@@ -94,10 +127,10 @@ class ChatService(BaseService[Message]):
                     yield f"data: {json.dumps(data)}\n\n"
 
                 # Done
-                yield "event: [DONE]\n"
+                yield "event: [DONE]\n\n"
             except Exception as e:
                 result = Status.INACTIVE
-                yield f"event: [ERROR] {str(e)}\n"
+                yield f"event: [ERROR] {str(e)}\n\n"
 
             # Save to db and update conversation
             save_message()
@@ -132,12 +165,4 @@ class ChatService(BaseService[Message]):
         return StreamingResponse(
             sse_gen(),
             media_type="text/event-stream; charset=utf-8",
-        )
-
-    def find_by_conversation(self, conversation_id: UUID) -> list[Message]:
-        return super().find_all(
-            {
-                "conversation_id": conversation_id,
-                "user_id": self.user_id,
-            }
         )

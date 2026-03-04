@@ -7,7 +7,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import os from 'os'
 
-import { pathManager } from '../app/path-manager'
+import { configManager } from '../app/config-manager'
 import { spaServer } from '../server/spa-server'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
@@ -25,9 +25,9 @@ class FastAPIServer {
   private publicPath: string
 
   constructor() {
-    this.dbPath = pathManager.appDbFilePath()
-    this.cachePath = pathManager.appCachePath()
-    this.publicPath = pathManager.appPublicPath()
+    this.dbPath = configManager.appDbFilePath()
+    this.cachePath = configManager.appCachePath()
+    this.publicPath = configManager.appPublicPath()
   }
 
   public async start() {
@@ -41,7 +41,7 @@ class FastAPIServer {
 
       this.bindEvents()
       log.info('✅ Start server...', this.serverInfo)
-      log.info(`⚙️ Config path: `, pathManager.configPath)
+      log.info(`⚙️ Config path: `, configManager.configPath)
     } catch (err) {
       log.error('❌ Start server failed:', err)
     }
@@ -145,14 +145,13 @@ class FastAPIServer {
       port: this.port,
       apiBase: `http://localhost:${this.port}/api/v1`,
       apiDocs: `http://localhost:${this.port}/docs`,
-      appBase: `http://localhost:${this.port}`,
     }
   }
 
   private resetPath() {
-    this.dbPath = pathManager.appDbFilePath()
-    this.cachePath = pathManager.appCachePath()
-    this.publicPath = pathManager.appPublicPath()
+    this.dbPath = configManager.appDbFilePath()
+    this.cachePath = configManager.appCachePath()
+    this.publicPath = configManager.appPublicPath()
   }
 
   private async startProd() {
@@ -171,7 +170,7 @@ class FastAPIServer {
         CACHE_ROOT: this.cachePath,
         PUBLIC_FILE_ROOT: this.publicPath,
         WEB_API_CORS_ALLOW_ORIGINS: spaServer.serverInfo.url,
-        // COOKIE_DOMAIN: VIRTUAL_DOMAIN
+        DEBUG: false
       },
       cwd: this.serverPath,
       stdio: 'pipe',

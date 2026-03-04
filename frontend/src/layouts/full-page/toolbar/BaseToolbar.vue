@@ -26,10 +26,17 @@
     </q-toolbar-title>
 
     <div class="row items-center o-toolbar-extra no-drag-region">
+      <q-btn :icon="connected ? 'mdi-access-point' : 'mdi-access-point-off'" class="bg-accent"
+             :class="{'text-green': connected, 'text-red': !connected}" round flat
+             @click="openDialog({type: 'connect'})" />
       <q-btn :label="$t('console')" class="bg-primary text-white" @click="onConsole" rounded flat v-if="isLogin" />
       <q-btn :label="$t('signin')" class="bg-primary text-white" to="/auth/signin" rounded flat v-else />
     </div>
     <o-tool-bar-overlay class="col-auto" />
+
+    <div>
+      <connect-dialog v-if="dialogType === 'connect'" />
+    </div>
   </q-toolbar>
 </template>
 
@@ -38,19 +45,28 @@ import { router } from 'src/router'
 
 import { onAction } from 'core/hooks/useRouter'
 import { menuLabel } from 'core/hooks/useMenu'
+import useDialog from 'core/hooks/useDialog'
 import useAccount from 'src/hooks/useAccount'
+import useApi from 'src/hooks/useApi'
 import { topMenus } from 'src/app/top-menu'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
+import ConnectDialog from 'components/modal/ConnectDialog.vue'
+import { onMounted } from 'vue'
 
 const { account, isLogin } = useAccount()
+const { connected, startCheckConnectivity } = useApi()
+const { dialogType, openDialog } = useDialog()
 
 function onConsole() {
   router.push('/welcome')
 }
+
+onMounted(() => {
+  startCheckConnectivity()
+})
 </script>
 
 <style lang="scss">
-$hheight: 80px;
 .base-toolbar {
   height: 100%;
   padding: 0 24px;
@@ -111,11 +127,11 @@ $hheight: 80px;
 
   .o-toolbar-extra {
     height: 100%;
+    gap: 12px;
 
     .q-btn {
       height: 40px;
       min-width: 120px;
-      margin: 0 6px;
       padding: 4px 16px;
 
       .q-icon {
@@ -129,6 +145,13 @@ $hheight: 80px;
       padding: 4px 10px;
       color: white;
       background: rgba(white, 0.1);
+    }
+
+    .q-btn-group {
+      .q-btn {
+        min-width: 50px;
+        margin: 0;
+      }
     }
   }
 }

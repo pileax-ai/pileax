@@ -8,11 +8,11 @@ from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
-from app.api.models.book import Book, BookCreate, BookDetails, BookPublic, BookUpdate
+from app.api.models.book import Book, BookCreate, BookPublic, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.workspace_book import WorkspaceBookCreate
+from app.api.models.workspace_book import WorkspaceBookCreate, WorkspaceBookDetails
 from app.api.services.book_service import BookService
 from app.api.services.workspace_book_service import WorkspaceBookService
 from app.libs.book_uploader import BookUploader
@@ -29,15 +29,18 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         self.session = session
         self.workspace = workspace
         self.service = BookService(session)
+        self.wb_service = WorkspaceBookService(session)
         self.fm_controller = FileMetaController(session, user, workspace)
         self.wb_controller = WorkspaceBookController(session, user, workspace)
 
     def get_by_uuid(self, uuid: str) -> Book:
         return self.service.get_by_uuid(uuid, self.workspace.tenant_id)
 
-    def get_details(self, id: uuid.UUID) -> BookDetails:
-        book = self.service.get_by_owner(Owner(user_id=self.user.id, workspace=self.workspace), id)
-        return self.service.get_details(id, self.user.id)
+    def get_details(self, id: uuid.UUID) -> WorkspaceBookDetails:
+        book = self.wb_service.get_workspace_book_details(id, self.user.id, self.workspace.id)
+        book_details = WorkspaceBookDetails(**book)
+        self.service.check_read_permission(Owner(workspace=self.workspace, user_id=self.user.id), book_details)
+        return book_details
 
     async def upload(self, book_str: str, files: list[UploadFile]) -> Any:
         """

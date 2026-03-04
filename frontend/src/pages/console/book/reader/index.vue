@@ -101,7 +101,7 @@ async function openWithAnnotation(annotationId: string) {
 }
 
 async function open(bookId: string, initialCfi = '') {
-  console.log('open', bookId)
+  // console.log('open', bookId)
   const book: Indexable = await bookService.getDetails(bookId)
   if (book) {
     setBookId(bookId)

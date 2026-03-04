@@ -74,6 +74,13 @@ export const getDeviceId = (): string => {
 }
 
 
+export const getLocale = (): string => {
+  const app = getItemObject('app')
+
+  return app?.setting?.locale || 'en'
+}
+
+
 // -----------------------------------------------------------------------------
 // JwtToken
 // -----------------------------------------------------------------------------
@@ -138,7 +145,7 @@ export const refreshTokenThrottle = () => {
 }
 
 export const refreshToken = (source = 'retry'): Promise<Indexable> => {
-  console.log('refreshToken', source)
+  // console.log('refreshToken', source)
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
       const token = res

@@ -5,6 +5,12 @@ export default {
   append: 'Append content',
   appendTo: 'Append {content} to {note}',
   chooseLocation: 'Choose location',
+  cover: {
+    add: 'Add cover',
+    change: 'Change',
+    reposition: 'Reposition',
+    repositionDrag: 'Drag to reposition'
+  },
   create: 'Create note',
   createSub: 'Create sub note {note} under {parent}',
   duplicate: 'Duplicate',

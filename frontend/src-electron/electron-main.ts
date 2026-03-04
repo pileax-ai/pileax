@@ -8,6 +8,7 @@ import { Application } from './app/application'
 import { server } from './server/fastapi'
 import { spaServer } from './server/spa-server'
 import { WindowManager } from './app/window-manager'
+import { configManager } from 'app/src-electron/app/config-manager'
 
 remoteMain.initialize()
 Application.initApp()
@@ -70,7 +71,8 @@ const createWindow = async () => {
 
   // Open url in system browser
   mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (url.startsWith('http')) {
+    // Only process in production mode
+    if (process.env.NODE_ENV === 'production' && url.startsWith('http')) {
       event.preventDefault()
       shell.openExternal(url)
     }
@@ -90,8 +92,15 @@ const createWindow = async () => {
 }
 
 app.whenReady().then(async () => {
+  const appMode = configManager.getAppMode()
+  log.info('🚀 Running app in:', appMode)
+
   await spaServer.start()
-  await server.start()
+
+  if (appMode === 'standalone') {
+    await server.start()
+  }
+
   await createWindow()
   Application.initUpdater()
 

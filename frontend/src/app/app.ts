@@ -9,6 +9,7 @@ export const APP_DOC_URL = 'https://docs.pileax.ai'
 export const APP_GITHUB_URL = 'https://github.com/pileax-ai/pileax'
 
 export const defaultAppState: AppState = {
+  mode: 'standalone',
   setting: defaultSetting,
   navi: {
     show: true,

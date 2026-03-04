@@ -6,7 +6,7 @@ import {
   readImage,
   saveImageFile
 } from '../utils/file'
-import { pathManager } from './path-manager'
+import { configManager } from './config-manager'
 import { logManager } from './log-manager'
 import { TrayManager } from './tray-manager'
 import { updaterManager } from './updater-manager'
@@ -14,6 +14,7 @@ import { server } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
 import { PROTOCOL_SCHEME, VIRTUAL_HOST } from './constant'
 import { joinPath } from '../utils/path'
+import log from 'electron-log'
 
 let trayManager: TrayManager
 
@@ -37,12 +38,12 @@ export class Application {
   }
 
   static initUpdater() {
-    console.log('⭐ Init and auto check update')
+    log.info('🔄 Init and auto check update')
     updaterManager.check()
   }
 
   static initPath() {
-    const publicPath = pathManager.appPublicPath()
+    const publicPath = configManager.appPublicPath()
     if (!fs.existsSync(publicPath)) {
       fs.mkdirSync(publicPath, { recursive: true })
       console.log(`📁 Create public dir: ${publicPath}`)
@@ -53,12 +54,6 @@ export class Application {
 
   static initLog() {
     logManager.init()
-    // const logFilePath = pathManager.appLogFilePath();
-    // log.initialize();
-    // log.transports.file.resolvePathFn = () => {
-    //   return logFilePath;
-    // };
-    // log.info('Init log: ', logFilePath);
   }
 
   static initTray(activate?: () => void) {
@@ -69,7 +64,7 @@ export class Application {
 
     ipcMain.handle('get-path',
       (event, key: string) => {
-        return pathManager.getPath(key)
+        return configManager.getPath(key)
       })
 
     ipcMain.handle('get-server-info', () => {
@@ -98,10 +93,10 @@ export class Application {
 
     ipcMain.handle('migrate-library',
       async (event, options) => {
-        const  result = await pathManager.migrateLibrary(options)
+        const  result = await configManager.migrateLibrary(options)
         if (result.success) {
           await server.restart(true)
-          pathManager.cleanOldLibrary()
+          configManager.cleanOldLibrary()
         }
         return result
       })
@@ -127,6 +122,15 @@ export class Application {
         }
       })
 
+    ipcMain.handle('restart',
+      async (event) => {
+        // Set the relaunch arguments (optional) and relaunch
+        app.relaunch()
+
+        // Exit the current instance immediately to allow the new one to start
+        app.exit(0)
+      })
+
 
     ipcMain.handle('save-image-file',
       async (event, metadata) => {
@@ -137,6 +141,16 @@ export class Application {
       (event, theme: 'system' | 'light' | 'dark') => {
       nativeTheme.themeSource = theme
     })
+
+    ipcMain.handle('get-app-mode',
+      (event) => {
+        return configManager.getAppMode()
+      })
+
+    ipcMain.handle('set-app-mode',
+      (event, mode: 'standalone' | 'cloud') => {
+        configManager.setAppMode(mode)
+      })
 
     ipcMain.handle('update-tray-menu',
       async (event, options) => {

@@ -110,7 +110,7 @@ const list = computed(() => {
       icon: '',
       theme: 'light',
       blur: 0,
-      url: '/images/book/light-old_book.png',
+      url: '/images/book/light-old_book.jpg',
     },
   ]
 })

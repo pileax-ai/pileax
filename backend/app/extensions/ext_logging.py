@@ -28,9 +28,14 @@ def setup(app: FastAPI):
     file_handler.setFormatter(formatter)
 
     # Console handler
+    console_log_level = logging.DEBUG if app_config.DEBUG else logging.INFO
     console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.DEBUG)
+    console_handler.setLevel(console_log_level)
     console_handler.setFormatter(formatter)
+
+    # Specific modules
+    for name in []:
+        logging.getLogger(name).setLevel(console_log_level)
 
     # Remove existing handlers
     root = logging.getLogger()

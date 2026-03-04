@@ -1,5 +1,6 @@
 import common from './common'
 import ai from './ai'
+import app from './app'
 import auth from './auth'
 import book from './book'
 import chat from './chat'
@@ -13,6 +14,7 @@ import workspace from './workspace'
 export default {
   ...common,
   ai,
+  app,
   auth,
   book,
   chat,

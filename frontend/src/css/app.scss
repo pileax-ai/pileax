@@ -2,7 +2,7 @@
 // --------------------------------------------------
 
 html {
-  font-size: 14px;
+  font-size: 16px;
   overflow: hidden!important;
 }
 
@@ -497,8 +497,67 @@ model-viewer {
     background: transparent;
   }
 
+  div[data-type="column-container"] {
+    div[data-type="column"] {
+      .grid-resize-handle {
+        .circle-button {
+          width: 26px;
+          height: 26px;
+          top: -20px;
+          left: -12px;
+        }
+      }
+    }
+  }
+
   .collaboration-carets__label {
     color: #ffffff !important;
+  }
+
+  .o-table-cell-handler {
+    &.o-row {
+      .handler-trigger {
+        height: 30px !important;
+      }
+    }
+  }
+
+  &.auto-numbering {
+    counter-reset: h1-count h2-count h3-count;
+
+    &:has(h1) h2::before {
+      content: counter(h1-count) "." counter(h2-count) " ";
+    }
+
+    &:not(:has(h1)) h2::before {
+      content: counter(h2-count) ". ";
+    }
+
+    &:has(h1) h3::before {
+      content: counter(h1-count) "." counter(h2-count) "." counter(h3-count) " ";
+    }
+
+    &:not(:has(h1)) h3::before {
+      content: counter(h2-count) "." counter(h3-count) " ";
+    }
+
+    h1 {
+      counter-reset: h2-count;
+      counter-increment: h1-count;
+    }
+
+    h1::before {
+      content: counter(h1-count) ". ";
+    }
+
+    h2 {
+      counter-reset: h3-count;
+      counter-increment: h2-count;
+    }
+
+    h3 {
+      counter-increment: h3-count;
+    }
   }
 }
 

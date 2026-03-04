@@ -7,7 +7,6 @@ import { useNaviStore } from 'stores/navi'
 import useSetting from 'core/hooks/useSetting'
 import useUpdater from 'core/hooks/useUpdater'
 import { ipcService } from 'src/api/ipc'
-import { systemService } from 'src/api/service/remote'
 import { getDeviceId } from 'src/utils/auth'
 
 export const initApp = () => {
@@ -35,8 +34,6 @@ const initSetting = () => {
 }
 
 const initApi = async () => {
-
-
   const deviceId = getDeviceId()
   // console.log('Init device id', deviceId)
 

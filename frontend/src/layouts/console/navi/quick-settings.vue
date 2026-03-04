@@ -7,8 +7,7 @@
     <template v-if="type === 'tab'">
       <div class="row items-center label q-ml-sm">
         {{workspace.name}}
-        <q-badge color="red" rounded align="middle" class="dot"
-                 v-if="indicatorUpdate" />
+        <q-icon name="circle" color="red" class="dot" v-if="indicatorUpdate" />
       </div>
       <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
     </template>
@@ -76,7 +75,12 @@
             <o-updater-item v-else-if="action.value === 'updater'" />
             <o-common-item v-bind="action"
                            @click="onAction(action)"
-                           :closable="action.clickable" v-else>
+                           :closable="action.clickable" right-side v-else>
+              <template #side>
+                <template v-if="action.value === 'connect'">
+                  <q-icon name="circle" size="10px" :color="connected ? 'green' : 'red'" />
+                </template>
+              </template>
             </o-common-item>
           </template>
         </template>
@@ -120,6 +124,7 @@ import useShortcut from 'core/hooks/useShortcut'
 import { ipcProvider } from 'src/api/ipc'
 import useUpdater from 'core/hooks/useUpdater'
 import useMetadata from 'src/hooks/useMetadata'
+import useApi from 'src/hooks/useApi'
 
 const props = defineProps({
   type: {
@@ -144,6 +149,7 @@ const {
 } = useAccount()
 const { t } = useCommon()
 const { openDialog } = useDialog()
+const { connected } = useApi()
 const { WorkspaceMemberRoles, getArrayItem } = useMetadata()
 const { darkMode, toggleTheme } = useSetting()
 const { nativeShortcut } = useShortcut()
@@ -189,12 +195,19 @@ const actions = computed(() => {
       show: workspace.value.memberRole === 'owner',
     },
     {
+      label: t('connect'),
+      value: 'connect',
+      icon: 'mdi-access-point',
+      clickable: true,
+      show: true,
+      separator: true,
+    },
+    {
       label: t('systems.log'),
       value: 'log',
       icon: 'o_view_headline',
       clickable: true,
       show: ipcProvider !== 'web',
-      separator: true,
     },
     {
       label: t('updater.check'),
@@ -233,6 +246,9 @@ const onAction = (action: Indexable) => {
     case 'workspace':
       openDialog({type: 'settings', tab: action.value})
       break
+    case 'connect':
+      openDialog({type: 'connect'})
+      break
     case 'help':
       openURL(APP_DOC_URL)
       break
@@ -263,6 +279,10 @@ const onSwitchWorkspace = (item: Indexable) => {
       font-size: 1.2rem !important;
     }
   }
+
+  .label .q-icon {
+    font-size: 8px !important;
+  }
 }
 
 .quick-settings {
@@ -277,9 +297,9 @@ const onSwitchWorkspace = (item: Indexable) => {
       width: 80%;
       height: 30px;
       line-height: 30px;
-      white-space: nowrap;        /* 不换行 */
-      overflow: hidden;           /* 超出隐藏 */
-      text-overflow: ellipsis;    /* 使用省略号 */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

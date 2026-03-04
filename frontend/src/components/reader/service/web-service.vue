@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import {computed, PropType} from 'vue'
-import useBook from 'src/hooks/useBook'
+import { computed, onActivated, PropType, ref, watch } from 'vue'
 import OFrame from 'core/page/section/OFrame.vue'
+import useBook from 'src/hooks/useBook'
+import useReader from 'src/hooks/useReader'
 
 const props = defineProps({
   item: {
@@ -19,10 +20,19 @@ const props = defineProps({
 })
 
 const { keyword } = useBook()
+const { currentMainService } = useReader()
+const src = ref('')
 
-const src = computed(() => {
-  const url = props.item.url
-  return url?.replaceAll('{word}', keyword.value)
+
+watch(keyword, (newValue) => {
+  // console.log('keyword', currentMainService.value, props.item, newValue)
+  if (currentMainService.value === props.item.value) {
+    src.value = props.item.url?.replaceAll('{word}', keyword.value)
+  }
+})
+
+onActivated(() => {
+  src.value = props.item.url?.replaceAll('{word}', keyword.value)
 })
 </script>
 

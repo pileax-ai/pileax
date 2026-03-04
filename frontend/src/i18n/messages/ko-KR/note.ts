@@ -5,6 +5,12 @@ export default {
   append: '콘텐츠 추가',
   appendTo: '{내용}을 {참고}에 추가합니다.',
   chooseLocation: '위치를 선택하세요',
+  cover: {
+    add: '커버 추가',
+    change: '변화',
+    reposition: '정복',
+    repositionDrag: '드래그하여 위치를 변경하세요'
+  },
   create: '메모를 작성하세요',
   createSub: '{parent} 아래에 {note}라는 하위 메모를 생성하세요.',
   duplicate: '복제하다',

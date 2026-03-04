@@ -135,7 +135,7 @@ function getOffset() {
 
 function show() {
   const offset = getOffset()
-  console.log('offset', offset)
+  // console.log('offset', offset)
 
   hide()
   initTippy()

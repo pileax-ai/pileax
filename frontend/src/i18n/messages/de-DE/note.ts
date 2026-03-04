@@ -5,6 +5,12 @@ export default {
   append: 'Inhalt anhängen',
   appendTo: 'Füge {content} zu {note} hinzu.',
   chooseLocation: 'Standort auswählen',
+  cover: {
+    add: 'Abdeckung hinzufügen',
+    change: 'Ändern',
+    reposition: 'Neupositionierung',
+    repositionDrag: 'Zum Verschieben ziehen'
+  },
   create: 'Notiz erstellen',
   createSub: 'Erstelle Unternotiz {note} unter {parent}',
   duplicate: 'Duplikat',

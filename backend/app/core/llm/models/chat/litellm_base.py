@@ -185,7 +185,7 @@ class LiteLLMBase(Base):
     def _chat_streamly(self, history, gen_conf, **kwargs):
         import litellm
 
-        logging.info("[HISTORY STREAMLY] %s", json.dumps(history, ensure_ascii=False, indent=4))
+        # logging.info("[HISTORY STREAMLY] %s", json.dumps(history, ensure_ascii=False, indent=4))
         reasoning_start = False
 
         completion_args = self._construct_completion_args(history=history, stream=True, tools=False, **gen_conf)

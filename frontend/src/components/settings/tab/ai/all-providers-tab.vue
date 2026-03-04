@@ -73,9 +73,11 @@ import { providerService } from 'src/api/service/remote/provider'
 import { providerCredentialService } from 'src/api/service/remote/provider-credential'
 import { notifyDone } from 'core/utils/control'
 import useCommon from 'core/hooks/useCommon'
+import useAi from 'src/hooks/useAi'
 
 const $q = useQuasar()
 const { t } = useCommon()
+const { getDefaultModels } = useAi()
 const myProviders = ref<Indexable[]>()
 const providers = ref<Indexable[]>()
 const provider = ref<Indexable>()
@@ -188,6 +190,7 @@ const onRemoveProvider = (item: Indexable) => {
 const onClose = () => {
   side.show = false
   initData()
+  getDefaultModels()
 }
 
 const onSideClose = () => {

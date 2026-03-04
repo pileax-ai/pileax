@@ -58,7 +58,6 @@ const theme = computed(() => {
 })
 
 function init () {
-  console.log('init')
   workspaceManager.loadWorkspace()
 }
 

@@ -9,7 +9,7 @@ export const useChatStore = defineWorkspaceStore('chat', {
   }),
   actions: {
     addChat(value: ChatInput) {
-      console.log('addChat', value, this.chatMap)
+      // console.log('addChat', value, this.chatMap)
       this.chatMap.set(value.id, value)
     },
     getChat(id: string) {

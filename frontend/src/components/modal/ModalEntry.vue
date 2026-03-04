@@ -3,6 +3,7 @@
     <ai-provider-search-dialog v-if="type === 'ai-provider-search'" />
     <book-collection-dialog v-if="type === 'book-collection'" />
     <chat-to-note-dialog v-if="type === 'chat-note-select'" />
+    <connect-dialog v-if="type === 'connect'" />
     <guide-dialog v-if="type === 'guide'" />
     <note-search-dialog v-if="type === 'note-search'" />
     <signin-dialog v-if="type === 'signin'" />
@@ -19,6 +20,7 @@ import { useComponentStore } from 'stores/component'
 import AiProviderSearchDialog from './AiProviderSearchDialog.vue'
 import BookCollectionDialog from './BookCollectionDialog.vue'
 import ChatToNoteDialog from './ChatToNoteDialog.vue'
+import ConnectDialog from './ConnectDialog.vue'
 import GuideDialog from './GuideDialog.vue'
 import NoteSearchDialog from './NoteSearchDialog.vue'
 import SigninDialog from './SigninDialog.vue'

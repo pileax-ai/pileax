@@ -34,7 +34,7 @@ const { currentMenu } = useNavi()
 const conversationsRef = ref<InstanceType<typeof ChatConversations>>()
 
 function openConversation(item: ChatConversation) {
-  console.log('open', item)
+  // console.log('open', item)
   router.push({name: 'chat-conversation',
     params: {appId: item.appId, id: item.id}})
 }

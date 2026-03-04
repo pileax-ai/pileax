@@ -5,6 +5,12 @@ export default {
   append: 'Tambahkan konten',
   appendTo: 'Tambahkan {content} ke {note}',
   chooseLocation: 'Pilih lokasi',
+  cover: {
+    add: 'Tambahkan penutup',
+    change: 'Mengubah',
+    reposition: 'Posisi ulang',
+    repositionDrag: 'Seret untuk mengubah posisi'
+  },
   create: 'Buat catatan',
   createSub: 'Buat sub catatan {note} di bawah {parent}',
   duplicate: 'Duplikat',

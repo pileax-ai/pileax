@@ -20,6 +20,7 @@ const urls: Indexable = {
   chat: '/chat',
   chatConversation: '/chat/conversation',
   edge: '/edge',
+  file: '/file',
   fileMeta: '/file/meta',
   llm: '/llm',
   note: '/note',

@@ -40,6 +40,25 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         result = self.session.exec(stmt)
         return [{"status": row.status, "count": row.count} for row in result.all()]
 
+    def get_workspace_book_details(self, book_id: UUID, user_id: UUID, workspace_id: UUID):
+        stmt = (
+            select(WorkspaceBook, Book, UserBook)
+            .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
+            .join(
+                UserBook,
+                UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id,
+                isouter=True,
+            )
+            .where(WorkspaceBook.book_id == book_id)
+            .where(WorkspaceBook.user_id == user_id)
+            .where(WorkspaceBook.workspace_id == workspace_id)
+        )
+        result = self.session.exec(stmt).first()
+        if result:
+            workspace_book, book, user_book = result
+            return self.build_details(workspace_book, book, user_book)
+        return None
+
     def get_details(self, id: UUID) -> dict | None:
         stmt = (
             select(WorkspaceBook, Book, UserBook)

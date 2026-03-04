@@ -114,7 +114,7 @@ function getAllChats() {
 
 async function onSend(data: ChatInput, reset = false) {
   newChat.value = data
-  scrollToBottom()
+  scrollToBottom(0, true)
 
   if (reset) {
     chatStore.value.removeChat(data.id)
@@ -174,8 +174,13 @@ async function chatCompletion(data: ChatInput) {
     modelName: conversation.value?.modelName,
   }
 
-  await startStream('/chat/completions', payload,
-    onProgress, onDone, onErrorDone)
+  await startStream({
+    url: '/chat/completions',
+    payload,
+    onProgress,
+    onDone,
+    onErrorDone
+  })
 }
 
 async function onProgress(reasoningText: string, text: string) {

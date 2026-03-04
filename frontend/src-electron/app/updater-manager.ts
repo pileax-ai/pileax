@@ -33,7 +33,7 @@ export class UpdaterManager {
 
   setup() {
     autoUpdater.on('checking-for-update', () => {
-      log.info('⭐ Checking for update...')
+      log.info('🔍 Checking for update...')
       this.send('checking')
     })
 
