@@ -67,7 +67,7 @@ jobs:
           tar -czf runnable.tar.gz -C dist runnable
 
       - name: Upload backend artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: backend-${{ matrix.os }}
           path: backend/runnable.tar.gz
@@ -136,7 +136,7 @@ jobs:
           mkdir -p meta
           jq -r '.version' frontend/package.json > meta/version.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: matrix.os == 'macos-latest'
         with:
           name: frontend-version
@@ -191,7 +191,7 @@ jobs:
           echo "Build step finished successfully"
 
       - name: Upload Electron build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pileax-${{ matrix.os }}
           path: |
@@ -212,7 +212,7 @@ jobs:
           mkdir -p status
           echo "${{ job.status }}" > status/status.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: status-${{ matrix.os }}
