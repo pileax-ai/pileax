@@ -1,7 +1,6 @@
 import type { Setting } from 'core/types/setting'
 
 export interface AppState {
-  mode: string,
   setting: Setting,
   navi: {
     show: boolean,

@@ -27,6 +27,10 @@ const reload = (force: boolean = false): Promise<any> => {
   }
 }
 
+const restart = (force: boolean = false): Promise<any> => {
+  return reload(true)
+}
+
 const onLoadUpdate = (callback: (data: string) => void) => {
 
 }
@@ -51,7 +55,7 @@ window.webIpcAPI = {
   openNewWindow: openNewWindow as any,
   publicPath: mock as any,
   reload: reload as any,
-  restart: reload as any,
+  restart: restart as any,
   saveImageFile: mock as any,
   getAppMode: mock as any,
   setAppMode: mock as any,

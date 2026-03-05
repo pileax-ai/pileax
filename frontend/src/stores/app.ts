@@ -15,7 +15,6 @@ import { defaultAppState } from 'src/app/app'
 
 export const useAppStore = defineStore('app', {
   state: (): AppState => ({
-    mode: defaultAppState.mode,
     setting: defaultAppState.setting,
     navi: defaultAppState.navi,
     updater: {} as Indexable,
@@ -26,9 +25,6 @@ export const useAppStore = defineStore('app', {
     getNavi: (state) => state.navi,
   },
   actions: {
-    setMode(value :string) {
-      this.mode = value
-    },
     setLocale(value :string) {
       this.setting.locale = value
     },

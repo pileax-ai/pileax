@@ -16,6 +16,7 @@ export default {
     standalone: 'Autonome',
     standaloneDesc: 'Services autonomes avec stockage de données local (fonctionnement hors ligne).'
   },
+  newBaseUrlRequired: 'Nouvelle URL de base requise',
   restartTakeEffect: 'L\'application va redémarrer pour que les effets soient pris en compte !',
   unableConnect: 'Impossible de se connecter au serveur'
 }

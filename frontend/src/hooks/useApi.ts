@@ -5,6 +5,10 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 export default function() {
   const apiStore = useApiStore()
 
+  const appMode = computed(() => {
+    return apiStore.appMode
+  })
+
   const apiBase = computed(() => {
     return apiStore.apiBase
   })
@@ -24,6 +28,10 @@ export default function() {
   const connected = computed(() => {
     return apiStore.connected
   })
+
+  function setAppMode(mode: string) {
+    apiStore.setAppMode(mode)
+  }
 
   function setApiBase(url: string) {
     apiStore.setApiBase(url)
@@ -52,8 +60,8 @@ export default function() {
     return `${appBase.value}/${path}`
   }
 
-  async function startCheckConnectivity(interval = 20000) {
-    await apiStore.startCheckConnectivity(interval)
+  async function startCheckConnectivity() {
+    await apiStore.startCheckConnectivity()
   }
 
   function stopCheckConnectivity() {
@@ -62,12 +70,14 @@ export default function() {
 
   return {
     apiStore,
+    appMode,
     apiBase,
     appBase,
     collabEnabled,
     collabProvider,
     connected,
 
+    setAppMode,
     setApiBase,
     setCollab,
     setCollabProvider,
