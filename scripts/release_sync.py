@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import argparse
 import os
-
+import hashlib
+import base64
 import boto3
 import json
 import subprocess
 import sys
+
 from pathlib import Path
 from typing import Dict
 from dotenv import load_dotenv
@@ -135,6 +137,79 @@ def download_release_assets(
   print("✅ Missing assets downloaded")
 
 
+# ==============================================================================
+# Verify
+# ==============================================================================
+def verify_assets(version: str | None = None) -> None:
+  if version is None:
+    version = get_version()
+
+  """Verify downloaded assets using sha512 from all latest*.yml files."""
+  release_dir = ROOT_DIR / "releases" / version
+
+  print(f"\n🔍 Verifying asset integrity for version {version}...")
+
+  # Get all latest*.yml
+  yaml_files = list(release_dir.glob("latest*.yml"))
+  if not yaml_files:
+    print(f"⚠️  No latest*.yml files found in {release_dir}")
+    return
+
+  all_passed = True
+  verified_files = set() # Avoid redundant hashing for same files across YMLs
+
+  for yml_path in yaml_files:
+    print(f"📄 Checking manifest: {yml_path.name}")
+    try:
+      with open(yml_path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    except Exception as e:
+      print(f"❌ Failed to parse {yml_path.name}: {e}")
+      continue
+
+    # electron-builder yaml structure usually has a 'files' list
+    files = data.get("files", [])
+    if not files:
+      continue
+
+    for file_info in files:
+      # Extract filename from url/path and get expected sha512
+      file_name = Path(file_info.get("url", "")).name
+      expected_sha512 = file_info.get("sha512")
+      local_path = release_dir / file_name
+
+      if not expected_sha512 or file_name in verified_files:
+        continue
+
+      if not local_path.exists():
+        print(f"   ❌ Missing file: {file_name}")
+        all_passed = False
+        continue
+
+      # Calculate SHA512
+      sha512_hash = hashlib.sha512()
+      with open(local_path, "rb") as f:
+        # Read in 8KB chunks for memory efficiency
+        for chunk in iter(lambda: f.read(8192), b""):
+          sha512_hash.update(chunk)
+
+      # Convert to Base64 (matches electron-builder format)
+      actual_sha512 = base64.b64encode(sha512_hash.digest()).decode("utf-8")
+
+      if actual_sha512 == expected_sha512:
+        print(f"   ✅ {file_name} (Verified)")
+        verified_files.add(file_name)
+      else:
+        print(f"   ❌ {file_name} (HASH MISMATCH!)")
+        print(f"      Expected: {expected_sha512}")
+        print(f"      Actual:   {actual_sha512}")
+        all_passed = False
+
+  if not all_passed:
+    raise RuntimeError("Integrity check failed. Some assets are corrupted or missing.")
+
+  print("✨ Integrity check passed for all assets.")
+
 
 # ==============================================================================
 # YAML update
@@ -235,6 +310,9 @@ def cmd_download() -> None:
   print("\n🎉 All YAML files updated successfully")
   print("🎉 Download command finished")
 
+  # Verify assets
+  verify_assets(version)
+
 
 def cmd_upload(dry_run: bool = False) -> None:
   version = get_version()
@@ -271,7 +349,6 @@ def cmd_upload(dry_run: bool = False) -> None:
   print(f"\n🎉  Upload total {total} files finished")
 
 
-
 # ==============================================================================
 # Main
 # ==============================================================================
@@ -291,7 +368,16 @@ def main() -> None:
 
   subparsers.add_parser(
     "upload",
-    help="Upload release assets (not implemented)",
+    help="Upload release assets",
+  )
+
+  verify_parser = subparsers.add_parser(
+    "verify",
+    help="Verify release assets",
+  )
+  verify_parser.add_argument(
+    "--version", "-v",
+    help="Specific version to verify (defaults to package.json version)",
   )
 
   args = parser.parse_args()
@@ -300,6 +386,8 @@ def main() -> None:
     cmd_download()
   elif args.command == "upload":
     cmd_upload()
+  elif args.command == "verify":
+    verify_assets(args.version)
 
 
 if __name__ == "__main__":
