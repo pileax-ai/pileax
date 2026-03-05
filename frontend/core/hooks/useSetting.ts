@@ -20,10 +20,6 @@ export default function () {
   const appStore = useAppStoreWithOut()
   const i18n = useI18n()
 
-  const setAppMode = (value: string) => {
-    appStore.setMode(value)
-  }
-
   const setLocale = (locale :string, updateI18n = false) => {
     if (updateI18n) {
       i18n.locale.value = locale
@@ -42,7 +38,7 @@ export default function () {
 
   const setSetting = () => {
     const setting = appStore.getSetting
-    const locale = setting.locale || 'en'
+    const locale = setting.locale || 'en-US'
     setLocale(locale, true)
     setTheme(setting.theme.name)
     setThemeColor(setting.theme.color)
@@ -159,10 +155,6 @@ export default function () {
     setNavi('flatten', flatten as never)
   }
 
-  const appMode = computed(() => {
-    return appStore.mode
-  })
-
   const locale = computed(() => {
     return appStore.setting.locale
   })
@@ -216,7 +208,6 @@ export default function () {
   })
 
   return {
-    appMode,
     locale,
     timezone,
     setting,
@@ -230,7 +221,6 @@ export default function () {
     pageTransition,
     pageLoading,
 
-    setAppMode,
     setSetting,
     setLocale,
     setTimeZone,

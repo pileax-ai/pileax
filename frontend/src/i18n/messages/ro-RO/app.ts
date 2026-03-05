@@ -16,6 +16,7 @@ export default {
     standalone: 'Independent',
     standaloneDesc: 'Servicii autonome cu stocare locală a datelor (pregătite pentru offline).'
   },
+  newBaseUrlRequired: 'Este necesară o nouă adresă URL de bază',
   restartTakeEffect: 'Aplicația va reporni pentru a avea efect!',
   unableConnect: 'Nu se poate conecta la server'
 }

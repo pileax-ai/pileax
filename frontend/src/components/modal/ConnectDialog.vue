@@ -28,11 +28,7 @@
               <q-btn :icon="item.icon"
                      :label="item.label"
                      :class="form.mode === item.value ? `bg-primary text-white` : 'bg-dark'"
-                     @click="form.mode = item.value">
-                <o-tooltip position="top" color="black">
-                  {{ item.tooltip }}
-                </o-tooltip>
-              </q-btn>
+                     @click="form.mode = item.value" />
             </template>
           </q-btn-group>
         </o-field>
@@ -42,9 +38,9 @@
           <q-input v-model="form.baseUrl"
                    class="pi-field"
                    standout dense clearable
-                   @update:modelValue="testPassed = false">
+                   @update:modelValue="testStatus = 0">
             <template #after>
-              <q-btn :icon="testPassed ? 'done' : 'circle'"
+              <q-btn :icon="testIcon"
                      :label="$t('test')"
                      class="bg-primary text-white test"
                      flat
@@ -81,7 +77,6 @@ import { useQuasar } from 'quasar'
 
 import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
 import useDialog from 'core/hooks/useDialog'
-import useSetting from 'core/hooks/useSetting'
 import useApi from 'src/hooks/useApi'
 import useCommon from 'core/hooks/useCommon'
 import { ipcProvider, ipcService } from 'src/api/ipc'
@@ -91,8 +86,9 @@ import { notifyDone, notifyWarning } from 'core/utils/control'
 
 const $q = useQuasar()
 const { dialog, onHide, onOk } = useDialog()
-const { appMode, setAppMode } = useSetting()
 const {
+  appMode,
+  setAppMode,
   apiBase,
   collabProvider,
   connected,
@@ -107,7 +103,22 @@ const form = ref({
   baseUrl: '',
   collabProvider: '',
 })
-const testPassed = ref(false)
+const testStatus = ref(0)
+
+const testIcon = computed(() => {
+  switch (testStatus.value) {
+    case -1:
+      return 'close'
+    case 1:
+      return 'done'
+    default:
+      return 'circle'
+  }
+})
+
+const testPassed = computed(() => {
+  return testStatus.value === 1
+})
 
 const modeChanged = computed(() => {
   return form.value.mode !== appMode.value
@@ -156,9 +167,8 @@ const modes = computed(() => {
 })
 
 const needTest = computed(() => {
-  return ipcProvider !== 'web'
-    && form.value.mode === 'cloud'
-    && form.value.baseUrl !== apiBase.value
+  return form.value.mode === 'cloud'
+    && baseUrlChanged.value
 })
 
 
@@ -172,16 +182,20 @@ const onTest = () => {
     name: form.value.baseUrl,
     path: '/system/health-check'
   }).then(res => {
-      testPassed.value = true
+      testStatus.value = 1
       notifyDone()
     })
     .catch(() => {
-      testPassed.value = false
+      testStatus.value = -1
       notifyWarning(t('app.unableConnect'))
     })
 }
 
 const testCloudMode = () => {
+  if (modeChanged.value && !baseUrlChanged.value) {
+    notifyWarning(t('app.newBaseUrlRequired'))
+    return false
+  }
   if (baseUrlChanged.value && !testPassed.value) {
     notifyWarning(t('app.connectTestFailed'))
     return false

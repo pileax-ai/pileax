@@ -16,6 +16,7 @@ export default {
     standalone: 'Độc lập',
     standaloneDesc: 'Các dịch vụ độc lập với bộ nhớ lưu trữ dữ liệu cục bộ (sẵn sàng sử dụng ngoại tuyến).'
   },
+  newBaseUrlRequired: 'Cần có URL cơ sở mới.',
   restartTakeEffect: 'Ứng dụng sẽ khởi động lại để có hiệu lực!',
   unableConnect: 'Không thể kết nối đến máy chủ'
 }

@@ -16,6 +16,7 @@ export default {
     standalone: '一体化',
     standaloneDesc: '应用内嵌服务，数据存储于本地（离线可用）'
   },
+  newBaseUrlRequired: '必须使用新的基础 URL',
   restartTakeEffect: '将重启应用以生效!',
   unableConnect: '无法连接到服务器'
 }

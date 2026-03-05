@@ -16,6 +16,7 @@ export default {
     standalone: '一體化',
     standaloneDesc: '應用內嵌服務，資料儲存於本機（離線可用）'
   },
+  newBaseUrlRequired: '必須使用新的基礎 URL',
   restartTakeEffect: '將重啟應用程式生效!',
   unableConnect: '無法連接到伺服器'
 }
