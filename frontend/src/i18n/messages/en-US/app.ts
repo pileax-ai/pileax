@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'Self-contained services with local data storage (offline-ready).'
   },
   newBaseUrlRequired: 'New Base URL required',
+  resetDefault: 'Reset Default',
   restartTakeEffect: 'The app will restart to take effect!',
   unableConnect: 'Unable connect to server'
 }

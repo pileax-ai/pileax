@@ -138,7 +138,7 @@ const editorReady = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
-  console.table(aiOptions.value.provider)
+  // console.table(aiOptions.value.provider)
   const extensions = [
     OStarterKit.configure(),
     OAiBlock.configure(aiOptions.value),

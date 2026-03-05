@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'Serviços autônomos com armazenamento de dados local (disponíveis para operação offline).'
   },
   newBaseUrlRequired: 'É necessário um novo URL base.',
+  resetDefault: 'Redefinir padrão',
   restartTakeEffect: 'O aplicativo será reiniciado para que as alterações entrem em vigor!',
   unableConnect: 'Não foi possível conectar ao servidor.'
 }

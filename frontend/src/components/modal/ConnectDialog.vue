@@ -20,7 +20,13 @@
 
       <div class="message row col-12 items-center q-mt-md">
         <o-field :label="$t('app.mode')" class="col-12" side v-if="ipcProvider === 'web'">
-          <o-chip :icon="mode?.icon" square>{{ mode?.label }}</o-chip>
+          <div class="row col-12 justify-between">
+            <o-chip :icon="mode?.icon" square>{{ mode?.label }}</o-chip>
+            <q-btn icon="restart_alt" :label="$t('app.resetDefault')"
+                   class="bg-accent text-readable"
+                   flat
+                   @click="onReset" />
+          </div>
         </o-field>
         <o-field :label="$t('app.mode')" class="col-12" side v-else>
           <q-btn-group flat>
@@ -83,6 +89,7 @@ import { ipcProvider, ipcService } from 'src/api/ipc'
 import { getRequest } from 'src/api/server/api'
 import { resetAccount } from 'src/app/destroy'
 import { notifyDone, notifyWarning } from 'core/utils/control'
+import { getRootDomain } from 'core/utils/url'
 
 const $q = useQuasar()
 const { dialog, onHide, onOk } = useDialog()
@@ -133,11 +140,11 @@ const baseUrlChanged = computed(() => {
 })
 
 const baseUrlHostname = computed(() => {
-  return new URL(form.value.baseUrl).hostname
+  return getRootDomain(form.value.baseUrl)
 })
 
 const collabProviderHostname = computed(() => {
-  return new URL(form.value.collabProvider).hostname
+  return getRootDomain(form.value.collabProvider)
 })
 
 const style = computed(() => {
@@ -171,10 +178,20 @@ const needTest = computed(() => {
     && baseUrlChanged.value
 })
 
-
 const onPan = (evt: any) => {
   pos.x += evt.delta.x
   pos.y += evt.delta.y
+}
+
+const onReset = () => {
+  form.value.baseUrl = window.APP_CONFIG?.API_BASE_URL
+    || process.env.API_BASE_URL
+    || apiBase.value
+    || ''
+  form.value.collabProvider = window.APP_CONFIG?.COLLAB_PROVIDER_URL
+    || process.env.COLLAB_PROVIDER_URL
+    || collabProvider.value
+    || 'ws://localhost:9611'
 }
 
 const onTest = () => {

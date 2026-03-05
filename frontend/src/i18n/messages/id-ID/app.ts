@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'Layanan mandiri dengan penyimpanan data lokal (siap offline).'
   },
   newBaseUrlRequired: 'URL Dasar Baru diperlukan',
+  resetDefault: 'Atur Ulang ke Default',
   restartTakeEffect: 'Aplikasi akan dimulai ulang agar perubahan berlaku!',
   unableConnect: 'Tidak dapat terhubung ke server'
 }

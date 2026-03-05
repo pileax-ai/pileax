@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'ローカル データ ストレージ (オフライン対応) を備えた自己完結型サービス。'
   },
   newBaseUrlRequired: '新しいベース URL が必要です',
+  resetDefault: 'デフォルトをリセット',
   restartTakeEffect: '有効にするにはアプリを再起動します。',
   unableConnect: 'サーバーに接続できません'
 }

@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'In sich geschlossene Dienste mit lokaler Datenspeicherung (offlinefähig).'
   },
   newBaseUrlRequired: 'Neue Basis-URL erforderlich',
+  resetDefault: 'Standardeinstellungen wiederherstellen',
   restartTakeEffect: 'Die App wird neu gestartet, damit die Änderungen wirksam werden!',
   unableConnect: 'Verbindung zum Server nicht möglich'
 }

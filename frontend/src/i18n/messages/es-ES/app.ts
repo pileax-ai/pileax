@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'Servicios autónomos con almacenamiento de datos local (preparados para funcionar sin conexión).'
   },
   newBaseUrlRequired: 'Se requiere una nueva URL base',
+  resetDefault: 'Restablecer valores predeterminados',
   restartTakeEffect: '¡La aplicación se reiniciará para tener efecto!',
   unableConnect: 'No se puede conectar al servidor'
 }

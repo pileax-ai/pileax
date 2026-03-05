@@ -17,6 +17,7 @@ export default {
     standaloneDesc: 'Các dịch vụ độc lập với bộ nhớ lưu trữ dữ liệu cục bộ (sẵn sàng sử dụng ngoại tuyến).'
   },
   newBaseUrlRequired: 'Cần có URL cơ sở mới.',
+  resetDefault: 'Khôi phục cài đặt mặc định',
   restartTakeEffect: 'Ứng dụng sẽ khởi động lại để có hiệu lực!',
   unableConnect: 'Không thể kết nối đến máy chủ'
 }

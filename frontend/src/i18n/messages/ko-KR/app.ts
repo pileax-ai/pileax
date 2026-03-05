@@ -17,6 +17,7 @@ export default {
     standaloneDesc: '로컬 데이터 저장소를 갖춘 독립형 서비스(오프라인 지원).'
   },
   newBaseUrlRequired: '새 기본 URL이 필요합니다.',
+  resetDefault: '기본값으로 재설정',
   restartTakeEffect: '앱이 다시 시작되어야 적용됩니다!',
   unableConnect: '서버에 연결할 수 없습니다'
 }
