@@ -21,4 +21,5 @@ Download release assets from Github and sync to R2
 ```shell
 python scripts/release_sync.py download
 python scripts/release_sync.py upload
+python scripts/release_sync.py verify -v 0.1.0
 ```

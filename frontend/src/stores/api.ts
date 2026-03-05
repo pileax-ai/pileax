@@ -51,7 +51,7 @@ export const useApiStore = defineStore('api', {
         await systemService.healthCheck()
         this.connected = true
       } catch (e) {
-        this.connected = true
+        this.connected = false
       } finally {
         healthCheckTimer = setTimeout(() => {
           this.startCheckConnectivity(interval)
