@@ -251,6 +251,10 @@ provide('scrollToBottom', scrollToBottom)
 
 <style lang="scss">
 .o-settings-dialog {
+  .q-layout-container > div > div {
+    overflow: hidden;
+  }
+
   .q-splitter__before {
     height: 100%;
   }
