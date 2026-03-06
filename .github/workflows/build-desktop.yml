@@ -60,10 +60,6 @@ jobs:
             VENV_PY=".venv/Scripts/python.exe"
           fi
 
-          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            $VENV_PY -m pip install --upgrade --only-binary=:all: --platform macos_12_0_universal2 fastapi uvicorn pydantic
-          fi
-
           $VENV_PY -m pip install uv
           $VENV_PY -m uv sync
           $VENV_PY -m uv add --dev pyinstaller
