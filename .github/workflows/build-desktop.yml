@@ -6,10 +6,10 @@ on:
       platforms:
         description: 'Choose target platforms'
         required: false
-        default: '["ubuntu-latest","macos-latest","macos-13","windows-latest"]'
+        default: '["ubuntu-latest","macos-latest","macos-13-large","windows-latest"]'
         type: choice
         options:
-          - '["ubuntu-latest","macos-latest","macos-13","windows-latest"]'
+          - '["ubuntu-latest","macos-latest","macos-13-large","windows-latest"]'
           - '["ubuntu-latest"]'
           - '["macos-latest","macos-13"]'
           - '["windows-latest"]'
@@ -59,7 +59,7 @@ jobs:
           fi
 
           TARGET_ARCH="none"
-          if [[ "${{ matrix.os }}" == "macos-13" ]]; then TARGET_ARCH="x86_64"; fi
+          if [[ "${{ matrix.os }}" == "macos-13-large" ]]; then TARGET_ARCH="x86_64"; fi
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then TARGET_ARCH="arm64"; fi
 
           $VENV_PY -m pip install uv
@@ -188,7 +188,7 @@ jobs:
           fi
 
           ARCH="x64"
-          if [[ "${{ matrix.os }}" == "macos-13" ]]; then ARCH="x64"; fi
+          if [[ "${{ matrix.os }}" == "macos-13-large" ]]; then ARCH="x64"; fi
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then ARCH="arm64"; fi
 
           cd frontend
