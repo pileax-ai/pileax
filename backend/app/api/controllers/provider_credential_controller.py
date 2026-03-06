@@ -5,6 +5,7 @@ from fastapi import HTTPException
 
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
+from app.api.models.owner import Owner
 from app.api.models.provider import Provider
 from app.api.models.provider_credential import (
     ProviderCredential,
@@ -33,6 +34,13 @@ class ProviderCredentialController(
         self.pdm_service = ProviderDefaultModelService(session, user.id, workspace.id)
         self.workspace_llm_service = WorkspaceLLMService(session, workspace)
 
+    def get(self, id: UUID) -> ProviderCredential:
+        pc = super().get(id)
+        if hasattr(pc.credential, "apiKey") and pc.credential.apiKey is not None:
+            pc.credential["apiKey"] = self.service.decrypt_api_key(pc.credential["apiKey"], self.workspace)
+
+        return pc
+
     def save(self, item_in: ProviderCredentialCreate) -> Any:
         # Check provider
         provider = item_in.provider
@@ -48,9 +56,12 @@ class ProviderCredentialController(
         else:
             LLMHelper.validate_api_key(provider, item_in.credential.api_key, item_in.credential.base_url)
 
+        # Encrypt api-key
+        credential = self.service.encrypt(item_in.credential, self.workspace)
+
         # Save provider credential
         item = item_in.model_dump(by_alias=True)
-        item["credential"] = item_in.credential.model_dump(by_alias=True)
+        item["credential"] = credential.model_dump(by_alias=True)
         item["workspaceId"] = self.workspace.id
         item_out = self.service.save(ProviderCredential(**item))
 
@@ -83,7 +94,11 @@ class ProviderCredentialController(
         if api_key and api_key != HIDDEN_VALUE:
             LLMHelper.validate_api_key(provider, api_key, item_in.credential.base_url)
 
-        return super().update(item_in)
+        # Update
+        item_in.credential.api_key = self.service.encrypt_api_key(item_in.credential.api_key, self.workspace)
+        item = item_in.model_dump(by_alias=True)
+
+        return self.service.update_by_owner(Owner(workspace=self.workspace, user_id=self.user.id), item_in.id, item)
 
     def delete(self, id: UUID) -> Any:
         provider_credential = super().get(id)

@@ -16,3 +16,7 @@ def get_root_dir(*paths: str) -> str:
 
 def get_cache_dir(*paths: str) -> str:
     return get_root_dir(app_config.CACHE_ROOT, *paths)
+
+
+def get_storage_dir(*paths: str) -> str:
+    return get_root_dir(app_config.CACHE_ROOT, "storage", *paths)
