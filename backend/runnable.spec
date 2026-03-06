@@ -1,4 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
+import os
 from PyInstaller.utils.hooks import collect_all
 
 datas = [
@@ -28,6 +29,7 @@ a = Analysis(
 
 pyz = PYZ(a.pure)
 
+target_arch = os.environ.get('TARGET_ARCH', None)
 exe = EXE(
     pyz,
     a.scripts,
@@ -37,11 +39,11 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
-    target_arch=None,
+    target_arch=target_arch,
+    upx=False,
     codesign_identity=None,
     entitlements_file=None,
 )

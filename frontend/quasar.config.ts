@@ -332,11 +332,11 @@ export default defineConfig(((ctx) => {
           target: [
             {
               target: 'dmg',
-              arch: ['arm64', 'x64'] // Apple Silicon / Intel
+              arch: [process.env.TARGET_ARCH || 'arm64'] // Apple Silicon / Intel
             },
             {
               target: 'zip',
-              arch: ['arm64', 'x64'] // Apple Silicon / Intel
+              arch: [process.env.TARGET_ARCH || 'arm64'] // Apple Silicon / Intel
             }
           ],
           artifactName: 'PileaX-${version}-${arch}.${ext}',
