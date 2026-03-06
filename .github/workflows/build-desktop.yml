@@ -6,12 +6,12 @@ on:
       platforms:
         description: 'Choose target platforms'
         required: false
-        default: '["ubuntu-latest","macos-latest","macos-13","windows-latest"]'
+        default: '["ubuntu-latest","macos-latest","macos-12","windows-latest"]'
         type: choice
         options:
-          - '["ubuntu-latest","macos-latest","macos-13","windows-latest"]'
+          - '["ubuntu-latest","macos-latest","macos-12","windows-latest"]'
           - '["ubuntu-latest"]'
-          - '["macos-latest","macos-13"]'
+          - '["macos-latest","macos-12"]'
           - '["windows-latest"]'
       version:
         description: 'Build version (e.g. v1.0.0)'
@@ -32,7 +32,7 @@ jobs:
             arch: x64
           - os: windows-latest
             arch: x64
-          - os: macos-13
+          - os: macos-12
             arch: x86_64
           - os: macos-latest
             arch: arm64
@@ -93,7 +93,7 @@ jobs:
             arch: x64
           - os: windows-latest
             arch: x64
-          - os: macos-13
+          - os: macos-12
             arch: x86_64
           - os: macos-latest
             arch: arm64
@@ -202,7 +202,7 @@ jobs:
           fi
 
           ARCH="x64"
-          if [[ "${{ matrix.os }}" == "macos-13" ]]; then ARCH="x64"; fi
+          if [[ "${{ matrix.os }}" == "macos-12" ]]; then ARCH="x64"; fi
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then ARCH="arm64"; fi
 
           cd frontend
