@@ -6,13 +6,15 @@ on:
       platforms:
         description: 'Choose target platforms'
         required: false
-        default: '["ubuntu-latest","macos-latest","macos-12","windows-latest"]'
+        default: '["ubuntu-latest","macos-latest","windows-latest"]'
         type: choice
         options:
-          - '["ubuntu-latest","macos-latest","macos-12","windows-latest"]'
+          - '["ubuntu-latest","macos-latest","windows-latest"]'
           - '["ubuntu-latest"]'
-          - '["macos-latest","macos-12"]'
+          - '["macos-latest"]'
           - '["windows-latest"]'
+          - '["ubuntu-latest","windows-latest"]'
+          - '["macos-latest","windows-latest"]'
       version:
         description: 'Build version (e.g. v1.0.0)'
         required: true
@@ -27,15 +29,7 @@ jobs:
   backend:
     strategy:
       matrix:
-        include:
-          - os: ubuntu-latest
-            arch: x64
-          - os: windows-latest
-            arch: x64
-          - os: macos-12
-            arch: x86_64
-          - os: macos-latest
-            arch: arm64
+        os: ${{ fromJSON(inputs.platforms) }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -66,9 +60,9 @@ jobs:
             VENV_PY=".venv/Scripts/python.exe"
           fi
 
-          export TARGET_ARCH="none"
-          if [[ "${{ matrix.os }}" == "macos-12" ]]; then export TARGET_ARCH="x64"; fi
-          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then export TARGET_ARCH="arm64"; fi
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            $VENV_PY -m pip install --upgrade --only-binary=:all: --platform macos_12_0_universal2 fastapi uvicorn pydantic
+          fi
 
           $VENV_PY -m pip install uv
           $VENV_PY -m uv sync
@@ -90,15 +84,7 @@ jobs:
     needs: backend
     strategy:
       matrix:
-        include:
-          - os: ubuntu-latest
-            arch: x64
-          - os: windows-latest
-            arch: x64
-          - os: macos-12
-            arch: x86_64
-          - os: macos-latest
-            arch: arm64
+        os: ${{ fromJSON(inputs.platforms) }}
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
@@ -203,13 +189,9 @@ jobs:
             chmod +x backend/dist/runnable/runnable
           fi
 
-          ARCH="x64"
-          if [[ "${{ matrix.os }}" == "macos-12" ]]; then ARCH="x64"; fi
-          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then ARCH="arm64"; fi
-
           cd frontend
           node_modules/.bin/electron-rebuild
-          TARGET_ARCH=$ARCH yarn build:electron --arch=$ARCH --publish never --verbose || exit 1
+          yarn build:electron --publish never --verbose || exit 1
           echo "Build step finished successfully"
 
       - name: Upload Electron build
