@@ -66,7 +66,12 @@ class ChatService(BaseService[Message]):
 
         # user specific model
         if item_in.model_provider:
-            provider_credential = self.pc_service.find_one({"provider": item_in.model_provider})
+            provider_credential = self.pc_service.find_one(
+                {
+                    "workspace_id": self.workspace.id,
+                    "provider": item_in.model_provider,
+                }
+            )
             if provider_credential:
                 pdm_credential = ProviderDefaultModelCredential(
                     provider=provider_credential.provider,
@@ -82,6 +87,10 @@ class ChatService(BaseService[Message]):
             raise HTTPException(
                 status_code=400, detail=f"Credential for {item_in.model_provider} has not been configured yet."
             )
+
+        # decrypt api_key
+        credential = self.pc_service.decrypt(pdm_credential.credential, self.workspace)
+        pdm_credential.credential = credential
 
         # Build history
         messages = self.find_by_conversation(item_in.conversation_id)

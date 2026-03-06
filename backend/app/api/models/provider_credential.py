@@ -35,7 +35,7 @@ class ProviderCredentialCreate(ProviderCredentialBase):
 class ProviderCredentialUpdate(ProviderCredentialBase):
     id: uuid.UUID
     name: str | None = ""
-    credential: Credential
+    credential: Credential | None = None
 
 
 class ProviderCredentialPublic(ProviderCredentialBase):

@@ -26,7 +26,7 @@ class Tenant(BaseSQLModel, BaseMixin, table=True):
     type: str = Field(
         default=TenantType.PERSONAL, max_length=32, sa_column=Column(String(32), default=TenantType.PERSONAL)
     )
-    public_key: str | None = Field(default=None, max_length=255)
+    public_key: str | None = Field(default=None, max_length=1024)
     status: int = Field(default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"default": Status.ACTIVE})
 
 

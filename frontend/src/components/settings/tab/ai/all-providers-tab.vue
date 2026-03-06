@@ -157,6 +157,7 @@ const onDelete = (credential: Indexable) => {
   }).onOk( () => {
     providerCredentialService.delete(credential.id).then(res => {
       initData()
+      getDefaultModels()
       notifyDone()
     })
   })
@@ -182,6 +183,7 @@ const onRemoveProvider = (item: Indexable) => {
   }).onOk( () => {
     providerService.delete(item.id).then(res => {
       getAddedProviders()
+      getDefaultModels()
       notifyDone()
     })
   })

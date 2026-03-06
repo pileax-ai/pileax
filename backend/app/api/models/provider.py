@@ -57,5 +57,5 @@ class ProviderInfo(BaseApiModel):
     name: str
     logo: str | None = ""
     tags: str | None = ""
-    api_key_url: str | None = ""
+    apikey_url: str | None = ""
     llm: list[LLMInfo] | None

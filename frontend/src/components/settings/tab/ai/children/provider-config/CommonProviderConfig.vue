@@ -33,7 +33,7 @@
     </o-field>
 
     <section class="row col-12 justify-center link">
-      <o-link class="text-primary" :link="data.apikey_url">
+      <o-link class="text-primary" :link="data.apikeyUrl">
         {{ $t('ai.providers.api.baseUrlGet', {name: data.name}) }}
       </o-link>
     </section>

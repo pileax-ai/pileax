@@ -30,6 +30,7 @@ dependencies = [
     "dashscope>=1.25.2",
     "pypinyin>=0.55.0",
     "redis>=7.1.0",
+    "pycryptodome>=3.23.0",
 ]
 
 [dependency-groups]
