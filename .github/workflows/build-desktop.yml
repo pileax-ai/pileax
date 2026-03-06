@@ -11,7 +11,7 @@ on:
         options:
           - '["ubuntu-latest","macos-latest","macos-13-large","windows-latest"]'
           - '["ubuntu-latest"]'
-          - '["macos-latest","macos-13"]'
+          - '["macos-latest","macos-13-large"]'
           - '["windows-latest"]'
       version:
         description: 'Build version (e.g. v1.0.0)'
