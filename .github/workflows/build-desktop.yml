@@ -66,12 +66,14 @@ jobs:
             VENV_PY=".venv/Scripts/python.exe"
           fi
 
-          TARGET_ARCH="${{ matrix.arch }}"
+          export TARGET_ARCH="none"
+          if [[ "${{ matrix.os }}" == "macos-12" ]]; then export TARGET_ARCH="x64"; fi
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then export TARGET_ARCH="arm64"; fi
 
           $VENV_PY -m pip install uv
           $VENV_PY -m uv sync
           $VENV_PY -m uv add --dev pyinstaller
-          $VENV_PY -m uv run pyinstaller --noconfirm --target-arch $TARGET_ARCH runnable.spec
+          $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
           tar -czf runnable.tar.gz -C dist runnable
 
       - name: Upload backend artifact
