@@ -1,4 +1,4 @@
-name: Release
+name: Desktop Release
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
         description: 'Release version (e.g. v1.0.0)'
         required: true
 
-run-name: Release - ${{ inputs.version || github.sha }}
+run-name: Desktop Release - ${{ inputs.version || github.sha }}
 
 jobs:
   release-artifacts:
@@ -19,12 +19,12 @@ jobs:
       # ------------------------------
       # 1. Get run ID of Build Desktop workflow
       # ------------------------------
-      - name: Get latest Build Desktop run ID
+      - name: Get latest Build Desktop Arch run ID
         id: get-run-id
         run: |
           RUN_ID=$(gh run list \
           --repo "$GITHUB_REPOSITORY" \
-          --workflow="Build Desktop" \
+          --workflow="Build Desktop Arch" \
           --status=success \
           --limit=1 \
           --json databaseId \
@@ -46,7 +46,7 @@ jobs:
       - name: Download artifacts from latest Build
         uses: dawidd6/action-download-artifact@v16
         with:
-          workflow: "Build Desktop"
+          workflow: "Build Desktop Arch"
           run_id: ${{ env.RUN_ID }}
           path: artifacts
           skip_unpack: false
