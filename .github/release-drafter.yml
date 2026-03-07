@@ -25,6 +25,7 @@ categories:
       - 'fix'
       - 'bug'
       - 'bugfix'
+      - 'patch'
   - title: '🤖 Maintenance'
     labels:
       - 'ci'
