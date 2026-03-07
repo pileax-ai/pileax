@@ -257,7 +257,9 @@ const onConfirm = () => {
 
       // Restart app to take effect
       await ipcService.setAppMode(form.value.mode as 'standalone' | 'cloud')
-      await ipcService.restart()
+      setTimeout(async () => {
+        await ipcService.restart()
+      }, 500)
     })
   } else {
     // Change base url (cloud mode)
@@ -282,7 +284,9 @@ const onConfirm = () => {
         }
 
         // Restart app to take effect
-        await ipcService.restart()
+        setTimeout(async () => {
+          await ipcService.restart()
+        }, 500)
       })
     } else {
       onOk()

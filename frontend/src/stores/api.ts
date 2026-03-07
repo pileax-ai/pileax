@@ -23,8 +23,6 @@ export const useApiStore = defineStore('api', {
     async resetServer() {
       if (ipcProvider === 'web') {
         this.setAppMode('cloud')
-        api.defaults.baseURL = this.apiBase
-        api.defaults.timeout = this.apiTimeout
       } else {
         const appMode = await ipcService.getAppMode()
         if (appMode === 'standalone') {
@@ -34,6 +32,9 @@ export const useApiStore = defineStore('api', {
         }
         this.setAppMode(appMode)
       }
+
+      api.defaults.baseURL = this.apiBase
+      api.defaults.timeout = this.apiTimeout
     },
     setAppMode(mode: string) {
       this.appMode = mode
