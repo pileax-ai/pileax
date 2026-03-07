@@ -62,6 +62,7 @@ jobs:
       # ------------------------------
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true
         with:
           tag_name: ${{ inputs.version }}
           name: ${{ inputs.version }}
@@ -74,7 +75,7 @@ jobs:
             artifacts/**/*.AppImage
             artifacts/**/*.yml
             artifacts/**/*.blockmap
-          overwrite: true
+          overwrite_files: false
           fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
