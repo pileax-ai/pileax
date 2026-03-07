@@ -1,0 +1,297 @@
+name: Build Desktop x64
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Build version (e.g. v1.0.0)'
+        required: true
+
+run-name: Build Desktop - ${{ inputs.version || github.sha }}
+
+jobs:
+
+  # ------------------------
+  # 1. Build backend per OS
+  # ------------------------
+  backend:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            arch: x86_64 # Emulated Intel build via Rosetta 2
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare env files
+        run: |
+          cp backend/.env.example backend/.env
+          cp frontend/env/.env.example frontend/env/.env
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Build backend
+        shell: bash
+        run: |
+          cd backend
+
+          # Use arch command for macOS x86_64 specifically
+          PREFIX=""
+          if [[ "${{ matrix.os }}" == "macos-latest" && "${{ matrix.arch }}" == "x86_64" ]]; then
+            PREFIX="arch -x86_64"
+          fi
+
+          # Ensure the environment and commands run under the correct architecture
+          $PREFIX python -m venv .venv
+
+          if [ -f ".venv/bin/python" ]; then
+            VENV_PY=".venv/bin/python"
+          else
+            VENV_PY=".venv/Scripts/python.exe"
+          fi
+
+          $PREFIX $VENV_PY -m pip install uv
+          $PREFIX $VENV_PY -m uv sync
+          $PREFIX $VENV_PY -m uv add --dev pyinstaller
+          $PREFIX $VENV_PY -m uv run pyinstaller --noconfirm runnable.spec
+          tar -czf runnable.tar.gz -C dist runnable
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: backend-${{ matrix.os }}-${{ matrix.arch }}
+          path: backend/runnable.tar.gz
+          include-hidden-files: true
+
+  # ------------------------
+  # 2. Build frontend Electron
+  # ------------------------
+  frontend:
+    needs: backend
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            arch: x86_64 # Emulated Intel build via Rosetta 2
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+    timeout-minutes: 45
+
+    env:
+      # Used for release
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Used for sign
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      CSC_IDENTITY_AUTO_DISCOVERY: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare env files
+        run: |
+          cp backend/.env.example backend/.env
+          cp frontend/env/.env.example frontend/env/.env
+
+      - name: Download backend artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: backend-${{ matrix.os }}-${{ matrix.arch }}
+          path: backend/.artifact
+
+      - name: Extract backend
+        shell: bash
+        run: |
+          rm -rf backend/dist/runnable
+          mkdir -p backend/dist
+          tar -xzf backend/.artifact/runnable.tar.gz -C backend/dist
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+          cache-dependency-path: frontend/yarn.lock
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          yarn install --frozen-lockfile
+
+      - name: Export frontend version
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: |
+          mkdir -p meta
+          jq -r '.version' frontend/package.json > meta/version.txt
+
+      - uses: actions/upload-artifact@v7
+        if: matrix.os == 'macos-latest'
+        with:
+          name: frontend-version
+          path: meta/version.txt
+
+      # ===============================
+      # ⭐ macOS code sign: Import Developer ID
+      # ===============================
+      - name: Import macOS signing certificate
+        if: runner.os == 'macOS'
+        env:
+          MAC_CERT_P12: ${{ secrets.MAC_CERT_P12 }}
+          MAC_CERT_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+        run: |
+          echo "$MAC_CERT_P12" | base64 --decode > certificate.p12
+
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+
+          security import certificate.p12 \
+            -k build.keychain \
+            -P "$MAC_CERT_PASSWORD" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+
+          security set-key-partition-list \
+            -S apple-tool:,apple: \
+            -s -k "" build.keychain
+
+          security find-identity -v -p codesigning
+
+          # Set Env for Electron Builder in GITHUB_ENV
+          echo "CSC_LINK=$GITHUB_WORKSPACE/certificate.p12" >> $GITHUB_ENV
+          echo "CSC_KEY_PASSWORD=$MAC_CERT_PASSWORD" >> $GITHUB_ENV
+
+      # ===============================
+      # Build Electron (Auto sign)
+      # ===============================
+      - name: Build Electron app
+        shell: bash
+        env:
+          DEBUG: electron-builder*
+        run: |
+          if [[ "$RUNNER_OS" != "Windows_NT" ]]; then
+            chmod +x backend/dist/runnable/runnable
+          fi
+
+          if [[ "${{ matrix.os }}" == "macos-latest" && "${{ matrix.arch }}" == "x86_64" ]]; then
+            export TARGET_ARCH="x64"
+          fi
+
+          cd frontend
+          yarn build:electron --publish never --verbose || exit 1
+          echo "Build step finished successfully"
+
+      - name: Upload Electron build
+        uses: actions/upload-artifact@v7
+        with:
+          name: pileax-${{ matrix.os }}
+          path: |
+            frontend/dist/electron/Packaged/*.dmg
+            frontend/dist/electron/Packaged/*.exe
+            frontend/dist/electron/Packaged/*.AppImage
+            frontend/dist/electron/Packaged/*.deb
+            frontend/dist/electron/Packaged/*.rpm
+            frontend/dist/electron/Packaged/*.blockmap
+            frontend/dist/electron/Packaged/*.zip
+            frontend/dist/electron/Packaged/latest*.yml
+          if-no-files-found: ignore
+
+      - name: Upload build status
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p status
+          echo "${{ job.status }}" > status/status.txt
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: status-${{ matrix.os }}
+          path: status/status.txt
+
+  # ------------------------
+  # 3. Notify
+  # ------------------------
+  summary:
+    name: Build Summary
+    needs: frontend
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all status artifacts
+        uses: actions/download-artifact@v8
+        with:
+          pattern: status-*
+          path: statuses
+
+      - name: Download frontend version
+        uses: actions/download-artifact@v8
+        with:
+          name: frontend-version
+          path: meta
+
+      - name: Send Feishu summary (Rich Text)
+        shell: bash
+        env:
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: |
+          set -euo pipefail
+
+          VERSION=$(cat meta/version.txt)
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          # Status
+          STATUS_LINES=""
+          for status_dir in $(ls -d statuses/* | sort); do
+            OS=$(basename "$status_dir" | sed 's/^status-//')
+            STATUS=$(cat "$status_dir/status.txt")
+
+            if [ "$STATUS" = "success" ]; then
+              ICON="✅"
+            else
+              ICON="❌"
+            fi
+
+            STATUS_LINES="${STATUS_LINES}${ICON} ${OS} : ${STATUS}"$'\n'
+          done
+
+          # Feishu JSON
+          jq -n \
+            --arg version "$VERSION" \
+            --arg run "$RUN_URL" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg status "$STATUS_LINES" \
+          '{
+            msg_type: "post",
+            content: {
+              post: {
+                zh_cn: {
+                  title: "Build Desktop [PileaX]",
+                  content: [
+                    [
+                      { "tag": "text", "text": "🚀 " },
+                      { "tag": "text", "text": "Build Desktop [PileaX]\n", "bold": true },
+                      { "tag": "text", "text": "🔖 Version: " },
+                      { "tag": "text", "text": $version, "bold": true },
+                      { "tag": "text", "text": "\n🔗 Run: " },
+                      { "tag": "a", "text": "#\($run_id)", "href": $run },
+                      { "tag": "text", "text": "\n\n\($status)" }
+                    ]
+                  ]
+                }
+              }
+            }
+          }' | curl -fSs -X POST -H "Content-Type: application/json" -d @- "$FEISHU_WEBHOOK"
