@@ -25,7 +25,6 @@ jobs:
           - os: macos-latest
             arch: arm64  # Native M1/M2 build
           - os: macos-latest
-          - os: macos-latest
             arch: x86_64 # Emulated Intel build via Rosetta 2
     runs-on: ${{ matrix.os }}
 
@@ -92,7 +91,6 @@ jobs:
             arch: x64
           - os: macos-latest
             arch: arm64  # Native M1/M2 build
-          - os: macos-latest
           - os: macos-latest
             arch: x86_64 # Emulated Intel build via Rosetta 2
     runs-on: ${{ matrix.os }}
