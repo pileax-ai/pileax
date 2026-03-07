@@ -7,12 +7,12 @@ import boto3
 import json
 import subprocess
 import sys
+import yaml
 
 from pathlib import Path
 from typing import Dict
 from dotenv import load_dotenv
 
-import yaml
 
 load_dotenv(dotenv_path=Path(__file__).parent.parent / "backend/.env")
 
@@ -214,6 +214,11 @@ def verify_assets(version: str | None = None) -> None:
 # ==============================================================================
 # YAML update
 # ==============================================================================
+class IndentDumper(yaml.SafeDumper):
+  def increase_indent(self, flow=False, indentless=False):
+    return super(IndentDumper, self).increase_indent(flow, False)
+
+
 def update_yaml_file(
   file_path: Path,
   release: Dict,
@@ -239,14 +244,17 @@ def update_yaml_file(
   if data.get("path"):
     data["path"] = prefix + Path(data["path"]).name
 
-  file_path.write_text(
+  # 4️⃣ Write back with custom dumper to preserve list indentation
+  with open(file_path, 'w', encoding='utf-8') as f:
     yaml.dump(
       data,
+      f,
+      Dumper=IndentDumper, # Use our custom dumper
       sort_keys=False,
       allow_unicode=True,
       default_flow_style=False,
+      indent=2,            # Standard 2-space indent
     )
-  )
 
   print(f"✅ Updated {file_path.name}")
 

@@ -12,11 +12,11 @@ export class SpaServer {
 
   constructor() {
     this.server = null
-    this.port = 3000
+    this.port = 9610
   }
 
   async start(): Promise<number> {
-    this.port = await getPort({ port: 3000 })
+    this.port = await getPort({ port: 9610 })
     this.server = http.createServer(this.handleRequest)
 
     return new Promise<number>((resolve, reject) => {
