@@ -205,6 +205,12 @@ jobs:
           yarn build:electron --publish never --verbose || exit 1
           echo "Build step finished successfully"
 
+      - name: Rename metadata files
+        if: matrix.os == 'macos-latest' && matrix.arch == 'x86_64'
+        shell: bash
+        run: |
+          mv frontend/dist/electron/Packaged/latest-mac.yml frontend/dist/electron/Packaged/latest-mac-x64.yml
+
       - name: Upload Electron build
         uses: actions/upload-artifact@v7
         with:
