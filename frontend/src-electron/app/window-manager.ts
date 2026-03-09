@@ -6,6 +6,10 @@ import { spaServer } from '../server/spa-server'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 
+process.on('uncaughtException', (err) => {
+  log.error('Main Process Crash Catch:', err)
+})
+
 export class WindowManager {
   private windows: Record<string, BrowserWindow>
   private static mainWindow: BrowserWindow | undefined = undefined
@@ -39,12 +43,12 @@ export class WindowManager {
   static closeMainWindow() {
     try {
       const win = WindowManager.getMainWindow()
-      if (win) {
-        if (process.platform === 'darwin') {
-          win.close()
-        } else {
-          win.hide()
-        }
+      if (win && !win.isDestroyed()) {
+        setImmediate(() => {
+          if (!win.isDestroyed()) {
+            win.close()
+          }
+        })
       }
     } catch (e) {
       log.error('❌ Close Error:', e)
@@ -54,8 +58,12 @@ export class WindowManager {
   closeWindow(id: string) {
     try {
       const win = this.windows[id]
-      if (win) {
-        win.close()
+      if (win && !win.isDestroyed()) {
+        setImmediate(() => {
+          if (!win.isDestroyed()) {
+            win.close()
+          }
+        })
       }
     } catch (e) {
       log.error('❌ Close Error:', e)
