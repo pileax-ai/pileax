@@ -3,7 +3,6 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { spaServer } from '../server/spa-server'
 
-import * as remoteMain from '@electron/remote/main/index.js'
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 
 export class WindowManager {
@@ -77,7 +76,6 @@ export class WindowManager {
         ),
       },
     })
-    remoteMain.enable(newWindow.webContents)
 
     if (process.env.DEV) {
       const newUrl = `${process.env.APP_URL}#${url}`
