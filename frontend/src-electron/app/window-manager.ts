@@ -39,7 +39,13 @@ export class WindowManager {
   static closeMainWindow() {
     try {
       const win = WindowManager.getMainWindow()
-      win?.close()
+      if (win) {
+        if (process.platform === 'darwin') {
+          win.close()
+        } else {
+          win.hide()
+        }
+      }
     } catch (e) {
       log.error('❌ Close Error:', e)
     }
@@ -48,7 +54,9 @@ export class WindowManager {
   closeWindow(id: string) {
     try {
       const win = this.windows[id]
-      win?.close()
+      if (win) {
+        win.close()
+      }
     } catch (e) {
       log.error('❌ Close Error:', e)
     }
@@ -76,7 +84,7 @@ export class WindowManager {
       titleBarStyle: 'hidden',
       trafficLightPosition: { x: 12, y: 12 },
       webPreferences: {
-        nodeIntegration: true,
+        nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,
         preload: path.resolve(
@@ -97,7 +105,9 @@ export class WindowManager {
     }
 
     newWindow.on('closed', () => {
-      delete this.windows[id]
+      if (this.windows[id]) {
+        delete this.windows[id]
+      }
     })
 
     this.windows[id] = newWindow

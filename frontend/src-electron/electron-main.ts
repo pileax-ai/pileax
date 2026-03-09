@@ -39,7 +39,7 @@ const createWindow = async () => {
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 8, y: 12 },
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
       sandbox: false,
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
