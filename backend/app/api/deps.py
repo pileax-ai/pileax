@@ -5,7 +5,6 @@ from fastapi import Depends, Header, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 
-from app.api.models.auth import TokenPayload
 from app.api.models.enums import Status
 from app.api.models.user import User
 from app.api.models.workspace import Workspace, WorkspaceDetails
@@ -49,19 +48,24 @@ def get_device_id(x_device_id: Annotated[str | None, Header()] = None) -> str:
     return x_device_id
 
 
+def parse_user_id(token: TokenDep) -> UUID:
+    payload = JWTService().decode_by_type(token, "access")
+    user_id = payload.get("sub")
+    return UUID(user_id)
+
+
 async def get_user_id(
     token: TokenDep,
     device_id: str = Depends(get_device_id),
 ) -> UUID:
-    payload = JWTService().decode(token)
-    user_id = payload.get("sub")
+    user_id = parse_user_id(token)
 
     # check token
-    cached_token = await cache.get(get_key("user", "access_token", user_id, device_id))
+    cached_token = await cache.get(get_key("user", "access_token", str(user_id), device_id))
     if token != cached_token:
         raise HTTPException(status_code=401, detail="Inactive token")
 
-    return UUID(user_id)
+    return user_id
 
 
 async def get_cache_user(session, user_id: str) -> Optional[User]:
@@ -93,24 +97,22 @@ async def get_current_user(
     token: TokenDep,
     device_id: str = Depends(get_device_id),
 ) -> User:
-    payload = JWTService().decode(token)
-    user_id = payload.get("sub")
+    user_id = parse_user_id(token)
 
     # check token
-    cached_token = await cache.get(get_key("user", "access_token", user_id, device_id))
+    cached_token = await cache.get(get_key("user", "access_token", str(user_id), device_id))
     if token != cached_token:
         raise HTTPException(status_code=401, detail="Inactive token")
 
-    return await get_cache_user(session, user_id)
+    return await get_cache_user(session, str(user_id))
 
 
 def get_workspace_id(token: TokenDep, x_workspace_id: Annotated[str | None, Header()] = None) -> UUID:
     if x_workspace_id:
         return UUID(x_workspace_id)
 
-    payload = JWTService().decode(token)
-    token_data = TokenPayload(**payload)
-    return UUID(token_data.sub)
+    user_id = parse_user_id(token)
+    return user_id
 
 
 async def get_cache_workspace(session, user_id: str, workspace_id: str) -> Optional[WorkspaceDetails]:
@@ -140,10 +142,9 @@ async def get_cache_workspace(session, user_id: str, workspace_id: str) -> Optio
 async def get_current_workspace(
     session: SessionDep, token: TokenDep, workspace_id: UUID = Depends(get_workspace_id)
 ) -> WorkspaceDetails:
-    payload = JWTService().decode(token)
-    user_id = payload.get("sub")
+    user_id = parse_user_id(token)
 
-    return await get_cache_workspace(session, user_id, str(workspace_id))
+    return await get_cache_workspace(session, str(user_id), str(workspace_id))
 
 
 CurrentUserId = Annotated[UUID, Depends(get_user_id)]

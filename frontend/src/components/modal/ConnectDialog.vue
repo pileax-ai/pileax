@@ -25,7 +25,7 @@
             <q-btn icon="restart_alt" :label="$t('app.resetDefault')"
                    class="bg-accent text-readable"
                    flat
-                   @click="onReset" />
+                   @click="onReset" v-if="false" />
           </div>
         </o-field>
         <o-field :label="$t('app.mode')" class="col-12" side v-else>
@@ -44,6 +44,7 @@
           <q-input v-model="form.baseUrl"
                    class="pi-field"
                    standout dense clearable
+                   :readonly="readonly"
                    @update:modelValue="testStatus = 0">
             <template #after>
               <q-btn :icon="testIcon"
@@ -60,6 +61,7 @@
                  v-if="form.mode !== 'standalone'">
           <q-input v-model="form.collabProvider"
                    class="pi-field"
+                   :readonly="readonly"
                    standout dense clearable>
           </q-input>
         </o-field>
@@ -121,6 +123,10 @@ const testIcon = computed(() => {
     default:
       return 'circle'
   }
+})
+
+const readonly = computed(() => {
+  return ipcProvider === 'web'
 })
 
 const testPassed = computed(() => {

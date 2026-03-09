@@ -85,6 +85,10 @@ const electronIpcAPI = {
     ipcRenderer.invoke('set-app-mode', mode),
   setTheme: async (theme: 'system' | 'light' | 'dark') =>
     ipcRenderer.invoke('set-theme', theme),
+  secureGet: async (key: any): Promise<string|null> =>
+    ipcRenderer.invoke('secure-get', key),
+  secureSet: async (key: any, value: string) =>
+    ipcRenderer.invoke('secure-set', key, value),
   showDialog: async (options: OpenDialogOptions) => {
     return dialog.showOpenDialog(options)
   },

@@ -15,6 +15,7 @@ import { WindowManager, windowManager } from './window-manager'
 import { PROTOCOL_SCHEME, VIRTUAL_HOST } from './constant'
 import { joinPath } from '../utils/path'
 import log from 'electron-log'
+import { storageManager } from 'app/src-electron/app/storage-manager'
 
 let trayManager: TrayManager
 
@@ -151,6 +152,14 @@ export class Application {
       (event, mode: 'standalone' | 'cloud') => {
         configManager.setAppMode(mode)
       })
+
+    ipcMain.handle('secure-set', (_, key: any, value: string) => {
+      return storageManager.set(key, value)
+    })
+
+    ipcMain.handle('secure-get', (_, key: any) => {
+      return storageManager.get(key)
+    })
 
     ipcMain.handle('update-tray-menu',
       async (event, options) => {

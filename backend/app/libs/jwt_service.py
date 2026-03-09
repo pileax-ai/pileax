@@ -12,18 +12,21 @@ class JWTService:
     def __init__(self):
         self.secret_key = app_config.SECRET_KEY
 
-    def issue(self, payload: dict) -> str:
-        return jwt.encode(payload, self.secret_key, algorithm=ALGORITHM)
+    def issue(self, payload: dict, token_type: str = "") -> str:
+        typ = "JWT" if token_type == "" else f"JWT+{token_type.upper()}"
+        headers = {
+            "typ": typ,
+        }
+        return jwt.encode(payload, self.secret_key, algorithm=ALGORITHM, headers=headers)
 
     def issue_access_token(self, user_id: str) -> str:
         expires_delta = timedelta(minutes=app_config.ACCESS_TOKEN_EXPIRE_MINUTES)
         expire = datetime.now(UTC) + expires_delta
         payload = {
-            "iss": "PileaX API",
             "sub": user_id,
             "exp": expire,
         }
-        return self.issue(payload)
+        return self.issue(payload, token_type="access")
 
     def issue_collab_token(self, user_id: str) -> str:
         expires_delta = timedelta(days=app_config.COLLAB_TOKEN_EXPIRE_DAYS)
@@ -32,7 +35,7 @@ class JWTService:
             "sub": user_id,
             "exp": expire,
         }
-        return self.issue(payload)
+        return self.issue(payload, token_type="collab")
 
     def issue_refresh_token(self, user_id: str) -> str:
         expires_delta = timedelta(days=app_config.REFRESH_TOKEN_EXPIRE_DAYS)
@@ -41,7 +44,7 @@ class JWTService:
             "sub": user_id,
             "exp": expire,
         }
-        return self.issue(payload)
+        return self.issue(payload, token_type="refresh")
 
     def issue_csrf_token(self, user_id: str) -> str:
         expires_delta = timedelta(minutes=app_config.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -50,7 +53,7 @@ class JWTService:
             "sub": user_id,
             "exp": expire,
         }
-        return self.issue(payload)
+        return self.issue(payload, token_type="csrf")
 
     def decode(self, token) -> dict:
         try:
@@ -73,5 +76,15 @@ class JWTService:
         except jwt.PyJWTError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Could not validate credentials",
+                detail="Could not validate credentials.",
             )
+
+    def decode_by_type(self, token: str, token_type: str = "") -> dict:
+        expected_type = "JWT" if token_type == "" else f"JWT+{token_type.upper()}"
+        header = jwt.get_unverified_header(token)
+        if header.get("typ") != expected_type:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token type mismatch.",
+            )
+        return self.decode(token)

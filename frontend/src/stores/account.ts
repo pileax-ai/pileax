@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import {CODE} from 'core/app'
-import { saveAccount } from 'src/utils/auth'
+import { saveToken } from 'src/utils/auth'
 import type { LoginParams } from 'src/api/models/account'
 import { clearUserCache, } from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
@@ -40,7 +40,7 @@ export const useAccountStore = defineStore('account', {
       }
     },
     afterLogin(result: Indexable, redirect = '/welcome') {
-      saveAccount(result)
+      saveToken(result.token)
       this.reset()
       this.account = result.user
       if (redirect) {
