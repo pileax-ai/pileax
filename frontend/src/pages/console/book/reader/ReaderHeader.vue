@@ -46,7 +46,9 @@
                    position="left" transition autohide />
       </o-hover-btn>
     </section>
-    <o-tool-bar-overlay class="col-auto" v-if="!rightDrawerShow" />
+    <o-tool-bar-overlay class="col-auto"
+                        :window-id="windowId"
+                        v-if="!rightDrawerShow" />
 
     <transition appear
                 enter-active-class="animated slideInDown"
@@ -76,7 +78,7 @@ import { nextPage, prevPage } from 'src/api/service/ebook/book'
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
-const { progress, search, clearSearch } = useBook()
+const { progress, search, windowId, clearSearch } = useBook()
 const {
   leftDrawerShow,
   rightDrawerShow,

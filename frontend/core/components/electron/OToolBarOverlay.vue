@@ -6,7 +6,7 @@
     <q-btn class="col-4" flat @click="ipcService.maximizeWindow()">
       <o-icon :name="isMaximized ? 'icon-fluent-restore' : 'icon-fluent-maximize'" />
     </q-btn>
-    <q-btn class="col-4 close" flat @click="ipcService.closeWindow()">
+    <q-btn class="col-4 close" flat @click="onCloseWindow">
       <o-icon name="icon-fluent-close" />
     </q-btn>
   </div>
@@ -17,8 +17,8 @@ import { onMounted, ref, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { ipcService } from 'src/api/ipc'
 
-defineProps({
-  link: {
+const props = defineProps({
+  windowId: {
     type: String,
     default: ''
   },
@@ -29,6 +29,14 @@ const isMaximized = ref(false)
 
 async function updateWindowState() {
   isMaximized.value = await ipcService.isWindowMaximized()
+}
+
+function onCloseWindow() {
+  if (props.windowId) {
+    ipcService.closeWindow(props.windowId)
+  } else {
+    ipcService.closeMainWindow()
+  }
 }
 
 watch(() => width.value, (newValue) => {

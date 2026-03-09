@@ -9,6 +9,9 @@ export default function () {
   const toc = computed(() => {
     return store.toc
   })
+  const windowId = computed(() => {
+    return store.windowId
+  })
   const book = computed(() => {
     return store.book
   })
@@ -50,6 +53,10 @@ export default function () {
   const search = computed(() => {
     return store.search
   })
+
+  function setWindowId(value: string) {
+    store.setWindowId(value)
+  }
 
   function setBook(value: any) {
     store.setBook(value)
@@ -123,6 +130,7 @@ export default function () {
     operation,
     readingMode,
     search,
+    windowId,
 
     setBook,
     setBookId,
@@ -136,6 +144,7 @@ export default function () {
     setAnnotationId,
     setOperation,
     setSearch,
-    clearSearch
+    clearSearch,
+    setWindowId,
   }
 }

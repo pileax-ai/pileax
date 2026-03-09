@@ -4,7 +4,8 @@ import { tauriIpc } from 'src/api/ipc/tauri'
 
 export type IpcApi = {
   hi: (message: string) => void;
-  closeWindow: () => Promise<any>;
+  closeMainWindow: () => Promise<any>;
+  closeWindow: (id: string) => Promise<any>;
   getPath: (key: string) => Promise<string>;
   getServerInfo: () => Promise<Indexable>;
   isWindowMaximized: () => Promise<boolean>;
@@ -33,6 +34,7 @@ export type IpcApi = {
 
 export const ipcServiceKeys = [
   'hi',
+  'closeMainWindow',
   'closeWindow',
   'getPath',
   'getServerInfo',

@@ -79,10 +79,6 @@ export class Application {
       logManager.startWatch(maxLines))
     ipcMain.handle("log:stop", () => logManager.stopWatch())
 
-    ipcMain.handle('open-new-window',
-      (event, id: string, url: string, titleBarHeight = 40) => {
-        windowManager.openNewWindow(id, url, titleBarHeight)
-      })
 
     ipcMain.handle('public-path',
       (event, p: string) => {
@@ -178,8 +174,12 @@ export class Application {
       }
     })
 
-    ipcMain.handle('window-close', () => {
-      WindowManager.closeWindow()
+    ipcMain.handle('window-close-main', () => {
+      WindowManager.closeMainWindow()
+    })
+
+    ipcMain.handle('window-close', (event, id: string) => {
+      windowManager.closeWindow(id)
     })
 
     ipcMain.handle('window-minimize', () => {
@@ -193,5 +193,10 @@ export class Application {
     ipcMain.handle('window-is-maximized', () => {
       return WindowManager.isWindowMaximized()
     })
+
+    ipcMain.handle('open-new-window',
+      (event, id: string, url: string, titleBarHeight = 40) => {
+        windowManager.openNewWindow(id, url, titleBarHeight)
+      })
   }
 }

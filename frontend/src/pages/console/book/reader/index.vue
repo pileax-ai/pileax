@@ -65,7 +65,7 @@ import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/boo
 import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute()
-const { store, setBook, setBookId, setWorkspaceBookId } = useBook()
+const { store, setBook, setBookId, setWindowId } = useBook()
 
 const bookRef = ref(null)
 const showShareDialog = ref(false)
@@ -74,6 +74,8 @@ const loading = ref(false)
 function prepareOpen() {
   const name = route.name
   const id: string = String(route.query.id ?? '')
+
+  setWindowId(id)
   switch (name) {
     case 'reader-book':
       openWithBook(id)
