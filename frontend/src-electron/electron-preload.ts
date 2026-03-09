@@ -36,8 +36,10 @@ const electronIpcAPI = {
   hi: (message: string) => {
     return message
   },
-  closeWindow: async () =>
-    ipcRenderer.invoke('window-close'),
+  closeMainWindow: async () =>
+    ipcRenderer.invoke('window-close-main'),
+  closeWindow: async (id: string) =>
+    ipcRenderer.invoke('window-close', id),
   getPath: async (key: string) =>
     ipcRenderer.invoke('get-path', key),
   getServerInfo: async (): Promise<Indexable> =>

@@ -4,7 +4,7 @@
       <div class="row col items-center drag-region">
         <slot></slot>
       </div>
-      <o-tool-bar-overlay class="col-auto" />
+      <o-tool-bar-overlay :window-id="windowId" class="col-auto" />
     </nav>
   </div>
 </template>
@@ -12,8 +12,8 @@
 <script setup lang="ts">
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 
-defineProps({
-  link: {
+const props = defineProps({
+  windowId: {
     type: String,
     default: ''
   },

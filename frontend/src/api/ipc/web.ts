@@ -42,6 +42,7 @@ const onUpdater = (callback: (event: string, data?: any) => void) => {
 
 window.webIpcAPI = {
   hi: mock as any,
+  closeMainWindow: mock as any,
   closeWindow: mock as any,
   getPath: mock as any,
   getServerInfo: mock as any,

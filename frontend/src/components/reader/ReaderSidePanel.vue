@@ -1,6 +1,6 @@
 <template>
   <section class="reader-side-panel">
-    <o-tool-bar v-if="rightDrawerShow" />
+    <o-tool-bar :window-id="windowId" v-if="rightDrawerShow" />
     <header class="row col-12 justify-between items-center text-readable toolbar">
       <section class="col row items-center">
         <o-menu-btn :label="tab?.label"
@@ -111,6 +111,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch } from 'vue'
+import useBook from 'src/hooks/useBook'
 import useReader from 'src/hooks/useReader'
 import ReaderSide from 'src/components/reader/ReaderSide.vue'
 import AiAgentManager from 'components/reader/agent/ai-agent-manager.vue'
@@ -129,6 +130,7 @@ const props = defineProps({
 })
 
 const { t } = useCommon()
+const { windowId } = useBook()
 const {
   currentMainService,
   mainService,

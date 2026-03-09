@@ -36,8 +36,13 @@ export class WindowManager {
     }
   }
 
-  static closeWindow() {
-    const win = BrowserWindow.getFocusedWindow()
+  static closeMainWindow() {
+    const win = WindowManager.getMainWindow()
+    win?.close()
+  }
+
+  closeWindow(id: string) {
+    const win = this.windows[id]
     win?.close()
   }
 
