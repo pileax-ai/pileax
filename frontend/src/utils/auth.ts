@@ -10,23 +10,27 @@ import { getCookieItem, getItem, getItemObject, getSessionItem, saveItem, saveIt
 import { authService } from 'src/api/service/remote/auth'
 import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
+import { ipcService } from 'src/api/ipc'
 
 // -----------------------------------------------------------------------------
 // Authentication Util
 // -----------------------------------------------------------------------------
-export const saveAccount = (account: Indexable) => {
-  account.token.exp = getJwtTokenExp(account.token.accessToken)
+export const saveToken = (token: Indexable) => {
+  const { accessToken, collabToken, refreshToken, tokenType } = token
 
-  return saveItemObject('user', account)
-}
+  // Save refreshToken in Cookie or Safe area
+  ipcService.secureSet('refreshToken', refreshToken)
 
-export const getAccount = () => {
-  return getItemObject('user') as Indexable
+  return saveItemObject('token', {
+    accessToken,
+    collabToken,
+    tokenType,
+    exp: getJwtTokenExp(accessToken)
+  })
 }
 
 export const getToken = () => {
-  const account = getAccount()
-  return account.token
+  return getItemObject('token') as Indexable
 }
 
 export const getTokenExp = () => {
@@ -35,16 +39,14 @@ export const getTokenExp = () => {
 }
 
 export const getAuthorization = () => {
-  const account = getAccount()
-  const token = account.token
-  if (!token) return ''
+  const token = getToken()
+  if (!token.accessToken) return ''
 
   return `${token.tokenType} ${token.accessToken}`
 }
 
 export const getCollabToken = () => {
-  const account = getAccount()
-  const token = account.token
+  const token = getToken()
 
   return token?.collabToken ?? ''
 }
@@ -85,8 +87,7 @@ export const getLocale = (): string => {
 // JwtToken
 // -----------------------------------------------------------------------------
 export const getJwtToken = () => {
-  const account = getAccount()
-  const token = account.token
+  const token = getToken()
   return token.accessToken || ''
 }
 
@@ -148,12 +149,8 @@ export const refreshToken = (source = 'retry'): Promise<Indexable> => {
   // console.log('refreshToken', source)
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
-      const token = res
-      token.exp = getJwtTokenExp(token.accessToken)
-      const user = getAccount()
-      user.token = token
-      saveItemObject('user', user)
-      resolve(token as Indexable)
+      saveToken(res)
+      resolve(res)
     }).catch(err => {
       reject(err)
     })

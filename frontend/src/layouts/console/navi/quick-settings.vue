@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type PropType } from 'vue'
+import { computed, onMounted, type PropType } from 'vue'
 import { packageInfo } from 'core/app'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
@@ -149,7 +149,7 @@ const {
 } = useAccount()
 const { t } = useCommon()
 const { openDialog } = useDialog()
-const { connected } = useApi()
+const { connected, startCheckConnectivity } = useApi()
 const { WorkspaceMemberRoles, getArrayItem } = useMetadata()
 const { darkMode, toggleTheme } = useSetting()
 const { nativeShortcut } = useShortcut()
@@ -265,6 +265,10 @@ const onBeforeShow = () => {
 const onSwitchWorkspace = (item: Indexable) => {
   switchWorkspace(item)
 }
+
+onMounted(() => {
+  startCheckConnectivity()
+})
 </script>
 
 <style lang="scss">

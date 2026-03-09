@@ -4,6 +4,7 @@ import { refresh } from 'core/hooks/useRouter'
 
 const mock = (args?: any) => {
   return new Promise((resolve, reject) => {
+    console.log('mock', args)
     resolve(args)
   })
 }
@@ -60,6 +61,8 @@ window.webIpcAPI = {
   getAppMode: mock as any,
   setAppMode: mock as any,
   setTheme: mock as any,
+  secureGet: mock as any,
+  secureSet: mock as any,
   showDialog: mock as any,
   updateTrayMenu: mock as any,
   updater: mock as any,

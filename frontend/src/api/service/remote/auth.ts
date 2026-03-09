@@ -4,6 +4,7 @@
  * @version 1.0
  */
 import { GET, POST, DELETE } from 'src/hooks/useRequest'
+import { ipcProvider, ipcService } from 'src/api/ipc'
 
 export class RemoteAuthService {
   private apiName = 'auth'
@@ -41,12 +42,24 @@ export class RemoteAuthService {
     })
   }
 
-  refreshToken(): Promise<any> {
-    return POST({
-      name: this.apiName,
-      path: '/refresh-token',
-      withCredentials: true
-    })
+  async refreshToken(): Promise<any> {
+    if (ipcProvider === 'web') {
+      return POST({
+        name: this.apiName,
+        path: '/refresh-token',
+        withCredentials: true
+      })
+    } else {
+      const refreshToken = await ipcService.secureGet('refreshToken')
+      return POST({
+        name: this.apiName,
+        path: '/refresh-token',
+        withCredentials: true,
+        headers: {
+          'X-Refresh-Token': refreshToken,
+        },
+      })
+    }
   }
 
 }

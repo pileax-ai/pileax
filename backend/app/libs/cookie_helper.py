@@ -2,13 +2,21 @@ from fastapi import Request, Response
 
 from app.api.models.auth import Token
 from app.configs import app_config
-from app.constants import COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_CSRF_TOKEN, COOKIE_NAME_REFRESH_TOKEN
+from app.constants import (
+    COOKIE_NAME_ACCESS_TOKEN,
+    COOKIE_NAME_CSRF_TOKEN,
+    COOKIE_NAME_REFRESH_TOKEN,
+    HEADER_NAME_REFRESH_TOKEN,
+)
 
 
 class CookieHelper:
     @staticmethod
     def get_refresh_token(request: Request) -> str | None:
-        return request.cookies.get(COOKIE_NAME_REFRESH_TOKEN)
+        refresh_token = request.cookies.get(COOKIE_NAME_REFRESH_TOKEN)
+        if refresh_token is None:
+            refresh_token = request.headers.get(HEADER_NAME_REFRESH_TOKEN)
+        return refresh_token
 
     @staticmethod
     def set_access_token(response: Response, token: str, samesite: str = "Lax"):

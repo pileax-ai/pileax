@@ -280,6 +280,7 @@ export default defineConfig(((ctx) => {
             '@electron/remote',
             'electron',
             'electron-log',
+            'electron-store',
             'electron-updater',
             'fs-extra',
             'get-port',

@@ -23,6 +23,8 @@ export type IpcApi = {
   getAppMode: () => Promise<string>;
   setAppMode: (mode: 'standalone' | 'cloud') => Promise<any>;
   setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
+  secureGet: (key: any) => Promise<string|null>;
+  secureSet: (key: any, value: string) => Promise<boolean>;
   showDialog: (options: Indexable) => Promise<any>;
   updateTrayMenu: (options: any) => Promise<any>;
   updater: (options: Indexable) => Promise<any>;
@@ -50,6 +52,8 @@ export const ipcServiceKeys = [
   'getAppMode',
   'setAppMode',
   'setTheme',
+  'secureGet',
+  'secureSet',
   'showDialog',
   'updateTrayMenu',
   'updater',

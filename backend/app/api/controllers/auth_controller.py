@@ -64,7 +64,7 @@ class AuthController:
             )
 
         # check refresh_token
-        payload = JWTService().decode(cookie_refresh_token)
+        payload = JWTService().decode_by_type(cookie_refresh_token, "refresh")
         user_id = payload.get("sub")
         cached_refresh_token = await cache.get(get_key("user", "refresh_token", user_id, self._device_id()))
         if cached_refresh_token != cookie_refresh_token:
