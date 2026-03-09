@@ -8,7 +8,7 @@ import { Application } from './app/application'
 import { server } from './server/fastapi'
 import { spaServer } from './server/spa-server'
 import { WindowManager } from './app/window-manager'
-import { configManager } from 'app/src-electron/app/config-manager'
+import { configManager } from './app/config-manager'
 
 remoteMain.initialize()
 Application.initApp()
