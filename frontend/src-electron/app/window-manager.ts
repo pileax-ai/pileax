@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron'
+import log from 'electron-log'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { spaServer } from '../server/spa-server'
@@ -36,13 +37,21 @@ export class WindowManager {
   }
 
   static closeMainWindow() {
-    const win = WindowManager.getMainWindow()
-    win?.close()
+    try {
+      const win = WindowManager.getMainWindow()
+      win?.close()
+    } catch (e) {
+      log.error('❌ Close Error:', e)
+    }
   }
 
   closeWindow(id: string) {
-    const win = this.windows[id]
-    win?.close()
+    try {
+      const win = this.windows[id]
+      win?.close()
+    } catch (e) {
+      log.error('❌ Close Error:', e)
+    }
   }
 
   static isWindowMaximized() {
