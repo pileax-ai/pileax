@@ -168,11 +168,10 @@ class ListIterator {
             return this.#f(this.#arr[newIndex])
         }
     }
-    // TODO: EBOOK(optional move)
-    next(move = true) {
+    next() {
         const newIndex = this.#index + 1
         if (this.#arr[newIndex]) {
-            if (move) this.#index = newIndex
+            this.#index = newIndex
             return this.#f(this.#arr[newIndex])
         }
         while (true) {
@@ -180,7 +179,7 @@ class ListIterator {
             if (done) break
             this.#arr.push(value)
             if (this.#arr[newIndex]) {
-                if (move) this.#index = newIndex
+                this.#index = newIndex
                 return this.#f(this.#arr[newIndex])
             }
         }
@@ -251,11 +250,10 @@ export class TTS {
         if (paused && range) this.highlight(range.cloneRange())
         return this.#speak(doc)
     }
-  // TODO: EBOOK(optional move)
-    next(paused, move = true) {
+    next(paused) {
         this.#lastMark = null
-        const [doc, range] = this.#list.next(move) ?? []
-        if (paused && range && move) this.highlight(range.cloneRange())
+        const [doc, range] = this.#list.next() ?? []
+        if (paused && range) this.highlight(range.cloneRange())
         return this.#speak(doc)
     }
     // TODO: EBOOK (highlight speak range)

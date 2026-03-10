@@ -6,8 +6,11 @@ cd frontend/src/js
 mv foliate-js foliate-js.backup
 
 ## Get latest foliate-js
-mv ../../../../foliate-js .
+cp -rf ../../../../foliate-js .
 rm -rf foliate-js/.git
+
+## Replace vendor
+cp -rf foliate/vendor ../../public/vendor
 
 ## Apply local changes
 
