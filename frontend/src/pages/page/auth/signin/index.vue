@@ -9,17 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { router } from 'src/router'
-
-import useAccount from 'src/hooks/useAccount'
+import { ref } from 'vue'
 
 import OSigninForm from 'components/app/auth/OSigninForm.vue'
 
 const showSignIn = ref(true)
-
-const { account, isLogin } = useAccount()
-
 
 function onSuccess() {
   showSignIn.value = false

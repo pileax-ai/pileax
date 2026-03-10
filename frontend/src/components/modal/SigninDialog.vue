@@ -28,7 +28,7 @@ import useDialog from 'core/hooks/useDialog'
 import useAccount from 'src/hooks/useAccount'
 
 const { dialog, onHide } = useDialog()
-const { logout } = useAccount()
+const { accountStore } = useAccount()
 const pos = reactive({ x: 0, y: 0 })
 
 const style = computed(() => {
@@ -46,7 +46,7 @@ const onPan = (evt: any) => {
 }
 
 const onOk = () => {
-  logout()
+  accountStore.logout({ signout: false })
   onHide()
 }
 </script>

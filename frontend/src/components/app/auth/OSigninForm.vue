@@ -88,10 +88,11 @@ const form = reactive({
   password: ''
 })
 
-const { t } = useCommon()
+const { t, hideDialog } = useCommon()
 const accountStore = useAccountStore()
 
 async function onSubmit () {
+  hideDialog()
   loading.value = true
   try {
     const account = await accountStore.login(form)

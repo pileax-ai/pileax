@@ -28,6 +28,10 @@ export default function () {
     })
   }
 
+  const hideDialog = () => {
+    componentStore.setDialog({})
+  }
+
   const confirm = (
     message: string,
     {
@@ -78,6 +82,7 @@ export default function () {
     confirm,
     copy,
     dialog,
+    hideDialog,
     getArrayItem,
     publicPath,
   }
