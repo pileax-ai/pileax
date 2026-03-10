@@ -3,6 +3,23 @@ https://github.com/johnfactotum/foliate-js
 
 # Versions
 
+## 0.4.2
+### pileax
+```md
+commit 4ca651d54eb62ebf2e6074fa06c60b8d0b2ff7a0 (HEAD -> pileax, github/pileax)
+Date:   Wed Mar 11 00:01:58 2026 +0800
+Changelog:
+-    Merge branch 'main' into pileax
+```
+
+### foliate-js
+```md
+commit 399248a67a8862ffb5e6463a33f9d52b317ca2eb (HEAD -> main, origin/main, origin/HEAD)
+Date:   Thu Mar 5 16:36:03 2026 +0800
+Changelog:
+-     Run `eslint --fix`
+```
+
 ## 0.0.2
 
 ### pileax
