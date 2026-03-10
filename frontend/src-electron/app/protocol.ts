@@ -1,7 +1,7 @@
 import { protocol, session } from 'electron'
+import log from 'electron-log'
 import fs from 'node:fs'
 import { lookup } from 'mime-types'
-import log from 'electron-log'
 
 import { server } from '../server/fastapi'
 

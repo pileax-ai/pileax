@@ -1,4 +1,4 @@
-import { safeStorage, session, IpcMainInvokeEvent, ipcMain } from 'electron'
+import { safeStorage } from 'electron'
 import Store from 'electron-store'
 
 interface StorageSchema {

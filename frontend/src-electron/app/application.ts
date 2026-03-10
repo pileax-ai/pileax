@@ -1,4 +1,5 @@
-import { app, ipcMain, nativeTheme } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, nativeTheme, type OpenDialogOptions } from 'electron'
+import log from 'electron-log'
 import fs from 'node:fs'
 
 import {
@@ -14,8 +15,7 @@ import { server } from '../server/fastapi'
 import { WindowManager, windowManager } from './window-manager'
 import { PROTOCOL_SCHEME, VIRTUAL_HOST } from './constant'
 import { joinPath } from '../utils/path'
-import log from 'electron-log'
-import { storageManager } from 'app/src-electron/app/storage-manager'
+import { storageManager } from './storage-manager'
 
 let trayManager: TrayManager
 
@@ -197,6 +197,14 @@ export class Application {
     ipcMain.handle('open-new-window',
       (event, id: string, url: string, titleBarHeight = 40) => {
         windowManager.openNewWindow(id, url, titleBarHeight)
+      })
+
+    ipcMain.handle('show-dialog',
+      async (event, options: OpenDialogOptions) => {
+        const win = BrowserWindow.fromWebContents(event.sender)
+        if (!win) return
+
+        return await dialog.showOpenDialog(win, options)
       })
   }
 }

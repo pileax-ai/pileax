@@ -1,14 +1,10 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, type OpenDialogOptions } from 'electron'
 import log from 'electron-log'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { spaServer } from '../server/spa-server'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
-
-process.on('uncaughtException', (err) => {
-  log.error('Main Process Crash Catch:', err)
-})
 
 export class WindowManager {
   private windows: Record<string, BrowserWindow>
@@ -119,6 +115,10 @@ export class WindowManager {
     })
 
     this.windows[id] = newWindow
+  }
+
+  async showOpenDialog(options: OpenDialogOptions) {
+
   }
 }
 

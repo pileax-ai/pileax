@@ -30,7 +30,6 @@
     "i18n-generate-zh": "node src/i18n/generate/index.js --base=zh-Hans"
   },
   "dependencies": {
-    "@electron/remote": "^2.1.2",
     "@hocuspocus/provider": "^3.4.3",
     "@mermaid-js/layout-elk": "^0.2.0",
     "@quasar/extras": "^1.16.4",

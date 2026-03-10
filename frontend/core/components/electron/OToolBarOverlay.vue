@@ -50,7 +50,7 @@ onMounted(() => {
 
 <style lang="scss">
 .o-title-bar-overlay {
-  display: none;
+  //display: none;
   width: 138px !important;
   min-height: 40px;
   .q-btn {
