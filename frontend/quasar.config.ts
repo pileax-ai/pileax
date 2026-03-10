@@ -277,7 +277,6 @@ export default defineConfig(((ctx) => {
       extendPackageJson (json) {
         if (ctx.prod) {
           const electronDeps = [
-            '@electron/remote',
             'electron',
             'electron-log',
             'electron-store',

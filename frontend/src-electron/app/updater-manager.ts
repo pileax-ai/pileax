@@ -1,8 +1,9 @@
-import { app, dialog } from 'electron'
-import updater from 'electron-updater'
+import { dialog } from 'electron'
 import log from 'electron-log'
-import { WindowManager } from './window-manager'
+import updater from 'electron-updater'
 import { AllPublishOptions, PublishConfiguration } from 'builder-util-runtime'
+
+import { WindowManager } from './window-manager'
 
 const { autoUpdater } = updater
 

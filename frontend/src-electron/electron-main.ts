@@ -3,14 +3,12 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import log from 'electron-log'
 import os from 'os'
-import * as remoteMain from '@electron/remote/main/index.js'
 import { Application } from './app/application'
 import { server } from './server/fastapi'
 import { spaServer } from './server/spa-server'
 import { WindowManager } from './app/window-manager'
 import { configManager } from './app/config-manager'
 
-remoteMain.initialize()
 Application.initApp()
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
@@ -50,7 +48,6 @@ const createWindow = async () => {
     },
   })
 
-  remoteMain.enable(mainWindow.webContents)
   mainWindow.maximize()
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)

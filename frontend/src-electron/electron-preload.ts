@@ -28,8 +28,7 @@
  * }
  */
 import { contextBridge, ipcRenderer } from 'electron'
-import type { OpenDialogOptions, SaveDialogOptions } from 'electron'
-import { dialog } from '@electron/remote'
+import type { OpenDialogOptions } from 'electron'
 
 // Electron API
 const electronIpcAPI = {
@@ -91,12 +90,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('secure-get', key),
   secureSet: async (key: any, value: string) =>
     ipcRenderer.invoke('secure-set', key, value),
-  showDialog: async (options: OpenDialogOptions) => {
-    return dialog.showOpenDialog(options)
-  },
-  showSaveDialog: async (options: SaveDialogOptions) => {
-    return dialog.showSaveDialog(options)
-  },
+  showDialog: async (options: OpenDialogOptions) =>
+    ipcRenderer.invoke('show-dialog', options),
   updateTrayMenu: async (options: any) =>
     ipcRenderer.invoke('update-tray-menu', options),
   updater: async (options: Indexable) =>

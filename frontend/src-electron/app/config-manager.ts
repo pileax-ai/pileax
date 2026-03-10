@@ -1,10 +1,11 @@
 import { app } from 'electron'
-import fs from 'fs-extra'
 import log from 'electron-log'
+import fs from 'fs-extra'
 import path from 'node:path'
-import { Application } from 'app/src-electron/app/application'
+
 import { sleep } from 'core/utils/misc'
-import { isDirectoryEmpty, isDirectoryExists } from 'app/src-electron/utils/file'
+import { Application } from './application'
+import { isDirectoryEmpty, isDirectoryExists } from '../utils/file'
 
 export interface AppConfig {
   mode?: 'standalone' | 'cloud'

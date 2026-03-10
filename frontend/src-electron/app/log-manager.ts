@@ -1,7 +1,7 @@
-import { configManager } from './config-manager'
 import fs from 'fs-extra'
 import log from 'electron-log'
-import { WindowManager } from 'app/src-electron/app/window-manager'
+import { configManager } from './config-manager'
+import { WindowManager } from './window-manager'
 
 export interface MigrateResult {
   success: boolean
@@ -25,6 +25,10 @@ export class LogManager {
     log.transports.file.resolvePathFn = () => {
       return this.logFilePath
     }
+    if (process.platform === 'win32') {
+      log.transports.console.level = false
+    }
+
     log.info('Init log: ', this.logFilePath)
   }
 
