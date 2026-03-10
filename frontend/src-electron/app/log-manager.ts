@@ -25,6 +25,10 @@ export class LogManager {
     log.transports.file.resolvePathFn = () => {
       return this.logFilePath
     }
+    if (process.platform === 'win32') {
+      log.transports.console.level = false
+    }
+
     log.info('Init log: ', this.logFilePath)
   }
 

@@ -2109,10 +2109,10 @@
   dependencies:
     undici-types "~6.21.0"
 
-"@types/node@^20.9.0":
-  version "20.19.37"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-20.19.37.tgz#b4fb4033408dd97becce63ec932c9ec57a9e2919"
-  integrity sha512-8kzdPJ3FsNsVIurqBs7oodNnCEVbni9yUEkaHbgptDACOPW04jimGagZ51E6+lXUwJjgnBw+hyko/lkFWCldqw==
+"@types/node@^22.7.7":
+  version "22.19.15"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-22.19.15.tgz#6091d99fdf7c08cb57dc8b1345d407ba9a1df576"
+  integrity sha512-F0R/h2+dsy5wJAUe3tAU6oqa2qbWY5TpNfL/RGmo1y38hiyO1w3x2jPtt76wmuaJI4DQnOBu21cNXQ2STIUUWg==
   dependencies:
     undici-types "~6.21.0"
 
@@ -4449,7 +4449,7 @@ ejs@^3.1.8:
   dependencies:
     jake "^10.8.5"
 
-electron-builder@^26.0.12:
+electron-builder@^26.8.1:
   version "26.8.1"
   resolved "https://registry.npmmirror.com/electron-builder/-/electron-builder-26.8.1.tgz#d49056b2fe5d37f0f94aa2eb0e1db38f261fc8c0"
   integrity sha512-uWhx1r74NGpCagG0ULs/P9Nqv2nsoo+7eo4fLUOB8L8MdWltq9odW/uuLXMFCDGnPafknYLZgjNX0ZIFRzOQAw==
@@ -4511,13 +4511,13 @@ electron-updater@^6.7.3:
     semver "~7.7.3"
     tiny-typed-emitter "^2.1.0"
 
-electron@^34.2.0:
-  version "34.5.8"
-  resolved "https://registry.npmmirror.com/electron/-/electron-34.5.8.tgz#e0d4782dac48f7c8fef6798ad319d1549949802f"
-  integrity sha512-vxLD65mabTzYmEVa9KceMHM0+zO+vqgrhcyNVlmTd0IGV5J7XZ8v/qElm0o4YQ4wPeq7olZkUjZkBQQEdr23/g==
+electron@^38.8.4:
+  version "38.8.4"
+  resolved "https://registry.npmmirror.com/electron/-/electron-38.8.4.tgz#276390ed571b6bea2ffa2bee3e91f94096c0596a"
+  integrity sha512-vYZ2SH2OhzkCmkbRaijtZLIEJRMnLUL2KQmcAM/7kamf4++3AKSNCBjE1epmQnYFY1M4oKjOUcS3G02ayxR5Bw==
   dependencies:
     "@electron/get" "^2.0.0"
-    "@types/node" "^20.9.0"
+    "@types/node" "^22.7.7"
     extract-zip "^2.0.1"
 
 elementtree@0.1.7:
