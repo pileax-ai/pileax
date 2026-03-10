@@ -279,10 +279,18 @@ class Ebook {
     setSelectionHandler(this.view, doc, index);
   }
   #onRelocate({ detail }) {
+    // Fixed Layout Ebook
+    const isFixedLayout = this.view?.isFixedLayout;
+    if (isFixedLayout) {
+      onRelocated(detail);
+      return;
+    }
+
+    // Other Ebooks
     const cfi = detail.cfi;
     const parts = CFI.parse(cfi);
     if (Array.isArray(parts)) {
-      console.log('Ignore non-range CFI');
+      console.log('Ignore non-range CFI', parts, cfi);
       return;
     }
     onRelocated(detail);
