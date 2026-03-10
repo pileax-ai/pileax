@@ -338,11 +338,12 @@ def cmd_upload(dry_run: bool = False) -> None:
     region_name=os.environ.get("R2_DEFAULT_REGION", "auto"),
   )
   bucket = "pileax"
+  base_path = "updater/desktop"
 
   # Upload YAML files
   yml_files = list(release_dir.glob("*.yml"))
   for yml in yml_files:
-    key = f"updater/{yml.name}"
+    key = f"{base_path}/{yml.name}"
     upload_file_to_r2(yml, bucket, key, s3_client, dry_run=dry_run)
 
   print(f"🎉  Upload {len(yml_files)} yml files finished. \n")
@@ -350,7 +351,7 @@ def cmd_upload(dry_run: bool = False) -> None:
   # Upload release files
   other_files = [f for f in release_dir.iterdir() if f.is_file() and f.suffix != ".yml"]
   for f in other_files:
-    key = f"updater/releases/{version}/{f.name}"
+    key = f"{base_path}/releases/{version}/{f.name}"
     upload_file_to_r2(f, bucket, key, s3_client, dry_run=dry_run)
 
   total = len(yml_files) + len(other_files)
