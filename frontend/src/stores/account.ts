@@ -48,9 +48,11 @@ export const useAccountStore = defineStore('account', {
       }
       return result.user
     },
-    async logout(redirect = '/auth/signin') {
+    async logout({redirect = '/auth/signin', signout = true} = {}) {
       try {
-        await authService.signout()
+        if (signout) {
+          await authService.signout()
+        }
       } finally {
         clearUserCache()
 

@@ -19,7 +19,7 @@ export const resetApi = async () => {
 export const resetAccount = async () => {
   try {
     const accountStore = useAccountStore()
-    await accountStore.logout('')
+    await accountStore.logout({ redirect: '' })
   } catch (err) {
     console.error(err)
   }
