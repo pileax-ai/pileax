@@ -67,7 +67,8 @@ export default {
       margin: 'Margen',
       pageWidth: 'Ancho de página',
       paragraphSpacing: 'Espaciado entre párrafos'
-    }
+    },
+    viewMargin: 'Ver margen'
   },
   backHome: 'Regresar a Inicio',
   backToHome: 'Volver a Inicio',

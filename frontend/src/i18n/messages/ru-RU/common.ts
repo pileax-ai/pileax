@@ -67,7 +67,8 @@ export default {
       margin: 'Допуск',
       pageWidth: 'Ширина страницы',
       paragraphSpacing: 'Межабзацный интервал'
-    }
+    },
+    viewMargin: 'Поля просмотра'
   },
   backHome: 'Вернуться на главную',
   backToHome: 'Вернуться на главную',

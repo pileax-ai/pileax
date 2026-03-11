@@ -20,6 +20,10 @@
                  align="right" arrow clickable
                  @click="emit('next', 'background')">
     </o-view-item>
+    <o-field-label :label="$t('appearances.viewMargin')"
+                   content-class="row justify-around" side>
+      <q-toggle v-model="viewMargin" />
+    </o-field-label>
   </section>
 </template>
 
@@ -36,11 +40,20 @@ const emit = defineEmits(['next'])
 
 import useSetting from 'core/hooks/useSetting'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import { computed } from 'vue'
 const { themeList, theme, setTheme } = useSetting()
-const { setReaderTheme } = useReaderSetting()
+const { settings, setReaderTheme, setSettingItem } = useReaderSetting()
+
+const viewMargin = computed({
+  get() {
+    return settings.value.viewMargin || false
+  },
+  set(value) {
+    setSettingItem('viewMargin', value)
+  }
+})
 
 function select(value: string) {
-  console.log('theme', value)
   setTheme(value)
   setReaderTheme(value)
 }

@@ -67,7 +67,8 @@ export default {
       margin: 'Batas',
       pageWidth: 'Lebar Halaman',
       paragraphSpacing: 'Jarak Antar Paragraf'
-    }
+    },
+    viewMargin: 'Lihat Margin'
   },
   backHome: 'Kembali ke Halaman Utama',
   backToHome: 'Kembali ke Beranda',

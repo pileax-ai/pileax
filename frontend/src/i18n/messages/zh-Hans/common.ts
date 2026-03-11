@@ -67,7 +67,8 @@ export default {
       margin: '边距',
       pageWidth: '页宽',
       paragraphSpacing: '段间距'
-    }
+    },
+    viewMargin: '视图边距'
   },
   backHome: '返回首页',
   backToHome: '返回首页',
