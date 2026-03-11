@@ -61,7 +61,7 @@ export default {
       serif: '衬线体',
       system: '系统'
     },
-    pageTurningMode: 'Page Turning Mode',
+    pageTurningMode: '翻页模式',
     scroll: '上下滚动',
     slide: '左右滑动'
   },

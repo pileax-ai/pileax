@@ -4,7 +4,7 @@ import { refresh } from 'core/hooks/useRouter'
 
 const mock = (args?: any) => {
   return new Promise((resolve, reject) => {
-    console.log('mock', args)
+    // console.debug('mock', args)
     resolve(args)
   })
 }

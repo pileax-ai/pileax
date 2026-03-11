@@ -20,4 +20,5 @@ export default {
   pageTurnStyle: 'slide',
   maxColumnCount: 1,
   maxInlineSize: 720,
+  viewMargin: true,
 }

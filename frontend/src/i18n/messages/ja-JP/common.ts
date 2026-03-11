@@ -67,7 +67,8 @@ export default {
       margin: 'マージン',
       pageWidth: 'ページ幅',
       paragraphSpacing: '段落間隔'
-    }
+    },
+    viewMargin: '表示余白'
   },
   backHome: 'ホームに戻る',
   backToHome: 'ホームに戻る',

@@ -67,7 +67,8 @@ export default {
       margin: 'Marjă',
       pageWidth: 'Lățimea paginii',
       paragraphSpacing: 'Spațierea paragrafelor'
-    }
+    },
+    viewMargin: 'Margine de vizualizare'
   },
   backHome: 'Întoarcerea acasă',
   backToHome: 'Înapoi la pagina principală',

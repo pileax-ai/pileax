@@ -2,11 +2,12 @@
 // --------------------------------------------------
 
 html {
-  font-size: 16px;
+  font-size: 14px;
   overflow: hidden!important;
 }
 
 body {
+  font-size: 14px !important;
   font-family: "Roboto", "-apple-system", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol !important;
   &.body--gray {
     filter: grayscale(1);

@@ -67,7 +67,8 @@ export default {
       margin: 'Margem',
       pageWidth: 'Largura da página',
       paragraphSpacing: 'Espaçamento entre parágrafos'
-    }
+    },
+    viewMargin: 'Margem de visualização'
   },
   backHome: 'Voltar para a página inicial',
   backToHome: 'Voltar para a página inicial',

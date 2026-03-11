@@ -43,7 +43,7 @@
                    class="o-toolbar-btn"
                    @click="toggleRightDrawer">
         <o-tooltip :message="rightDrawerShow ? $t('collapse') : $t('expand')"
-                   position="left" transition autohide />
+                   position="left" transition autohide v-if="false" />
       </o-hover-btn>
     </section>
     <o-tool-bar-overlay class="col-auto"

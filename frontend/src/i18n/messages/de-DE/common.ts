@@ -67,7 +67,8 @@ export default {
       margin: 'Marge',
       pageWidth: 'Seitenbreite',
       paragraphSpacing: 'Absatzabstand'
-    }
+    },
+    viewMargin: 'Ansichtsrand'
   },
   backHome: 'Zurück zur Startseite',
   backToHome: 'Zurück zur Startseite',

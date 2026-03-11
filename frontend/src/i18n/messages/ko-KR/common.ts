@@ -67,7 +67,8 @@ export default {
       margin: '여유',
       pageWidth: '페이지 너비',
       paragraphSpacing: '단락 간격'
-    }
+    },
+    viewMargin: '보기 여백'
   },
   backHome: '홈으로 돌아가기',
   backToHome: '홈으로 돌아가기',

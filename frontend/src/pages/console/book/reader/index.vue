@@ -23,7 +23,9 @@
     </nav>
 
     <!-- Reading View -->
-    <section ref="bookRef" class="foliate-view"
+    <section ref="bookRef"
+             class="foliate-view"
+             :class="{ 'margin': settings.viewMargin }"
              tabindex="-1"
              @click="onClick"
              @focus="onFocus"
@@ -59,6 +61,7 @@ import ReaderSide from 'components/reader/ReaderSide.vue'
 import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'
 import { bookAnnotationService, bookService } from 'src/api/service/remote'
 import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
@@ -66,6 +69,7 @@ import { ReadingMode } from 'src/types/reading'
 
 const route = useRoute()
 const { store, setBook, setBookId, setWindowId } = useBook()
+const { settings } = useReaderSetting()
 
 const bookRef = ref(null)
 const showShareDialog = ref(false)
@@ -208,10 +212,17 @@ onActivated(() => {
 
   .foliate-view {
     position: absolute;
-    left: 60px;
-    right: 60px;
-    top: 48px;
-    bottom: 48px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    &.margin {
+      left: 60px;
+      right: 60px;
+      top: 48px;
+      bottom: 48px;
+    }
   }
 
 }

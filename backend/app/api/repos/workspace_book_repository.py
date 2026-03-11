@@ -46,7 +46,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
             .join(
                 UserBook,
-                UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id,
+                and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
                 isouter=True,
             )
             .where(WorkspaceBook.book_id == book_id)
@@ -65,7 +65,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
             .join(
                 UserBook,
-                UserBook.book_id == WorkspaceBook.book_id and UserBook.user_id == WorkspaceBook.user_id,
+                and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
                 isouter=True,
             )
             .where(WorkspaceBook.id == id)

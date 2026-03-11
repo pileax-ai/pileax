@@ -67,7 +67,8 @@ export default {
       margin: 'Lề',
       pageWidth: 'Chiều rộng trang',
       paragraphSpacing: 'Khoảng cách đoạn văn'
-    }
+    },
+    viewMargin: 'Xem lề'
   },
   backHome: 'Trở về Trang chủ',
   backToHome: 'Trở về Trang chủ',

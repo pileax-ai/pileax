@@ -67,7 +67,8 @@ export default {
       margin: 'Margines',
       pageWidth: 'Szerokość strony',
       paragraphSpacing: 'Odstępy między akapitami'
-    }
+    },
+    viewMargin: 'Wyświetl margines'
   },
   backHome: 'Powrót do strony głównej',
   backToHome: 'Powrót do strony głównej',
