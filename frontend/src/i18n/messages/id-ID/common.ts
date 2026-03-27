@@ -62,11 +62,14 @@ export default {
     themeTips: 'Tema terang atau gelap.',
     typography: {
       _: 'Tipografi',
+      fitPage: 'Halaman yang Sesuai',
+      fitWidth: 'Lebar yang Sesuai',
       letterSpacing: 'Jarak Antar Huruf',
       lineSpacing: 'Jarak Antar Baris',
       margin: 'Batas',
       pageWidth: 'Lebar Halaman',
-      paragraphSpacing: 'Jarak Antar Paragraf'
+      paragraphSpacing: 'Jarak Antar Paragraf',
+      zoom: 'Zoom'
     },
     viewMargin: 'Lihat Margin'
   },

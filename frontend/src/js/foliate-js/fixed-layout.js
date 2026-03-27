@@ -31,7 +31,7 @@ const getViewport = (doc, viewport) => {
 
 export class FixedLayout extends HTMLElement {
     static observedAttributes = ['zoom']
-    #root = this.attachShadow({ mode: 'closed' })
+    #root = this.attachShadow({ mode: 'open' })
     #observer = new ResizeObserver(() => this.#render())
     #spreads
     #index = -1
@@ -110,17 +110,24 @@ export class FixedLayout extends HTMLElement {
         const target = side === 'left' ? left : right
         const { width, height } = this.getBoundingClientRect()
         const portrait = this.spread !== 'both' && this.spread !== 'portrait'
-            && height > width
+            && (height > width || width < 2 * 1000) // TODO: EBOOK (col width: 1000px)
         this.#portrait = portrait
         const blankWidth = left.width ?? right.width ?? 0
         const blankHeight = left.height ?? right.height ?? 0
+
+        // TODO: EBOOK
+        // In Fit Width mode, avoid introducing a horizontal scrollbar caused by the vertical scrollbar squeezing the content width.
+        const scrollbarWidth = 8
+        const pageRatio = (target.height / target.width)
+        const willScrollY = (width * pageRatio) > height
+        const adjustedWidth = willScrollY ? (width - scrollbarWidth) : width
 
         const scale = typeof this.#zoom === 'number' && !isNaN(this.#zoom)
             ? this.#zoom
             : (this.#zoom === 'fit-width'
                 ? (portrait || this.#center
-                    ? width / (target.width ?? blankWidth)
-                    : width / ((left.width ?? blankWidth) + (right.width ?? blankWidth)))
+                    ? adjustedWidth / (target.width ?? blankWidth) // TODO: EBOOK
+                    : adjustedWidth / ((left.width ?? blankWidth) + (right.width ?? blankWidth))) // TODO: EBOOK
                 : (portrait || this.#center
                     ? Math.min(
                         width / (target.width ?? blankWidth),

@@ -18,7 +18,8 @@
     <o-view-item :label="$t('appearances.background._')"
                  class="col-12 q-mt-md"
                  align="right" arrow clickable
-                 @click="emit('next', 'background')">
+                 @click="emit('next', 'background')"
+                 v-if="!fixedLayout">
     </o-view-item>
     <o-field-label :label="$t('appearances.viewMargin')"
                    content-class="row justify-around" side>
@@ -34,7 +35,11 @@ const props = defineProps({
   itemClass: {
     type: String,
     default: ''
-  }
+  },
+  fixedLayout: {
+    type: Boolean,
+    default: false
+  },
 })
 const emit = defineEmits(['next'])
 

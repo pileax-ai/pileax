@@ -62,11 +62,14 @@ export default {
     themeTips: 'Tema chiaro o scuro.',
     typography: {
       _: 'Tipografia',
+      fitPage: 'Pagina adatta',
+      fitWidth: 'Larghezza adatta',
       letterSpacing: 'Spaziatura delle lettere',
       lineSpacing: 'Interlinea',
       margin: 'Margine',
       pageWidth: 'Larghezza della pagina',
-      paragraphSpacing: 'Spaziatura dei paragrafi'
+      paragraphSpacing: 'Spaziatura dei paragrafi',
+      zoom: 'Zoom'
     },
     viewMargin: 'Visualizza margine'
   },
