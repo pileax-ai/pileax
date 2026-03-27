@@ -62,14 +62,14 @@ export default {
     themeTips: 'Light or dark theme.',
     typography: {
       _: 'Typography',
+      fitPage: 'Fit Page',
+      fitWidth: 'Fit Width',
       letterSpacing: 'Letter Spacing',
       lineSpacing: 'Line Spacing',
       margin: 'Margin',
       pageWidth: 'Page Width',
       paragraphSpacing: 'Paragraph Spacing',
-      zoom: 'Zoom',
-      fitWidth: 'Fit Width',
-      fitPage: 'Fit Page',
+      zoom: 'Zoom'
     },
     viewMargin: 'View Margin'
   },

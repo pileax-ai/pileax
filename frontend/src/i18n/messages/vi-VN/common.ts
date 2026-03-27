@@ -62,11 +62,14 @@ export default {
     themeTips: 'Chế độ sáng hoặc tối.',
     typography: {
       _: 'Kiểu chữ',
+      fitPage: 'Trang phù hợp',
+      fitWidth: 'Chiều rộng phù hợp',
       letterSpacing: 'Khoảng cách giữa các chữ',
       lineSpacing: 'Khoảng cách dòng',
       margin: 'Lề',
       pageWidth: 'Chiều rộng trang',
-      paragraphSpacing: 'Khoảng cách đoạn văn'
+      paragraphSpacing: 'Khoảng cách đoạn văn',
+      zoom: 'Phóng'
     },
     viewMargin: 'Xem lề'
   },

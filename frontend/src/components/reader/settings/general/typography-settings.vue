@@ -1,73 +1,67 @@
 <template>
   <section class="typography-settings">
-    <o-field-label :label="$t('appearances.typography.letterSpacing')"
-                   content-class="col" side>
-      <q-slider v-model="letterSpacing"
-                :min="0" :max="10" :step="1"
-                :label-value="`${letterSpacing}`"
-                label
-                label-always
-                track-size="5px"
-                @update:modelValue="onValueChanged('letterSpacing', $event)" />
-    </o-field-label>
-    <o-field-label :label="$t('appearances.typography.lineSpacing')"
-                   content-class="col" side>
-      <q-slider v-model="spacing"
-                :min="1" :max="2" :step="0.1"
-                :label-value="`${spacing}`"
-                label
-                label-always
-                track-size="5px"
-                @update:modelValue="onValueChanged('spacing', $event)" />
-    </o-field-label>
-    <o-field-label :label="$t('appearances.typography.paragraphSpacing')"
-                   content-class="col"
-                   side>
-      <q-slider v-model="paragraphSpacing"
-                :min="0" :max="2" :step="0.1"
-                :label-value="`${paragraphSpacing}`"
-                label
-                label-always
-                track-size="5px"
-                @update:modelValue="onValueChanged('paragraphSpacing', $event)" />
-    </o-field-label>
-    <o-field-label :label="$t('appearances.typography.margin')"
-                   content-class="col" side>
-      <q-slider v-model="sideMargin"
-                :min="1" :max="10" :step="1"
-                :label-value="`${sideMargin}%`"
-                label
-                label-always
-                track-size="5px"
-                @update:modelValue="onValueChanged('sideMargin', $event)" />
-    </o-field-label>
-    <o-field-label :label="$t('appearances.typography.pageWidth')"
-                   content-class="col" side>
-      <q-slider v-model="maxInlineSize"
-                :min="720" :max="1440" :step="10"
-                :label-value="`${maxInlineSize}px`"
-                label
-                label-always
-                track-size="5px"
-                @update:modelValue="onValueChanged('maxInlineSize', $event)" />
-    </o-field-label>
-    <o-field-label :label="$t('appearances.typography.zoom')"
-                   content-class="col" side v-if="false">
-      <q-slider v-model="zoom"
-                :min="0.5" :max="4" :step="0.1"
-                :label-value="`${parseInt(`${zoom * 100}`)}%`"
-                label
-                label-always
-                track-size="5px"
-                @update:modelValue="onValueChanged('zoom', $event)" />
-    </o-field-label>
-    <o-field-label :label="$t('appearances.typography.zoom')" side>
-      <q-select v-model="zoom"
-                :options="zoomOptions"
-                map-options emit-value
-                outlined dense
-                @update:modelValue="onValueChanged('zoom', $event)" />
-    </o-field-label>
+    <template v-if="fixedLayout">
+      <o-field-label :label="$t('appearances.typography.zoom')" side>
+        <q-select v-model="zoom"
+                  :options="zoomOptions"
+                  map-options emit-value
+                  outlined dense
+                  @update:modelValue="onValueChanged('zoom', $event)" />
+      </o-field-label>
+    </template>
+    <template v-else>
+      <o-field-label :label="$t('appearances.typography.letterSpacing')"
+                     content-class="col" side>
+        <q-slider v-model="letterSpacing"
+                  :min="0" :max="10" :step="1"
+                  :label-value="`${letterSpacing}`"
+                  label
+                  label-always
+                  track-size="5px"
+                  @update:modelValue="onValueChanged('letterSpacing', $event)" />
+      </o-field-label>
+      <o-field-label :label="$t('appearances.typography.lineSpacing')"
+                     content-class="col" side>
+        <q-slider v-model="spacing"
+                  :min="1" :max="2" :step="0.1"
+                  :label-value="`${spacing}`"
+                  label
+                  label-always
+                  track-size="5px"
+                  @update:modelValue="onValueChanged('spacing', $event)" />
+      </o-field-label>
+      <o-field-label :label="$t('appearances.typography.paragraphSpacing')"
+                     content-class="col"
+                     side>
+        <q-slider v-model="paragraphSpacing"
+                  :min="0" :max="2" :step="0.1"
+                  :label-value="`${paragraphSpacing}`"
+                  label
+                  label-always
+                  track-size="5px"
+                  @update:modelValue="onValueChanged('paragraphSpacing', $event)" />
+      </o-field-label>
+      <o-field-label :label="$t('appearances.typography.margin')"
+                     content-class="col" side>
+        <q-slider v-model="sideMargin"
+                  :min="1" :max="10" :step="1"
+                  :label-value="`${sideMargin}%`"
+                  label
+                  label-always
+                  track-size="5px"
+                  @update:modelValue="onValueChanged('sideMargin', $event)" />
+      </o-field-label>
+      <o-field-label :label="$t('appearances.typography.pageWidth')"
+                     content-class="col" side>
+        <q-slider v-model="maxInlineSize"
+                  :min="720" :max="1440" :step="10"
+                  :label-value="`${maxInlineSize}px`"
+                  label
+                  label-always
+                  track-size="5px"
+                  @update:modelValue="onValueChanged('maxInlineSize', $event)" />
+      </o-field-label>
+    </template>
   </section>
 </template>
 
@@ -77,9 +71,16 @@ import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
 import useCommon from 'core/hooks/useCommon'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+
+defineProps({
+  fixedLayout: {
+    type: Boolean,
+    default: false
+  },
+})
+
 const { t } = useCommon()
 const { settings, setSettingItem } = useReaderSetting()
-
 const letterSpacing = ref(0)
 const spacing = ref(0)
 const paragraphSpacing = ref(0)

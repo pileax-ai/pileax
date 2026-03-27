@@ -62,11 +62,14 @@ export default {
     themeTips: 'Светлая или темная тема оформления.',
     typography: {
       _: 'Типография',
+      fitPage: 'Подходящая страница',
+      fitWidth: 'Ширина посадки',
       letterSpacing: 'Межбуквенный интервал',
       lineSpacing: 'Межстрочный интервал',
       margin: 'Допуск',
       pageWidth: 'Ширина страницы',
-      paragraphSpacing: 'Межабзацный интервал'
+      paragraphSpacing: 'Межабзацный интервал',
+      zoom: 'Зум'
     },
     viewMargin: 'Поля просмотра'
   },

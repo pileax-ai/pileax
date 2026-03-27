@@ -62,11 +62,14 @@ export default {
     themeTips: '明るいテーマまたは暗いテーマ。',
     typography: {
       _: 'タイポグラフィ',
+      fitPage: 'フィットページ',
+      fitWidth: 'フィット幅',
       letterSpacing: '文字間隔',
       lineSpacing: '行間隔',
       margin: 'マージン',
       pageWidth: 'ページ幅',
-      paragraphSpacing: '段落間隔'
+      paragraphSpacing: '段落間隔',
+      zoom: 'ズーム'
     },
     viewMargin: '表示余白'
   },

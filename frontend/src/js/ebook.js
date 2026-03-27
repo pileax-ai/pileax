@@ -9,7 +9,7 @@ import {
   getPosition,
   getSelectionRange
 } from './utils';
-import defaultSetting from 'src/app/default-reader-setting';
+import { defaultSetting, scrollbarStyles } from 'src/app/default-reader-setting';
 import { postMessage } from 'src/api/service/ebook/book.js';
 
 // --------------------------------------------------------------------------------
@@ -80,7 +80,29 @@ const setStyle = (userStyle) => {
     justify: style.justify,
     hyphenate: style.hyphenate,
   };
-  reader.view.renderer.setStyles?.(getCSS(newStyle));
+
+  const bookCSS = `
+    .kindle-cn-kai {
+      color: red !important;
+    }
+  `;
+
+  const combinedCSS = getCSS(newStyle) + bookCSS;
+  reader.view.renderer.setStyles?.(combinedCSS);
+
+  // Renderer shadowRoot styles
+  const renderer = reader.view.renderer;
+  if (renderer && renderer.shadowRoot) {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+      ${scrollbarStyles}
+    `);
+
+    renderer.shadowRoot.adoptedStyleSheets = [
+      ...renderer.shadowRoot.adoptedStyleSheets,
+      sheet
+    ];
+  }
 };
 
 const locales = 'en'
@@ -336,6 +358,7 @@ const openBook = async (bookElement, data,
 }
 
 const getMetadata = async (data) => {
+  console.log('cc', reader.view.book.rendition)
   const cover = await reader.view.book.getCover();
   if (cover) {
     // cover is a blob, so we need to convert it to base64

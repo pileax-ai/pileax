@@ -62,11 +62,14 @@ export default {
     themeTips: 'Tema claro ou escuro.',
     typography: {
       _: 'Tipografia',
+      fitPage: 'Página de ajuste',
+      fitWidth: 'Largura de ajuste',
       letterSpacing: 'Espaçamento entre letras',
       lineSpacing: 'Espaçamento entre linhas',
       margin: 'Margem',
       pageWidth: 'Largura da página',
-      paragraphSpacing: 'Espaçamento entre parágrafos'
+      paragraphSpacing: 'Espaçamento entre parágrafos',
+      zoom: 'Zoom'
     },
     viewMargin: 'Margem de visualização'
   },

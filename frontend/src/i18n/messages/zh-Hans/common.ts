@@ -62,14 +62,14 @@ export default {
     themeTips: '浅色或深色主题',
     typography: {
       _: '排版',
+      fitPage: '适应页面',
+      fitWidth: '适应宽度',
       letterSpacing: '字间距',
       lineSpacing: '行间距',
       margin: '边距',
       pageWidth: '页宽',
       paragraphSpacing: '段间距',
-      zoom: '缩放',
-      fitWidth: '适应宽度',
-      fitPage: '适应页面',
+      zoom: '缩放'
     },
     viewMargin: '视图边距'
   },

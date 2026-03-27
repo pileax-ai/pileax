@@ -62,11 +62,14 @@ export default {
     themeTips: '밝은 테마 또는 어두운 테마.',
     typography: {
       _: '타이포그래피',
+      fitPage: '맞춤 페이지',
+      fitWidth: '맞춤 너비',
       letterSpacing: '글자 간격',
       lineSpacing: '줄 간격',
       margin: '여유',
       pageWidth: '페이지 너비',
-      paragraphSpacing: '단락 간격'
+      paragraphSpacing: '단락 간격',
+      zoom: '줌'
     },
     viewMargin: '보기 여백'
   },

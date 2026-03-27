@@ -15,6 +15,9 @@ export default function () {
   const book = computed(() => {
     return store.book
   })
+  const bookExtension = computed(() => {
+    return store.book.extension
+  })
   const bookId = computed(() => {
     return store.bookId
   })
@@ -52,6 +55,9 @@ export default function () {
   })
   const search = computed(() => {
     return store.search
+  })
+  const isFixedLayout = computed(() => {
+    return bookExtension.value && ['pdf', 'cbz'].includes(bookExtension.value)
   })
 
   function setWindowId(value: string) {
@@ -131,6 +137,7 @@ export default function () {
     readingMode,
     search,
     windowId,
+    isFixedLayout,
 
     setBook,
     setBookId,

@@ -31,7 +31,7 @@ const getViewport = (doc, viewport) => {
 
 export class FixedLayout extends HTMLElement {
     static observedAttributes = ['zoom']
-    #root = this.attachShadow({ mode: 'closed' })
+    #root = this.attachShadow({ mode: 'open' })
     #observer = new ResizeObserver(() => this.#render())
     #spreads
     #index = -1
@@ -117,7 +117,7 @@ export class FixedLayout extends HTMLElement {
 
         // TODO: EBOOK
         // In Fit Width mode, avoid introducing a horizontal scrollbar caused by the vertical scrollbar squeezing the content width.
-        const scrollbarWidth = 16
+        const scrollbarWidth = 8
         const pageRatio = (target.height / target.width)
         const willScrollY = (width * pageRatio) > height
         const adjustedWidth = willScrollY ? (width - scrollbarWidth) : width

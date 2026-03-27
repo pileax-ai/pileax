@@ -24,7 +24,7 @@
                     keep-alive>
         <template v-for="(item, index) in tabs" :key="index">
           <q-tab-panel :name="item.value" class="no-padding">
-            <component :is="item.component" @next="onNext" />
+            <component :is="item.component" :fixed-layout="isFixedLayout" @next="onNext" />
           </q-tab-panel>
         </template>
       </q-tab-panels>
@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import useBook from 'src/hooks/useBook'
 import { changeStyle } from 'src/api/service/ebook/book'
 
 import GeneralTab from './general/index.vue'
@@ -63,6 +64,7 @@ const emit = defineEmits(['close'])
 
 const { t } = useCommon()
 const { settings } = useReaderSetting()
+const { isFixedLayout } = useBook()
 const currentTab = ref('general')
 const tabs = computed(() => {
   return [

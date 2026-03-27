@@ -62,11 +62,14 @@ export default {
     themeTips: 'Temă deschisă sau întunecată.',
     typography: {
       _: 'Tipografie',
+      fitPage: 'Potrivire pagină',
+      fitWidth: 'Lățime potrivită',
       letterSpacing: 'Spațierea literelor',
       lineSpacing: 'Spațiere între linii',
       margin: 'Marjă',
       pageWidth: 'Lățimea paginii',
-      paragraphSpacing: 'Spațierea paragrafelor'
+      paragraphSpacing: 'Spațierea paragrafelor',
+      zoom: 'Zoom'
     },
     viewMargin: 'Margine de vizualizare'
   },

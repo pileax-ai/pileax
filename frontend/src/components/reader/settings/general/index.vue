@@ -1,17 +1,29 @@
 <template>
   <q-list class="general-settings">
-    <q-expansion-item :label="$t('appearance')" header-class="header" default-opened>
+    <q-expansion-item :label="$t('appearance')"
+                      header-class="header"
+                      default-opened>
       <theme-settings class="row col-12 justify-between"
+                      :fixed-layout="fixedLayout"
                       @next="emit('next', $event)" />
     </q-expansion-item>
-    <q-expansion-item :label="$t('appearances.font._')" header-class="header" default-opened>
+    <q-expansion-item :label="$t('appearances.font._')"
+                      header-class="header"
+                      default-opened
+                      v-show="!fixedLayout">
       <font-settings class="row col-12 justify-between"
                      @next="emit('next', $event)" />
     </q-expansion-item>
-    <q-expansion-item :label="$t('appearances.typography._')" header-class="header" default-opened>
-      <typography-settings class="row col-12 justify-between" />
+    <q-expansion-item :label="$t('appearances.typography._')"
+                      header-class="header"
+                      default-opened>
+      <typography-settings class="row col-12 justify-between"
+                           :fixed-layout="fixedLayout" />
     </q-expansion-item>
-    <q-expansion-item :label="$t('more')" header-class="header" default-opened>
+    <q-expansion-item :label="$t('more')"
+                      header-class="header"
+                      default-opened
+                      v-show="!fixedLayout">
       <other-settings class="row col-12 justify-between" />
     </q-expansion-item>
   </q-list>
@@ -23,6 +35,12 @@ import TypographySettings from './typography-settings.vue'
 import ThemeSettings from './theme-settings.vue'
 import OtherSettings from './other-settings.vue'
 
+defineProps({
+  fixedLayout: {
+    type: Boolean,
+    default: false
+  },
+})
 const emit = defineEmits(['next'])
 </script>
 

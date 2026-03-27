@@ -62,11 +62,14 @@ export default {
     themeTips: 'Helles oder dunkles Design.',
     typography: {
       _: 'Typografie',
+      fitPage: 'Seite „Passen“',
+      fitWidth: 'Passende Breite',
       letterSpacing: 'Buchstabenabstand',
       lineSpacing: 'Zeilenabstand',
       margin: 'Marge',
       pageWidth: 'Seitenbreite',
-      paragraphSpacing: 'Absatzabstand'
+      paragraphSpacing: 'Absatzabstand',
+      zoom: 'Zoom'
     },
     viewMargin: 'Ansichtsrand'
   },

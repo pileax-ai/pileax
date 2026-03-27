@@ -62,11 +62,14 @@ export default {
     themeTips: 'Jasny lub ciemny motyw.',
     typography: {
       _: 'Typografia',
+      fitPage: 'Dopasuj stronę',
+      fitWidth: 'Dopasuj szerokość',
       letterSpacing: 'Odstępy między literami',
       lineSpacing: 'Odstępy między wierszami',
       margin: 'Margines',
       pageWidth: 'Szerokość strony',
-      paragraphSpacing: 'Odstępy między akapitami'
+      paragraphSpacing: 'Odstępy między akapitami',
+      zoom: 'Brzęczenie'
     },
     viewMargin: 'Wyświetl margines'
   },
