@@ -21,4 +21,6 @@ export default {
   maxColumnCount: 1,
   maxInlineSize: 720,
   viewMargin: true,
+  spread: 'none',
+  zoom: 'fit-page',
 }

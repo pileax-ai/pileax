@@ -66,7 +66,10 @@ export default {
       lineSpacing: 'Line Spacing',
       margin: 'Margin',
       pageWidth: 'Page Width',
-      paragraphSpacing: 'Paragraph Spacing'
+      paragraphSpacing: 'Paragraph Spacing',
+      zoom: 'Zoom',
+      fitWidth: 'Fit Width',
+      fitPage: 'Fit Page',
     },
     viewMargin: 'View Margin'
   },

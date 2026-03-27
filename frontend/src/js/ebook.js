@@ -53,6 +53,14 @@ const setStyle = (userStyle) => {
   reader.view.renderer.setAttribute('background-color', style.backgroundColor);
   reader.view.renderer.setAttribute('max-column-count', style.maxColumnCount);
   reader.view.renderer.setAttribute('max-inline-size', `${style.maxInlineSize}px`);
+  reader.view.renderer.setAttribute('spread', style.spread); // Todo: none, both, auto
+
+  // zoom
+  const zoom = style.zoom;
+  const zoomValue = typeof zoom === 'string' ? parseFloat(zoom) : zoom;
+  const isZoomedIn = typeof zoomValue === 'number' && !Number.isNaN(zoomValue) && zoomValue > 1.0;
+  reader.view.renderer.style.justifyContent = isZoomedIn ? 'flex-start' : 'center';
+  reader.view.renderer.setAttribute('zoom', zoom); // 1.2, fit-width, fit-page
 
   turn.animated
     ? reader.view.renderer.setAttribute('animated', 'true')

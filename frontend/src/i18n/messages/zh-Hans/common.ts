@@ -66,7 +66,10 @@ export default {
       lineSpacing: '行间距',
       margin: '边距',
       pageWidth: '页宽',
-      paragraphSpacing: '段间距'
+      paragraphSpacing: '段间距',
+      zoom: '缩放',
+      fitWidth: '适应宽度',
+      fitPage: '适应页面',
     },
     viewMargin: '视图边距'
   },
