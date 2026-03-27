@@ -1,6 +1,7 @@
-# EBook
-
 # Upgrade
+
+---
+
 ## Backup
 cd frontend/src/js
 mv foliate-js foliate-js.backup
@@ -12,9 +13,11 @@ rm -rf foliate-js/.git
 ## Replace vendor
 cp -rf foliate/vendor ../../public/vendor
 
-## Apply local changes
 
 # Local Changes
+
+---
+
 ## pdf.js
 ### Line 1
 ```js
@@ -102,4 +105,21 @@ this.lastLocation = { ...progress, tocItem, pageItem, cfi, range, chapterLocatio
         this.highlight(speakRange.cloneRange())
         return this.#speak(doc, ssml => this.#getMarkElement(ssml, mark))
     }
+```
+
+## fixed-layout.js
+### Line 112
+```js
+const portrait = this.spread !== 'both' && this.spread !== 'portrait'
+            && (height > width || width < 2 * 1000) // TODO: EBOOK (col width: 1000px)
+```
+
+### Line 118
+```js
+// TODO: EBOOK
+// In Fit Width mode, avoid introducing a horizontal scrollbar caused by the vertical scrollbar squeezing the content width.
+const scrollbarWidth = 16
+const pageRatio = (target.height / target.width)
+const willScrollY = (width * pageRatio) > height
+const adjustedWidth = willScrollY ? (width - scrollbarWidth) : width
 ```

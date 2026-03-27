@@ -1,5 +1,6 @@
 # foliate-js
-https://github.com/johnfactotum/foliate-js
+- upstream: https://github.com/johnfactotum/foliate-js
+- pileax: https://github.com/pileax-ai/foliate-js
 
 # Versions
 
