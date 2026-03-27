@@ -38,7 +38,8 @@ run_foliate() {
   # update
   echo "Update foliate"
   cp -rf $foliate_src_dir $foliate_dir
-  cp -rf "$foliate_dir/vendor" "$frontend_dir/public/vendor"
+  rm -rf "$foliate_dir/.github"
+  cp -rf "$foliate_dir/vendor" "$frontend_dir/public/"
 }
 
 ## Main
