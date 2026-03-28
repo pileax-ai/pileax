@@ -39,6 +39,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('window-close-main'),
   closeWindow: async (id: string) =>
     ipcRenderer.invoke('window-close', id),
+  getOpenFile: async () =>
+    ipcRenderer.invoke('get-open-file'),
   getPath: async (key: string) =>
     ipcRenderer.invoke('get-path', key),
   getServerInfo: async (): Promise<Indexable> =>
@@ -98,6 +100,9 @@ const electronIpcAPI = {
     ipcRenderer.invoke('updater', options),
   onUpdater: (callback: (event: string, data?: any) => void) => {
     ipcRenderer.on('updater', (_, event: string, data?: any) => callback(event, data))
+  },
+  onAppEvent: (callback: (event: string, data?: any) => void) => {
+    ipcRenderer.on('app-event', (_, event: string, data?: any) => callback(event, data))
   },
 }
 

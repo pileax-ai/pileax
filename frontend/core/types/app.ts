@@ -17,4 +17,5 @@ export interface AppState {
     progress?: Indexable,
   },
   tour: Indexable,
+  openFile: Indexable,
 }

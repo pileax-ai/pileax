@@ -1,6 +1,4 @@
-import { app, BrowserWindow, shell, session } from 'electron'
-import { fileURLToPath } from 'node:url'
-import path from 'node:path'
+import { app, BrowserWindow, session } from 'electron'
 import log from 'electron-log'
 import os from 'os'
 import { Application } from './app/application'
@@ -9,84 +7,12 @@ import { spaServer } from './server/spa-server'
 import { WindowManager } from './app/window-manager'
 import { configManager } from './app/config-manager'
 
-Application.initApp()
+// App initialization
+Application.initialize()
 
-const currentDir = fileURLToPath(new URL('.', import.meta.url))
+// App life cycle
 const platform = process.platform || os.platform()
-let mainWindow = WindowManager.getMainWindow()
-
-/**
- * Main window
- */
-const createWindow = async () => {
-  if (mainWindow) {
-    log.error('Avoid create again.')
-    return
-  }
-
-  /**
-   * Initial window options
-   *
-   * @see https://www.electronjs.org/docs/latest/api/browser-window
-   */
-  mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    useContentSize: true,
-    frame: true,
-    titleBarStyle: 'hidden',
-    trafficLightPosition: { x: 8, y: 12 },
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      sandbox: false,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
-      preload: path.resolve(
-        currentDir,
-        path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER ?? '', 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION)
-      ),
-    },
-  })
-
-  mainWindow.maximize()
-  if (process.env.DEV) {
-    await mainWindow.loadURL(process.env.APP_URL)
-  } else {
-    // await mainWindow.loadURL(VIRTUAL_URL)
-    await mainWindow.loadURL(spaServer.serverInfo.url)
-  }
-
-  if (process.env.DEBUGGING) {
-    // if on DEV or Production with debug enabled
-    // mainWindow.webContents.openDevTools();
-  } else {
-    // we're on production; no access to devtools pls
-    mainWindow.webContents.on('devtools-opened', () => {
-      // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
-    })
-  }
-
-  // Open url in system browser
-  mainWindow.webContents.on('will-navigate', (event, url) => {
-    // Only process in production mode
-    if (process.env.NODE_ENV === 'production' && url.startsWith('http')) {
-      event.preventDefault()
-      shell.openExternal(url)
-    }
-  })
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('http')) {
-      shell.openExternal(url)
-    }
-    return { action: 'deny' }
-  })
-
-  mainWindow.on('closed', () => {
-    mainWindow = undefined
-  })
-
-  WindowManager.setMainWindow(mainWindow)
-}
+const mainWindow = WindowManager.getMainWindow()
 
 app.whenReady().then(async () => {
   const appMode = configManager.getAppMode()
@@ -98,7 +24,7 @@ app.whenReady().then(async () => {
     await server.start()
   }
 
-  await createWindow()
+  await WindowManager.createMainWindow()
   Application.initUpdater()
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -115,14 +41,14 @@ app.whenReady().then(async () => {
 
   Application.initTray(() => {
     if (mainWindow === undefined && BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
+      WindowManager.createMainWindow()
     }
   })
 })
 
 app.on('activate', async () => {
   if (mainWindow === undefined && BrowserWindow.getAllWindows().length === 0) {
-    await createWindow()
+    await WindowManager.createMainWindow()
   }
 })
 
@@ -136,7 +62,3 @@ app.on('window-all-closed', async () => {
     app.quit()
   }
 })
-
-// App initialization
-Application.initialize()
-

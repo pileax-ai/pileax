@@ -6,6 +6,7 @@ export type IpcApi = {
   hi: (message: string) => void;
   closeMainWindow: () => Promise<any>;
   closeWindow: (id: string) => Promise<any>;
+  getOpenFile: () => Promise<void>;
   getPath: (key: string) => Promise<string>;
   getServerInfo: () => Promise<Indexable>;
   isWindowMaximized: () => Promise<boolean>;
@@ -30,12 +31,14 @@ export type IpcApi = {
   updateTrayMenu: (options: any) => Promise<any>;
   updater: (options: Indexable) => Promise<any>;
   onUpdater: (callback: (event: string, data?: any) => void) => void;
+  onAppEvent: (callback: (event: string, data?: any) => void) => void;
 }
 
 export const ipcServiceKeys = [
   'hi',
   'closeMainWindow',
   'closeWindow',
+  'getOpenFile',
   'getPath',
   'getServerInfo',
   'isWindowMaximized',
@@ -60,6 +63,7 @@ export const ipcServiceKeys = [
   'updateTrayMenu',
   'updater',
   'onUpdater',
+  'onAppEvent',
 ] as const
 
 export type IpcService = Pick<IpcApi, typeof ipcServiceKeys[number]>;

@@ -1,11 +1,11 @@
 /**
  * App Init
  */
-
 import { useApiStore } from 'stores/api'
 import { useNaviStore } from 'stores/navi'
 import useSetting from 'core/hooks/useSetting'
 import useUpdater from 'core/hooks/useUpdater'
+import useOpenFile from 'src/hooks/useOpenFile'
 import { ipcService } from 'src/api/ipc'
 import { getDeviceId } from 'src/utils/auth'
 
@@ -47,12 +47,21 @@ const initApi = async () => {
 
 const initListeners = () => {
   const { setUpdater } = useUpdater()
+  const { setOpenFile } = useOpenFile()
 
   setUpdater('init')
   ipcService.onUpdater((event, data) => {
     setUpdater(event, data)
     if (import.meta.env.DEV) {
-      console.log('onUpdater', event, data)
+      console.debug('onUpdater', event, data)
+    }
+  })
+
+  ipcService.onAppEvent((event, data) => {
+    switch (event) {
+      case 'open-file':
+        setOpenFile(data)
+        break
     }
   })
 }

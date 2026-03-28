@@ -7,8 +7,10 @@ import {
   readImage,
   saveImageFile
 } from '../utils/file'
+import { initAppListener } from './app-listener'
 import { configManager } from './config-manager'
 import { logManager } from './log-manager'
+import { openFileManager } from './open-file-manager'
 import { TrayManager } from './tray-manager'
 import { updaterManager } from './updater-manager'
 import { server } from '../server/fastapi'
@@ -21,6 +23,9 @@ let trayManager: TrayManager
 
 export class Application {
   static initialize() {
+    Application.initApp()
+    initAppListener()
+
     Application.initPath()
     Application.initLog()
     Application.initIpcMain()
@@ -62,6 +67,10 @@ export class Application {
   }
 
   static initIpcMain() {
+    ipcMain.handle('get-open-file',
+      (event) => {
+        openFileManager.getFile()
+      })
 
     ipcMain.handle('get-path',
       (event, key: string) => {
