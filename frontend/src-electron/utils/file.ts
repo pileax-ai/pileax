@@ -2,6 +2,28 @@ import { createHash } from 'crypto'
 import path from 'node:path'
 import fs from 'node:fs'
 import fsExtra from 'fs-extra'
+import { lookup } from 'mime-types'
+
+/**
+ * Read local file, and prepare file object to construct File.
+ * @param filePath
+ */
+export const readFileObject = async (filePath: string): Promise<Indexable | null> => {
+  try {
+    const stats = await fs.promises.stat(filePath)
+    const fileName = path.basename(filePath)
+
+    return {
+      name: fileName,
+      size: stats.size,
+      lastModified: stats.mtimeMs,
+      type: lookup(filePath) || 'application/octet-stream',
+      content: await fs.promises.readFile(filePath)
+    }
+  } catch (e) {
+    return null
+  }
+}
 
 /**
  * Read local file

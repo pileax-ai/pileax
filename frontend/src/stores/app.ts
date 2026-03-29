@@ -19,6 +19,7 @@ export const useAppStore = defineStore('app', {
     navi: defaultAppState.navi,
     updater: {} as Indexable,
     tour: {} as Indexable,
+    openFile: {} as Indexable,
   }),
   getters: {
     getSetting: (state) => state.setting,
@@ -87,7 +88,13 @@ export const useAppStore = defineStore('app', {
     },
     closeTour(name: string) {
       this.tour[name] = true
-    }
+    },
+    setOpenFile(value: Indexable) {
+      this.openFile = value
+    },
+    resetOpenFile() {
+      this.openFile = {}
+    },
   },
   persist: {
     key: `${CODE}.app`

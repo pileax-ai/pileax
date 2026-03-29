@@ -1,14 +1,16 @@
-import { onUnmounted, watch } from 'vue'
+import { watch } from 'vue'
 import useAccount from 'src/hooks/useAccount'
 import useAi from 'src/hooks/useAi'
 import useNote from 'src/hooks/useNote'
 import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
 import { CollabEvent } from 'src/types/collab'
+import useOpenFile from 'src/hooks/useOpenFile'
 
 export default function () {
   const { workspace, initWorkspace } = useAccount()
   const { initAiSettings, checkAiSettings } = useAi()
   const { initNoteData, refreshNote, deleteNote } = useNote()
+  const { initOpenFile } = useOpenFile()
   const { initCollab, resetCollab, subscribeCollabEvent } = useWorkspaceCollab()
 
   function initCheck() {
@@ -26,6 +28,7 @@ export default function () {
       initCheck()
       initNoteData()
       initWorkspaceCollab()
+      initOpenFile()
     }
   }
 
@@ -73,6 +76,7 @@ export default function () {
   })
 
   return {
-    initWorkspaceData
+    initWorkspaceData,
+    initOpenFile,
   }
 }

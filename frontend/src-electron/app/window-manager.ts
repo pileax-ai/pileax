@@ -1,4 +1,4 @@
-import { BrowserWindow, type OpenDialogOptions } from 'electron'
+import { BrowserWindow, shell } from 'electron'
 import log from 'electron-log'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -14,12 +14,103 @@ export class WindowManager {
     this.windows = {}
   }
 
-  static setMainWindow(win: BrowserWindow) {
+  // ----------------------------------------------------------------------
+  // Main Window
+  // ----------------------------------------------------------------------
+  static async createMainWindow() {
+    if (WindowManager.mainWindow) {
+      log.error('Avoid create again.')
+      return
+    }
+
+    /**
+     * Initial window options
+     *
+     * @see https://www.electronjs.org/docs/latest/api/browser-window
+     */
+    const win = new BrowserWindow({
+      width: 1200,
+      height: 800,
+      useContentSize: true,
+      frame: true,
+      titleBarStyle: 'hidden',
+      trafficLightPosition: { x: 8, y: 12 },
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true,
+        sandbox: false,
+        // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
+        preload: path.resolve(
+          currentDir,
+          path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER ?? '', 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION)
+        ),
+      },
+    })
+
+    win.maximize()
+    if (process.env.DEV) {
+      await win.loadURL(process.env.APP_URL)
+    } else {
+      // await mainWindow.loadURL(VIRTUAL_URL)
+      await win.loadURL(spaServer.serverInfo.url)
+    }
+
+    if (process.env.DEBUGGING) {
+      // if on DEV or Production with debug enabled
+      // mainWindow.webContents.openDevTools();
+    } else {
+      // we're on production; no access to devtools pls
+      win.webContents.on('devtools-opened', () => {
+        // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
+      })
+    }
+
+    // Open url in system browser
+    win.webContents.on('will-navigate', (event, url) => {
+      // Only process in production mode
+      if (process.env.NODE_ENV === 'production' && url.startsWith('http')) {
+        event.preventDefault()
+        shell.openExternal(url)
+      }
+    })
+    win.webContents.setWindowOpenHandler(({ url }) => {
+      if (url.startsWith('http')) {
+        shell.openExternal(url)
+      }
+      return { action: 'deny' }
+    })
+
+    win.on('closed', () => {
+      WindowManager.setMainWindow(undefined)
+    })
+
+    WindowManager.setMainWindow(win)
+  }
+
+  static setMainWindow(win?: BrowserWindow) {
     this.mainWindow = win
   }
 
   static getMainWindow() {
     return this.mainWindow
+  }
+
+  // ----------------------------------------------------------------------
+  // Window Events
+  // ----------------------------------------------------------------------
+  static closeMainWindow() {
+    try {
+      const win = WindowManager.getMainWindow()
+      if (win && !win.isDestroyed()) {
+        setImmediate(() => {
+          if (!win.isDestroyed()) {
+            win.close()
+          }
+        })
+      }
+    } catch (e) {
+      log.error('❌ Close Error:', e)
+    }
   }
 
   static minimizeWindow() {
@@ -36,41 +127,14 @@ export class WindowManager {
     }
   }
 
-  static closeMainWindow() {
-    try {
-      const win = WindowManager.getMainWindow()
-      if (win && !win.isDestroyed()) {
-        setImmediate(() => {
-          if (!win.isDestroyed()) {
-            win.close()
-          }
-        })
-      }
-    } catch (e) {
-      log.error('❌ Close Error:', e)
-    }
-  }
-
-  closeWindow(id: string) {
-    try {
-      const win = this.windows[id]
-      if (win && !win.isDestroyed()) {
-        setImmediate(() => {
-          if (!win.isDestroyed()) {
-            win.close()
-          }
-        })
-      }
-    } catch (e) {
-      log.error('❌ Close Error:', e)
-    }
-  }
-
   static isWindowMaximized() {
     const win = BrowserWindow.getFocusedWindow()
     return win?.isMaximized() ?? false
   }
 
+  // ----------------------------------------------------------------------
+  // New Window
+  // ----------------------------------------------------------------------
   // Open new window with id
   async openNewWindow (id: string, url: string, titleBarHeight = 40) {
     // Focus window if exists.
@@ -117,9 +181,21 @@ export class WindowManager {
     this.windows[id] = newWindow
   }
 
-  async showOpenDialog(options: OpenDialogOptions) {
-
+  closeWindow(id: string) {
+    try {
+      const win = this.windows[id]
+      if (win && !win.isDestroyed()) {
+        setImmediate(() => {
+          if (!win.isDestroyed()) {
+            win.close()
+          }
+        })
+      }
+    } catch (e) {
+      log.error('❌ Close Error:', e)
+    }
   }
+
 }
 
 export const windowManager = new WindowManager()

@@ -327,6 +327,20 @@ export default defineConfig(((ctx) => {
           },
         ],
 
+        // File associations
+        fileAssociations: [
+          {
+            ext: ['epub', 'mobi', 'azw3', 'cbz', 'fb2', 'fbz'],
+            name: 'EBook',
+            role: 'Viewer'
+          },
+          {
+            ext: ['pdf'],
+            name: 'PDF',
+            role: 'Viewer'
+          }
+        ],
+
         mac: {
           ...macSign,
           target: [

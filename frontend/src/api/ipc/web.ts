@@ -40,10 +40,15 @@ const onUpdater = (callback: (event: string, data?: any) => void) => {
 
 }
 
+const onAppEvent = (callback: (event: string, data?: any) => void) => {
+
+}
+
 window.webIpcAPI = {
   hi: mock as any,
   closeMainWindow: mock as any,
   closeWindow: mock as any,
+  getOpenFile: mock as any,
   getPath: mock as any,
   getServerInfo: mock as any,
   isWindowMaximized: mock as any,
@@ -68,6 +73,7 @@ window.webIpcAPI = {
   updateTrayMenu: mock as any,
   updater: mock as any,
   onUpdater: onUpdater as any,
+  onAppEvent: onAppEvent as any,
 }
 
 export const createWebIpc = (): IpcService => {
