@@ -16,5 +16,6 @@ export const defaultAppState: AppState = {
     miniState: false,
   },
   updater: {},
-  tour: {}
+  tour: {},
+  openFile: {},
 }
