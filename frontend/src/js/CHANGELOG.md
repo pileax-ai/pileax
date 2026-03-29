@@ -14,6 +14,15 @@ const pdfjsPath = path => { // TODO: EBOOK
 ## view.js
 ### Line 328, in #onRelocate
 ```js
+if (reason === 'page' || reason === 'snap') { // TODO: EBOOK (Reset scroll)
+  if (this.renderer) {
+    this.renderer.scrollTop = 0;
+    this.renderer.scrollLeft = 0;
+  }
+}
+```
+
+```js
 const chapterLocation = { // TODO: EBOOK
   current: this.renderer.page,
   total: this.renderer.pages - 2
