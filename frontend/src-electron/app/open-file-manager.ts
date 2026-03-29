@@ -35,9 +35,13 @@ export class OpenFileManager {
       if (mainWindow.webContents.isLoading()) {
         this.pendingFilePath = filePath
       } else {
+        if (filePath.endsWith('.js')) {
+          return
+        }
+        const file = await readFileObject(filePath)
         this.sendAppEvent('open-file', {
           path: filePath,
-          file: await readFileObject(filePath),
+          file: file,
           source: source
         })
       }

@@ -34,14 +34,22 @@ export const uploadBookWaiters = new Map()
 export const bookMimeTypes = {
   'application/epub+zip': 'epub',
   'application/pdf': 'pdf',
+
+  // Kindle
   'application/x-mobipocket-ebook': 'mobi',
   'application/x-azw3-ebook': 'azw3',
   'application/vnd.amazon.ebook': 'azw3', // AZW3/KF8
-  'application/x-fictionbook+xml': 'fb2',
-  'application/x-cbr': 'cbz',
+  'application/vnd.amazon.mobi8': 'azw3',
+
+  // Comic
+  'application/x-cbz': 'cbz',
   'application/vnd.comicbook+zip': 'cbz',
+
+  // FictionBook
+  'application/x-fictionbook+xml': 'fb2',
+  'application/x-zip-compressed-fb2': 'fbz',
 } as Indexable
-export const bookExtensions = ['epub', 'mobi', 'azw3', 'fb2', 'cbz']
+export const bookExtensions = ['epub', 'mobi', 'azw3', 'cbz', 'fb2', 'fbz']
 
 // ---------------------------------------------------------
 // From Ebook Render

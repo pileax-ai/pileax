@@ -330,7 +330,7 @@ export default defineConfig(((ctx) => {
         // File associations
         fileAssociations: [
           {
-            ext: ['epub', 'mobi', 'azw3'],
+            ext: ['epub', 'mobi', 'azw3', 'cbz', 'fb2', 'fbz'],
             name: 'EBook',
             role: 'Viewer'
           },
