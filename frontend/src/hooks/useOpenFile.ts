@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { useAppStore } from 'stores/app'
 import { useReaderStore } from 'stores/reader'
 import { ipcService } from 'src/api/ipc'
-import { uploadBook } from 'src/api/service/ebook/book'
 import { router } from 'src/router'
 
 export default function () {
@@ -14,10 +13,11 @@ export default function () {
     return appStore.openFile
   })
 
-  function setOpenFile(value: Indexable, persist = true) {
+  async function setOpenFile(value: Indexable, persist = true) {
     // Save book
     const fileData = value.file
     if (fileData) {
+      const { uploadBook } = await import('src/api/service/ebook/book')
       const file = new File([fileData.content], fileData.name, {
         type: fileData.type,
         lastModified: fileData.lastModified
