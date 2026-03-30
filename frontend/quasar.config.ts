@@ -112,7 +112,13 @@ export default defineConfig(((ctx) => {
           // assetsInclude: ['**/*.mjs']
         }
       }),
-      // viteVuePluginOptions: {},
+      viteVuePluginOptions: {
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag === 'webview'
+          }
+        }
+      },
       viteConfigHandlers: [
         (config: UserConfig) => {
           if (!config.server) config.server = {}

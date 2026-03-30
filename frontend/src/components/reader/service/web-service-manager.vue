@@ -102,6 +102,23 @@ const services = computed(() => {
       url: "https://www.bing.com/search?q={word}",
     },
     {
+      label: "Wikipedia",
+      value: "wikipedia",
+      icon: "icon-wikipedia",
+      type: "service",
+      web: true,
+      url: "https://{LANG}.wikipedia.org/w/index.php?search={word}",
+    },
+    {
+      label: "百度百科",
+      value: "baike",
+      icon: "icon-baidu-color",
+      type: "service",
+      web: true,
+      url: "https://wapbaike.baidu.com/item/{word}",
+      // url: "https://baike.baidu.com/search/word?word={word}",
+    },
+    {
       label: "汉典",
       value: "zdic",
       icon: "png-zdict",
