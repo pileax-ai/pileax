@@ -8,10 +8,15 @@
       </q-responsive>
 
       <div class="absolute-right more">
-        <q-btn icon="more_horiz" flat v-if="!add">
+        <q-btn icon="more_horiz" flat v-if="source !== 'book-add'">
           <book-context-menu :data="data"
                              @edit="onEdit"
-                             @close="onClose" />
+                             @close="onClose"
+                             v-if="source === 'book-list'" />
+          <book-collection-context-menu :data="data"
+                                        @edit="onEdit"
+                                        @close="onClose"
+                                        v-else-if="source === 'book-collection-list'" />
         </q-btn>
       </div>
     </q-card>
@@ -82,6 +87,7 @@ import { onMounted, ref } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 import BookContextMenu from 'pages/console/book/book/BookContextMenu.vue'
+import BookCollectionContextMenu from 'pages/console/book/collection/BookCollectionContextMenu.vue'
 import useReading from 'src/hooks/useReading'
 import { ipcProvider, ipcService } from 'src/api/ipc'
 
@@ -95,6 +101,10 @@ const props = defineProps({
   add: {
     type: Boolean,
     default: false
+  },
+  source: {
+    type: String,
+    default: 'book-list'
   },
 })
 const emit = defineEmits(['add', 'close', 'edit'])
@@ -116,11 +126,11 @@ function init() {
 }
 
 function onOpenPath() {
-  console.log('book', props.data.path)
   ipcService.openPath(props.data.path)
 }
 
 onMounted(() => {
+  console.log('book', props.data)
   init()
 })
 

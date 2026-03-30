@@ -95,6 +95,7 @@
 
         <template #side-panel>
           <book-details :data="data"
+                        source="book-collection-list"
                         @close="onClose"
                         @edit="onEditBook"
                         v-if="view==='details'" />
@@ -112,7 +113,7 @@ import { onActivated, ref, watch } from 'vue'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import BookGridItem from '../book/BookGridItem.vue'
 import BookListItem from '../book/BookListItem.vue'
-import BookDetails from './BookDetails.vue'
+import BookDetails from '../book/BookDetails.vue'
 import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
 import BookCollectionEdit from './BookCollectionEdit.vue'
 import BookCollectionFilter from './BookCollectionFilter.vue'

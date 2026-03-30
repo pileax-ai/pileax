@@ -68,6 +68,7 @@
 
     <template #side-panel>
       <book-details :data="data"
+                    source="book-add"
                     @add="addBook(data)"
                     @close="onClose"
                     v-if="view==='details'" add />
