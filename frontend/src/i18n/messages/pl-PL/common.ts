@@ -155,6 +155,7 @@ export default {
   },
   quickstart: 'Szybki start',
   ready: 'Gotowy',
+  recommend: 'Polecić',
   refresh: 'Odświeżać',
   remove: 'Usunąć',
   rename: 'Przemianować',

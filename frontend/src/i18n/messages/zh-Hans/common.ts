@@ -155,6 +155,7 @@ export default {
   },
   quickstart: '快速开始',
   ready: '就绪',
+  recommend: '推荐',
   refresh: '刷新',
   remove: '移除',
   rename: '重命名',

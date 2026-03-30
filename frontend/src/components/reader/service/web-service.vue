@@ -26,7 +26,7 @@ const { locale } = useSetting()
 const src = ref('')
 
 function getUrl() {
-  const lang = (book.value.language || locale || 'en').split('-')[0]
+  const lang = (book.value.language || locale.value || 'en').split('-')[0]
   const url = props.item.url?.replaceAll('{LANG}', lang).replaceAll('{word}', keyword.value)
   console.debug('url', lang, url)
   return url

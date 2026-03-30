@@ -155,6 +155,7 @@ export default {
   },
   quickstart: 'Pornire rapidă',
   ready: 'Gata',
+  recommend: 'Recomanda',
   refresh: 'Reîmprospăta',
   remove: 'Elimina',
   rename: 'Redenumire',

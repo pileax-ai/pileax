@@ -155,6 +155,7 @@ export default {
   },
   quickstart: '빠른 시작',
   ready: '준비가 된',
+  recommend: '추천하다',
   refresh: '새로 고치다',
   remove: '제거하다',
   rename: '이름 변경',

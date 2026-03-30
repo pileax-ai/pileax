@@ -19,10 +19,12 @@
                 {{item.group}}
               </q-item-label>
               <o-common-item v-bind="item"
+                             :class="{ 'active': item.value === tab.value }"
                              @click="onSelectTab(item)"
                              clickable closable dense right-side>
                 <template #side>
-                  <q-btn icon="close" flat round dense v-if="!['chat', 'agentAdd', 'serviceAdd'].includes(item.value)">
+                  <q-btn icon="close" flat round dense
+                         v-if="!['chat', 'agentAdd', 'serviceAdd'].includes(item.value) && false">
                     <o-tooltip position="right">{{$t('remove')}}</o-tooltip>
                   </q-btn>
                 </template>
@@ -172,13 +174,13 @@ const tabs = computed(() => {
   const list = props.main
     ? [ defaultTab.value, ...mainService.value ]
     : [ defaultTab.value, ...secondaryService.value ]
-  const aiList = list.filter(t => t.type === 'ai')
+  const aiList = list.filter(t => t.type === 'ai') as Indexable[]
   aiList.push(
     { label: t('reading.agent.manage'), value: 'agentAdd', type: 'ai', icon: 'mdi-tune-vertical-variant', separator: true }
   )
   aiList[0]!.group = t('reading.agent.agents')
 
-  const serviceList = list.filter(t => t.type === 'service')
+  const serviceList = list.filter(t => t.type === 'service') as Indexable[]
   serviceList.push(
     { label: t('reading.service.manage'), value: 'serviceAdd', type: 'service', icon: 'mdi-tune-vertical-variant', separator: true }
   )
@@ -188,7 +190,7 @@ const tabs = computed(() => {
   return [...aiList, ...serviceList]
 })
 const tab = computed(() => {
-  return tabs.value.find(t => t.value === currentTab.value)
+  return tabs.value.find(t => t.value === currentTab.value) as Indexable
 })
 
 const components = computed(() => {

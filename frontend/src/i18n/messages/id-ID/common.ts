@@ -155,6 +155,7 @@ export default {
   },
   quickstart: 'Panduan Singkat',
   ready: 'Siap',
+  recommend: 'Menyarankan',
   refresh: 'Menyegarkan',
   remove: 'Menghapus',
   rename: 'Ganti nama',
