@@ -45,5 +45,6 @@ export default {
     success: '성공',
     total: '총'
   },
-  uploadTime: '업로드 시간'
+  uploadTime: '업로드 시간',
+  viewFiles: '파일 보기'
 }

@@ -45,5 +45,6 @@ export default {
     success: 'Thành công',
     total: 'Tổng cộng'
   },
-  uploadTime: 'Thời gian tải lên'
+  uploadTime: 'Thời gian tải lên',
+  viewFiles: 'Xem tệp'
 }

@@ -60,6 +60,7 @@ window.webIpcAPI = {
   migrateLibrary: mock as any,
   minimizeWindow: mock as any,
   openNewWindow: openNewWindow as any,
+  openPath: mock as any,
   publicPath: mock as any,
   reload: reload as any,
   restart: restart as any,

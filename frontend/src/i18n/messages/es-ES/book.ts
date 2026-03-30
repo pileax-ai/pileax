@@ -45,5 +45,6 @@ export default {
     success: 'Éxito',
     total: 'Total'
   },
-  uploadTime: 'Tiempo de carga'
+  uploadTime: 'Tiempo de carga',
+  viewFiles: 'Ver archivos'
 }

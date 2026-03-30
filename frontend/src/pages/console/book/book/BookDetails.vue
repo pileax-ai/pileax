@@ -23,8 +23,25 @@
                      :value="data.author" align="right" lines="2" />
         <o-view-item :label="$t('book.publisher')"
                      :value="data.publisher" align="right" v-if="data.publisher" />
-        <o-view-item :label="$t('book.format')"
-                     :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
+        <template v-if="data.extension">
+          <o-view-item :label="$t('book.format')" align="right">
+            <template #value>
+              <div class="row col-12 justify-end pi-btn-flat"
+                   @click="onOpenPath"
+                   v-if="ipcProvider === 'electron' && appMode === 'standalone'">
+                <div>
+                  {{ data.extension.toUpperCase() }}
+                  <o-tooltip position="left" transition>
+                    {{ $t('book.viewFiles') }}
+                  </o-tooltip>
+                </div>
+              </div>
+              <span v-else>
+                {{ data.extension.toUpperCase() }}
+              </span>
+            </template>
+          </o-view-item>
+        </template>
         <template v-if="add">
           <o-view-item :label="$t('book.uploadTime')"
                        :value="timeMulti(data.createTime).timestamp()" align="right" />
@@ -66,6 +83,7 @@ import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 import BookContextMenu from 'pages/console/book/book/BookContextMenu.vue'
 import useReading from 'src/hooks/useReading'
+import { ipcProvider, ipcService } from 'src/api/ipc'
 
 const props = defineProps({
   data: {
@@ -81,7 +99,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['add', 'close', 'edit'])
 
-const { getCoverUrl } = useApi()
+const { appMode, getCoverUrl } = useApi()
 const { openBook } = useReading()
 const coverUrl = ref('')
 
@@ -95,6 +113,11 @@ function onClose(args: Indexable) {
 
 function init() {
   coverUrl.value = getCoverUrl(props.data)
+}
+
+function onOpenPath() {
+  console.log('book', props.data.path)
+  ipcService.openPath(props.data.path)
 }
 
 onMounted(() => {

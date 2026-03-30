@@ -44,5 +44,6 @@ export default {
     success: '成功',
     total: '共计'
   },
-  uploadTime: '上传时间'
+  uploadTime: '上传时间',
+  viewFiles: '查看文件'
 }
