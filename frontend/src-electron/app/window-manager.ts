@@ -152,6 +152,7 @@ export class WindowManager {
       titleBarStyle: 'hidden',
       trafficLightPosition: { x: 12, y: 12 },
       webPreferences: {
+        webviewTag: true,
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,

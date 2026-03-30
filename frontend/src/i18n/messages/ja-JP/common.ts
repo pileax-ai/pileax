@@ -155,6 +155,7 @@ export default {
   },
   quickstart: 'クイックスタート',
   ready: '準備ができて',
+  recommend: '推薦する',
   refresh: 'リフレッシュ',
   remove: '取り除く',
   rename: '名前を変更',

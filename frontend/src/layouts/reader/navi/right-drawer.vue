@@ -141,7 +141,7 @@ onBeforeMount(() => {
         }
       }
       .o-scroll-wrapper.with-title-bar {
-        top: 68px;
+        //top: 68px;
       }
     }
   }

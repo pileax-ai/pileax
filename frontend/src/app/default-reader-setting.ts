@@ -22,7 +22,7 @@ export const defaultSetting = {
   maxInlineSize: 720,
   viewMargin: true,
   spread: 'none',
-  zoom: 'fit-page',
+  zoom: 'fit-width',
 }
 
 export const scrollbarStyles = `

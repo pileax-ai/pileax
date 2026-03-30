@@ -15,7 +15,7 @@
     <q-scroll-area class="o-scroll-wrapper">
       <q-list>
         <q-item-label class="text-readable">
-          推荐
+          {{ $t('recommend') }}
         </q-item-label>
         <template v-for="(item, index) in availableServices" :key="index">
           <q-item class="bg-accent" clickable>
@@ -100,6 +100,31 @@ const services = computed(() => {
       type: "service",
       web: true,
       url: "https://www.bing.com/search?q={word}",
+    },
+    {
+      label: "Wikipedia",
+      value: "wikipedia",
+      icon: "icon-wikipedia",
+      type: "service",
+      web: true,
+      url: "https://{LANG}.wikipedia.org/w/index.php?search={word}",
+    },
+    {
+      label: "DeepL",
+      value: "deepl",
+      icon: "icon-deepl-color",
+      type: "service",
+      web: false,
+      url: "https://www.deepl.com/translator#en/{LANG}/{word}",
+    },
+    {
+      label: "百度百科",
+      value: "baike",
+      icon: "icon-baidu-color",
+      type: "service",
+      web: true,
+      url: "https://wapbaike.baidu.com/item/{word}",
+      // url: "https://baike.baidu.com/search/word?word={word}",
     },
     {
       label: "汉典",

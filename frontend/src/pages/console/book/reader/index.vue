@@ -5,7 +5,8 @@
     <reader-header />
 
     <!-- Nav -->
-    <nav class="row items-center justify-center navi-left">
+    <nav class="row items-center justify-center navi-left"
+         @click="prevPage">
       <q-btn icon="keyboard_arrow_left"
              class="text-readable bg-tips"
              flat
@@ -13,7 +14,8 @@
         <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
       </q-btn>
     </nav>
-    <nav class="row items-center justify-center navi-right">
+    <nav class="row items-center justify-center navi-right"
+         @click="nextPage">
       <q-btn icon="keyboard_arrow_right"
              class="text-readable bg-tips"
              flat
@@ -186,7 +188,6 @@ onActivated(() => {
     bottom: 0;
     width: 60px;
     //background: rgba(red, 0.1);
-    text-align: center;
     visibility: hidden;
     z-index: 1;
 
@@ -198,9 +199,11 @@ onActivated(() => {
 
     &.navi-left {
       left: 0;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m15 18-6-6 6-6'/></svg>") 12 12, auto;
     }
     &.navi-right {
       right: 0;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") 12 12, auto;
     }
   }
 

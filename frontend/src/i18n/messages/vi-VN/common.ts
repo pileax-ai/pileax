@@ -155,6 +155,7 @@ export default {
   },
   quickstart: 'Hướng dẫn nhanh',
   ready: 'Sẵn sàng',
+  recommend: 'Gợi ý',
   refresh: 'Làm cho khỏe lại',
   remove: 'Di dời',
   rename: 'Đổi tên',

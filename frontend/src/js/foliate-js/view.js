@@ -325,6 +325,12 @@ export class View extends HTMLElement {
         return this.dispatchEvent(new CustomEvent(name, { detail, cancelable }))
     }
     #onRelocate({ reason, range, index, fraction, size }) {
+        if (reason === 'page' || reason === 'snap') { // TODO: EBOOK (Reset scroll)
+          if (this.renderer) {
+            this.renderer.scrollTop = 0;
+            this.renderer.scrollLeft = 0;
+          }
+        }
         const chapterLocation = { // TODO: EBOOK
             current: this.renderer.page,
             total: this.renderer.pages - 2

@@ -5,6 +5,7 @@
                 :options="turnStyles"
                 map-options emit-value
                 outlined dense
+                :menu-offset="[0, 6]"
                 @update:modelValue="onValueChanged('pageTurnStyle', $event)" />
     </o-field-label>
   </section>

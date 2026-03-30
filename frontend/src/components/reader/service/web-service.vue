@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { computed, onActivated, PropType, ref, watch } from 'vue'
 import OFrame from 'core/page/section/OFrame.vue'
+import useSetting from 'core/hooks/useSetting'
 import useBook from 'src/hooks/useBook'
 import useReader from 'src/hooks/useReader'
 
@@ -19,20 +20,27 @@ const props = defineProps({
   }
 })
 
-const { keyword } = useBook()
+const { keyword, book } = useBook()
 const { currentMainService } = useReader()
+const { locale } = useSetting()
 const src = ref('')
 
+function getUrl() {
+  const lang = (book.value.language || locale.value || 'en').split('-')[0]
+  const url = props.item.url?.replaceAll('{LANG}', lang).replaceAll('{word}', keyword.value)
+  console.debug('url', lang, url)
+  return url
+}
 
 watch(keyword, (newValue) => {
   // console.log('keyword', currentMainService.value, props.item, newValue)
   if (currentMainService.value === props.item.value) {
-    src.value = props.item.url?.replaceAll('{word}', keyword.value)
+    src.value = getUrl()
   }
 })
 
 onActivated(() => {
-  src.value = props.item.url?.replaceAll('{word}', keyword.value)
+  src.value = getUrl()
 })
 </script>
 
