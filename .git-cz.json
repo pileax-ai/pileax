@@ -8,6 +8,7 @@
     "chore",
     "docs",
     "refactor",
+    "improve",
     "style",
     "ci",
     "perf",
@@ -65,6 +66,11 @@
       "description": "A code change that neither fixes a bug or adds a feature",
       "emoji": "💡",
       "value": "refactor"
+    },
+    "improve": {
+      "description": "Refinement or enhancement to an existing feature",
+      "emoji": "🚀",
+      "value": "improve"
     },
     "release": {
       "description": "Create a release commit",

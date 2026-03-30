@@ -5,7 +5,7 @@
     <reader-header />
 
     <!-- Nav -->
-    <nav class="row items-center justify-center navi-left">
+    <nav class="row items-center justify-start navi-left">
       <q-btn icon="keyboard_arrow_left"
              class="text-readable bg-tips"
              flat
@@ -13,7 +13,7 @@
         <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
       </q-btn>
     </nav>
-    <nav class="row items-center justify-center navi-right">
+    <nav class="row items-center justify-end navi-right" @click="nextPage">
       <q-btn icon="keyboard_arrow_right"
              class="text-readable bg-tips"
              flat
@@ -184,11 +184,12 @@ onActivated(() => {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 60px;
+    width: 120px;
+    padding: 0 10px;
     //background: rgba(red, 0.1);
-    text-align: center;
     visibility: hidden;
     z-index: 1;
+    cursor: pointer;
 
     .q-btn {
       width: 40px;

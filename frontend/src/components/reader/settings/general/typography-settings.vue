@@ -6,6 +6,7 @@
                   :options="zoomOptions"
                   map-options emit-value
                   outlined dense
+                  :menu-offset="[0, 6]"
                   @update:modelValue="onValueChanged('zoom', $event)" />
       </o-field-label>
     </template>
@@ -86,7 +87,7 @@ const spacing = ref(0)
 const paragraphSpacing = ref(0)
 const sideMargin = ref(0)
 const maxInlineSize = ref(720)
-const zoom = ref('fit-page')
+const zoom = ref('fit-width')
 
 const zoomOptions = computed(() => {
   return [
