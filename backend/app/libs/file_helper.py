@@ -10,10 +10,10 @@ class FileHelper:
         """
         # 1. Replace invalid characters with an underscore
         # This covers most OS restrictions and URL-unsafe chars
-        safe_name = re.sub(r'[\\/*?:"<>|]', '_', name)
+        safe_name = re.sub(r'[\\/*?:"<>|]', "_", name)
 
         # 2. Trim whitespace and prevent leading/trailing dots (issues on Windows)
-        safe_name = safe_name.strip().strip('.')
+        safe_name = safe_name.strip().strip(".")
 
         # 3. Optional: Limit length to 200 chars (standard is 255, but leave room for path)
         return safe_name[:200] if safe_name else "unknown"

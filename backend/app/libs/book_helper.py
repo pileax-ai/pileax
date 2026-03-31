@@ -1,4 +1,3 @@
-
 class BookHelper:
     @staticmethod
     def build_book_path(id: str, sha1: str):

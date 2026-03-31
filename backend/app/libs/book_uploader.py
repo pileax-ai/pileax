@@ -57,10 +57,7 @@ class BookUploader:
         if file_name.startswith("book"):
             json_filename = f"{FileHelper.get_safe_name(self.meta.title)}.json"
             json_path = self.book_dir / json_filename
-            meta_json = self.meta.model_dump_json(
-                indent=2,
-                exclude={"tenant_id", "file_name", "cover_name", "path"}
-            )
+            meta_json = self.meta.model_dump_json(indent=2, exclude={"tenant_id", "file_name", "cover_name", "path"})
             with json_path.open("w", encoding="utf-8") as f:
                 f.write(meta_json)
 
