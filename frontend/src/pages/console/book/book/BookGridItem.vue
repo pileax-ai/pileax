@@ -1,7 +1,7 @@
 <template>
   <q-responsive :ratio="3/4">
     <q-card class="book-grid-item" v-ripple>
-      <q-img :src="coverUrl">
+      <q-img :src="coverUrl" @error="onError">
         <div class="absolute-bottom text-subtitle1 text-center details">
           <q-btn :label="$t('add')" flat
                  @click.stop="emit('add')" v-if="add" />
@@ -35,6 +35,10 @@ const emit = defineEmits(['add', 'details'])
 
 const { getCoverUrl } = useApi()
 const coverUrl = ref('')
+
+function onError(event: any) {
+  coverUrl.value = '/images/ui/page/page-bg.svg'
+}
 
 onMounted(() => {
   coverUrl.value = getCoverUrl(props.data)

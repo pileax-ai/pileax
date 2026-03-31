@@ -51,6 +51,9 @@ export default function() {
   }
 
   function getCoverUrl(book: Indexable) {
+    if (book.coverName.includes('xhtml') || book.coverName.includes('xml') ) {
+      return '/images/ui/page/page-bg.svg'
+    }
     const path = `${book.path}/${book.coverName}`
     return getFileUrl(path)
   }

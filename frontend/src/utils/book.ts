@@ -25,7 +25,7 @@ export const base64ToFile = (base64: string, name: string): File => {
 
   const base64Content = arr[1] || ''
   const mimeMatch = arr[0]?.match(/:(.*?);/)
-  console.log('mimeMatch', mimeMatch)
+  // console.log('mimeMatch', mimeMatch)
   let mime = mimeMatch?.[1] ?? 'application/octet-stream'
   if (mime === 'application/octet-stream') {
     mime = detectImageMime(base64Content)

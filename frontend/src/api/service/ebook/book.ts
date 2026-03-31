@@ -248,7 +248,7 @@ const onOpenFailed = (metadata: Indexable) => {
 }
 
 const savingBookRemote = async (metadata: any) => {
-  console.log('savingBookRemote', metadata)
+  // console.log('savingBookRemote', metadata)
   try {
     // Book uploaded, add to shelf
     const remoteBook = await bookService.getByUuid(metadata.sha1)
@@ -289,7 +289,7 @@ const saveBookProgress = (progress: any) => {
 
 const parseAuthor = (data: any) => {
   if (!data) return 'Author'
-  console.log('parseAuthor', data)
+  // console.log('parseAuthor', data)
   let author = data
   if (Array.isArray(data)) {
     console.log('parseAuthor array', data)

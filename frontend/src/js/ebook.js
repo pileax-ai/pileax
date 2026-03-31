@@ -7,7 +7,8 @@ import {
   getCSS,
   getLang,
   getPosition,
-  getSelectionRange
+  getSelectionRange,
+  getRealCoverBlob,
 } from './utils';
 import { defaultSetting, scrollbarStyles } from 'src/app/default-reader-setting';
 import { postMessage } from 'src/api/service/ebook/book.js';
@@ -358,12 +359,12 @@ const openBook = async (bookElement, data,
 }
 
 const getMetadata = async (data) => {
-  console.log('cc', reader.view.book.rendition)
-  const cover = await reader.view.book.getCover();
-  if (cover) {
+  const coverBlob = await reader.view.book.getCover();
+  if (coverBlob) {
+    const realCoverBlob = await getRealCoverBlob(coverBlob, reader.view.book)
     // cover is a blob, so we need to convert it to base64
     const fileReader = new FileReader();
-    fileReader.readAsDataURL(cover);
+    fileReader.readAsDataURL(realCoverBlob);
     fileReader.onloadend = () => {
       postMessage('onMetadata', {
         ...reader.view.book.metadata,
