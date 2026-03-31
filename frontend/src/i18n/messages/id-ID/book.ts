@@ -45,5 +45,6 @@ export default {
     success: 'Kesuksesan',
     total: 'Total'
   },
-  uploadTime: 'Waktu Unggah'
+  uploadTime: 'Waktu Unggah',
+  viewFiles: 'Lihat File'
 }

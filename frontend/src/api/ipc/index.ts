@@ -18,6 +18,7 @@ export type IpcApi = {
   migrateLibrary: (options: any) => Promise<any>;
   minimizeWindow: () => Promise<any>;
   openNewWindow: (id: string, url: string, titleBarHeight?: number) => Promise<any>;
+  openPath: (path: string, type?: string) => Promise<any>;
   publicPath: (path: string) => Promise<any>;
   reload: (force?: boolean) => Promise<any>;
   restart: () => Promise<any>;
@@ -50,6 +51,7 @@ export const ipcServiceKeys = [
   'migrateLibrary',
   'minimizeWindow',
   'openNewWindow',
+  'openPath',
   'publicPath',
   'reload',
   'restart',

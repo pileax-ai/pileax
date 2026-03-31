@@ -47,6 +47,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('get-server-info'),
   openNewWindow: async (id: string, url: string, titleBarHeight = 40) =>
     ipcRenderer.invoke('open-new-window', id, url, titleBarHeight),
+  openPath: async (path: string, type = 'book') =>
+    ipcRenderer.invoke('open-path', path, type),
   isWindowMaximized: async () =>
     ipcRenderer.invoke('window-is-maximized'),
   logInit: async (maxLines = 100): Promise<string> =>

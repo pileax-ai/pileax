@@ -238,6 +238,13 @@
   }
 }
 
+.pi-btn-flat {
+  cursor: pointer;
+  &:hover {
+    color: var(--q-primary);
+  }
+}
+
 .pi-toolbar-btn {
   width: 28px;
   height: 28px;

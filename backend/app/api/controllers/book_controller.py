@@ -15,6 +15,7 @@ from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate, WorkspaceBookDetails
 from app.api.services.book_service import BookService
 from app.api.services.workspace_book_service import WorkspaceBookService
+from app.libs.book_helper import BookHelper
 from app.libs.book_uploader import BookUploader
 
 
@@ -48,12 +49,13 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         :param book_str: Book metadata
         :param files: Book file and cover
         """
-        book_in = BookCreate(**json.loads(str(book_str)))
         book_id = uuid.uuid4()
-        sha1 = book_in.uuid
+        book_in = BookCreate(**json.loads(str(book_str)))
+        book_in.id = book_id
+        book_in.path = BookHelper.build_book_path(str(book_id), book_in.uuid)
 
         # upload
-        metas = await BookUploader(str(book_id), sha1).upload(files)
+        metas = await BookUploader(book_in).upload(files)
 
         # save book
         for meta in metas:
@@ -64,8 +66,6 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
                 book_in.cover_name = file_name
             # save file_meta
             self.fm_controller.save(FileMetaCreate(**meta))
-        book_in.id = book_id
-        book_in.path = f"/book/{sha1}"
         book_in.tenant_id = self.workspace.tenant_id
         book_in.tenant_id = self.workspace.tenant_id
         book = self.save(book_in)

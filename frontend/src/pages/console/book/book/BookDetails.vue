@@ -8,10 +8,15 @@
       </q-responsive>
 
       <div class="absolute-right more">
-        <q-btn icon="more_horiz" flat v-if="!add">
+        <q-btn icon="more_horiz" flat v-if="source !== 'book-add'">
           <book-context-menu :data="data"
                              @edit="onEdit"
-                             @close="onClose" />
+                             @close="onClose"
+                             v-if="source === 'book-list'" />
+          <book-collection-context-menu :data="data"
+                                        @edit="onEdit"
+                                        @close="onClose"
+                                        v-else-if="source === 'book-collection-list'" />
         </q-btn>
       </div>
     </q-card>
@@ -23,8 +28,25 @@
                      :value="data.author" align="right" lines="2" />
         <o-view-item :label="$t('book.publisher')"
                      :value="data.publisher" align="right" v-if="data.publisher" />
-        <o-view-item :label="$t('book.format')"
-                     :value="data.extension.toUpperCase()" align="right" v-if="data.extension" />
+        <template v-if="data.extension">
+          <o-view-item :label="$t('book.format')" align="right">
+            <template #value>
+              <div class="row col-12 justify-end pi-btn-flat"
+                   @click="onOpenPath"
+                   v-if="ipcProvider === 'electron' && appMode === 'standalone'">
+                <div>
+                  {{ data.extension.toUpperCase() }}
+                  <o-tooltip position="left" transition>
+                    {{ $t('book.viewFiles') }}
+                  </o-tooltip>
+                </div>
+              </div>
+              <span v-else>
+                {{ data.extension.toUpperCase() }}
+              </span>
+            </template>
+          </o-view-item>
+        </template>
         <template v-if="add">
           <o-view-item :label="$t('book.uploadTime')"
                        :value="timeMulti(data.createTime).timestamp()" align="right" />
@@ -65,7 +87,9 @@ import { onMounted, ref } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 import BookContextMenu from 'pages/console/book/book/BookContextMenu.vue'
+import BookCollectionContextMenu from 'pages/console/book/collection/BookCollectionContextMenu.vue'
 import useReading from 'src/hooks/useReading'
+import { ipcProvider, ipcService } from 'src/api/ipc'
 
 const props = defineProps({
   data: {
@@ -78,10 +102,14 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  source: {
+    type: String,
+    default: 'book-list'
+  },
 })
 const emit = defineEmits(['add', 'close', 'edit'])
 
-const { getCoverUrl } = useApi()
+const { appMode, getCoverUrl } = useApi()
 const { openBook } = useReading()
 const coverUrl = ref('')
 
@@ -97,7 +125,12 @@ function init() {
   coverUrl.value = getCoverUrl(props.data)
 }
 
+function onOpenPath() {
+  ipcService.openPath(props.data.path)
+}
+
 onMounted(() => {
+  console.log('book', props.data)
   init()
 })
 

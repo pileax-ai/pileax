@@ -4,7 +4,9 @@ from typing import Union
 
 from fastapi import UploadFile
 
+from app.api.models.book import BookCreate
 from app.configs import app_config
+from app.libs.file_helper import FileHelper
 
 FileAllowedTypes = {
     "file": [
@@ -21,20 +23,19 @@ FileAllowedTypes = {
         "azw3",
         "epub",
         "mobi",
-        "fb2",
         "cbz",
+        "fb2",
+        "fbz",
         "pdf",
     ],
 }
 
 
 class BookUploader:
-    def __init__(self, id: str, sha1: str):
-        self.book_path = f"book/{sha1}"
-        self.book_dir = Path(f"{app_config.PUBLIC_FILE_ROOT}/{self.book_path}")
+    def __init__(self, meta: BookCreate):
+        self.book_dir = Path(f"{app_config.PUBLIC_FILE_ROOT}/{meta.path}")
         self.book_dir.mkdir(parents=True, exist_ok=True)
-        self.fileName = id
-        self.id = id
+        self.meta = meta
 
     async def upload(self, files: list[UploadFile]):
         results = []
@@ -52,14 +53,22 @@ class BookUploader:
         with path.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        # Create a text file
+        if file_name.startswith("book"):
+            json_filename = f"{FileHelper.get_safe_name(self.meta.title)}.json"
+            json_path = self.book_dir / json_filename
+            meta_json = self.meta.model_dump_json(indent=2, exclude={"tenant_id", "file_name", "cover_name", "path"})
+            with json_path.open("w", encoding="utf-8") as f:
+                f.write(meta_json)
+
         return {
             "original_name": original_name,
             "file_name": file_name,
             "mimetype": file.content_type,
-            "path": f"/{self.book_path}/{file_name}",
+            "path": f"/{self.meta.path}/{file_name}",
             "size": file.size,
             "ref_type": "book",
-            "ref_id": self.id,
+            "ref_id": str(self.meta.id),
         }
 
     def _get_filename(self, file: UploadFile) -> str:

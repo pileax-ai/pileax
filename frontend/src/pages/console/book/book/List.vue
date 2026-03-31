@@ -119,6 +119,7 @@
 
         <template #side-panel>
           <book-details :data="data"
+                        source="book-list"
                         @close="onClose"
                         @edit="onEdit"
                         v-if="view==='details'" />

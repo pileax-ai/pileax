@@ -20,7 +20,6 @@
           {{value}}
         </o-tooltip>
       </q-item-label>
-      <slot></slot>
     </q-item-section>
     <q-item-section side v-if="rightSide || copiable || arrow">
       <div class="row items-center">

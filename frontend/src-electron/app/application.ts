@@ -1,6 +1,15 @@
-import { app, BrowserWindow, dialog, ipcMain, nativeTheme, type OpenDialogOptions } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  nativeTheme,
+  shell,
+  type OpenDialogOptions
+} from 'electron'
 import log from 'electron-log'
 import fs from 'node:fs'
+import path from 'node:path'
 
 import {
   readFile,
@@ -214,6 +223,36 @@ export class Application {
         if (!win) return
 
         return await dialog.showOpenDialog(win, options)
+      })
+
+
+    ipcMain.handle('open-path',
+      async (event, relativePath: string, type = 'book') => {
+        let fullPath = ''
+        const safeRelativePath = relativePath.replace(/^(\.\.(\/|\\|$))+/, '')
+
+        switch (type) {
+          case 'book':
+            fullPath = path.join(configManager.appPublicPath(), safeRelativePath)
+            break
+          default:
+            fullPath = safeRelativePath
+            break
+        }
+
+        if (!path.isAbsolute(fullPath)) {
+          fullPath = path.resolve(fullPath)
+        }
+
+        const errorMessage = await shell.openPath(fullPath)
+
+        if (errorMessage) {
+          // Return error to renderer so the UI can show a notification
+          console.error(`[Electron] Failed to open path: ${fullPath}. Error: ${errorMessage}`)
+          return { success: false, error: errorMessage }
+        }
+
+        return { success: true }
       })
   }
 }

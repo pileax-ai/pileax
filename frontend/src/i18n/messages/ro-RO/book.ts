@@ -45,5 +45,6 @@ export default {
     success: 'Succes',
     total: 'Total'
   },
-  uploadTime: 'Ora încărcării'
+  uploadTime: 'Ora încărcării',
+  viewFiles: 'Vizualizare fișiere'
 }

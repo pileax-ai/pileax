@@ -45,5 +45,6 @@ export default {
     success: '成功',
     total: '合計'
   },
-  uploadTime: 'アップロード時間'
+  uploadTime: 'アップロード時間',
+  viewFiles: 'ファイルを表示'
 }
