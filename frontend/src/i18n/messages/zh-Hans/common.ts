@@ -252,6 +252,7 @@ export default {
   upload: '上传',
   version: '版本',
   view: {
+    compact: '紧凑',
     grid: '网格',
     list: '列表'
   },

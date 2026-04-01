@@ -42,9 +42,8 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
     book_user_id: uuid.UUID
     book_workspace_id: uuid.UUID
     title: str
-    path: str | None = None
-    file_name: str | None = None
-    cover_name: str | None = None
+    file_url: str | None = None
+    cover_url: str | None = None
     author: str | None = None
     language: str | None = None
     description: str | None = None

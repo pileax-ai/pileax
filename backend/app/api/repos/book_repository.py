@@ -1,6 +1,7 @@
+from itertools import starmap
 from uuid import UUID
 
-from sqlalchemy import func, or_, select, distinct
+from sqlalchemy import func, or_, select, distinct, and_
 
 from app.api.models.book import Book, BookPublic
 from app.api.models.query import PaginationQuery, QueryResult
@@ -36,7 +37,14 @@ class BookRepository(BaseRepository[Book]):
         filters.append(or_(Book.user_id == user_id, Book.workspace_id == workspace_id))
 
         # 2. stmt
-        stmt = select(Book)
+        stmt = (
+            select(Book, WorkspaceBook)
+            .join(
+                WorkspaceBook,
+                and_(Book.id == WorkspaceBook.book_id, WorkspaceBook.user_id == user_id, WorkspaceBook.workspace_id == workspace_id),
+                isouter=True,
+            )
+        )
         count_stmt = select(func.count()).select_from(Book)
         if filters:
             stmt = stmt.where(*filters)
@@ -51,7 +59,8 @@ class BookRepository(BaseRepository[Book]):
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        rows = [row[0] for row in self.session.exec(stmt).all()]
+        # rows = [row[0] for row in self.session.exec(stmt).all()]
+        rows = list(starmap(self.build_public, self.session.exec(stmt).all()))
 
         return QueryResult[BookPublic](
             total=total[0],
@@ -61,43 +70,12 @@ class BookRepository(BaseRepository[Book]):
         )
 
 
-    def query_library0(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
-        # 1. Basic Filter
-        filters = DbHelper.get_filters(Book, query.condition)
-        filters.append(or_(Book.user_id == user_id, WorkspaceBook.workspace_id == workspace_id))
-
-        # 2. stmt
-        stmt = (
-            select(Book)
-            .join(WorkspaceBook, Book.id == WorkspaceBook.book_id)
-            .distinct()
-        )
-        count_stmt = (
-            select(func.count(distinct(Book.id)))
-            .select_from(Book)
-            .join(WorkspaceBook, Book.id == WorkspaceBook.book_id)
-        )
-        if filters:
-            stmt = stmt.where(*filters)
-            count_stmt = count_stmt.where(*filters)
-
-        # 3. Sort
-        stmt = DbHelper.apply_sort(stmt, [Book], query.sort)
-
-        # 4. Pagination
-        stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
-        print(stmt.compile(compile_kwargs={"literal_binds": True}))
-
-        # 5. Query
-        total = self.session.exec(count_stmt).one()
-        rows = [row[0] for row in self.session.exec(stmt).all()]
-
-        return QueryResult[BookPublic](
-            total=total[0],
-            list=rows,
-            pageSize=query.pageSize,
-            pageIndex=query.pageIndex,
-        )
+    @staticmethod
+    def build_public(book: Book, workspace_book: WorkspaceBook | None = None) -> dict:
+        return {
+            **book.model_dump(),
+            "workspace_book_id": workspace_book.id if workspace_book else None,
+        }
 
     @staticmethod
     def build_details(book: Book, user_book: UserBook | None = None) -> dict:

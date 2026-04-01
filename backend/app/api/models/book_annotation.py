@@ -44,6 +44,5 @@ class BookAnnotationPublic(BookAnnotationCreate, BaseMixin):
 
 class BookAnnotationDetails(BookAnnotationPublic):
     book_title: str
-    path: str | None = None
-    file_name: str | None = None
-    cover_name: str | None = None
+    file_url: str | None = None
+    cover_url: str | None = None

@@ -244,6 +244,9 @@ onMounted(() => {
 
 <style lang="scss">
 .o-side-dialog {
+  .q-layout-container > div > div {
+    overflow: hidden;
+  }
   .q-dialog__inner--standard {
     .dialog-card {
       border-radius: 6px;

@@ -1,7 +1,7 @@
 <template>
   <q-item class="book-list-item bg-accent" clickable>
     <q-item-section avatar>
-      <q-img :src="coverPath" :ratio="3/4" spinner-size="20px" />
+      <q-img :src="coverUrl" :ratio="3/4" spinner-size="20px" @error="onError" />
     </q-item-section>
     <q-item-section class="meta">
       <q-item-label class="title" lines="1">
@@ -14,22 +14,30 @@
         {{ data.publisher }}
       </q-item-label>
     </q-item-section>
-    <q-item-section side>
+    <q-item-section class="justify-around" side>
       <div class="time">
         {{ timeMulti(data.updateTime).fromNow() }}
       </div>
-      <div class="row">
+      <div class="details">
         <q-btn :label="$t('add')"
-               class="bg-tips details"
+               class="bg-primary text-white"
                flat
                @click.stop="emit('add')"
-               v-if="add" />
+               v-if="add && !data.workspaceBookId" />
         <q-btn :label="$t('details')"
-               class="bg-tips details q-ml-sm"
+               class="bg-primary text-white q-ml-sm"
                flat
                @click.stop="emit('details')" />
       </div>
+      <div class="tags details">
+        <template v-for="(item, index) in tags" :key="index">
+          <q-chip v-bind="item" square dense />
+        </template>
+      </div>
     </q-item-section>
+    <div class="bookmark" v-if="data.workspaceBookId">
+      <q-icon name="o_bookmark" color="amber" size="16px" />
+    </div>
 
     <slot></slot>
   </q-item>
@@ -39,6 +47,7 @@
 import {computed, onMounted, ref, watch} from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
+import useBookDetails from 'src/hooks/useBookDetails'
 
 const props = defineProps({
   data: {
@@ -54,10 +63,20 @@ const props = defineProps({
 })
 const emit = defineEmits(['add', 'details'])
 
+const { bookTags } = useBookDetails()
 const { getCoverUrl } = useApi()
+const coverUrl = ref('')
 
-const coverPath = computed(() => {
-  return getCoverUrl(props.data)
+const tags = computed(() => {
+  return bookTags(props.data)
+})
+
+function onError(event: any) {
+  coverUrl.value = '/images/ui/page/page-bg.svg'
+}
+
+onMounted(() => {
+  coverUrl.value = getCoverUrl(props.data)
 })
 </script>
 
@@ -68,6 +87,13 @@ const coverPath = computed(() => {
   cursor: pointer;
   border-radius: 8px;
   max-width: 100%;
+
+  .bookmark {
+    position: absolute;
+    top: -10px;
+    right: 8px;
+    z-index: 1;
+  }
 
   &:not(:first-child) {
     margin-top: 8px;
@@ -102,15 +128,23 @@ const coverPath = computed(() => {
   }
 
   .time {
-    position: absolute;
-    top: 16px;
-    right: 16px;
+    //position: absolute;
+    //top: 16px;
+    //right: 16px;
     font-size: 0.9rem;
     font-weight: 400;
   }
 
   .details {
     visibility: hidden;
+  }
+
+  .tags {
+    .q-chip {
+      background: rgba(0,0,0,0.1);
+      color: #ffffff;
+      font-size: 0.8rem;
+    }
   }
 }
 </style>

@@ -46,20 +46,18 @@ export default function() {
   }
 
   function getBookUrl(book: Indexable) {
-    const path = `${book.path}/${book.fileName}`
-    return getFileUrl(path)
+    return getFileUrl(book.fileUrl)
   }
 
   function getCoverUrl(book: Indexable) {
-    if (book.coverName && (book.coverName.includes('xhtml') || book.coverName.includes('xml'))) {
+    if (book.coverUrl && (book.coverUrl.includes('xhtml') || book.coverUrl.includes('xml'))) {
       return '/images/ui/page/page-bg.svg'
     }
-    const path = `${book.path}/${book.coverName}`
-    return getFileUrl(path)
+    return getFileUrl(book.coverUrl)
   }
 
   function getFileUrl(path: string) {
-    path = path.startsWith('/') ? path.slice(1) : path
+    path = path?.startsWith('/') ? path.slice(1) : path
     return `${appBase.value}/${path}`
   }
 

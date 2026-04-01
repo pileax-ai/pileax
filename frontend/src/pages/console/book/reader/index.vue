@@ -115,7 +115,7 @@ async function open(bookId: string, initialCfi = '') {
     setBookId(bookId)
     setBook(book)
 
-    const filePath = `${book.path}/${book.fileName}`
+    const filePath = book.fileUrl
     const cfi = initialCfi || book.readingPosition || ''
 
     loading.value = true

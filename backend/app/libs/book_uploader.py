@@ -1,6 +1,7 @@
+import hashlib
 import shutil
 from pathlib import Path
-from typing import Union
+from typing import Union, BinaryIO, cast
 
 from fastapi import UploadFile
 
@@ -45,6 +46,7 @@ class BookUploader:
         return results
 
     async def upload_file(self, file: UploadFile):
+        sha1 = self.meta.uuid # Book's sha1 by default
         original_name = file.filename
         file_name = self._get_filename(file)
         path = self.book_dir / file_name
@@ -53,28 +55,29 @@ class BookUploader:
         with path.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        # Reset cursor
+        await file.seek(0)
+
         # Create a text file
         if file_name.startswith("book"):
             json_filename = f"{FileHelper.get_safe_name(self.meta.title)}.json"
             json_path = self.book_dir / json_filename
-            meta_json = self.meta.model_dump_json(indent=2, exclude={"tenant_id", "file_name", "cover_name", "path"})
+            meta_json = self.meta.model_dump_json(indent=2, exclude={"tenant_id", "file_url", "cover_url", "path"})
             with json_path.open("w", encoding="utf-8") as f:
                 f.write(meta_json)
+        else:
+            sha1 = await FileHelper.get_uploadfile_sha1(file)
 
         return {
+            "sha1": sha1,
             "original_name": original_name,
             "file_name": file_name,
             "mimetype": file.content_type,
-            "path": f"/{self.meta.path}/{file_name}",
+            "url": f"/{self.meta.path}/{file_name}",
             "size": file.size,
             "ref_type": "book",
             "ref_id": str(self.meta.id),
         }
-
-    def _get_filename(self, file: UploadFile) -> str:
-        name = "book" if self.is_book(file) else "cover"
-        ext = Path(file.filename).suffix
-        return f"{name}{ext}"
 
     def is_book(self, file: Union[str, UploadFile], mimetype: str | None = None) -> bool:
         """
@@ -90,3 +93,8 @@ class BookUploader:
         extname = Path(filename).suffix.lower().replace(".", "")
 
         return any(mimetype and e in mimetype or e in extname for e in FileAllowedTypes["book"])
+
+    def _get_filename(self, file: UploadFile) -> str:
+        name = "book" if self.is_book(file) else "cover"
+        ext = Path(file.filename).suffix
+        return f"{name}{ext}"

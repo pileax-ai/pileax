@@ -1,8 +1,10 @@
 import json
+import logging
 import uuid
 from typing import Any
 
 from fastapi import UploadFile
+from sqlalchemy.exc import IntegrityError
 
 from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
@@ -17,6 +19,9 @@ from app.api.services.book_service import BookService
 from app.api.services.workspace_book_service import WorkspaceBookService
 from app.libs.book_helper import BookHelper
 from app.libs.book_uploader import BookUploader
+
+
+logger = logging.getLogger(__name__)
 
 
 class BookController(BaseController[Book, BookCreate, BookUpdate]):
@@ -55,20 +60,33 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book_id = uuid.uuid4()
         book_in = BookCreate(**json.loads(str(book_str)))
         book_in.id = book_id
-        book_in.path = BookHelper.build_book_path(str(book_id), book_in.uuid)
+        book_in.path = BookHelper.build_book_path(book_in.uuid)
 
-        # upload
-        metas = await BookUploader(book_in).upload(files)
+        same_book = self.find_one({"uuid": book_in.uuid})
 
-        # save book
-        for meta in metas:
-            file_name = str(meta["file_name"])
-            if file_name.startswith("book"):
-                book_in.file_name = file_name
-            else:
-                book_in.cover_name = file_name
-            # save file_meta
-            self.fm_controller.save(FileMetaCreate(**meta))
+        # Only upload when book is a new one
+        if same_book:
+            book_in.file_url = same_book.file_url
+            book_in.cover_url = same_book.cover_url
+        else:
+            metas = await BookUploader(book_in).upload(files)
+
+            # save book meta
+            for meta in metas:
+                file_name = str(meta["file_name"])
+                url = str(meta["url"])
+                if file_name.startswith("book"):
+                    book_in.file_url = url
+                else:
+                    book_in.cover_url = url
+                # save file_meta
+                try:
+                    self.fm_controller.save(FileMetaCreate(**meta))
+                except IntegrityError as e:
+                    self.session.rollback()
+                    logger.info(f"File metadata already exists for SHA1: {meta.get('sha1')}")
+                    continue
+
         book_in.tenant_id = self.workspace.tenant_id
         book_in.tenant_id = self.workspace.tenant_id
         book = self.save(book_in)

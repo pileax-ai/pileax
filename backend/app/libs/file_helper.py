@@ -1,4 +1,7 @@
+import hashlib
 import re
+
+from fastapi import UploadFile
 
 
 class FileHelper:
@@ -17,3 +20,20 @@ class FileHelper:
 
         # 3. Optional: Limit length to 200 chars (standard is 255, but leave room for path)
         return safe_name[:200] if safe_name else "unknown"
+
+    @staticmethod
+    async def get_uploadfile_sha1(file: UploadFile) -> str:
+        sha1 = hashlib.sha1()
+
+        # Ensure we are reading from the very beginning
+        # In case the file was partially read elsewhere
+        await file.seek(0)
+
+        # Read the content directly using the async method
+        content = await file.read()
+        sha1.update(content)
+
+        # Crucial: reset cursor so the file can be saved/read again
+        await file.seek(0)
+
+        return sha1.hexdigest()

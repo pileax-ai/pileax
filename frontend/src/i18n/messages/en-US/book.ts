@@ -30,6 +30,7 @@ export default {
   library: {
     _: 'Library',
     add: 'Add from Library',
+    containBooks: 'Contains books you uploaded and shared from your space.',
     noBooks: 'No books in the library yet. Add some now.'
   },
   markFinished: 'Mark as Finished',
