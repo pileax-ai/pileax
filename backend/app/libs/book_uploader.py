@@ -1,7 +1,6 @@
-import hashlib
 import shutil
 from pathlib import Path
-from typing import Union, BinaryIO, cast
+from typing import Union
 
 from fastapi import UploadFile
 
@@ -46,7 +45,7 @@ class BookUploader:
         return results
 
     async def upload_file(self, file: UploadFile):
-        sha1 = self.meta.uuid # Book's sha1 by default
+        sha1 = self.meta.uuid  # Book's sha1 by default
         original_name = file.filename
         file_name = self._get_filename(file)
         path = self.book_dir / file_name

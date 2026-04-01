@@ -4,7 +4,7 @@ from fastapi import HTTPException
 
 from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace_member import WorkspaceMember
+from app.api.models.workspace_member import WorkspaceMember, WorkspaceMemberInvitePublic
 from app.api.repos.workspace_member_repository import WorkspaceMemberRepository
 from app.api.services.base_service import BaseService
 
@@ -15,6 +15,9 @@ class WorkspaceMemberService(BaseService[WorkspaceMember]):
 
     def invite(self, item: WorkspaceMember) -> WorkspaceMember:
         return self.save(item)
+
+    def get_invite(self, user_id: UUID) -> WorkspaceMemberInvitePublic | None:
+        return self.repo.get_invite(user_id)
 
     def accept(self, id: UUID) -> WorkspaceMember:
         obj = super().get(id)

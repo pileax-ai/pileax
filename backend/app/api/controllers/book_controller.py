@@ -20,7 +20,6 @@ from app.api.services.workspace_book_service import WorkspaceBookService
 from app.libs.book_helper import BookHelper
 from app.libs.book_uploader import BookUploader
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -84,7 +83,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
                     self.fm_controller.save(FileMetaCreate(**meta))
                 except IntegrityError as e:
                     self.session.rollback()
-                    logger.info(f"File metadata already exists for SHA1: {meta.get('sha1')}")
+                    logger.info("File metadata already exists for SHA1: %s", meta.get('sha1'))
                     continue
 
         book_in.tenant_id = self.workspace.tenant_id

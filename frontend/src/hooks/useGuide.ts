@@ -57,6 +57,7 @@ export default function () {
   }
 
   return {
+    tour,
     showGuide,
     closeGuide
   }

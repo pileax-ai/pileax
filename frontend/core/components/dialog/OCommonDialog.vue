@@ -9,7 +9,7 @@
     <q-card class="dialog-card" :class="contentClass" :style="contentStyle">
       <q-bar class="bg-transparent text-readable" v-if="header">
         <q-icon class="title-icon" :name="icon" v-if="icon" />
-        <div class="title" v-if="icon">{{title}}</div>
+        <div class="title" v-if="title">{{title}}</div>
 
         <q-space />
 

@@ -5,10 +5,20 @@ from fastapi import Depends
 
 from app.api.controllers.workspace_member_controller import WorkspaceMemberController
 from app.api.models.query import PaginationQuery, QueryResult
-from app.api.models.workspace_member import WorkspaceMemberInvite, WorkspaceMemberPublic, WorkspaceMemberPublicDetails
+from app.api.models.workspace_member import (
+    WorkspaceMemberInvite,
+    WorkspaceMemberInvitePublic,
+    WorkspaceMemberPublic,
+    WorkspaceMemberPublicDetails,
+)
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/workspace/member", tags=["WorkspaceMember"])
+
+
+@router.api_get("/invite", response_model=WorkspaceMemberInvitePublic)
+async def get_invite(controller: WorkspaceMemberController = Depends()) -> Any:
+    return controller.get_invite()
 
 
 @router.api_post("/invite", response_model=WorkspaceMemberPublic)

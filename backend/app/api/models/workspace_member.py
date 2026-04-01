@@ -55,3 +55,8 @@ class WorkspaceMemberPublicDetails(WorkspaceMemberPublic):
     user_name: str
     user_email: str
     last_active_time: str | None = None
+
+
+class WorkspaceMemberInvitePublic(WorkspaceMemberPublic):
+    invited_by_name: str | None = None
+    workspace_name: str | None = None

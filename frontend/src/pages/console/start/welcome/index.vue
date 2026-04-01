@@ -56,11 +56,15 @@ import BookList from './reading/BookList.vue'
 import {
   chatConversationService,
   noteService,
-  workspaceBookService
+  workspaceBookService, workspaceMemberService,
 } from 'src/api/service/remote'
+import useDialog from 'core/hooks/useDialog'
 import useWorkspace from 'src/hooks/useWorkspace'
+import useGuide from 'src/hooks/useGuide'
 
 const visibility = useDocumentVisibility()
+const { openDialog } = useDialog()
+const { tour } = useGuide()
 const { workspaceId } = useWorkspace()
 const conversations = ref<Indexable[]>()
 const notes = ref<Indexable[]>()
@@ -78,6 +82,7 @@ function init() {
     getRecentConversations()
     getRecentNotes()
     getRecentBooks()
+    getRecentInvite()
   }
 }
 
@@ -107,6 +112,20 @@ const getRecentBooks = () => {
     }
   }).then(res => {
     books.value = res.list
+  })
+}
+
+const getRecentInvite = () => {
+  workspaceMemberService.getInvite().then(res => {
+    if (res) {
+      const key = `invite-${res.id}`
+      if (!tour.value[key]) {
+        openDialog({
+          type: 'workspace-invite',
+          data: res
+        })
+      }
+    }
   })
 }
 
