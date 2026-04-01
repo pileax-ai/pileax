@@ -83,7 +83,7 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
                     self.fm_controller.save(FileMetaCreate(**meta))
                 except IntegrityError as e:
                     self.session.rollback()
-                    logger.info("File metadata already exists for SHA1: %s", meta.get('sha1'))
+                    logger.info("File metadata already exists for SHA1: %s", meta.get("sha1"))
                     continue
 
         book_in.tenant_id = self.workspace.tenant_id
