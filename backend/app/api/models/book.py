@@ -67,8 +67,8 @@ class BookUpdate(BookBase):
 
 
 class BookPublic(BookCreate, BaseMixin):
-    tenant_id: uuid.UUID
-    pass
+    workspace_id: uuid.UUID
+    user_id: uuid.UUID
 
 
 class BookDetails(BaseApiModel, BaseMixin):

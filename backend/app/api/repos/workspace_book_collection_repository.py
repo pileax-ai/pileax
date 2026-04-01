@@ -82,7 +82,8 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
         return {
             **workspace_book.model_dump(),
             "tid": workspace_book_collection.id,
-            "owner": book.user_id,
+            "book_user_id": book.user_id,
+            "book_workspace_id": book.workspace_id,
             "title": book.title,
             "path": book.path,
             "file_name": book.file_name,

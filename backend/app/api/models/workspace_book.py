@@ -39,7 +39,8 @@ class WorkspaceBookPublic(WorkspaceBookCreate, BaseMixin):
 
 
 class WorkspaceBookDetails(WorkspaceBookPublic):
-    owner: uuid.UUID
+    book_user_id: uuid.UUID
+    book_workspace_id: uuid.UUID
     title: str
     path: str | None = None
     file_name: str | None = None

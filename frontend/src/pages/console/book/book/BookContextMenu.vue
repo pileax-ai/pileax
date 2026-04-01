@@ -59,7 +59,7 @@ const actions = computed(() => {
       label: t('edit'),
       value: 'edit',
       icon: 'edit_note',
-      hidden: props.data.userId !== props.data.owner,
+      hidden: props.data.userId !== props.data.bookUserId,
       separator: true
     },
     {

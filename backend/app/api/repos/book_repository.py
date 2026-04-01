@@ -1,10 +1,12 @@
 from uuid import UUID
 
-from sqlalchemy import func, or_, select
+from sqlalchemy import func, or_, select, distinct
 
 from app.api.models.book import Book, BookPublic
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user_book import UserBook
+from app.api.models.workspace import Workspace
+from app.api.models.workspace_book import WorkspaceBook
 from app.api.repos.base_repository import BaseRepository
 from app.libs.db_helper import DbHelper
 
@@ -45,10 +47,49 @@ class BookRepository(BaseRepository[Book]):
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        # rows = self.session.exec(stmt).all()
+        rows = [row[0] for row in self.session.exec(stmt).all()]
+
+        return QueryResult[BookPublic](
+            total=total[0],
+            list=rows,
+            pageSize=query.pageSize,
+            pageIndex=query.pageIndex,
+        )
+
+
+    def query_library0(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
+        # 1. Basic Filter
+        filters = DbHelper.get_filters(Book, query.condition)
+        filters.append(or_(Book.user_id == user_id, WorkspaceBook.workspace_id == workspace_id))
+
+        # 2. stmt
+        stmt = (
+            select(Book)
+            .join(WorkspaceBook, Book.id == WorkspaceBook.book_id)
+            .distinct()
+        )
+        count_stmt = (
+            select(func.count(distinct(Book.id)))
+            .select_from(Book)
+            .join(WorkspaceBook, Book.id == WorkspaceBook.book_id)
+        )
+        if filters:
+            stmt = stmt.where(*filters)
+            count_stmt = count_stmt.where(*filters)
+
+        # 3. Sort
+        stmt = DbHelper.apply_sort(stmt, [Book], query.sort)
+
+        # 4. Pagination
+        stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
+
+        # 5. Query
+        total = self.session.exec(count_stmt).one()
         rows = [row[0] for row in self.session.exec(stmt).all()]
 
         return QueryResult[BookPublic](

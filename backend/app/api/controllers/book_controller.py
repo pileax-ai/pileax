@@ -34,6 +34,9 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         self.fm_controller = FileMetaController(session, user, workspace)
         self.wb_controller = WorkspaceBookController(session, user, workspace)
 
+    def get(self, id: uuid.UUID) -> Book:
+        return self.service.get_by_owner(Owner(user_id=self.user.id), id)
+
     def get_by_uuid(self, uuid: str) -> Book:
         return self.service.get_by_uuid(uuid, self.workspace.tenant_id)
 
