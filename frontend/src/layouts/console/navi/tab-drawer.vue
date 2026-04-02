@@ -78,7 +78,7 @@ onMounted(() => {
 .q-drawer:has(.hover-shown) {
   top: 80px;
   bottom: 80px;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 12px 12px 0;
 
   .drawer-separator {
     background: transparent;
@@ -89,7 +89,7 @@ onMounted(() => {
   }
 
   .tab-navi {
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 12px 12px 0 !important;
     box-shadow: rgba(15, 15, 15, .05) 0 0 0 1px,
     rgba(15, 15, 15, .05) 0 1px 2px,
     rgba(15, 15, 15, .05) 0 1px 2px;

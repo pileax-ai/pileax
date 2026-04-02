@@ -10,15 +10,15 @@ export const THEMES :Indexable = {
     'info': '#272A3E',
   },
   'dark': {
-    'secondary': '#272A3E',
-    'accent': '#222336',
-    'dark': '#141824',
-    'info': '#B3BDD2',
+    'secondary': '#1E1F22', // #252528
+    'accent': '#2B2D30',
+    'dark': '#161719',
+    'info': '#f2f2f7',
   },
-  // 'dark': {
-  //   'secondary': '#1e1f22',
-  //   'accent': '#2b2d30',
-  //   'dark': '#25272f',
+  // 'dark-blue': {
+  //   'secondary': '#272A3E',
+  //   'accent': '#222336',
+  //   'dark': '#141824',
   //   'info': '#B3BDD2',
   // },
 }

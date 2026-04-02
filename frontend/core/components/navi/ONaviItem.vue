@@ -67,7 +67,7 @@ function onClick() {
     left: 0;
     top: 0;
     color: var(--q-primary) !important;
-    background-color: var(--q-primary);
+    background-color: var(--q-info);
     opacity: 0.1;
   }
 

@@ -71,22 +71,22 @@ onBeforeMount(() => {
 .q-drawer:has(.hover-shown) {
   top: 60px;
   bottom: 60px;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 12px 12px 0;
 
   .drawer-separator {
     background: transparent;
   }
 
   .q-drawer__content {
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 12px 12px 0;
   }
 
   .tab-navi {
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 12px 12px 0;
     box-shadow: rgba(15, 15, 15, .05) 0 0 0 1px,
       rgba(15, 15, 15, .01) 0 3px 6px,
       rgba(15, 15, 15, .02) 0 9px 24px;
-    background: var(--q-secondary) !important;
+    background: var(--q-secondary);
   }
 }
 
