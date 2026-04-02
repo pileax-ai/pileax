@@ -31,8 +31,8 @@ class LLMHelper:
                 try:
                     m, tc = model.chat(
                         None,
-                        [{"role": "user", "content": "Hello! How are you doing!"}],
-                        {"max_tokens": 50},
+                        [{"role": "user", "content": "."}],
+                        {"max_tokens": 1},
                     )
                     if m.find("**ERROR**") >= 0:
                         raise Exception(m)
@@ -66,8 +66,8 @@ class LLMHelper:
             try:
                 m, tc = model.chat(
                     None,
-                    [{"role": "user", "content": "Hello! How are you doing!"}],
-                    {"max_tokens": 50},
+                    [{"role": "user", "content": "."}],
+                    {"max_tokens": 1},
                 )
                 if m.find("**ERROR**") >= 0:
                     raise Exception(m)

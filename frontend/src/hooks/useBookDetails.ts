@@ -14,13 +14,13 @@ export default function () {
     const bookWorkspaceId = book.bookWorkspaceId || book.workspaceId
     const bookWorkspace = workspaces.value.find(i => i.id === bookWorkspaceId)
     const teamTag = {
-      label: bookWorkspace?.name || t(''),
+      label: bookWorkspace?.name || t('workspace.types.team'),
       value: 'team',
       color: 'purple'
     }
     if (account.value.id === bookOwner) {
       tags.push({
-        label: 'Own',
+        label: t('workspace.types.personal'),
         value: 'own',
         color: 'blue',
       })
