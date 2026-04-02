@@ -340,7 +340,6 @@ onMounted(() => {
 
 .quick-settings-menu {
   min-width: 240px !important;
-  border-radius: 8px;
   header {
     padding: 10px 10px 0 10px;
 

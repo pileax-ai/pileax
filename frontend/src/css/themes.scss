@@ -60,6 +60,75 @@ body.body--dark {
     background: rgba(#B3BDD2, 0.1);
   }
   .text-tips {
+    color: rgba(#B3BDD2, 0.9);
+  }
+  .text-readable {
+    color: #9aa0a6;
+  }
+
+  .bg-deep {
+    background: #141824;
+  }
+
+  .q-list--dark, .q-item--dark {
+    color: rgba(white, 0.85);
+  }
+
+  // Form
+  .q-field--outlined .q-field__control:before {
+    border-color: rgba(white, 0.2);
+  }
+  .q-field--outlined:hover .q-field__control:before {
+    border-color: rgba(white, 0.5);
+  }
+
+  .q-separator--dark {
+    background: rgba($dark_separator_color, 0.8); // accent
+  }
+
+  .q-table--dark {
+    tr, th, td, .q-table__bottom {
+      border-color: rgba($dark_separator_color, 0.8) !important;
+    }
+  }
+
+  .q-card--dark {
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.2);
+
+    transition: box-shadow 0.3s ease;
+  }
+
+  .q-menu--dark,
+  .resizable-drawer.shadow-2,
+  .dialog-card.q-card--dark,
+  .o-side-dialog.card .q-dialog__inner .q-layout-container,
+  .q-dialog .q-dialog__inner .q-layout-container,
+  .pi-dialog-theme {
+    background-color: var(--q-accent) !important;
+
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.2)
+    !important;
+
+    border: none !important;
+    border-radius: 12px;
+  }
+  .tab-drawer.shadow-2 {
+    border-radius: 0 12px 12px 0 !important;
+  }
+}
+
+body.body--dark-blue {
+  color: rgba(white, 0.85);
+
+  .bg-tips {
+    background: rgba(#B3BDD2, 0.1);
+  }
+  .text-tips {
     color: rgba(#B3BDD2, 0.6);
   }
   .text-readable {

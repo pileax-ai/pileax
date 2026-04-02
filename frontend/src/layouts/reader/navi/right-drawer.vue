@@ -7,7 +7,7 @@
     :max-width="800"
     :overlay="rightDrawerHoverShow"
     class="right-drawer"
-    :class="{'hover-show': rightDrawerHoverShow}"
+    :class="{'hover-show shadow-2': rightDrawerHoverShow}"
     @leave="emit('leave', $event)"
     @resize="onResize">
     <section class="col-12 fit bg-secondary side-bar">
@@ -79,9 +79,11 @@ onBeforeMount(() => {
   //  border-radius: 6px !important;
   //  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
   //}
+  border-radius: 12px 0 0 12px !important;
 }
 
 .right-drawer {
+  border-radius: 12px 0 0 12px !important;
   .side-bar {
     //padding-left: 8px;
     .q-splitter {

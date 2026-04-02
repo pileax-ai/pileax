@@ -229,4 +229,16 @@ onActivated(() => {
   }
 
 }
+
+body.body--dark {
+  nav {
+    &.navi-left {
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><filter id='shadow'><feDropShadow dx='0' dy='1' stdDeviation='0.5' flood-opacity='0.5'/></filter><path d='m15 18-6-6 6-6' filter='url(%23shadow)'/></svg>") 12 12, auto;
+    }
+
+    &.navi-right {
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><filter id='s'><feDropShadow dx='0' dy='1' stdDeviation='0.5' flood-opacity='0.5'/></filter><path d='m9 18 6-6-6-6' filter='url(%23s)'/></svg>") 12 12, auto;
+    }
+  }
+}
 </style>
