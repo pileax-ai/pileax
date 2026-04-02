@@ -38,6 +38,7 @@ import LeftDrawer from './navi/left-drawer.vue'
 import RightDrawer from './navi/right-drawer.vue'
 import ReaderModalEntry from 'core/components/modal/ReaderModalEntry.vue'
 import { workspaceManager } from 'core/workspace/workspace-manager'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 
 const appStore = useAppStore()
 const {
@@ -48,6 +49,7 @@ const {
   setLeftDrawerHoverShow,
   setRightDrawerHoverShow
 } = useReader()
+const { setReaderTheme } = useReaderSetting()
 
 const rightDrawerRef = ref(null)
 const leftHandlerAutohide = ref(false)
@@ -58,6 +60,7 @@ const theme = computed(() => {
 })
 
 function init () {
+  setReaderTheme(theme.value)
   workspaceManager.loadWorkspace()
 }
 
