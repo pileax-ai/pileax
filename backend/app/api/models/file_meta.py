@@ -9,11 +9,10 @@ from app.api.models.enums import Status
 
 class FileMeta(BaseSQLModel, BaseMixin, table=True):
     __tablename__ = "file_meta"
-    __table_args__ = (UniqueConstraint("sha1", name="unique_sha1"),)
 
     workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
-    sha1: str = Field(..., min_length=32, max_length=64, description="File sha1 hash")
+    sha1: str | None = Field(default="", min_length=32, max_length=64, description="File sha1 hash")
     mimetype: str | None = Field(default="")
     size: int | None = Field(default=0, ge=0)
     original_name: str | None = Field(default="")
@@ -26,7 +25,7 @@ class FileMeta(BaseSQLModel, BaseMixin, table=True):
 
 class FileMetaBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
-    sha1: str
+    sha1: str | None = Field(default="")
     mimetype: str | None = Field(default="")
     size: int | None = Field(default=0, ge=0)
     original_name: str | None = Field(default="")
