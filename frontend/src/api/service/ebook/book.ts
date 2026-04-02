@@ -292,13 +292,13 @@ const parseAuthor = (data: any) => {
   // console.log('parseAuthor', data)
   let author = data
   if (Array.isArray(data)) {
-    console.log('parseAuthor array', data)
+    // console.log('parseAuthor array', data)
     const arr = data.map(item => {
       return (typeof item === 'object') ? item['name'] : item
     })
     author = arr.join(',')
   } else if (typeof data === 'object') {
-    console.log('parseAuthor object', data)
+    // console.log('parseAuthor object', data)
     author = data['name'] ?? 'unknown'
   }
 
@@ -307,16 +307,16 @@ const parseAuthor = (data: any) => {
 
 const parseBookField = (data: any) => {
   if (!data) return ''
-  console.log('parseBookField', data)
+  // console.log('parseBookField', data)
   let value = data
   if (Array.isArray(data)) {
-    console.log('parse array', data)
+    // console.log('parse array', data)
     const arr = data.map(item => {
       return (typeof item === 'object') ? item['name'] : item
     })
     value = arr.join(',')
   } else if (typeof data === 'object') {
-    console.log('parse object', data)
+    // console.log('parse object', data)
     value = data['name'] ?? 'unknown'
   }
 

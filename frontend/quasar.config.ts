@@ -314,6 +314,7 @@ export default defineConfig(((ctx) => {
 
       builder: {
         // https://www.electron.build/configuration
+        electronLanguages: ['en', 'de', 'es', 'fr', 'id', 'it', 'ja', 'ko', 'pl', 'pt', 'ro', 'ru', 'vi', 'zh_CN', 'zh_TW'],
 
         appId: 'ai.pileax.desktop',
         productName: 'PileaX',
