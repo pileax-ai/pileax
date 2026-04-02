@@ -46,7 +46,7 @@ export default function () {
         const blobUrl = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = blobUrl
-        a.download = book.title
+        a.download = `${book.title}.${book.extension}`
         document.body.appendChild(a)
         a.click()
         a.remove()
