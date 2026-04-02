@@ -54,7 +54,7 @@ const { themeList, theme, setTheme } = useSetting()
 
   .theme-light {
     background: #ffffff;
-    border: solid 1px var(--q-accent);
+    border: solid 1px rgba(0, 0, 0, 0.1);
     border-radius: 3px !important;
 
     &:before {
@@ -65,11 +65,12 @@ const { themeList, theme, setTheme } = useSetting()
 
 
   .theme-dark {
-    background: #0d1438;
+    background: #1E1F22;
+    border: solid 1px rgba(255, 255, 255, 0.1);
 
     &:before {
-      border-right: solid 1px rgba(#ffffff, 0.1);
-      background: #0d1438;
+      border-right: solid 1px #2B2D30;
+      background: #2B2D30;
     }
   }
 }

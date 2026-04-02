@@ -48,7 +48,7 @@ export default {
       tab: '标签页'
     },
     modes: {
-      colorBlind: '色盲模式',
+      colorBlind: '色弱模式',
       grayscale: '灰度模式'
     },
     theme: '主题',

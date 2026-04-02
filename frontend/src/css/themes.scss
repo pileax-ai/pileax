@@ -111,14 +111,38 @@ body.body--dark {
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.2),
       0 10px 30px rgba(0, 0, 0, 0.3),
-      0 2px 8px rgba(0, 0, 0, 0.2)
-    !important;
+      0 2px 8px rgba(0, 0, 0, 0.2) !important;
 
     border: none !important;
     border-radius: 12px;
   }
-  .tab-drawer.shadow-2 {
-    border-radius: 0 12px 12px 0 !important;
+
+  .q-menu--dark {
+    .q-separator {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+
+  .tippy-content .o-menu, .popover-content {
+    background-color: var(--q-accent) !important;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .yiitap {
+    color: rgb(240, 239, 237) !important;
+  }
+
+  .q-field--dark input::placeholder {
+    color: #B3BDD2 !important;
+  }
+
+  .ProseMirror {
+    .is-empty:before {
+      color: rgba(#B3BDD2, 0.4);
+    }
   }
 }
 
@@ -165,6 +189,7 @@ body.body--dark-blue {
   .tab-drawer.shadow-2,
   .dialog-card.q-card--dark,
   .o-side-dialog.card .q-dialog__inner .q-layout-container,
+  .o-toc-popover,
   .pi-dialog-theme {
     box-shadow:
       0 -2px 6px rgba(0, 0, 0, 0.25),

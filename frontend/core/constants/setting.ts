@@ -10,17 +10,17 @@ export const THEMES :Indexable = {
     'info': '#272A3E',
   },
   'dark': {
-    'secondary': '#252528',
+    'secondary': '#1E1F22', // #252528
     'accent': '#2B2D30',
-    'dark': '#1A1B1E',
+    'dark': '#161719',
     'info': '#f2f2f7',
   },
-  'dark-blue': {
-    'secondary': '#272A3E',
-    'accent': '#222336',
-    'dark': '#141824',
-    'info': '#B3BDD2',
-  },
+  // 'dark-blue': {
+  //   'secondary': '#272A3E',
+  //   'accent': '#222336',
+  //   'dark': '#141824',
+  //   'info': '#B3BDD2',
+  // },
 }
 
 export const THEME_COLORS :OptionValue[] = [
