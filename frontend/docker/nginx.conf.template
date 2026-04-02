@@ -6,8 +6,19 @@ server {
 
     # Fix mjs MIME: pdf.worker.mjs
     include /etc/nginx/mime.types;
+    default_type application/octet-stream;
     types {
         application/javascript mjs;
+        application/epub+zip epub;
+        application/x-mobipocket-ebook mobi;
+        application/x-azw3-ebook azw3;
+        application/vnd.amazon.ebook azw3;
+        application/vnd.amazon.mobi8 azw3;
+        application/x-cbz cbz;
+        application/vnd.comicbook+zip cbz;
+        application/x-fictionbook+xml fb2;
+        application/x-zip-compressed-fb2 fbz;
+        application/pdf pdf;
     }
 
     # SPA

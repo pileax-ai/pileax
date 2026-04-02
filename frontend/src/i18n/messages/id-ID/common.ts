@@ -252,6 +252,7 @@ export default {
   upload: 'Mengunggah',
   version: 'Versi',
   view: {
+    compact: 'Kompak',
     grid: 'Jaringan',
     list: 'Daftar'
   },

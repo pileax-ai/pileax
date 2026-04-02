@@ -52,7 +52,6 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
         return {
             **book_annotation.model_dump(),
             "book_title": book.title,
-            "path": book.path,
-            "file_name": book.file_name,
-            "cover_name": book.cover_name,
+            "file_url": book.file_url,
+            "cover_url": book.cover_url,
         }

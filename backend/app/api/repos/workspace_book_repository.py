@@ -130,11 +130,11 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
     def build_details(workspace_book: WorkspaceBook, book: Book, user_book: UserBook | None = None) -> dict:
         return {
             **workspace_book.model_dump(),
-            "owner": book.user_id,
+            "book_user_id": book.user_id,
+            "book_workspace_id": book.workspace_id,
             "title": book.title,
-            "path": book.path,
-            "file_name": book.file_name,
-            "cover_name": book.cover_name,
+            "file_url": book.file_url,
+            "cover_url": book.cover_url,
             "author": book.author,
             "language": book.language,
             "description": book.description,

@@ -18,8 +18,8 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     title: str = Field(..., max_length=255, description="Book title")
     title_pinyin: str | None = Field(default=None)
     path: str = Field(..., description="Book file path")
-    file_name: str | None = Field(default=None)
-    cover_name: str | None = Field(default=None)
+    file_url: str | None = Field(default=None)
+    cover_url: str | None = Field(default=None)
     extension: str | None = Field(default=None)
     rating: int | None = Field(default=0, ge=0, le=5)
     author: str | None = Field(default=None)
@@ -55,9 +55,9 @@ class BookBase(BaseApiModel):
 class BookCreate(BookBase):
     tenant_id: uuid.UUID | None = None
     uuid: str = Field(min_length=32, max_length=64)
-    path: str
-    file_name: str
-    cover_name: str | None = ""
+    path: str | None = ""
+    file_url: str | None = ""
+    cover_url: str | None = ""
     extension: str | None = ""
 
 
@@ -67,15 +67,15 @@ class BookUpdate(BookBase):
 
 
 class BookPublic(BookCreate, BaseMixin):
-    tenant_id: uuid.UUID
-    pass
+    workspace_id: uuid.UUID
+    user_id: uuid.UUID
+    workspace_book_id: uuid.UUID | None = None
 
 
 class BookDetails(BaseApiModel, BaseMixin):
     title: str
-    path: str | None = None
-    file_name: str | None = None
-    cover_name: str | None = None
+    file_url: str | None = None
+    cover_url: str | None = None
     author: str | None = None
     language: str | None = None
     description: str | None = None

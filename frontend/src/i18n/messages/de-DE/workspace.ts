@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: 'Wird {name} eine neue Rolle zugewiesen?',
   current: 'Aktueller Arbeitsbereich',
   details: 'Arbeitsbereichsdetails',
+  invite: 'Einladen',
   invites: {
     accept: 'Einladung annehmen',
+    inviteToJoin: 'lädt Sie zum Mitmachen ein',
     joined: 'Beigetreten',
     member: 'Mitglied einladen',
     tips: 'Lade neue Mitglieder in deinen Arbeitsbereich ein.'

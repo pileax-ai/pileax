@@ -252,6 +252,7 @@ export default {
   upload: 'Загрузить',
   version: 'Версия',
   view: {
+    compact: 'Компактный',
     grid: 'Сетка',
     list: 'Список'
   },

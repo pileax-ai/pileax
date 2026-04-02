@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import { GET, POST, PUT, DELETE } from 'src/hooks/useRequest'
+import { GET, POST } from 'src/hooks/useRequest'
 import { BaseService } from 'src/api/service/remote/base'
 
 export class WorkspaceMemberService extends BaseService {
@@ -15,6 +15,10 @@ export class WorkspaceMemberService extends BaseService {
 
   async acceptInvite(id: string): Promise<any> {
     return POST({ name: this.apiName, path: '/accept', query: { id } })
+  }
+
+  async getInvite(): Promise<any> {
+    return GET({ name: this.apiName, path: '/invite' })
   }
 
   async enable(id: string): Promise<any> {

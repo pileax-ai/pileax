@@ -8,6 +8,7 @@
     <note-search-dialog v-if="type === 'note-search'" />
     <signin-dialog v-if="type === 'signin'" />
     <tips-dialog v-if="type === 'tips'" />
+    <workspace-invite-dialog v-if="type === 'workspace-invite'" />
     <o-settings-dialog v-if="type === 'settings'" />
     <o-note-history-dialog v-if="type === 'note-history'" />
   </section>
@@ -25,6 +26,7 @@ import GuideDialog from './GuideDialog.vue'
 import NoteSearchDialog from './NoteSearchDialog.vue'
 import SigninDialog from './SigninDialog.vue'
 import TipsDialog from './TipsDialog.vue'
+import WorkspaceInviteDialog from './WorkspaceInviteDialog.vue'
 
 import OSettingsDialog from 'src/components/settings/OSettingsDialog.vue'
 import ONoteHistoryDialog from 'src/components/note/o-note-history-dialog/index.vue'

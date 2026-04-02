@@ -1,32 +1,42 @@
 <template>
-  <q-responsive :ratio="3/4">
-    <q-card class="book-grid-item" v-ripple>
-      <q-img :src="coverUrl" @error="onError">
-        <div class="absolute-top text-subtitle1 tags">
+  <q-responsive :ratio="2/1">
+    <q-card class="book-compact-item">
+      <q-item>
+        <q-item-section avatar>
+          <q-img :src="coverUrl" :ratio="3/4" spinner-size="20px" @error="onError" />
+        </q-item-section>
+        <q-item-section class="justify-around">
+          <q-item-label class="title text-bold" lines="2">
+            {{ data.title }}
+          </q-item-label>
+          <q-item-label caption lines="1">
+            {{ data.author }}
+          </q-item-label>
+        </q-item-section>
+        <div class="absolute-top tags" v-if="!add">
           <template v-for="(item, index) in tags" :key="index">
             <q-chip v-bind="item" square dense />
           </template>
         </div>
-        <div class="absolute-bottom text-subtitle1 text-center details">
+        <div class="row justify-end items-end absolute-bottom text-center details">
           <q-btn :label="$t('add')" flat
                  @click.stop="emit('add')" v-if="add && !data.workspaceBookId" />
           <q-btn :label="$t('details')" flat
                  @click.stop="emit('details')" />
         </div>
-      </q-img>
+      </q-item>
       <div class="bookmark" v-if="data.workspaceBookId">
         <q-icon name="o_bookmark" color="amber" size="16px" />
       </div>
     </q-card>
-
     <slot></slot>
   </q-responsive>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import useBookDetails from 'src/hooks/useBookDetails'
 import useApi from 'src/hooks/useApi'
+import useBookDetails from 'src/hooks/useBookDetails'
 
 const props = defineProps({
   data: {
@@ -61,7 +71,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.book-grid-item {
+.book-compact-item {
   position: relative;
   width: 100%;
   height: 100%;
@@ -74,11 +84,26 @@ onMounted(() => {
     z-index: 1;
   }
 
-  .q-img {
+  .q-item {
+    width: 100%;
     height: 100%;
+    border-radius: 8px;
+    padding: 8px;
+    overflow: hidden;
+  }
+
+  .q-item__section--avatar {
+    min-width: 64px;
+    padding-right: 8px;
+  }
+
+  .q-img {
+    border-radius: 2px;
   }
 
   .details {
+    color: #ffffff;
+    background: rgba(0,0,0,0.5);
     padding: 0;
     visibility: hidden;
     opacity: 0;
@@ -92,6 +117,8 @@ onMounted(() => {
   }
 
   .tags {
+    color: #ffffff;
+    background: rgba(0,0,0,0.5);
     padding: 4px 4px;
     visibility: hidden;
     opacity: 0;

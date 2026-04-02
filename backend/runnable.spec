@@ -22,7 +22,7 @@ a = Analysis(
     hookspath=['hooks'],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['mypy'],
+    excludes=['mypy', 'boto3', 'botocore', 's3transfer'],
     noarchive=False,
     optimize=0,
 )

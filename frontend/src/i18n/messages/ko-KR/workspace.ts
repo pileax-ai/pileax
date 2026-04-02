@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: '{name}에게 새로운 역할을 부여하시겠습니까?',
   current: '현재 작업 공간',
   details: '작업 공간 세부 정보',
+  invite: '초대하다',
   invites: {
     accept: '초대 수락',
+    inviteToJoin: '참여를 초대합니다',
     joined: '가입함',
     member: '회원 초대',
     tips: '워크스페이스에 새로운 멤버를 초대하세요.'

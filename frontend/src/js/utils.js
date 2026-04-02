@@ -173,11 +173,51 @@ const getSelectionRange = (sel) => {
   return range;
 };
 
+const resolveURL = (url, relativeTo) => {
+  try {
+    if (relativeTo.includes(':')) return new URL(url, relativeTo)
+
+    const root = 'https://invalid.invalid/'
+    const obj = new URL(url, root + relativeTo)
+    obj.search = ''
+
+    return decodeURI(obj.href.replace(root, ''))
+  } catch(e) {
+    console.warn(e)
+    return url
+  }
+}
+
+const getRealCoverBlob = async (coverBlob, book) => {
+  if (coverBlob.type === 'application/xhtml+xml' || coverBlob.type === 'text/html') {
+    const text = await coverBlob.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'application/xhtml+xml');
+    const img = doc.querySelector('img, image')
+    const src = img?.getAttribute('src') || img?.getAttribute('xlink:href') || img?.getAttribute('href')
+    if (src) {
+      const resources = book.resources
+      const coverPageHref = resources.cover?.href
+      const absoluteSrc = resolveURL(src, coverPageHref)
+
+      try {
+        const realBlob = await book.loadBlob(absoluteSrc)
+        if (realBlob) {
+          return realBlob
+        }
+      } catch (e) {
+        console.error('Failed to load real cover image', e)
+      }
+    }
+  }
+  return coverBlob;
+}
 
 export {
   debounce,
   getCSS,
   getLang,
   getPosition,
-  getSelectionRange
+  getSelectionRange,
+  getRealCoverBlob,
 }

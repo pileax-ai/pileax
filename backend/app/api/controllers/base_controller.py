@@ -74,6 +74,9 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             query.condition["tenantId"] = self.workspace.tenant_id
         return self.service.query(query)
 
+    def find_one(self, condition: Optional[dict[str, object]] = None, raise_exception=False) -> ModelType:
+        return self.service.find_one(condition, raise_exception)
+
     def find_all(self, condition: Optional[dict[str, object]] = None) -> list[ModelType]:
         return self.service.find_all(condition)
 

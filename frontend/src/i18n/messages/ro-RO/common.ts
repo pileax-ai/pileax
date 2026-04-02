@@ -252,6 +252,7 @@ export default {
   upload: 'Încărcare',
   version: 'Versiune',
   view: {
+    compact: 'Compact',
     grid: 'Grilă',
     list: 'Listă'
   },

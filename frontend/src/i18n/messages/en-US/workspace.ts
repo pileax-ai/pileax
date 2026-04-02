@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: 'Will assign a new role to {name}?',
   current: 'Current Workspace',
   details: 'Workspace Details',
+  invite: 'Invite',
   invites: {
     accept: 'Accept invitation',
+    inviteToJoin: 'invites you to join',
     joined: 'Joined',
     member: 'Invite member',
     tips: 'Invite new members to join your workspace.'

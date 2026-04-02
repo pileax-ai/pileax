@@ -30,6 +30,7 @@ export default {
   library: {
     _: 'Thư viện',
     add: 'Thêm từ thư viện',
+    containBooks: 'Chứa các cuốn sách bạn đã tải lên và chia sẻ từ không gian của mình.',
     noBooks: 'Thư viện hiện chưa có cuốn sách nào. Hãy bổ sung ngay!'
   },
   markFinished: 'Đánh dấu là đã hoàn thành',

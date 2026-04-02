@@ -252,6 +252,7 @@ export default {
   upload: 'Upload',
   version: 'Version',
   view: {
+    compact: 'Compact',
     grid: 'Grid',
     list: 'List'
   },

@@ -30,6 +30,7 @@ export default {
   library: {
     _: '도서관',
     add: '라이브러리에서 추가',
+    containBooks: '사용자가 공간에 업로드하고 공유한 책들이 포함되어 있습니다.',
     noBooks: '아직 도서관에 책이 없습니다. 지금 책을 추가해 주세요.'
   },
   markFinished: '완료로 표시',

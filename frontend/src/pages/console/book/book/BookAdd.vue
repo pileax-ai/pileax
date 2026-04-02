@@ -12,22 +12,32 @@
              @click="filter = !filter"
              flat v-if="false" />
       <div class="query-item no-drag-region">
-        <q-input v-model="condition.title"
+        <q-input v-model="condition.title__icontains"
                  class="pi-field"
                  :placeholder="$t('search')"
                  debounce="800"
                  standout dense clearable
-                 @update:model-value="doQuery">
+                 @update:model-value="query.onQuery(true)">
           <template #prepend>
             <q-icon name="search" class="text-readable" />
           </template>
         </q-input>
       </div>
+      <div class="query-item q-px-md">
+        <q-chip square>
+          <q-avatar color="primary" text-color="white">{{ $t('book.library._') }}</q-avatar>
+          {{ $t('book.library.containBooks') }}
+        </q-chip>
+      </div>
     </template>
 
     <!--Actions-->
     <template #actions>
-      <book-more-btn @view="onView" @sort="onSort" />
+      <book-more-btn view="compact"
+                     order-by="recentAdd"
+                     source="book-add"
+                     @view="onView"
+                     @sort="onSort" />
     </template>
 
     <section class="row full-width">
@@ -35,34 +45,56 @@
         Book Filters
       </nav>
       <section class="col">
-        <template v-if="rows.length">
-          <section class="row col-12 q-col-gutter-lg grid-view" v-if="bookView === 'grid'">
-            <template v-for="(item, index) in rows" :key="index">
-              <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <book-grid-item :data="item"
-                                @click.stop
-                                @add="addBook(item)"
-                                @details="onDetails(item)" add />
-              </div>
-            </template>
-          </section>
-          <section class="row col-12 justify-center list-view" v-else>
-            <q-list>
-              <template v-for="(item, index) in rows" :key="index">
-                <book-list-item :data="item"
-                                @click.stop
-                                @add="addBook(item)"
-                                @details="onDetails(item)" add />
+        <q-infinite-scroll ref="scrollRef" @load="query.onLoadMore" :offset="350">
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+
+          <template v-if="rows.length">
+            <section class="pi-view-grid" v-if="bookView === 'grid'">
+              <template v-for="(item) in rows" :key="item.id">
+                <div class="">
+                  <book-grid-item :data="item"
+                                  add
+                                  @click="addBook(item)"
+                                  @add="addBook(item)"
+                                  @details="onDetails(item)">
+                  </book-grid-item>
+                </div>
               </template>
-            </q-list>
-          </section>
-        </template>
-        <template v-else>
-          <o-no-data :message="$t('query.noRecords')" image v-if="condition.title" />
-          <section class="row col-12 justify-center no-records" v-else>
-            <span class="text-readable">{{ $t('book.noBooks') }}</span>
-          </section>
-        </template>
+            </section>
+            <section class="pi-view-grid" v-else-if="bookView === 'compact'">
+              <template v-for="(item) in rows" :key="item.id">
+                <div class="">
+                  <book-compact-item :data="item"
+                                     add
+                                     @click="addBook(item)"
+                                     @add="addBook(item)"
+                                     @details="onDetails(item)">
+                  </book-compact-item>
+                </div>
+              </template>
+            </section>
+            <section class="row col-12 justify-center pi-view-list" v-else>
+              <q-list>
+                <template v-for="(item) in rows" :key="item.id">
+                  <book-list-item :data="item"
+                                  add
+                                  @click="addBook(item)"
+                                  @add="addBook(item)"
+                                  @details="onDetails(item)">
+                  </book-list-item>
+                </template>
+              </q-list>
+            </section>
+          </template>
+
+          <div class="col-12 text-center q-pt-lg text-tips" v-if="!query.paging.more">
+            {{ $t('query.noMoreData', {total: total}) }}
+          </div>
+        </q-infinite-scroll>
       </section>
     </section>
 
@@ -77,42 +109,34 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { uploadBook } from 'src/api/service/ebook/book'
-import { bookService, workspaceBookService } from 'src/api/service/remote'
+import { onMounted, ref } from 'vue'
+import { workspaceBookService } from 'src/api/service/remote'
 import BookGridItem from './BookGridItem.vue'
+import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'
 import BookMoreBtn from './BookMoreBtn.vue'
-import OFileUploader from 'core/components/fIle/OFileUploader.vue'
 
-import useReader from 'src/hooks/useReader'
-import useQuery from 'src/hooks/useQuery'
-import { notifyWarning } from 'core/utils/control'
+import { notifyDone, notifyWarning } from 'core/utils/control'
+import useLoadMore from 'src/hooks/useLoadMore'
+import useCommon from 'core/hooks/useCommon'
 
 const emit = defineEmits(['close'])
 
-const { queryTimer } = useReader()
-const { view, query } = useQuery()
+const { t } = useCommon()
+const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const data = ref({})
-const condition = ref<Indexable>({})
-const rows = ref([])
-const loading = ref(false)
 const filter = ref(false)
-const bookView = ref('grid')
-const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
-const orderBy = ref<Indexable>({
-  updateTime: 'desc'
-})
+const bookView = ref('compact')
 
 function onView(value: string) {
   bookView.value = value
 }
 
 function onSort(value: Indexable) {
-  orderBy.value = value
-  doQuery()
+  sort.value = value
+  query.value.onQuery()
 }
 
 function onDetails(item: any) {
@@ -122,21 +146,14 @@ function onDetails(item: any) {
 
 function onClose() {
   query.value.closeSide(false, false)
-  doQuery()
 }
-
-async function onAddReady(file: File, icon: string) {
-  loading.value = true
-  await uploadBook(file)
-  loading.value = false
-}
-
 
 function addBook(book: any) {
   workspaceBookService.save({
     bookId: book.id
   }).then(res => {
-    emit('close')
+    // emit('close')
+    notifyDone()
   }).catch(res => {
     const data = res.response.data
     if (data.message.indexOf('UNIQUE') === 0) {
@@ -147,29 +164,14 @@ function addBook(book: any) {
   })
 }
 
-function doQuery() {
-  const query = {
-    pageIndex: 1,
-    pageSize: 20,
-    condition: {
-      'title__icontains': condition.value.title
-    },
-    sort: orderBy.value
-  }
-
-  bookService.queryLibrary(query).then(res => {
-    console.log('res', res)
-    rows.value = res.list
+function initData() {
+  initQuery({
+    api: 'book',
+    path: '/query/library',
+    title: t('book._'),
+    sortBy: { 'book.update_time': 'desc' }
   })
 }
-
-function initData() {
-  doQuery()
-}
-
-watch(() => queryTimer.value, (newValue) => {
-  doQuery()
-})
 
 onMounted(() => {
   initData()
@@ -186,6 +188,13 @@ onMounted(() => {
       border: none;
       .console-toolbar {
         padding: 0;
+      }
+    }
+
+    .query-item {
+      .q-avatar {
+        width: unset !important;
+        padding: 0 6px;
       }
     }
   }

@@ -1,10 +1,37 @@
 import useApi from 'src/hooks/useApi'
 import { userBookService, workspaceBookService, workspaceBookCollectionService } from 'src/api/service/remote'
 import useCommon from 'core/hooks/useCommon'
+import useAccount from 'src/hooks/useAccount'
 
 export default function () {
   const { getBookUrl } = useApi()
+  const { account, workspace, workspaces } = useAccount()
   const { t, confirm } = useCommon()
+
+  const bookTags = (book: Indexable) => {
+    const tags = []
+    const bookOwner = book.bookUserId || book.userId
+    const bookWorkspaceId = book.bookWorkspaceId || book.workspaceId
+    const bookWorkspace = workspaces.value.find(i => i.id === bookWorkspaceId)
+    const teamTag = {
+      label: bookWorkspace?.name || t('workspace.types.team'),
+      value: 'team',
+      color: 'purple'
+    }
+    if (account.value.id === bookOwner) {
+      tags.push({
+        label: t('workspace.types.personal'),
+        value: 'own',
+        color: 'blue',
+      })
+      if (workspace.value.id !== bookWorkspaceId) {
+        tags.push(teamTag)
+      }
+    } else {
+      tags.push(teamTag)
+    }
+    return tags
+  }
 
   const downloadBook = (book: Indexable) => {
     const url = getBookUrl(book)
@@ -19,7 +46,7 @@ export default function () {
         const blobUrl = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = blobUrl
-        a.download = book.title
+        a.download = `${book.title}.${book.extension}`
         document.body.appendChild(a)
         a.click()
         a.remove()
@@ -75,6 +102,7 @@ export default function () {
   }
 
   return {
+    bookTags,
     downloadBook,
     removeBook,
     updateBook,

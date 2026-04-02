@@ -30,6 +30,7 @@ export default {
   library: {
     _: 'Biblioteca',
     add: 'Agregar desde la biblioteca',
+    containBooks: 'Contiene los libros que has subido y compartido desde tu espacio.',
     noBooks: 'Aún no hay libros en la biblioteca. Agrega algunos ahora.'
   },
   markFinished: 'Marcar como terminado',

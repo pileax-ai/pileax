@@ -10,7 +10,8 @@
                          v-bind="query"
                          disable-meta
                          enable-fullscreen fixed-header
-                         @full-screen="onFullScreen">
+                         @full-screen="onFullScreen"
+                         @sideClose="onSideClose">
         <template #header-left>
           <q-btn icon="tune"
                  class="filter"
@@ -82,6 +83,20 @@
                   </div>
                 </template>
               </section>
+              <section class="pi-view-grid" v-else-if="bookView === 'compact'">
+                <template v-for="(item) in rows" :key="item.id">
+                  <div class="">
+                    <book-compact-item :data="item"
+                                       @click="openBook(item)"
+                                       @details="onDetails(item)">
+                      <book-context-menu :data="item"
+                                         @close="onClose"
+                                         @edit="onEdit"
+                                         context-menu />
+                    </book-compact-item>
+                  </div>
+                </template>
+              </section>
               <section class="row col-12 justify-center pi-view-list" v-else>
                 <q-list>
                   <template v-for="(item) in rows" :key="item.id">
@@ -138,6 +153,7 @@
 import { onActivated, ref, watch } from 'vue'
 import BookContextMenu from './BookContextMenu.vue'
 import BookGridItem from './BookGridItem.vue'
+import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'
 import BookEdit from './BookEdit.vue'
@@ -200,7 +216,6 @@ function onClose(options: Indexable) {
   if (options && options.action && options.item) {
     const bookId = options.item.bookId
     const index = rows.value.findIndex(e => e.bookId === bookId)
-    console.log('onClose', index, options)
     if (index !== -1) {
       switch (options.action) {
         case 'edit':
@@ -215,6 +230,12 @@ function onClose(options: Indexable) {
     query.value.onQuery()
   }
   query.value.closeSide(false, false)
+}
+
+function onSideClose() {
+  if (view.value === 'add') {
+    query.value.onQuery()
+  }
 }
 
 function onOpenAdd() {

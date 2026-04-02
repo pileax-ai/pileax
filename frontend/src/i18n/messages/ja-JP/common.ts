@@ -252,6 +252,7 @@ export default {
   upload: 'アップロード',
   version: 'バージョン',
   view: {
+    compact: 'コンパクト',
     grid: 'グリッド',
     list: 'リスト'
   },

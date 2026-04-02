@@ -1,10 +1,12 @@
+from itertools import starmap
 from uuid import UUID
 
-from sqlalchemy import func, or_, select
+from sqlalchemy import and_, func, or_, select
 
 from app.api.models.book import Book, BookPublic
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user_book import UserBook
+from app.api.models.workspace_book import WorkspaceBook
 from app.api.repos.base_repository import BaseRepository
 from app.libs.db_helper import DbHelper
 
@@ -34,7 +36,15 @@ class BookRepository(BaseRepository[Book]):
         filters.append(or_(Book.user_id == user_id, Book.workspace_id == workspace_id))
 
         # 2. stmt
-        stmt = select(Book)
+        stmt = select(Book, WorkspaceBook).join(
+            WorkspaceBook,
+            and_(
+                Book.id == WorkspaceBook.book_id,
+                WorkspaceBook.user_id == user_id,
+                WorkspaceBook.workspace_id == workspace_id,
+            ),
+            isouter=True,
+        )
         count_stmt = select(func.count()).select_from(Book)
         if filters:
             stmt = stmt.where(*filters)
@@ -45,11 +55,12 @@ class BookRepository(BaseRepository[Book]):
 
         # 4. Pagination
         stmt = DbHelper.apply_pagination(stmt, query.pageIndex, query.pageSize)
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         # 5. Query
         total = self.session.exec(count_stmt).one()
-        # rows = self.session.exec(stmt).all()
-        rows = [row[0] for row in self.session.exec(stmt).all()]
+        # rows = [row[0] for row in self.session.exec(stmt).all()]
+        rows = list(starmap(self.build_public, self.session.exec(stmt).all()))
 
         return QueryResult[BookPublic](
             total=total[0],
@@ -57,6 +68,13 @@ class BookRepository(BaseRepository[Book]):
             pageSize=query.pageSize,
             pageIndex=query.pageIndex,
         )
+
+    @staticmethod
+    def build_public(book: Book, workspace_book: WorkspaceBook | None = None) -> dict:
+        return {
+            **book.model_dump(),
+            "workspace_book_id": workspace_book.id if workspace_book else None,
+        }
 
     @staticmethod
     def build_details(book: Book, user_book: UserBook | None = None) -> dict:

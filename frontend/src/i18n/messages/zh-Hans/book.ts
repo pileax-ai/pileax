@@ -29,6 +29,7 @@ export default {
   library: {
     _: '书库',
     add: '从书库中添加',
+    containBooks: '含你上传和空间共享的书',
     noBooks: '书库中还没有记录，快来添加吧'
   },
   markFinished: '标记为已读',

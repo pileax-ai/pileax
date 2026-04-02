@@ -5,7 +5,12 @@ from fastapi import HTTPException
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace_member import WorkspaceMember, WorkspaceMemberInvite, WorkspaceMemberRole
+from app.api.models.workspace_member import (
+    WorkspaceMember,
+    WorkspaceMemberInvite,
+    WorkspaceMemberInvitePublic,
+    WorkspaceMemberRole,
+)
 from app.api.services.user_service import UserService
 from app.api.services.workspace_member_service import WorkspaceMemberService
 from app.core.cache.factory import cache, get_key
@@ -33,9 +38,12 @@ class WorkspaceMemberController:
             )
         )
 
+    def get_invite(self) -> WorkspaceMemberInvitePublic | None:
+        return self.service.get_invite(self.user_id)
+
     def accept(self, id: UUID) -> WorkspaceMember:
         wm = self.service.get(id)
-        if wm.user_id != self.user_id:
+        if str(wm.user_id) != self.user_id:
             raise HTTPException(status_code=403, detail="User does not match")
 
         return self.service.accept(id)
