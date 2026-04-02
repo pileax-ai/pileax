@@ -8,8 +8,8 @@ export default {
   invite: '邀请',
   invites: {
     accept: '接受邀请',
-    joined: '已加入',
     inviteToJoin: '邀请你加入',
+    joined: '已加入',
     member: '邀请成员',
     tips: '邀请新成员加入你的工作区。'
   },

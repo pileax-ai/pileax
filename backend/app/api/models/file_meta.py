@@ -1,6 +1,5 @@
 import uuid
 
-from sqlalchemy import UniqueConstraint
 from sqlmodel import Column, Field, Integer
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field

@@ -30,6 +30,7 @@ export default {
   library: {
     _: 'Perpustakaan',
     add: 'Tambahkan dari Perpustakaan',
+    containBooks: 'Berisi buku-buku yang Anda unggah dan bagikan dari ruang Anda.',
     noBooks: 'Belum ada buku di perpustakaan. Tambahkan beberapa sekarang.'
   },
   markFinished: 'Tandai sebagai Selesai',

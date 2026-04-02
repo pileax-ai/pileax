@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: 'Sẽ chỉ định vai trò mới cho {name}?',
   current: 'Không gian làm việc hiện tại',
   details: 'Chi tiết không gian làm việc',
+  invite: 'Mời',
   invites: {
     accept: 'Chấp nhận lời mời',
+    inviteToJoin: 'mời bạn tham gia',
     joined: 'Đã tham gia',
     member: 'Mời thành viên',
     tips: 'Mời các thành viên mới tham gia không gian làm việc của bạn.'

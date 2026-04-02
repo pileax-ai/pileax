@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: 'Atribuirá uma nova função a {name}?',
   current: 'Espaço de trabalho atual',
   details: 'Detalhes do espaço de trabalho',
+  invite: 'Convidar',
   invites: {
     accept: 'Aceitar convite',
+    inviteToJoin: 'convida você a participar',
     joined: 'Ingressou',
     member: 'Convidar membro',
     tips: 'Convide novos membros para participar do seu espaço de trabalho.'

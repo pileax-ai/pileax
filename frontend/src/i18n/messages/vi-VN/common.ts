@@ -252,6 +252,7 @@ export default {
   upload: 'Tải lên',
   version: 'Phiên bản',
   view: {
+    compact: 'Nhỏ gọn',
     grid: 'Lưới',
     list: 'Danh sách'
   },

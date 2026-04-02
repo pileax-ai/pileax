@@ -29,6 +29,7 @@ export default {
   library: {
     _: '書庫',
     add: '從書庫中新增',
+    containBooks: '含你上傳、空間共享的書',
     noBooks: '書庫還沒有記錄，快來添加吧'
   },
   markFinished: '標記為已讀',

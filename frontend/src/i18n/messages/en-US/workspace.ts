@@ -8,8 +8,8 @@ export default {
   invite: 'Invite',
   invites: {
     accept: 'Accept invitation',
-    joined: 'Joined',
     inviteToJoin: 'invites you to join',
+    joined: 'Joined',
     member: 'Invite member',
     tips: 'Invite new members to join your workspace.'
   },

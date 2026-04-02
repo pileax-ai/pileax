@@ -252,6 +252,7 @@ export default {
   upload: 'Télécharger',
   version: 'Version',
   view: {
+    compact: 'Compact',
     grid: 'Grille',
     list: 'Liste'
   },

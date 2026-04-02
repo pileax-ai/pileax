@@ -252,6 +252,7 @@ export default {
   upload: 'Wgrywać',
   version: 'Wersja',
   view: {
+    compact: 'Kompaktowy',
     grid: 'Siatka',
     list: 'Lista'
   },

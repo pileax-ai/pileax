@@ -30,6 +30,7 @@ export default {
   library: {
     _: 'Bibliothek',
     add: 'Aus Bibliothek hinzufügen',
+    containBooks: 'Enthält Bücher, die Sie in Ihrem Bereich hochgeladen und geteilt haben.',
     noBooks: 'Die Bibliothek ist noch leer. Füge jetzt welche hinzu.'
   },
   markFinished: 'Als erledigt markieren',

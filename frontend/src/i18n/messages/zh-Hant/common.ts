@@ -252,6 +252,7 @@ export default {
   upload: '上傳',
   version: '版本',
   view: {
+    compact: '緊湊',
     grid: '網格',
     list: '清單'
   },

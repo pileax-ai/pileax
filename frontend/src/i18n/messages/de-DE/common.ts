@@ -252,6 +252,7 @@ export default {
   upload: 'Hochladen',
   version: 'Version',
   view: {
+    compact: 'Kompakt',
     grid: 'Netz',
     list: 'Liste'
   },

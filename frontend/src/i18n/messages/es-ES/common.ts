@@ -252,6 +252,7 @@ export default {
   upload: 'Subir',
   version: 'Versión',
   view: {
+    compact: 'Compacto',
     grid: 'Red',
     list: 'Lista'
   },

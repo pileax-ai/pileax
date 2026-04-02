@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: '將給 {name} 分配新的角色？',
   current: '目前空間',
   details: '空間詳情',
+  invite: '邀請',
   invites: {
     accept: '接受邀請',
+    inviteToJoin: '邀請你加入',
     joined: '已加入',
     member: '邀請成員',
     tips: '邀請新成員加入你的工作區。'

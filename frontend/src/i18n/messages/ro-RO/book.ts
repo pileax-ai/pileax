@@ -30,6 +30,7 @@ export default {
   library: {
     _: 'Bibliotecă',
     add: 'Adăugați din bibliotecă',
+    containBooks: 'Conține cărți pe care le-ai încărcat și distribuit din spațiul tău.',
     noBooks: 'Încă nu există cărți în bibliotecă. Adăugați câteva acum.'
   },
   markFinished: 'Marchează ca finalizat',

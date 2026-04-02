@@ -5,8 +5,10 @@ export default {
   assignRoleConfirm: 'Apakah akan memberikan peran baru kepada {nama}?',
   current: 'Ruang Kerja Saat Ini',
   details: 'Detail Ruang Kerja',
+  invite: 'Mengundang',
   invites: {
     accept: 'Terima undangan',
+    inviteToJoin: 'mengundang Anda untuk bergabung',
     joined: 'Bergabung',
     member: 'Undang anggota',
     tips: 'Undang anggota baru untuk bergabung dengan ruang kerja Anda.'
