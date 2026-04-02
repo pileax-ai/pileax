@@ -54,24 +54,24 @@
 
           <template v-if="rows.length">
             <section class="pi-view-grid" v-if="bookView === 'grid'">
-              <template v-for="(item) in rows" :key="item.id">
+              <template v-for="(item, index) in rows" :key="item.id">
                 <div class="">
                   <book-grid-item :data="item"
                                   add
-                                  @click="addBook(item)"
-                                  @add="addBook(item)"
+                                  @click="addBook(item, index)"
+                                  @add="addBook(item, index)"
                                   @details="onDetails(item)">
                   </book-grid-item>
                 </div>
               </template>
             </section>
             <section class="pi-view-grid" v-else-if="bookView === 'compact'">
-              <template v-for="(item) in rows" :key="item.id">
+              <template v-for="(item, index) in rows" :key="item.id">
                 <div class="">
                   <book-compact-item :data="item"
                                      add
-                                     @click="addBook(item)"
-                                     @add="addBook(item)"
+                                     @click="addBook(item, index)"
+                                     @add="addBook(item, index)"
                                      @details="onDetails(item)">
                   </book-compact-item>
                 </div>
@@ -79,11 +79,11 @@
             </section>
             <section class="row col-12 justify-center pi-view-list" v-else>
               <q-list>
-                <template v-for="(item) in rows" :key="item.id">
+                <template v-for="(item, index) in rows" :key="item.id">
                   <book-list-item :data="item"
                                   add
-                                  @click="addBook(item)"
-                                  @add="addBook(item)"
+                                  @click="addBook(item, index)"
+                                  @add="addBook(item, index)"
                                   @details="onDetails(item)">
                   </book-list-item>
                 </template>
@@ -148,11 +148,13 @@ function onClose() {
   query.value.closeSide(false, false)
 }
 
-function addBook(book: any) {
+function addBook(book: any, idx: number) {
   workspaceBookService.save({
     bookId: book.id
   }).then(res => {
     // emit('close')
+    book.workspaceBookId = res.id
+    rows.value.splice(idx, 1, book)
     notifyDone()
   }).catch(res => {
     const data = res.response.data
