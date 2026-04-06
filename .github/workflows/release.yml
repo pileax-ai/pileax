@@ -44,7 +44,7 @@ jobs:
       # 2. Download all artifacts
       # ------------------------------
       - name: Download artifacts from latest Build
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v20
         with:
           workflow: "Build Desktop Arch"
           run_id: ${{ env.RUN_ID }}
