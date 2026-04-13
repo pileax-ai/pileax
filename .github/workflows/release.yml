@@ -61,7 +61,7 @@ jobs:
       # 3. Create Github Release
       # ------------------------------
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         continue-on-error: true
         with:
           tag_name: ${{ inputs.version }}
