@@ -27,6 +27,7 @@
 
 PileaX 是一款本地优先的一站式 AI 知识库，集 AI 对话、智能笔记、电子书阅读和管理于一体。从知识的生产到应用，PileaX 帮助您建立统一的知识库，利用 AI 智能体技术不断优化 AI 交互体验。数据完全由您掌控，支持离线使用的桌面应用和灵活部署的 Web 应用。
 
+![Screenshot](https://docs.pileax.ai/screenshots/main.gif)
 
 ## 特性
 
