@@ -46,7 +46,7 @@ jobs:
 
       - name: Set up Postgres Middlewares
         if: matrix.db-type == 'postgres'
-        uses: hoverkraft-tech/compose-action@v2.5.0
+        uses: hoverkraft-tech/compose-action@v2.6.0
         with:
           compose-file: docker/docker-compose.middleware.yaml
           services: db
