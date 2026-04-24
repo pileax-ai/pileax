@@ -130,7 +130,6 @@ function onOpenPath() {
 }
 
 onMounted(() => {
-  console.log('book', props.data)
   init()
 })
 

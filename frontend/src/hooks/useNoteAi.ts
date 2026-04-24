@@ -55,7 +55,7 @@ export default function() {
     return {
       provider: {
         provider, modelName, modelType
-      } as AiProvider,
+      },
       onStreamingChatCompletion,
     } as AiOptions
   })

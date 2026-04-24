@@ -106,7 +106,9 @@ onBeforeMount(() => {
     background: var(--q-dark);
 
     &:hover, &.is-resizing {
-      background: var(--q-dark)!important;
+      //background: var(--q-dark)!important;
+      right: 0;
+      left: -1px;
     }
   }
 

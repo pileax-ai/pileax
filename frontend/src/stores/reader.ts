@@ -13,13 +13,13 @@ export const useReaderStore = defineStore('reader', {
       hoverShow: false,
       width: 300,
       activity: '',
-    } as Indexable,
+    },
     rightDrawer: {
       show: true,
       hoverShow: false,
       width: 400,
       split: false,
-    } as Indexable,
+    },
     tts: {
       provider: 'browser',
       voiceName: '',
@@ -28,14 +28,14 @@ export const useReaderStore = defineStore('reader', {
       rate: '1.0',
       pitch: '1.0',
       volume: '1.0',
-    } as Indexable,
+    },
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
     queryTimer: 0,
     currentMainService: 'chat',
     mainService: [] as Indexable[],
     secondaryService: [] as Indexable[],
-    settings: defaultSetting as Indexable
+    settings: defaultSetting
   }),
   getters: {
     getActivity: (state) => state.leftDrawer.activity,

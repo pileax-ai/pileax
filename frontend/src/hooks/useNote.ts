@@ -150,7 +150,7 @@ export default function () {
     refreshNote({
       ...currentNote.value,
       ...data,
-    } as Note)
+    })
 
     if (debounce) {
       debounceSaveNoteRemote(data)

@@ -14,7 +14,7 @@ export const useComponentStore = defineStore('component', {
       onOk: () => {
         return
       },
-    } as Indexable,
+    },
   }),
   getters: {
     getDialog: (state) => state.dialog,

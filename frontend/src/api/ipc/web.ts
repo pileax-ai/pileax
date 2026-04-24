@@ -55,7 +55,7 @@ window.webIpcAPI = {
   logInit: mock as any,
   logStart: mock as any,
   logStop: mock as any,
-  onLogUpdate: onLoadUpdate as any,
+  onLogUpdate: onLoadUpdate,
   maximizeWindow: mock as any,
   migrateLibrary: mock as any,
   minimizeWindow: mock as any,

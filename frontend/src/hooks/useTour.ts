@@ -69,7 +69,7 @@ export default function() {
         //   }
         // },
       ]
-    } as Indexable
+    }
   })
 
   const createTour = (name: string, customOptions = {}) => {

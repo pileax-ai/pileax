@@ -77,7 +77,7 @@ export default function () {
     if (!color) return
     setCssVar('primary', color.value as string)
 
-    const themeSetting = appStore.setting.theme as ThemeSetting
+    const themeSetting = appStore.setting.theme
     themeSetting.color = colorName
     appStore.setTheme(themeSetting)
   }
@@ -89,7 +89,7 @@ export default function () {
       document.body.classList.remove('body--gray')
     }
 
-    const themeSetting = appStore.setting.theme as ThemeSetting
+    const themeSetting = appStore.setting.theme
     themeSetting.gray = gray
     appStore.setTheme(themeSetting)
   }
@@ -101,7 +101,7 @@ export default function () {
       document.body.classList.remove('body--weak')
     }
 
-    const themeSetting = appStore.setting.theme as ThemeSetting
+    const themeSetting = appStore.setting.theme
     themeSetting.weak = weak
     appStore.setTheme(themeSetting)
   }
@@ -121,31 +121,31 @@ export default function () {
   }
 
   const setNavi = (key :string, value :never) => {
-    const s = appStore.setting.navi as NaviSetting
+    const s = appStore.setting.navi
     s[key as keyof typeof s] = value
     appStore.setNavi(s)
   }
 
   const setTabBar = (key :string, value :never) => {
-    const s = appStore.setting.tabBar as TabBarSetting
+    const s = appStore.setting.tabBar
     s[key as keyof typeof s] = value
     appStore.setTabBar(s)
   }
 
   const setBreadcrumb = (key :string, value :never) => {
-    const s = appStore.setting.breadcrumb as BreadcrumbSetting
+    const s = appStore.setting.breadcrumb
     s[key as keyof typeof s] = value
     appStore.setBreadcrumb(s)
   }
 
   const setPageTransition = (key :string, value :never) => {
-    const s = appStore.setting.pageTransition as PageTransitionSetting
+    const s = appStore.setting.pageTransition
     s[key as keyof typeof s] = value
     appStore.setPageTransition(s)
   }
 
   const setPageLoading = (key :string, value :never) => {
-    const s = appStore.setting.pageLoading as PageLoadingSetting
+    const s = appStore.setting.pageLoading
     s[key as keyof typeof s] = value
     appStore.setPageLoading(s)
   }

@@ -24,7 +24,7 @@ app.whenReady().then(async () => {
     await server.start()
   }
 
-  await WindowManager.createMainWindow()
+  await WindowManager.createMainWindow('whenReady')
   Application.initUpdater()
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -41,14 +41,14 @@ app.whenReady().then(async () => {
 
   Application.initTray(() => {
     if (mainWindow === undefined && BrowserWindow.getAllWindows().length === 0) {
-      WindowManager.createMainWindow()
+      WindowManager.createMainWindow('initTray')
     }
   })
 })
 
 app.on('activate', async () => {
   if (mainWindow === undefined && BrowserWindow.getAllWindows().length === 0) {
-    await WindowManager.createMainWindow()
+    await WindowManager.createMainWindow('activate')
   }
 })
 

@@ -9,12 +9,12 @@ export const useBookStore = defineStore('book', {
     windowId: '',
     workspaceBookId: '',
     bookId: '',
-    book: {} as Indexable,
+    book: {},
     toc: [] as BookTocItem[],
     tocItem: {} as BookTocItem,
-    progress: {} as Indexable,
-    tempProgress: {} as Indexable,
-    selection: {} as Indexable,
+    progress: {},
+    tempProgress: {},
+    selection: {},
     keyword: '',
     annotationId: 0,
     annotationTimer: 0,
@@ -24,11 +24,11 @@ export const useBookStore = defineStore('book', {
       term: '',
       progress: 0,
       result: [] as Indexable[],
-      current: {} as Indexable
-    } as Indexable,
+      current: {}
+    },
     tts: {
       playing: false
-    } as Indexable
+    }
   }),
   getters: {
     getToc: (state) => state.toc,

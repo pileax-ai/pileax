@@ -4,8 +4,8 @@ import { defineWorkspaceStore } from 'core/workspace/workspace-store-factory'
 
 export const useAiStore = defineWorkspaceStore('ai', {
   state: () => ({
-    provider: {} as Indexable,
-    localModels: {} as Indexable,
+    provider: {},
+    localModels: {},
     defaultModels: [] as Indexable[],
   }),
   actions: {

@@ -17,7 +17,8 @@ export class WindowManager {
   // ----------------------------------------------------------------------
   // Main Window
   // ----------------------------------------------------------------------
-  static async createMainWindow() {
+  static async createMainWindow(source = '') {
+    log.info('createMainWindow', source)
     if (WindowManager.mainWindow) {
       log.error('Avoid create again.')
       return

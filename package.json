@@ -16,6 +16,7 @@
     "lint:backend": "cd backend && ruff check",
     "lint:backend:fix": "cd backend && ruff check --fix",
     "lint:backend:format": "cd backend && ruff format",
+    "format": "cd backend && ruff format",
 		"dev": "cd frontend && yarn dev",
 		"dev:electron": "cd frontend && yarn dev:electron",
 		"dev:tauri": "cd frontend && yarn dev:tauri",

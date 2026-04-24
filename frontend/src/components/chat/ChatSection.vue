@@ -395,7 +395,7 @@ const send = (message: string) => {
     modelProvider: localDefaultModel.value.provider,
     modelType: localDefaultModel.value.modelType,
     modelName: localDefaultModel.value.modelName,
-  } as ChatInput)
+  })
 }
 
 watch(chats, (newValue) => {
