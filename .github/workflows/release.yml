@@ -44,7 +44,7 @@ jobs:
       # 2. Download all artifacts
       # ------------------------------
       - name: Download artifacts from latest Build
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v20
         with:
           workflow: "Build Desktop Arch"
           run_id: ${{ env.RUN_ID }}
@@ -61,7 +61,7 @@ jobs:
       # 3. Create Github Release
       # ------------------------------
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         continue-on-error: true
         with:
           tag_name: ${{ inputs.version }}
@@ -87,7 +87,7 @@ jobs:
       contents: write
     steps:
       - name: Release Drafter
-        uses: release-drafter/release-drafter@v7.1.1
+        uses: release-drafter/release-drafter@v7.2.0
         with:
           version: ${{ inputs.version }}
           tag: ${{ inputs.version }}
