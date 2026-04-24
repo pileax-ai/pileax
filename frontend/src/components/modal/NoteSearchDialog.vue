@@ -108,7 +108,7 @@ function titleSearchFilter (term: string) {
 
 function contentSearchFilter (term: string) {
   return (item: Indexable) => {
-    const content = item.content || ''
+    const content = item.contentMarkdown || ''
     const value = content.toLowerCase()
     const index = value.indexOf(term.toLowerCase())
 

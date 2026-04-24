@@ -28,6 +28,7 @@ class NoteBase(BaseApiModel):
     parent: uuid.UUID | None = None
     title: str | None = None
     content: dict | None = None
+    content_markdown: str | None = None
     icon: str | None = None
     cover: str | None = None
     favorite: int | None = None
