@@ -163,14 +163,15 @@ onMounted(() => {
       &:before {
         content: '';
         position: absolute;
-        left: 15px;
-        width: 2px;
+        left: 14px;
+        width: 3px;
         top: 0;
         bottom: 0;
-        background: var(--q-dark);
+        background: var(--q-primary);
         opacity: 0;
         transform: translateX(0.5px);
         transition: opacity 0.3s ease;
+        z-index: 10000;
       }
     }
   }
@@ -194,14 +195,15 @@ onMounted(() => {
       &:after {
         content: '';
         position: absolute;
-        top: 15px;
-        height: 2px;
+        top: 14px;
+        height: 3px;
         left: 0;
         right: 0;
-        background: var(--q-dark);
+        background: var(--q-primary);
         opacity: 0;
         transform: translateY(0.5px);
         transition: opacity 0.3s ease;
+        z-index: 10000;
       }
     }
   }

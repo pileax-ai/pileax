@@ -29,7 +29,7 @@ class FileUploader:
             "original_name": original_name,
             "file_name": file_name,
             "mimetype": file.content_type,
-            "path": f"/{self.base_dir}/{file_name}",
+            "url": f"/{self.base_dir}/{file_name}",
             "size": file.size,
         }
 

@@ -79,12 +79,13 @@
 <script setup lang="ts">
 import { QInput } from 'quasar'
 import { useRoute } from 'vue-router'
-import { computed, onActivated, provide, ref, useTemplateRef, watch } from 'vue'
+import { computed, onActivated, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
 import { Editor } from '@tiptap/core'
-import { YiiEditor, ODocToc, OStarterKit, OAiBlock } from '@yiitap/vue'
+import { YiiEditor, ODocToc, OStarterKit, OAiBlock, OUploadManager, DefaultBlockMenuOptions } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
 import useSetting from 'core/hooks/useSetting'
+import useApi from 'src/hooks/useApi'
 import useNote from 'src/hooks/useNote'
 import useNoteAi from 'src/hooks/useNoteAi'
 import useNoteCollab from 'src/hooks/useNoteCollab'
@@ -100,10 +101,12 @@ import { colorById } from 'core/utils/misc'
 import usePermission from 'src/hooks/usePermission'
 import { sanitizeContent } from 'src/utils/note'
 import { getDeviceId } from 'src/utils/auth'
+import { fileService } from 'src/api/service/remote'
 
 const route = useRoute()
 const { darkMode, locale } = useSetting()
 const { account } = useAccount()
+const { getFileUrl } = useApi()
 const {
   noteStore,
   currentNote,
@@ -142,6 +145,9 @@ const options = computed(() => {
   const extensions = [
     OStarterKit.configure(),
     OAiBlock.configure(aiOptions.value),
+    OUploadManager.configure({
+      onUpload: onUpload,
+    }),
     'InlineMath',
     'Markdown',
     'OAudio',
@@ -149,8 +155,8 @@ const options = computed(() => {
     'OColon',
     'OColorHighlighter',
     'ODetails',
+    'OEmbed',
     'OImage',
-    'OModelViewer',
     'OMultiColumn',
     'OShortcut',
     'OVideo',
@@ -236,6 +242,20 @@ const font = computed(() => {
       return ''
   }
 })
+
+function onUpload(file: File, type: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const ref = {
+      refId: noteId.value,
+      refType: 'note'
+    }
+    fileService.upload(file, ref).then(res => {
+      resolve(getFileUrl(res.url))
+    }).catch(err => {
+      reject(new Error('Failed to upload'))
+    })
+  })
+}
 
 function onAction(action: Indexable) {
   switch (action.value) {

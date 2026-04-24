@@ -2,6 +2,7 @@
   <q-tree ref="tree"
           :nodes="noteTree"
           :class="{'empty': noteTree.length === 0}"
+          icon="arrow_forward_ios"
           node-key="key"
           v-model:selected="selected"
           @update:selected="onSelected"
@@ -319,7 +320,7 @@ watch(() => currentNote.value, (newValue) => {
           left: 0;
           top: 0;
           background-color: #000000;
-          opacity: 0.05;
+          opacity: 0.08;
           border-radius: 4px;
           z-index: -1;
         }
@@ -338,7 +339,6 @@ watch(() => currentNote.value, (newValue) => {
           border-radius: 2px;
           .actions {
             visibility: visible;
-            background: #eaeaea;
           }
           .action {
             visibility: visible;
@@ -346,8 +346,9 @@ watch(() => currentNote.value, (newValue) => {
         }
 
         .q-tree__arrow {
-          width: 24px;
-          height: 36px;
+          font-size: 10px;
+          width: 18px;
+          height: 24px;
           margin-right: 0;
         }
 
@@ -429,17 +430,9 @@ watch(() => currentNote.value, (newValue) => {
 .body--dark {
   .note-tree-panel {
     .q-tree {
-
-      .q-tree__node-header {
-        &:hover {
-          .actions {
-            background: #393a49 !important;
-          }
-        }
-        &.q-tree__node--selected:hover {
-          .actions {
-            background: #2d2e3e !important;
-          }
+      .q-tree__node--selected {
+        &:after {
+          background: #ffffff;
         }
       }
     }

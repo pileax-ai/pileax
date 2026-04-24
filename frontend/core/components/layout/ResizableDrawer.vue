@@ -152,8 +152,10 @@ onBeforeMount(() => {
     }
 
     &:hover, &.is-resizing {
-      //background: var(--q-primary);
-      width: 2px;
+      background: var(--q-primary);
+      width: 3px;
+      right: -1px;
+      z-index: 10000;
     }
   }
   .drawer-handle {

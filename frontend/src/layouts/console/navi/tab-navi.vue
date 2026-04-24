@@ -4,9 +4,9 @@
       <div class="row col items-center header-left drag-region">
         <quick-settings class="text-tips" type="tab" />
       </div>
-      <div class="col-auto sidebar-toggles no-drag-region">
+      <div class="col-auto sidebar-toggle no-drag-region">
         <q-btn class="text-info square" flat round
-               @click="openDialog({type: 'settings'})">
+               @click="openDialog({type: 'settings'})" v-if="false">
           <o-icon name="settings" size="1.2rem" class="text-tips" />
         </q-btn>
         <q-btn icon="mdi-backburger" class="text-tips" flat round
@@ -19,7 +19,7 @@
       <div class="row col items-center header-left">
         <quick-settings type="tab" :offset="[4, 4]" />
       </div>
-      <div class="col-auto sidebar-toggles">
+      <div class="col-auto sidebar-toggle">
         <q-btn icon="mdi-pin-outline" class="text-tips" flat round
                @click="onPin">
           <o-tooltip :message="$t('pin')" position="right" />
@@ -147,7 +147,7 @@ onBeforeMount(() => {
     }
 
     .sidebar-toggle {
-      padding: 2px 10px;
+      //padding: 2px 10px;
       visibility: hidden;
     }
   }

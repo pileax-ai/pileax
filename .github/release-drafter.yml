@@ -15,7 +15,6 @@ categories:
       - 'feature'
   - title: '⚡ Enhancements'
     labels:
-      - 'dependencies'
       - 'enhancement'
       - 'perf'
       - 'style'
@@ -30,6 +29,7 @@ categories:
     labels:
       - 'ci'
       - 'chore'
+      - 'dependencies'
       - 'docs'
       - 'refactor'
       - 'release'

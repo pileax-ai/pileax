@@ -101,7 +101,11 @@ export default defineConfig(((ctx) => {
 
       extendViteConf: (config) => ({
         optimizeDeps: {
-          exclude: ['src/js/foliate-js/vendor/pdfjs/pdf.mjs']
+          include: [
+          ],
+          exclude: [
+            'src/js/foliate-js/vendor/pdfjs/pdf.mjs'
+          ]
         },
         build: {
           rollupOptions: {
@@ -115,7 +119,7 @@ export default defineConfig(((ctx) => {
       viteVuePluginOptions: {
         template: {
           compilerOptions: {
-            isCustomElement: (tag) => tag === 'webview'
+            isCustomElement: (tag) => ['model-viewer', 'webview'].includes(tag)
           }
         }
       },
