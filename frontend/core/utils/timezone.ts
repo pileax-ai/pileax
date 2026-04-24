@@ -26,7 +26,7 @@ export const getTimeZones = () => {
         label: zone,
         value: zone,
         gmt: gmt === '' ? '+0:00' : gmt
-      } as Indexable
+      }
     } catch (e) {
       return { }
     }

@@ -126,7 +126,7 @@ function onSend() {
     modelProvider: localDefaultModel.value.provider,
     modelType: localDefaultModel.value.modelType,
     modelName: localDefaultModel.value.modelName,
-  } as ChatInput)
+  })
 
   reset()
 }

@@ -17,9 +17,9 @@ export const useAppStore = defineStore('app', {
   state: (): AppState => ({
     setting: defaultAppState.setting,
     navi: defaultAppState.navi,
-    updater: {} as Indexable,
-    tour: {} as Indexable,
-    openFile: {} as Indexable,
+    updater: {},
+    tour: {},
+    openFile: {},
   }),
   getters: {
     getSetting: (state) => state.setting,

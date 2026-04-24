@@ -70,7 +70,7 @@ export const defineWorkspaceStore = <
     const workspaceOptions: DefineStoreOptions<Id, S, G, A> = {
       ...options,
       id: workspaceStoreId,  // 在这里添加id
-    } as DefineStoreOptions<Id, S, G, A>
+    }
 
     // 处理persist
     if (options.persist) {

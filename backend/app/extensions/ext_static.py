@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 order = 97
 
 
-mimetypes.add_type('model/gltf+json', '.gltf')
-mimetypes.add_type('model/gltf-binary', '.glb')
+mimetypes.add_type("model/gltf+json", ".gltf")
+mimetypes.add_type("model/gltf-binary", ".glb")
 
 
 class StaticCORSMiddleware(BaseHTTPMiddleware):
