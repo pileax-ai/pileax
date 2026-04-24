@@ -10,7 +10,7 @@
       <q-btn icon="keyboard_arrow_left"
              class="text-readable bg-tips"
              flat
-             @click="prevPage">
+             @click.stop="prevPage">
         <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
       </q-btn>
     </nav>
@@ -19,7 +19,7 @@
       <q-btn icon="keyboard_arrow_right"
              class="text-readable bg-tips"
              flat
-             @click="nextPage">
+             @click.stop="nextPage">
         <o-tooltip position="left" :message="$t('reading.nextPage')" transition autohide />
       </q-btn>
     </nav>
