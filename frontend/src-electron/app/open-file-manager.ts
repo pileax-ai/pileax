@@ -30,14 +30,16 @@ export class OpenFileManager {
   }
 
   async sendFile(filePath: string, source = '') {
+    // Exclude js files
+    if (filePath.endsWith('.js')) {
+      return
+    }
+
     const mainWindow = WindowManager.getMainWindow()
     if (app.isReady() && mainWindow && !mainWindow.isDestroyed()) {
       if (mainWindow.webContents.isLoading()) {
         this.pendingFilePath = filePath
       } else {
-        if (filePath.endsWith('.js')) {
-          return
-        }
         const file = await readFileObject(filePath)
         this.sendAppEvent('open-file', {
           path: filePath,
@@ -47,7 +49,7 @@ export class OpenFileManager {
       }
     } else {
       this.pendingFilePath = filePath
-      WindowManager.createMainWindow()
+      WindowManager.createMainWindow(`openFileManager: ${filePath}`)
     }
   }
 
