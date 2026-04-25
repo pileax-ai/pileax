@@ -255,6 +255,7 @@ export class Application {
       })
 
     ipcMain.on('window-control:toggle-devtools', (event) => {
+      log.info('🚀 toggle-devtools')
       const webContents = event.sender
       if (webContents.isDevToolsOpened()) {
         webContents.closeDevTools()

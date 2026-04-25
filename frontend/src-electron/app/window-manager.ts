@@ -3,11 +3,8 @@ import log from 'electron-log'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { spaServer } from '../server/spa-server'
-import os from 'os'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
-
-const platform = process.platform || os.platform()
 
 export class WindowManager {
   private windows: Record<string, BrowserWindow>
@@ -36,8 +33,8 @@ export class WindowManager {
       width: 1200,
       height: 800,
       useContentSize: true,
-      frame: process.platform === 'win32' ? false : true,
-      titleBarStyle: process.platform === 'win32' ? 'default' : 'hidden',
+      frame: true,
+      titleBarStyle: 'hidden',
       trafficLightPosition: { x: 8, y: 12 },
       webPreferences: {
         devTools: true,
@@ -68,18 +65,18 @@ export class WindowManager {
       win.webContents.on('devtools-opened', () => {
         // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
       })
-
-      win.webContents.on('before-input-event', (event, input) => {
-        // Windows/Linux: Ctrl+Shift+I, macOS: Cmd+Option+I
-        if (
-          (input.control || input.meta) &&
-          input.shift &&
-          input.key.toLowerCase() === 'i'
-        ) {
-          win.webContents.toggleDevTools()
-        }
-      })
     }
+
+    win.webContents.on('before-input-event', (event, input) => {
+      // Windows/Linux: Ctrl+Shift+I, macOS: Cmd+Option+I
+      if (
+        (input.control || input.meta) &&
+        input.shift &&
+        input.key.toLowerCase() === 'i'
+      ) {
+        win.webContents.toggleDevTools()
+      }
+    })
 
     // Open url in system browser
     win.webContents.on('will-navigate', (event, url) => {
@@ -94,6 +91,10 @@ export class WindowManager {
         shell.openExternal(url)
       }
       return { action: 'deny' }
+    })
+
+    win.webContents.on('did-finish-load', () => {
+      win.webContents.focus();
     })
 
     win.on('closed', () => {
