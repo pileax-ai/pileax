@@ -2667,125 +2667,125 @@
   resolved "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.8.13.tgz#00d1dd940b218dff2e49309d410d8bb212159225"
   integrity sha512-KRYzxepc14G/CEpEGc3Yn+JKaAeT63smlDr+vjB8jRfgTBBI9wRj/nkQEO+ucV8p8I9bfKLWp37uHgFrbntPvw==
 
-"@yiitap/core@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/core/-/core-0.18.0.tgz#df0a37e3d658f6e0d4c1842e178949c0a265ee1e"
-  integrity sha512-jD2uWS405p0Dm7Oltqg0iajm7n0/tbPz31Mb1UVCYG1sGtJDexAFNGDjlAXDGNtC+/U7HVDk2NgMO8B9Hky5Pg==
+"@yiitap/core@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/core/-/core-0.18.1.tgz#26006c10690524c1546b70c6b9e088af429a0120"
+  integrity sha512-Q7lXsEOu7q9nrTtXvzYn5WtTyhpO9zazqRff3gXgiK0O7RLVyCttzd0xaSPd2kw2hO9yCFZdbRYcLSMSTmojCQ==
 
-"@yiitap/extension-ai-block@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-ai-block/-/extension-ai-block-0.18.0.tgz#f5104dee6f61b52bf3416291b07f11089dbdfec1"
-  integrity sha512-vwWcM54e4N4k8e85Ne1vDZ8AkyoB6PS72xptYxq/Bvoa50TjovDe/Kh4Kp9vjUncfIed/VDF4Usy08qTy8qiyg==
+"@yiitap/extension-ai-block@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-ai-block/-/extension-ai-block-0.18.1.tgz#ba6ecea340d43eb2dc3fe43b0c905d78a97a690e"
+  integrity sha512-ZWNbcrAYAvjzKfsqBHgh8qqR5ukuc7TB5ZWwq+sED2/4XwsPYNY2J9mSLqfaLsUg+zxqGGGzZ9IZy/8Np6jHcg==
 
-"@yiitap/extension-blockquote@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-blockquote/-/extension-blockquote-0.18.0.tgz#a01f9f4a92114f75b88c0471c6fb72593b2320ba"
-  integrity sha512-tI+H0hPJGiEX6+tDCJWl7vrlxrMXQ2ieCtyF2VZX3PIgRVSOyeTE0wCXJODKe4p6CSk2G87UTCwDZkcLN46fFQ==
+"@yiitap/extension-blockquote@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-blockquote/-/extension-blockquote-0.18.1.tgz#4303882eec42cef7fe302cdca452a4c7c744362d"
+  integrity sha512-ltrwFpC1SQpcZsv4NJw7iKdhpEl01ot6KSuo/FllgLvmmRIxA1x0FRL2HNt3qobKxGispfpItpe4uAMNa+oAag==
   dependencies:
     "@tiptap/extension-blockquote" "^3.20.0"
 
-"@yiitap/extension-callout@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-callout/-/extension-callout-0.18.0.tgz#203f3b02105fe1569409bf5e077d8ac891df4944"
-  integrity sha512-EHJGcVJOkKBivqFg33IGZsDrUNmLPYfe6g6fbbqVERd6IPQ+AN4uE4TuF3XwwSZUe0Wc/EsddFpuyikeEhKfZg==
+"@yiitap/extension-callout@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-callout/-/extension-callout-0.18.1.tgz#25fe49b69c5de18c05f055fa13b3d2a4957603ed"
+  integrity sha512-7eVBbxeBmChK+KMIPz9+pi9rtzcaWdCs8ZicgMWSyRD+qv1ZLPaMC2qcXNa5+827tOhzg6c1iiFrwNo5pUfFvA==
 
-"@yiitap/extension-char-command@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-char-command/-/extension-char-command-0.18.0.tgz#7219b7375accea426f0928611acef0fc9bf61145"
-  integrity sha512-U42Mz9PH3OQtaj0VrUUZFwFrLq71NSAf2XeC1S4g3jGoSNoLFak/SVNFEfco2YxJG5ySqonvzQSxuCjKFeDPnw==
+"@yiitap/extension-char-command@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-char-command/-/extension-char-command-0.18.1.tgz#1b990910d49317c55751e83eec8d69f94edfe189"
+  integrity sha512-IOB/C0oA1Ejf9n5KoeiA9OaRVVvjxexMUI+faknx2uSH1c+4X1+alBDH7sGadyQzLbJeBcCiv1cU3ZTEic2gAA==
   dependencies:
     "@tiptap/suggestion" "^3.20.0"
 
-"@yiitap/extension-color-highlighter@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-color-highlighter/-/extension-color-highlighter-0.18.0.tgz#584e84211c7840f69a2a3cec15fa7ef2eaac468f"
-  integrity sha512-PB07vTpzesJZbFZbecVt4HsfVZIbr+q4kMKXAvEPDySmDGXkNzBfVF99J8AdpGK4RAqZoxAB6m/Xk7c5Gm7U2g==
+"@yiitap/extension-color-highlighter@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-color-highlighter/-/extension-color-highlighter-0.18.1.tgz#96128804865ec73ed289e692cefd6bbd61ca9a25"
+  integrity sha512-28i3OcgduesTmhFP6clv8yr8XlH4CdCBR1tvRL1Z8LQvPC71gALoAErpyD8VGoS/UasfIOTvSVUAcYAQdmkdiQ==
 
-"@yiitap/extension-embed@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-embed/-/extension-embed-0.18.0.tgz#627276177f9a96a4882cc1d1f0fcf004f6ecdb63"
-  integrity sha512-bQp211kzt/xTTaGh/DOwL6g4j2NMjLEFCWIJmy0qX2XgRMaiWan3Hbpno0X9sguR+pZBke9DLRvq2A9LcEoVBQ==
+"@yiitap/extension-embed@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-embed/-/extension-embed-0.18.1.tgz#d4400bc6a133c283618883c9eff645ca3feb33b0"
+  integrity sha512-4KDboccUXhqG9g9ffczcTlWfjlEH8aLe0aBlFtFulqqhEX/W7KZR37Gifobv1jQEguMH2/zOz+Xn4AvbnIgRsQ==
 
-"@yiitap/extension-image@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-image/-/extension-image-0.18.0.tgz#9e9e55c343434bcb10246ad57c0b6abd7d5447f7"
-  integrity sha512-iVp0VWl/etzFm7YtvIuIheLxoP53U5VeIZyPYgkQ0Sa3XluzOrOS5UbthoRLYg14CiMrWV6kVuFIna5sCBl8Jg==
+"@yiitap/extension-image@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-image/-/extension-image-0.18.1.tgz#29a0893f4b7b5650b347b2f1b913f8589ec5336e"
+  integrity sha512-Qsodo6BbqoFKG++Ipv6WoofUSXotmcLw0a4ujZpbV1+NFzPAbuc1BEXmSdSyN7TrGOQTo8XemPg/eo6yFl93Ag==
   dependencies:
     "@tiptap/extension-image" "^3.20.0"
 
-"@yiitap/extension-inline-placeholder@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-inline-placeholder/-/extension-inline-placeholder-0.18.0.tgz#a2a87de23ac62fde9d36717154ebb4305ef137ab"
-  integrity sha512-G57vtGdIED/XFbvKBNwGz9Cy7M/63LLRVzZ6jWPB9/L8/ahcCiVdG/es0FqXhO/50om5fzOrWJ1EOBqzqEjO9Q==
+"@yiitap/extension-inline-placeholder@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-inline-placeholder/-/extension-inline-placeholder-0.18.1.tgz#b3de459862e1d0695cfc86c4d710bb2e1b768046"
+  integrity sha512-O7fpxrVNa/87tSlOm/9C/bEt1c3Xq1QK3qY3iXmfoGAHmENp5N3jiIqtLrlHZcMHKOakcSnI7J3pCJrsEZ9p6Q==
 
-"@yiitap/extension-model-viewer@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-model-viewer/-/extension-model-viewer-0.18.0.tgz#8507af36da8c4193da628a8c7001bce443504fe7"
-  integrity sha512-SUp/6q3NuR1K3gf/YmgkypZS9ifTY2lqUDlsVgsmuSejLA8mHV4BvyBz84hlQbvSWW837o3dBSu26Ptzny7yvA==
+"@yiitap/extension-model-viewer@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-model-viewer/-/extension-model-viewer-0.18.1.tgz#1eb0e01c7c4c59b529d52854a30bca2eebe3c5ad"
+  integrity sha512-jpLR4yd+TXKmE+zVwouxjNEeWh/UJQKtCM/oU2PCQEl0EaZhr66G6jdi22U/FBOn+jqu1flmMIlS9N9kV/Hnlg==
 
-"@yiitap/extension-multi-column@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-multi-column/-/extension-multi-column-0.18.0.tgz#aa7a8725dd797e92b15ce12c410643704d33b5aa"
-  integrity sha512-CwRm2HbcQy7/tAEz0NQV37hklyjnRHePS2iXxxvxuDSUqYo35tJtcmw9npPljhlsGPgoJOI22EiEOqNgLOFsfA==
+"@yiitap/extension-multi-column@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-multi-column/-/extension-multi-column-0.18.1.tgz#2450486ac3f5e7af1ae0b65ae4c122dc00e22bd2"
+  integrity sha512-U9q4pFmn7o0pgG+MMYlMh63oNzpvWWKlpqHVXbUOFqH9UAKTPLRjBoCRF7rr4ILlrVY9Zt90cd/1vnTyw0R1/g==
 
-"@yiitap/extension-placeholder@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-placeholder/-/extension-placeholder-0.18.0.tgz#ca0850f042069a048de5a2a568475d7415fb3bdd"
-  integrity sha512-RjIoSO7gOMUGGWu11oIs/0D/+A4FfcbVrQvhwn+6qemaT5nssm0HizF0XhZyH2/0T8DI7sHZoZBMlXXwNdI3yg==
+"@yiitap/extension-placeholder@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-placeholder/-/extension-placeholder-0.18.1.tgz#8edaa9433ac288541d38f43b3c459d1ccb851263"
+  integrity sha512-iIixsA2d9m7l22wHpuvNaOXf54H1dXNOc85Y0FsoZug/jdHRHMQ2upBXawT9APkG5CMF17b+HrflhLKvjqzbDQ==
 
-"@yiitap/extension-selection-decoration@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-selection-decoration/-/extension-selection-decoration-0.18.0.tgz#b6ddb8309b3857298478f508e40d69f261af7554"
-  integrity sha512-G8LRAyZ6iEsRDak8ySJiwfH7wnhXW/NB+I/J6eYBjPO4blPOA38Xh6KM49lNkkBQ2+7AY6gNTe0A37n+KsdaPA==
+"@yiitap/extension-selection-decoration@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-selection-decoration/-/extension-selection-decoration-0.18.1.tgz#bba003b4db3f045d85c5ace25e1e064621a964b3"
+  integrity sha512-cfT2Rhk6XhPi4Hmgk1EyGc2VnPx1B3FULI5MkmvPa+letwwgbrm9oBuVeSxKBJKelhxtxWZl5w5sGnbvarTVNQ==
 
-"@yiitap/extension-shortcut@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-shortcut/-/extension-shortcut-0.18.0.tgz#d6a105634511b441a82551252fe1c5c5242de7af"
-  integrity sha512-756Gnj+VDyuQrNYahsBESdIBFqF0+sQT+eo12OpztrRG1pqpOUHMnUnKXphDrWT93iG5eVK0175S3PJKjQk9VA==
+"@yiitap/extension-shortcut@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-shortcut/-/extension-shortcut-0.18.1.tgz#f8f93fec9af2d563671a9601af05933e692fa206"
+  integrity sha512-QEa5bs00wBckp0yBH3tnAO96Hzsw7MpwcOQnNCr7i/rgZYdwxFbJFGwtITtJ7v2CPCtdyGH8KKpZnbAzZKPaIQ==
 
-"@yiitap/extension-table-wrapper@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-table-wrapper/-/extension-table-wrapper-0.18.0.tgz#43cf542cf0fdf4d3b7256701b9accfa5945a9c41"
-  integrity sha512-nIAkfwTydn7i4FevtQq+XKTQIf/Ez3jbS0ZHEBXkB2oZJTCmmJOG+8iB2JHPwC9Fq6x0tlnPg+vZ78xC7uWOMQ==
+"@yiitap/extension-table-wrapper@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-table-wrapper/-/extension-table-wrapper-0.18.1.tgz#1d1bd5a50eace0e25595fc83953b96f7937de7c4"
+  integrity sha512-y1ILMxxNlC80W0b+e9n3xCI9Z8eqEUDgpR2CWpQFW3P3hwKh5TR3BKeRmKT/fpMQcbegFFxtugaeNYGbpaVSXw==
 
-"@yiitap/extension-table@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-table/-/extension-table-0.18.0.tgz#67b40d566442e0e3ad3b321247bf2b6912c3ff52"
-  integrity sha512-Bd8wLkGCGTPnGPT6A0TUbdjLwkRcbWV5X0xnJvwsBtrS9Qm9aC1cjvXJmM0jUyDZNuVJazLsH7rKjl8Z+vp6ew==
+"@yiitap/extension-table@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-table/-/extension-table-0.18.1.tgz#e5bacc19ef3e093b39b4936831e801142227b962"
+  integrity sha512-zUJS/Vu/p2srfXEPobaUpQWdVO6IrWFpcG5yokXNsnrm77iUwc6CWvM7pucVTgz8JTagu0FGwNnHGjLtcEXEcA==
   dependencies:
     "@tiptap/extension-table" "^3.20.0"
 
-"@yiitap/extension-task-item@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-task-item/-/extension-task-item-0.18.0.tgz#8d998848a1c3cd9ef9cba07bf9b371c2bbf8b470"
-  integrity sha512-waLPOnGeB8kVaTRT3TqPAghch7J2Ysat5zAFIGaz/zI7o0RqFjxgF4mTFaGqYp4AGTNKGZIykN/+zm3o57zY+A==
+"@yiitap/extension-task-item@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-task-item/-/extension-task-item-0.18.1.tgz#abb50983fa8e26eef93a0393a7acc86ee6c1d28d"
+  integrity sha512-ax1OCuWBg95NocyGkRJx/J3855Le46G1ThCd18UTxQePC0ere+oIM82Y3RpS5LkRBReD5SLmaB41i8VNdbVq4w==
   dependencies:
     "@tiptap/extension-task-item" "^3.20.0"
 
-"@yiitap/extension-upload-manager@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@yiitap/extension-upload-manager/-/extension-upload-manager-0.18.0.tgz#f9c24993996d9ca8d0839bb263f3471a2ffb9521"
-  integrity sha512-dRWxkeRvwqjE91Dw87LKa/PLIYShioBkkRQOOPN39CNeX5dt2LkpZ/M7kToYFkX7SoJNLPghinYqG2ljXXMlzg==
+"@yiitap/extension-upload-manager@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-upload-manager/-/extension-upload-manager-0.18.1.tgz#a343e3f4dde9cd10b27e87093f7b6199acca6e73"
+  integrity sha512-2UExl4E0aDfb3YaV6OoAMbPWxvvqXlvrrShUWrsiVZswqEQ52o8EBiJtO0rC5FR9Tw8VMCu13Unf5Yu2FeCBEw==
 
-"@yiitap/extension-video@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/extension-video/-/extension-video-0.18.0.tgz#7f7552a63ee4857fa79076df8905297fadd44cb8"
-  integrity sha512-MIdoUVC3fwst5TiGQd2iTLWoUtbzl2QwU4qKrT9GASlfA1644g2i7SVDZFLkHTlVi5z5Xu0FeeZ7B4Z4qM4Ctg==
+"@yiitap/extension-video@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/extension-video/-/extension-video-0.18.1.tgz#406e593964b31dfdcf41d93402b66f19ce051c18"
+  integrity sha512-bG5+6gBlQu8LxfcefAgxchlCxzq59RVjUm6tPDFXHUXABZtf/J8TX2kjNqOc5X2CsWg5uwcWnB93iDIZPXvVhw==
 
-"@yiitap/i18n@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/i18n/-/i18n-0.18.0.tgz#da28431e00035600d6218729ad0fe3b6fe35130d"
-  integrity sha512-zHUuxm9Kj8qH3qfpxZfO+pWl4DLPcKa6ns5fSNz207D94z8JJynM5MKK/ZTdL+05RgEkFIvTl6ErpZDBMwaDNg==
+"@yiitap/i18n@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/i18n/-/i18n-0.18.1.tgz#4adb4f85745792441fd6df895decabea09cd2cab"
+  integrity sha512-YfO+prOYFEOyCEW11zUSSNquSMK3NZ8wbyHHOcmS4vVUxAcWXm1Uapqxs9SEOXOGWl0Thl0FAiAQEPTUjuZdEw==
 
-"@yiitap/util-emoji@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/util-emoji/-/util-emoji-0.18.0.tgz#a402cb3b37f13a4037e34a21afb57bdff3e1dacd"
-  integrity sha512-WKLOPNRWUl/x/L4VohgVhzELMJGft5NXx7O9t5Fcg9RL36I1XlIO8xTXZpFuDB82TMKuEzsneXqS8WUaJX4/3g==
+"@yiitap/util-emoji@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/util-emoji/-/util-emoji-0.18.1.tgz#aefa5edf2094d51f60f8f416ce8ce27d11818754"
+  integrity sha512-R8YcHpPW8lodKk9L8vcN54mSp+HpyRj7jDfMapug4PlqsPQyL628PTJTdV1ye5w/ZK2bAjj6livrknnOgdtxzA==
 
-"@yiitap/vue-preset@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/vue-preset/-/vue-preset-0.18.0.tgz#56319be7e7b1d68be814494e1fd42de2f3bee9bc"
-  integrity sha512-U36+dSCD/qGMtidcJol12Fv5hwuY2cE3pehnOZyIB3my08oBSqTjFTvKCkLd94kqWnI1ZyS9MmYstMmEnxnH9g==
+"@yiitap/vue-preset@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/vue-preset/-/vue-preset-0.18.1.tgz#e5be82e4bb2dc074dcb81426e9e099754568f258"
+  integrity sha512-s6REK3nesx/0eUVQ/q6ztFTD0xIV34V/3qVb5I/vEnYOc55rA4iJBUCw2YSeUIbW0Al/8UL9ZwBffZdZs5KuLg==
   dependencies:
     "@tiptap/core" "^3.20.0"
     "@tiptap/extension-audio" "^3.20.0"
@@ -2822,32 +2822,32 @@
     "@tiptap/vue-3" "^3.20.0"
     "@tiptap/y-tiptap" "^3.0.2"
     "@types/uuid" "^10.0.0"
-    "@yiitap/core" "0.18.0"
-    "@yiitap/extension-ai-block" "0.18.0"
-    "@yiitap/extension-blockquote" "0.18.0"
-    "@yiitap/extension-callout" "0.18.0"
-    "@yiitap/extension-char-command" "0.18.0"
-    "@yiitap/extension-color-highlighter" "0.18.0"
-    "@yiitap/extension-embed" "0.18.0"
-    "@yiitap/extension-image" "0.18.0"
-    "@yiitap/extension-inline-placeholder" "0.18.0"
-    "@yiitap/extension-model-viewer" "0.18.0"
-    "@yiitap/extension-multi-column" "0.18.0"
-    "@yiitap/extension-placeholder" "0.18.0"
-    "@yiitap/extension-selection-decoration" "0.18.0"
-    "@yiitap/extension-shortcut" "0.18.0"
-    "@yiitap/extension-table" "0.18.0"
-    "@yiitap/extension-table-wrapper" "0.18.0"
-    "@yiitap/extension-task-item" "0.18.0"
-    "@yiitap/extension-upload-manager" "0.18.0"
-    "@yiitap/extension-video" "0.18.0"
-    "@yiitap/i18n" "0.18.0"
-    "@yiitap/util-emoji" "0.18.0"
+    "@yiitap/core" "0.18.1"
+    "@yiitap/extension-ai-block" "0.18.1"
+    "@yiitap/extension-blockquote" "0.18.1"
+    "@yiitap/extension-callout" "0.18.1"
+    "@yiitap/extension-char-command" "0.18.1"
+    "@yiitap/extension-color-highlighter" "0.18.1"
+    "@yiitap/extension-embed" "0.18.1"
+    "@yiitap/extension-image" "0.18.1"
+    "@yiitap/extension-inline-placeholder" "0.18.1"
+    "@yiitap/extension-model-viewer" "0.18.1"
+    "@yiitap/extension-multi-column" "0.18.1"
+    "@yiitap/extension-placeholder" "0.18.1"
+    "@yiitap/extension-selection-decoration" "0.18.1"
+    "@yiitap/extension-shortcut" "0.18.1"
+    "@yiitap/extension-table" "0.18.1"
+    "@yiitap/extension-table-wrapper" "0.18.1"
+    "@yiitap/extension-task-item" "0.18.1"
+    "@yiitap/extension-upload-manager" "0.18.1"
+    "@yiitap/extension-video" "0.18.1"
+    "@yiitap/i18n" "0.18.1"
+    "@yiitap/util-emoji" "0.18.1"
 
-"@yiitap/vue@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmmirror.com/@yiitap/vue/-/vue-0.18.0.tgz#9ba5aa66ed5efff659ff75e27b36e811c1cceccf"
-  integrity sha512-leO17Ga7upl4/Qfzj3VAY9FCgZe0tKtHksVPVHrFuFtGifqb1Ecyweikz61b0zN8XldE6PvlYtqsmgxbQwb+Ow==
+"@yiitap/vue@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.npmmirror.com/@yiitap/vue/-/vue-0.18.1.tgz#4f6025ad06f35f3269a9650c0032f1d7fbd33e8e"
+  integrity sha512-IcUcQkdZyit859mRtnNvijFRBkXdJRA5qvNVrub4oUqeEY2lPHtXMfwDJdUawsjUvzIl9qBiNvsxUnvSYx3PdA==
   dependencies:
     "@floating-ui/dom" "^1.7.4"
     tippy.js "^6.3.7"

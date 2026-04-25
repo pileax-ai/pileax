@@ -1,11 +1,10 @@
 import re
-import uuid
 from datetime import UTC, datetime
 from typing import cast
 
+from fastapi import Request
 from nanoid import generate
 from pypinyin import Style, lazy_pinyin
-from fastapi import Request
 
 
 def extract_remote_ip(request: Request) -> str:
@@ -46,20 +45,10 @@ class StringHelper:
     @staticmethod
     def to_pinyin(text: str, capitalize=False) -> str:
         if capitalize:
-            pinyin_list = [
-                p.capitalize() for p in lazy_pinyin(
-                    text or "",
-                    style=Style.NORMAL,
-                    v_to_u=True
-                )
-            ]
+            pinyin_list = [p.capitalize() for p in lazy_pinyin(text or "", style=Style.NORMAL, v_to_u=True)]
             return "".join(pinyin_list)
         else:
-            return "".join(lazy_pinyin(
-                text or "",
-                style=Style.NORMAL,
-                v_to_u=True
-            ))
+            return "".join(lazy_pinyin(text or "", style=Style.NORMAL, v_to_u=True))
 
     @staticmethod
     def generate_short_id(size: int = 12) -> str:
@@ -74,8 +63,8 @@ class StringHelper:
     @staticmethod
     def generate_share_id(title: str) -> str:
         title = StringHelper.to_pinyin(title, capitalize=True)
-        slug = re.sub(r'[^a-zA-Z0-9\s-]', '', title)
-        slug = re.sub(r'[\s-]+', '-', slug).strip()
+        slug = re.sub(r"[^a-zA-Z0-9\s-]", "", title)
+        slug = re.sub(r"[\s-]+", "-", slug).strip()
         sid = StringHelper.generate_short_id(16)
 
         if not slug:

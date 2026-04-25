@@ -168,6 +168,9 @@ export default {
   searchResults: '검색 결과',
   select: '선택하다',
   settings: '설정',
+  share: '공유하다',
+  shareQrcode: 'QR 코드를 스캔하거나 링크를 복사하여 공유하세요.',
+  shareTime: '공유 시간',
   signin: '로그인',
   signout: '로그아웃',
   signup: '회원가입',
@@ -252,6 +255,7 @@ export default {
   upload: '업로드',
   version: '버전',
   view: {
+    _: '보다',
     compact: '콤팩트',
     grid: '그리드',
     list: '목록'

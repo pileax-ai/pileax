@@ -16,34 +16,30 @@ class NoteShareController(BaseController[NoteShare, NoteShareCreate, NoteShareUp
         self.note_service = NoteService(session)
 
     def get_by_note(self, note_id: UUID) -> NoteShare:
-        return self.service.find_one({
-            "user_id": self.user.id,
-            "note_id": note_id,
-            "is_active": Status.ACTIVE,
-        }, raise_exception=True)
+        return self.service.find_one(
+            {
+                "user_id": self.user.id,
+                "note_id": note_id,
+                "is_active": Status.ACTIVE,
+            },
+            raise_exception=True,
+        )
 
     def save(self, item_in: NoteShareCreate) -> NoteShare:
-        note = self.note_service.get_by_owner(Owner(
-            user_id=self.user.id,
-            workspace=self.workspace
-        ), item_in.note_id)
-        note_share = super().find_one({
-            "user_id": self.user.id,
-            "note_id": note.id,
-        })
+        note = self.note_service.get_by_owner(Owner(user_id=self.user.id, workspace=self.workspace), item_in.note_id)
+        note_share = super().find_one(
+            {
+                "user_id": self.user.id,
+                "note_id": note.id,
+            }
+        )
 
         if note_share:
-            return super().update(NoteShareUpdate(
-                id=note_share.id,
-                is_active=Status.ACTIVE
-            ))
+            return super().update(NoteShareUpdate(id=note_share.id, is_active=Status.ACTIVE))
         else:
             item_in.share_id = StringHelper.generate_share_id(note.title)
             return super().save(item_in)
 
     def delete(self, id: UUID) -> Any:
         note_share = super().get(id)
-        super().update(NoteShareUpdate(
-            id=id,
-            is_active=Status.INACTIVE
-        ))
+        super().update(NoteShareUpdate(id=id, is_active=Status.INACTIVE))

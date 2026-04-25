@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf" class="o-layout layout-share">
-    <q-header class="top-navi full-width">
+    <q-header class="top-navi full-width" v-if="false">
       <simple-toolbar />
     </q-header>
 

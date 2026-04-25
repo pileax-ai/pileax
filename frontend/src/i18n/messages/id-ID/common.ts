@@ -168,6 +168,9 @@ export default {
   searchResults: 'Hasil Pencarian',
   select: 'Memilih',
   settings: 'Pengaturan',
+  share: 'Membagikan',
+  shareQrcode: 'Pindai kode QR atau salin tautan untuk dibagikan.',
+  shareTime: 'Berbagi Waktu',
   signin: 'Masuk',
   signout: 'Keluar',
   signup: 'Mendaftar',
@@ -252,6 +255,7 @@ export default {
   upload: 'Mengunggah',
   version: 'Versi',
   view: {
+    _: 'Melihat',
     compact: 'Kompak',
     grid: 'Jaringan',
     list: 'Daftar'

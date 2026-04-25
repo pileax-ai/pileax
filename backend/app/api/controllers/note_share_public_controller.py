@@ -9,4 +9,3 @@ class NoteSharePublicController:
 
     def get_details(self, share_id: str) -> NoteShareDetails:
         return self.service.get_details(share_id)
-

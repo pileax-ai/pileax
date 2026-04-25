@@ -64,6 +64,17 @@ export class WindowManager {
       win.webContents.on('devtools-opened', () => {
         // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
       })
+      
+      win.webContents.on('before-input-event', (event, input) => {
+        // Windows/Linux: Ctrl+Shift+I, macOS: Cmd+Option+I
+        if (
+          (input.control || input.meta) &&
+          input.shift &&
+          input.key.toLowerCase() === 'i'
+        ) {
+          win.webContents.toggleDevTools()
+        }
+      })
     }
 
     // Open url in system browser

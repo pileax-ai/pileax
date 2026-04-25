@@ -8,7 +8,7 @@
            @click="toggleFavorite(currentNote)" />
     <q-btn icon="o_share"
            flat
-           @click="shareNote(currentNote)" />
+           @click="shareNote(currentNote)" v-if="ipcProvider === 'web'" />
     <q-btn icon="more_horiz" flat>
       <q-menu ref="menu"
               anchor="bottom right"
@@ -76,13 +76,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onBeforeMount, onMounted, type PropType, reactive, ref, watch } from 'vue'
+import { computed, onMounted, type PropType, ref } from 'vue'
 import useNote from 'src/hooks/useNote'
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import * as Y from 'yjs'
 import usePermission from 'src/hooks/usePermission'
+import { ipcProvider } from 'src/api/ipc'
 
 const props = defineProps({
   ydoc: {

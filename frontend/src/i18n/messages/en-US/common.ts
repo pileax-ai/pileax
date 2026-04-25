@@ -168,6 +168,9 @@ export default {
   searchResults: 'Search Results',
   select: 'Select',
   settings: 'Settings',
+  share: 'Share',
+  shareQrcode: 'Scan the QR code or copy the link to share.',
+  shareTime: 'Share Time',
   signin: 'Signin',
   signout: 'Sign out',
   signup: 'Signup',
@@ -252,6 +255,7 @@ export default {
   upload: 'Upload',
   version: 'Version',
   view: {
+    _: 'View',
     compact: 'Compact',
     grid: 'Grid',
     list: 'List'

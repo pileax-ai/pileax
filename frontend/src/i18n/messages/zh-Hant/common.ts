@@ -48,7 +48,7 @@ export default {
       tab: '標籤頁'
     },
     modes: {
-      colorBlind: '色弱模式',
+      colorBlind: '色盲模型',
       grayscale: '灰階模式'
     },
     theme: '主題',
@@ -168,6 +168,9 @@ export default {
   searchResults: '搜尋結果',
   select: '選擇',
   settings: '設定',
+  share: '分享',
+  shareQrcode: '掃一掃二維碼或複製連結分享',
+  shareTime: '分享時間',
   signin: '登入',
   signout: '登出登入',
   signup: '註冊',
@@ -252,6 +255,7 @@ export default {
   upload: '上傳',
   version: '版本',
   view: {
+    _: '查看',
     compact: '緊湊',
     grid: '網格',
     list: '清單'

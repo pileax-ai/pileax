@@ -168,6 +168,9 @@ export default {
   searchResults: 'Rezultate căutare',
   select: 'Selecta',
   settings: 'Setări',
+  share: 'Distribuie',
+  shareQrcode: 'Scanați codul QR sau copiați linkul pentru a-l distribui.',
+  shareTime: 'Timp de împărtășire',
   signin: 'Conectare',
   signout: 'Sign out',
   signup: 'Înregistrare',
@@ -252,6 +255,7 @@ export default {
   upload: 'Încărcare',
   version: 'Versiune',
   view: {
+    _: 'Vedere',
     compact: 'Compact',
     grid: 'Grilă',
     list: 'Listă'

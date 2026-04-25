@@ -2,11 +2,12 @@ import enum
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, text, String, UniqueConstraint
+from sqlalchemy import Column, Integer, String, UniqueConstraint, text
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, time_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field, uuid_field
 from app.api.models.enums import Status
+
 
 class ShareType(enum.StrEnum):
     PRIVATE = "private"
@@ -32,9 +33,7 @@ class NoteShare(BaseSQLModel, BaseMixin, table=True):
     is_active: int = Field(
         default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
     )
-    view_count: int = Field(
-        default=0, sa_type=Integer, sa_column_kwargs={"server_default": text('0')}
-    )
+    view_count: int = Field(default=0, sa_type=Integer, sa_column_kwargs={"server_default": text("0")})
 
 
 class NoteShareBase(BaseApiModel):
@@ -55,6 +54,7 @@ class NoteShareUpdate(NoteShareBase):
 
 class NoteSharePublic(NoteShareBase, BaseMixin):
     view_count: int | None = None
+
 
 class NoteShareDetails(NoteSharePublic):
     title: str | None = None

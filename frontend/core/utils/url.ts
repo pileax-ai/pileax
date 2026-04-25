@@ -4,7 +4,6 @@
  * @author Xman
  * @version 1.0
  */
-import { StandardColors } from 'core/constants/metadata'
 
 // ================================================================================
 // Common API
@@ -28,4 +27,13 @@ export const getRootDomain = (url: string) => {
 
   // Take the last two parts: e.g., 'yistars.cc'
   return parts.slice(-2).join('.')
+}
+
+export const createEmojiFavicon = (emoji: string) => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <text y=".9em" font-size="90">${emoji}</text>
+    </svg>
+  `
+  return 'data:image/svg+xml,' + encodeURIComponent(svg)
 }

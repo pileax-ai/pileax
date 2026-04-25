@@ -168,6 +168,9 @@ export default {
   searchResults: '搜索结果',
   select: '选择',
   settings: '设置',
+  share: '分享',
+  shareQrcode: '扫一扫二维码或复制链接分享',
+  shareTime: '分享时间',
   signin: '登录',
   signout: '退出登录',
   signup: '注册',
@@ -252,6 +255,7 @@ export default {
   upload: '上传',
   version: '版本',
   view: {
+    _: '查看',
     compact: '紧凑',
     grid: '网格',
     list: '列表'

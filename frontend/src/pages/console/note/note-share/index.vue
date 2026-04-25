@@ -1,9 +1,25 @@
 <template>
-  <o-note-page ref="notePage"
+  <q-page ref="notePage"
                class="page-note-share"
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
+    <o-simple-toolbar :class="{ 'gradient': gradient }"
+                      :show-logo="pageStatus === 404">
+      <template #left>
+        <o-common-item :icon="currentNote.icon" :label="currentNote.title" />
+      </template>
+
+      <template #right>
+        <o-doc-toc ref="tocRef"
+                   class="mobile-only"
+                   trigger="click"
+                   :editor="yiiEditor?.editor"
+                   :max-level="3"
+                   button />
+      </template>
+    </o-simple-toolbar>
     <q-scroll-area class="o-scroll-wrapper" @scroll="onScroll">
-      <section class="layout" :class="[pageView]">
+      <content404 v-if="pageStatus === 404"></content404>
+      <section class="layout" :class="[pageView]" v-else>
         <note-share-cover :key="currentNote.id"
                           :current-note="currentNote"
                     class="layout-full col-12">
@@ -32,9 +48,9 @@
                    class="layout-content"
                    :class="{ 'auto-numbering': styles.autoNumbering }"
                    v-bind="options"
-                   @create="onCreate" />
+                   v-if="currentNote.id" />
 
-        <aside class="layout-right">
+        <aside class="layout-right desktop-only">
           <div class="sticky-top">
             <o-doc-toc ref="tocRef"
                        :editor="yiiEditor?.editor"
@@ -43,40 +59,50 @@
         </aside>
       </section>
     </q-scroll-area>
-  </o-note-page>
+  </q-page>
 </template>
 
 <script setup lang="ts">
-import { QInput } from 'quasar'
+import { QInput, QPage } from 'quasar'
 import { useRoute } from 'vue-router'
-import { computed, onActivated, ref, useTemplateRef, watch } from 'vue'
-import { Editor } from '@tiptap/core'
-import { YiiEditor, ODocToc, OStarterKit } from '@yiitap/vue'
+import { useFavicon, useTitle } from '@vueuse/core'
+import { computed, onActivated, ref, watch, watchEffect } from 'vue'
+import { YiiEditor, ODocToc, OStarterKit, AnyExtension } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
 import useSetting from 'core/hooks/useSetting'
-import type { Note } from 'src/types/note'
-import ONotePage from 'components/page/ONotePage.vue'
+import OSimpleToolbar from 'core/page/toolbar/OSimpleToolbar.vue'
 import NoteShareCover from 'components/note/NoteShareCover.vue'
+import Content404 from 'core/page/content/Content404.vue'
 import { noteShareService } from 'src/api/service/remote'
+import { NoteDefaultIcon } from 'core/constants/constant'
+import useCommon from 'core/hooks/useCommon'
+import { createEmojiFavicon } from 'core/utils/url'
 
+const { t } = useCommon()
 const route = useRoute()
 const { darkMode, locale } = useSetting()
+const docTitle = useTitle('ABC')
+const docFavicon = useFavicon()
 
-const titleRef = useTemplateRef<QInput>('title')
-const notePage = ref<InstanceType<typeof ONotePage>>()
+const notePage = ref<InstanceType<typeof QPage>>()
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const noteShareId = ref('')
 const currentNote = ref<Indexable>({})
 const loading = ref(false)
-const loaded = ref(false)
-const editorReady = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
 const pageView = ref('page')
+const pageStatus = ref(200)
+const scrollPosition = ref(0)
+
+const gradient = computed(() => {
+  return scrollPosition.value > 60
+})
 
 const options = computed(() => {
   return {
+    content: currentNote.value.content,
     editable: false,
     locale: localeAlt.value,
     darkMode: darkMode.value,
@@ -96,16 +122,12 @@ const options = computed(() => {
       'OMultiColumn',
       'OShortcut',
       'OVideo',
-    ]
+    ] as any
   }
 })
 
-const editor = computed(() => {
-  return yiiEditor.value?.editor
-})
-
 const styles: Indexable = computed(() => {
-  return currentNote.value.styles || {
+  return currentNote.value?.styles || {
     font: 'default',
     smallText: false,
     fullWidth: false,
@@ -124,68 +146,41 @@ const font = computed(() => {
   }
 })
 
-function onCreate() {
-  editorReady.value = true
-  editor.value?.on('update', onUpdate)
-
-  if (!currentNote.value.title) {
-    titleRef.value?.focus()
-  }
-
-}
-
-function onUpdate({ editor }: { editor: Editor }) {
-  // Only update when editor is ready
-  if (!editorReady.value) return
-  // console.log('update', editorReady.value, loading.value)
-
-  // When editor is loading content, NO need to update.
-  if (loading.value) {
-    loading.value = false
-  }
-
-  loaded.value = true
-}
-
-function onScroll() {
+function onScroll(info: any) {
   const event: Event | undefined = undefined
   tocRef.value?.onScroll(event as any)
+
+  scrollPosition.value = info.verticalPosition
 }
 
-async function getAndLoadNote() {
+async function loadNote() {
   loading.value = true
-  loaded.value = false
   noteShareService.getDetails(noteShareId.value).then((note: any) => {
-    loading.value = false
-    loadingNote(note as Note)
+    pageStatus.value = 200
+    currentNote.value = note || {}
   }).catch((err) => {
     if (err.response.status === 404) {
-      // 404
+      pageStatus.value = 404
     }
+  }).finally(() => {
+    loading.value = false
   })
 }
 
-
-function loadingNote(note: Note) {
-  const docNode = note.content
-  let focusPosition = 'start'
-  let emitUpdate = false
-  loadNote(note, docNode, focusPosition, emitUpdate)
-}
-
-function loadNote(note: Note, docNode: Indexable, focus: string,
-                  emitUpdate = false) {
-  currentNote.value = note
-  setContent(docNode, emitUpdate, focus)
-}
-
-function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
-  editor.value?.commands.setContent(docNode, { emitUpdate })
-
-  if (focus !== 'none') {
-    editor.value?.commands.focus(focus as 'start')
+const dynamicFavicon = computed(() => {
+  if (pageStatus.value !== 200) {
+    return '/logo.png'
   }
-}
+  return createEmojiFavicon(currentNote.value.icon || NoteDefaultIcon)
+})
+
+watchEffect(() => {
+  docTitle.value = currentNote.value.title || t('product.name')
+})
+
+watch(dynamicFavicon, (newIcon) => {
+  docFavicon.value = newIcon
+})
 
 watch(locale, (newValue) => {
   localeAlt.value = newValue.toLowerCase()
@@ -194,7 +189,7 @@ watch(locale, (newValue) => {
 onActivated(() => {
   noteShareId.value = route.params.id as string
 
-  getAndLoadNote()
+  loadNote()
 })
 </script>
 
@@ -211,8 +206,22 @@ onActivated(() => {
     }
   }
 
+  .o-simple-toolbar {
+    height: 60px;
+    background: var(--q-secondary);
+    z-index: 1;
+
+    &.gradient {
+      background: linear-gradient(to right,
+        var(--q-secondary) 10%,
+        transparent 80%,
+        var(--q-secondary) 90%);
+    }
+  }
+
   .o-scroll-wrapper {
     .layout {
+      padding-top: 60px;
       display: grid;
       grid-template-rows:
         auto
@@ -318,6 +327,35 @@ onActivated(() => {
           }
         }
       }
+    }
+  }
+}
+
+.mobile .page-note-share {
+  .o-simple-toolbar {
+    padding: 0 6px;
+    background: var(--q-secondary) !important;
+
+    .o-toolbar-extra {
+      padding: 0;
+    }
+  }
+
+  .layout {
+    .note-share-cover {
+      height: 200px;
+    }
+
+    &.page {
+      grid-template-columns:
+          [full-start] minmax(0, 1fr)
+          [content-start] minmax(400px, 900px)
+          [content-end] minmax(0, 1fr)
+          [full-end];
+    }
+
+    .title, .note-meta-wrapper, .ProseMirror {
+      padding-inline: 1rem;
     }
   }
 }

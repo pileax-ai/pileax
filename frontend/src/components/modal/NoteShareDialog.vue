@@ -1,6 +1,6 @@
 <template>
   <o-common-dialog class="note-share-dialog dialog-theme"
-                   ok="查看"
+                   :ok="$t('view._')"
                    :show="dialog.type === 'note-share'"
                    :content-style="style"
                    @close="onHide"
@@ -12,13 +12,13 @@
     </header>
     <section class="content">
       <div class="meta">
-        <o-view-item icon="o_article" label="笔记" :value="note.title" align="right" clickable />
-        <o-view-item icon="o_share" label="分享" align="right" right-side>
+        <o-view-item icon="o_article" :label="$t('note._')" :value="note.title" align="right" clickable />
+        <o-view-item icon="o_share" :label="$t('share')" align="right" right-side>
           <template #side>
             <q-toggle v-model="shareStatus" @update:modelValue="onToggleShare" />
           </template>
         </o-view-item>
-        <o-view-item icon="o_timer" label="分享时间"
+        <o-view-item icon="o_timer" :label="$t('shareTime')"
                      :value="timeMulti(share.updateTime).timestamp()"
                      align="right"
                      clickable v-if="noteShared" />
@@ -40,7 +40,7 @@
             <o-qrcode :text="sharedLink" :size="120" />
           </div>
           <div class="col text-center text-bold">
-            扫一扫二维码或复制链接分享给好友吧
+            {{ $t('shareQrcode') }}
           </div>
         </div>
 
@@ -51,7 +51,7 @@
     </section>
 
     <template #left-actions>
-      <div class="row items-center text-tips">
+      <div class="row items-center text-tips" v-if="false">
         <q-icon name="visibility" />
         <span class="q-ml-xs">{{ share.viewCount }}</span>
       </div>

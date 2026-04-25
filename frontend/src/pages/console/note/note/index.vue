@@ -81,7 +81,15 @@ import { QInput } from 'quasar'
 import { useRoute } from 'vue-router'
 import { computed, onActivated, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
 import { Editor } from '@tiptap/core'
-import { YiiEditor, ODocToc, OStarterKit, OAiBlock, OUploadManager, DefaultBlockMenuOptions } from '@yiitap/vue'
+import {
+  YiiEditor,
+  ODocToc,
+  OStarterKit,
+  OAiBlock,
+  OUploadManager,
+  DefaultBlockMenuOptions,
+  type SideMenuAddType,
+} from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
 import useSetting from 'core/hooks/useSetting'
@@ -192,6 +200,10 @@ const options = computed(() => {
     sideMenu: {
       show: true,
       add: 'empty',
+      addMenuOptions: {
+        ...DefaultBlockMenuOptions,
+        modelViewer: false,
+      },
     },
     pageView: pageView.value,
     collab: {

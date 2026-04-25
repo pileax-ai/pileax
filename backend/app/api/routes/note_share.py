@@ -5,7 +5,7 @@ from fastapi import Depends
 
 from app.api.controllers.note_share_controller import NoteShareController
 from app.api.controllers.note_share_public_controller import NoteSharePublicController
-from app.api.models.note_share import NoteShareCreate, NoteSharePublic, NoteShareUpdate, NoteShareDetails
+from app.api.models.note_share import NoteShareCreate, NoteShareDetails, NoteSharePublic, NoteShareUpdate
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/note/share", tags=["NoteShare"])

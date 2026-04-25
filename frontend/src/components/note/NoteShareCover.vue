@@ -29,7 +29,7 @@ const coverPosition = ref(50) // Default middle (50%)
 
 const currentNoteCover = computed(() => {
   const cover = props.currentNote.cover
-  return cover?.startsWith('/image') ? cover : getFileUrl(cover!)
+  return cover?.startsWith('/image') ? cover : getFileUrl(cover)
 })
 
 onBeforeMount(() => {

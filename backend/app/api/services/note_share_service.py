@@ -1,7 +1,8 @@
-from app.api.models.note_share import NoteShare
+from fastapi import HTTPException
+
+from app.api.models.note_share import NoteShare, NoteShareDetails
 from app.api.repos.note_share_repository import NoteShareRepository
 from app.api.services.base_service import BaseService
-from app.api.models.note_share import NoteShareDetails
 
 
 class NoteShareService(BaseService[NoteShare]):
@@ -9,4 +10,7 @@ class NoteShareService(BaseService[NoteShare]):
         super().__init__(NoteShare, session, NoteShareRepository)
 
     def get_details(self, share_id: str) -> NoteShareDetails:
-        return self.repo.get_details(share_id)
+        details = self.repo.get_details(share_id)
+        if not details:
+            raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
+        return details
