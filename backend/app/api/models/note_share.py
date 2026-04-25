@@ -55,3 +55,10 @@ class NoteShareUpdate(NoteShareBase):
 
 class NoteSharePublic(NoteShareBase, BaseMixin):
     view_count: int | None = None
+
+class NoteShareDetails(NoteSharePublic):
+    title: str | None = None
+    content: dict | None = None
+    icon: str | None = None
+    cover: str | None = None
+    styles: dict | None = None
