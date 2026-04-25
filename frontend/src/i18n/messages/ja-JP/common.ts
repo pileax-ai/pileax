@@ -168,6 +168,9 @@ export default {
   searchResults: '検索結果',
   select: '選択',
   settings: '設定',
+  share: '共有',
+  shareQrcode: 'QRコードをスキャンするか、リンクをコピーして共有してください。',
+  shareTime: 'シェアタイム',
   signin: 'サインイン',
   signout: 'サインアウト',
   signup: 'サインアップ',
@@ -252,6 +255,7 @@ export default {
   upload: 'アップロード',
   version: 'バージョン',
   view: {
+    _: 'ビュー',
     compact: 'コンパクト',
     grid: 'グリッド',
     list: 'リスト'

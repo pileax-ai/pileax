@@ -4,6 +4,7 @@ import {
   PageLayout,
   ConsoleLayout,
   ReaderLayout,
+  ShareLayout,
   IframePage
 } from './utils'
 
@@ -82,6 +83,17 @@ const routes: RouteRecordRaw[] = [
         path: ':id',
         component: () => import('pages/console/note/note/index.vue'),
         name: 'note',
+      },
+    ]
+  },
+  {
+    path: '/s',
+    component: ShareLayout,
+    children: [
+      {
+        path: ':id',
+        component: () => import('pages/console/note/note-share/index.vue'),
+        name: 'note-share',
       },
     ]
   },

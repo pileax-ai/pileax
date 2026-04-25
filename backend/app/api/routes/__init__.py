@@ -18,6 +18,7 @@ EXT_NAMES = [
     "file_upload",
     "llm",
     "note",
+    "note_share",
     "note_version",
     "provider",
     "provider_credential",

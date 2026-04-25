@@ -168,6 +168,9 @@ export default {
   searchResults: 'Результаты поиска',
   select: 'Выбирать',
   settings: 'Настройки',
+  share: 'Делиться',
+  shareQrcode: 'Отсканируйте QR-код или скопируйте ссылку, чтобы поделиться ею.',
+  shareTime: 'Время для общения',
   signin: 'Войти',
   signout: 'выход',
   signup: 'Зарегистрироваться',
@@ -252,6 +255,7 @@ export default {
   upload: 'Загрузить',
   version: 'Версия',
   view: {
+    _: 'Вид',
     compact: 'Компактный',
     grid: 'Сетка',
     list: 'Список'

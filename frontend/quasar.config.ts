@@ -194,7 +194,6 @@ export default defineConfig(((ctx) => {
       plugins: [
         'AppFullscreen',
         'Dialog',
-        'Meta',
         'Notify',
         'Cookies',
         'LocalStorage',
@@ -407,6 +406,7 @@ export default defineConfig(((ctx) => {
           icon: 'src-electron/icons/icon.png',
           desktop: {
             entry: {
+              Icon: 'PileaX',
               Name: 'PileaX',
               Comment: 'PileaX is a one-stop AI knowledge base system',
               StartupWMClass: 'PileaX',

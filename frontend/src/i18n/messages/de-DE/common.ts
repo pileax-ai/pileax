@@ -168,6 +168,9 @@ export default {
   searchResults: 'Suchergebnisse',
   select: 'Wählen',
   settings: 'Einstellungen',
+  share: 'Aktie',
+  shareQrcode: 'Scannen Sie den QR-Code oder kopieren Sie den Link, um ihn zu teilen.',
+  shareTime: 'Zeit teilen',
   signin: 'anmelden',
   signout: 'Abmelden',
   signup: 'Melden Sie sich an',
@@ -252,6 +255,7 @@ export default {
   upload: 'Hochladen',
   version: 'Version',
   view: {
+    _: 'Sicht',
     compact: 'Kompakt',
     grid: 'Netz',
     list: 'Liste'

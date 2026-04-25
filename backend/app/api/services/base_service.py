@@ -24,9 +24,9 @@ class BaseService(Generic[ModelType]):
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj
 
-    def get_by_owner(self, ower: Owner, id: UUID, raise_exception=True) -> ModelType:
+    def get_by_owner(self, owner: Owner, id: UUID, raise_exception=True) -> ModelType:
         obj = self.repo.get(id)
-        self.check_read_permission(ower, obj)
+        self.check_read_permission(owner, obj)
         return obj
 
     def save(self, obj: ModelType, commit: bool = True) -> ModelType:

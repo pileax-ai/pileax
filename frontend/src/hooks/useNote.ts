@@ -23,7 +23,7 @@ export default function () {
   const naviStore = useNaviStore()
   const accountStore = useAccountStore()
   const tabStore = useTabStore()
-  const { t, confirm } = useCommon()
+  const { t, confirm, showDialog } = useCommon()
   const { publishCollabEvent } = useWorkspaceCollab()
   const { getFileUrl } = useApi()
   const recentNotes = ref<Note[]>([])
@@ -135,6 +135,7 @@ export default function () {
 
   function saveNoteRemote(data: Indexable): Promise<Indexable> {
     return new Promise((resolve, reject) => {
+      console.log('save', data)
       noteService.save(data).then(res => {
         refreshNote(res)
         resolve(res)
@@ -160,10 +161,11 @@ export default function () {
     debounceCreateVersion()
   }
 
-  function saveNoteMarkdownRemote(id: string, markdown?: string) {
+  function saveNoteMarkdownRemote(id: string, content: any, markdown?: string) {
     return new Promise((resolve, reject) => {
       noteService.save({
         id,
+        content: content,
         contentMarkdown: markdown
       }).then(res => {
         resolve(res)
@@ -172,7 +174,7 @@ export default function () {
       })
     })
   }
-  const saveNoteMarkdown = debounce(saveNoteMarkdownRemote, 5000)
+  const saveNoteMarkdown = debounce(saveNoteMarkdownRemote, 2500)
 
   function duplicateNote(data: Indexable) {
     return new Promise((resolve, reject) => {
@@ -236,16 +238,23 @@ export default function () {
     })
   }
 
+  function shareNote(data: Indexable) {
+    showDialog({
+      type: 'note-share',
+      data
+    })
+  }
+
   const createVersion = () => {
     if (!lastVersionTime.value) {
       lastVersionTime.value = currentNote.value.updateTime || ''
       return
     }
 
-    // Save a new version every 3/10 minutes
+    // Save a new version every 1/10 minutes
     const  timeDelta = timeDiff(lastVersionTime.value, currentNote.value.updateTime, 'second')
-    console.log('version time', timeDelta)
-    if (lastVersionTime.value && timeDelta < 3 * 60) return
+    // console.log('version time', timeDelta)
+    if (lastVersionTime.value && timeDelta < 60) return
 
     // update time
     lastVersionTime.value = currentNote.value.updateTime || ''
@@ -364,6 +373,7 @@ export default function () {
     saveNoteMarkdown,
     setParent,
     toggleFavorite,
+    shareNote,
     duplicateNote,
     newTab,
     newWindow,

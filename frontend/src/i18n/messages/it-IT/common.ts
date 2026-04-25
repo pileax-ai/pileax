@@ -168,6 +168,9 @@ export default {
   searchResults: 'Risultati della ricerca',
   select: 'Selezionare',
   settings: 'Impostazioni',
+  share: 'Condividere',
+  shareQrcode: 'Scansiona il codice QR o copia il link per condividerlo.',
+  shareTime: 'Condividi il momento',
   signin: 'Registrazione',
   signout: 'disconnessione',
   signup: 'Iscrizione',
@@ -252,6 +255,7 @@ export default {
   upload: 'Caricamento',
   version: 'Versione',
   view: {
+    _: 'Visualizzazione',
     compact: 'Compatto',
     grid: 'Griglia',
     list: 'Lista'

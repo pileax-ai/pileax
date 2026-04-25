@@ -168,6 +168,9 @@ export default {
   searchResults: 'Kết quả tìm kiếm',
   select: 'Lựa chọn',
   settings: 'Cài đặt',
+  share: 'Chia sẻ',
+  shareQrcode: 'Quét mã QR hoặc sao chép liên kết để chia sẻ.',
+  shareTime: 'Chia sẻ thời gian',
   signin: 'Đăng nhập',
   signout: 'Đăng xuất',
   signup: 'Đăng ký',
@@ -252,6 +255,7 @@ export default {
   upload: 'Tải lên',
   version: 'Phiên bản',
   view: {
+    _: 'Xem',
     compact: 'Nhỏ gọn',
     grid: 'Lưới',
     list: 'Danh sách'

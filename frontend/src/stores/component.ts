@@ -9,9 +9,13 @@ export const useComponentStore = defineStore('component', {
       icon: '',
       title: '',
       message: '',
+      ok: '',
       showOk: true,
       showCancel: false,
       onOk: () => {
+        return
+      },
+      onCancel: () => {
         return
       },
     },

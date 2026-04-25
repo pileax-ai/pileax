@@ -182,7 +182,11 @@ export default function () {
   const saveMarkdown = () => {
     if (editor.value) {
       const noteJson = editor.value.getJSON()
-      saveNoteMarkdown(noteId.value, editor.value.markdown?.serialize(noteJson))
+      saveNoteMarkdown(
+        noteId.value,
+        noteJson,
+        editor.value.markdown?.serialize(noteJson)
+      )
     }
   }
 
@@ -194,10 +198,10 @@ export default function () {
       return
     }
 
-    // Save a new version every 3/10 minutes
+    // Save a new version every 1/10 minutes
     const  timeDelta = timeDiff(lastVersionTime.value, currentNote.value.updateTime, 'second')
-    console.log('version time', timeDelta)
-    if (lastVersionTime.value && timeDelta < 2 * 60) return
+    // console.log('version time', timeDelta)
+    if (lastVersionTime.value && timeDelta < 60) return
 
     // update time
     lastVersionTime.value = currentNote.value.updateTime || ''
