@@ -6,6 +6,7 @@
     <connect-dialog v-if="type === 'connect'" />
     <guide-dialog v-if="type === 'guide'" />
     <note-search-dialog v-if="type === 'note-search'" />
+    <note-share-dialog v-if="type === 'note-share'" />
     <signin-dialog v-if="type === 'signin'" />
     <tips-dialog v-if="type === 'tips'" />
     <workspace-invite-dialog v-if="type === 'workspace-invite'" />
@@ -24,6 +25,7 @@ import ChatToNoteDialog from './ChatToNoteDialog.vue'
 import ConnectDialog from './ConnectDialog.vue'
 import GuideDialog from './GuideDialog.vue'
 import NoteSearchDialog from './NoteSearchDialog.vue'
+import NoteShareDialog from './NoteShareDialog.vue'
 import SigninDialog from './SigninDialog.vue'
 import TipsDialog from './TipsDialog.vue'
 import WorkspaceInviteDialog from './WorkspaceInviteDialog.vue'

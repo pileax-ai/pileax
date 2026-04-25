@@ -1,6 +1,6 @@
 [project]
 name = "app"
-version = "0.5.0"
+version = "0.5.1"
 description = "PileaX AI"
 requires-python = ">=3.10,<4.0"
 
@@ -31,6 +31,7 @@ dependencies = [
     "pypinyin>=0.55.0",
     "redis>=7.1.0",
     "pycryptodome>=3.23.0",
+    "nanoid>=2.0.0",
 ]
 
 [dependency-groups]

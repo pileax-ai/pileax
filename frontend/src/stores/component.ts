@@ -9,12 +9,16 @@ export const useComponentStore = defineStore('component', {
       icon: '',
       title: '',
       message: '',
+      ok: '',
       showOk: true,
       showCancel: false,
       onOk: () => {
         return
       },
-    },
+      onCancel: () => {
+        return
+      },
+    } as Indexable,
   }),
   getters: {
     getDialog: (state) => state.dialog,

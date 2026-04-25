@@ -23,7 +23,7 @@ export default function () {
   const naviStore = useNaviStore()
   const accountStore = useAccountStore()
   const tabStore = useTabStore()
-  const { t, confirm } = useCommon()
+  const { t, confirm, showDialog } = useCommon()
   const { publishCollabEvent } = useWorkspaceCollab()
   const { getFileUrl } = useApi()
   const recentNotes = ref<Note[]>([])
@@ -236,6 +236,13 @@ export default function () {
     })
   }
 
+  function shareNote(data: Indexable) {
+    showDialog({
+      type: 'note-share',
+      data
+    })
+  }
+
   const createVersion = () => {
     if (!lastVersionTime.value) {
       lastVersionTime.value = currentNote.value.updateTime || ''
@@ -364,6 +371,7 @@ export default function () {
     saveNoteMarkdown,
     setParent,
     toggleFavorite,
+    shareNote,
     duplicateNote,
     newTab,
     newWindow,

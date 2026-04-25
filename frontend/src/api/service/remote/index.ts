@@ -14,6 +14,8 @@ import { edgeService } from './edge'
 import { fileService } from './file'
 import { fileMetaService } from './file-meta'
 import { noteService } from './note'
+import { noteShareService } from './note-share'
+import { noteVersionService } from './note-version'
 import { providerService } from './provider'
 import { providerCredentialService } from './provider-credential'
 import { providerModelService } from './provider-model'
@@ -38,6 +40,8 @@ export {
   fileService,
   fileMetaService,
   noteService,
+  noteShareService,
+  noteVersionService,
   pdmService,
   providerService,
   providerCredentialService,

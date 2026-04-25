@@ -1,7 +1,10 @@
 import re
+import uuid
 from datetime import UTC, datetime
 from typing import cast
 
+from nanoid import generate
+from pypinyin import Style, lazy_pinyin
 from fastapi import Request
 
 
@@ -39,3 +42,43 @@ class StringHelper:
         Convert to snake case
         """
         return re.sub(r"(?<!^)(?=[A-Z])", "_", camel_str).lower()
+
+    @staticmethod
+    def to_pinyin(text: str, capitalize=False) -> str:
+        if capitalize:
+            pinyin_list = [
+                p.capitalize() for p in lazy_pinyin(
+                    text or "",
+                    style=Style.NORMAL,
+                    v_to_u=True
+                )
+            ]
+            return "".join(pinyin_list)
+        else:
+            return "".join(lazy_pinyin(
+                text or "",
+                style=Style.NORMAL,
+                v_to_u=True
+            ))
+
+    @staticmethod
+    def generate_short_id(size: int = 12) -> str:
+        """
+        Generate short id
+        :param size: Size of short id
+        :return: Example: '4kPq9XmRz2Tv'
+        """
+        alphabet = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ"
+        return generate(alphabet, size)
+
+    @staticmethod
+    def generate_share_id(title: str) -> str:
+        title = StringHelper.to_pinyin(title, capitalize=True)
+        slug = re.sub(r'[^a-zA-Z0-9\s-]', '', title)
+        slug = re.sub(r'[\s-]+', '-', slug).strip()
+        sid = StringHelper.generate_short_id(16)
+
+        if not slug:
+            slug = "Note"
+
+        return f"{slug[:32]}-{sid}"

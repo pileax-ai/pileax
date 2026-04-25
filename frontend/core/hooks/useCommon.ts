@@ -28,6 +28,10 @@ export default function () {
     })
   }
 
+  function showDialog(dialog: Indexable) {
+    componentStore.setDialog(dialog)
+  }
+
   const hideDialog = () => {
     componentStore.setDialog({})
   }
@@ -82,6 +86,7 @@ export default function () {
     confirm,
     copy,
     dialog,
+    showDialog,
     hideDialog,
     getArrayItem,
     publicPath,

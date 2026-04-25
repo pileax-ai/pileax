@@ -24,6 +24,7 @@ const urls: Indexable = {
   fileMeta: '/file/meta',
   llm: '/llm',
   note: '/note',
+  noteShare: '/note/share',
   noteVersion: '/note/version',
   knowledge: '/knowledge',
   provider: '/provider',

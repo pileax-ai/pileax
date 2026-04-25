@@ -6,6 +6,9 @@
     <q-btn :icon="currentNote.favorite === 1 ? 'star' : 'star_outline'"
            flat
            @click="toggleFavorite(currentNote)" />
+    <q-btn icon="o_share"
+           flat
+           @click="shareNote(currentNote)" />
     <q-btn icon="more_horiz" flat>
       <q-menu ref="menu"
               anchor="bottom right"
@@ -96,6 +99,7 @@ const {
   saveNote,
   beforeDeleteNote,
   toggleFavorite,
+  shareNote,
   duplicateNote,
   newTab,
   newWindow,
