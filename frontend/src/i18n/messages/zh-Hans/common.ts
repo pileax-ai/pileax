@@ -204,6 +204,7 @@ export default {
     closeToLeft: '关闭左侧标签页',
     closeToRight: '关闭右侧标签页',
     duplicate: '复制',
+    inspect: '检查',
     new: '新建标签页',
     newWindow: '移至新窗口',
     pin: '固定',

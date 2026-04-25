@@ -225,7 +225,6 @@ export class Application {
         return await dialog.showOpenDialog(win, options)
       })
 
-
     ipcMain.handle('open-path',
       async (event, relativePath: string, type = 'book') => {
         let fullPath = ''
@@ -254,5 +253,14 @@ export class Application {
 
         return { success: true }
       })
+
+    ipcMain.on('window-control:toggle-devtools', (event) => {
+      const webContents = event.sender
+      if (webContents.isDevToolsOpened()) {
+        webContents.closeDevTools()
+      } else {
+        webContents.openDevTools()
+      }
+    })
   }
 }
