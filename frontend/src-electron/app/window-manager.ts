@@ -3,8 +3,11 @@ import log from 'electron-log'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { spaServer } from '../server/spa-server'
+import os from 'os'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
+
+const platform = process.platform || os.platform()
 
 export class WindowManager {
   private windows: Record<string, BrowserWindow>
@@ -33,10 +36,11 @@ export class WindowManager {
       width: 1200,
       height: 800,
       useContentSize: true,
-      frame: true,
-      titleBarStyle: 'hidden',
+      frame: process.platform === 'win32' ? false : true,
+      titleBarStyle: process.platform === 'win32' ? 'default' : 'hidden',
       trafficLightPosition: { x: 8, y: 12 },
       webPreferences: {
+        devTools: true,
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,
@@ -64,7 +68,7 @@ export class WindowManager {
       win.webContents.on('devtools-opened', () => {
         // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
       })
-      
+
       win.webContents.on('before-input-event', (event, input) => {
         // Windows/Linux: Ctrl+Shift+I, macOS: Cmd+Option+I
         if (
