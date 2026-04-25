@@ -45,6 +45,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('get-path', key),
   getServerInfo: async (): Promise<Indexable> =>
     ipcRenderer.invoke('get-server-info'),
+  inspect: async () =>
+    ipcRenderer.send('window-control:toggle-devtools'),
   openNewWindow: async (id: string, url: string, titleBarHeight = 40) =>
     ipcRenderer.invoke('open-new-window', id, url, titleBarHeight),
   openPath: async (path: string, type = 'book') =>

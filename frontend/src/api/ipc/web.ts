@@ -51,6 +51,7 @@ window.webIpcAPI = {
   getOpenFile: mock as any,
   getPath: mock as any,
   getServerInfo: mock as any,
+  inspect: mock as any,
   isWindowMaximized: mock as any,
   logInit: mock as any,
   logStart: mock as any,

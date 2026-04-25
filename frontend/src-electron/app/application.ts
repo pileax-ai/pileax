@@ -46,10 +46,7 @@ export class Application {
 
   static initApp() {
     app.setName('PileaX')
-    if (process.platform === 'linux') {
-      app.commandLine.appendSwitch('no-sandbox')
-      app.commandLine.appendSwitch('disable-setuid-sandbox')
-    }
+    app.disableHardwareAcceleration()
   }
 
   static initUpdater() {
@@ -225,7 +222,6 @@ export class Application {
         return await dialog.showOpenDialog(win, options)
       })
 
-
     ipcMain.handle('open-path',
       async (event, relativePath: string, type = 'book') => {
         let fullPath = ''
@@ -254,5 +250,15 @@ export class Application {
 
         return { success: true }
       })
+
+    ipcMain.on('window-control:toggle-devtools', (event) => {
+      log.info('🚀 toggle-devtools')
+      const webContents = event.sender
+      if (webContents.isDevToolsOpened()) {
+        webContents.closeDevTools()
+      } else {
+        webContents.openDevTools({ mode: 'detach' })
+      }
+    })
   }
 }

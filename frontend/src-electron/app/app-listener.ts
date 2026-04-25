@@ -23,6 +23,12 @@ app.on('open-file', (event, filePath) => {
 // ----------------------------------------------------------------------
 export const initAppListener = () => {
   log.info('Init App Listeners')
+
+  app.on('web-contents-created', (event, contents) => {
+    contents.on('render-process-gone', (event, details) => {
+      log.error(`Render Process: ${details.reason}, exitCode: ${details.exitCode}`)
+    })
+  })
 }
 
 
