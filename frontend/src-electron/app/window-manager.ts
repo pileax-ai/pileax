@@ -94,7 +94,7 @@ export class WindowManager {
     })
 
     win.webContents.on('did-finish-load', () => {
-      win.webContents.focus();
+      win.webContents.focus()
     })
 
     win.on('closed', () => {
