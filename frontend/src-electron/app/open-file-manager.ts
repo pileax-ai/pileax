@@ -20,12 +20,23 @@ export class OpenFileManager {
   }
 
   onOpenFile(args: string[], source = '') {
-    const filePath = args.find(arg => path.isAbsolute(arg)
-      && arg !== process.execPath
-      && !arg.includes('node_modules')
-      && !arg.startsWith('--'))
+    log.info(`🍃[${source}] Parsing args:`, args)
+
+    const filePath = args.find(arg => {
+      const cleanArg = arg.replace(/^"(.*)"$/, '$1')
+
+      return path.isAbsolute(cleanArg) &&
+        cleanArg !== process.execPath &&
+        !cleanArg.includes('node_modules') &&
+        !cleanArg.startsWith('--')
+    })
+
     if (filePath) {
-      this.sendFile(filePath, source)
+      const cleanPath = filePath.replace(/^"(.*)"$/, '$1')
+      log.info(`🍃[${source}] Found valid file path:`, cleanPath)
+      this.sendFile(cleanPath, source)
+    } else {
+      log.info(`🍃 [${source}] No valid book file path found in arguments.`)
     }
   }
 

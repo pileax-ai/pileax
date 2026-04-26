@@ -6,23 +6,19 @@ import { openFileManager } from './open-file-manager'
 // File associations
 // ----------------------------------------------------------------------
 const initFileAssociationListeners = () => {
-  const gotTheLock = app.requestSingleInstanceLock()
-  if (!gotTheLock) {
-    app.quit()
-  } else {
-    app.on('ready', (event, path) => {
-      openFileManager.onOpenFile(process.argv, 'ready')
-    })
 
-    app.on('second-instance', (event, commandLine) => {
-      openFileManager.onOpenFile(commandLine, 'second-instance')
-    })
+  app.on('ready', (event, path) => {
+    openFileManager.onOpenFile(process.argv, 'ready')
+  })
 
-    app.on('open-file', (event, filePath) => {
-      event.preventDefault()
-      openFileManager.sendFile(filePath, 'open-file')
-    })
-  }
+  // app.on('second-instance', (event, commandLine) => {
+  //   openFileManager.onOpenFile(commandLine, 'second-instance')
+  // })
+
+  app.on('open-file', (event, filePath) => {
+    event.preventDefault()
+    openFileManager.sendFile(filePath, 'open-file')
+  })
 }
 
 const initWebContentListeners = () => {
