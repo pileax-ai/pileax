@@ -204,6 +204,7 @@ export default {
     closeToLeft: 'Close Tabs to the Left',
     closeToRight: 'Close Tabs to the Right',
     duplicate: 'Duplicate Tab',
+    inspect: 'Inspect',
     new: 'New Tab',
     newWindow: 'Move Tab to New Window',
     pin: 'Pin Tab',

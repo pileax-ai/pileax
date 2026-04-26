@@ -28,9 +28,11 @@
             class="pi-context-menu">
       <q-list :style="{minWidth: '200px'}">
         <template v-for="(action, i) in actions" :key="`action-${i}`">
-          <q-separator class="bg-accent" v-if="action.separator" />
-          <o-common-item v-bind="itemAction(action, item)"
-                         @click="onAction(action, item)" />
+          <template v-if="action.show">
+            <q-separator class="bg-accent" v-if="action.separator" />
+            <o-common-item v-bind="itemAction(action, item)"
+                           @click="onAction(action, item)" />
+          </template>
         </template>
       </q-list>
     </q-menu>
@@ -43,7 +45,7 @@ import { computed } from 'vue'
 import { useTabStore } from 'stores/tab'
 import useCommon from 'core/hooks/useCommon'
 import { menuLabel } from 'core/hooks/useMenu'
-import { ipcService } from 'src/api/ipc'
+import { ipcProvider, ipcService } from 'src/api/ipc'
 import { NoteDefaultIcon } from 'core/constants/constant'
 import type { MenuItem } from 'core/types/menu'
 
@@ -64,14 +66,15 @@ const tabStore = useTabStore()
 
 const actions = computed(() => {
   return [
-    { label: t('tab.refresh'), value: 'refresh', icon: 'refresh' },
-    { label: t('tab.pin'), value: 'pin', icon: 'mdi-pin-outline', separator: true },
-    { label: t('tab.duplicate'), value: 'duplicate', icon: 'copy_all' },
-    { label: t('tab.newWindow'), value: 'newWindow', icon: 'open_in_browser' },
-    { label: t('tab.close'), value: 'close', icon: 'close', separator: true },
-    { label: t('tab.closeOther'), value: 'closeOther', icon: 'playlist_remove' },
-    { label: t('tab.closeToLeft'), value: 'closeToLeft', icon: 'keyboard_tab', iconClass: 'rotate-180' },
-    { label: t('tab.closeToRight'), value: 'closeToRight', icon: 'keyboard_tab' },
+    { label: t('tab.refresh'), value: 'refresh', icon: 'refresh', show: true },
+    { label: t('tab.pin'), value: 'pin', icon: 'mdi-pin-outline', show: true, separator: true },
+    { label: t('tab.duplicate'), value: 'duplicate', icon: 'copy_all', show: true },
+    { label: t('tab.newWindow'), value: 'newWindow', icon: 'open_in_browser', show: true },
+    { label: t('tab.close'), value: 'close', icon: 'close', show: true, separator: true },
+    { label: t('tab.closeOther'), value: 'closeOther', icon: 'playlist_remove', show: true },
+    { label: t('tab.closeToLeft'), value: 'closeToLeft', icon: 'keyboard_tab', show: true, iconClass: 'rotate-180' },
+    { label: t('tab.closeToRight'), value: 'closeToRight', icon: 'keyboard_tab', show: true },
+    { label: t('tab.inspect'), value: 'inspect', icon: 'bug_report', show: ipcProvider !== 'web', separator: true },
   ]
 })
 
@@ -133,6 +136,9 @@ function onAction (action: Indexable, item: MenuItem) {
       break
     case 'pin':
       tabStore.togglePinTab(item.id)
+      break
+    case 'inspect':
+      ipcService.inspect()
       break
     case 'refresh':
       ipcService.reload()

@@ -5,24 +5,38 @@ import { openFileManager } from './open-file-manager'
 // ----------------------------------------------------------------------
 // File associations
 // ----------------------------------------------------------------------
-app.on('ready', (event, path) => {
-  openFileManager.onOpenFile(process.argv, 'ready')
-})
+const initFileAssociationListeners = () => {
 
-app.on('second-instance', (event, commandLine) => {
-  openFileManager.onOpenFile(commandLine, 'second-instance')
-})
+  app.on('ready', (event, path) => {
+    openFileManager.onOpenFile(process.argv, 'ready')
+  })
 
-app.on('open-file', (event, filePath) => {
-  event.preventDefault()
-  openFileManager.sendFile(filePath, 'open-file')
-})
+  // app.on('second-instance', (event, commandLine) => {
+  //   openFileManager.onOpenFile(commandLine, 'second-instance')
+  // })
+
+  app.on('open-file', (event, filePath) => {
+    event.preventDefault()
+    openFileManager.sendFile(filePath, 'open-file')
+  })
+}
+
+const initWebContentListeners = () => {
+  app.on('web-contents-created', (event, contents) => {
+    contents.on('render-process-gone', (event, details) => {
+      log.error(`Render Process: ${details.reason}, exitCode: ${details.exitCode}`)
+    })
+  })
+}
 
 // ----------------------------------------------------------------------
 // Exports
 // ----------------------------------------------------------------------
 export const initAppListener = () => {
   log.info('Init App Listeners')
+
+  initFileAssociationListeners()
+  initWebContentListeners()
 }
 
 

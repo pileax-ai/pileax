@@ -37,6 +37,7 @@ export class WindowManager {
       titleBarStyle: 'hidden',
       trafficLightPosition: { x: 8, y: 12 },
       webPreferences: {
+        devTools: true,
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,
@@ -64,18 +65,18 @@ export class WindowManager {
       win.webContents.on('devtools-opened', () => {
         // mainWindow?.webContents.closeDevTools(); // Todo: uncomment in production
       })
-      
-      win.webContents.on('before-input-event', (event, input) => {
-        // Windows/Linux: Ctrl+Shift+I, macOS: Cmd+Option+I
-        if (
-          (input.control || input.meta) &&
-          input.shift &&
-          input.key.toLowerCase() === 'i'
-        ) {
-          win.webContents.toggleDevTools()
-        }
-      })
     }
+
+    win.webContents.on('before-input-event', (event, input) => {
+      // Windows/Linux: Ctrl+Shift+I, macOS: Cmd+Option+I
+      if (
+        (input.control || input.meta) &&
+        input.shift &&
+        input.key.toLowerCase() === 'i'
+      ) {
+        win.webContents.toggleDevTools()
+      }
+    })
 
     // Open url in system browser
     win.webContents.on('will-navigate', (event, url) => {
@@ -90,6 +91,10 @@ export class WindowManager {
         shell.openExternal(url)
       }
       return { action: 'deny' }
+    })
+
+    win.webContents.on('did-finish-load', () => {
+      win.webContents.focus()
     })
 
     win.on('closed', () => {
