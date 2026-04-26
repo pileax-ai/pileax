@@ -257,7 +257,7 @@ export class Application {
       if (webContents.isDevToolsOpened()) {
         webContents.closeDevTools()
       } else {
-        webContents.openDevTools({ mode: 'detach' })
+        webContents.openDevTools()
       }
     })
   }
