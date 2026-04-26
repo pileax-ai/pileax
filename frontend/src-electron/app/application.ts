@@ -46,10 +46,7 @@ export class Application {
 
   static initApp() {
     app.setName('PileaX')
-    if (process.platform === 'linux') {
-      app.commandLine.appendSwitch('no-sandbox')
-      app.commandLine.appendSwitch('disable-setuid-sandbox')
-    }
+    app.disableHardwareAcceleration()
   }
 
   static initUpdater() {
@@ -260,7 +257,7 @@ export class Application {
       if (webContents.isDevToolsOpened()) {
         webContents.closeDevTools()
       } else {
-        webContents.openDevTools()
+        webContents.openDevTools({ mode: 'detach' })
       }
     })
   }
