@@ -55,6 +55,7 @@ export default {
     themeColor: '테마 색상',
     themes: {
       dark: '어두운',
+      darkBlue: '진한 파란색',
       light: '빛',
       none: '없음',
       system: '체계'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: '왼쪽 탭을 닫으세요',
     closeToRight: '오른쪽 탭을 닫으세요',
     duplicate: '탭 복제',
+    inspect: '검사하다',
     new: '새 탭',
     newWindow: '탭을 새 창으로 이동',
     pin: '핀 탭',

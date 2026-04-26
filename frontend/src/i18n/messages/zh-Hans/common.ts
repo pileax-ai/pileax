@@ -55,6 +55,7 @@ export default {
     themeColor: '主题色',
     themes: {
       dark: '深色',
+      darkBlue: '深蓝色',
       light: '浅色',
       none: '无',
       system: '跟随系统'

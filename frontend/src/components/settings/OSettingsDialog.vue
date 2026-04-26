@@ -17,7 +17,7 @@
                     unix="px"
                     vertical inline-label
                     align="right"
-                    active-color="primary"
+                    active-color="info"
                     class="text-info">
               <template v-for="(item, index) of tabs" :key="index">
                 <template v-if="item.show">

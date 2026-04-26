@@ -1,6 +1,7 @@
 export default {
   agents: 'Agen AI',
   apps: 'Aplikasi AI',
+  basedOnBook: 'Berdasarkan Buku',
   basedOnNote: 'Berdasarkan Catatan',
   generate: 'Menghasilkan',
   generateDisclaimer: 'Konten dihasilkan oleh AI. Harap verifikasi dengan cermat.',

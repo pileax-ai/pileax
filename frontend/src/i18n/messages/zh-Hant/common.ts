@@ -55,6 +55,7 @@ export default {
     themeColor: '主題色',
     themes: {
       dark: '深色',
+      darkBlue: '深藍色',
       light: '淺色',
       none: '無',
       system: '跟隨系統'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: '關閉左側標籤頁',
     closeToRight: '關閉右側標籤頁',
     duplicate: '複製',
+    inspect: '檢查',
     new: '新標籤頁',
     newWindow: '移至新視窗',
     pin: '固定',

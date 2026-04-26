@@ -55,6 +55,7 @@ export default {
     themeColor: 'Farbthema',
     themes: {
       dark: 'Dunkel',
+      darkBlue: 'Dunkelblau',
       light: 'Licht',
       none: 'Keiner',
       system: 'System'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Schließen Sie die Tabs links',
     closeToRight: 'Schließen Sie die Tabs rechts.',
     duplicate: 'Doppelte Registerkarte',
+    inspect: 'Überprüfen',
     new: 'Neuer Tab',
     newWindow: 'Tab in neues Fenster verschieben',
     pin: 'Anstecknadel',

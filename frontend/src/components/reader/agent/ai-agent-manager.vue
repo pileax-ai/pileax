@@ -15,7 +15,7 @@
     <q-scroll-area class="o-scroll-wrapper">
       <q-list>
         <q-item-label class="text-readable">
-          推荐
+          <o-no-data image />
         </q-item-label>
       </q-list>
     </q-scroll-area>

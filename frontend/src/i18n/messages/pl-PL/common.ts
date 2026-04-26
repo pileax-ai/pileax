@@ -55,6 +55,7 @@ export default {
     themeColor: 'Kolor motywu',
     themes: {
       dark: 'Ciemny',
+      darkBlue: 'Ciemnoniebieski',
       light: 'Światło',
       none: 'Nic',
       system: 'System'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Zamknij karty po lewej stronie',
     closeToRight: 'Zamknij karty po prawej stronie',
     duplicate: 'Duplikuj kartę',
+    inspect: 'Sprawdzać',
     new: 'Nowa karta',
     newWindow: 'Przenieś kartę do nowego okna',
     pin: 'Przypnij zakładkę',

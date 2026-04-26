@@ -63,7 +63,6 @@ const { themeList, theme, setTheme } = useSetting()
     }
   }
 
-
   .theme-dark {
     background: #1E1F22;
     border: solid 1px rgba(255, 255, 255, 0.1);
@@ -71,6 +70,16 @@ const { themeList, theme, setTheme } = useSetting()
     &:before {
       border-right: solid 1px #2B2D30;
       background: #2B2D30;
+    }
+  }
+
+  .theme-darkBlue {
+    background: #1A1C26;
+    border: solid 1px rgba(255, 255, 255, 0.1);
+
+    &:before {
+      border-right: solid 1px #242736;
+      background: #242736;
     }
   }
 }

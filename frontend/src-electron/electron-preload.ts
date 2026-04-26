@@ -90,8 +90,10 @@ const electronIpcAPI = {
     ipcRenderer.invoke('get-app-mode'),
   setAppMode: async (mode: 'standalone' | 'cloud') =>
     ipcRenderer.invoke('set-app-mode', mode),
-  setTheme: async (theme: 'system' | 'light' | 'dark') =>
+  setTheme: async (theme: AppTheme) =>
     ipcRenderer.invoke('set-theme', theme),
+  setWindowButton: async (layout: string, id?: string) =>
+    ipcRenderer.invoke('set-window-button', layout, id),
   secureGet: async (key: any): Promise<string|null> =>
     ipcRenderer.invoke('secure-get', key),
   secureSet: async (key: any, value: string) =>

@@ -55,6 +55,7 @@ export default {
     themeColor: 'Theme Color',
     themes: {
       dark: 'Dark',
+      darkBlue: 'Dark Blue',
       light: 'Light',
       none: 'None',
       system: 'System'

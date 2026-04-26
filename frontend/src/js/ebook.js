@@ -93,10 +93,11 @@ const setStyle = (userStyle) => {
 
   // Renderer shadowRoot styles
   const renderer = reader.view.renderer;
+  const scrollbarCssStyles = scrollbarStyles();
   if (renderer && renderer.shadowRoot) {
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
-      ${scrollbarStyles}
+      ${scrollbarCssStyles}
     `);
 
     renderer.shadowRoot.adoptedStyleSheets = [

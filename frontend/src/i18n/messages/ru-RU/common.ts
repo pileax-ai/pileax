@@ -55,6 +55,7 @@ export default {
     themeColor: 'Цвет темы',
     themes: {
       dark: 'Темный',
+      darkBlue: 'Темно-синий',
       light: 'Свет',
       none: 'Никто',
       system: 'Система'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Закрыть вкладки слева',
     closeToRight: 'Закрыть вкладки справа',
     duplicate: 'Дублировать вкладку',
+    inspect: 'Осмотреть',
     new: 'Новая вкладка',
     newWindow: 'Переместить вкладку в новое окно',
     pin: 'Вкладка "Закрепить"',

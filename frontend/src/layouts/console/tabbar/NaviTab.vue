@@ -14,7 +14,7 @@
       <div class="row justify-center items-center suffix">
         <q-btn icon="close" flat round
                @click.stop.prevent="onClose(item)" />
-        <div class="icon">
+        <div class="icon" v-if="false">
           <q-icon name="circle" class="text-primary" size="0.6rem" />
         </div>
       </div>

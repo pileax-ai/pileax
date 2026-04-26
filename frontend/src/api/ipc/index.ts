@@ -26,7 +26,8 @@ export type IpcApi = {
   saveImageFile: (metadata: any) => Promise<any>;
   getAppMode: () => Promise<string>;
   setAppMode: (mode: 'standalone' | 'cloud') => Promise<any>;
-  setTheme: (theme: 'system' | 'light' | 'dark') => Promise<any>;
+  setTheme: (theme: AppTheme) => Promise<any>;
+  setWindowButton: (layout: string, id?: string) => Promise<any>;
   secureGet: (key: any) => Promise<string|null>;
   secureSet: (key: any, value: string) => Promise<boolean>;
   showDialog: (options: Indexable) => Promise<any>;
@@ -61,6 +62,7 @@ export const ipcServiceKeys = [
   'getAppMode',
   'setAppMode',
   'setTheme',
+  'setWindowButton',
   'secureGet',
   'secureSet',
   'showDialog',

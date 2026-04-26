@@ -5,33 +5,37 @@
 export const THEMES :Indexable = {
   'light': {
     'secondary': '#ffffff',
-    'accent': '#f5f7f9',
-    'dark': '#e1e0dd',
+    'accent': '#f0f2f5',
+    'dark': '#dde1e7',
+    'dark-page': '#ffffff',
     'info': '#272A3E',
   },
   'dark': {
-    'secondary': '#1E1F22', // #252528
+    'secondary': '#1E1F22',
     'accent': '#2B2D30',
     'dark': '#373a3e',
+    'dark-page': '#1E1F22',
     'info': '#f2f2f7',
   },
-  // 'dark-blue': {
-  //   'secondary': '#272A3E',
-  //   'accent': '#222336',
-  //   'dark': '#141824',
-  //   'info': '#B3BDD2',
-  // },
+  'darkBlue': {
+    'secondary': '#1A1C26',
+    'accent': '#242736',
+    'dark': '#32364D',
+    'dark-page': '#1A1C26',
+    'info': '#E2E2F0',
+  },
 }
 
 export const THEME_COLORS :OptionValue[] = [
-  { label: 'blue', value: '#2172e0', name: 'blue' },
-  { label: 'indigo', value: '#3f51b5', name: 'indigo' },
-  { label: 'cyan', value: '#00bcd4', name: 'cyan' },
-  { label: 'teal', value: '#009688', name: 'teal' },
-  { label: 'green', value: '#4caf50', name: 'green' },
-  { label: 'deepPurple', value: '#673ab7', name: 'deep-purple' }, // #673ab7, #6510AD, #7c5dc7
-  { label: 'red', value: '#f44336', name: 'red' },
-  { label: 'deepOrange', value: '#ff5722', name: 'deep-orange' },
+  { label: 'blue', value: '#2563eb', name: 'blue' },
+  { label: 'blueGrey', value: '#475569', name: 'blueGrey' },
+  { label: 'indigo', value: '#5850ec', name: 'indigo' },
+  { label: 'cyan', value: '#0891b2', name: 'cyan' },
+  { label: 'teal', value: '#0d9488', name: 'teal' },
+  { label: 'green', value: '#16a34a', name: 'green' },
+  { label: 'purple', value: '#7c6df0', name: 'purple' }, // #673ab7, #6510AD, #7c5dc7
+  { label: 'red', value: '#dc2626', name: 'red' },
+  { label: 'amber', value: '#f59e0b', name: 'amber' },
 ]
 
 export const NAVI_LAYOUTS :OptionValue[] = [

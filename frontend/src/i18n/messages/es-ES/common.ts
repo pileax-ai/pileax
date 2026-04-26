@@ -55,6 +55,7 @@ export default {
     themeColor: 'Color del tema',
     themes: {
       dark: 'Oscuro',
+      darkBlue: 'Azul oscuro',
       light: 'Luz',
       none: 'Ninguno',
       system: 'Sistema'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Cerrar pestañas a la izquierda',
     closeToRight: 'Cerrar pestañas a la derecha',
     duplicate: 'Pestaña duplicada',
+    inspect: 'Inspeccionar',
     new: 'Nueva pestaña',
     newWindow: 'Mover pestaña a nueva ventana',
     pin: 'Pestaña de pin',
