@@ -1,6 +1,7 @@
 export default {
   agents: 'Các tác nhân AI',
   apps: 'Ứng dụng AI',
+  basedOnBook: 'Dựa trên cuốn sách',
   basedOnNote: 'Dựa trên Ghi chú',
   generate: 'Phát ra',
   generateDisclaimer: 'Nội dung được tạo ra bởi AI. Vui lòng kiểm tra kỹ.',

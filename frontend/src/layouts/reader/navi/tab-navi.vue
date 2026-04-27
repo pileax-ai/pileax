@@ -211,8 +211,8 @@ onBeforeMount(() => {
         left: 0;
         width: 100%;
         height: 100%;
-        background: var(--q-primary);
-        opacity: 0.2;
+        background: var(--q-info);
+        opacity: 0.1;
         border-radius: 3px;
       }
     }

@@ -2,9 +2,10 @@
   <section class="theme-color-select">
     <template v-for="(item, index) in THEME_COLORS" :key="index">
       <q-btn :icon="`${item.name===theme.color ? 'done' : ''}`"
-             :class="`bg-${item.name} ${itemClass}`"
+             :class="`${itemClass}`"
+             :style="{background: item.value}"
              flat
-             @click="setThemeColor(item.name)">
+             @click="setThemeColor(item.name || '')">
         <o-tooltip>{{$t(`appearances.colors.${item.label}`)}}</o-tooltip>
       </q-btn>
     </template>

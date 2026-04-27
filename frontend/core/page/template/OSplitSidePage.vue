@@ -1,5 +1,5 @@
 <template>
-  <q-page ref="pageRef" class="o-split-side-page">
+  <q-page ref="pageRef" class="o-split-side-page" :class="{ 'closed': !verticalSideWidth }">
     <q-splitter v-model="verticalSideWidth"
                 :limits="[0, Infinity]"
                 unit="px"

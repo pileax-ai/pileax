@@ -62,7 +62,6 @@ onActivated(() => {
     height: 40px;
     padding: 0 10px;
     z-index: 1;
-    background: var(--q-secondary);
   }
 
   .chat-conversations {

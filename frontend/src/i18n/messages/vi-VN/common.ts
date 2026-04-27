@@ -55,6 +55,7 @@ export default {
     themeColor: 'Màu chủ đề',
     themes: {
       dark: 'Tối tăm',
+      darkBlue: 'Xanh đậm',
       light: 'Ánh sáng',
       none: 'Không có',
       system: 'Hệ thống'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Đóng các tab bên trái',
     closeToRight: 'Đóng các tab bên phải',
     duplicate: 'Tab trùng lặp',
+    inspect: 'Thanh tra',
     new: 'Tab mới',
     newWindow: 'Di chuyển tab sang cửa sổ mới',
     pin: 'Ghim tab',

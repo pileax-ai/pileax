@@ -1,6 +1,7 @@
 export default {
   agents: 'AI 에이전트',
   apps: 'AI 앱',
+  basedOnBook: '원작 소설을 바탕으로',
   basedOnNote: '참고: 메모를 바탕으로',
   generate: '생성하다',
   generateDisclaimer: '인공지능이 생성한 콘텐츠입니다. 내용을 꼼꼼히 확인하시기 바랍니다.',

@@ -1,5 +1,6 @@
 <template>
-  <section class="row col-12 navi-tabbar square drag-region"
+  <section class="row col-12 navi-tabbar drag-region"
+           :class="tabbarView"
            :style="`--tab-min-width: ${tabWidth}px`">
     <div class="row col-auto items-center justify-center text-readable navi-left no-drag-region"
          :class="{'show': showDrawerToggle}">
@@ -12,6 +13,10 @@
                    v-if="showDrawerToggle">
         <o-tooltip :message="$t('expand')" position="right" />
       </o-hover-btn>
+    </div>
+    <div class="row col-auto items-center justify-center text-readable navi-left group no-drag-region"
+         v-if="naviLayout === 'group'">
+      <quick-settings class="text-tips" type="tab" dropdown />
     </div>
     <div class="col" ref="tabbarRef">
       <q-tabs :model-value="tab.id"
@@ -48,7 +53,9 @@
     </div>
     <div class="row col-auto items-center justify-center more no-drag-region">
       <q-spinner-ios class="text-readable" size="20px" v-if="pageLoading" />
-      <opened-tabs-hover-btn icon="expand_more" class="bg-dark text-readable" v-else />
+      <opened-tabs-hover-btn :offset="[-2, 8]"
+                             icon="expand_more"
+                             class="bg-dark text-readable" v-else />
     </div>
     <o-tool-bar-overlay class="col-auto" />
   </section>
@@ -63,6 +70,7 @@ import { useTabStore } from 'stores/tab'
 import useAccount from 'src/hooks/useAccount'
 import useNavi from 'src/hooks/useNavi'
 
+import QuickSettings from 'layouts/console/navi/quick-settings.vue'
 import OpenedTabsHoverBtn from './OpenedTabsHoverBtn.vue'
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
 import NaviTab from './NaviTab.vue'
@@ -89,6 +97,12 @@ const unpinnedTabs = ref<MenuItem[]>([])
 watchEffect(() => {
   pinnedTabs.value = tabStore.pinnedTabs
   unpinnedTabs.value = tabStore.unpinnedTabs
+})
+
+const naviLayout = computed(() => appStore.setting.navi.layout)
+
+const tabbarView = computed(() => {
+  return naviLayout.value === 'group' ? 'card' : 'square'
 })
 
 const tabMinWidth = computed(() => {
@@ -139,17 +153,29 @@ function onTabClosed() {
 </script>
 
 <style lang="scss">
-$tab-height: 40px;
 .navi-tabbar {
   padding: 0;
-  height: $tab-height;
+  height: 40px;
+
+  &.card {
+    height: 48px;
+  }
 
   .navi-left {
-    .q-btn {
+    .quick-settings {
+      .label {
+        max-width: 160px;
+      }
+    }
+    .q-btn:not(.quick-settings) {
       width: 36px;
       height: 36px;
       min-height: unset;
       border-radius: 4px;
+    }
+
+    &.group {
+      padding: 0 5px;
     }
   }
 
@@ -171,15 +197,15 @@ $tab-height: 40px;
       min-width: var(--tab-min-width);
       max-width: 240px;
       min-height: unset;
-      height: $tab-height;
+      height: 40px;
       text-transform: unset;
       padding: 0 8px;
       z-index: 0;
 
       .prefix, .suffix {
         width: 28px;
-        height: $tab-height;
-        line-height: $tab-height;
+        height: 40px;
+        line-height: 40px;
 
         .q-btn {
           width: 28px;
@@ -253,6 +279,10 @@ $tab-height: 40px;
 
     .q-tab--active {
       .suffix {
+        .q-btn {
+          visibility: visible;
+          display: inline-flex;
+        }
         .icon {
           visibility: visible;
         }
@@ -330,6 +360,51 @@ $tab-height: 40px;
     &:before, &:after {
       opacity: 0.5;
       background: var(--q-primary);
+    }
+  }
+}
+
+
+.navi-tabbar.card {
+  .q-tab {
+    min-height: 30px !important;
+    height: 36px !important;
+    margin: 6px 1px;
+    padding: 0 4px;
+    border-radius: 4px;
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      background: var(--q-dark);
+      z-index: 2;
+      &:before, &:after {
+        border-radius: 6px;
+        background: var(--q-dark);
+      }
+    }
+    div.q-focus-helper {
+      visibility: hidden;
+    }
+  }
+
+  .q-tab--active {
+    &:before, &:after {
+      border-radius: 6px;
+      background: var(--q-dark);
+    }
+  }
+
+
+  .more {
+    width: 48px;
+    .q-btn {
+      width: 36px;
+      height: 36px;
     }
   }
 }

@@ -150,9 +150,20 @@ export class Application {
       })
 
     ipcMain.handle('set-theme',
-      (event, theme: 'system' | 'light' | 'dark') => {
-      nativeTheme.themeSource = theme
+      (event, theme: AppTheme) => {
+        configManager.setTheme(theme)
+
+        if (theme.startsWith('dark')) {
+          theme = 'dark'
+        }
+        nativeTheme.themeSource = theme as 'system'
     })
+
+    ipcMain.handle('set-window-button',
+      (event, layout, id) => {
+        windowManager.setWindowButton(layout, id)
+        configManager.setLayout(layout)
+      })
 
     ipcMain.handle('get-app-mode',
       (event) => {

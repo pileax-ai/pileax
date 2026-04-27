@@ -8,8 +8,10 @@ import { Application } from './application'
 import { isDirectoryEmpty, isDirectoryExists } from '../utils/file'
 
 export interface AppConfig {
+  layout?: 'group' | 'tab'
   mode?: 'standalone' | 'cloud'
   paths?: Record<string, string>
+  theme?: AppTheme
 }
 
 export interface MigrateOptions {
@@ -83,6 +85,9 @@ export class ConfigManager {
     )
   }
 
+  // ------------------------------------------------------------
+  // Config: Common
+  // ------------------------------------------------------------
   getAppMode(): string {
     return this.config.mode || 'standalone'
   }
@@ -92,6 +97,27 @@ export class ConfigManager {
     this.saveConfig()
   }
 
+  getLayout(): string {
+    return this.config.layout || 'tab'
+  }
+
+  setLayout(layout: 'group' | 'tab'): void {
+    this.config.layout = layout
+    this.saveConfig()
+  }
+
+  getTheme(): string {
+    return this.config.theme || 'light'
+  }
+
+  setTheme(theme: AppTheme): void {
+    this.config.theme = theme
+    this.saveConfig()
+  }
+
+  // ------------------------------------------------------------
+  // Config: Path
+  // ------------------------------------------------------------
   getPath(key: string): string {
     return this.config.paths?.[key] || this.defaultPaths[key] || ''
   }

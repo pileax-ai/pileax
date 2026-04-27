@@ -55,6 +55,7 @@ export default {
     themeColor: 'Cor do tema',
     themes: {
       dark: 'Escuro',
+      darkBlue: 'Azul escuro',
       light: 'Luz',
       none: 'Nenhum',
       system: 'Sistema'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Feche as abas à esquerda.',
     closeToRight: 'Feche as abas à direita.',
     duplicate: 'Aba duplicada',
+    inspect: 'Inspecionar',
     new: 'Nova aba',
     newWindow: 'Mover guia para nova janela',
     pin: 'Aba de fixação',

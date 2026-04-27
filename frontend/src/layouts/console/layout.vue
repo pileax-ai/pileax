@@ -1,10 +1,16 @@
 <template>
-  <q-layout view="lHr Lpr lFr"
+  <q-layout :view="layoutView"
             class="o-layout layout-console bg-accent"
-            :class="`theme-${theme}`">
+            :class="`layout-${naviLayout}`"
+            :data-theme="theme">
     <!--Drawers-->
     <tab-drawer @leave="onLeftDrawerLeave" v-if="naviLayout === 'tab'" />
     <group-drawer v-if="naviLayout === 'group'" />
+    <q-drawer :modelValue="true"
+              :width="6"
+              side="right"
+              class="placeholder" v-if="naviLayout === 'group'" />
+
 
     <!--Drawer Handlers -->
     <div class="drawer-handler absolute-left"
@@ -30,6 +36,8 @@
     <q-footer class="bg-transparent" v-if="tabBar.enable && tabBar.position==='bottom'">
       <q-separator class="bg-accent" />
       <NaviTabbar />
+    </q-footer>
+    <q-footer class="placeholder" v-if="naviLayout === 'group'">
     </q-footer>
 
     <!--Dialogs-->
@@ -73,6 +81,10 @@ const theme = computed(() => {
 const naviLayout = computed(() => appStore.setting.navi.layout)
 const tabBar = computed(() => appStore.setting.tabBar)
 const openedMenus = computed(() => naviStore.openedMenus)
+
+const layoutView = computed(() => {
+  return naviLayout.value === 'group' ? 'hHh lpR fFf' : 'lHr Lpr lFr'
+})
 
 async function initConsole () {
   onRouteChanged()

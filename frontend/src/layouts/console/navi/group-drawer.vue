@@ -7,11 +7,10 @@
     class="row group-drawer"
     @leave="onLeave"
     @resize="onResize">
-    <section class="col-auto bg-deep activity-bar">
+    <section class="col-auto bg-accent activity-bar">
       <nav class="row col-12 full-height">
         <q-tabs v-model="selectedActivity" class="activity-tabs" vertical>
           <section class="column col-12 justify-between fit">
-            <quick-settings class="text-white" type="group" />
             <div class="" @mouseenter="onEnter">
               <template v-for="(item, index) in consoleMenus" :key="index">
                 <q-tab :name="item.name"
@@ -28,15 +27,14 @@
             <q-space />
             <div class="row col-auto items-end">
               <div class="col-12">
-                <q-btn icon="settings" class="toggle-sidebar text-grey-6" square flat
+                <q-btn icon="settings" class="toggle-sidebar text-readable" square flat
                        @click="openDialog({type: 'settings'})">
                   <o-tooltip position="right" transition>
                     {{ $t('settings') }}
                   </o-tooltip>
                 </q-btn>
-                <q-separator />
                 <q-btn :icon="leftDrawerMiniState ? 'mdi-backburger rotate-180' : 'mdi-menu-open'"
-                       class="shadow-0 toggle-sidebar text-grey-6" square flat
+                       class="shadow-0 toggle-sidebar text-readable" square flat
                        @click="toggleLeftMiniState">
                   <o-tooltip position="right" transition>
                     {{leftDrawerMiniState ? $t('expand') : $t('collapse')}}
@@ -52,7 +50,7 @@
     <transition appear
                 enter-active-class="animated slideInLeft"
                 leave-active-class="animated slideOutLeft">
-      <section class="side-bar full-height"
+      <section class="side-bar"
                :class="{
                   'bg-accent col': !sidebarFixed,
                   'bg-secondary fixed-sidebar': sidebarFixed
@@ -93,7 +91,7 @@ const tour = createTour('navi', {
 })
 
 const width = ref(DRAWER_DEFAULT_SIZE)
-const miniWidth = ref(ipcProvider === 'web' ? 48 : 68)
+const miniWidth = ref(48)
 const drawerOpen = ref(true)
 const sidebarFixed = ref(false)
 const selectedActivity = ref('')
@@ -150,41 +148,35 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+.q-drawer:has(.group-drawer) {
+  background: var(--q-accent) !important;
+}
 .group-drawer {
   overflow: hidden!important;
 
   .drawer-separator {
-    background: var(--q-dark);
+    width: 6px !important;
+    right: 0 !important;
+    background: var(--q-accent) !important;
+  }
+
+  .drawer-inner {
   }
 
   .activity-bar {
     position: relative;
     width: 48px !important;
-    height: 100vh;
     z-index: 2002;
     background: #001529;
-
-    .quick-settings {
-      width: 38px;
-      height: 38px;
-      margin: 5px 0 0 5px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.1);
-    }
+    height: 100% !important;
 
     .q-tab {
       width: 38px;
       height: 38px;
       min-height: unset;
       padding: 0;
-      margin: 0 0 15px 5px;
+      margin: 0 0 10px 5px;
       border-radius: 4px;
-      color: rgba(255, 255, 255, 0.6);
-
-      &:first-child {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
 
       .q-icon {
         font-size: 1.8rem;
@@ -212,8 +204,7 @@ onMounted(() => {
 
     .q-tab--active {
       color: white;
-      //background: var(--q-primary);
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--q-primary);
     }
 
     .q-tab__indicator {
@@ -237,6 +228,20 @@ onMounted(() => {
 
   }
 
+  .side-bar {
+    position: relative;
+    height: 100% !important;
+    .navi-list {
+      width: calc(100% - 6px);
+      height: calc(100vh - 54px) !important;
+      border-radius: 12px;
+      background: var(--q-secondary) !important;
+    }
+    .navi-separator {
+      display: none;
+    }
+  }
+
   .fixed-sidebar {
     position: fixed;
     left: 48px;
@@ -244,43 +249,15 @@ onMounted(() => {
     top: 0;
     bottom: 20px;
     z-index: 2001;
-    box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     overflow: hidden;
-    border-radius: 0 8px 8px 0;
-  }
+    border-radius: 12px;
+    border-right: solid 6px var(--q-accent);
 
-}
 
-.electron.platform-mac {
-  .group-drawer {
-    .activity-bar {
-      width: 68px !important;
-
-      .quick-settings {
-        width: 48px;
-        height: 48px;
-        margin: 36px 0 10px 10px;
-      }
-
-      .q-tab {
-        width: 48px;
-        height: 48px;
-        margin: 0 0 10px 10px;
-      }
-
-      nav {
-        .toggle-sidebar {
-          width: 48px;
-          height: 48px;
-          margin: 0 10px 10px 10px;
-          border-radius: 4px;
-        }
-      }
-    }
-
-    .fixed-sidebar {
-      left: 68px;
+    .navi-list {
+      width: 100% !important;
     }
   }
 }
+
 </style>

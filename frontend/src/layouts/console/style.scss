@@ -30,3 +30,122 @@
   }
 }
 
+.layout-group {
+  $headerHeight: 48px;
+  $footerHeight:  6px;
+  $panelRadius:  12px;
+  $gapSize:  6px;
+  $gapColor:  var(--q-accent);
+
+  .o-top-header {
+    height: $headerHeight;
+  }
+
+  .q-footer.placeholder {
+    height: $footerHeight;
+    background: var(--q-accent);
+  }
+
+  .q-drawer__content.placeholder {
+    width: 60px;
+    background: var(--q-accent);
+  }
+
+  .right-drawer {
+    border-radius: 12px 0 0 12px !important;
+  }
+
+  .q-page-container {
+    background: var(--q-accent) !important;
+    //background: red !important;
+    //padding-right: $gapSize !important;
+  }
+
+  .q-page {
+    border-radius: 12px !important;
+    background: var(--q-secondary);
+    //background: blue;
+    overflow: hidden;
+
+    &:has(.q-splitter) {
+      background: none !important;
+    }
+
+    .q-page {
+      border-radius: unset !important;
+    }
+  }
+
+  .o-split-page, .o-split-side-page {
+    .q-splitter--vertical {
+      height: calc(100vh - $headerHeight - $footerHeight);
+      > .q-splitter__separator {
+        width: $gapSize;
+        background: $gapColor !important;
+      }
+
+      .q-splitter__panel {
+        background: var(--q-secondary);
+        border-radius: $panelRadius;
+      }
+
+      .q-splitter__separator-area:before {
+        background: transparent!important;
+      }
+    }
+
+    .q-splitter--horizontal {
+      > .q-splitter__separator {
+        height: 2px;
+        background: $gapColor !important;
+      }
+
+      .q-splitter__panel {
+        //background: var(--q-secondary);
+        //border-radius: $panelRadius;
+      }
+      .q-splitter__separator-area:after {
+        background: transparent!important;
+      }
+    }
+
+    .q-splitter__panel:has(.q-splitter__panel) {
+      //background: unset;
+    }
+
+    &.closed {
+      .q-splitter--vertical {
+        .q-splitter__separator {
+          width: 0;
+        }
+      }
+    }
+  }
+
+  .page-note {
+    .note-nav {
+      background: transparent!important;
+    }
+  }
+
+  .note-chat {
+    height: calc(100vh - $headerHeight - $footerHeight);
+  }
+}
+
+.full-screen-page .layout-group {
+  .o-split-page {
+    .q-splitter--vertical {
+      height: 100vh;
+    }
+  }
+
+  .console-toolbar {
+    padding: 0 10px !important;
+    height: 48px;
+
+    .q-btn, .q-field__control {
+      border-radius: 4px!important;
+    }
+  }
+}

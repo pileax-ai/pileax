@@ -1,7 +1,7 @@
 <template>
   <drawer-navi class="navi-list">
     <template #content>
-      <q-separator class="bg-dark" />
+      <q-separator class="bg-dark navi-separator" />
       <q-list class="list" v-show="activeMenu.children?.length">
         <o-navi-expansion-item class="root-item"
                                :parent-key="activity"

@@ -55,6 +55,7 @@ export default {
     themeColor: 'Warna Tema',
     themes: {
       dark: 'Gelap',
+      darkBlue: 'Biru tua',
       light: 'Lampu',
       none: 'Tidak ada',
       system: 'Sistem'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Tutup Tab di Sebelah Kiri',
     closeToRight: 'Tutup Tab di Sebelah Kanan',
     duplicate: 'Duplikat Tab',
+    inspect: 'Memeriksa',
     new: 'Tab Baru',
     newWindow: 'Pindahkan Tab ke Jendela Baru',
     pin: 'Sematkan Tab',

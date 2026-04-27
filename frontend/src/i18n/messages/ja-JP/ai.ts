@@ -1,6 +1,7 @@
 export default {
   agents: 'AIエージェント',
   apps: 'AIアプリ',
+  basedOnBook: '原作は書籍です',
   basedOnNote: 'メモに基づく',
   generate: '生成する',
   generateDisclaimer: 'AIによって生成されたコンテンツです。よくご確認ください。',

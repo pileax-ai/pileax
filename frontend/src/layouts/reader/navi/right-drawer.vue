@@ -83,7 +83,6 @@ onBeforeMount(() => {
 }
 
 .right-drawer {
-  border-radius: 12px 0 0 12px !important;
   .side-bar {
     //padding-left: 8px;
     .q-splitter {

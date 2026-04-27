@@ -9,7 +9,10 @@
         {{workspace.name}}
         <q-icon name="circle" color="red" class="dot" v-if="indicatorUpdate" />
       </div>
-      <q-icon name="keyboard_arrow_down" class="text-tips q-ml-sm dropdown" size="1.2rem" />
+      <q-icon name="keyboard_arrow_down"
+              class="text-tips q-ml-sm"
+              :class="{'hide-dropdown': !dropdown}"
+              size="1.2rem" />
     </template>
 
     <q-menu class="quick-settings-menu pi-menu show-side-icon"
@@ -30,7 +33,7 @@
               {{ account.name }}
             </q-item-label>
             <q-item-label caption>
-              {{ workspace.name }}
+              <div class="workspace-name ellipsis">{{ workspace.name }}</div>
 
               <o-badge v-bind="getArrayItem(WorkspaceMemberRoles, workspace.memberRole)" />
             </q-item-label>
@@ -95,7 +98,11 @@
             <div class="text-tips">
               <q-btn :icon="darkMode ? 'light_mode' : 'dark_mode'"
                      outline
-                     @click="toggleTheme" />
+                     @click="toggleTheme" v-if="false" />
+              <theme-hover-btn anchor="center right"
+                                self="center left"
+                                :offset="[6, 0]"
+                                outline enable-hover />
               <locale-hover-btn anchor="center right"
                                 self="center left"
                                 :offset="[12, 0]"
@@ -116,6 +123,7 @@ import useDialog from 'core/hooks/useDialog'
 import useSetting from 'core/hooks/useSetting'
 import useAccount from 'src/hooks/useAccount'
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
+import ThemeHoverBtn from 'core/components/button/ThemeHoverBtn.vue'
 import OHoverMenu from 'core/components/menu/OHoverMenu.vue'
 import OUpdaterItem from 'components/app/updater/OUpdaterItem.vue'
 import { openURL } from 'quasar'
@@ -136,6 +144,10 @@ const props = defineProps({
     default: () => {
       return [-2, -2]
     }
+  },
+  dropdown: {
+    type: Boolean,
+    default: false
   },
 })
 
@@ -307,12 +319,12 @@ onMounted(() => {
     }
   }
 
-  .q-icon.dropdown {
+  .q-icon.hide-dropdown {
     visibility: hidden;
   }
 
   &:hover {
-    .q-icon.dropdown {
+    .q-icon.hide-dropdown {
       visibility: visible;
     }
   }
@@ -346,6 +358,10 @@ onMounted(() => {
     .q-item {
       padding: 0;
 
+      &:hover {
+        background: none;
+      }
+
       .q-item__section--main {
         padding-left: 0;
         margin-left: 0 !important;
@@ -357,7 +373,12 @@ onMounted(() => {
       }
 
       .text-caption {
+        display: flex;
         font-size: 0.9rem;
+
+        .workspace-name {
+          max-width: 160px;
+        }
       }
     }
 

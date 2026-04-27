@@ -51,7 +51,7 @@ function onClick() {
   margin: 2px 0;
 
   &.highlight {
-    color: var(--q-primary);
+    color: var(--q-primary) !important;
     font-weight: 600;
   }
 

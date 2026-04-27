@@ -135,6 +135,8 @@
       .q-icon {
         visibility: visible;
       }
+
+      background: var(--q-dark);
     }
   }
 
@@ -150,6 +152,12 @@
           padding-right: 4px;
         }
       }
+    }
+  }
+
+  &.normal {
+    .q-item {
+      min-height: 42px;
     }
   }
 

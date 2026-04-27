@@ -55,6 +55,7 @@ export default {
     themeColor: 'Couleur du thème',
     themes: {
       dark: 'Sombre',
+      darkBlue: 'Bleu foncé',
       light: 'Lumière',
       none: 'Aucun',
       system: 'Système'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Fermer les onglets à gauche',
     closeToRight: 'Fermer les onglets à droite',
     duplicate: 'Onglet dupliqué',
+    inspect: 'Inspecter',
     new: 'Nouvel onglet',
     newWindow: 'Déplacer l\'onglet vers une nouvelle fenêtre',
     pin: 'Onglet d\'épingle',
