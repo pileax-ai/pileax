@@ -36,7 +36,7 @@
     "i18n-generate-zh": "cd frontend && yarn i18n-generate-zh"
   },
 	"engines": {
-		"node": ">=20.9.0",
+		"node": ">=22.22.0",
     "yarn": ">= 1.21.1"
 	}
 }
