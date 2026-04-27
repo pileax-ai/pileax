@@ -4,6 +4,15 @@
 
 # Versions
 
+## 0.5.1
+### pileax
+```md
+commit d4a7678634287f18fc464beac4f7e01955e836b9 (HEAD -> pileax)
+Date:   Tue Apr 28 07:24:52 2026 +0800
+Changelog
+|     feat: 🎸 tts next with move options
+```
+
 ## 0.4.2
 ### pileax
 ```md

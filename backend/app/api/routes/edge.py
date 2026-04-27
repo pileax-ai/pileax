@@ -16,4 +16,4 @@ async def get_voices(controller: EdgeController = Depends()) -> Any:
 
 @router.api_post("/tts", response_model=EdgeTTSPublic)
 async def tts(item_in: EdgeTTS, controller: EdgeController = Depends()) -> Any:
-    return controller.tts(item_in)
+    return await controller.tts(item_in)

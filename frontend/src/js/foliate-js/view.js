@@ -216,6 +216,8 @@ export class View extends HTMLElement {
     #tocProgress
     #pageProgress
     #searchResults = new Map()
+    #searchDraw
+    #searchDrawOptions
     #cursorAutohider = new CursorAutohider(this, () =>
         this.hasAttribute('autohide-cursor'))
     isFixedLayout = false
@@ -326,10 +328,10 @@ export class View extends HTMLElement {
     }
     #onRelocate({ reason, range, index, fraction, size }) {
         if (reason === 'page' || reason === 'snap') { // TODO: EBOOK (Reset scroll)
-          if (this.renderer) {
-            this.renderer.scrollTop = 0;
-            this.renderer.scrollLeft = 0;
-          }
+            if (this.renderer) {
+                this.renderer.scrollTop = 0;
+                this.renderer.scrollLeft = 0;
+            }
         }
         const chapterLocation = { // TODO: EBOOK
             current: this.renderer.page,
@@ -423,7 +425,7 @@ export class View extends HTMLElement {
                     return
                 }
                 const range = doc ? anchor(doc) : anchor
-                overlayer.add(value, range, Overlayer.outline)
+                overlayer.add(value, range, this.#searchDraw, this.#searchDrawOptions)
             }
             return
         }
@@ -586,6 +588,8 @@ export class View extends HTMLElement {
     }
     async * search(opts) {
         this.clearSearch()
+        this.#searchDraw = opts.draw ?? Overlayer.outline
+        this.#searchDrawOptions = opts.drawOptions
         const { searchMatcher } = await import('./search.js')
         const { query, index } = opts
         const matcher = searchMatcher(textWalker,

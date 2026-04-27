@@ -26,7 +26,7 @@ export const defaultSetting = {
   viewMargin: true,
   spread: 'none',
   zoom: 'fit-width',
-}
+} as Indexable
 
 export const scrollbarStyles = () => {
   const appStore = useAppStoreWithOut()
