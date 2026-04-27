@@ -69,6 +69,7 @@ window.webIpcAPI = {
   getAppMode: mock as any,
   setAppMode: mock as any,
   setTheme: mock as any,
+  setWindowButton: mock as any,
   secureGet: mock as any,
   secureSet: mock as any,
   showDialog: mock as any,

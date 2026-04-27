@@ -1,3 +1,6 @@
+import { useAppStoreWithOut } from 'stores/app'
+import { THEMES } from 'core/constants/setting'
+
 /**
  * Reader default settings
  */
@@ -25,7 +28,14 @@ export const defaultSetting = {
   zoom: 'fit-width',
 }
 
-export const scrollbarStyles = `
+export const scrollbarStyles = () => {
+  const appStore = useAppStoreWithOut()
+  const theme = appStore.setting.theme
+  const themeData = THEMES[theme.name] || THEMES['light']
+  const dark = themeData['dark']
+  const accent = themeData['accent']
+
+  return `
   :host::-webkit-scrollbar {
     width: 8px !important;
     height: 8px !important;
@@ -34,10 +44,11 @@ export const scrollbarStyles = `
     background: transparent !important;
   }
   :host::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2) !important;
+    background: ${dark} !important;
     border-radius: 10px !important;
   }
   :host::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4) !important;
+    background: ${accent} !important;
   }
 `
+}

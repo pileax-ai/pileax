@@ -158,10 +158,14 @@ defineExpose({
     .group {
       margin: 20px 0 6px 0;
       font-size: 0.9rem;
+
+      &:first-child {
+        margin-top: 10px;
+      }
     }
 
     .q-item {
-      padding: 4px 10px;
+      padding: 4px 6px;
       min-height: 44px;
 
       .dot {

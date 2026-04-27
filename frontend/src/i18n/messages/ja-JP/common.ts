@@ -55,6 +55,7 @@ export default {
     themeColor: 'テーマカラー',
     themes: {
       dark: '暗い',
+      darkBlue: '濃い青色',
       light: 'ライト',
       none: 'なし',
       system: 'システム'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: '左のタブを閉じる',
     closeToRight: '右側のタブを閉じる',
     duplicate: 'タブを複製',
+    inspect: '検査',
     new: '新しいタブ',
     newWindow: 'タブを新しいウィンドウに移動する',
     pin: 'ピンタブ',

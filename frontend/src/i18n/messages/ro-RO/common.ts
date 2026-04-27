@@ -55,6 +55,7 @@ export default {
     themeColor: 'Culoarea temei',
     themes: {
       dark: 'Întuneric',
+      darkBlue: 'Albastru închis',
       light: 'Aprinde',
       none: 'Nici unul',
       system: 'Sistem'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Închideți filele la stânga',
     closeToRight: 'Închideți filele la dreapta',
     duplicate: 'Filă duplicată',
+    inspect: 'Inspecta',
     new: 'Filă nouă',
     newWindow: 'Mută fila într-o fereastră nouă',
     pin: 'Fixează fila',

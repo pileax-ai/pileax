@@ -4,7 +4,7 @@
                   ref-type="book"
                   :ref-id="bookId"
                   description="基于本书问答"
-                  tag="基于本书"
+                  :tag="$t('ai.basedOnBook')"
                   dense multi-session v-if="bookId">
     </chat-section>
   </section>

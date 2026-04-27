@@ -60,7 +60,7 @@ const props = defineProps({
   },
   contentClass: {
     type: String,
-    default: 'bg-secondary'
+    default: ''
   },
 })
 const emit = defineEmits(['scroll'])

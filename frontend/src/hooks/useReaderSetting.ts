@@ -22,8 +22,12 @@ export default function () {
         fontColor = '#000000'
         break
       case 'dark':
-        backgroundColor = '#000000'
-        fontColor = '#ffffff'
+        backgroundColor = '#1E1F22'
+        fontColor = '#f2f2f7'
+        break
+      case 'darkBlue':
+        backgroundColor = '#1A1C26'
+        fontColor = '#E2E2F0'
         break
     }
     setSettingItem('backgroundColor', backgroundColor)

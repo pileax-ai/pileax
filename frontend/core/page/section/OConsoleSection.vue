@@ -349,7 +349,7 @@ onActivated(() => {
   .o-console-section {
     .console-header.full .console-toolbar {
       background: var(--q-accent);
-      padding: 0 !important;
+      padding: 0;
       position: fixed;
       left: 0;
       right: 0;

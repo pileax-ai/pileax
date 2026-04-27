@@ -5,14 +5,6 @@ import { ipcService } from 'src/api/ipc'
 
 import { THEMES, THEME_COLORS } from 'core/constants/setting'
 import { useAppStoreWithOut } from 'stores/app'
-import type {
-  BreadcrumbSetting,
-  NaviSetting,
-  PageLoadingSetting,
-  PageTransitionSetting,
-  TabBarSetting,
-  ThemeSetting
-} from 'core/types/setting'
 import { setDayjsLocale } from 'core/utils/dayjs'
 import { setQuasarLang } from 'src/i18n/quasar'
 
@@ -48,7 +40,7 @@ export default function () {
   }
 
   const setTheme = (name :string) => {
-    const darkMode = (name === 'dark')
+    const darkMode = (name.startsWith('dark'))
     Dark.set(darkMode)
 
     const theme = THEMES[name]
@@ -64,7 +56,7 @@ export default function () {
     const themeSetting = appStore.setting.theme
     themeSetting.name = name
     appStore.setTheme(themeSetting)
-    ipcService.setTheme(name as 'system' | 'light' | 'dark')
+    ipcService.setTheme(name)
   }
 
   const toggleTheme = () => {
@@ -124,6 +116,9 @@ export default function () {
     const s = appStore.setting.navi
     s[key as keyof typeof s] = value
     appStore.setNavi(s)
+
+    console.log('navi', value)
+    ipcService.setWindowButton(value)
   }
 
   const setTabBar = (key :string, value :never) => {

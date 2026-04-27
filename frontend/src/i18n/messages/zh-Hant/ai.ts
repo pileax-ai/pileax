@@ -1,6 +1,7 @@
 export default {
   agents: 'AI 智能體',
   apps: 'AI 應用',
+  basedOnBook: '基於本書',
   basedOnNote: '基於筆記',
   generate: '產生',
   generateDisclaimer: '內容由 AI 生成，請仔細甄別',

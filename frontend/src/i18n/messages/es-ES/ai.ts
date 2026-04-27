@@ -1,6 +1,7 @@
 export default {
   agents: 'Agentes de IA',
   apps: 'Aplicaciones de IA',
+  basedOnBook: 'Basado en el libro',
   basedOnNote: 'Basado en la nota',
   generate: 'Generar',
   generateDisclaimer: 'Contenido generado por IA. Verifíquelo cuidadosamente.',

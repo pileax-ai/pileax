@@ -55,6 +55,7 @@ export default {
     themeColor: 'Colore del tema',
     themes: {
       dark: 'Buio',
+      darkBlue: 'Blu scuro',
       light: 'Leggero',
       none: 'Nessuno',
       system: 'Sistema'
@@ -204,6 +205,7 @@ export default {
     closeToLeft: 'Chiudi le schede a sinistra',
     closeToRight: 'Chiudi le schede a destra',
     duplicate: 'Scheda duplicata',
+    inspect: 'Ispezionare',
     new: 'Nuova scheda',
     newWindow: 'Sposta la scheda in una nuova finestra',
     pin: 'Scheda Pin',

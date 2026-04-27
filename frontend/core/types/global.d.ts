@@ -31,6 +31,8 @@ declare global {
     type?: string
   }
 
+  type AppTheme = 'system' | 'light' | 'dark' | 'darkBlue'
+
   const __APP_INFO__: {
     package: {
       name: string;
@@ -42,5 +44,6 @@ declare global {
       time: string;
     }
   }
+
 }
 export {}

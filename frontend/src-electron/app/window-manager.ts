@@ -2,7 +2,10 @@ import { BrowserWindow, shell } from 'electron'
 import log from 'electron-log'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { configManager } from './config-manager'
 import { spaServer } from '../server/spa-server'
+
+import { THEMES } from 'core/constants/setting'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -18,7 +21,9 @@ export class WindowManager {
   // Main Window
   // ----------------------------------------------------------------------
   static async createMainWindow(source = '') {
-    log.info('createMainWindow', source)
+    const layout = configManager.getLayout()
+    const theme = configManager.getTheme()
+    log.info('🖥️ createMainWindow', source, layout, theme)
     if (WindowManager.mainWindow) {
       log.error('Avoid create again.')
       return
@@ -29,13 +34,16 @@ export class WindowManager {
      *
      * @see https://www.electronjs.org/docs/latest/api/browser-window
      */
+    const position = WindowManager.getPosition(layout)
+    const themeData = WindowManager.getThemeData(theme)
     const win = new BrowserWindow({
       width: 1200,
       height: 800,
       useContentSize: true,
       frame: true,
       titleBarStyle: 'hidden',
-      trafficLightPosition: { x: 8, y: 12 },
+      trafficLightPosition: position,
+      backgroundColor: themeData['secondary'],
       webPreferences: {
         devTools: true,
         nodeIntegration: false,
@@ -162,12 +170,15 @@ export class WindowManager {
     }
 
     // Create new window.
+    const theme = configManager.getTheme()
+    const themeData = WindowManager.getThemeData(theme)
     const newWindow = new BrowserWindow({
       width: 1200,
       height: 800,
       useContentSize: true,
       titleBarStyle: 'hidden',
       trafficLightPosition: { x: 12, y: 12 },
+      backgroundColor: themeData['secondary'],
       webPreferences: {
         webviewTag: true,
         nodeIntegration: false,
@@ -214,6 +225,27 @@ export class WindowManager {
     }
   }
 
+  setWindowButton(layout: string, id?: string) {
+    const win = id ? this.windows[id] : WindowManager.mainWindow
+    const position = WindowManager.getPosition(layout)
+    win?.setWindowButtonPosition(position)
+    log.info('🦋 setWindowButton', layout, position)
+  }
+
+  static getPosition(layout: string) {
+    switch (layout) {
+      case 'tab':
+        return  { x: 8, y: 12 }
+      case 'group':
+        return { x: 8, y: 16 }
+      default:
+        return  { x: 8, y: 12 }
+    }
+  }
+
+  static getThemeData(theme: string) {
+    return THEMES[theme] ?? THEMES['light']
+  }
 }
 
 export const windowManager = new WindowManager()

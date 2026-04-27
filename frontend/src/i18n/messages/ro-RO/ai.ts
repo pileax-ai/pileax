@@ -1,6 +1,7 @@
 export default {
   agents: 'Agenți AI',
   apps: 'Aplicații AI',
+  basedOnBook: 'Bazat pe carte',
   basedOnNote: 'Pe baza notei',
   generate: 'Genera',
   generateDisclaimer: 'Conținut generat de inteligența artificială. Vă rugăm să verificați cu atenție.',

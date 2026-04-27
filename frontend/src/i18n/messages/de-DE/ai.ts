@@ -1,6 +1,7 @@
 export default {
   agents: 'KI-Agenten',
   apps: 'KI-Apps',
+  basedOnBook: 'Basierend auf dem Buch',
   basedOnNote: 'Basierend auf Notiz',
   generate: 'Erzeugen',
   generateDisclaimer: 'Inhalt von KI generiert. Bitte sorgfältig prüfen.',
