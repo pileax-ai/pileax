@@ -37,7 +37,7 @@ export default {
     model: {
       _: 'Modelo',
       get: 'Modelos de lista',
-      llm: 'Maestría en Derecho',
+      llm: 'LLM',
       maxTokens: 'Máximo de tokens',
       name: 'Nombre del modelo',
       type: 'Tipo de modelo'

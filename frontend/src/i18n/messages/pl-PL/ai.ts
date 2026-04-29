@@ -37,7 +37,7 @@ export default {
     model: {
       _: 'Model',
       get: 'Lista modeli',
-      llm: 'Magister prawa',
+      llm: 'LLM',
       maxTokens: 'Maksymalna liczba tokenów',
       name: 'Nazwa modelu',
       type: 'Typ modelu'

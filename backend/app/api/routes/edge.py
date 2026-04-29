@@ -6,7 +6,7 @@ from app.api.controllers.edge_controller import EdgeController
 from app.api.models.edge import EdgeTTS, EdgeTTSPublic
 from app.api.router import ApiRouter
 
-router = ApiRouter(prefix="/edge", tags=["App"])
+router = ApiRouter(prefix="/edge", tags=["Edge"])
 
 
 @router.api_get("/voices", response_model=list[dict])

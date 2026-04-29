@@ -59,28 +59,28 @@
       </section>
 
       <section class="row col-12 justify-between items-center player-settings">
-        <tss-provider-btn icon="mdi-account-tie-voice-outline"
+        <tts-provider-btn icon="graphic_eq"
                           label="TTS"
                           anchor="top left"
                           self="bottom left"
                           :min-width="playerWidth"
                           @select="onTTSProviderChanged">
           <o-tooltip position="bottom">TTS</o-tooltip>
-        </tss-provider-btn>
-        <tss-provider-btn icon="mdi-timer-outline"
+        </tts-provider-btn>
+        <tts-provider-btn icon="mdi-timer-outline"
                           label="定时关闭"
                           anchor="top middle"
                           self="bottom middle"
                           :min-width="playerWidth" v-if="false">
           <o-tooltip position="bottom">定时关闭</o-tooltip>
-        </tss-provider-btn>
-        <tss-rate-btn icon="speed"
+        </tts-provider-btn>
+        <tts-rate-btn icon="speed"
                       :label="$t('reading.player.speed')"
                       anchor="top right"
                       self="bottom right"
                       :min-width="playerWidth">
           <o-tooltip position="bottom">{{ $t('reading.tts.speed') }}</o-tooltip>
-        </tss-rate-btn>
+        </tts-rate-btn>
       </section>
       <section class="marquee">
         <vue3-marquee :duration="marqueeDuration"
@@ -99,8 +99,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Vue3Marquee } from 'vue3-marquee'
-import TssProviderBtn from './options/tss-provider-btn.vue'
-import TssRateBtn from './options/tss-rate-btn.vue'
+import TtsProviderBtn from './options/tts-provider-btn.vue'
+import TtsRateBtn from './options/tts-rate-btn.vue'
 
 import useBook from 'src/hooks/useBook'
 import useApi from 'src/hooks/useApi'

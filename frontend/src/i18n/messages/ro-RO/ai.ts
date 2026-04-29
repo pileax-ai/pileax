@@ -37,7 +37,7 @@ export default {
     model: {
       _: 'Model',
       get: 'Listă modele',
-      llm: 'Master în masterat',
+      llm: 'LLM',
       maxTokens: 'Jetoane maxime',
       name: 'Numele modelului',
       type: 'Tipul modelului'

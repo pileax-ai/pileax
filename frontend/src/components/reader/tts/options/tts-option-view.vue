@@ -1,5 +1,5 @@
 <template>
-  <section class="q-pa-md">
+  <section class="tts-option-view q-pa-md">
     <div class="text-readable">
       <q-icon :name="icon" size="1.6rem" />
       {{ label }}
@@ -29,6 +29,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.tss-option-view {
+.tts-option-view {
+
 }
 </style>

@@ -26,6 +26,7 @@ EXT_NAMES = [
     "provider_model",
     "system",
     "tenant",
+    "tts",
     "user",
     "user_book",
     "workspace",

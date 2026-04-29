@@ -106,7 +106,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { ChatInput } from 'src/types/chat'
 import useAi from 'src/hooks/useAi'
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 import { UUID } from 'core/utils/crypto'

@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.constants.enums import LLMType
 from app.core.llm.models import ChatModel
+from app.core.llm.models import TTSModel
 
 
 class TenantLLMService:
@@ -18,5 +19,8 @@ class TenantLLMService:
         if model_type == LLMType.CHAT:
             assert provider in ChatModel, f"Chat model from {provider} is not supported yet."
             return ChatModel[provider](api_key, model_name, base_url, **kwargs)
+        elif model_type == LLMType.TTS:
+            assert provider in TTSModel, f"TTS model from {provider} is not supported yet."
+            return TTSModel[provider](api_key, model_name, base_url, **kwargs)
 
         raise HTTPException(status_code=404, detail=f"Model for {provider} is not supported yet.")

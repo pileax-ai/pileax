@@ -37,7 +37,7 @@ export default {
     model: {
       _: 'モデル',
       get: 'モデルの一覧',
-      llm: '法学修士',
+      llm: 'LLM',
       maxTokens: '最大トークン',
       name: 'モデル名',
       type: 'モデルタイプ'

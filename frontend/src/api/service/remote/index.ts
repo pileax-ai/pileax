@@ -21,6 +21,7 @@ import { providerCredentialService } from './provider-credential'
 import { providerModelService } from './provider-model'
 import { pdmService } from './provider-default-model'
 import { systemService } from './system'
+import { ttsService } from './tts'
 import { userService } from './user'
 import { userBookService } from './user-book'
 import { workspaceService } from './workspace'
@@ -47,6 +48,7 @@ export {
   providerCredentialService,
   providerModelService,
   systemService,
+  ttsService,
   userService,
   userBookService,
   workspaceService,
