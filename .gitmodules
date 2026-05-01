@@ -1,0 +1,3 @@
+[submodule "frontend/src/js/foliate-js"]
+	path = frontend/src/js/foliate-js
+	url = https://github.com/pileax-ai/foliate-js.git

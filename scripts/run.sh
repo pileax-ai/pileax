@@ -25,7 +25,7 @@ run_analyze() {
   yarn build
 }
 
-run_foliate() {
+run_foliate_old() {
   frontend_dir=$PWD
   foliate_dir="$frontend_dir/src/js/foliate-js"
   foliate_backup_dir="$frontend_dir/src/js/foliate-js.backup"
@@ -39,6 +39,22 @@ run_foliate() {
   echo "Update foliate"
   cp -rf $foliate_src_dir $foliate_dir
   rm -rf "$foliate_dir/.github"
+  cp -rf "$foliate_dir/vendor" "$frontend_dir/public/"
+
+  # remove mjs.map
+  rm -rvf "$frontend_dir"/public/vendor/pdfjs/*.mjs.map
+}
+
+run_foliate() {
+  SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+  frontend_dir=$(realpath "$SCRIPT_DIR/../frontend")
+  foliate_dir="$frontend_dir/src/js/foliate-js"
+
+  # update
+  echo "Update foliate: $frontend_dir"
+  git submodule update --init --recursive
+
+  # vendor
   cp -rf "$foliate_dir/vendor" "$frontend_dir/public/"
 
   # remove mjs.map

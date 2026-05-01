@@ -14,7 +14,11 @@ jobs:
     outputs:
       revs: ${{ steps.set-revs.outputs.revs }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@v7
       - id: set-revs
         run: |
@@ -33,6 +37,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          submodules: recursive
           fetch-depth: 0
           persist-credentials: false
 
