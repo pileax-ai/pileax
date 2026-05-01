@@ -13,6 +13,7 @@ class TongyiTTS(Base):
     """
     @see https://help.aliyun.com/zh/model-studio/sambert-python-sdk?spm=a2c4g.11186623.0.i8#undefined
     """
+
     def __init__(self, key, model_name, base_url="", **kwargs):
         import dashscope
 
@@ -38,11 +39,10 @@ class TongyiTTS(Base):
         # DashScope: rate [0.5, 2.0]
         pitch = max(0.5, min(2.0, rate))
 
-
         options = {
             # "pitch": pitch,
             "rate": rate,
-            "format": "mp3"
+            "format": "mp3",
         }
         return options
 

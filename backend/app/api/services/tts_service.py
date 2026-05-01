@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from starlette.responses import StreamingResponse
 
 from app.api.deps import CommonHeaders
-from app.api.models.llm_message import LLMMessage, LLMTTSMessage, TTSOptions
+from app.api.models.llm_message import LLMTTSMessage, TTSOptions
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.api.services.prompt_service import PromptService
 from app.api.services.provider_credential_service import ProviderCredentialService
@@ -69,9 +69,7 @@ class TTSService:
             except Exception as e:
                 # In binary stream, we can't easily yield an error message mid-stream
                 # without corrupting the file, but we log it.
-                raise HTTPException(
-                    status_code=500, detail=f"TTS Streaming Error: {str(e)}"
-                )
+                raise HTTPException(status_code=500, detail=f"TTS Streaming Error: {str(e)}")
 
         return StreamingResponse(
             stream_wrapper(),

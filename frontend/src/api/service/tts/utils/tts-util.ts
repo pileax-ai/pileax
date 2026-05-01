@@ -5,9 +5,34 @@ import { useReaderStoreWithOut } from 'stores/reader'
 const readerStore = useReaderStoreWithOut()
 const requestQueue = new Map<string, AbortController>()
 
+// Define regex as constants outside the function to avoid re-compilation
+const RE_HTML_TAGS = /<[^>]+>/g
+const RE_MARKDOWN_LINK = /\[([^\]]+)\]\([^)]+\)/g
+const RE_MARKDOWN_SYMBOLS = /([#*_~`>]+)/g
+const RE_FOOTNOTES = /\[\^?\d+\]/g
+const RE_URLS = /https?:\/\/\S+/gi
+const RE_EMOJI = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu
+const RE_WHITESPACE = /[\u00a0\s\r\n]+/g
 
 export const getPlainText = (text: string) => {
-  return text.replace(/<[^>]+>/g, "")
+  if (!text) return ''
+
+  return text
+    // 1. Remove HTML tags
+    .replace(RE_HTML_TAGS, '')
+    // 2. Convert Markdown links to plain text (keep the label, discard the URL)
+    .replace(RE_MARKDOWN_LINK, '$1')
+    // 3. Strip Markdown syntax symbols
+    .replace(RE_MARKDOWN_SYMBOLS, '')
+    // 4. Remove reference footnotes like [1] or [^1]
+    .replace(RE_FOOTNOTES, '')
+    // 5. Remove full URLs to prevent TTS from spelling out "h-t-t-p-s..."
+    .replace(RE_URLS, '')
+    // 6. Remove Emojis which might cause glitches in some TTS engines
+    .replace(RE_EMOJI, '')
+    // 7. Standardize whitespace and remove redundant line breaks
+    .replace(RE_WHITESPACE, ' ')
+    .trim()
 }
 
 export const generateTextId = (text: string) => {
@@ -50,10 +75,12 @@ export const getLLMTTSAudio = async (text: string, controller?: AbortController)
     }
   }
 
+  const ttsModel = readerStore.ttsModel
+  console.log('ttsModel', ttsModel)
   const body = {
-    model_provider: 'Tongyi',
-    model_name: 'sambert-zhide-v1',
-    model_type: 'tts',
+    model_provider: ttsModel.modelProvider,
+    model_name: ttsModel.modelName,
+    model_type: ttsModel.modelType,
     message: getPlainText(text),
     ...readerStore.tts
   }

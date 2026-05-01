@@ -34,11 +34,16 @@ export default function () {
     setSettingItem('fontColor', fontColor)
   }
 
+  function setTTSModel(value: Indexable) {
+    store.setTTSModel(value)
+  }
+
   return {
     store,
     settings,
 
     setSettingItem,
-    setReaderTheme
+    setReaderTheme,
+    setTTSModel,
   }
 }

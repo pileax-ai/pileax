@@ -506,6 +506,25 @@
                     "is_tools": true
                 }
             ]
+        },
+        {
+            "name": "FishAudio",
+            "logo": "fishaudio",
+            "tags": "TTS",
+            "status": "1",
+            "apikey_url": "https://fish.audio/app/api-keys",
+            "llm": [
+                {
+                    "model_name": "s2-pro",
+                    "tags": "TTS",
+                    "model_type": "tts"
+                },
+                {
+                    "model_name": "s1",
+                    "tags": "TTS",
+                    "model_type": "tts"
+                }
+            ]
         }
     ]
 }

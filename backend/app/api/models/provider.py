@@ -44,8 +44,8 @@ class ProviderAllPublic(ProviderBase, BaseMixin):
 class LLMInfo(BaseApiModel):
     model_name: str
     model_type: str
-    tags: str | None
-    max_tokens: int
+    tags: str | None = None
+    max_tokens: int | None = None
 
 
 class LLMInfoDetails(LLMInfo):

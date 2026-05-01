@@ -6,9 +6,10 @@ Licensed under the Apache License 2.0.
 Modifications made by PileaX AI.
 """
 
-from . import base, tongyi
+from . import base, fish_audio, tongyi
 
 __all__ = [
     "base",
+    "fish_audio",
     "tongyi",
 ]

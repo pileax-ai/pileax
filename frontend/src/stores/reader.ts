@@ -14,13 +14,13 @@ export const useReaderStore = defineStore('reader', {
       hoverShow: false,
       width: 300,
       activity: '',
-    } as Indexable,
+    },
     rightDrawer: {
       show: true,
       hoverShow: false,
       width: 400,
       split: false,
-    } as Indexable,
+    },
     tts: {
       provider: 'browser',
       voiceName: '',
@@ -29,7 +29,12 @@ export const useReaderStore = defineStore('reader', {
       rate: '1.0',
       pitch: '1.0',
       volume: '1.0',
-    } as Indexable,
+    },
+    ttsModel: {
+      modelProvider: '',
+      modelName: '',
+      modelType: 'tts',
+    },
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
     queryTimer: 0,
@@ -76,6 +81,9 @@ export const useReaderStore = defineStore('reader', {
     setTTSItem(key: string, value: any) {
       console.log('setTTSItem', key, value)
       this.tts[key] = value
+    },
+    setTTSModel(value: Indexable) {
+      this.ttsModel = value
     },
     setCurrentMainService(value: string) {
       this.currentMainService = value

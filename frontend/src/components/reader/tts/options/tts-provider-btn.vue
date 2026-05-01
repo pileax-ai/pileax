@@ -53,8 +53,9 @@ import { computed } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import TtsOptionView from './tts-option-view.vue'
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
-import useTTS from 'src/hooks/useTTS'
 import useCommon from 'core/hooks/useCommon'
+import useTTS from 'src/hooks/useTTS'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 
 const props = defineProps({
   label: {
@@ -84,6 +85,7 @@ const emit = defineEmits(['select'])
 
 const { t } = useCommon()
 const { tts } = useTTS()
+const { setTTSModel } = useReaderSetting()
 
 const options = computed(() => {
   return [
@@ -105,6 +107,11 @@ const onSelect = (item: Indexable) => {
 const onSelectLLM = (item: Indexable) => {
   console.log('llm', item)
   onSelect({ label: 'LLM', value: 'llm' })
+  setTTSModel({
+    modelProvider: item.provider,
+    modelName: item.modelName,
+    modelType: item.modelType
+  })
 }
 </script>
 

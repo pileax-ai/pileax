@@ -71,7 +71,6 @@ class ApiRouter(APIRouter):
                 if isinstance(result, StreamingResponse):
                     return result
 
-
                 # case 2: general
                 async def wrapped_fun():
                     return result

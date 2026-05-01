@@ -1,8 +1,8 @@
 import inspect
 import logging
 import re
+from collections.abc import Generator
 from functools import partial
-from typing import Generator
 
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.core.llm.services.tenant_llm_service import TenantLLMService
@@ -89,20 +89,17 @@ class LLMService:
 
         yield total_tokens, ans
 
-
     def tts(self, text: str, **kwargs) -> Generator[bytes, None, None]:
         if self.langfuse:
             generation = self.langfuse.start_observation(
-                trace_context=self.trace_context,
-                as_type="generation",
-                name="tts", input={"text": text}
+                trace_context=self.trace_context, as_type="generation", name="tts", input={"text": text}
             )
 
         for chunk in self.mdl.tts(text, **kwargs):
-            # if isinstance(chunk, int):
-            #     if not TenantLLMService.increase_usage_by_id(self.model_config["id"], chunk):
-            #         logging.error("LLMBundle.tts can't update token usage for {}/TTS".format(self.tenant_id))
-            #     return
+            if isinstance(chunk, int):
+                # if not TenantLLMService.increase_usage_by_id(self.model_config["id"], chunk):
+                #     logging.error("LLMBundle.tts can't update token usage for {}/TTS".format(self.tenant_id))
+                return
             yield chunk
 
         if self.langfuse:

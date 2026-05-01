@@ -2,8 +2,7 @@ from fastapi import HTTPException
 
 from app.api.models.provider_default_model import ProviderDefaultModelCredential
 from app.constants.enums import LLMType
-from app.core.llm.models import ChatModel
-from app.core.llm.models import TTSModel
+from app.core.llm.models import ChatModel, TTSModel
 
 
 class TenantLLMService:

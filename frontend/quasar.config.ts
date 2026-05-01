@@ -95,7 +95,7 @@ export default defineConfig(((ctx) => {
       // distDir
       envFolder: 'env',
       env: {
-        COLLAB: mode === 'electron' ? 'false' : process.env.COLLAB
+        COLLAB: mode === 'electron' ? JSON.stringify('false') : JSON.stringify(process.env.COLLAB)
       },
       rawDefine: viteConfig(ctx).rawDefine,
 
@@ -119,7 +119,7 @@ export default defineConfig(((ctx) => {
       viteVuePluginOptions: {
         template: {
           compilerOptions: {
-            isCustomElement: (tag) => ['model-viewer', 'webview'].includes(tag)
+            isCustomElement: (tag: string) => ['model-viewer', 'webview'].includes(tag)
           }
         }
       },
