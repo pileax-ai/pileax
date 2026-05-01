@@ -29,11 +29,7 @@ class FishAudio(Base):
         request = TTSRequest(text=text, reference_id="7f92f8afb8ec43bf81429cc1c9199cb1")
         request_data = request.model_dump(by_alias=True, exclude_none=True)
 
-        timeout = httpx.Timeout(
-            timeout=60.0,
-            connect=10.0,
-            read=30.0
-        )
+        timeout = httpx.Timeout(timeout=60.0, connect=10.0, read=30.0)
         with httpx.Client(timeout=timeout) as client:
             try:
                 with client.stream(
