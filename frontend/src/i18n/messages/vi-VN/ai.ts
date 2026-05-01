@@ -37,7 +37,7 @@ export default {
     model: {
       _: 'Người mẫu',
       get: 'Liệt kê các mô hình',
-      llm: 'Thạc sĩ Luật',
+      llm: 'LLM',
       maxTokens: 'Số token tối đa',
       name: 'Tên mẫu',
       type: 'Loại mô hình'

@@ -74,6 +74,38 @@ this.lastLocation = { ...progress, tocItem, pageItem, cfi, range, chapterLocatio
 ```
 
 ## tts.js
+### Line 172, move
+```js
+// TODO: EBOOK(optional move)
+next(move = true) {
+  const newIndex = this.#index + 1
+  if (this.#arr[newIndex]) {
+    if (move) this.#index = newIndex
+    return this.#f(this.#arr[newIndex])
+  }
+  while (true) {
+    const { done, value } = this.#iter.next()
+    if (done) break
+    this.#arr.push(value)
+    if (this.#arr[newIndex]) {
+      if (move) this.#index = newIndex
+      return this.#f(this.#arr[newIndex])
+    }
+  }
+}
+```
+
+### Line 255
+```js
+// TODO: EBOOK(optional move)
+next(paused, move = true) {
+  this.#lastMark = null
+  const [doc, range] = this.#list.next(move) ?? []
+  if (paused && range && move) this.highlight(range.cloneRange())
+  return this.#speak(doc)
+}
+```
+
 ### Line 260, from(range)
 
 ```js

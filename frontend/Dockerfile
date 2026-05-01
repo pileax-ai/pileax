@@ -1,11 +1,13 @@
 # base image
-FROM node:22-alpine3.21 AS base
+FROM node:24-alpine3.21 AS base
 LABEL maintainer="pileaxai@gmail.com"
 WORKDIR /app
 
 
 # install packages
 FROM base AS builder
+
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 RUN apk add --no-cache git
 

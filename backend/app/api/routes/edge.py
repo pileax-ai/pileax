@@ -6,7 +6,7 @@ from app.api.controllers.edge_controller import EdgeController
 from app.api.models.edge import EdgeTTS, EdgeTTSPublic
 from app.api.router import ApiRouter
 
-router = ApiRouter(prefix="/edge", tags=["App"])
+router = ApiRouter(prefix="/edge", tags=["Edge"])
 
 
 @router.api_get("/voices", response_model=list[dict])
@@ -16,4 +16,4 @@ async def get_voices(controller: EdgeController = Depends()) -> Any:
 
 @router.api_post("/tts", response_model=EdgeTTSPublic)
 async def tts(item_in: EdgeTTS, controller: EdgeController = Depends()) -> Any:
-    return controller.tts(item_in)
+    return await controller.tts(item_in)

@@ -40,6 +40,9 @@ run_foliate() {
   cp -rf $foliate_src_dir $foliate_dir
   rm -rf "$foliate_dir/.github"
   cp -rf "$foliate_dir/vendor" "$frontend_dir/public/"
+
+  # remove mjs.map
+  rm -rvf "$frontend_dir"/public/vendor/pdfjs/*.mjs.map
 }
 
 ## Main

@@ -5,6 +5,7 @@ import type { MenuItem } from 'core/types/menu'
 import { defaultReaderMenus } from 'src/app/default-reader-menu'
 import { nestMenu } from 'core/hooks/useMenu'
 import { defaultSetting } from 'src/app/default-reader-setting'
+import { TTSOptions } from 'src/api/service/tts'
 
 export const useReaderStore = defineStore('reader', {
   state: () => ({
@@ -28,6 +29,11 @@ export const useReaderStore = defineStore('reader', {
       rate: '1.0',
       pitch: '1.0',
       volume: '1.0',
+    },
+    ttsModel: {
+      modelProvider: '',
+      modelName: '',
+      modelType: 'tts',
     },
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
@@ -75,6 +81,9 @@ export const useReaderStore = defineStore('reader', {
     setTTSItem(key: string, value: any) {
       console.log('setTTSItem', key, value)
       this.tts[key] = value
+    },
+    setTTSModel(value: Indexable) {
+      this.ttsModel = value
     },
     setCurrentMainService(value: string) {
       this.currentMainService = value

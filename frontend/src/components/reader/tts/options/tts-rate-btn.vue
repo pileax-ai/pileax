@@ -1,6 +1,6 @@
 <template>
-  <o-menu-btn class="text-tips tss-rate-btn"
-              menu-class="pi-menu show-side-icon tss-rate-btn-menu"
+  <o-menu-btn class="text-tips tts-rate-btn"
+              menu-class="pi-menu show-side-icon tts-rate-btn-menu"
               :anchor="anchor"
               :self="self"
               :min-width="minWidth"
@@ -15,7 +15,7 @@
     <slot></slot>
 
     <template #menu>
-      <tss-option-view icon="speed" :label="$t('reading.tts.speedSettings')" content-class="q-pt-xl">
+      <tts-option-view icon="speed" :label="$t('reading.tts.speedSettings')" content-class="q-pt-xl">
         <q-slider v-model="rate"
                   :min="0.5" :max="3" :step="0.1"
                   :label-value="`${rate}`"
@@ -48,7 +48,7 @@
             />
           </template>
         </q-slider>
-      </tss-option-view>
+      </tts-option-view>
     </template>
   </o-menu-btn>
 </template>
@@ -57,7 +57,7 @@
 import type { PropType} from 'vue'
 import { computed, onMounted, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
-import TssOptionView from './tss-option-view.vue'
+import TtsOptionView from './tts-option-view.vue'
 import useTTS from 'src/hooks/useTTS'
 
 const props = defineProps({
@@ -88,28 +88,16 @@ const emit = defineEmits(['selected'])
 
 const { tts } = useTTS()
 
-const options = computed(() => {
-  return [
-    { label: 'Edge', value: 'edge' },
-    { label: 'System', value: 'browser' },
-  ]
-})
-
 const rate = computed({
   get: () => parseFloat(tts.options.rate),
   set: (val) => {
-    tts.setRate(val)
+    tts.setRate(`${val}`)
   }
 })
-
-const onSelect = (item: Indexable) => {
-  tts.setProvider(item.value)
-  console.log('select', item)
-}
 </script>
 
 <style lang="scss" scoped>
-.tss-rate-btn-menu {
+.tts-rate-btn-menu {
   .q-slider {
     .q-slider__marker-labels-container {
       .label {

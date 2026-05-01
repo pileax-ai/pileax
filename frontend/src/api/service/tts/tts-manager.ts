@@ -1,5 +1,5 @@
 import type { TTSOptions, TTSClient } from './index'
-import { createTTSClient, TTSMode } from './index'
+import { createTTSClient } from './index'
 
 export class TTSManager {
   public client: TTSClient | null = null
@@ -8,7 +8,6 @@ export class TTSManager {
   private isInitialized = false
 
   constructor() {
-    this.mode = 'browser'
   }
 
   async initialize(

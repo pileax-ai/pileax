@@ -15,29 +15,47 @@
     <slot></slot>
 
     <template #menu>
-      <tss-option-view icon="mdi-account-tie-voice-outline" :label="$t('reading.tts.settings')">
+      <tts-option-view icon="graphic_eq" :label="$t('reading.tts.settings')">
+        <o-ai-model-select-btn type="tts"
+                               icon="mdi-creation"
+                               class="expand"
+                               :class="{ 'active': provider?.value === 'llm' }"
+                               anchor="bottom middle"
+                               self="top middle"
+                               single local
+                               @select="onSelectLLM">
+          <template #icon>
+            <span class="q-mr-md">LLM</span>
+          </template>
+          <o-tooltip position="left" transition>
+            {{ $t('ai.providers.model.llm') }}
+          </o-tooltip>
+        </o-ai-model-select-btn>
         <template v-for="(item, index) in options" :key="index">
           <o-common-item v-bind="item"
                          :class="{ 'active': provider?.value === item.value }"
                          @click="onSelect(item)"
-                         right-side clickable closable>
+                         right-side clickable closable
+                         v-if="item.show">
             <template #side>
               <q-icon name="check_circle" color="primary" v-if="provider?.value === item.value" />
             </template>
           </o-common-item>
         </template>
-      </tss-option-view>
+      </tts-option-view>
     </template>
   </o-menu-btn>
 </template>
 
 <script setup lang="ts">
 import type { PropType} from 'vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
-import TssOptionView from './tss-option-view.vue'
-import useTTS from 'src/hooks/useTTS'
+import TtsOptionView from './tts-option-view.vue'
+import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 import useCommon from 'core/hooks/useCommon'
+import useTTS from 'src/hooks/useTTS'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 
 const props = defineProps({
   label: {
@@ -67,12 +85,14 @@ const emit = defineEmits(['select'])
 
 const { t } = useCommon()
 const { tts } = useTTS()
+const { setTTSModel } = useReaderSetting()
 
 const options = computed(() => {
   return [
-    { label: 'Edge', value: 'edge' },
-    { label: t('system'), value: 'browser' },
-  ]
+    { label: 'LLM', value: 'llm', show: false },
+    { label: 'Edge', value: 'edge', show: true },
+    { label: t('system'), value: 'browser', show: true },
+  ] as Indexable[]
 })
 
 const provider = computed(() => {
@@ -83,9 +103,26 @@ const onSelect = (item: Indexable) => {
   tts.setProvider(item.value)
   emit('select', item)
 }
+
+const onSelectLLM = (item: Indexable) => {
+  console.log('llm', item)
+  onSelect({ label: 'LLM', value: 'llm' })
+  setTTSModel({
+    modelProvider: item.provider,
+    modelName: item.modelName,
+    modelType: item.modelType
+  })
+}
 </script>
 
 <style lang="scss">
-.o-ai-model-select-btn {
+.tts-provider-btn-btn {
+}
+
+.tts-option-view {
+  .o-common-item {
+    padding: 8px 16px !important;
+    margin-top: 4px !important;
+  }
 }
 </style>

@@ -4,12 +4,14 @@
               min-width="360px"
               :anchor="anchor"
               :self="self"
+              :offset="offset"
               :dropdown="!iconOnly"
               :enable-hover="enableHover"
               :icon-only="iconOnly"
               flat
               @before-show="onBeforeShow">
     <template #icon>
+      <slot name="icon"></slot>
       <o-icon :name="`icon-${defaultModel.logo}`" v-if="defaultModel?.logo" />
       <q-icon :name="icon" v-else-if="icon" />
     </template>
@@ -27,8 +29,8 @@
         <template v-for="(item, index) in typeModels" :key="index">
           <o-common-item :icon="`icon-${item.logo}`"
                          :label="item.modelName"
-                         @click="onSelect(item)"
-                         right-side clickable closable>
+                         @click.stop="onSelect(item)"
+                         right-side clickable closable="1">
             <template #label>
               <template v-for="(tag, index) in item.tags.split(',')" :key="index">
                 <q-chip size="10px" dense square v-if="tag">{{tag}}</q-chip>
@@ -113,7 +115,7 @@ const props = defineProps({
     required: false
   },
 })
-const emit = defineEmits(['selected'])
+const emit = defineEmits(['select'])
 
 const {
   localModels,
@@ -164,6 +166,7 @@ const onSelect = (item: Indexable) => {
       updateLocalDefaultModels(res)
     })
   }
+  emit('select', item)
 }
 
 const initData = async () => {

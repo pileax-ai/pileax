@@ -44,6 +44,7 @@ api.interceptors.request.use(
     if (config.url?.includes('refresh-token')) {
       return config
     }
+    // console.log('config', config)
 
     // Add requests to waiting queue when pre refreshing
     if (tokenRefreshManager.getIsPreRefreshing()) {

@@ -6,7 +6,7 @@ x-shared-env: &shared-api-worker-env
   DB_DATABASE: ${DB_DATABASE:-pileax}
   REDIS_HOST: redis
   REDIS_PORT: ${DB_PORT:-6379}
-  WEB_API_CORS_ALLOW_ORIGINS: ${WEB_API_CORS_ALLOW_ORIGINS:-http://localhost:9610}
+  WEB_API_CORS_ALLOW_ORIGIN_REGEX: ${WEB_API_CORS_ALLOW_ORIGIN_REGEX:-(http://localhost(:\d+)?|http://127\.0\.0\.1(:\d+)?|http://(192\.168\.\d+|10\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+)\.\d+(:\d+)?|https://.*\.example\.com?$$)}
 
 services:
   api:

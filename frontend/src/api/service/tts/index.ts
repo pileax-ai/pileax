@@ -1,5 +1,6 @@
 import { BrowserTTSClient } from 'src/api/service/tts/browser-tts'
 import { EdgeTTSClient } from 'src/api/service/tts/edge-tts'
+import { LLMTTSClient } from 'src/api/service/tts/llm-tts'
 import { ttsManager } from './tts-manager'
 
 /**
@@ -25,7 +26,7 @@ export interface TTSOptions {
    * - `'edge'`: Uses the Microsoft Edge Neural TTS cloud service.
    * - `'local'`: (Planned) Uses a local TTS engine, e.g., Piper.
    */
-  provider?: 'browser' | 'edge' | 'local';
+  provider?: 'browser' | 'edge' | 'llm' | 'local';
 
   /**
    * The specific name of the voice to use.
@@ -99,13 +100,14 @@ export interface TTSClient {
   state: 'idle' | 'playing' | 'paused' | 'stopped' | 'disposed';
 }
 
-
 export function createTTSClient(options: TTSOptions): TTSClient {
   switch (options.provider) {
     case 'browser':
       return new BrowserTTSClient(options)
     case 'edge':
       return new EdgeTTSClient(options)
+    case 'llm':
+      return new LLMTTSClient(options)
     default:
       throw new Error(`Unsupported TTS provider: ${options.provider}`)
   }

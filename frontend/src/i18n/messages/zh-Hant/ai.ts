@@ -37,7 +37,7 @@ export default {
     model: {
       _: '模型',
       get: '取得模型',
-      llm: '法學碩士',
+      llm: 'LLM',
       maxTokens: '最大Token數',
       name: '模型名稱',
       type: '模型類型'

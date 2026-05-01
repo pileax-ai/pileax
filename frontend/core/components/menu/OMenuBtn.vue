@@ -13,7 +13,7 @@
 
     <q-icon :name="iconRight" class="text-tips" v-if="iconRight" />
     <q-icon :name="menu ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-            class="text-tips" v-if="dropdown" />
+            v-if="dropdown" />
 
     <q-menu v-model="menu"
             :anchor="anchor"
