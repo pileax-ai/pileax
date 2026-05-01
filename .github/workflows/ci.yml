@@ -25,7 +25,12 @@ jobs:
       web-changed: ${{ steps.changes.outputs.web }}
       migration-changed: ${{ steps.changes.outputs.migration }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
       - uses: dorny/paths-filter@v4
         id: changes
         with:

@@ -33,7 +33,8 @@
     "preview": "cd frontend/dist/spa && quasar serve --port 9601",
     "bump-version": "python scripts/update_version.py",
     "i18n-generate": "cd frontend && yarn i18n-generate",
-    "i18n-generate-zh": "cd frontend && yarn i18n-generate-zh"
+    "i18n-generate-zh": "cd frontend && yarn i18n-generate-zh",
+    "update-foliate": "./scripts/run.sh foliate"
   },
 	"engines": {
 		"node": ">=22.22.0",
