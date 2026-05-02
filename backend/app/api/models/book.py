@@ -1,11 +1,18 @@
+import enum
 import uuid
+from typing import Literal, List
 
 from sqlalchemy import Integer, UniqueConstraint, event, text
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, JSONString
 from app.api.models.enums import Scope
 from app.libs.db_helper import DbHelper
+
+
+class BookMediaType(enum.StrEnum):
+    DIGITAL = "digital"
+    PHYSICAL = "physical"
 
 
 class Book(BaseSQLModel, BaseMixin, table=True):
@@ -30,6 +37,10 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     scope: int | None = Field(
         default=Scope.WORKSPACE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))}
     )
+    media: dict | None = Field(default=None, sa_type=JSONString)
+    location: str | None = None
+    isbn: str | None = Field(default=None)
+    ref_url: str | None = Field(default=None)
 
 
 @event.listens_for(Book, "before_insert")
@@ -42,6 +53,15 @@ def before_update(mapper, connection, target: Book):
     target.title_pinyin = DbHelper.to_pinyin(target.title)
 
 
+class BookMedia(BaseApiModel):
+    type: BookMediaType = BookMediaType.DIGITAL
+    sha1: str = Field(..., min_length=32, max_length=64, description="Book sha1 hash")
+    format: str | None = None
+    file_url: str | None = Field(default=None)
+    cover_url: str | None = Field(default=None)
+    size: int | None = Field(default=0, ge=0)
+
+
 class BookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     title: str
@@ -50,6 +70,10 @@ class BookBase(BaseApiModel):
     description: str | None = None
     publisher: str | None = None
     published: str | None = None
+    media: list[BookMedia] | None = Field(default_factory=list)
+    location: str | None = None
+    isbn: str | None = None
+    ref_url: str | None = None
 
 
 class BookCreate(BookBase):

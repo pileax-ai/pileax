@@ -46,5 +46,16 @@ export default {
     total: '共计'
   },
   uploadTime: '上传时间',
-  viewFiles: '查看文件'
+  viewFiles: '查看文件',
+  entry: '书目',
+  newEntry: '添加书目',
+  media: '书类型',
+  mediaType: {
+    physical: '实体书',
+    digital: '电子书',
+  },
+  location: '位置',
+  metadata: {
+    get: '获取图书信息'
+  },
 }

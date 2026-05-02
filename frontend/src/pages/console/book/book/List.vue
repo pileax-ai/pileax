@@ -51,9 +51,12 @@
                 <q-separator class="bg-dark" />
                 <o-common-item icon="o_local_library"
                                :label="$t('book.library.add')"
-                               class="bg-accent"
                                closable clickable
                                @click="onOpenAdd" />
+                <o-common-item icon="o_book"
+                               :label="$t('book.newEntry')"
+                               closable clickable
+                               @click="onEntry" />
               </q-list>
             </q-menu>
           </q-btn>
@@ -141,6 +144,9 @@
           <book-edit :data="data"
                      @close="onClose"
                      v-if="view==='edit'" />
+          <book-entry :data="data"
+                     @close="onClose"
+                     v-if="view==='entry'" />
           <book-add @close="onClose"
                     v-if="view==='add'" />
         </template>
@@ -157,6 +163,7 @@ import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'
 import BookEdit from './BookEdit.vue'
+import BookEntry from './BookEntry.vue'
 import BookAdd from './BookAdd.vue'
 import BookFilter from './BookFilter.vue'
 import BookMoreBtn from './BookMoreBtn.vue'
@@ -212,6 +219,10 @@ function onEdit(item: Indexable) {
   query.value.openSide('480px', 'edit', 'edit_note', t('edit'))
 }
 
+function onEntry() {
+  query.value.openSide('480px', 'entry', 'add', t('book.entry'))
+}
+
 function onClose(options: Indexable) {
   if (options && options.action && options.item) {
     const bookId = options.item.bookId
@@ -225,6 +236,8 @@ function onClose(options: Indexable) {
           rows.value.splice(index, 1)
           break
       }
+    } else {
+      rows.value.unshift(options.item)
     }
   } else {
     query.value.onQuery()

@@ -10,7 +10,7 @@ from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
-from app.api.models.book import Book, BookCreate, BookPublic, BookUpdate
+from app.api.models.book import Book, BookCreate, BookPublic, BookUpdate, BookMedia, BookMediaType
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery, QueryResult
@@ -38,6 +38,21 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         self.fm_controller = FileMetaController(session, user, workspace)
         self.wb_controller = WorkspaceBookController(session, user, workspace)
 
+    def save(self, book_in: BookCreate) -> WorkspaceBookDetails:
+        book_id = book_in.id
+        if book_in is None:
+            book_id = uuid.uuid4()
+            book_in.id = book_id
+
+        # Save book
+        book = super().save(book_in)
+
+        # Save workspace_book
+        workspace_book_in = WorkspaceBookCreate(book_id=book_id)
+        workspace_book = self.wb_controller.save(workspace_book_in)
+
+        return WorkspaceBookService(self.session).get_details(workspace_book.id)
+
     def get(self, id: uuid.UUID) -> Book:
         return self.service.get_by_owner(Owner(user_id=self.user.id), id)
 
@@ -61,6 +76,12 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book_in.id = book_id
         book_in.path = BookHelper.build_book_path(book_in.uuid)
 
+        book_media = BookMedia(
+            type=BookMediaType.DIGITAL,
+            sha1=book_in.uuid,
+            format=book_in.extension,
+        )
+
         same_book = self.find_one({"uuid": book_in.uuid})
 
         # Only upload when book is a new one
@@ -76,8 +97,11 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
                 url = str(meta["url"])
                 if file_name.startswith("book"):
                     book_in.file_url = url
+                    book_media.file_url = url
+                    book_media.size = meta["size"]
                 else:
                     book_in.cover_url = url
+                    book_media.cover_url = url
                 # save file_meta
                 try:
                     self.fm_controller.save(FileMetaCreate(**meta))
@@ -88,7 +112,8 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
 
         book_in.tenant_id = self.workspace.tenant_id
         book_in.tenant_id = self.workspace.tenant_id
-        book = self.save(book_in)
+        book_in.media = [book_media]
+        book = super().save(book_in)
 
         # save workspace_book
         workspace_book_in = WorkspaceBookCreate(book_id=book_id)

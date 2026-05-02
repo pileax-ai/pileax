@@ -12,7 +12,7 @@ from app.api.router import ApiRouter
 router = ApiRouter(prefix="/book", tags=["Book"])
 
 
-@router.api_post("", response_model=BookPublic)
+@router.api_post("", response_model=WorkspaceBookDetails)
 async def save(item_in: BookCreate, controller: BookController = Depends()) -> Any:
     return controller.save(item_in)
 

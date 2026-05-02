@@ -41,6 +41,8 @@ class WorkspaceBookPublic(WorkspaceBookCreate, BaseMixin):
 class WorkspaceBookDetails(WorkspaceBookPublic):
     book_user_id: uuid.UUID
     book_workspace_id: uuid.UUID
+
+    # book
     title: str
     path: str | None = None
     file_url: str | None = None
@@ -53,6 +55,12 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
     extension: str | None = None
     scope: int
     book_rating: int
+    media: list | None = None
+    location: str | None = None
+    isbn: str | None = None
+    ref_url: str | None = None
+
+    # user_book
     user_book_id: uuid.UUID | None = None
     rating: int | None = 0
     reading_position: str | None = ""

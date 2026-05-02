@@ -15,6 +15,23 @@ export default function() {
     return {} as OptionValue
   }
 
+  const BookMediaTypes = computed(() => {
+    return [
+      { label: t('book.mediaType.digital'), value: 'digital', color: 'blue' },
+      { label: t('book.mediaType.physical'), value: 'physical', color: 'cyan' },
+    ]
+  })
+
+  const LLMTypes = computed(() => {
+    return [
+      { label: t('ai.models.chat'), value: 'chat', color: 'blue' },
+      { label: t('ai.models.embedding'), value: 'embedding', color: 'indigo' },
+      { label: t('ai.models.rerank'), value: 'rerank', color: 'indigo' },
+      { label: t('ai.models.sttModel'), value: 'speech2text', color: 'indigo' },
+      { label: t('ai.models.tts'), value: 'tts', color: 'indigo' },
+    ]
+  })
+
   const StandardColors = computed(() => {
     return [
       { label: t('appearances.colors.none'), value: '', icon: 'square', color: 'grey', hex: '#9e9e9e' },
@@ -64,22 +81,13 @@ export default function() {
     ]
   })
 
-  const LLMTypes = computed(() => {
-    return [
-      { label: t('ai.models.chat'), value: 'chat', color: 'blue' },
-      { label: t('ai.models.embedding'), value: 'embedding', color: 'indigo' },
-      { label: t('ai.models.rerank'), value: 'rerank', color: 'indigo' },
-      { label: t('ai.models.sttModel'), value: 'speech2text', color: 'indigo' },
-      { label: t('ai.models.tts'), value: 'tts', color: 'indigo' },
-    ]
-  })
-
   return {
     getArrayItem,
+    BookMediaTypes,
+    LLMTypes,
     StandardColors,
     WorkspaceMemberRoles,
     WorkspaceMemberStatus,
     WorkspaceTypes,
-    LLMTypes,
   }
 }

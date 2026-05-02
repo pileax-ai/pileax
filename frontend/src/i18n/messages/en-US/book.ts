@@ -47,5 +47,16 @@ export default {
     total: 'Total'
   },
   uploadTime: 'Upload Time',
-  viewFiles: 'View Files'
+  viewFiles: 'View Files',
+  entry: 'Book Entry',
+  newEntry: 'New Entry',
+  media: 'Book Media',
+  mediaType: {
+    physical: 'Physical',
+    digital: 'Digital',
+  },
+  location: 'Location',
+  metadata: {
+    get: 'Get Book Info'
+  },
 }

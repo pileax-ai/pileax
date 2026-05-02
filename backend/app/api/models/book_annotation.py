@@ -1,8 +1,15 @@
+import enum
 import uuid
 
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, JSONString
+
+
+class BookAnnotationType(enum.StrEnum):
+    BOOKMARK = "bookmark"
+    HIGHLIGHT = "highlight"
+    NOTE = "note"
 
 
 class BookAnnotation(BaseSQLModel, BaseMixin, table=True):
@@ -12,9 +19,11 @@ class BookAnnotation(BaseSQLModel, BaseMixin, table=True):
     workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
+    title: str | None = Field(default=None)
     type: str | None = Field(default=None)
     value: str | None = Field(default=None)
     note: str | None = Field(default=None)
+    note_json: dict | None = Field(default=None, sa_type=JSONString, description="Note JSON content")
     color: str | None = Field(default=None)
     chapter: str | None = Field(default=None)
     page: int | None = Field(default=0, ge=0)
