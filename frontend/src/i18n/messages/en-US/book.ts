@@ -19,6 +19,7 @@ export default {
     add: 'Add Collection',
     removeConfirm: 'Are you sure to remove from collection?'
   },
+  entry: 'Book Entry',
   filter: {
     all: 'All',
     book: 'Books',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Contains books you uploaded and shared from your space.',
     noBooks: 'No books in the library yet. Add some now.'
   },
+  location: 'Location',
   markFinished: 'Mark as Finished',
+  media: 'Book Media',
+  mediaType: {
+    digital: 'Digital',
+    physical: 'Physical'
+  },
+  metadata: {
+    get: 'Get Book Info'
+  },
+  newEntry: 'New Entry',
   previewTips: 'In preview mode, reading progress will not be saved.',
   publisher: 'Publisher',
   removeConfirm: 'Are you sure to remove from shelf?',

@@ -35,7 +35,7 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         item = item_in.model_dump(by_alias=True)
         if hasattr(self.model, "tenant_id") and item.get("tenant_id") is None:
             if self.workspace:
-                item["tenant_id"] = self.workspace.tenant_id
+                item["tenantId"] = self.workspace.tenant_id
         if hasattr(self.model, "workspace_id") and item.get("workspace_id") is None:
             item["workspaceId"] = self.workspace_id
         if hasattr(self.model, "user_id"):

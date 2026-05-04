@@ -19,6 +19,7 @@ export default {
     add: 'Sammlung hinzufügen',
     removeConfirm: 'Möchten Sie das Produkt wirklich aus der Sammlung entfernen?'
   },
+  entry: 'Bucheintrag',
   filter: {
     all: 'Alle',
     book: 'Bücher',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Enthält Bücher, die Sie in Ihrem Bereich hochgeladen und geteilt haben.',
     noBooks: 'Die Bibliothek ist noch leer. Füge jetzt welche hinzu.'
   },
+  location: 'Standort',
   markFinished: 'Als erledigt markieren',
+  media: 'Buchmedien',
+  mediaType: {
+    digital: 'Digital',
+    physical: 'Physisch'
+  },
+  metadata: {
+    get: 'Buchinformationen anfordern'
+  },
+  newEntry: 'Neuer Eintrag',
   previewTips: 'Im Vorschaumodus wird der Lesefortschritt nicht gespeichert.',
   publisher: 'Herausgeber',
   removeConfirm: 'Sind Sie sicher, dass Sie es aus dem Regal nehmen?',

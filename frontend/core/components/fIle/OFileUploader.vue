@@ -109,10 +109,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  done: {
-    type: Boolean,
-    default: false
-  },
   refId: {
     type: String,
     default: ''
@@ -127,9 +123,10 @@ const emit = defineEmits(['uploaded'])
 const value = ref(null)
 const selectedFile = ref<File>()
 const src = ref('')
-const error = ref('')
 
 const loading = ref(false)
+const done = ref(false)
+const error = ref('')
 
 const fileIcon = computed(() => {
   if (selectedFile.value && selectedFile.value.type) {
@@ -171,11 +168,12 @@ function upload(file: File) {
     refType: props.refType,
   }
   fileService.upload(file, ref).then(res => {
-    loading.value = false
+    done.value = true
     emit('uploaded', res)
   }).catch(err => {
-    loading.value = false
     error.value = getErrorMessage(err)
+  }).finally(() => {
+    loading.value = false
   })
 }
 
