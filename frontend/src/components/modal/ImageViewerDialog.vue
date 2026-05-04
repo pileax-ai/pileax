@@ -24,8 +24,6 @@ const { dialog, onHide, onOk } = useDialog()
 
 const style = computed(() => {
   return {
-    // width: '80vw',
-    // height: '80vh',
     padding: '0px'
   }
 })

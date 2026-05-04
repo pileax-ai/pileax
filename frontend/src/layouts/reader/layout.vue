@@ -36,7 +36,7 @@ import useReader from 'src/hooks/useReader'
 
 import LeftDrawer from './navi/left-drawer.vue'
 import RightDrawer from './navi/right-drawer.vue'
-import ReaderModalEntry from 'core/components/modal/ReaderModalEntry.vue'
+import ReaderModalEntry from 'components/modal/ReaderModalEntry.vue'
 import { workspaceManager } from 'core/workspace/workspace-manager'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 

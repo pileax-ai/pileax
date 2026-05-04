@@ -1,6 +1,6 @@
 <template>
   <section class="o-drawer-navi">
-    <nav v-if="header">
+    <nav :class="headerClass" v-if="header">
       <slot name="header" />
     </nav>
 
@@ -22,6 +22,10 @@ defineProps({
   header: {
     type: Boolean,
     default: false
+  },
+  headerClass: {
+    type: String,
+    default: ''
   },
   footer: {
     type: Boolean,

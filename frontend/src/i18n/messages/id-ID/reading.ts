@@ -6,6 +6,11 @@ export default {
     manage: 'Mengelola Agen AI'
   },
   aiReading: 'Pembacaan AI',
+  bookmark: {
+    _: 'Tandai',
+    add: 'Tambahkan Bookmark',
+    remove: 'Hapus Bookmark'
+  },
   libraries: {
     location: 'Lokasi Perpustakaan',
     locations: {

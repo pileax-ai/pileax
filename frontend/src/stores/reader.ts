@@ -14,7 +14,7 @@ export const useReaderStore = defineStore('reader', {
       hoverShow: false,
       width: 300,
       activity: '',
-    } as Indexable,
+    },
     rightDrawer: {
       show: true,
       hoverShow: false,
@@ -26,7 +26,8 @@ export const useReaderStore = defineStore('reader', {
       settings: false,
       tts: false,
       note: false,
-    } as Indexable,
+      noteId: ''
+    },
     tts: {
       provider: 'browser',
       voiceName: '',
@@ -35,12 +36,12 @@ export const useReaderStore = defineStore('reader', {
       rate: '1.0',
       pitch: '1.0',
       volume: '1.0',
-    } as Indexable,
+    },
     ttsModel: {
       modelProvider: '',
       modelName: '',
       modelType: 'tts',
-    } as Indexable,
+    },
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
     queryTimer: 0,

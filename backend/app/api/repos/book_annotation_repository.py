@@ -1,6 +1,8 @@
 from itertools import starmap
+from typing import Any
+from uuid import UUID
 
-from sqlalchemy import func
+from sqlalchemy import TextClause, func, text
 from sqlmodel import select
 
 from app.api.models.book import Book
@@ -13,6 +15,26 @@ from app.libs.db_helper import DbHelper
 class BookAnnotationRepository(BaseRepository[BookAnnotation]):
     def __init__(self, model, session):
         super().__init__(model, session)
+
+    def group_by_book(self, user_id: UUID, workspace_id: UUID) -> Any:
+        sql: TextClause = text("""
+            SELECT ba.*, book.title, book.cover_url
+            FROM (
+                SELECT book_id, COUNT(*) as count
+                FROM book_annotation
+                WHERE user_id=:user_id
+                GROUP BY book_id
+            ) ba
+            LEFT JOIN book ON ba.book_id=book.id
+            LEFT JOIN workspace_book wb ON wb.book_id =ba.book_id
+            WHERE wb.workspace_id=:workspace_id
+       """)
+        with self.session as session:
+            conn = session.connection()
+            result = conn.execute(sql, {"user_id": str(user_id), "workspace_id": str(workspace_id)})
+            rows = result.mappings().all()
+
+        return rows
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters

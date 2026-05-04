@@ -11,6 +11,12 @@ export default {
     no: 'Dodaj adnotację',
     noRecords: 'Brak jeszcze adnotacji. Zacznij czytać i zaznacz niektóre.'
   },
+  annotationType: {
+    all: 'Wszystko',
+    bookmark: 'Zakładka w książce',
+    highlight: 'Adnotacja',
+    note: 'Notatka'
+  },
   author: 'Autor',
   chapter: 'Rozdział',
   collection: 'Kolekcja książek',
@@ -45,8 +51,10 @@ export default {
     get: 'Uzyskaj informacje o książce'
   },
   newEntry: 'Nowy wpis',
+  page: 'Strona',
   previewTips: 'W trybie podglądu postęp czytania nie zostanie zapisany.',
   publisher: 'Wydawca',
+  refInfo: 'Informacje referencyjne',
   removeConfirm: 'Czy na pewno chcesz usunąć z półki?',
   shelf: 'Półka na książki',
   startPreview: 'Rozpocznij podgląd',

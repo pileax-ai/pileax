@@ -14,13 +14,14 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
         super().__init__(BookAnnotation, session, user, workspace)
         self.service = BookAnnotationService(session)
 
-    def find_all_by_book(self, book_id: UUID) -> list[BookAnnotation]:
+    def find_all_by_book(self, book_id: UUID, type: str | None = None) -> list[BookAnnotation]:
         """
         Find all by book id
         """
         return self.service.find_all(
             {
                 "book_id": book_id,
+                "type": type,
                 "user_id": self.user.id,
             }
         )
@@ -32,3 +33,6 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
 
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(Owner(user_id=self.user.id), id)
+
+    def group_by_book(self) -> Any:
+        return self.service.group_by_book(self.user.id, self.workspace_id)

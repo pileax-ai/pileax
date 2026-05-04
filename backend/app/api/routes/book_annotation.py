@@ -7,6 +7,7 @@ from app.api.controllers.book_annotation_controller import BookAnnotationControl
 from app.api.models.book_annotation import (
     BookAnnotationCreate,
     BookAnnotationDetails,
+    BookAnnotationGroup,
     BookAnnotationPublic,
     BookAnnotationUpdate,
 )
@@ -47,5 +48,12 @@ async def query_details(query: PaginationQuery, controller: BookAnnotationContro
 
 
 @router.api_get("/all", response_model=list[BookAnnotationPublic])
-async def find_all_by_book(book_id: UUID, controller: BookAnnotationController = Depends()) -> Any:
-    return controller.find_all_by_book(book_id)
+async def find_all_by_book(
+    book_id: UUID, type: str | None = None, controller: BookAnnotationController = Depends()
+) -> Any:
+    return controller.find_all_by_book(book_id, type)
+
+
+@router.api_get("/group/book", response_model=list[BookAnnotationGroup])
+async def group_by_book(controller: BookAnnotationController = Depends()) -> Any:
+    return controller.group_by_book()

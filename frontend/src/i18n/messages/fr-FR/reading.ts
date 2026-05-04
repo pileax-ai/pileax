@@ -6,6 +6,11 @@ export default {
     manage: 'Gérer les agents d\'IA'
   },
   aiReading: 'Lecture de l\'IA',
+  bookmark: {
+    _: 'Signet',
+    add: 'Ajouter aux favoris',
+    remove: 'Supprimer le signet'
+  },
   libraries: {
     location: 'Emplacement de la bibliothèque',
     locations: {

@@ -6,6 +6,11 @@ export default {
     manage: 'Gestire gli agenti di intelligenza artificiale'
   },
   aiReading: 'Lettura AI',
+  bookmark: {
+    _: 'Segnalibro',
+    add: 'Aggiungi segnalibro',
+    remove: 'Rimuovi segnalibro'
+  },
   libraries: {
     location: 'Posizione della biblioteca',
     locations: {

@@ -38,7 +38,12 @@
 
         <section class="note">
           <q-scroll-area>
-            <div v-html="data.note"></div>
+            <div v-if="data.type === 'highlight'">
+              {{ data.title || data.note }}
+            </div>
+            <div v-else>
+              <o-markdown-view :text="data.note"></o-markdown-view>
+            </div>
           </q-scroll-area>
         </section>
       </q-card-section>
@@ -60,6 +65,8 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
+
+import OMarkdownView from 'components/form/OMarkdownView.vue'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'
 import useReading from 'src/hooks/useReading'
@@ -88,6 +95,7 @@ const actions = computed(() => {
       label: t('remove'),
       value: 'remove',
       icon: 'delete',
+      separator: false
     },
   ]
 })
@@ -179,6 +187,16 @@ onMounted(() => {
 
   .action {
     padding: 12px 40px;
+  }
+
+  .o-markdown-view {
+    h1, h2 {
+      font-size: 120%;
+    }
+
+    .tiptap {
+      font-size: 90% !important;
+    }
   }
 }
 </style>

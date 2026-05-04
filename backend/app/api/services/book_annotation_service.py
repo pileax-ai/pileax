@@ -1,3 +1,6 @@
+from typing import Any
+from uuid import UUID
+
 from app.api.models.book_annotation import BookAnnotation
 from app.api.models.query import PaginationQuery
 from app.api.repos.book_annotation_repository import BookAnnotationRepository
@@ -10,3 +13,6 @@ class BookAnnotationService(BaseService[BookAnnotation]):
 
     def query_details(self, query: PaginationQuery):
         return self.repo.query_details(query)
+
+    def group_by_book(self, user_id: UUID, workspace_id: UUID) -> Any:
+        return self.repo.group_by_book(user_id, workspace_id)

@@ -10,6 +10,12 @@ export default {
     add: '添加书摘',
     noRecords: '还没有书摘记录，快去阅读添加吧'
   },
+  annotationType: {
+    all: '全部',
+    bookmark: '书签',
+    highlight: '摘要',
+    note: '笔记'
+  },
   author: '作者',
   chapter: '章节',
   collection: '书单',
@@ -44,8 +50,10 @@ export default {
     get: '获取图书信息'
   },
   newEntry: '添加书目',
+  page: '页码',
   previewTips: '预览模式下，不会保存阅读进度',
   publisher: '出版社',
+  refInfo: '引用信息',
   removeConfirm: '你确定从书架中移除吗？',
   shelf: '书架',
   startPreview: '开始预览',

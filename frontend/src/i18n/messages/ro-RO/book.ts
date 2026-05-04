@@ -11,6 +11,12 @@ export default {
     no: 'Adăugați o adnotație',
     noRecords: 'Încă nu există adnotări. Începeți să citiți și evidențiați câteva.'
   },
+  annotationType: {
+    all: 'Toate',
+    bookmark: 'Marcaj',
+    highlight: 'Adnotare',
+    note: 'Nota'
+  },
   author: 'Autor',
   chapter: 'Capitol',
   collection: 'Colecție de cărți',
@@ -45,8 +51,10 @@ export default {
     get: 'Obțineți informații despre carte'
   },
   newEntry: 'Intrare nouă',
+  page: 'Pagină',
   previewTips: 'În modul de previzualizare, progresul citirii nu va fi salvat.',
   publisher: 'Editor',
+  refInfo: 'Informații de referință',
   removeConfirm: 'Sigur vrei să scoți de pe raft?',
   shelf: 'Raft de cărți',
   startPreview: 'Începeți previzualizarea',

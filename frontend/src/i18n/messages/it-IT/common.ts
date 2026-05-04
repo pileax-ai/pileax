@@ -117,6 +117,10 @@ export default {
   fullscreen: 'A schermo intero',
   fullscreenExit: 'Esci dalla modalità a schermo intero',
   general: 'Generale',
+  groupBy: {
+    book: 'Per libro',
+    type: 'Per tipologia'
+  },
   help: 'Aiuto',
   helps: {
     center: 'Centro assistenza',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Rinomina intelligente',
   sortBy: {
     note: 'Nota',
+    pageNumber: 'Numero di pagina',
     recent: 'Recente',
     recentAdd: 'Aggiunta recente',
     recentRead: 'Lettura recente',

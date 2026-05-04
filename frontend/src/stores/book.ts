@@ -16,6 +16,7 @@ export const useBookStore = defineStore('book', {
     tempProgress: {},
     selection: {},
     keyword: '',
+    annotations: [] as Indexable[],
     annotationId: 0,
     annotationTimer: 0,
     operation: BookOperation.Preview,
@@ -28,7 +29,10 @@ export const useBookStore = defineStore('book', {
     },
     tts: {
       playing: false
-    }
+    },
+    noteId: '',
+    note: {
+    },
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -69,6 +73,9 @@ export const useBookStore = defineStore('book', {
     },
     setKeyword(keyword: string) {
       this.keyword = keyword
+    },
+    setAnnotations(value: Indexable[]) {
+      this.annotations = value
     },
     setAnnotationTimer(value: number) {
       this.annotationTimer = value
@@ -167,6 +174,12 @@ export const useBookStore = defineStore('book', {
     setTTSItem(key: string, value: any) {
       this.tts[key] = value
     },
+    setNoteId(value: string) {
+      this.noteId = value
+    },
+    setNote(value: Indexable) {
+      this.note = value
+    }
   },
   persist: {
     key: `${CODE}.book`,

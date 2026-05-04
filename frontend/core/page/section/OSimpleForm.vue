@@ -4,17 +4,8 @@
       <q-form class="row col-12 o-form"
               @submit="onSubmit"
               @reset="onReset">
-        <section class="col-12">
-          <o-common-card header>
-            <template #header>
-              <div>{{ title }}</div>
-            </template>
-            <template #right>
-            </template>
-            <section class="col-12">
-              <slot></slot>
-            </section>
-          </o-common-card>
+        <section class="col-12" :class="contentClass">
+          <slot></slot>
         </section>
 
         <section class="row col-12 justify-center full-width actions"
@@ -43,6 +34,10 @@ defineProps({
   enableActions: {
     type: Boolean,
     default: false
+  },
+  contentClass: {
+    type: String,
+    default: ''
   },
 })
 const emit = defineEmits(['submit', 'reset'])

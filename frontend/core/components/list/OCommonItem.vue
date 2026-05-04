@@ -10,7 +10,7 @@
       </q-avatar>
     </q-item-section>
     <q-item-section>
-      <q-item-label class="row items-center ellipsis" :lines="lines">
+      <q-item-label :lines="lines">
         <span v-html="label"></span>
         <slot name="label"></slot>
         <q-icon name="help" class="q-ml-xs" v-if="help">

@@ -10,6 +10,12 @@ export default {
     add: '添加書摘',
     noRecords: '還沒有書摘紀錄，快去閱讀添加吧'
   },
+  annotationType: {
+    all: '全部',
+    bookmark: '書籤',
+    highlight: '摘要',
+    note: '筆記'
+  },
   author: '作者',
   chapter: '章節',
   collection: '書單',
@@ -44,8 +50,10 @@ export default {
     get: '獲取圖書信息'
   },
   newEntry: '新增書目',
+  page: '頁碼',
   previewTips: '預覽模式下，不會儲存閱讀進度',
   publisher: '出版商',
+  refInfo: '引用訊息',
   removeConfirm: '你確定從書架中移除嗎？',
   shelf: '書架',
   startPreview: '開始預覽',

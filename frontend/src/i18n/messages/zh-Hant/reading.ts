@@ -6,6 +6,11 @@ export default {
     manage: '管理AI智能體'
   },
   aiReading: 'AI 朗讀',
+  bookmark: {
+    _: '書籤',
+    add: '新增書籤',
+    remove: '刪除書籤'
+  },
   libraries: {
     location: '書庫位置',
     locations: {
@@ -68,7 +73,7 @@ export default {
   settings: '閱讀設定',
   status: {
     _: '閱讀狀態',
-    all: '所有',
+    all: '全部',
     currentlyReading: '在讀',
     finished: '已讀',
     notStarted: '未讀',

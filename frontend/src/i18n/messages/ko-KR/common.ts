@@ -117,6 +117,10 @@ export default {
   fullscreen: '전체 화면',
   fullscreenExit: '전체 화면 종료',
   general: '일반적인',
+  groupBy: {
+    book: '책으로',
+    type: '유형별로'
+  },
   help: '돕다',
   helps: {
     center: '도움말 센터',
@@ -178,6 +182,7 @@ export default {
   smartRename: '스마트 이름 변경',
   sortBy: {
     note: '메모',
+    pageNumber: '페이지 번호',
     recent: '최근의',
     recentAdd: '최근 추가됨',
     recentRead: '최근 읽은 글',

@@ -11,6 +11,12 @@ export default {
     no: 'Add Annotation',
     noRecords: 'No annotations yet. Start reading and highlight some.'
   },
+  annotationType: {
+    all: 'All',
+    bookmark: 'Bookmark',
+    highlight: 'Annotation',
+    note: 'Note'
+  },
   author: 'Author',
   chapter: 'Chapter',
   collection: 'Book Collection',
@@ -45,8 +51,10 @@ export default {
     get: 'Get Book Info'
   },
   newEntry: 'New Entry',
+  page: 'Page',
   previewTips: 'In preview mode, reading progress will not be saved.',
   publisher: 'Publisher',
+  refInfo: 'Reference Info',
   removeConfirm: 'Are you sure to remove from shelf?',
   shelf: 'Bookshelf',
   startPreview: 'Start Preview',

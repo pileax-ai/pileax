@@ -11,6 +11,12 @@ export default {
     no: 'Anmerkung hinzufügen',
     noRecords: 'Noch keine Anmerkungen. Fang an zu lesen und markiere einige Stellen.'
   },
+  annotationType: {
+    all: 'Alle',
+    bookmark: 'Lesezeichen',
+    highlight: 'Anmerkung',
+    note: 'Notiz'
+  },
   author: 'Autor',
   chapter: 'Kapitel',
   collection: 'Büchersammlung',
@@ -45,8 +51,10 @@ export default {
     get: 'Buchinformationen anfordern'
   },
   newEntry: 'Neuer Eintrag',
+  page: 'Seite',
   previewTips: 'Im Vorschaumodus wird der Lesefortschritt nicht gespeichert.',
   publisher: 'Herausgeber',
+  refInfo: 'Referenzinformationen',
   removeConfirm: 'Sind Sie sicher, dass Sie es aus dem Regal nehmen?',
   shelf: 'Bücherregal',
   startPreview: 'Vorschau starten',

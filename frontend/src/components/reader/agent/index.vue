@@ -104,7 +104,7 @@ const props = defineProps({
     default: false
   }
 })
-const emit = defineEmits(['close', 'action'])
+const emit = defineEmits(['close'])
 
 const { t } = useCommon()
 const {
@@ -113,7 +113,11 @@ const {
   secondaryService,
   rightDrawer,
   rightDrawerShow,
-  setCurrentMainService
+  setCurrentMainService,
+  closeRightDrawer,
+  toggleRightDrawer,
+  setRightDrawerHoverShow,
+  setRightDrawerSplit,
 } = useReader()
 const addAiAgentStatus = ref(false)
 const addServiceStatus = ref(false)
@@ -200,6 +204,13 @@ const actions = computed(() => {
       show: rightDrawerShow.value,
       separator: true
     },
+    {
+      label: t('pin'),
+      value: 'pin',
+      icon: 'pin',
+      show: !rightDrawerShow.value,
+      separator: true
+    },
   ]
 })
 
@@ -208,10 +219,14 @@ function onAction (action :any) {
     case 'ai':
       showAiAgent(true)
       break
-    case 'close':
-      break
     case 'service':
       showAddService(true)
+      break
+    case 'close':
+      onClose()
+      break
+    case 'pin':
+      onPin()
       break
   }
 }
@@ -257,13 +272,24 @@ function onRemoveService() {
   currentTab.value = 'chat'
 }
 
-onMounted(async () => {
-  //
-})
 
-onUnmounted(() => {
-  //
-})
+function onClose() {
+  setTimeout(() => {
+    if (props.main) {
+      closeRightDrawer()
+    } else {
+      setRightDrawerSplit(false)
+    }
+  }, 10)
+}
+
+function onPin() {
+  const show = rightDrawerShow.value
+  toggleRightDrawer()
+  if (show) {
+    setRightDrawerHoverShow(true)
+  }
+}
 
 onBeforeMount(() => {
   currentTab.value = 'chat'

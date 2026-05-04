@@ -11,6 +11,12 @@ export default {
     no: 'Ajouter une annotation',
     noRecords: 'Aucune annotation pour l\'instant. Commencez à lire et surlignez-en quelques passages.'
   },
+  annotationType: {
+    all: 'Tous',
+    bookmark: 'Signet',
+    highlight: 'Annotation',
+    note: 'Note'
+  },
   author: 'Auteur',
   chapter: 'Chapitre',
   collection: 'Collection de livres',
@@ -45,8 +51,10 @@ export default {
     get: 'Obtenir des informations sur le livre'
   },
   newEntry: 'Nouvelle entrée',
+  page: 'Page',
   previewTips: 'En mode aperçu, la progression de la lecture ne sera pas enregistrée.',
   publisher: 'Éditeur',
+  refInfo: 'Informations de référence',
   removeConfirm: 'Êtes-vous sûr de l\'avoir retiré de l\'étagère ?',
   shelf: 'Bibliothèque',
   startPreview: 'Aperçu',

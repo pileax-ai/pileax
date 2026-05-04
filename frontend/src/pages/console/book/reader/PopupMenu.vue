@@ -95,8 +95,9 @@ async function onAnnotation() {
     bookId: bookId.value,
     type: 'highlight',
     value: cfi,
+    title: text,
     note: text,
-    color: 'yellowgreen', // #66CCFF, #FFF3A0, yellowgreen
+    color: 'yellowgreen', // yellowgreen
     page: progress.value.location?.current || 0,
     chapter: progress.value.tocItem?.label
   }

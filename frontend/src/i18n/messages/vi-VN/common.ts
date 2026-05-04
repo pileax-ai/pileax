@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Toàn màn hình',
   fullscreenExit: 'Thoát chế độ toàn màn hình',
   general: 'Tổng quan',
+  groupBy: {
+    book: 'Theo sách',
+    type: 'Theo loại'
+  },
   help: 'Giúp đỡ',
   helps: {
     center: 'Trung tâm trợ giúp',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Đổi tên thông minh',
   sortBy: {
     note: 'Ghi chú',
+    pageNumber: 'Số trang',
     recent: 'Gần đây',
     recentAdd: 'Mới thêm',
     recentRead: 'Bài đọc gần đây',

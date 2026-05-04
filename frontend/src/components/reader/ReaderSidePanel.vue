@@ -37,7 +37,7 @@ import { computed } from 'vue'
 import AgentView from './agent/index.vue'
 import ReaderSettings from 'src/components/reader/settings/index.vue'
 import TtsPlayer from 'src/components/reader/tts/tts-player.vue'
-import BookNote from 'src/components/reader/note/book-note.vue'
+import BookNote from 'src/components/reader/note/index.vue'
 import OToolBar from 'core/components/electron/OToolBar.vue'
 import useBook from 'src/hooks/useBook'
 import useReader from 'src/hooks/useReader'
@@ -53,11 +53,7 @@ const { windowId } = useBook()
 const {
   rightDrawer,
   rightDrawerShow,
-  setRightDrawerHoverShow,
-  setRightDrawerSplit,
   setRightDrawerView,
-  closeRightDrawer,
-  toggleRightDrawer,
 } = useReader()
 
 const currentView = computed(() => rightDrawer.value.view)
@@ -88,24 +84,6 @@ const noteStatus = computed({
     setRightDrawerView('note', val)
   }
 })
-
-function onClose() {
-  setTimeout(() => {
-    if (props.main) {
-      closeRightDrawer()
-    } else {
-      setRightDrawerSplit(false)
-    }
-  }, 10)
-}
-
-function onPin() {
-  const show = rightDrawerShow.value
-  toggleRightDrawer()
-  if (show) {
-    setRightDrawerHoverShow(true)
-  }
-}
 
 </script>
 

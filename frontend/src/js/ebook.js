@@ -295,8 +295,10 @@ class Ebook {
 
   #handleKeydown(event) {
     const k = event.key
-    if (k === 'ArrowLeft' || k === 'h') this.view.goLeft()
-    else if(k === 'ArrowRight' || k === 'l') this.view.goRight()
+    // if (k === 'ArrowLeft' || k === 'h') this.view.goLeft()
+    // else if(k === 'ArrowRight' || k === 'l') this.view.goRight()
+    if (k === 'ArrowLeft' || k === 'ArrowUp') this.view.goLeft()
+    else if(k === 'ArrowRight' || k === 'ArrowDown') this.view.goRight()
     postMessage('onKeydown', {
       key: k,
       event: event

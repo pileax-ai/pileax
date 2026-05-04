@@ -44,11 +44,11 @@ const actions = computed(() => {
       separator: false
     },
     {
-      label: t('sortBy.note'),
-      value: 'note',
-      icon: 'sort_by_alpha',
+      label: t('sortBy.pageNumber'),
+      value: 'page',
+      icon: 'format_list_numbered_rtl',
       sortable: true,
-      selected: orderField.value === 'note',
+      selected: orderField.value === 'page',
     },
   ]
 })
@@ -65,14 +65,14 @@ function onAction (action :any) {
       orderField.value = value
       emit('sort', { updateTime: orderDesc.value ? 'desc' : 'asc' })
       break
-    case 'note':
+    case 'page':
       if (orderField.value === value) {
         orderDesc.value = !orderDesc.value
       } else {
         orderDesc.value = false
       }
       orderField.value = value
-      emit('sort', { note: orderDesc.value ? 'desc' : 'asc' })
+      emit('sort', { page: orderDesc.value ? 'desc' : 'asc' })
       break
     default:
       break

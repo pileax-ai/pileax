@@ -23,7 +23,7 @@ export const defaultSetting = {
   pageTurnStyle: 'slide',
   maxColumnCount: 1,
   maxInlineSize: 720,
-  viewMargin: true,
+  viewMargin: false,
   spread: 'none',
   zoom: 'fit-width',
 } as Indexable

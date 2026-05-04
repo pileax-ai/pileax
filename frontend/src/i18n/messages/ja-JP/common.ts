@@ -117,6 +117,10 @@ export default {
   fullscreen: '全画面表示',
   fullscreenExit: '全画面表示を終了',
   general: '一般的な',
+  groupBy: {
+    book: '書籍による',
+    type: 'タイプ別'
+  },
   help: 'ヘルプ',
   helps: {
     center: 'ヘルプセンター',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'スマートな名前変更',
   sortBy: {
     note: '注記',
+    pageNumber: 'ページ番号',
     recent: '最近の',
     recentAdd: '最近追加',
     recentRead: '最近読んだ本',

@@ -6,6 +6,11 @@ export default {
     manage: '管理AI智能体'
   },
   aiReading: 'AI 朗读',
+  bookmark: {
+    _: '书签',
+    add: '添加书签',
+    remove: '删除书签'
+  },
   libraries: {
     location: '书库位置',
     locations: {

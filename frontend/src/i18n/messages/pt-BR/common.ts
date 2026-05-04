@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Tela cheia',
   fullscreenExit: 'Sair do modo tela cheia',
   general: 'Em geral',
+  groupBy: {
+    book: 'Por livro',
+    type: 'Por tipo'
+  },
   help: 'Ajuda',
   helps: {
     center: 'Central de Ajuda',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Renomeação inteligente',
   sortBy: {
     note: 'Observação',
+    pageNumber: 'Número da página',
     recent: 'Recente',
     recentAdd: 'Adições recentes',
     recentRead: 'Leituras recentes',

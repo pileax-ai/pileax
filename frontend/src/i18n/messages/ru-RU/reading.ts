@@ -6,6 +6,11 @@ export default {
     manage: 'Управление агентами ИИ'
   },
   aiReading: 'Чтение с помощью ИИ',
+  bookmark: {
+    _: 'Добавить в закладки',
+    add: 'Добавить закладку',
+    remove: 'Удалить закладку'
+  },
   libraries: {
     location: 'Местоположение библиотеки',
     locations: {

@@ -98,11 +98,16 @@ export default function () {
   }
 
   function setRightDrawerView(view: 'note' | 'settings' | 'tts', value: boolean) {
-    store.setRightDrawerItem({key: 'view', value: view})
     store.setRightDrawerItem({key: view, value: value})
     if (value) {
+      store.setRightDrawerItem({key: 'view', value: view})
       store.showRightDrawer()
     }
+  }
+
+  function toggleRightDrawerView(view: 'note' | 'settings' | 'tts') {
+    const value = rightDrawer.value[view]
+    setRightDrawerView(view, !value)
   }
 
   function setQueryTimer(time: number) {
@@ -134,11 +139,11 @@ export default function () {
     setActivity,
     closeRightDrawer,
     toggleRightDrawer,
-    toggleShowRightDrawer,
     setRightDrawerHoverShow,
     setRightDrawerSplit,
     setRightDrawerWidth,
     setRightDrawerView,
+    toggleRightDrawerView,
     setQueryTimer,
     setCurrentMainService,
   }

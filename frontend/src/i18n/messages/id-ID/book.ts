@@ -11,6 +11,12 @@ export default {
     no: 'Tambahkan Anotasi',
     noRecords: 'Belum ada anotasi. Mulai membaca dan sorot beberapa bagian.'
   },
+  annotationType: {
+    all: 'Semua',
+    bookmark: 'Tandai',
+    highlight: 'Anotasi',
+    note: 'Catatan'
+  },
   author: 'Pengarang',
   chapter: 'Bab',
   collection: 'Koleksi Buku',
@@ -45,8 +51,10 @@ export default {
     get: 'Dapatkan Info Buku'
   },
   newEntry: 'Pendatang Baru',
+  page: 'Halaman',
   previewTips: 'Dalam mode pratinjau, kemajuan membaca tidak akan disimpan.',
   publisher: 'Penerbit',
+  refInfo: 'Informasi Referensi',
   removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
   shelf: 'Rak buku',
   startPreview: 'Mulai Pratinjau',
