@@ -19,6 +19,7 @@ export default {
     add: 'Thêm bộ sưu tập',
     removeConfirm: 'Bạn có chắc chắn muốn xóa khỏi bộ sưu tập không?'
   },
+  entry: 'Mục nhập sổ',
   filter: {
     all: 'Tất cả',
     book: 'Sách',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Chứa các cuốn sách bạn đã tải lên và chia sẻ từ không gian của mình.',
     noBooks: 'Thư viện hiện chưa có cuốn sách nào. Hãy bổ sung ngay!'
   },
+  location: 'Vị trí',
   markFinished: 'Đánh dấu là đã hoàn thành',
+  media: 'Sách và phương tiện truyền thông',
+  mediaType: {
+    digital: 'Điện tử',
+    physical: 'Thuộc vật chất'
+  },
+  metadata: {
+    get: 'Xem thông tin sách'
+  },
+  newEntry: 'Mục nhập mới',
   previewTips: 'Ở chế độ xem trước, tiến trình đọc sẽ không được lưu lại.',
   publisher: 'Nhà xuất bản',
   removeConfirm: 'Bạn có chắc chắn muốn lấy sản phẩm ra khỏi kệ không?',

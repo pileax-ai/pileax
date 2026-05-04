@@ -19,6 +19,7 @@ export default {
     add: 'Aggiungi raccolta',
     removeConfirm: 'Vuoi davvero rimuoverlo dalla raccolta?'
   },
+  entry: 'Voce del libro',
   filter: {
     all: 'Tutto',
     book: 'Libri',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Contiene i libri che hai caricato e condiviso dal tuo spazio.',
     noBooks: 'Nessun libro in biblioteca. Aggiungine subito.'
   },
+  location: 'Posizione',
   markFinished: 'Segna come finito',
+  media: 'Book Media',
+  mediaType: {
+    digital: 'Digitale',
+    physical: 'Fisico'
+  },
+  metadata: {
+    get: 'Ottieni informazioni sul libro'
+  },
+  newEntry: 'Nuova voce',
   previewTips: 'In modalità anteprima, l\'avanzamento della lettura non verrà salvato.',
   publisher: 'Editore',
   removeConfirm: 'Vuoi davvero rimuoverlo dallo scaffale?',

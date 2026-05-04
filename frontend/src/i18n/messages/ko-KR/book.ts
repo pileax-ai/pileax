@@ -19,6 +19,7 @@ export default {
     add: '컬렉션 추가',
     removeConfirm: '컬렉션에서 삭제하시는 게 확실합니까?'
   },
+  entry: '도서 등록',
   filter: {
     all: '모두',
     book: '서적',
@@ -33,7 +34,17 @@ export default {
     containBooks: '사용자가 공간에 업로드하고 공유한 책들이 포함되어 있습니다.',
     noBooks: '아직 도서관에 책이 없습니다. 지금 책을 추가해 주세요.'
   },
+  location: '위치',
   markFinished: '완료로 표시',
+  media: '북미디어',
+  mediaType: {
+    digital: '디지털',
+    physical: '물리적'
+  },
+  metadata: {
+    get: '책 정보 보기'
+  },
+  newEntry: '새 항목',
   previewTips: '미리보기 모드에서는 읽기 진행 상황이 저장되지 않습니다.',
   publisher: '발행자',
   removeConfirm: '선반에서 확실히 꺼내신 건가요?',

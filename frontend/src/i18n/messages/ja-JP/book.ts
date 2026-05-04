@@ -19,6 +19,7 @@ export default {
     add: 'コレクションを追加',
     removeConfirm: 'コレクションから削除してもよろしいですか?'
   },
+  entry: '書籍への記入',
   filter: {
     all: '全て',
     book: '本',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'あなたが自分のスペースからアップロードして共有した書籍が含まれています。',
     noBooks: 'ライブラリにはまだ本がありません。今すぐ追加しましょう。'
   },
+  location: '位置',
   markFinished: '完了としてマーク',
+  media: '書籍メディア',
+  mediaType: {
+    digital: 'デジタル',
+    physical: '物理的な'
+  },
+  metadata: {
+    get: '書籍情報を入手する'
+  },
+  newEntry: '新規エントリー',
   previewTips: 'プレビューモードでは、読み取りの進行状況は保存されません。',
   publisher: '出版社',
   removeConfirm: '棚から削除してもよろしいですか?',

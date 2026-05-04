@@ -3,7 +3,7 @@ import uuid
 
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, JSONString
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 
 
 class BookAnnotationType(enum.StrEnum):

@@ -18,6 +18,7 @@ export default {
     add: '新增書單',
     removeConfirm: '你確定從書單移除嗎？'
   },
+  entry: '書目',
   filter: {
     all: '全部',
     book: '圖書',
@@ -32,7 +33,17 @@ export default {
     containBooks: '含你上傳、空間共享的書',
     noBooks: '書庫還沒有記錄，快來添加吧'
   },
+  location: '位置',
   markFinished: '標記為已讀',
+  media: '書類型',
+  mediaType: {
+    digital: '電子書',
+    physical: '實體書'
+  },
+  metadata: {
+    get: '獲取圖書信息'
+  },
+  newEntry: '新增書目',
   previewTips: '預覽模式下，不會儲存閱讀進度',
   publisher: '出版商',
   removeConfirm: '你確定從書架中移除嗎？',
