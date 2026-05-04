@@ -83,11 +83,6 @@ export default function () {
 
   function toggleShowRightDrawer() {
     setRightDrawerHoverShow(true)
-    // if (!rightDrawerShow.value) {
-    //   setRightDrawerHoverShow(true);
-    // } else {
-    //   store.toggleRightDrawer();
-    // }
   }
 
   function setRightDrawerHoverShow(value: boolean) {
@@ -102,9 +97,9 @@ export default function () {
     store.setRightDrawerItem({key: 'width', value: value})
   }
 
-  function setRightDrawerTTS(value: boolean) {
-    // console.log('tts', value)
-    store.setRightDrawerItem({key: 'tts', value: value})
+  function setRightDrawerView(view: 'note' | 'settings' | 'tts', value: boolean) {
+    store.setRightDrawerItem({key: 'view', value: view})
+    store.setRightDrawerItem({key: view, value: value})
     if (value) {
       store.showRightDrawer()
     }
@@ -143,7 +138,7 @@ export default function () {
     setRightDrawerHoverShow,
     setRightDrawerSplit,
     setRightDrawerWidth,
-    setRightDrawerTTS,
+    setRightDrawerView,
     setQueryTimer,
     setCurrentMainService,
   }

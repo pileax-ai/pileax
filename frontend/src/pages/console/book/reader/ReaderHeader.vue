@@ -31,10 +31,28 @@
 
     <section class="row col-auto header-right">
       <section class="row hover-show">
-        <q-btn icon="volume_up" class="o-toolbar-btn" flat
+        <q-btn icon="o_bookmark_add" class="o-toolbar-btn" flat
                @click="setRightDrawerTTS(true)">
-          <o-tooltip position="left" transition autohide>
+          <o-tooltip position="bottom" transition autohide>
             {{ $t('reading.aiReading') }}
+          </o-tooltip>
+        </q-btn>
+        <q-btn icon="o_post_add" class="o-toolbar-btn" flat
+               @click="setRightDrawerView('note', true)">
+          <o-tooltip position="bottom" transition autohide>
+            {{ $t('reading.aiReading') }}
+          </o-tooltip>
+        </q-btn>
+        <q-btn icon="o_headphones" class="o-toolbar-btn" flat
+               @click="setRightDrawerView('tts', true)">
+          <o-tooltip position="bottom" transition autohide>
+            {{ $t('reading.aiReading') }}
+          </o-tooltip>
+        </q-btn>
+        <q-btn icon="o_tune" class="o-toolbar-btn" flat
+               @click="setRightDrawerView('settings', true)">
+          <o-tooltip position="bottom" transition autohide>
+            {{ $t('reading.settings') }}
           </o-tooltip>
         </q-btn>
       </section>
@@ -86,7 +104,7 @@ const {
   toggleLeftDrawer,
   toggleRightDrawer,
   setLeftDrawerHoverShow,
-  setRightDrawerTTS
+  setRightDrawerView,
 } = useReader()
 
 const searchCurrent = computed(() => {
