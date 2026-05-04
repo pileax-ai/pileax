@@ -109,10 +109,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  done: {
-    type: Boolean,
-    default: false
-  },
   refId: {
     type: String,
     default: ''

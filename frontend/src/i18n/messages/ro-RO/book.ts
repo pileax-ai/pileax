@@ -19,6 +19,7 @@ export default {
     add: 'Adăugați o colecție',
     removeConfirm: 'Sigur vrei să elimini din colecție?'
   },
+  entry: 'Intrare în carte',
   filter: {
     all: 'Toate',
     book: 'Cărți',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Conține cărți pe care le-ai încărcat și distribuit din spațiul tău.',
     noBooks: 'Încă nu există cărți în bibliotecă. Adăugați câteva acum.'
   },
+  location: 'Locaţie',
   markFinished: 'Marchează ca finalizat',
+  media: 'Media de carte',
+  mediaType: {
+    digital: 'Digital',
+    physical: 'Fizic'
+  },
+  metadata: {
+    get: 'Obțineți informații despre carte'
+  },
+  newEntry: 'Intrare nouă',
   previewTips: 'În modul de previzualizare, progresul citirii nu va fi salvat.',
   publisher: 'Editor',
   removeConfirm: 'Sigur vrei să scoți de pe raft?',

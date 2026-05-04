@@ -19,6 +19,7 @@ export default {
     add: 'Adicionar coleção',
     removeConfirm: 'Tem certeza de que deseja remover da coleção?'
   },
+  entry: 'Entrada de livro',
   filter: {
     all: 'Todos',
     book: 'Livros',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Contém livros que você carregou e compartilhou do seu espaço.',
     noBooks: 'Ainda não há livros na biblioteca. Adicione alguns agora.'
   },
+  location: 'Localização',
   markFinished: 'Marcar como concluído',
+  media: 'Mídia de livros',
+  mediaType: {
+    digital: 'Digital',
+    physical: 'Físico'
+  },
+  metadata: {
+    get: 'Obtenha informações sobre o livro'
+  },
+  newEntry: 'Nova entrada',
   previewTips: 'No modo de pré-visualização, o progresso da leitura não será salvo.',
   publisher: 'Editor',
   removeConfirm: 'Tem certeza de que deseja remover da prateleira?',

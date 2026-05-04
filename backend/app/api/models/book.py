@@ -1,11 +1,10 @@
 import enum
 import uuid
-from typing import Literal, List
 
 from sqlalchemy import Integer, UniqueConstraint, event, text
 from sqlmodel import Field
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field, JSONString
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 from app.api.models.enums import Scope
 from app.libs.db_helper import DbHelper
 

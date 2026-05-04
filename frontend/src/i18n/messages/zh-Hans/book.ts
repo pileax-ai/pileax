@@ -18,6 +18,7 @@ export default {
     add: '添加书单',
     removeConfirm: '你确定从书单中移除吗？'
   },
+  entry: '书目',
   filter: {
     all: '全部',
     book: '图书',
@@ -32,7 +33,17 @@ export default {
     containBooks: '含你上传和空间共享的书',
     noBooks: '书库中还没有记录，快来添加吧'
   },
+  location: '位置',
   markFinished: '标记为已读',
+  media: '书类型',
+  mediaType: {
+    digital: '电子书',
+    physical: '实体书'
+  },
+  metadata: {
+    get: '获取图书信息'
+  },
+  newEntry: '添加书目',
   previewTips: '预览模式下，不会保存阅读进度',
   publisher: '出版社',
   removeConfirm: '你确定从书架中移除吗？',
@@ -46,16 +57,5 @@ export default {
     total: '共计'
   },
   uploadTime: '上传时间',
-  viewFiles: '查看文件',
-  entry: '书目',
-  newEntry: '添加书目',
-  media: '书类型',
-  mediaType: {
-    physical: '实体书',
-    digital: '电子书',
-  },
-  location: '位置',
-  metadata: {
-    get: '获取图书信息'
-  },
+  viewFiles: '查看文件'
 }

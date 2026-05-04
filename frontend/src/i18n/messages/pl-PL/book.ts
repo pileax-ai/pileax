@@ -19,6 +19,7 @@ export default {
     add: 'Dodaj kolekcję',
     removeConfirm: 'Czy na pewno chcesz usunąć z kolekcji?'
   },
+  entry: 'Wpis do księgi',
   filter: {
     all: 'Wszystko',
     book: 'Książki',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Zawiera książki przesłane i udostępnione przez Ciebie ze swojej przestrzeni.',
     noBooks: 'W bibliotece nie ma jeszcze żadnych książek. Dodaj je teraz.'
   },
+  location: 'Lokalizacja',
   markFinished: 'Oznacz jako ukończone',
+  media: 'Książki medialne',
+  mediaType: {
+    digital: 'Cyfrowy',
+    physical: 'Fizyczny'
+  },
+  metadata: {
+    get: 'Uzyskaj informacje o książce'
+  },
+  newEntry: 'Nowy wpis',
   previewTips: 'W trybie podglądu postęp czytania nie zostanie zapisany.',
   publisher: 'Wydawca',
   removeConfirm: 'Czy na pewno chcesz usunąć z półki?',

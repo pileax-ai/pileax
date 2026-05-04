@@ -10,7 +10,7 @@ from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
-from app.api.models.book import Book, BookCreate, BookPublic, BookUpdate, BookMedia, BookMediaType
+from app.api.models.book import Book, BookCreate, BookMedia, BookMediaType, BookPublic, BookUpdate
 from app.api.models.file_meta import FileMetaCreate
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery, QueryResult

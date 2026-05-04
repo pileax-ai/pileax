@@ -19,6 +19,7 @@ export default {
     add: 'Tambahkan Koleksi',
     removeConfirm: 'Apakah Anda yakin ingin menghapusnya dari koleksi?'
   },
+  entry: 'Entri Buku',
   filter: {
     all: 'Semua',
     book: 'Buku',
@@ -33,7 +34,17 @@ export default {
     containBooks: 'Berisi buku-buku yang Anda unggah dan bagikan dari ruang Anda.',
     noBooks: 'Belum ada buku di perpustakaan. Tambahkan beberapa sekarang.'
   },
+  location: 'Lokasi',
   markFinished: 'Tandai sebagai Selesai',
+  media: 'Media Buku',
+  mediaType: {
+    digital: 'Digital',
+    physical: 'Fisik'
+  },
+  metadata: {
+    get: 'Dapatkan Info Buku'
+  },
+  newEntry: 'Pendatang Baru',
   previewTips: 'Dalam mode pratinjau, kemajuan membaca tidak akan disimpan.',
   publisher: 'Penerbit',
   removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
