@@ -10,9 +10,9 @@ import { store } from 'stores/index'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
-    account: {},
+    account: {} as Indexable,
     workspaces: [] as Indexable[],
-    workspace: {},
+    workspace: {} as Indexable,
   }),
   getters: {
     accountId: (state) => state.account.id,
