@@ -119,8 +119,9 @@ class BaseRepository(Generic[ModelType]):
 
         if condition:
             for field, value in condition.items():
-                if hasattr(self.model, field):
-                    stmt = stmt.where(getattr(self.model, field) == value)
+                if value is not None and value not in ("", []):
+                    if hasattr(self.model, field):
+                        stmt = stmt.where(getattr(self.model, field) == value)
 
         rows = self.session.exec(stmt).all()
         return cast(list[ModelType], rows)

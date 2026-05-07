@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Полноэкранный',
   fullscreenExit: 'Выйти из полноэкранного режима',
   general: 'Общий',
+  groupBy: {
+    book: 'По книге',
+    type: 'По типу'
+  },
   help: 'Помощь',
   helps: {
     center: 'Центр поддержки',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Умное переименование',
   sortBy: {
     note: 'Примечание',
+    pageNumber: 'Номер страницы',
     recent: 'Недавний',
     recentAdd: 'Недавно добавленные',
     recentRead: 'Недавно прочитанное',

@@ -11,6 +11,12 @@ export default {
     no: 'Thêm chú thích',
     noRecords: 'Chưa có chú thích nào. Hãy bắt đầu đọc và đánh dấu một vài điểm quan trọng.'
   },
+  annotationType: {
+    all: 'Tất cả',
+    bookmark: 'Đánh dấu trang',
+    highlight: 'Chú thích',
+    note: 'Ghi chú'
+  },
   author: 'Tác giả',
   chapter: 'Chương',
   collection: 'Bộ sưu tập sách',
@@ -45,8 +51,10 @@ export default {
     get: 'Xem thông tin sách'
   },
   newEntry: 'Mục nhập mới',
+  page: 'Trang',
   previewTips: 'Ở chế độ xem trước, tiến trình đọc sẽ không được lưu lại.',
   publisher: 'Nhà xuất bản',
+  refInfo: 'Thông tin tham khảo',
   removeConfirm: 'Bạn có chắc chắn muốn lấy sản phẩm ra khỏi kệ không?',
   shelf: 'Giá sách',
   startPreview: 'Bắt đầu xem trước',

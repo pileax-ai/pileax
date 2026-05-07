@@ -9,13 +9,14 @@ export const useBookStore = defineStore('book', {
     windowId: '',
     workspaceBookId: '',
     bookId: '',
-    book: {},
+    book: {} as Indexable,
     toc: [] as BookTocItem[],
     tocItem: {} as BookTocItem,
-    progress: {},
-    tempProgress: {},
-    selection: {},
+    progress: {} as Indexable,
+    tempProgress: {} as Indexable,
+    selection: {} as Indexable,
     keyword: '',
+    annotations: [] as Indexable[],
     annotationId: 0,
     annotationTimer: 0,
     operation: BookOperation.Preview,
@@ -24,11 +25,13 @@ export const useBookStore = defineStore('book', {
       term: '',
       progress: 0,
       result: [] as Indexable[],
-      current: {}
-    },
+      current: {} as Indexable
+    } as Indexable,
     tts: {
       playing: false
-    }
+    } as Indexable,
+    noteId: '',
+    note: {} as Indexable,
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -69,6 +72,9 @@ export const useBookStore = defineStore('book', {
     },
     setKeyword(keyword: string) {
       this.keyword = keyword
+    },
+    setAnnotations(value: Indexable[]) {
+      this.annotations = value
     },
     setAnnotationTimer(value: number) {
       this.annotationTimer = value
@@ -167,6 +173,12 @@ export const useBookStore = defineStore('book', {
     setTTSItem(key: string, value: any) {
       this.tts[key] = value
     },
+    setNoteId(value: string) {
+      this.noteId = value
+    },
+    setNote(value: Indexable) {
+      this.note = value
+    }
   },
   persist: {
     key: `${CODE}.book`,

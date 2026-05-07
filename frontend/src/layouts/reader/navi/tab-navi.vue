@@ -4,8 +4,9 @@
       <div class="col header-left drag-region">
       </div>
       <div class="col-auto sidebar-toggle no-drag-region">
-        <q-btn icon="mdi-backburger" class="text-tips" flat round
+        <q-btn class="text-tips" flat round
                @click="toggleLeftDrawer">
+          <o-icon name="icon-sidebar" size="20px" />
           <o-tooltip :message="$t('collapse')" position="right" transition />
         </q-btn>
       </div>

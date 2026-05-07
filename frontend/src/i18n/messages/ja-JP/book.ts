@@ -11,6 +11,12 @@ export default {
     no: '注釈を追加',
     noRecords: 'まだ注釈がありません。読み始めて、いくつかハイライトしてください。'
   },
+  annotationType: {
+    all: '全て',
+    bookmark: 'ブックマーク',
+    highlight: '注釈',
+    note: '注記'
+  },
   author: '著者',
   chapter: '章',
   collection: '書籍コレクション',
@@ -45,8 +51,10 @@ export default {
     get: '書籍情報を入手する'
   },
   newEntry: '新規エントリー',
+  page: 'ページ',
   previewTips: 'プレビューモードでは、読み取りの進行状況は保存されません。',
   publisher: '出版社',
+  refInfo: '参考情報',
   removeConfirm: '棚から削除してもよろしいですか?',
   shelf: '本棚',
   startPreview: 'プレビューを開始',

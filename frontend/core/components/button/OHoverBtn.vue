@@ -1,5 +1,6 @@
 <template>
-  <q-btn @mouseenter.stop="onEnter"
+  <q-btn class="o-hover-btn"
+         @mouseenter.stop="onEnter"
          @mouseleave.stop="onLeave"
          @click="onLeave"
          flat>

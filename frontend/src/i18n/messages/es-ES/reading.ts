@@ -6,6 +6,11 @@ export default {
     manage: 'Administrar agentes de IA'
   },
   aiReading: 'Lectura de IA',
+  bookmark: {
+    _: 'Marcador',
+    add: 'Agregar marcador',
+    remove: 'Eliminar marcador'
+  },
   libraries: {
     location: 'Ubicación de la biblioteca',
     locations: {

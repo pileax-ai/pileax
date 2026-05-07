@@ -6,6 +6,11 @@ export default {
     manage: 'AI 에이전트 관리'
   },
   aiReading: 'AI 읽기',
+  bookmark: {
+    _: '서표',
+    add: '즐겨찾기에 추가',
+    remove: '북마크 제거'
+  },
   libraries: {
     location: '도서관 위치',
     locations: {

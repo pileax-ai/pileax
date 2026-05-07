@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Vollbildmodus',
   fullscreenExit: 'Vollbildmodus beenden',
   general: 'Allgemein',
+  groupBy: {
+    book: 'Nach dem Buch',
+    type: 'Nach Typ'
+  },
   help: 'Helfen',
   helps: {
     center: 'Hilfezentrum',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Intelligente Umbenennung',
   sortBy: {
     note: 'Notiz',
+    pageNumber: 'Seitenzahl',
     recent: 'Jüngste',
     recentAdd: 'Neu hinzugefügt',
     recentRead: 'Zuletzt gelesen',

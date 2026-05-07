@@ -11,6 +11,12 @@ export default {
     no: 'Adicionar anotação',
     noRecords: 'Ainda não há anotações. Comece a ler e destaque alguns trechos.'
   },
+  annotationType: {
+    all: 'Todos',
+    bookmark: 'Adicionar aos favoritos',
+    highlight: 'Anotação',
+    note: 'Observação'
+  },
   author: 'Autor',
   chapter: 'Capítulo',
   collection: 'Coleção de livros',
@@ -45,8 +51,10 @@ export default {
     get: 'Obtenha informações sobre o livro'
   },
   newEntry: 'Nova entrada',
+  page: 'Página',
   previewTips: 'No modo de pré-visualização, o progresso da leitura não será salvo.',
   publisher: 'Editor',
+  refInfo: 'Informações de referência',
   removeConfirm: 'Tem certeza de que deseja remover da prateleira?',
   shelf: 'Estante de livros',
   startPreview: 'Iniciar pré-visualização',

@@ -22,7 +22,7 @@
                  v-if="!fixedLayout">
     </o-view-item>
     <o-field-label :label="$t('appearances.viewMargin')"
-                   content-class="row justify-around" side>
+                   content-class="row justify-around" side v-if="false">
       <q-toggle v-model="viewMargin" />
     </o-field-label>
   </section>

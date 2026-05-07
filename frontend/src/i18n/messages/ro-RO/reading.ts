@@ -6,6 +6,11 @@ export default {
     manage: 'Gestionați agenții AI'
   },
   aiReading: 'Citire cu inteligență artificială',
+  bookmark: {
+    _: 'Marcaj',
+    add: 'Adăugați un marcaj',
+    remove: 'Eliminare marcaj'
+  },
   libraries: {
     location: 'Locația bibliotecii',
     locations: {

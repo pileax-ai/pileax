@@ -2,7 +2,9 @@
   <span v-bind="$attrs" class="o-icon" v-if="emoji">
     {{ emoji }}
   </span>
-  <o-svg-icon v-bind="{...props, ...$attrs}" class="o-icon"
+  <o-svg-icon v-bind="{...props, ...$attrs}"
+              class="o-icon"
+              :style="`--svg-icon-size: ${size};`"
               v-else-if="name.indexOf('icon') === 0" />
   <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"
        v-else-if="name.indexOf('png') === 0" />
@@ -16,6 +18,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { isIcon } from 'core/utils/misc'
+import ONotePage from 'components/page/ONotePage.vue'
 
 const props = defineProps({
   name: {

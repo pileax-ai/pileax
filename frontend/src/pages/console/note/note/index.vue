@@ -199,7 +199,7 @@ const options = computed(() => {
     showBubbleMenu: true,
     sideMenu: {
       show: true,
-      add: 'empty',
+      add: 'empty' as SideMenuAddType,
       addMenuOptions: {
         ...DefaultBlockMenuOptions,
         modelViewer: false,

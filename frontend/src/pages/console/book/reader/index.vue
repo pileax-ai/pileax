@@ -38,7 +38,7 @@
 
     <!-- Extra -->
     <template #side>
-      <reader-side keyword="字典" />
+      <reader-side keyword="Dict" />
     </template>
 
     <popup-menu @share="onShare" />
@@ -63,14 +63,18 @@ import ReaderSide from 'components/reader/ReaderSide.vue'
 import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
+import useBookNote from 'src/hooks/useBookNote'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'
 import { bookAnnotationService, bookService } from 'src/api/service/remote'
 import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
+import useReader from 'src/hooks/useReader'
 
 const route = useRoute()
 const { store, setBook, setBookId, setWindowId } = useBook()
+const { openNote } = useBookNote()
+const { setRightDrawerView } = useReader()
 const { settings } = useReaderSetting()
 
 const bookRef = ref(null)
@@ -102,6 +106,16 @@ async function openWithBook(bookId: string) {
 
 async function openWithAnnotation(annotationId: string) {
   const annotation = await bookAnnotationService.get(annotationId)
+
+  // open note
+  if (annotation.type === 'note') {
+    setRightDrawerView('note', true)
+    openNote(annotationId)
+  } else {
+    setRightDrawerView('note', false)
+  }
+
+  // open book
   const bookId = annotation.bookId
   const cfi = annotation.value
   store.setReadingMode(ReadingMode.Preview)
@@ -129,7 +143,7 @@ async function open(bookId: string, initialCfi = '') {
 }
 
 async function prepareAnnotations(bookId: string) {
-  const annotations = await findBookAnnotation(bookId)
+  const annotations = await findBookAnnotation(bookId, 'highlight')
   renderAnnotations(annotations)
 }
 
@@ -170,6 +184,16 @@ onActivated(() => {
     .toolbar-hover-show {
       visibility: hidden;
     }
+
+    .o-toolbar-btn {
+      &:not(:first-child) {
+        margin-left: 4px;
+      }
+
+      &.active {
+        background: var(--q-dark);
+      }
+    }
   }
 
   header.can-hover, footer.can-hover {
@@ -187,15 +211,19 @@ onActivated(() => {
     top: 0;
     bottom: 0;
     width: 60px;
-    //background: rgba(red, 0.1);
-    visibility: hidden;
     z-index: 1;
 
     .q-btn {
+      visibility: hidden;
       width: 40px;
       height: 80px;
     }
 
+    &:hover {
+      .q-btn {
+        visibility: visible;
+      }
+    }
 
     &.navi-left {
       left: 0;

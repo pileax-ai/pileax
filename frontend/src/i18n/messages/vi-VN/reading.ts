@@ -6,6 +6,11 @@ export default {
     manage: 'Quản lý các tác nhân AI'
   },
   aiReading: 'Đọc bằng AI',
+  bookmark: {
+    _: 'Đánh dấu trang',
+    add: 'Thêm dấu trang',
+    remove: 'Xóa dấu trang'
+  },
   libraries: {
     location: 'Vị trí thư viện',
     locations: {

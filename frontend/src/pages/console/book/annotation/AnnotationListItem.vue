@@ -13,14 +13,23 @@
             <div class="col ellipsis text-right">
               {{data.chapter}}
             </div>
-            <div class="col-auto q-pl-sm">
+            <div class="row col-auto items-center q-pl-sm">
               / {{data.page}}
+              <q-icon :name="getArrayItem(BookAnnotationTypes, data.type).icon"
+                      :style="{ color: data.color }"
+                      class="q-ml-sm"
+                      size="1rem" />
             </div>
           </div>
         </section>
       </q-item-label>
       <q-item-label lines="6">
-        {{data.note}}
+        <div v-if="data.type === 'highlight'">
+          {{ data.title || data.note }}
+        </div>
+        <div v-else>
+          <o-markdown-view :text="data.note"></o-markdown-view>
+        </div>
       </q-item-label>
       <q-item-label caption>
         <div class="row q-pt-md relative-position">
@@ -38,8 +47,12 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
+
+import OMarkdownView from 'components/form/OMarkdownView.vue'
+
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
+import useMetadata from 'src/hooks/useMetadata'
 
 const props = defineProps({
   data: {
@@ -52,6 +65,7 @@ const props = defineProps({
 const emit = defineEmits(['details'])
 
 const { getCoverUrl } = useApi()
+const { BookAnnotationTypes, getArrayItem } = useMetadata()
 const coverUrl = ref('')
 const coverPath = computed(() => {
   return `${props.data.path}/${props.data.coverName}`
@@ -98,6 +112,17 @@ onMounted(() => {
 
     .q-item__label--caption {
       font-size: 1rem;
+    }
+  }
+
+  .o-markdown-view {
+    max-height: 100px;
+    h1, h2 {
+      font-size: 120%;
+    }
+
+    .tiptap {
+      font-size: 90% !important;
     }
   }
 }

@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Plein écran',
   fullscreenExit: 'Quitter le mode plein écran',
   general: 'Général',
+  groupBy: {
+    book: 'Par le livre',
+    type: 'Par type'
+  },
   help: 'Aide',
   helps: {
     center: 'Centre d\'aide',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Renommage intelligent',
   sortBy: {
     note: 'Note',
+    pageNumber: 'Numéro de page',
     recent: 'Récent',
     recentAdd: 'Ajout récent',
     recentRead: 'Lecture récente',

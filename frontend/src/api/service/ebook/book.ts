@@ -165,6 +165,16 @@ const nextPage = () => {
   ebookRender.nextPage()
 }
 
+const prevSection = () => {
+  setManual()
+  ebookRender.prevSection()
+}
+
+const nextSection = () => {
+  setManual()
+  ebookRender.nextSection()
+}
+
 const setManual = (operation = BookOperation.Manual) => {
   // console.log('operation', operation)
   setOperation(operation)
@@ -363,6 +373,8 @@ export {
   goToPercent,
   prevPage,
   nextPage,
+  prevSection,
+  nextSection,
   changeStyle,
   search,
   clearSearch,

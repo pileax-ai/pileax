@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Ecran complet',
   fullscreenExit: 'Ieșire din ecran complet',
   general: 'General',
+  groupBy: {
+    book: 'După carte',
+    type: 'După tip'
+  },
   help: 'Ajutor',
   helps: {
     center: 'Centru de ajutor',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Redenumire inteligentă',
   sortBy: {
     note: 'Nota',
+    pageNumber: 'Numărul paginii',
     recent: 'Recent',
     recentAdd: 'Adăugare recentă',
     recentRead: 'Citiri recente',

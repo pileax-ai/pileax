@@ -20,6 +20,13 @@ export const useReaderStore = defineStore('reader', {
       hoverShow: false,
       width: 400,
       split: false,
+
+      // views
+      view: '',
+      settings: false,
+      tts: false,
+      note: false,
+      noteId: ''
     },
     tts: {
       provider: 'browser',

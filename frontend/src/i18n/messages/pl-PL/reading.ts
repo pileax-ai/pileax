@@ -6,6 +6,11 @@ export default {
     manage: 'Zarządzaj agentami AI'
   },
   aiReading: 'Czytanie AI',
+  bookmark: {
+    _: 'Zakładka w książce',
+    add: 'Dodaj zakładkę',
+    remove: 'Usuń zakładkę'
+  },
   libraries: {
     location: 'Lokalizacja biblioteki',
     locations: {

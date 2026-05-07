@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Layar Penuh',
   fullscreenExit: 'Keluar dari Layar Penuh',
   general: 'Umum',
+  groupBy: {
+    book: 'Oleh Buku',
+    type: 'Berdasarkan Jenis'
+  },
   help: 'Membantu',
   helps: {
     center: 'Pusat Bantuan',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Penggantian nama cerdas',
   sortBy: {
     note: 'Catatan',
+    pageNumber: 'Nomor Halaman',
     recent: 'Terkini',
     recentAdd: 'Tambahan Terbaru',
     recentRead: 'Bacaan Terbaru',

@@ -117,6 +117,10 @@ export default {
   fullscreen: 'Full Screen',
   fullscreenExit: 'Exit Full Screen',
   general: 'General',
+  groupBy: {
+    book: 'By Book',
+    type: 'By Type'
+  },
   help: 'Help',
   helps: {
     center: 'Help Center',
@@ -178,6 +182,7 @@ export default {
   smartRename: 'Smart rename',
   sortBy: {
     note: 'Note',
+    pageNumber: 'Page Number',
     recent: 'Recent',
     recentAdd: 'Recent Add',
     recentRead: 'Recent Read',

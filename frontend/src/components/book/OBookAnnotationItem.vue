@@ -5,44 +5,118 @@
           @click="onClick">
     <q-item-section class="row item-label">
       <q-item-label lines="2">
-        {{ item.note }}
+        {{ item.title || item.note }}
       </q-item-label>
       <q-item-label lines="1" caption>
+        <q-icon :name="getArrayItem(BookAnnotationTypes, item.type).icon"
+                :style="{ color: item.color }"
+                size="1rem" />
         {{ item.chapter }}
       </q-item-label>
+      <q-item-label class="row justify-between time" lines="1" caption>
+        <div>{{ timeMulti(item.createTime).fromNow() }}</div>
+      </q-item-label>
     </q-item-section>
-    <q-item-section side>
-      {{ item.page }}
+    <q-item-section class="side" side>
+      <q-btn icon="more_horiz" size="0.8rem" flat dense @click.stop="() => {}">
+        <q-menu class="pi-menu" :offset="[0, 4]">
+          <q-list :style="{minWidth: '200px'}">
+            <template v-for="(action, index) in actions" :key="`action-${index}`">
+              <q-separator class="bg-accent" v-if="action.separator" />
+              <o-common-item v-bind="action"
+                             class="text-tips"
+                             @click="onAction(action)"
+                             clickable
+                             closable
+                             right-side>
+              </o-common-item>
+            </template>
+            <slot></slot>
+          </q-list>
+        </q-menu>
+      </q-btn>
+      <div class="page">
+        {{ item.page }}
+      </div>
     </q-item-section>
   </q-item>
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import { computed, PropType } from 'vue'
 
 import useBook from 'src/hooks/useBook'
-import type { BookTocItem } from 'src/types/reading'
+import useMetadata from 'src/hooks/useMetadata'
+import useBookNote from 'src/hooks/useBookNote'
+import useReader from 'src/hooks/useReader'
+import { timeMulti } from 'core/utils/dayjs'
+import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
   item: {
-    type: Object as PropType<BookTocItem>,
+    type: Object as PropType<Indexable>,
     default: () => {
       return {}
     }
   },
 })
 
-const { store, setTocItem } = useBook()
+const { t, confirm } = useCommon()
+const { store } = useBook()
+const { noteId, openNote, deleteNote } = useBookNote()
+const { BookAnnotationTypes, getArrayItem } = useMetadata()
+const { setRightDrawerView } = useReader()
+
+const actions = computed(() => {
+  return [
+    {
+      label: t('delete'),
+      value: 'delete',
+      icon: 'o_delete',
+      sortable: true,
+      separator: false,
+    },
+  ]
+})
+
+function onAction (action :Indexable) {
+  console.log('onAction', action)
+  switch (action.value) {
+    case 'delete':
+      onDelete()
+      break
+    default:
+      break
+  }
+}
+
+function onDelete() {
+  console.log('delete')
+  confirm(t('deleteConfirm'), {
+    label: props.item.title,
+    onOk: () => {
+      deleteNote(props.item.id)
+      if (props.item.id === noteId.value) {
+        setRightDrawerView('note', false)
+      }
+    }
+  })
+}
 
 function onClick() {
   store.setAnnotationId(props.item.id)
   window.ebook.goToHref(props.item.value)
+
+  if (props.item.type === 'note') {
+    setRightDrawerView('note', true)
+    openNote(props.item.id)
+  }
 }
 </script>
 
 <style lang="scss">
 .o-book-annotation-item {
-  padding: 6px 10px;
+  padding: 8px 6px;
   min-height: 42px;
 
   &.active:before {
@@ -65,6 +139,39 @@ function onClick() {
     top: 10px;
     bottom: 10px;
     background-color: var(--q-primary);
+  }
+
+  &:hover, &.active {
+    .time {
+      visibility: visible;
+    }
+
+    .side {
+      .q-btn {
+        display: block;
+      }
+      .page {
+        display: none;
+      }
+    }
+  }
+
+  .time {
+    visibility: hidden;
+  }
+
+  .side {
+    padding-left: 0;
+    min-width: 30px;
+    .q-btn {
+      display: none;
+      margin-right: -2px;
+    }
+    .page {
+      width: 100%;
+      display: block;
+      text-align: right;
+    }
   }
 }
 </style>

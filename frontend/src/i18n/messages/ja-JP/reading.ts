@@ -6,6 +6,11 @@ export default {
     manage: 'AIエージェントの管理'
   },
   aiReading: 'AI読書',
+  bookmark: {
+    _: 'ブックマーク',
+    add: 'ブックマークを追加',
+    remove: 'ブックマークを削除'
+  },
   libraries: {
     location: '図書館の場所',
     locations: {

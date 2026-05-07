@@ -6,19 +6,16 @@
     </span>
 
     <section class="row items-start text-readable bottom-toolbar toolbar-hover-show">
-      <template v-if="false">
-        <q-btn icon="pending" class="o-toolbar-btn" flat>
-          <o-tooltip>Dark Mode</o-tooltip>
+      <div class="row col-auto q-px-sm">
+        <q-btn icon="keyboard_double_arrow_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
+          <o-tooltip :message="$t('reading.prevSection')" />
         </q-btn>
-        <q-btn :icon="themeIcon" class="o-toolbar-btn" flat @click="toggleTheme">
-          <o-tooltip>{{$t(themeTooltip)}}</o-tooltip>
+        <q-btn icon="chevron_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
+          <o-tooltip :message="$t('reading.prevPage')" />
         </q-btn>
-        <q-btn icon="format_size" class="o-toolbar-btn" flat>
-          <o-tooltip>Styles</o-tooltip>
-        </q-btn>
-      </template>
+      </div>
 
-      <section class="col-12 relative-position slider-container">
+      <section class="col relative-position slider-container">
         <q-slider v-model="progressValue"
                   :min="0" :max="1" :step="0.001"
                   :label-value="showReserve ? $t('reading.previewPosition') : $t('reading.position')"
@@ -34,6 +31,23 @@
           <o-tooltip :message="$t('reading.position')" />
         </div>
       </section>
+
+      <div class="row col-auto q-px-sm">
+        <q-btn icon="o_headphones" class="o-toolbar-btn"
+               :class="{ 'active': rightDrawer.tts }"
+               flat
+               @click="toggleRightDrawerView('tts')">
+          <o-tooltip position="bottom" transition autohide>
+            {{ $t('reading.aiReading') }}
+          </o-tooltip>
+        </q-btn>
+        <q-btn icon="chevron_right" class="o-toolbar-btn hover-show" flat @click="nextPage">
+          <o-tooltip :message="$t('reading.nextPage')" />
+        </q-btn>
+        <q-btn icon="keyboard_double_arrow_right" class="o-toolbar-btn hover-show" flat @click="nextSection">
+          <o-tooltip :message="$t('reading.nextSection')" />
+        </q-btn>
+      </div>
     </section>
 
 
@@ -61,12 +75,25 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import useSetting from 'core/hooks/useSetting'
 import useBook from 'src/hooks/useBook'
-import { changeStyle, goToHref, goToPercent, nextPage, prevPage } from 'src/api/service/ebook/book'
+import {
+  changeStyle,
+  goToHref,
+  goToPercent,
+  nextPage,
+  prevPage,
+  nextSection,
+  prevSection,
+} from 'src/api/service/ebook/book'
 import useCommon from 'core/hooks/useCommon'
+import useReader from 'src/hooks/useReader'
 
 const { t } = useCommon()
 const { setTheme, theme } = useSetting()
 const { store, progress, search } = useBook()
+const {
+  rightDrawer,
+  toggleRightDrawerView,
+} = useReader()
 const progressValue = ref(0)
 const phase = ref('')
 
@@ -79,7 +106,7 @@ const showReserve = computed(() => {
 })
 
 const searchCurrent = computed(() => {
-  return search.value.current || {}
+  return search.value.current || {} as Indexable
 })
 
 function onUpdated(value: number | null) {
@@ -130,20 +157,22 @@ onMounted(() => {
 
   .bottom-toolbar {
     position: fixed;
-    left: 60px;
-    right: 60px;
+    left: 0;
+    right: 0;
     bottom: 0;
     height: 40px;
     padding: 0;
+    background: var(--q-secondary);
 
     &.toolbar-hover-show {
       visibility: hidden;
       //opacity: 1;
       transform: translateY(100%);
-      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s;
+      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, visibility 0.2s;
     }
 
     .slider-container {
+      padding: 0 8px;
       .reserve-position {
         position: absolute;
         top: 6px;

@@ -33,7 +33,9 @@ class BookAnnotationBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     type: str | None = None
     value: str | None = None
+    title: str | None = None
     note: str | None = None
+    note_json: dict | None = None
     color: str | None = None
     chapter: str | None = None
     page: int | None = 0
@@ -55,3 +57,10 @@ class BookAnnotationDetails(BookAnnotationPublic):
     book_title: str
     file_url: str | None = None
     cover_url: str | None = None
+
+
+class BookAnnotationGroup(BaseApiModel):
+    cover_url: str | None = None
+    title: str | None = None
+    book_id: uuid.UUID
+    count: int

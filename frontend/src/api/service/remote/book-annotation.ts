@@ -14,7 +14,14 @@ export class BookAnnotationService extends BaseService {
    * @param query
    */
   async queryBook(query: Indexable): Promise<any> {
-    return POST({ name: 'bookAnnotation', path: '/query/details', body: query })
+    return POST({ name: this.apiName, path: '/query/details', body: query })
+  }
+
+  /**
+   * Group by book
+   */
+  async groupByBook(): Promise<any> {
+    return GET({ name: this.apiName, path: '/group/book' })
   }
 }
 

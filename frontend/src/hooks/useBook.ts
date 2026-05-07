@@ -2,6 +2,7 @@
 import { useBookStoreWithOut } from 'stores/book'
 import { computed } from 'vue'
 import type { BookOperation, BookTocItem } from 'src/types/reading'
+import { findBookAnnotation } from 'src/api/service/ebook/book-annotation'
 
 export default function () {
   const store = useBookStoreWithOut()
@@ -43,6 +44,9 @@ export default function () {
   })
   const keyword = computed(() => {
     return store.keyword
+  })
+  const annotations = computed(() => {
+    return store.annotations
   })
   const annotationTimer = computed(() => {
     return store.annotationTimer
@@ -96,6 +100,12 @@ export default function () {
     store.setToc(data)
   }
 
+  function initAnnotationData() {
+    findBookAnnotation(bookId.value).then(res => {
+      store.setAnnotations(res)
+    })
+  }
+
   function setAnnotationTimer(value: number) {
     store.setAnnotationTimer(value)
   }
@@ -132,6 +142,7 @@ export default function () {
     previousTocItem,
     nextTocItem,
     keyword,
+    annotations,
     annotationTimer,
     operation,
     readingMode,
@@ -147,6 +158,7 @@ export default function () {
     setProgress,
     setSelection,
     setToc,
+    initAnnotationData,
     setAnnotationTimer,
     setAnnotationId,
     setOperation,

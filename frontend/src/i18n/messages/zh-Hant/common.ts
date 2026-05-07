@@ -117,6 +117,10 @@ export default {
   fullscreen: '全螢幕',
   fullscreenExit: '退出全螢幕',
   general: '一般',
+  groupBy: {
+    book: '按書',
+    type: '按類型'
+  },
   help: '幫助',
   helps: {
     center: '幫助中心',
@@ -178,6 +182,7 @@ export default {
   smartRename: '智慧重命名',
   sortBy: {
     note: '筆記',
+    pageNumber: '頁碼',
     recent: '最近',
     recentAdd: '最近新增',
     recentRead: '最近閱讀',

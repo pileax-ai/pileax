@@ -6,6 +6,11 @@ export default {
     manage: 'KI-Agenten verwalten'
   },
   aiReading: 'KI-Lesen',
+  bookmark: {
+    _: 'Lesezeichen',
+    add: 'Lesezeichen hinzufügen',
+    remove: 'Lesezeichen entfernen'
+  },
   libraries: {
     location: 'Bibliotheksstandort',
     locations: {
