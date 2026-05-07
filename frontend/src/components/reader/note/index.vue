@@ -1,6 +1,6 @@
 <template>
-  <section class="book-note bg-secondary no-drag-region">
-    <header class="row col-12 justify-between items-center text-readable">
+  <reader-side-view class="book-note" header-class="justify-between text-readable">
+    <template #header>
       <section class="col row items-center">
         <q-icon name="o_article" size="20px" />
         <span class="q-px-sm">
@@ -12,7 +12,8 @@
         <q-btn icon="mdi-tune-variant" class="o-toolbar-btn" flat @click="onEditMeta" />
         <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
       </section>
-    </header>
+    </template>
+
     <q-scroll-area class="o-scroll-wrapper">
       <YiiEditor ref="yiiEditor"
                  class="layout-content"
@@ -22,16 +23,19 @@
     </q-scroll-area>
 
     <footer class="meta">
-      <book-note-meta v-model="showMeta" />
+      <book-note-meta v-model="showMeta" v-if="note.type === 'note'" />
+      <book-annotation v-model="showMeta" v-else-if="note.type === 'annotation'" />
     </footer>
-  </section>
+  </reader-side-view>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { Editor } from '@tiptap/core'
 
+import ReaderSideView from '../ReaderSideView.vue'
 import BookNoteMeta from './meta.vue'
+import BookAnnotation from './annotation.vue'
 
 import useBook from 'src/hooks/useBook'
 import useBookNote from 'src/hooks/useBookNote'
@@ -50,10 +54,7 @@ const emit = defineEmits(['close'])
 
 const { darkMode, locale } = useSetting()
 const { getFileUrl } = useApi()
-const {
-  book,
-  progress
-} = useBook()
+const { progress } = useBook()
 const {
   bookId,
   note,
@@ -68,7 +69,6 @@ const loading = ref(false)
 const loaded = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
 const editorReady = ref(false)
-const title = ref('')
 const showMeta = ref(false)
 
 const editorKey = computed(() => {
@@ -160,21 +160,20 @@ function parseTitle (noteJson: any) {
   return title || 'New'
 }
 
-
 function updateNote() {
-  // Logging
   // console.log('updateNote', editor.value!.getJSON())
   // console.log('html', editor.value!.getHTML())
 
   const noteJson = editor.value!.getJSON()
-  title.value = parseTitle(noteJson)
-  saveNote({
+  const data: Indexable = {
     id: noteId.value,
-    title: title.value,
     note_json: noteJson,
     note: markdown.value?.serialize(noteJson),
-    page: note.value.page
-  }, true)
+  }
+  if (note.value.type === 'note') {
+    data.title = parseTitle(noteJson)
+  }
+  saveNote(data, true)
 }
 
 async function createNote() {
@@ -188,6 +187,7 @@ async function createNote() {
     note: '',
     title: 'New',
   }).then(note => {
+    editor.value?.commands.focus('start')
     setCurrentNote(note)
   }).finally(() => {
     loading.value = false
@@ -198,13 +198,15 @@ function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
   editor.value?.commands.setContent(docNode, { emitUpdate })
 
   if (focus !== 'none') {
-    editor.value?.commands.focus(focus as 'start')
+    setTimeout(() => {
+      editor.value?.commands.focus(focus as 'start')
+    }, 500)
   }
 }
 
 function loadingNote(note: Indexable) {
   const docNode = note.noteJson
-  setContent(docNode, false, 'start')
+  setContent(docNode, false, 'end')
   setCurrentNote(note, false)
 }
 
@@ -237,9 +239,12 @@ onMounted(async () => {
 <style lang="scss">
 .book-note {
   .yiitap {
-
     .tiptap {
       font-size: 85% !important;
+
+      h1 {
+        font-size: 1.8rem;
+      }
     }
   }
 
@@ -312,7 +317,7 @@ onMounted(async () => {
 }
 
 
-.slash-tippy {
+.slash-tippy, .tippy {
   .tippy-box {
     background: none!important;
   }

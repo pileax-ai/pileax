@@ -25,6 +25,7 @@ export default {
   },
   library: 'Bibliotecă de cărți',
   nextPage: 'Pagina următoare',
+  nextSection: 'Secțiunea următoare',
   player: {
     backward: 'Înapoi',
     forward: 'Redirecţiona',
@@ -43,6 +44,7 @@ export default {
   position: 'Poziția de citire',
   previewPosition: 'Poziția previzualizării',
   prevPage: 'Pagina anterioară',
+  prevSection: 'Secțiunea anterioară',
   reader: 'Cititor',
   search: {
     next: 'Următorul',

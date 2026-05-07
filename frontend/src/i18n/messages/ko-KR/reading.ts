@@ -25,6 +25,7 @@ export default {
   },
   library: '도서관',
   nextPage: '다음 페이지',
+  nextSection: '다음 섹션',
   player: {
     backward: '뒤로',
     forward: '앞으로',
@@ -43,6 +44,7 @@ export default {
   position: '읽기 위치',
   previewPosition: '미리보기 위치',
   prevPage: '이전 페이지',
+  prevSection: '이전 섹션',
   reader: '리더',
   search: {
     next: '다음',

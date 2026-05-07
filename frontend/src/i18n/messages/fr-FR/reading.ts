@@ -25,6 +25,7 @@ export default {
   },
   library: 'Bibliothèque de livres',
   nextPage: 'Page suivante',
+  nextSection: 'Section suivante',
   player: {
     backward: 'En arrière',
     forward: 'Avant',
@@ -43,6 +44,7 @@ export default {
   position: 'Position de lecture',
   previewPosition: 'Position de prévisualisation',
   prevPage: 'Page précédente',
+  prevSection: 'Section précédente',
   reader: 'Lecteur',
   search: {
     next: 'Suivant',

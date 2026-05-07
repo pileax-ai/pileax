@@ -38,8 +38,8 @@
 
         <section class="note">
           <q-scroll-area>
-            <div v-if="data.type === 'highlight'">
-              {{ data.title || data.note }}
+            <div v-if="data.type === 'annotation'">
+              {{ data.title }}
             </div>
             <div v-else>
               <o-markdown-view :text="data.note"></o-markdown-view>

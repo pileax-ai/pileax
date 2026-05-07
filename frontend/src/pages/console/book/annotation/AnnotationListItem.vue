@@ -16,7 +16,7 @@
             <div class="row col-auto items-center q-pl-sm">
               / {{data.page}}
               <q-icon :name="getArrayItem(BookAnnotationTypes, data.type).icon"
-                      :style="{ color: data.color }"
+                      :style="{ color: data.color ? getAnnotationColor(data.color) : '' }"
                       class="q-ml-sm"
                       size="1rem" />
             </div>
@@ -24,8 +24,8 @@
         </section>
       </q-item-label>
       <q-item-label lines="6">
-        <div v-if="data.type === 'highlight'">
-          {{ data.title || data.note }}
+        <div v-if="data.type === 'annotation'">
+          {{ data.title }}
         </div>
         <div v-else>
           <o-markdown-view :text="data.note"></o-markdown-view>
@@ -53,6 +53,7 @@ import OMarkdownView from 'components/form/OMarkdownView.vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 import useMetadata from 'src/hooks/useMetadata'
+import { getAnnotationColor } from 'src/utils/book'
 
 const props = defineProps({
   data: {

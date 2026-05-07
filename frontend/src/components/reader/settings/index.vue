@@ -1,6 +1,7 @@
 <template>
-  <section class="reader-settings bg-secondary no-drag-region">
-    <header class="row col-12 justify-center items-center">
+  <reader-side-view class="reader-settings"
+                    header-class="row col-12 justify-center items-center">
+    <template #header>
       <q-tabs v-model="currentTab"
               active-color="white"
               active-bg-color="primary"
@@ -17,7 +18,9 @@
       <section class="close text-tips">
         <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
       </section>
-    </header>
+    </template>
+
+
     <q-scroll-area class="o-scroll-wrapper">
       <q-tab-panels v-model="currentTab"
                     class="bg-transparent"
@@ -45,7 +48,7 @@
                   @close="onNext('font', false)"
                   v-if="next['font']" />
     </transition>
-  </section>
+  </reader-side-view>
 </template>
 
 <script setup lang="ts">
@@ -54,8 +57,8 @@ import useReaderSetting from 'src/hooks/useReaderSetting'
 import useBook from 'src/hooks/useBook'
 import { changeStyle } from 'src/api/service/ebook/book'
 
+import ReaderSideView from '../ReaderSideView.vue'
 import GeneralTab from './general/index.vue'
-import KeyBindingsTab from './key-bindings/index.vue'
 import FontTab from './font/index.vue'
 import BackgroundTab from './background/index.vue'
 import useCommon from 'core/hooks/useCommon'

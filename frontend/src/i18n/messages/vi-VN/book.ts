@@ -11,6 +11,12 @@ export default {
     no: 'Thêm chú thích',
     noRecords: 'Chưa có chú thích nào. Hãy bắt đầu đọc và đánh dấu một vài điểm quan trọng.'
   },
+  annotationStyle: {
+    highlight: 'Điểm nổi bật',
+    squiggly: 'Đường ngoằn ngoèo',
+    strikethrough: 'Gạch ngang',
+    underline: 'Gạch chân'
+  },
   annotationType: {
     all: 'Tất cả',
     bookmark: 'Đánh dấu trang',

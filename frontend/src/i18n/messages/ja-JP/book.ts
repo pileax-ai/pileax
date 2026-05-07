@@ -11,6 +11,12 @@ export default {
     no: '注釈を追加',
     noRecords: 'まだ注釈がありません。読み始めて、いくつかハイライトしてください。'
   },
+  annotationStyle: {
+    highlight: 'ハイライト',
+    squiggly: '波線',
+    strikethrough: '取り消し線',
+    underline: '下線'
+  },
   annotationType: {
     all: '全て',
     bookmark: 'ブックマーク',

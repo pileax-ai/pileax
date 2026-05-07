@@ -12,7 +12,7 @@
         </span>
     </section>
 
-    <div class="col spacer drag-region">
+    <div class="col spacer">
     </div>
 
     <section class="row col-auto header-right">
@@ -23,8 +23,8 @@
                         v-if="!rightDrawerShow" />
 
     <!-- Hover Toolbar -->
-    <section class="row items-center text-readable top-toolbar toolbar-hover-show">
-      <div class="row col-auto q-px-sm">
+    <section class="row justify-between items-center text-readable top-toolbar toolbar-hover-show">
+      <div class="row col-auto items-center q-px-sm">
         <div class="no-drag-region" v-if="!leftDrawerShow">
           <o-hover-btn icon="icon-sidebar"
                        hover-icon="mdi-backburger rotate-180"
@@ -35,7 +35,6 @@
             <o-tooltip :message="$t('expand')" position="right" transition autohide />
           </o-hover-btn>
         </div>
-        <div class="bookmark" v-if="false" />
         <q-btn icon="o_bookmark_add" class="o-toolbar-btn" flat>
           <o-tooltip position="bottom" transition autohide>
             {{ $t('reading.bookmark.add') }}
@@ -50,13 +49,16 @@
                flat
                @click="onAddNote">
           <o-tooltip position="bottom" transition autohide>
-            {{ $t('reading.aiReading') }}
+            {{ $t('note.add') }}
           </o-tooltip>
         </q-btn>
+
+        <div class="q-px-sm text-readable">
+          {{ book.title }}
+        </div>
       </div>
 
-      <section class="col text-readable">
-        {{ book.title }}
+      <section class="col spacer drag-region">
       </section>
 
       <div class="row col-auto q-px-sm">

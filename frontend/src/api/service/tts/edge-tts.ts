@@ -23,7 +23,7 @@ export class EdgeTTSClient extends BaseTTSClient {
   }
 
   async preload(text: string): Promise<void> {
-    console.log('preload', text)
+    // console.log('preload', text)
     try {
       const id = generateTextId(text)
       const audioData = await getEdgeTTSAudio(text)
@@ -73,7 +73,7 @@ export class EdgeTTSClient extends BaseTTSClient {
       this.state = 'playing'
 
       this.sourceNode.onended = () => {
-        console.log('onended', new Date().getTime() / 1000)
+        // console.log('onended', new Date().getTime() / 1000)
         this.state = 'idle'
         resolve()
       }

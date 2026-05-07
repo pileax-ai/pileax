@@ -15,3 +15,11 @@ export const NoteDefaultCovers = [
   '/images/book/light-willow_bank.jpg',
 ]
 export const BookCollectionDefaultIcon = '🍃'
+
+export const AnnotationColors: Indexable = {
+  red: '#FB7A8B',
+  orange: '#FEC06B',
+  purple: '#A987FF',
+  blue: '#63A2FF',
+  green: '#62CE6F',
+}

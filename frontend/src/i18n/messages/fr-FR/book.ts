@@ -11,6 +11,12 @@ export default {
     no: 'Ajouter une annotation',
     noRecords: 'Aucune annotation pour l\'instant. Commencez à lire et surlignez-en quelques passages.'
   },
+  annotationStyle: {
+    highlight: 'Souligner',
+    squiggly: 'Ondulations',
+    strikethrough: 'barré',
+    underline: 'Souligner'
+  },
   annotationType: {
     all: 'Tous',
     bookmark: 'Signet',

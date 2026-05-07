@@ -89,6 +89,7 @@ const noteStatus = computed({
 
 <style lang="scss">
 .reader-side-panel {
+
   .side-fixed {
     position: fixed;
     left: 0;

@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { QInput } from 'quasar'
 import { useRoute } from 'vue-router'
-import { computed, onActivated, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
+import { computed, onActivated, provide, ref, useTemplateRef, watch } from 'vue'
 import { Editor } from '@tiptap/core'
 import {
   YiiEditor,

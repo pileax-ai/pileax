@@ -13,13 +13,13 @@ import { bookService, userBookService, workspaceBookService } from 'src/api/serv
 import { BookOperation, ReadingMode } from 'src/types/reading'
 import { base64ToFile, getFileSHA1 } from 'src/utils/book'
 import { getErrorMessage } from 'src/utils/request'
+import { globalBus } from 'src/api/event/event-bus'
 
 const { getFileUrl } = useApi()
 const { openDialog } = useDialog()
-const { setQueryTimer, style } = useReader()
+const { style } = useReader()
 const {
   store,
-  workspaceBookId,
   bookId,
   operation,
   setProgress,
@@ -65,11 +65,12 @@ export const postMessage = (name :string, data :any) => {
     case 'onAnnotationClick':
       setSelection({
         ...data,
-        text: data.annotation.note,
+        text: data.annotation.title,
       })
       break
     case 'onClickView':
       setSelection({})
+      globalBus.emit('book-view-clicked')
       break
     case 'onKeydown':
       onKeydown(data)

@@ -11,6 +11,12 @@ export default {
     no: 'Adăugați o adnotație',
     noRecords: 'Încă nu există adnotări. Începeți să citiți și evidențiați câteva.'
   },
+  annotationStyle: {
+    highlight: 'Evidențiați',
+    squiggly: 'Ondulat',
+    strikethrough: 'Tăiere cu o linie',
+    underline: 'Subliniere'
+  },
   annotationType: {
     all: 'Toate',
     bookmark: 'Marcaj',

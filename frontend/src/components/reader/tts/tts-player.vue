@@ -1,6 +1,6 @@
 <template>
-  <section class="tts-player bg-secondary no-drag-region">
-    <header class="row col-12 justify-between items-center text-readable">
+  <reader-side-view class="tts-player" header-class="justify-between text-readable">
+    <template #header>
       <section class="col row items-center">
         <q-icon name="volume_up" size="20px" />
         <span class="q-px-sm">
@@ -11,7 +11,8 @@
       <section class="col-auto">
         <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
       </section>
-    </header>
+    </template>
+
     <q-scroll-area class="o-scroll-wrapper">
       <q-responsive :ratio="1">
         <div class="cover">
@@ -75,7 +76,7 @@
           <o-tooltip position="bottom">定时关闭</o-tooltip>
         </tts-provider-btn>
         <tts-rate-btn icon="speed"
-                      :label="$t('reading.player.speed')"
+                      :label="$t('reading.tts.speed')"
                       anchor="top right"
                       self="bottom right"
                       :min-width="playerWidth">
@@ -93,12 +94,14 @@
         </vue3-marquee>
       </section>
     </q-scroll-area>
-  </section>
+  </reader-side-view>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Vue3Marquee } from 'vue3-marquee'
+
+import ReaderSideView from '../ReaderSideView.vue'
 import TtsProviderBtn from './options/tts-provider-btn.vue'
 import TtsRateBtn from './options/tts-rate-btn.vue'
 

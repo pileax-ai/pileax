@@ -10,6 +10,12 @@ export default {
     add: '添加书摘',
     noRecords: '还没有书摘记录，快去阅读添加吧'
   },
+  annotationStyle: {
+    highlight: '高亮',
+    squiggly: '波浪线',
+    strikethrough: '删除线',
+    underline: '下划线'
+  },
   annotationType: {
     all: '全部',
     bookmark: '书签',

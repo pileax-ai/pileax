@@ -16,6 +16,7 @@
           <template #menu>
             <template v-for="(item, index) in BookAnnotationTypes" :key="index">
               <o-common-item v-bind="item"
+                             color="tips"
                              :active="item.value === currentType"
                              @click="onSelectType(item)"
                              clickable closable dense>

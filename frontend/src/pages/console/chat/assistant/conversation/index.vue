@@ -87,12 +87,12 @@ const showScrollBtn = ref(false)
 const tocRef = ref<InstanceType<typeof OChatToc>>()
 const scrollable = ref(true)
 
-function init() {
+async function init() {
   start.value = route.name === 'chat-start'
   appId.value = (route.params.appId || '') as string
   conversationId.value = (route.params.id || '') as string
   if (conversationId.value) {
-    getConversation()
+    await getConversation()
     getAllChats()
 
     // Resend after replace router
@@ -124,8 +124,7 @@ async function onSend(data: ChatInput, reset = false) {
 
   if (conversationId.value) {
     chatCompletion(data)
-  }
-  else {
+  } else {
     start.value = false
     createConversation(data)
   }
@@ -266,7 +265,7 @@ defineExpose({
   .chat-list {
     width: 100%;
     max-width: 800px;
-    padding: 1rem 0;
+    padding: 1rem;
   }
 
   .start-panel {

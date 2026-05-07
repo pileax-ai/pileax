@@ -35,7 +35,7 @@ export default {
       yellow: '黃色'
     },
     font: {
-      _font: '字體',
+      _: '字體',
       color: '字體顏色',
       family: '字體',
       size: '字體大小'

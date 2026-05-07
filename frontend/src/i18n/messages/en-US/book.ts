@@ -11,6 +11,12 @@ export default {
     no: 'Add Annotation',
     noRecords: 'No annotations yet. Start reading and highlight some.'
   },
+  annotationStyle: {
+    highlight: 'Highlight',
+    squiggly: 'Squiggly',
+    strikethrough: 'Strikethrough',
+    underline: 'Underline'
+  },
   annotationType: {
     all: 'All',
     bookmark: 'Bookmark',
