@@ -28,6 +28,8 @@ declare global {
       ttsPrev: () => Promise<string>;
       ttsNextSection: () => Promise<string>;
       ttsPrevSection: () => Promise<string>;
+      isInside: (cfi: string, rangeCfi: string) => boolean;
+      parseCFI: (cfi: string) => Indexable;
     };
 
     APP_CONFIG: {

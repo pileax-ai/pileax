@@ -51,8 +51,8 @@
       </div>
     </template>
     <template #content>
-      <q-list class="list" :style="`width: ${width}px`" v-if="annotations.length">
-        <template v-for="(item, index) in annotations" :key="index">
+      <q-list class="list" :style="`width: ${width}px`" v-if="list.length">
+        <template v-for="(item, index) in list" :key="index">
           <o-book-annotation-item :item="item" />
         </template>
       </q-list>
@@ -91,6 +91,12 @@ const type = computed(() => {
   return BookAnnotationTypes.value.find(i => i.value === currentType.value)
 })
 
+const list = computed(() => {
+  return currentType.value
+    ? annotations.value.filter(item => item.type === currentType.value)
+    : annotations.value
+})
+
 const actions = computed(() => {
   return [
     {
@@ -113,7 +119,6 @@ const actions = computed(() => {
 
 function onSelectType(item: Indexable) {
   currentType.value = item.value
-  refreshAnnotation()
 }
 
 function onAction (action :any) {

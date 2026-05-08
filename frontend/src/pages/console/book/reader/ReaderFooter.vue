@@ -1,7 +1,10 @@
 <template>
   <footer class="row items-center justify-center read-footer"
           :class="{ 'can-hover': !searchCurrent.top }">
-    <span class="text-tips">
+    <span class="text-cyan"  v-if="showReserve">
+      {{ tempProgress.location?.current }} / {{ tempProgress.location?.total }}
+    </span>
+    <span class="text-tips" v-else>
       {{ progress.location?.current }} / {{ progress.location?.total }}
     </span>
 
@@ -88,7 +91,7 @@ import useReader from 'src/hooks/useReader'
 
 const { t } = useCommon()
 const { setTheme, theme } = useSetting()
-const { store, progress, search } = useBook()
+const { store, progress, tempProgress, search } = useBook()
 const {
   rightDrawer,
   toggleRightDrawerView,

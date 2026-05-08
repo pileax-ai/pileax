@@ -5,11 +5,11 @@
             'right-drawer-closed': !rightDrawerShow
           }">
     <section class="row col-auto items-center header-left">
-      <div class="bookmark"></div>
+      <div class="bookmark" :class="{ 'show': bookmarkId }"></div>
 
-      <span class="text-tips q-ml-xs" v-if="progress.chapterLocation?.current > 1">
-          {{ progress.tocItem?.label }}
-        </span>
+      <div class="text-tips chapter" v-if="progress.chapterLocation?.current > 1">
+        {{ progress.tocItem?.label }}
+      </div>
     </section>
 
     <div class="col spacer">
@@ -35,16 +35,26 @@
             <o-tooltip :message="$t('expand')" position="right" transition autohide />
           </o-hover-btn>
         </div>
-        <q-btn icon="o_bookmark_add" class="o-toolbar-btn" flat>
-          <o-tooltip position="bottom" transition autohide>
-            {{ $t('reading.bookmark.add') }}
-          </o-tooltip>
-        </q-btn>
-        <q-btn icon="o_bookmark_remove" class="o-toolbar-btn" flat>
+
+        <q-btn icon="o_bookmark_remove"
+               class="o-toolbar-btn"
+               flat
+               @click="onRemoveBookmark"
+               v-if="bookmarkId">
           <o-tooltip position="bottom" transition autohide>
             {{ $t('reading.bookmark.remove') }}
           </o-tooltip>
         </q-btn>
+        <q-btn icon="o_bookmark_add"
+               class="o-toolbar-btn"
+               flat
+               @click="onAddBookmark"
+               v-else>
+          <o-tooltip position="bottom" transition autohide>
+            {{ $t('reading.bookmark.add') }}
+          </o-tooltip>
+        </q-btn>
+
         <q-btn icon="o_post_add" class="o-toolbar-btn"
                flat
                @click="onAddNote">
@@ -102,16 +112,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { throttle } from 'quasar'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+
 import useBook from 'src/hooks/useBook'
 import useBookNote from 'src/hooks/useBookNote'
 import useReader from 'src/hooks/useReader'
 import OHoverBtn from 'core/components/button/OHoverBtn.vue'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 import { UUID } from 'core/utils/crypto'
+import { isInside, parseCFI } from 'src/api/service/ebook/book'
+import { globalBus } from 'src/api/event/event-bus'
 
 const { book, progress, search, windowId, clearSearch } = useBook()
-const { openNote } = useBookNote()
+const {
+  bookId,
+  bookmarkId,
+  bookmarks,
+  openNote,
+  saveNoteRemote,
+  deleteNote,
+  setBookmarkId,
+} = useBookNote()
 const {
   leftDrawerShow,
   leftDrawerHoverShow,
@@ -143,6 +165,49 @@ function onAddNote() {
   setRightDrawerView('note', true)
   openNote(id)
 }
+
+function onAddBookmark() {
+  const location = parseCFI(progress.value.cfi)
+  saveNoteRemote({
+    bookId: bookId.value,
+    type: 'bookmark',
+    value: location.start,
+    chapter: progress.value.tocItem?.label,
+    page: progress.value.location?.current || 0,
+  }).then(res => {
+    setBookmarkId(res.id)
+  })
+}
+
+function onRemoveBookmark() {
+  if (bookmarkId.value) {
+    deleteNote({ id: bookmarkId.value })
+  }
+}
+
+function refreshBookmark(data: Indexable) {
+  const rangeCfi = data.cfi
+
+  if (rangeCfi) {
+    for (const item of bookmarks.value) {
+      if (isInside(item.value, rangeCfi)) {
+        setBookmarkId(item.id)
+        return
+      }
+    }
+  }
+  setBookmarkId('')
+}
+
+const debounceRelocated = throttle(refreshBookmark, 500)
+
+onMounted(() => {
+  globalBus.on('relocated', debounceRelocated)
+})
+
+onUnmounted(() => {
+  globalBus.off('relocated', debounceRelocated)
+})
 </script>
 
 <style lang="scss">
@@ -160,12 +225,22 @@ function onAddNote() {
     }
   }
 
-  .bookmark {
+  .header-left {
     position: relative;
-    width: 20px;
     height: 40px;
+
+    .chapter {
+      padding-left: 32px;
+    }
+  }
+
+  .bookmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 60px;
     margin: 0 4px;
-    //background: var(--q-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,18 +248,25 @@ function onAddNote() {
     font-size: 20px;
     cursor: pointer;
 
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 85%, 0% 100%);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, visibility 0.2s;
 
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 85%, 0% 100%);
     background: radial-gradient(
       circle at 80% 10%,
       rgba(255, 255, 255, 0.6) 0%,
       rgba(255, 255, 255, 0) 50%
     ),
     linear-gradient(135deg, #4dabf7 0%, #1971c2 50%, #0b3d66 100%);
-
-    /* 现代 drop-shadow */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-    transition: all 0.2s ease-in-out;
+
+    &.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .spacer {
