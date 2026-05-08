@@ -1,5 +1,5 @@
 export default {
-  intro: 'PileaX AI: One-Stop AI Knowledge Base System',
+  intro: 'PileaX AI: All-in-one AI Knowledge Base System',
   name: 'PileaX',
-  slogan: 'One-stop AI Knowledge Bases'
+  slogan: 'All-in-one AI KnowledgeBases'
 }

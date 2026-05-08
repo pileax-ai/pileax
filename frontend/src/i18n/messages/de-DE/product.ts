@@ -1,5 +1,5 @@
 export default {
-  intro: 'PileaX AI: Umfassendes KI-Wissensdatenbanksystem',
+  intro: 'PileaX AI: All-in-One-KI-Wissensdatenbanksystem',
   name: 'PileaX',
-  slogan: 'KI-Wissensdatenbanken aus einer Hand'
+  slogan: 'All-in-One-KI-Wissensdatenbanken'
 }

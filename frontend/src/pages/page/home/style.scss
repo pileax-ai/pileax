@@ -13,7 +13,7 @@
     padding-top: 100px;
 
     &:first-child {
-      padding-top: 0px;
+      padding-top: 0;
     }
 
     &:last-child {
@@ -21,111 +21,68 @@
     }
   }
 
-  .downloads {
-  }
-  .modes {
-    .mode {
+  .connecting {
+    height: calc(100vh - 160px) !important;
+    padding: 0!important;
+
+    .orbit-container {
       position: relative;
-      height: 200px;
-      padding: 2rem;
-      border-radius: 40px;
-      cursor: pointer;
-      color: white;
-      font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+      width: 60vh;
+      height: 60vh;
+      margin: 1rem;
+      border-radius: 50%;
 
-      &:hover {
-        box-shadow:
-          0 -1px 3px rgba(0, 0, 0, 0.06),
-          0 10px 28px rgba(0, 0, 0, 0.12),
-          0 2px 6px rgba(0, 0, 0, 0.08),
-          0 0 0 1px rgba(0, 0, 0, 0.06) !important;
-      }
 
-      &.selected {
-        .check {
-          visibility: visible;
-        }
+      .orbit-wrapper {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        animation: rotate-all 20s linear infinite;
+
+        border-radius: 50%;
+        border: 0.5px solid transparent;
+        background-image:
+          linear-gradient(var(--q-secondary), var(--q-secondary)),
+          linear-gradient(to right, #00bcd4, #3f51b5, #673ab7, #ffffff, #00bcd4, #3f51b5);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
       }
+    }
+
+    .o-banner {
+      position: relative;
+      width: calc(60vh - 80px);
+      height: calc(60vh - 80px);
+      margin: 1rem;
+      border-radius: 50%;
+      background: url("/images/bg_map.png") right no-repeat;
+      z-index: 1;
 
       .name {
-        font-size: 3.5rem;
-        font-weight: 600;
-      }
-      .desc {
-        font-size: 1.2rem;
-        font-weight: 400;
+        font-size: 6rem;
       }
 
-      .check {
+      .help {
         position: absolute;
+        left: 0;
         right: 0;
-        top: 0;
-        width: 80px;
-        height: 100%;
-        text-align: center;
-        visibility: hidden;
+        bottom: 10px;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .q-icon {
-          color: rgba(255,255,255,0.8);
-          background: rgba(255,255,255,0.1);
-          border-radius: 50%;
+        .q-btn {
+          width: 160px;
+          height: 40px;
+          font-size: 18px;
+          border-radius: 12px;
+          color: #ffffff;
+          background: linear-gradient(to right, #3f51b5, #00bcd4);
         }
       }
     }
-  }
 
-  .app {
-    height: 400px;
-    position: relative;
-  }
-
-  .featured {
-    height: 600px;
-
-    .details {
-      padding-left: 60px;
-
-      .title {
-        font-size: 60px;
-      }
-
-      .user {
-        img {
-          width: 20px;
-          height: 20px;
-          border-radius: 10px;
-        }
-      }
-
-      .card {
-        margin-top: 60px;
-        padding: 32px;
-        background: #fefefe;
-        box-shadow: 0 10px 24px rgb(1 0 95 / 10%);
-        border-radius: 20px;
-
-        .label {
-          font-weight: bold;
-        }
-
-        .price {
-          font-weight: 500;
-          font-size: 36px;
-          line-height: 46px;
-          margin-top: 12px;
-        }
-      }
-
-      .q-btn {
-        min-height: 56px;
-        border-radius: 14px;
-      }
+    .slogan {
+      text-align: center !important;
     }
   }
+
 
   .downloads {
     height: 600px;
@@ -145,52 +102,6 @@
 
     .o-app-download {
       padding: 5rem 0;
-    }
-  }
-
-  .categories {
-    header {
-      text-align: center;
-      padding-bottom: 32px;
-
-      .title {
-        position: relative;
-        font-size: 50px;
-        font-weight: bold;
-
-        span {
-          position: absolute;
-          width: 120px;
-          height: 35px;
-          right: 0px;
-          top: 27px;
-          background: #413eff;
-          opacity: .2;
-        }
-      }
-      .sub-title {
-        font-weight: bold;
-      }
-    }
-
-    .category {
-      padding: 48px 32px;
-      border-radius: 20px;
-      box-shadow: 0 6px 14px rgb(1 0 95 / 10%);
-      cursor: pointer;
-
-      .q-avatar {
-        width: 100%;
-        height: 100%;
-        border-radius: 6px 6px 0 0 !important;
-      }
-    }
-
-    footer {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: bold;
     }
   }
 
@@ -266,4 +177,17 @@
     }
   }
 
+}
+
+@keyframes rotate-all {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.body--light {
+  .page-home {
+    .orbit-wrapper {
+      border: 3px solid transparent !important;
+    }
+  }
 }

@@ -39,6 +39,7 @@ const initApi = async () => {
 
   const apiStore = useApiStore()
   try {
+    apiStore.setConnected(false)
     await apiStore.resetServer()
   } catch (err) {
     console.error('initApi', err)

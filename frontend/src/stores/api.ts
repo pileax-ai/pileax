@@ -53,6 +53,9 @@ export const useApiStore = defineStore('api', {
     setCollabProvider(url: string) {
       this.collabProvider = url
     },
+    setConnected(value: boolean) {
+      this.connected = value
+    },
     async startCheckConnectivity() {
       let interval = 20000
       // Clear any existing timer to prevent overlapping loops

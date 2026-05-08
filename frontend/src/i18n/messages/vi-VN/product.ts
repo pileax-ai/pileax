@@ -1,5 +1,5 @@
 export default {
-  intro: 'PileaX AI: Hệ thống cơ sở tri thức AI toàn diện',
+  intro: 'PileaX AI: Hệ thống cơ sở tri thức AI đa năng',
   name: 'PileaX',
-  slogan: 'Các kho tri thức AI tích hợp'
+  slogan: 'Hệ thống cơ sở tri thức AI đa năng'
 }
