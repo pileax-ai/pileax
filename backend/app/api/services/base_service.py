@@ -26,7 +26,7 @@ class BaseService(Generic[ModelType]):
 
     def get_by_owner(self, owner: Owner, id: UUID, raise_exception=True) -> ModelType:
         obj = self.repo.get(id)
-        self.check_read_permission(owner, obj)
+        self.check_read_permission(owner, obj, raise_exception)
         return obj
 
     def save(self, obj: ModelType, commit: bool = True) -> ModelType:
@@ -34,7 +34,7 @@ class BaseService(Generic[ModelType]):
         newObj = self.repo.get(id)
         if not newObj:
             return self.create(obj, commit)
-        update_dict = obj.model_dump(exclude_unset=True, exclude_none=True)
+        update_dict = obj.model_dump(exclude_unset=True, exclude_none=True, exclude_defaults=True)
         return self.update(id, update_dict, commit)
 
     def create(self, obj: ModelType, commit: bool = True) -> ModelType:
@@ -53,9 +53,9 @@ class BaseService(Generic[ModelType]):
         obj = self.get(id)
         return self.repo.delete(obj)
 
-    def delete_by_owner(self, ower: Owner, id: UUID):
+    def delete_by_owner(self, ower: Owner, id: UUID, raise_exception=True):
         obj = self.get(id)
-        self.check_owner(ower, obj)
+        self.check_owner(ower, obj, raise_exception)
         return self.repo.delete(obj)
 
     def query(self, query: PaginationQuery):
@@ -76,9 +76,14 @@ class BaseService(Generic[ModelType]):
     def exists(self, **filters: Any) -> bool:
         return self.repo.exists(**filters)
 
-    def check_owner(self, owner: Owner, obj: ModelType):
+    def check_owner(self, owner: Owner, obj: ModelType, raise_exception=True):
         if not obj:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"{self.repo.model.__name__} not found")
+            if raise_exception:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, detail=f"{self.repo.model.__name__} not found"
+                )
+            else:
+                return False
 
         if owner.tenant_id and hasattr(obj, "tenant_id") and str(obj.tenant_id) != str(owner.tenant_id):
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
@@ -89,13 +94,18 @@ class BaseService(Generic[ModelType]):
         if owner.user_id and hasattr(obj, "user_id") and str(obj.user_id) != str(owner.user_id):
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
 
-    def check_read_permission(self, owner: Owner, obj: ModelType) -> bool:
+    def check_read_permission(self, owner: Owner, obj: ModelType, raise_exception=True) -> bool:
         """
         Check if owner has read permission
         workspace or user
         """
         if not obj:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"{self.repo.model.__name__} not found")
+            if raise_exception:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, detail=f"{self.repo.model.__name__} not found"
+                )
+            else:
+                return True
 
         owner_workspace_id = owner.workspace.id if owner.workspace else owner.workspace_id
         obj_workspace_id = obj.workspace_id if hasattr(obj, "workspace_id") else None

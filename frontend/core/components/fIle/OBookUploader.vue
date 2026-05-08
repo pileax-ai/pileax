@@ -2,9 +2,9 @@
   <section class="o-book-uploader">
     <q-file v-model="value" class="file-uploader"
             :accept="accept"
-            @update:model-value="updateFiles"
-            multiple
-            outlined>
+            :multiple="multiple"
+            outlined
+            @update:model-value="updateFiles">
       <section class="row col-12 justify-center items-center text-info panel">
         <section class="col-12 text-center tips">
           <div v-if="upload.progress">
@@ -47,18 +47,28 @@
     <div class="text-tips q-mt-sm tips">
       {{ tips }}
     </div>
+    <div class="row col-12 items-center text-red text-bold q-mt-lg" v-if="error">
+      <q-icon name="o_info" size="1.2rem" />
+      <span class="q-ml-xs">
+        {{ error }}
+      </span>
+    </div>
 
     <slot></slot>
   </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { type PropType, reactive, ref } from 'vue'
 import { uploadBook } from 'src/api/service/ebook/book'
-import { notifyInfo } from 'core/utils/control'
+import { notifyInfo, notifyWarning } from 'core/utils/control'
 import useCommon from 'core/hooks/useCommon'
 
-defineProps({
+const props = defineProps({
+  multiple: {
+    type: Boolean,
+    default: false
+  },
   accept: {
     type: String,
     default: `*`
@@ -75,6 +85,10 @@ defineProps({
     type: String,
     default: ''
   },
+  data: {
+    type: Object as PropType<Indexable>,
+    default: () => {}
+  },
 })
 const emit = defineEmits(['completed'])
 
@@ -87,19 +101,25 @@ const upload = reactive({
   progress: 0
 })
 
-const updateFiles = async (files: File[]) => {
-  if (!files.length) return
+const updateFiles = async (files: File | File[]) => {
+  error.value = ''
+  const fileList = Array.isArray(files) ? files : [files]
+  if (!fileList.length) return
 
-  upload.total = files.length
+  upload.total = fileList.length
   for (let i = 0; i < upload.total; i++) {
     upload.progress = (i + 1) / upload.total * 100
-    const file = files.at(i)
+    const file = fileList.at(i)
 
     try {
-      const book = await uploadBook(file!) as Indexable
+      const book = await uploadBook(file!, props.data) as Indexable
       upload.success += 1
-    } catch (err) {
-      console.error(err)
+    } catch (err: any) {
+      if (!props.multiple && props.data.id) {
+        error.value = t(err.message)
+        notifyWarning(error.value)
+        return
+      }
     }
   }
 

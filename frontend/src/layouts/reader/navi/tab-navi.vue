@@ -18,7 +18,7 @@
                 align="justify"
                 mobile-arrows>
           <template v-for="(item, index) in tabs" :key="index">
-            <div>
+            <div v-if="item.show">
               <q-tab :name="item.value"
                      @click="onClickTab(item)">
                 <o-icon :name="item.icon" />
@@ -37,7 +37,7 @@
                     class="fit bg-transparent"
                     keep-alive>
         <template v-for="(item, index) in tabs" :key="index">
-          <q-tab-panel :name="item.value">
+          <q-tab-panel :name="item.value" v-if="item.show">
             <component :is="item.component"
                        :width="width"
                        :class="{ 'no-header': !header }" />
@@ -56,6 +56,7 @@ import AnnotationList from './children/annotation-list.vue'
 import SearchList from './children/search-list.vue'
 import BookInfo from './children/book-info.vue'
 import useReader from 'src/hooks/useReader'
+import useBook from 'src/hooks/useBook'
 import useCommon from 'core/hooks/useCommon'
 
 const props = defineProps({
@@ -77,18 +78,20 @@ const {
   toggleLeftDrawer,
   setActivity,
 } = useReader()
+const { isPhysical } = useBook()
 
 const selectedActivity = ref('toc')
 const activityHovered = ref(false)
 
 const tabs = computed(() => {
   return [
-    { label: t('toc'), value: 'toc', icon: 'toc', component: TocList },
-    { label: t('book.annotation'), value: 'annotation', icon: 'notes', component: AnnotationList },
-    { label: t('search'), value: 'search', icon: 'search', component: SearchList },
-    { label: t('book.info'), value: 'book', icon: 'o_info', component: BookInfo },
+    { label: t('toc'), value: 'toc', icon: 'toc', component: TocList, show: !isPhysical.value },
+    { label: t('book.annotation'), value: 'annotation', icon: 'notes', component: AnnotationList, show: true },
+    { label: t('search'), value: 'search', icon: 'search', component: SearchList, show: !isPhysical.value },
+    { label: t('book.info'), value: 'book', icon: 'o_info', component: BookInfo, show: true },
   ]
 })
+
 
 function onClickTab (item: Indexable) {
   setActivity(item.value)
@@ -96,13 +99,17 @@ function onClickTab (item: Indexable) {
 }
 
 function initActivity() {
-  const activity = 'toc'
+  const activity = isPhysical.value ? 'annotation' : 'toc'
   setActivity(activity)
   selectedActivity.value = activity
 }
 
 watch(() => activity.value, (newValue) => {
   selectedActivity.value = activity.value
+})
+
+watch(isPhysical, (newValue) => {
+  initActivity()
 })
 
 watch(() => consoleMenus.value, (newValue) => {

@@ -129,3 +129,8 @@ class HttpConfig(BaseSettings):
         " when the app is behind a single trusted reverse proxy.",
         default=False,
     )
+
+    HTTP_PROXY: str = Field(
+        description="http proxy",
+        default=None,
+    )

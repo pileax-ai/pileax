@@ -80,7 +80,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         # 1. Filters
         filter_mapping = {
             WorkspaceBook: ["workspace_id", "user_id"],
-            Book: ["title", "extension"],
+            Book: ["title", "extension", "media"],
             UserBook: ["reading_status"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)

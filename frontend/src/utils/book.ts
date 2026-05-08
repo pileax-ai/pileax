@@ -57,3 +57,65 @@ export const detectImageMime = (base64: string) => {
 export const getAnnotationColor = (colorName: string) => {
   return AnnotationColors[colorName] || AnnotationColors.green
 }
+
+export const getWeservUrl = (url: string) => {
+  if (!url || typeof url !== 'string') return url
+
+  const path = url.replace(/^https?:\/\//, '')
+
+  return `https://images.weserv.nl/?url=${encodeURIComponent(path)}`
+}
+
+export const isTitleSimilar = (title1: string, title2: string, threshold = 0.8): boolean => {
+  const normalize = (str: string) =>
+    str.toLowerCase()
+      .replace(/[:：\-—\s]/g, '')
+      .replace(/[[【(（][^[【(（\]】)）]*[\]】)）]$/, '')
+      .trim()
+
+  const s1 = normalize(title1)
+  const s2 = normalize(title2)
+  // console.log('title1', s1)
+  // console.log('title2', s2)
+
+  // simple
+  if (s1 === s2) return true
+  if (!s1 || !s2) return false
+
+  // substring
+  if (s1.includes(s2) || s2.includes(s1)) {
+    const minLength = Math.min(s1.length, s2.length)
+    if (minLength > 2) return true
+  }
+
+  // distance
+  const distance = levenshteinDistance(s1, s2)
+
+  const maxLength = Math.max(s1.length, s2.length)
+  const similarity = 1 - distance / maxLength
+
+  return similarity >= threshold
+}
+
+const levenshteinDistance = (s1: string, s2: string): number => {
+  const m = s1.length
+  const n = s2.length
+
+  let prevRow: number[] = Array.from({ length: n + 1 }, (_, i) => i)
+
+  for (let i = 1; i <= m; i++) {
+    const currRow: number[] = [i]
+
+    for (let j = 1; j <= n; j++) {
+      const cost = s1[i - 1] === s2[j - 1] ? 0 : 1
+      const insert = currRow[j - 1]! + 1
+      const del = prevRow[j]! + 1
+      const replace = prevRow[j - 1]! + cost
+
+      currRow[j] = Math.min(insert, del, replace)
+    }
+    prevRow = currRow
+  }
+
+  return prevRow[n]!
+}

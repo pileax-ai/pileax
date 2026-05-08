@@ -31,11 +31,13 @@ export default {
     add: 'Tambahkan Koleksi',
     removeConfirm: 'Apakah Anda yakin ingin menghapusnya dari koleksi?'
   },
+  deleteConfirm: 'Apakah Anda yakin ingin menghapus buku itu secara permanen?',
   entry: 'Entri Buku',
   filter: {
     all: 'Semua',
     book: 'Buku',
-    pdf: 'PDF'
+    pdf: 'PDF',
+    physical: 'Fisik'
   },
   format: 'Format',
   info: 'Informasi Buku',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'Berisi buku-buku yang Anda unggah dan bagikan dari ruang Anda.',
     noBooks: 'Belum ada buku di perpustakaan. Tambahkan beberapa sekarang.'
   },
+  link: 'Link',
   location: 'Lokasi',
   markFinished: 'Tandai sebagai Selesai',
   media: 'Media Buku',
@@ -59,6 +62,7 @@ export default {
   newEntry: 'Pendatang Baru',
   page: 'Halaman',
   previewTips: 'Dalam mode pratinjau, kemajuan membaca tidak akan disimpan.',
+  published: 'Tahun Terbit',
   publisher: 'Penerbit',
   refInfo: 'Informasi Referensi',
   removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
@@ -72,5 +76,12 @@ export default {
     total: 'Total'
   },
   uploadTime: 'Waktu Unggah',
-  viewFiles: 'Lihat File'
+  viewFiles: 'Lihat File',
+  warning: {
+    exist: 'Buku sudah ada.',
+    inputISBN: 'Silakan masukkan ISBN',
+    isbnExists: 'Buku dengan ISBN ini ada.',
+    isbnNotFound: 'Buku dengan ISBN ini tidak ditemukan',
+    titleNotMatch: 'Judul buku tidak sesuai'
+  }
 }

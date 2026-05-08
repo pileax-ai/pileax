@@ -1,5 +1,6 @@
 <template>
   <section>
+    <book-meta-dialog v-if="type === 'book-meta'" />
     <image-viewer-dialog v-if="type === 'image-viewer'" />
     <tips-dialog v-if="type === 'tips'" />
   </section>
@@ -9,6 +10,7 @@
 import {computed} from 'vue'
 import { useComponentStore } from 'stores/component'
 
+import BookMetaDialog from './BookMetaDialog.vue'
 import ImageViewerDialog from './ImageViewerDialog.vue'
 import TipsDialog from './TipsDialog.vue'
 

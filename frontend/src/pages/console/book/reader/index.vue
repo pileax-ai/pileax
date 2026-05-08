@@ -24,6 +24,11 @@
       </q-btn>
     </nav>
 
+    <!-- Note View -->
+    <section class="foliate-view margin" v-if="isPhysical">
+      <book-note-view />
+    </section>
+
     <!-- Reading View -->
     <section ref="bookRef"
              class="foliate-view"
@@ -31,10 +36,10 @@
              tabindex="-1"
              @click="onClick"
              @focus="onFocus"
-             @blur="onBlur">
+             @blur="onBlur" v-else>
     </section>
 
-    <reader-footer :class="{ 'focus': bookViewFocused }" />
+    <reader-footer :class="{ 'focus': bookViewFocused }" v-if="!isPhysical" />
 
     <!-- Extra -->
     <template #side>
@@ -59,6 +64,7 @@ import ReaderHeader from './ReaderHeader.vue'
 import ReaderFooter from './ReaderFooter.vue'
 import OReaderPage from 'components/page/OReaderPage.vue'
 import ReaderSide from 'components/reader/ReaderSide.vue'
+import BookNoteView from './BookNoteView.vue'
 
 import 'js/ebook.js'
 import { onActivated, ref } from 'vue'
@@ -73,7 +79,7 @@ import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
 
 const route = useRoute()
-const { selection, store, setBook, setBookId, setWindowId } = useBook()
+const { isPhysical, store, setBook, setBookId, setWindowId } = useBook()
 const { openNote } = useBookNote()
 const { setRightDrawerView, setRightDrawerHoverShow } = useReader()
 const { settings } = useReaderSetting()
@@ -145,8 +151,10 @@ async function open(bookId: string, initialCfi = '') {
 }
 
 async function prepareAnnotations(bookId: string) {
-  const annotations = await findBookAnnotation(bookId, 'annotation')
-  renderAnnotations(annotations)
+  if (!isPhysical.value) {
+    const annotations = await findBookAnnotation(bookId, 'annotation')
+    renderAnnotations(annotations)
+  }
 }
 
 function onShare(show = true) {

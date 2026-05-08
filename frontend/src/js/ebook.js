@@ -269,6 +269,10 @@ class Ebook {
   }
 
   addAnnotation(annotation) {
+    if (!annotation.value) {
+      return
+    }
+
     const { value } = annotation;
     const spineCode = (value.split('/')[2].split('!')[0] - 2) / 2;
 
@@ -278,7 +282,7 @@ class Ebook {
 
     this.annotationsByValue.set(value, annotation);
 
-    this.view.addAnnotation(annotation);
+    this.view?.addAnnotation(annotation);
   }
 
   removeAnnotation(cfi) {

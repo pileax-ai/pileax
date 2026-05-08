@@ -37,11 +37,10 @@
              v-if="form.id">
       <o-file-uploader accept=".png,.jpg,.svg"
                        :maxSize="10 * 1024 * 1024"
+                       :preview="getFileUrl(form.coverUrl)"
                        :loading="loading" leading
                        @ready="onLogoReady" />
     </o-field>
-
-    <q-toggle v-model="status" :label="$t('enable')" class="col-6"/>
   </o-simple-form-page>
 </template>
 
@@ -55,6 +54,7 @@ import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 
 import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
+import useApi from 'src/hooks/useApi'
 
 const apiName = 'book'
 const props = defineProps({
@@ -67,8 +67,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['close', 'success'])
 const { form, loading, actions } = useForm()
+const { getFileUrl } = useApi()
 const id = ref('')
-const status = ref(true)
 
 const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },

@@ -23,9 +23,9 @@ const props = defineProps({
     required: true
   },
 })
-const emit = defineEmits(['edit', 'close'])
+const emit = defineEmits(['edit', 'close', 'upload'])
 
-const { downloadBook, removeBook, updateUserBook } = useBookDetails()
+const { downloadBook, removeBook, deleteBook, updateUserBook } = useBookDetails()
 const { t } = useCommon()
 const { openDialog } = useDialog()
 
@@ -52,7 +52,15 @@ const actions = computed(() => {
     {
       label: t('download'),
       value: 'download',
-      icon: 'download',
+      icon: 'mdi-arrow-collapse-down',
+      hidden: !props.data.fileUrl,
+      separator: true
+    },
+    {
+      label: t('upload'),
+      value: 'upload',
+      icon: 'mdi-arrow-collapse-up',
+      hidden: props.data.fileUrl,
       separator: true
     },
     {
@@ -65,7 +73,13 @@ const actions = computed(() => {
     {
       label: t('remove'),
       value: 'remove',
-      icon: 'delete',
+      icon: 'o_delete',
+      class: 'text-orange',
+    },
+    {
+      label: t('delete'),
+      value: 'delete',
+      icon: 'o_delete_forever',
       class: 'text-red',
     },
   ]
@@ -80,11 +94,17 @@ function onAction (action :any) {
     case 'download':
       downloadBook(props.data)
       break
+    case 'upload':
+      emit('upload', props.data)
+      break
     case 'edit':
       emit('edit', props.data)
       break
     case 'remove':
       onRemoveBook()
+      break
+    case 'delete':
+      onDeleteBook()
       break
     case 'status_want':
       updateReadingStatus(1)
@@ -108,6 +128,17 @@ function updateReadingStatus(status: number) {
 
 function onRemoveBook() {
   removeBook(props.data).then(res => {
+    emit('close', {
+      action: 'remove',
+      item: props.data
+    })
+  }).catch(err => {
+    // console.error(err)
+  })
+}
+
+function onDeleteBook() {
+  deleteBook(props.data).then(res => {
     emit('close', {
       action: 'remove',
       item: props.data

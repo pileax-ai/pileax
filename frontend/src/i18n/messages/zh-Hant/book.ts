@@ -30,11 +30,13 @@ export default {
     add: '新增書單',
     removeConfirm: '你確定從書單移除嗎？'
   },
+  deleteConfirm: '你確定永久刪除該書嗎？',
   entry: '書目',
   filter: {
     all: '全部',
     book: '圖書',
-    pdf: 'PDF'
+    pdf: 'PDF',
+    physical: '紙本書'
   },
   format: '格式',
   info: '圖書資訊',
@@ -45,12 +47,13 @@ export default {
     containBooks: '含你上傳、空間共享的書',
     noBooks: '書庫還沒有記錄，快來添加吧'
   },
+  link: '連結',
   location: '位置',
   markFinished: '標記為已讀',
   media: '書類型',
   mediaType: {
     digital: '電子書',
-    physical: '實體書'
+    physical: '紙本書'
   },
   metadata: {
     get: '獲取圖書信息'
@@ -58,6 +61,7 @@ export default {
   newEntry: '新增書目',
   page: '頁碼',
   previewTips: '預覽模式下，不會儲存閱讀進度',
+  published: '出版年',
   publisher: '出版商',
   refInfo: '引用訊息',
   removeConfirm: '你確定從書架中移除嗎？',
@@ -71,5 +75,12 @@ export default {
     total: '共計'
   },
   uploadTime: '上傳時間',
-  viewFiles: '查看文件'
+  viewFiles: '查看文件',
+  warning: {
+    exist: '書已存在',
+    inputISBN: '請輸入ISBN',
+    isbnExists: 'ISBN對應的書已存在',
+    isbnNotFound: 'ISBN對應的書未找到',
+    titleNotMatch: '書名不匹配'
+  }
 }

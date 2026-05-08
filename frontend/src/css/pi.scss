@@ -73,6 +73,11 @@
       height: 40px;
     }
   }
+
+  &.max-height textarea {
+    max-height: 7em;
+    overflow-y: auto !important;
+  }
 }
 
 // --------------------------------------------------------------------------------

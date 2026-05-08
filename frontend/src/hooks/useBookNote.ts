@@ -10,8 +10,16 @@ export default function () {
   const store = useBookStoreWithOut()
   const { setRightDrawerView } = useReader()
 
+  const book = computed(() => {
+    return store.book
+  })
   const bookId = computed(() => {
     return store.bookId
+  })
+  const isPhysical = computed(() => {
+    const media = book.value.media as Indexable[]
+    const physical = media?.find(item => item.type === 'physical')
+    return !!physical && book.value.fileUrl === ''
   })
 
   const annotations = computed(() => {
@@ -20,6 +28,10 @@ export default function () {
 
   const bookmarks = computed(() => {
     return store.annotations.filter(item => item.type === 'bookmark')
+  })
+
+  const notes = computed(() => {
+    return store.annotations.filter(item => item.type === 'note')
   })
 
   const annotationTimer = computed(() => {
@@ -54,7 +66,10 @@ export default function () {
 
   function openNote(id: string) {
     store.setNoteId(id)
-    setRightDrawerView('note', true)
+
+    if (!isPhysical.value) {
+      setRightDrawerView('note', true)
+    }
   }
 
   function setCurrentNote(note: Indexable | null, refresh = true) {
@@ -144,9 +159,11 @@ export default function () {
   return {
     store,
     bookId,
+    isPhysical,
     annotations,
     annotationTimer,
     bookmarks,
+    notes,
     note,
     noteId,
     bookmarkId,

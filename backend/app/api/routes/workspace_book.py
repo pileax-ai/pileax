@@ -36,6 +36,11 @@ async def delete(id: uuid.UUID, controller: WorkspaceBookController = Depends())
     return controller.delete(id)
 
 
+@router.api_delete("/permanent")
+async def delete_permanent(id: uuid.UUID, controller: WorkspaceBookController = Depends()) -> Any:
+    return controller.delete_permanent(id)
+
+
 @router.api_post("/query", response_model=QueryResult[WorkspaceBookPublic])
 async def query(query: PaginationQuery, controller: WorkspaceBookController = Depends()) -> Any:
     return controller.query(query)

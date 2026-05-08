@@ -39,6 +39,9 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(self.user.id, self.workspace_id, id)
 
+    def delete_permanent(self, id: UUID) -> Any:
+        return self.service.delete_permanent_by_owner(self.user.id, self.workspace_id, id)
+
     def get_details(self, id: UUID):
         return self.service.get_details(id)
 

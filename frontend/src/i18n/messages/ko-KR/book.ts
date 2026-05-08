@@ -31,11 +31,13 @@ export default {
     add: '컬렉션 추가',
     removeConfirm: '컬렉션에서 삭제하시는 게 확실합니까?'
   },
+  deleteConfirm: '책을 영구적으로 삭제하시는 게 맞나요?',
   entry: '도서 등록',
   filter: {
     all: '모두',
     book: '서적',
-    pdf: 'PDF'
+    pdf: 'PDF',
+    physical: '물리적'
   },
   format: '체재',
   info: '책 정보',
@@ -46,6 +48,7 @@ export default {
     containBooks: '사용자가 공간에 업로드하고 공유한 책들이 포함되어 있습니다.',
     noBooks: '아직 도서관에 책이 없습니다. 지금 책을 추가해 주세요.'
   },
+  link: '링크',
   location: '위치',
   markFinished: '완료로 표시',
   media: '북미디어',
@@ -59,6 +62,7 @@ export default {
   newEntry: '새 항목',
   page: '페이지',
   previewTips: '미리보기 모드에서는 읽기 진행 상황이 저장되지 않습니다.',
+  published: '출판 연도',
   publisher: '발행자',
   refInfo: '참고 정보',
   removeConfirm: '선반에서 확실히 꺼내신 건가요?',
@@ -72,5 +76,12 @@ export default {
     total: '총'
   },
   uploadTime: '업로드 시간',
-  viewFiles: '파일 보기'
+  viewFiles: '파일 보기',
+  warning: {
+    exist: '책이 이미 존재합니다',
+    inputISBN: 'ISBN을 입력해 주세요.',
+    isbnExists: '이 ISBN을 가진 책이 있습니다.',
+    isbnNotFound: '해당 ISBN을 가진 책을 찾을 수 없습니다.',
+    titleNotMatch: '책 제목이 일치하지 않습니다'
+  }
 }

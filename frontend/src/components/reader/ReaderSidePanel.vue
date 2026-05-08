@@ -27,7 +27,7 @@
       <book-note class="side-fixed"
                  :class="{ 'active': currentView === 'note' }"
                   @close="noteStatus = false;"
-                  v-if="noteStatus && main" />
+                  v-if="noteStatus && noteId && main" />
     </transition>
   </section>
 </template>
@@ -40,6 +40,7 @@ import TtsPlayer from 'src/components/reader/tts/tts-player.vue'
 import BookNote from 'src/components/reader/note/index.vue'
 import OToolBar from 'core/components/electron/OToolBar.vue'
 import useBook from 'src/hooks/useBook'
+import useBookNote from 'src/hooks/useBookNote'
 import useReader from 'src/hooks/useReader'
 
 const props = defineProps({
@@ -50,6 +51,7 @@ const props = defineProps({
 })
 
 const { windowId } = useBook()
+const { noteId } = useBookNote()
 const {
   rightDrawer,
   rightDrawerShow,

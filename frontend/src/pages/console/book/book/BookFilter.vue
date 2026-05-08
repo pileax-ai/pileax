@@ -35,6 +35,7 @@ const emit = defineEmits(['filter'])
 
 const { t, confirm } = useCommon()
 const bookType = ref('')
+const mediaType = ref('')
 const readingStatus = ref('')
 
 const actions = computed(() => {
@@ -60,6 +61,13 @@ const actions = computed(() => {
       icon: 'mdi-file-pdf-box',
       filter: 'extension',
       filterValue: 'pdf',
+    },
+    {
+      label: t('book.filter.physical'),
+      value: 'physical',
+      icon: 'auto_stories',
+      filter: 'media',
+      filterValue: 'physical',
     },
     {
       label: t('reading.status.all'),
@@ -102,12 +110,16 @@ const actions = computed(() => {
 
 function isActive(action: Indexable) {
   return (action.filter === 'extension' && action.value === bookType.value)
+    || (action.filter === 'media' && action.value === bookType.value)
     || (action.filter === 'reading_status' && action.value === readingStatus.value)
 }
 
 function onAction (action: Indexable) {
   switch (action.filter) {
     case 'extension':
+      bookType.value = action.value
+      break
+    case 'media':
       bookType.value = action.value
       break
     case 'reading_status':

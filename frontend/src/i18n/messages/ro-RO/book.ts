@@ -31,11 +31,13 @@ export default {
     add: 'Adăugați o colecție',
     removeConfirm: 'Sigur vrei să elimini din colecție?'
   },
+  deleteConfirm: 'Sigur ștergeți definitiv cartea?',
   entry: 'Intrare în carte',
   filter: {
     all: 'Toate',
     book: 'Cărți',
-    pdf: 'PDF-uri'
+    pdf: 'PDF-uri',
+    physical: 'Fizic'
   },
   format: 'Format',
   info: 'Informații despre carte',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'Conține cărți pe care le-ai încărcat și distribuit din spațiul tău.',
     noBooks: 'Încă nu există cărți în bibliotecă. Adăugați câteva acum.'
   },
+  link: 'Legătură',
   location: 'Locaţie',
   markFinished: 'Marchează ca finalizat',
   media: 'Media de carte',
@@ -59,6 +62,7 @@ export default {
   newEntry: 'Intrare nouă',
   page: 'Pagină',
   previewTips: 'În modul de previzualizare, progresul citirii nu va fi salvat.',
+  published: 'Anul publicării',
   publisher: 'Editor',
   refInfo: 'Informații de referință',
   removeConfirm: 'Sigur vrei să scoți de pe raft?',
@@ -72,5 +76,12 @@ export default {
     total: 'Total'
   },
   uploadTime: 'Ora încărcării',
-  viewFiles: 'Vizualizare fișiere'
+  viewFiles: 'Vizualizare fișiere',
+  warning: {
+    exist: 'Cartea există deja',
+    inputISBN: 'Vă rugăm să introduceți ISBN-ul',
+    isbnExists: 'Există o carte cu acest ISBN',
+    isbnNotFound: 'Cartea cu acest ISBN nu a fost găsită',
+    titleNotMatch: 'Titlul cărții nu se potrivește'
+  }
 }
