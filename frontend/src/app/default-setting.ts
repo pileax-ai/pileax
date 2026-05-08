@@ -2,7 +2,7 @@
  * App default settings
  */
 export default {
-  locale: 'en',
+  locale: '',
   timezone: 'Asia/Shanghai',
   theme: {
     name: 'light',

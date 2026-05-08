@@ -7,6 +7,7 @@
 import { Platform } from 'quasar'
 import packageInfo from '../../package.json'
 import { getAuthorization, getDeviceId, getLocale, getWorkspaceId } from 'src/utils/auth'
+import { Locales } from 'core/constants/metadata'
 
 export const getCommonHeaders = () => {
   const platform = Platform.is
@@ -20,4 +21,18 @@ export const getCommonHeaders = () => {
     'x-workspace-id': getWorkspaceId(),
     'x-device-id': getDeviceId(),
   }
+}
+
+export const getSystemLanguage = () => {
+  const lang = navigator.language?.toLowerCase()
+
+  if (lang) {
+    const locale = Locales.find(item =>
+      item.value.toLowerCase() === lang || item.locale.toLowerCase() === lang)
+    if (locale) {
+      return locale.value
+    }
+  }
+
+  return 'en-US'
 }
