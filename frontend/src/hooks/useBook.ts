@@ -39,6 +39,9 @@ export default function () {
   const progress = computed(() => {
     return store.progress
   })
+  const tempProgress = computed(() => {
+    return store.tempProgress
+  })
   const selection = computed(() => {
     return store.selection
   })
@@ -136,6 +139,7 @@ export default function () {
     bookId,
     workspaceBookId,
     progress,
+    tempProgress,
     selection,
     toc,
     tocItem,

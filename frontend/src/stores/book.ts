@@ -32,6 +32,7 @@ export const useBookStore = defineStore('book', {
     } as Indexable,
     noteId: '',
     note: {} as Indexable,
+    bookmarkId: '',
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -178,7 +179,10 @@ export const useBookStore = defineStore('book', {
     },
     setNote(value: Indexable) {
       this.note = value
-    }
+    },
+    setBookmarkId(value: string) {
+      this.bookmarkId = value
+    },
   },
   persist: {
     key: `${CODE}.book`,

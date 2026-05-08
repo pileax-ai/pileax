@@ -75,7 +75,7 @@ import { globalBus } from 'src/api/event/event-bus'
 const route = useRoute()
 const { selection, store, setBook, setBookId, setWindowId } = useBook()
 const { openNote } = useBookNote()
-const { setRightDrawerView } = useReader()
+const { setRightDrawerView, setRightDrawerHoverShow } = useReader()
 const { settings } = useReaderSetting()
 
 const bookRef = ref(null)
@@ -157,6 +157,7 @@ function onClick() {
   // TODO
   // console.log('click', selection.value)
   // bookViewFocused.value = !bookViewFocused.value
+  setRightDrawerHoverShow(false)
 }
 
 function onFocus() {

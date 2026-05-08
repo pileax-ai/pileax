@@ -24,6 +24,8 @@ export type EbookApi = {
   ttsPrev: () => Promise<string>;
   ttsNextSection: () => Promise<string>;
   ttsPrevSection: () => Promise<string>;
+  isInside: (cfi: string, rangeCfi: string) => boolean;
+  parseCFI: (cfi: string) => Indexable;
 }
 
 export const createEbookRender = (): EbookApi => {

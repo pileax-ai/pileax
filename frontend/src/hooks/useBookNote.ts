@@ -18,6 +18,10 @@ export default function () {
     return store.annotations
   })
 
+  const bookmarks = computed(() => {
+    return store.annotations.filter(item => item.type === 'bookmark')
+  })
+
   const annotationTimer = computed(() => {
     return store.annotationTimer
   })
@@ -30,13 +34,16 @@ export default function () {
     return store.noteId
   })
 
+  const bookmarkId = computed(() => {
+    return store.bookmarkId
+  })
+
   function initAnnotationData(type = '', sort: Indexable = { update_time: 'asc' }) {
     const body = {
       pageIndex: 1,
       pageSize: 10000,
       condition: {
         bookId: bookId.value,
-        type
       },
       sort
     }
@@ -54,7 +61,9 @@ export default function () {
     if (!note) return
 
     // update current note
-    store.setNote(note)
+    if (['annotation', 'note'].includes(note.type)) {
+      store.setNote(note)
+    }
 
     // refresh
     if (refresh) {
@@ -105,6 +114,7 @@ export default function () {
 
   function deleteNote(data: Indexable) {
     const id = data.id
+
     return new Promise((resolve, reject) => {
       removeAnnotation(data)
       bookAnnotationService.delete(id).then(res => {
@@ -118,10 +128,17 @@ export default function () {
         if (id === noteId.value) {
           setRightDrawerView('note', false)
         }
+        if (id === bookmarkId.value) {
+          setBookmarkId('')
+        }
       }).catch(err => {
         reject(err)
       })
     })
+  }
+
+  function setBookmarkId(value: string) {
+    store.setBookmarkId(value)
   }
 
   return {
@@ -129,8 +146,10 @@ export default function () {
     bookId,
     annotations,
     annotationTimer,
+    bookmarks,
     note,
     noteId,
+    bookmarkId,
 
     initAnnotationData,
     openNote,
@@ -139,5 +158,6 @@ export default function () {
     saveNoteRemote,
     saveNote,
     deleteNote,
+    setBookmarkId,
   }
 }

@@ -19,6 +19,7 @@ import { getAnnotationColor } from 'src/utils/book.ts'
 // --------------------------------------------------------------------------------
 
 // Default style
+let globalReader = null;
 let style = defaultSetting;
 
 const setStyle = (userStyle) => {
@@ -282,6 +283,8 @@ class Ebook {
 
   removeAnnotation(cfi) {
     const annotation = this.annotationsByValue.get(cfi)
+    if (!annotation) return
+
     const { value } = annotation
     const spineCode = (value.split('/')[2].split('!')[0] - 2) / 2
 
@@ -342,7 +345,7 @@ class Ebook {
     const cfi = detail.cfi;
     const parts = CFI.parse(cfi);
     if (Array.isArray(parts)) {
-      console.log('Ignore non-range CFI', parts, cfi);
+      // console.log('Ignore non-range CFI', parts, cfi);
       return;
     }
     onRelocated(detail);
@@ -359,6 +362,7 @@ const openBook = async (bookElement, data,
                         { cfi = '', importing = false, userStyle }) => {
   const reader = new Ebook();
   globalThis.reader = reader;
+  globalReader = reader
 
   try {
     await reader.open(bookElement, data.file,
@@ -570,6 +574,33 @@ const search = async (text, opts) => {
 }
 const clearSearch = () => reader.view.clearSearch();
 
+const isInside = (cfi, rangeCfi) => {
+  try {
+    if (cfi.split('!')[0] !== rangeCfi.split('!')[0]) {
+      return false;
+    }
+
+    // Page range
+    const pageStart = CFI.collapse(rangeCfi, false);
+    const pageEnd = CFI.collapse(rangeCfi, true);
+
+    // Check cfi inside [pageStart, pageEnd]
+    const isAfterStart = CFI.compare(cfi, pageStart) >= 0;
+    const isBeforeEnd = CFI.compare(cfi, pageEnd) <= 0;
+
+    return isAfterStart && isBeforeEnd;
+  } catch (e) {
+    return false;
+  }
+}
+
+const parseCFI = (cfi) => {
+  const start = CFI.collapse(cfi, false);
+  const end = CFI.collapse(cfi, true);
+
+  return { start, end }
+}
+
 // --------------------------------------------------------------------------------
 // Ebook API
 // --------------------------------------------------------------------------------
@@ -647,4 +678,6 @@ window.ebook = {
   ttsPrev: ttsPrev,
   ttsNextSection: ttsNextSection,
   ttsPrevSection: ttsPrevSection,
+  isInside,
+  parseCFI,
 }

@@ -112,6 +112,10 @@ const onKeydown = (data: Indexable) => {
 }
 
 const onRelocated = (data: Indexable) => {
+  // Relocated
+  globalBus.emit('relocated', data)
+
+  // Set progress
   if (operation.value === BookOperation.Manual) {
     setProgress(data)
 
@@ -176,11 +180,18 @@ const nextSection = () => {
   ebookRender.nextSection()
 }
 
+const isInside = (cfi: string, rangeCfi: string) => {
+  return ebookRender.isInside(cfi, rangeCfi)
+}
+
+const parseCFI = (cfi: string) => {
+  return ebookRender.parseCFI(cfi)
+}
+
 const setManual = (operation = BookOperation.Manual) => {
   // console.log('operation', operation)
   setOperation(operation)
 }
-
 
 /**
  * Open book
@@ -379,6 +390,8 @@ export {
   changeStyle,
   search,
   clearSearch,
+  isInside,
+  parseCFI,
   setManual,
 
   openBook,
