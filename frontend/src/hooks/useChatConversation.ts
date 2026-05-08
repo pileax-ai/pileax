@@ -39,10 +39,17 @@ export default function () {
     } as MenuItem
     naviStore.setCurrentMenu(menuItem)
   }
+
   async function getConversation() {
-    chatConversationService.get(conversationId.value).then(res => {
-      conversation.value = res
-      setCurrentSession(res)
+    return new Promise((resolve, reject) => {
+      chatConversationService.get(conversationId.value).then(res => {
+        conversation.value = res
+        setCurrentSession(res)
+
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
     })
   }
 

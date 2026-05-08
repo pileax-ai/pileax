@@ -84,7 +84,7 @@ export default function useTTS() {
     } catch (err) {
       console.debug('togglePlayPause err')
     }
-    console.log('after toggle', ttsClient.value?.state)
+    // console.log('after toggle', ttsClient.value?.state)
   }
 
   const setProvider = (value: any) => {

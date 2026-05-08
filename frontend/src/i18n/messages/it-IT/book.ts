@@ -11,6 +11,12 @@ export default {
     no: 'Aggiungi annotazione',
     noRecords: 'Nessuna annotazione ancora. Inizia a leggere ed evidenziane alcune.'
   },
+  annotationStyle: {
+    highlight: 'Evidenziare',
+    squiggly: 'Ondulato',
+    strikethrough: 'Barrato',
+    underline: 'Sottolineare'
+  },
   annotationType: {
     all: 'Tutto',
     bookmark: 'Segnalibro',

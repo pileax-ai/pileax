@@ -5,11 +5,11 @@
           @click="onClick">
     <q-item-section class="row item-label">
       <q-item-label lines="2">
-        {{ item.title || item.note }}
+        {{ item.title }}
       </q-item-label>
       <q-item-label lines="1" caption>
         <q-icon :name="getArrayItem(BookAnnotationTypes, item.type).icon"
-                :style="{ color: item.color }"
+                :style="{ color: item.color ? getAnnotationColor(item.color) : '' }"
                 size="1rem" />
         {{ item.chapter }}
       </q-item-label>
@@ -51,6 +51,7 @@ import useBookNote from 'src/hooks/useBookNote'
 import useReader from 'src/hooks/useReader'
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
+import { getAnnotationColor } from 'src/utils/book'
 
 const props = defineProps({
   item: {
@@ -65,7 +66,6 @@ const { t, confirm } = useCommon()
 const { store } = useBook()
 const { noteId, openNote, deleteNote } = useBookNote()
 const { BookAnnotationTypes, getArrayItem } = useMetadata()
-const { setRightDrawerView } = useReader()
 
 const actions = computed(() => {
   return [
@@ -80,7 +80,6 @@ const actions = computed(() => {
 })
 
 function onAction (action :Indexable) {
-  console.log('onAction', action)
   switch (action.value) {
     case 'delete':
       onDelete()
@@ -91,14 +90,10 @@ function onAction (action :Indexable) {
 }
 
 function onDelete() {
-  console.log('delete')
   confirm(t('deleteConfirm'), {
     label: props.item.title,
     onOk: () => {
-      deleteNote(props.item.id)
-      if (props.item.id === noteId.value) {
-        setRightDrawerView('note', false)
-      }
+      deleteNote(props.item)
     }
   })
 }
@@ -107,8 +102,8 @@ function onClick() {
   store.setAnnotationId(props.item.id)
   window.ebook.goToHref(props.item.value)
 
-  if (props.item.type === 'note') {
-    setRightDrawerView('note', true)
+  const type = props.item.type
+  if (type === 'note' || (type === 'annotation' && props.item.note)) {
     openNote(props.item.id)
   }
 }

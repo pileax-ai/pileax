@@ -4,6 +4,7 @@ import { notifySuccess } from 'core/utils/control'
 import { useComponentStoreWithOut } from 'stores/component'
 import { ipcProvider, ipcService } from 'src/api/ipc'
 import OBadge from 'core/components/misc/OBadge.vue'
+import { markRaw } from 'vue'
 
 export const isMobile = Platform.is.mobile
 export const getArrayItem = (array :Indexable[], value :string, field = '') => {
@@ -52,7 +53,9 @@ export default function () {
     ]
     if (label) {
       messages.push({
-        type: 'component', component: OBadge, props: {
+        type: 'component',
+        component: markRaw(OBadge),
+        props: {
           icon: icon,
           label: label,
           color: color

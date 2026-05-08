@@ -25,6 +25,7 @@ export default {
   },
   library: 'Perpustakaan Buku',
   nextPage: 'Halaman Berikutnya',
+  nextSection: 'Bagian Selanjutnya',
   player: {
     backward: 'Ke belakang',
     forward: 'Maju',
@@ -43,6 +44,7 @@ export default {
   position: 'Posisi Membaca',
   previewPosition: 'Pratinjau Posisi',
   prevPage: 'Halaman Sebelumnya',
+  prevSection: 'Bagian Sebelumnya',
   reader: 'Pembaca',
   search: {
     next: 'Berikutnya',

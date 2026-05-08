@@ -11,6 +11,12 @@ export default {
     no: 'Tambahkan Anotasi',
     noRecords: 'Belum ada anotasi. Mulai membaca dan sorot beberapa bagian.'
   },
+  annotationStyle: {
+    highlight: 'Menyorot',
+    squiggly: 'Bergelombang',
+    strikethrough: 'Garis tengah',
+    underline: 'Menggarisbawahi'
+  },
   annotationType: {
     all: 'Semua',
     bookmark: 'Tandai',

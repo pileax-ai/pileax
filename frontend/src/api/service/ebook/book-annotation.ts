@@ -12,12 +12,16 @@ import { bookAnnotationService } from 'src/api/service/remote/book-annotation'
 const addAnnotation = async (annotation: any) => {
   // console.log('annotation', annotation)
   ebookRender.addAnnotation(annotation)
-  await bookAnnotationService.save(annotation)
+  return bookAnnotationService.save(annotation)
+}
+
+const updateAnnotation = async (annotation: Indexable, data: Indexable) => {
+  ebookRender.addAnnotation(annotation)
+  return bookAnnotationService.update(data)
 }
 
 const removeAnnotation = async (annotation: any) => {
   ebookRender.removeAnnotation(annotation.value)
-  await bookAnnotationService.delete(annotation.id)
 }
 
 const renderAnnotations = (annotations: []) => {
@@ -37,6 +41,7 @@ const findBookAnnotation = async (bookId: string, type = '') => {
 
 export {
   addAnnotation,
+  updateAnnotation,
   removeAnnotation,
   renderAnnotations,
   findBookAnnotation,

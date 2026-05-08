@@ -100,7 +100,6 @@ export abstract class BaseTTSClient implements TTSClient {
 
     let current = text
     while (this.continuous) {
-      console.log('playContinuous')
       try {
         if (this.preloadEnabled) {
           this.preloadNext()

@@ -2,7 +2,7 @@
   <o-reader-page class="page-reader"
                  content-class="reader-view"
                  extension-only>
-    <reader-header />
+    <reader-header :class="{ 'focus': bookViewFocused }" />
 
     <!-- Nav -->
     <nav class="row items-center justify-center navi-left"
@@ -34,7 +34,7 @@
              @blur="onBlur">
     </section>
 
-    <reader-footer />
+    <reader-footer :class="{ 'focus': bookViewFocused }" />
 
     <!-- Extra -->
     <template #side>
@@ -70,15 +70,17 @@ import { bookAnnotationService, bookService } from 'src/api/service/remote'
 import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 import useReader from 'src/hooks/useReader'
+import { globalBus } from 'src/api/event/event-bus'
 
 const route = useRoute()
-const { store, setBook, setBookId, setWindowId } = useBook()
+const { selection, store, setBook, setBookId, setWindowId } = useBook()
 const { openNote } = useBookNote()
 const { setRightDrawerView } = useReader()
 const { settings } = useReaderSetting()
 
 const bookRef = ref(null)
 const showShareDialog = ref(false)
+const bookViewFocused = ref(false)
 const loading = ref(false)
 
 function prepareOpen() {
@@ -143,7 +145,7 @@ async function open(bookId: string, initialCfi = '') {
 }
 
 async function prepareAnnotations(bookId: string) {
-  const annotations = await findBookAnnotation(bookId, 'highlight')
+  const annotations = await findBookAnnotation(bookId, 'annotation')
   renderAnnotations(annotations)
 }
 
@@ -152,7 +154,9 @@ function onShare(show = true) {
 }
 
 function onClick() {
-  console.log('click')
+  // TODO
+  // console.log('click', selection.value)
+  // bookViewFocused.value = !bookViewFocused.value
 }
 
 function onFocus() {
@@ -165,6 +169,7 @@ function onBlur() {
 
 onActivated(() => {
   prepareOpen()
+  globalBus.on('book-view-clicked', onClick)
 })
 </script>
 
@@ -197,7 +202,7 @@ onActivated(() => {
   }
 
   header.can-hover, footer.can-hover {
-    &:hover, &:focus-within {
+    &:hover, &.focus {
       .toolbar-hover-show {
         visibility: visible;
         opacity: 1;

@@ -25,6 +25,7 @@ export default {
   },
   library: '書籍ライブラリ',
   nextPage: '次のページ',
+  nextSection: '次のセクション',
   player: {
     backward: '後方',
     forward: 'フォワード',
@@ -43,6 +44,7 @@ export default {
   position: '読書位置',
   previewPosition: 'プレビュー位置',
   prevPage: '前のページ',
+  prevSection: '前のセクション',
   reader: 'リーダー',
   search: {
     next: '次',

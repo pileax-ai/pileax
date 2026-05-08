@@ -36,7 +36,7 @@
               {{ description }}
             </div>
           </header>
-          <o-chat-input @send="onSend" :tag="tag" />
+          <o-chat-input v-model="inputMessage" @send="onSend" :tag="tag" />
           <footer></footer>
         </section>
         <section class="chat-list" v-else>
@@ -88,7 +88,8 @@
       </section>
 
       <footer class="row col-12 justify-center footer">
-        <o-chat-input :loading="isLoading"
+        <o-chat-input v-model="inputMessage"
+                      :loading="isLoading"
                       :tag="tag"
                       :dense="dense"
                       :notify="refType === 'book' ? 'notify' : 'dialog'"
@@ -192,6 +193,7 @@ const { isLoading, startStream, cancelStream } = useStream()
 const scrollRef = ref<InstanceType<typeof QScrollArea>>()
 const conversationsRef = ref<InstanceType<typeof ChatConversations>>()
 const tocRef = ref<InstanceType<typeof OChatToc>>()
+const inputMessage = ref('')
 const start = ref(false)
 const chats = ref<Indexable[]>([])
 const newChat = ref<Indexable>({})
@@ -398,6 +400,11 @@ const send = (message: string) => {
   })
 }
 
+const setMessage = (message: string) => {
+  console.log('ss', message)
+  inputMessage.value = message
+}
+
 watch(chats, (newValue) => {
   emit('chats', newValue)
 })
@@ -411,7 +418,8 @@ onBeforeMount(() => {
 })
 
 defineExpose({
-  send: send
+  send: send,
+  setMessage: setMessage
 })
 </script>
 

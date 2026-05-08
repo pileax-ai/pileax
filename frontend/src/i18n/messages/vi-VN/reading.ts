@@ -25,6 +25,7 @@ export default {
   },
   library: 'Thư viện sách',
   nextPage: 'Trang tiếp theo',
+  nextSection: 'Phần tiếp theo',
   player: {
     backward: 'Lùi lại',
     forward: 'Phía trước',
@@ -43,6 +44,7 @@ export default {
   position: 'Tư thế đọc',
   previewPosition: 'Xem trước vị trí',
   prevPage: 'Trang trước',
+  prevSection: 'Phần trước',
   reader: 'Người đọc',
   search: {
     next: 'Kế tiếp',

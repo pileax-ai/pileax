@@ -97,11 +97,17 @@ export default function () {
     store.setRightDrawerItem({key: 'width', value: value})
   }
 
-  function setRightDrawerView(view: 'note' | 'settings' | 'tts', value: boolean) {
+  function setRightDrawerView(view: 'agent' | 'note' | 'settings' | 'tts', value: boolean) {
     store.setRightDrawerItem({key: view, value: value})
     if (value) {
       store.setRightDrawerItem({key: 'view', value: view})
-      store.showRightDrawer()
+      // store.showRightDrawer()
+
+      if (!rightDrawerShow.value) {
+        setTimeout(() => {
+          setRightDrawerHoverShow(true)
+        }, 100)
+      }
     }
   }
 

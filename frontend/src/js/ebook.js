@@ -12,6 +12,7 @@ import {
 } from './utils';
 import { defaultSetting, scrollbarStyles } from 'src/app/default-reader-setting';
 import { postMessage } from 'src/api/service/ebook/book.js';
+import { getAnnotationColor } from 'src/utils/book.ts'
 
 // --------------------------------------------------------------------------------
 // Ebook Logic
@@ -209,13 +210,29 @@ class Ebook {
     });
     view.addEventListener('draw-annotation', e => {
       const { draw, annotation } = e.detail
-      const { color } = annotation
-      draw(Overlayer.highlight, { color })
+      const { color, style } = annotation
+      let overlay
+      switch (style) {
+        case 'underline':
+          overlay = Overlayer.underline
+          break
+        case 'squiggly':
+          overlay = Overlayer.squiggly
+          break
+        case 'strikethrough':
+          overlay = Overlayer.strikethrough
+          break
+        default:
+          overlay = Overlayer.highlight
+          break
+      }
+
+      draw(overlay, { color: getAnnotationColor(color) })
     });
     view.addEventListener('show-annotation', e => {
       const annotation = this.annotationsByValue.get(e.detail.value);
       const pos = getPosition(e.detail.range);
-      if (annotation.note) {
+      if (annotation.title) {
         onAnnotationClick(annotation, pos);
       }
     });
@@ -280,13 +297,14 @@ class Ebook {
 
   renderAnnotations(list) {
     for (const item of list) {
-      const { id, value, type, color, note } = item;
+      const { id, value, type, style, color, title } = item;
       const annotation = {
         id,
         value,
         type,
+        style,
         color,
-        note
+        title,
       }
 
       this.addAnnotation(annotation);
@@ -572,6 +590,7 @@ const clearSelection = () =>
 const initTTS = () => reader.view.initTTS();
 const ttsStart = async () => {
   await initTTS();
+  console.log('range', reader.view.lastLocation.range)
   return reader.view.tts.from(reader.view.lastLocation.range);
 };
 const ttsResume = () => reader.view.tts.resume();

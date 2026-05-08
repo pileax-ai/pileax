@@ -1,71 +1,74 @@
 <template>
-  <header class="row col-12 justify-between items-center text-readable toolbar">
-    <section class="col row items-center">
-      <o-menu-btn :label="tab?.label"
-                  class="bg-accent"
-                  anchor="bottom left"
-                  self="top left"
-                  min-width="240px"
-                  flat dense dropdown>
-        <template #icon>
-          <o-icon :name="tab?.icon" width="20px" />
-        </template>
-        <template #menu>
-          <template v-for="(item, index) in tabs" :key="index">
-            <q-separator class="bg-accent" v-if="item.separator" />
-            <q-item-label caption v-if="item.group">
-              {{item.group}}
-            </q-item-label>
-            <o-common-item v-bind="item"
-                           :class="{ 'active': item.value === tab.value }"
-                           @click="onSelectTab(item)"
-                           clickable closable dense right-side>
-              <template #side>
-                <q-btn icon="close" flat round dense
-                       v-if="!['chat', 'agentAdd', 'serviceAdd'].includes(item.value) && false">
-                  <o-tooltip position="right">{{$t('remove')}}</o-tooltip>
-                </q-btn>
-              </template>
-            </o-common-item>
+  <section class="agent-view no-drag-region side-fixed"
+           :class="{ 'active': currentView === 'agent' }">
+    <header class="row col-12 justify-between items-center text-readable toolbar">
+      <section class="col row items-center">
+        <o-menu-btn :label="tab?.label"
+                    class="bg-accent"
+                    anchor="bottom left"
+                    self="top left"
+                    min-width="240px"
+                    flat dense dropdown>
+          <template #icon>
+            <o-icon :name="tab?.icon" width="20px" />
           </template>
-        </template>
-      </o-menu-btn>
-    </section>
-
-    <section class="col-auto">
-      <q-btn icon="more_horiz" class="o-toolbar-btn" flat>
-        <q-menu class="pi-menu">
-          <q-list :style="{minWidth: '200px'}">
-            <template v-for="(action, index) in actions" :key="`action-${index}`">
-              <template v-if="action.show">
-                <q-separator class="bg-accent" v-if="action.separator" />
-                <o-common-item v-bind="action"
-                               class="text-tips"
-                               :class="{ 'active': action.selected }"
-                               @click="onAction(action)"
-                               clickable closable right-side>
-                  <template #side>
-                    <q-icon name="check" size="14px" v-if="action.selected" />
-                  </template>
-                </o-common-item>
-              </template>
+          <template #menu>
+            <template v-for="(item, index) in tabs" :key="index">
+              <q-separator class="bg-accent" v-if="item.separator" />
+              <q-item-label caption v-if="item.group">
+                {{item.group}}
+              </q-item-label>
+              <o-common-item v-bind="item"
+                             :class="{ 'active': item.value === tab.value }"
+                             @click="onSelectTab(item)"
+                             clickable closable dense right-side>
+                <template #side>
+                  <q-btn icon="close" flat round dense
+                         v-if="!['chat', 'agentAdd', 'serviceAdd'].includes(item.value) && false">
+                    <o-tooltip position="right">{{$t('remove')}}</o-tooltip>
+                  </q-btn>
+                </template>
+              </o-common-item>
             </template>
-          </q-list>
-        </q-menu>
-      </q-btn>
-    </section>
-  </header>
-  <q-scroll-area class="o-scroll-wrapper" :class="{'with-title-bar': rightDrawerShow}">
-    <q-tab-panels v-model="currentTab"
-                  class="o-page-container bg-transparent"
-                  keep-alive>
-      <template v-for="(item, index) in components" :key="index">
-        <q-tab-panel :name="item.value">
-          <component :is="item.component" :item="item.item" />
-        </q-tab-panel>
-      </template>
-    </q-tab-panels>
-  </q-scroll-area>
+          </template>
+        </o-menu-btn>
+      </section>
+
+      <section class="col-auto">
+        <q-btn icon="more_horiz" class="o-toolbar-btn" flat>
+          <q-menu class="pi-menu" :offset="[0, 4]">
+            <q-list :style="{minWidth: '200px'}">
+              <template v-for="(action, index) in actions" :key="`action-${index}`">
+                <template v-if="action.show">
+                  <q-separator class="bg-accent" v-if="action.separator" />
+                  <o-common-item v-bind="action"
+                                 class="text-tips"
+                                 :class="{ 'active': action.selected }"
+                                 @click="onAction(action)"
+                                 clickable closable right-side>
+                    <template #side>
+                      <q-icon name="check" size="14px" v-if="action.selected" />
+                    </template>
+                  </o-common-item>
+                </template>
+              </template>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </section>
+    </header>
+    <q-scroll-area class="o-scroll-wrapper" :class="{'with-title-bar': rightDrawerShow}">
+      <q-tab-panels v-model="currentTab"
+                    class="o-page-container bg-transparent"
+                    keep-alive>
+        <template v-for="(item, index) in components" :key="index">
+          <q-tab-panel :name="item.value">
+            <component :is="item.component" :item="item.item" />
+          </q-tab-panel>
+        </template>
+      </q-tab-panels>
+    </q-scroll-area>
+  </section>
 
   <transition appear
               enter-active-class="animated slideInRight"
@@ -89,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
 import ReaderSide from 'components/reader/ReaderSide.vue'
 import AiAgentManager from 'components/reader/agent/ai-agent-manager.vue'
@@ -121,6 +124,8 @@ const {
 } = useReader()
 const addAiAgentStatus = ref(false)
 const addServiceStatus = ref(false)
+
+const currentView = computed(() => rightDrawer.value.view)
 
 const currentTab = computed({
   get() {
@@ -207,7 +212,7 @@ const actions = computed(() => {
     {
       label: t('pin'),
       value: 'pin',
-      icon: 'pin',
+      icon: 'mdi-pin-outline',
       show: !rightDrawerShow.value,
       separator: true
     },
@@ -284,11 +289,8 @@ function onClose() {
 }
 
 function onPin() {
-  const show = rightDrawerShow.value
+  setRightDrawerHoverShow(false)
   toggleRightDrawer()
-  if (show) {
-    setRightDrawerHoverShow(true)
-  }
 }
 
 onBeforeMount(() => {

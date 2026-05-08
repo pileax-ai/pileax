@@ -11,6 +11,12 @@ export default {
     no: 'Dodaj adnotację',
     noRecords: 'Brak jeszcze adnotacji. Zacznij czytać i zaznacz niektóre.'
   },
+  annotationStyle: {
+    highlight: 'Atrakcja',
+    squiggly: 'Kręcony',
+    strikethrough: 'Przekreślenie',
+    underline: 'Podkreślać'
+  },
   annotationType: {
     all: 'Wszystko',
     bookmark: 'Zakładka w książce',

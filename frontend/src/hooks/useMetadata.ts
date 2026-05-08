@@ -25,7 +25,7 @@ export default function() {
   const BookAnnotationTypes = computed(() => {
     return [
       { label: t('book.annotationType.all'), value: '', color: 'blue-grey', icon: 'notes' },
-      { label: t('book.annotationType.highlight'), value: 'highlight', color: 'lime', icon: 'square' },
+      { label: t('book.annotationType.highlight'), value: 'annotation', color: 'lime', icon: 'square' },
       { label: t('book.annotationType.bookmark'), value: 'bookmark', color: 'blue', icon: 'bookmark' },
       { label: t('book.annotationType.note'), value: 'note', color: 'purple', icon: 'article' },
     ]

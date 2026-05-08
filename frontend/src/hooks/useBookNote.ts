@@ -3,9 +3,12 @@ import { useBookStoreWithOut } from 'stores/book'
 import { computed } from 'vue'
 import { bookAnnotationService } from 'src/api/service/remote'
 import { debounce } from 'quasar'
+import useReader from 'src/hooks/useReader'
+import { removeAnnotation } from 'src/api/service/ebook/book-annotation'
 
 export default function () {
   const store = useBookStoreWithOut()
+  const { setRightDrawerView } = useReader()
 
   const bookId = computed(() => {
     return store.bookId
@@ -44,6 +47,7 @@ export default function () {
 
   function openNote(id: string) {
     store.setNoteId(id)
+    setRightDrawerView('note', true)
   }
 
   function setCurrentNote(note: Indexable | null, refresh = true) {
@@ -60,9 +64,11 @@ export default function () {
 
   function refreshNote(data: Indexable) {
     // console.log('refreshNote', note, publish)
-    const index = annotations.value.findIndex((n) => n.id === data.id)
-    if (index >= 0) {
-      annotations.value.splice(index, 1, data)
+    const idx = annotations.value.findIndex((n) => n.id === data.id)
+    if (idx >= 0) {
+      const oldData = annotations.value.at(idx)
+      const newData = { ...oldData, ...data }
+      annotations.value.splice(idx, 1, newData)
     } else {
       initAnnotationData()
     }
@@ -97,14 +103,20 @@ export default function () {
     }
   }
 
-  function deleteNote(id: string) {
+  function deleteNote(data: Indexable) {
+    const id = data.id
     return new Promise((resolve, reject) => {
+      removeAnnotation(data)
       bookAnnotationService.delete(id).then(res => {
         resolve(res)
 
         const index = annotations.value.findIndex((n) => n.id === id)
         if (index >= 0) {
           annotations.value.splice(index, 1)
+        }
+
+        if (id === noteId.value) {
+          setRightDrawerView('note', false)
         }
       }).catch(err => {
         reject(err)
@@ -122,6 +134,7 @@ export default function () {
 
     initAnnotationData,
     openNote,
+    refreshNote,
     setCurrentNote,
     saveNoteRemote,
     saveNote,

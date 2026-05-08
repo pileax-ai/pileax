@@ -26,6 +26,10 @@ export const defaultSetting = {
   viewMargin: false,
   spread: 'none',
   zoom: 'fit-width',
+
+  // annotation
+  annStyle: 'highlight',
+  annColor: 'green',
 } as Indexable
 
 export const scrollbarStyles = () => {

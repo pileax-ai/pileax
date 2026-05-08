@@ -11,6 +11,12 @@ export default {
     no: '주석 추가',
     noRecords: '아직 주석이 없습니다. 읽기를 시작하고 중요한 부분을 강조 표시하세요.'
   },
+  annotationStyle: {
+    highlight: '가장 밝은 부분',
+    squiggly: '구불구불한',
+    strikethrough: '취소선',
+    underline: '밑줄'
+  },
   annotationType: {
     all: '모두',
     bookmark: '서표',

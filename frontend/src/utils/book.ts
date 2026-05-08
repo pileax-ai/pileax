@@ -6,6 +6,7 @@
 import CryptoJS from 'crypto-js'
 import sha1 from 'crypto-js/sha1'
 import encHex from 'crypto-js/enc-hex'
+import { AnnotationColors } from 'core/constants/constant'
 
 export const getFileSHA1 =  async (file: File): Promise<string> => {
   const arrayBuffer = await file.arrayBuffer()
@@ -51,4 +52,8 @@ export const detectImageMime = (base64: string) => {
   if (base64.startsWith('Qk')) return 'image/bmp'
 
   return 'application/octet-stream'
+}
+
+export const getAnnotationColor = (colorName: string) => {
+  return AnnotationColors[colorName] || AnnotationColors.green
 }

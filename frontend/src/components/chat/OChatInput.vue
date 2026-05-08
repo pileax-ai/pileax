@@ -1,6 +1,6 @@
 <template>
   <o-common-card class="chat-input-card" accent>
-    <header class="row col-12 justify-between items-center">
+    <nav class="row col-12 justify-between items-center">
       <div class="menu">
         <q-btn icon="mdi-creation"
                class="text-tips bg-accent"
@@ -11,14 +11,14 @@
       <div class="tag" v-if="tag">
         <o-chip color="blue" dense>@{{ tag }}</o-chip>
       </div>
-    </header>
+    </nav>
     <q-input ref="inputRef"
              v-model="input"
              :placeholder="$t('chat.sendMessage')"
              autogrow
              borderless
              autofocus
-             @keydown="onKeydown" />
+             @keydown="onKeydown" @update:modelValue="emit('update:modelValue', $event)" />
     <div class="row justify-between">
       <div class="row items-end">
         <o-ai-model-select-btn type="chat" single icon-only local round>
@@ -60,13 +60,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { ChatInput } from 'src/types/chat'
 import useAi from 'src/hooks/useAi'
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 import { UUID } from 'core/utils/crypto'
 
 const props = defineProps({
+  modelValue: {
+    type: String,
+    default: ''
+  },
   loading: {
     type: Boolean,
     default: false
@@ -88,7 +92,7 @@ const props = defineProps({
     default: 'dialog'
   },
 })
-const emit = defineEmits(['send', 'stop'])
+const emit = defineEmits(['send', 'stop', 'update:modelValue'])
 
 const { localModels, checkAiSettings } = useAi()
 const input = ref()
@@ -138,6 +142,14 @@ function onStop() {
 function reset() {
   input.value = ''
 }
+
+watch(() => props.modelValue, (newValue) => {
+  input.value = newValue
+})
+
+onMounted(() => {
+  input.value = props.modelValue
+})
 </script>
 
 <style lang="scss">

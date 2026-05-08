@@ -11,6 +11,12 @@ export default {
     no: 'Добавить аннотацию',
     noRecords: 'Аннотации пока отсутствуют. Начните читать и выделите некоторые фрагменты текста.'
   },
+  annotationStyle: {
+    highlight: 'Выделять',
+    squiggly: 'Волнистый',
+    strikethrough: 'Зачеркнуто',
+    underline: 'Подчеркнуть'
+  },
   annotationType: {
     all: 'Все',
     bookmark: 'Добавить в закладки',

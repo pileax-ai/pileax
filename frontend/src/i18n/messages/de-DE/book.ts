@@ -11,6 +11,12 @@ export default {
     no: 'Anmerkung hinzufügen',
     noRecords: 'Noch keine Anmerkungen. Fang an zu lesen und markiere einige Stellen.'
   },
+  annotationStyle: {
+    highlight: 'Highlight',
+    squiggly: 'Kringelig',
+    strikethrough: 'Durchgestrichen',
+    underline: 'Unterstreichen'
+  },
   annotationType: {
     all: 'Alle',
     bookmark: 'Lesezeichen',

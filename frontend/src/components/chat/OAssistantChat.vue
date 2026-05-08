@@ -9,20 +9,23 @@
             {{ $t('ai.model') }}
           </o-tooltip>
         </o-ai-model-select-btn>
-        <q-btn icon="language" flat />
-        <q-btn flat>
-          <q-icon name="attachment" class="rotate-315" />
-          <o-tooltip position="top" transition>
-            <div class="title">{{ $t('chat.fileUpload') }}</div>
-            <div class="caption">{{ $t('chat.fileUploadTips') }}</div>
-          </o-tooltip>
-        </q-btn>
-        <q-btn flat>
-          <o-icon name="icon-knowledge-base" size="1.6rem" />
-        </q-btn>
-        <q-btn icon="tune" flat />
-        <q-btn icon="mic" flat />
-        <q-btn icon="o_dashboard_customize" class="rotate-270" flat />
+
+        <template v-if="false">
+          <q-btn icon="language" flat />
+          <q-btn flat>
+            <q-icon name="attachment" class="rotate-315" />
+            <o-tooltip position="top" transition>
+              <div class="title">{{ $t('chat.fileUpload') }}</div>
+              <div class="caption">{{ $t('chat.fileUploadTips') }}</div>
+            </o-tooltip>
+          </q-btn>
+          <q-btn flat>
+            <o-icon name="icon-knowledge-base" size="1.6rem" />
+          </q-btn>
+          <q-btn icon="tune" flat />
+          <q-btn icon="mic" flat />
+          <q-btn icon="o_dashboard_customize" class="rotate-270" flat />
+        </template>
       </div>
       <div>
         <q-btn flat round @click="onToggleExpand">

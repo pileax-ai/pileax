@@ -50,7 +50,6 @@
       </div>
     </section>
 
-
     <transition appear
                 enter-active-class="animated slideInUp"
                 leave-active-class="animated slideOutDown">
