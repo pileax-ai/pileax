@@ -5,7 +5,7 @@ export default {
   locale: '',
   timezone: 'Asia/Shanghai',
   theme: {
-    name: 'light',
+    name: '',
     color: 'blue',
     weak: false,
     gray: false

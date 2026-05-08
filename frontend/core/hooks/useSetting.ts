@@ -7,7 +7,7 @@ import { THEMES, THEME_COLORS } from 'core/constants/setting'
 import { useAppStoreWithOut } from 'stores/app'
 import { setDayjsLocale } from 'core/utils/dayjs'
 import { setQuasarLang } from 'src/i18n/quasar'
-import { getSystemLanguage } from 'core/utils/common'
+import { getSystemLanguage, getSystemTheme } from 'core/utils/common'
 
 export default function () {
   const appStore = useAppStoreWithOut()
@@ -31,11 +31,12 @@ export default function () {
 
   const setSetting = () => {
     const systemLanguage = getSystemLanguage()
+    const systemTheme = getSystemTheme()
 
     const setting = appStore.getSetting
     const locale = setting.locale || systemLanguage
     setLocale(locale, true)
-    setTheme(setting.theme.name)
+    setTheme(setting.theme.name || systemTheme)
     setThemeColor(setting.theme.color)
     setThemeGray(setting.theme.gray)
     setThemeWeak(setting.theme.weak)
@@ -43,10 +44,14 @@ export default function () {
   }
 
   const setTheme = (name: AppTheme) => {
-    const darkMode = (name.startsWith('dark'))
+    let actualName = name
+    if (name === 'system') {
+      actualName = getSystemTheme()
+    }
+    const darkMode = (actualName.startsWith('dark'))
     Dark.set(darkMode)
 
-    const theme = THEMES[name]
+    const theme = THEMES[actualName]
     if (theme) {
       for (const key in theme) {
         const value = theme[key]

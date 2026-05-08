@@ -36,3 +36,8 @@ export const getSystemLanguage = () => {
 
   return 'en-US'
 }
+
+export const getSystemTheme = () => {
+  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  return isDarkMode ? 'dark' : 'light' as AppTheme
+}
