@@ -1,5 +1,5 @@
 export default {
-  intro: 'PileaX AI: ワンストップAIナレッジベースシステム',
+  intro: 'PileaX AI：オールインワンAI知識ベースシステム',
   name: 'ピレアX',
-  slogan: 'ワンストップAIナレッジベース'
+  slogan: 'オールインワンAI知識ベース'
 }

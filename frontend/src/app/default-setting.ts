@@ -2,16 +2,16 @@
  * App default settings
  */
 export default {
-  locale: 'en',
+  locale: '',
   timezone: 'Asia/Shanghai',
   theme: {
-    name: 'light',
+    name: '',
     color: 'blue',
     weak: false,
     gray: false
   },
   navi: {
-    layout: 'tab',
+    layout: 'group',
     expandMode: 'default',
     flatten: false
   },

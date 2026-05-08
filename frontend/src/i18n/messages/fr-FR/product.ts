@@ -1,5 +1,5 @@
 export default {
-  intro: 'PileaX AI : Système de base de connaissances en IA tout-en-un',
+  intro: 'PileaX AI : Système de base de connaissances IA tout-en-un',
   name: 'PileaX',
-  slogan: 'Bases de connaissances en IA à guichet unique'
+  slogan: 'Bases de connaissances IA tout-en-un'
 }

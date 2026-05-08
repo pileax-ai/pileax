@@ -1,5 +1,6 @@
+
 export interface ThemeSetting {
-  name: string,
+  name: AppTheme,
   color: string,
   weak: boolean,
   gray: boolean

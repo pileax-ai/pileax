@@ -1,5 +1,5 @@
 <template>
-  <q-toolbar class="base-toolbar drag-region">
+  <q-toolbar class="base-toolbar drag-region" :class="{ 'show': connected }">
     <div class="row items-center cursor-pointer app no-drag-region"
          @click="$router.push('/')">
       <q-avatar size="40px">
@@ -71,9 +71,20 @@ onMounted(() => {
   height: 100%;
   padding: 0 24px;
   z-index: 101;
-  background: var(--q-secondary);
+  background: #1A1C26;
   backdrop-filter: blur(20px);
-  transform: translateZ(0px);
+
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s;
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    background: var(--q-secondary);
+  }
 
   .app {
     width: 200px;
