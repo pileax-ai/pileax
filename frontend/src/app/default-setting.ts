@@ -11,7 +11,7 @@ export default {
     gray: false
   },
   navi: {
-    layout: 'tab',
+    layout: 'group',
     expandMode: 'default',
     flatten: false
   },

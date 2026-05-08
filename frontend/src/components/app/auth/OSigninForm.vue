@@ -14,6 +14,8 @@
         <o-field :label="$t('email')">
           <q-input v-model="form.username"
                    :placeholder="$t('email')"
+                   name="email"
+                   type="email"
                    autocomplete="email"
                    tabindex="1"
                    outlined dense clearable
@@ -26,6 +28,7 @@
         <o-field :label="$t('password')">
           <q-input v-model="form.password"
                    :placeholder="$t('password')"
+                   name="password"
                    :type="type"
                    tabindex="2"
                    autocomplete="current-password"
