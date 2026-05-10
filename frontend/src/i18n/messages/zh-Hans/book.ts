@@ -30,11 +30,13 @@ export default {
     add: '添加书单',
     removeConfirm: '你确定从书单中移除吗？'
   },
+  deleteConfirm: '你确定永久删除该书吗？',
   entry: '书目',
   filter: {
     all: '全部',
     book: '图书',
-    pdf: 'PDF'
+    pdf: 'PDF',
+    physical: '纸质书'
   },
   format: '格式',
   info: '图书信息',
@@ -45,12 +47,13 @@ export default {
     containBooks: '含你上传和空间共享的书',
     noBooks: '书库中还没有记录，快来添加吧'
   },
+  link: '链接',
   location: '位置',
   markFinished: '标记为已读',
   media: '书类型',
   mediaType: {
     digital: '电子书',
-    physical: '实体书'
+    physical: '纸质书'
   },
   metadata: {
     get: '获取图书信息'
@@ -58,6 +61,7 @@ export default {
   newEntry: '添加书目',
   page: '页码',
   previewTips: '预览模式下，不会保存阅读进度',
+  published: '出版年',
   publisher: '出版社',
   refInfo: '引用信息',
   removeConfirm: '你确定从书架中移除吗？',
@@ -71,5 +75,12 @@ export default {
     total: '共计'
   },
   uploadTime: '上传时间',
-  viewFiles: '查看文件'
+  viewFiles: '查看文件',
+  warning: {
+    exist: '书已存在',
+    inputISBN: '请输入ISBN',
+    isbnExists: 'ISBN对应的书已存在',
+    isbnNotFound: 'ISBN对应的书未找到',
+    titleNotMatch: '书名不匹配'
+  }
 }

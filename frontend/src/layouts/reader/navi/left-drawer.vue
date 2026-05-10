@@ -49,7 +49,6 @@ watch(() => leftDrawerHoverShow.value, (newValue) => {
 })
 
 function onResize(value: number) {
-  console.log('width', value)
   width.value = value
   setLeftDrawerWidth(value)
 }

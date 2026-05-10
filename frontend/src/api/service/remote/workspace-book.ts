@@ -21,6 +21,10 @@ export class WorkspaceBookService extends BaseService {
     return POST({ name: this.apiName, path: '/query/details', body })
   }
 
+  deletePermanent(id: string) {
+    return DELETE({ name: this.apiName, path: '/permanent', query: {id: id} })
+  }
+
 }
 
 export const workspaceBookService = new WorkspaceBookService()

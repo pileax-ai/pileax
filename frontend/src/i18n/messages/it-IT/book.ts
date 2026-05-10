@@ -31,11 +31,13 @@ export default {
     add: 'Aggiungi raccolta',
     removeConfirm: 'Vuoi davvero rimuoverlo dalla raccolta?'
   },
+  deleteConfirm: 'Sei sicuro di voler eliminare il libro in modo definitivo?',
   entry: 'Voce del libro',
   filter: {
     all: 'Tutto',
     book: 'Libri',
-    pdf: 'PDF'
+    pdf: 'PDF',
+    physical: 'Fisico'
   },
   format: 'Formato',
   info: 'Informazioni sul libro',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'Contiene i libri che hai caricato e condiviso dal tuo spazio.',
     noBooks: 'Nessun libro in biblioteca. Aggiungine subito.'
   },
+  link: 'Collegamento',
   location: 'Posizione',
   markFinished: 'Segna come finito',
   media: 'Book Media',
@@ -59,6 +62,7 @@ export default {
   newEntry: 'Nuova voce',
   page: 'Pagina',
   previewTips: 'In modalità anteprima, l\'avanzamento della lettura non verrà salvato.',
+  published: 'Anno di pubblicazione',
   publisher: 'Editore',
   refInfo: 'Informazioni di riferimento',
   removeConfirm: 'Vuoi davvero rimuoverlo dallo scaffale?',
@@ -72,5 +76,12 @@ export default {
     total: 'Totale'
   },
   uploadTime: 'Tempo di caricamento',
-  viewFiles: 'Visualizza i file'
+  viewFiles: 'Visualizza i file',
+  warning: {
+    exist: 'Il libro esiste già',
+    inputISBN: 'Inserisci il codice ISBN',
+    isbnExists: 'Esiste un libro con questo ISBN',
+    isbnNotFound: 'Libro con questo ISBN non trovato',
+    titleNotMatch: 'Il titolo del libro non corrisponde'
+  }
 }

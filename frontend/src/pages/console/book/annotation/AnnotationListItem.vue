@@ -28,7 +28,7 @@
           {{ data.title }}
         </div>
         <div v-else>
-          <o-markdown-view :text="data.note"></o-markdown-view>
+          <o-note-view :text="data.noteJson"></o-note-view>
         </div>
       </q-item-label>
       <q-item-label caption>
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
 
-import OMarkdownView from 'components/form/OMarkdownView.vue'
+import ONoteView from 'components/form/ONoteView.vue'
 
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
@@ -116,7 +116,7 @@ onMounted(() => {
     }
   }
 
-  .o-markdown-view {
+  .o-note-view {
     max-height: 100px;
     h1, h2 {
       font-size: 120%;

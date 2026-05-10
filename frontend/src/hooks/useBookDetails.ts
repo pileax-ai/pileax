@@ -83,6 +83,24 @@ export default function () {
     })
   }
 
+  const deleteBook = (book: Indexable) => {
+    return new Promise((resolve, reject) => {
+      confirm(t('book.deleteConfirm'), {
+        label: book.title,
+        onOk: () => {
+          workspaceBookService.deletePermanent(book.id).then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        },
+        onCancel: () => {
+          reject(new Error('Use cancelled'))
+        }
+      })
+    })
+  }
+
   const removeBookFromCollection = (data: Indexable) => {
     return new Promise((resolve, reject) => {
       confirm(t('book.collections.removeConfirm'), {
@@ -105,6 +123,7 @@ export default function () {
     bookTags,
     downloadBook,
     removeBook,
+    deleteBook,
     updateBook,
     removeBookFromCollection,
     updateUserBook

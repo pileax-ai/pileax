@@ -11,6 +11,9 @@ from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookDetails
 from app.api.models.workspace_book_collection import WorkspaceBookCollection
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.base_service import BaseService
+from app.api.services.book_service import BookService
+from app.api.services.user_book_service import UserBookService
+from app.libs.book.book_manager import BookManager
 
 
 class WorkspaceBookService(BaseService[WorkspaceBook]):
@@ -25,6 +28,35 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
         stmt = delete(WorkspaceBookCollection).where(WorkspaceBookCollection.workspace_book_id == id)
         self.session.exec(stmt)
         self.session.commit()
+
+    def delete_permanent_by_owner(self, user_id: UUID, workspace_id: UUID, id: UUID) -> Any:
+        workspace_book = self.get_details(id)
+        super().delete_by_owner(Owner(user_id=user_id, workspace_id=workspace_id), id)
+
+        # Delete from workspace_book_collection
+        stmt = delete(WorkspaceBookCollection).where(WorkspaceBookCollection.workspace_book_id == id)
+        self.session.exec(stmt)
+        self.session.commit()
+
+        # Check if book referenced by other users
+        one = self.find_one(
+            {
+                "book_id": workspace_book["book_id"],
+            }
+        )
+        if one:
+            raise HTTPException(status_code=409, detail="Cannot delete: book referenced by others")
+
+        # Delete book record
+        BookService(self.session).delete_by_owner(Owner(user_id=user_id), workspace_book["book_id"])
+        UserBookService(self.session).delete_by_owner(
+            Owner(user_id=user_id), workspace_book["user_book_id"], raise_exception=False
+        )
+
+        # Delete book dir
+        book_path = workspace_book["path"]
+        if book_path:
+            BookManager(path=book_path).delete_book_dir()
 
     def get_workspace_book(self, user_id: UUID, workspace_id: UUID, book_id: UUID) -> WorkspaceBook:
         stmt = (

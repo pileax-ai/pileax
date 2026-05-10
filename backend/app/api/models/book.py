@@ -1,6 +1,7 @@
 import enum
 import uuid
 
+from pydantic import field_validator
 from sqlalchemy import Integer, UniqueConstraint, event, text
 from sqlmodel import Field
 
@@ -62,7 +63,6 @@ class BookMedia(BaseApiModel):
 
 
 class BookBase(BaseApiModel):
-    id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     title: str
     author: str | None = None
     language: str | None = None
@@ -72,15 +72,23 @@ class BookBase(BaseApiModel):
     media: list[BookMedia] | None = Field(default_factory=list)
     location: str | None = None
     isbn: str | None = None
+    cover_url: str | None = ""
     ref_url: str | None = None
+
+    @field_validator("description", "cover_url", mode="before")
+    @classmethod
+    def empty_string_to_none(cls, v):
+        if isinstance(v, str) and not v.strip():
+            return None
+        return v
 
 
 class BookCreate(BookBase):
+    id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     tenant_id: uuid.UUID | None = None
     uuid: str = Field(min_length=32, max_length=64)
     path: str | None = ""
     file_url: str | None = ""
-    cover_url: str | None = ""
     extension: str | None = ""
 
 
@@ -105,6 +113,10 @@ class BookDetails(BaseApiModel, BaseMixin):
     publisher: str | None = None
     published: str | None = None
     extension: str | None = None
+    media: list | None = None
+    location: str | None = None
+    isbn: str | None = None
+    ref_url: str | None = None
     scope: int
     rating: int
     user_book_id: uuid.UUID | None = None

@@ -42,7 +42,7 @@
               {{ data.title }}
             </div>
             <div v-else>
-              <o-markdown-view :text="data.note"></o-markdown-view>
+              <o-note-view :text="data.noteJson"></o-note-view>
             </div>
           </q-scroll-area>
         </section>
@@ -66,7 +66,7 @@
 import { computed, onMounted } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 
-import OMarkdownView from 'components/form/OMarkdownView.vue'
+import ONoteView from 'components/form/ONoteView.vue'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'
 import useReading from 'src/hooks/useReading'
@@ -189,9 +189,13 @@ onMounted(() => {
     padding: 12px 40px;
   }
 
-  .o-markdown-view {
+  .o-note-view {
     h1, h2 {
       font-size: 120%;
+    }
+
+    table {
+      width: 100%;
     }
 
     .tiptap {

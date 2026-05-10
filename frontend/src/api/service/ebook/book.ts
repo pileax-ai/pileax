@@ -11,9 +11,10 @@ import useBook from 'src/hooks/useBook'
 import { ebookRender } from 'src/api/service/ebook'
 import { bookService, userBookService, workspaceBookService } from 'src/api/service/remote'
 import { BookOperation, ReadingMode } from 'src/types/reading'
-import { base64ToFile, getFileSHA1 } from 'src/utils/book'
+import { base64ToFile, getFileSHA1, isTitleSimilar } from 'src/utils/book'
 import { getErrorMessage } from 'src/utils/request'
 import { globalBus } from 'src/api/event/event-bus'
+import { UUID } from 'core/utils/crypto'
 
 const { getFileUrl } = useApi()
 const { openDialog } = useDialog()
@@ -201,6 +202,9 @@ const setManual = (operation = BookOperation.Manual) => {
  * @param cfi
  */
 const openBook = async (bookElement: any, filePath: string, cfi = '') => {
+  // console.log('openBook', filePath)
+  if (!filePath) return
+
   const bookUrl = getFileUrl(filePath)
   return new Promise((resolve, reject) => {
     fetch(bookUrl)
@@ -220,25 +224,27 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
       setManual(BookOperation.Load)
       resolve(data)
     }).catch((err: any) => {
-      console.error('打开文件失败：', err)
+      console.error('Failed to open file：', err)
       reject(err)
     })
   })
 }
 
-const uploadBook = async (file: File) => {
+const uploadBook = async (file: File, bookData: Indexable = {}) => {
+  // console.log('uploadBook', file, bookData)
   const sha1 = await getFileSHA1(file)
   return new Promise((resolve, reject) => {
     const data = {
+      file,
+      sha1,
+      id: bookData.bookId,
       saving: 'remote',
-      file: file,
-      sha1: sha1,
       filePath: ''
     }
     ebookRender.open(document.body, data, { importing: true})
 
     // Register waiter, resolve/reject in onMetadata/onOpenFailed
-    uploadBookWaiters.set(sha1, { resolve, reject })
+    uploadBookWaiters.set(sha1, { resolve, reject, bookData })
   })
 
 }
@@ -247,6 +253,19 @@ const onMetadata = async (metadata: any) => {
   const sha1 = metadata.sha1
   const waiter = uploadBookWaiters.get(sha1)
   try {
+    // If upload to existing book, check book title
+    const bookData = waiter.bookData
+    if (bookData.id) {
+      const title = bookData.title
+      const savingTitle = metadata.title
+      if (!isTitleSimilar(title, savingTitle)) {
+        waiter.reject(new Error('book.warning.titleNotMatch'))
+        return
+      }
+    }
+
+    // saving
+    // console.log('onMetadata', metadata)
     const book = await savingBookRemote(metadata)
     if (waiter) {
       waiter.resolve(book)
@@ -279,7 +298,7 @@ const savingBookRemote = async (metadata: any) => {
     } catch (err) {
       const message = getErrorMessage(err)
       if (message?.indexOf('UNIQUE') >= 0) {
-        notifyWarning('书已存在')
+        notifyWarning('Book already exists')
       }
     }
     return remoteBook
@@ -307,6 +326,12 @@ const saveBookProgress = (progress: any) => {
     readingPercentage: progress.percentage
   }
   userBookService.updateReadingProgress(params)
+}
+
+const parseTitle = (title: string) => {
+  if (!title) return ''
+
+  return title.replace(/【.*】$/, '').trim()
 }
 
 const parseAuthor = (data: any) => {
@@ -369,9 +394,10 @@ const parseBookExtension = (file: File) => {
 const buildBook = (metadata: any, fileInfo: any) => {
   return {
     ...fileInfo,
+    id: metadata.id || UUID(),
     uuid: metadata.sha1,
     author: parseAuthor(metadata.author),
-    title: metadata.title || 'New book',
+    title: parseTitle(metadata.title) || 'New book',
     extension: parseBookExtension(metadata.file),
     language: parseLanguage(metadata.language),
     publisher: parseBookField(metadata.publisher),

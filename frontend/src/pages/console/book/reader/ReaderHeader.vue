@@ -36,24 +36,26 @@
           </o-hover-btn>
         </div>
 
-        <q-btn icon="o_bookmark_remove"
-               class="o-toolbar-btn"
-               flat
-               @click="onRemoveBookmark"
-               v-if="bookmarkId">
-          <o-tooltip position="bottom" transition autohide>
-            {{ $t('reading.bookmark.remove') }}
-          </o-tooltip>
-        </q-btn>
-        <q-btn icon="o_bookmark_add"
-               class="o-toolbar-btn"
-               flat
-               @click="onAddBookmark"
-               v-else>
-          <o-tooltip position="bottom" transition autohide>
-            {{ $t('reading.bookmark.add') }}
-          </o-tooltip>
-        </q-btn>
+        <template v-if="!isPhysical">
+          <q-btn icon="o_bookmark_remove"
+                 class="o-toolbar-btn"
+                 flat
+                 @click="onRemoveBookmark"
+                 v-if="bookmarkId">
+            <o-tooltip position="bottom" transition autohide>
+              {{ $t('reading.bookmark.remove') }}
+            </o-tooltip>
+          </q-btn>
+          <q-btn icon="o_bookmark_add"
+                 class="o-toolbar-btn"
+                 flat
+                 @click="onAddBookmark"
+                 v-else>
+            <o-tooltip position="bottom" transition autohide>
+              {{ $t('reading.bookmark.add') }}
+            </o-tooltip>
+          </q-btn>
+        </template>
 
         <q-btn icon="o_post_add" class="o-toolbar-btn"
                flat
@@ -76,7 +78,8 @@
           <q-btn icon="o_tune" class="o-toolbar-btn"
                  :class="{ 'active': rightDrawer.settings }"
                  flat
-                 @click="toggleRightDrawerView('settings')">
+                 @click="toggleRightDrawerView('settings')"
+                 v-if="!isPhysical">
             <o-tooltip position="bottom" transition autohide>
               {{ $t('reading.settings') }}
             </o-tooltip>
@@ -127,6 +130,7 @@ import { globalBus } from 'src/api/event/event-bus'
 const { book, progress, search, windowId, clearSearch } = useBook()
 const {
   bookId,
+  isPhysical,
   bookmarkId,
   bookmarks,
   openNote,
@@ -162,7 +166,6 @@ function onLeftDrawerLeave() {
 
 function onAddNote() {
   const id = UUID()
-  setRightDrawerView('note', true)
   openNote(id)
 }
 

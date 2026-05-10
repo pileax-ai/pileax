@@ -12,6 +12,7 @@
           <book-context-menu :data="data"
                              @edit="onEdit"
                              @close="onClose"
+                             @upload="onUpload"
                              v-if="source === 'book-list'" />
           <book-collection-context-menu :data="data"
                                         @edit="onEdit"
@@ -107,7 +108,7 @@ const props = defineProps({
     default: 'book-list'
   },
 })
-const emit = defineEmits(['add', 'close', 'edit'])
+const emit = defineEmits(['add', 'close', 'edit', 'upload'])
 
 const { appMode, getCoverUrl } = useApi()
 const { openBook } = useReading()
@@ -115,6 +116,10 @@ const coverUrl = ref('')
 
 function onEdit() {
   emit('edit', props.data)
+}
+
+function onUpload() {
+  emit('upload', props.data)
 }
 
 function onClose(args: Indexable) {

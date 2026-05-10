@@ -28,7 +28,8 @@
                              @click="onAction(action)"
                              clickable
                              closable
-                             right-side>
+                             right-side
+                             v-if="action.show">
               </o-common-item>
             </template>
             <slot></slot>
@@ -62,7 +63,7 @@ const props = defineProps({
   },
 })
 
-const { t, confirm } = useCommon()
+const { t, confirm, showDialog } = useCommon()
 const { store } = useBook()
 const { noteId, openNote, deleteNote } = useBookNote()
 const { BookAnnotationTypes, getArrayItem } = useMetadata()
@@ -70,11 +71,20 @@ const { BookAnnotationTypes, getArrayItem } = useMetadata()
 const actions = computed(() => {
   return [
     {
+      label: t('book.refInfo'),
+      value: 'meta',
+      icon: 'mdi-tune-variant',
+      sortable: true,
+      show: props.item.type === 'note',
+      separator: false,
+    },
+    {
       label: t('delete'),
       value: 'delete',
       icon: 'o_delete',
       sortable: true,
-      separator: false,
+      show: true,
+      separator: props.item.type === 'note',
     },
   ]
 })
@@ -83,6 +93,9 @@ function onAction (action :Indexable) {
   switch (action.value) {
     case 'delete':
       onDelete()
+      break
+    case 'meta':
+      onMeta()
       break
     default:
       break
@@ -98,9 +111,19 @@ function onDelete() {
   })
 }
 
+function onMeta() {
+  showDialog({
+    type: 'book-meta',
+    data: props.item
+  })
+}
+
 function onClick() {
   store.setAnnotationId(props.item.id)
-  window.ebook.goToHref(props.item.value)
+
+  if (props.item.value) {
+    window.ebook.goToHref(props.item.value)
+  }
 
   const type = props.item.type
   if (type === 'note' || (type === 'annotation' && props.item.note)) {

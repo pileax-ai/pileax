@@ -16,8 +16,14 @@
                        :value="book.author" align="right" lines="2" />
           <o-view-item :label="$t('book.publisher')"
                        :value="book.publisher" align="right" v-if="book.publisher" />
+          <o-view-item :label="$t('book.published')"
+                       :value="book.published.substring(0, 4)" align="right" v-if="book.published" />
           <o-view-item :label="$t('book.format')"
                        :value="book.extension.toUpperCase()" align="right" v-if="book.extension" />
+          <o-view-item label="ISBN"
+                       :value="book.isbn" align="right" v-if="book.isbn" />
+          <o-view-item :label="$t('book.link')"
+                       :link="book.refUrl" align="right" v-if="book.refUrl" />
 
           <section class="description" v-if="book.description">
             <span class="text-readable">{{ $t('description') }}</span>
@@ -70,5 +76,12 @@ onBeforeMount(() => {
       border-radius: 4px;
     }
   }
+
+  .description {
+     margin-top: 4px;
+     .q-scrollarea {
+       height: 160px;
+     }
+   }
 }
 </style>

@@ -22,6 +22,11 @@ export default function () {
   const bookId = computed(() => {
     return store.bookId
   })
+  const isPhysical = computed(() => {
+    const media = book.value.media as Indexable[]
+    const physical = media?.find(item => item.type === 'physical')
+    return !!physical && book.value.fileUrl === ''
+  })
   const workspaceBookId = computed(() => {
     return store.workspaceBookId
   })
@@ -137,6 +142,7 @@ export default function () {
     store,
     book,
     bookId,
+    isPhysical,
     workspaceBookId,
     progress,
     tempProgress,

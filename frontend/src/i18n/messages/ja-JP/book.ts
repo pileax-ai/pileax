@@ -31,11 +31,13 @@ export default {
     add: 'コレクションを追加',
     removeConfirm: 'コレクションから削除してもよろしいですか?'
   },
+  deleteConfirm: '本当にその本を完全に削除しますか？',
   entry: '書籍への記入',
   filter: {
     all: '全て',
     book: '本',
-    pdf: 'PDF'
+    pdf: 'PDF',
+    physical: '物理的な'
   },
   format: '形式',
   info: '書籍情報',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'あなたが自分のスペースからアップロードして共有した書籍が含まれています。',
     noBooks: 'ライブラリにはまだ本がありません。今すぐ追加しましょう。'
   },
+  link: 'リンク',
   location: '位置',
   markFinished: '完了としてマーク',
   media: '書籍メディア',
@@ -59,6 +62,7 @@ export default {
   newEntry: '新規エントリー',
   page: 'ページ',
   previewTips: 'プレビューモードでは、読み取りの進行状況は保存されません。',
+  published: '出版年',
   publisher: '出版社',
   refInfo: '参考情報',
   removeConfirm: '棚から削除してもよろしいですか?',
@@ -72,5 +76,12 @@ export default {
     total: '合計'
   },
   uploadTime: 'アップロード時間',
-  viewFiles: 'ファイルを表示'
+  viewFiles: 'ファイルを表示',
+  warning: {
+    exist: '既に書籍が存在する',
+    inputISBN: 'ISBNを入力してください',
+    isbnExists: 'このISBNの書籍は既に存在します',
+    isbnNotFound: 'このISBNの書籍は見つかりません',
+    titleNotMatch: '書籍のタイトルが一致しません'
+  }
 }

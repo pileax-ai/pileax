@@ -31,11 +31,13 @@ export default {
     add: 'Dodaj kolekcję',
     removeConfirm: 'Czy na pewno chcesz usunąć z kolekcji?'
   },
+  deleteConfirm: 'Czy na pewno chcesz trwale usunąć książkę?',
   entry: 'Wpis do księgi',
   filter: {
     all: 'Wszystko',
     book: 'Książki',
-    pdf: 'Pliki PDF'
+    pdf: 'Pliki PDF',
+    physical: 'Fizyczny'
   },
   format: 'Format',
   info: 'Informacje o książce',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'Zawiera książki przesłane i udostępnione przez Ciebie ze swojej przestrzeni.',
     noBooks: 'W bibliotece nie ma jeszcze żadnych książek. Dodaj je teraz.'
   },
+  link: 'Połączyć',
   location: 'Lokalizacja',
   markFinished: 'Oznacz jako ukończone',
   media: 'Książki medialne',
@@ -59,6 +62,7 @@ export default {
   newEntry: 'Nowy wpis',
   page: 'Strona',
   previewTips: 'W trybie podglądu postęp czytania nie zostanie zapisany.',
+  published: 'Rok publikacji',
   publisher: 'Wydawca',
   refInfo: 'Informacje referencyjne',
   removeConfirm: 'Czy na pewno chcesz usunąć z półki?',
@@ -72,5 +76,12 @@ export default {
     total: 'Całkowity'
   },
   uploadTime: 'Czas przesyłania',
-  viewFiles: 'Wyświetl pliki'
+  viewFiles: 'Wyświetl pliki',
+  warning: {
+    exist: 'Książka już istnieje',
+    inputISBN: 'Proszę podać numer ISBN',
+    isbnExists: 'Książka o tym numerze ISBN istnieje',
+    isbnNotFound: 'Nie znaleziono książki o tym numerze ISBN',
+    titleNotMatch: 'Tytuł książki nie pasuje'
+  }
 }

@@ -10,9 +10,12 @@ export class BookService extends BaseService {
   protected apiName = 'book'
 
   getByUuid(uuid: string): Promise<any> {
-    return GET({ name: this.apiName, path: '/uuid',  query: {uuid: uuid} })
+    return GET({ name: this.apiName, path: '/uuid',  query: { uuid } })
   }
 
+  getByISBN(isbn: string): Promise<any> {
+    return GET({ name: this.apiName, path: '/isbn',  query: { isbn } })
+  }
 
   getDetails(id: string): Promise<any> {
     return GET({ name: this.apiName, path: '/details', query: {id: id} })

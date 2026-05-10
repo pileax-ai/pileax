@@ -40,7 +40,7 @@
           </section>
           <div v-else>
             <template v-if="preview">
-              <img :src="preview" />
+              <img :src="preview" referrerpolicy="no-referrer" />
             </template>
             <template v-else>
               <div class="text-tips">

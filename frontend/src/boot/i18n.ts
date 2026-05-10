@@ -26,15 +26,16 @@ declare module 'vue-i18n' {
   export interface DefineNumberFormat {}
 }
 
+const i18n = createI18n({
+  locale: 'en',
+  legacy: false,
+  globalInjection: true,
+  messages,
+})
 
 export default boot(({ app }) => {
-  const i18n = createI18n({
-    locale: 'en',
-    legacy: false,
-    globalInjection: true,
-    messages,
-  })
-
   // Set i18n instance on app
   app.use(i18n)
 })
+
+export const t = i18n.global.t as typeof i18n.global.t

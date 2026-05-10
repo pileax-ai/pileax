@@ -44,6 +44,7 @@
                   <div class="q-pa-md">
                     <o-book-uploader :accept="bookAccept"
                                      :max-size="500 * 1024 * 1024"
+                                     multiple
                                      leading
                                      @completed="onUploadCompleted" />
                   </div>
@@ -81,6 +82,7 @@
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @edit="onEdit"
+                                         @upload="onUpload"
                                          context-menu />
                     </book-grid-item>
                   </div>
@@ -95,6 +97,7 @@
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @edit="onEdit"
+                                         @upload="onUpload"
                                          context-menu />
                     </book-compact-item>
                   </div>
@@ -109,6 +112,7 @@
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @edit="onEdit"
+                                         @upload="onUpload"
                                          context-menu />
                     </book-list-item>
                   </template>
@@ -123,6 +127,7 @@
                 <div class="row col-12 justify-center q-mt-lg action">
                   <o-book-uploader :accept="bookAccept"
                                    :max-size="500 * 1024 * 1024"
+                                   multiple
                                    leading
                                    @completed="onUploadCompleted" />
                 </div>
@@ -140,10 +145,14 @@
                         source="book-list"
                         @close="onClose"
                         @edit="onEdit"
+                        @upload="onUpload"
                         v-if="view==='details'" />
           <book-edit :data="data"
                      @close="onClose"
                      v-if="view==='edit'" />
+          <book-upload :data="data"
+                     @close="onClose"
+                     v-if="view==='upload'" />
           <book-entry :data="data"
                      @close="onClose"
                      v-if="view==='entry'" />
@@ -163,6 +172,7 @@ import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'
 import BookEdit from './BookEdit.vue'
+import BookUpload from './BookUpload.vue'
 import BookEntry from './BookEntry.vue'
 import BookAdd from './BookAdd.vue'
 import BookFilter from './BookFilter.vue'
@@ -200,7 +210,12 @@ function onSort(value: Indexable) {
 function onFilter(value: Indexable) {
   switch (value.filter) {
     case 'extension':
-      condition.value[`${value.filter}__in`] = value.filterValue
+      condition.value['extension__in'] = value.filterValue
+      delete condition.value['media__icontains']
+      break
+    case 'media':
+      condition.value['media__icontains'] = value.filterValue
+      delete condition.value['extension__in']
       break
     default:
       condition.value[value.filter] = value.filterValue
@@ -217,6 +232,11 @@ function onDetails(item: any) {
 function onEdit(item: Indexable) {
   data.value = item
   query.value.openSide('480px', 'edit', 'edit_note', t('edit'))
+}
+
+function onUpload(item: Indexable) {
+  data.value = item
+  query.value.openSide('480px', 'upload', 'mdi-arrow-collapse-up', t('upload'))
 }
 
 function onEntry() {

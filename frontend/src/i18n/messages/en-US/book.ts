@@ -31,11 +31,13 @@ export default {
     add: 'Add Collection',
     removeConfirm: 'Are you sure to remove from collection?'
   },
+  deleteConfirm: 'Are you sure to delete the book permanently?',
   entry: 'Book Entry',
   filter: {
     all: 'All',
     book: 'Books',
-    pdf: 'PDFs'
+    pdf: 'PDFs',
+    physical: 'Physical'
   },
   format: 'Format',
   info: 'Book Info',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'Contains books you uploaded and shared from your space.',
     noBooks: 'No books in the library yet. Add some now.'
   },
+  link: 'Link',
   location: 'Location',
   markFinished: 'Mark as Finished',
   media: 'Book Media',
@@ -59,6 +62,7 @@ export default {
   newEntry: 'New Entry',
   page: 'Page',
   previewTips: 'In preview mode, reading progress will not be saved.',
+  published: 'Publish Year',
   publisher: 'Publisher',
   refInfo: 'Reference Info',
   removeConfirm: 'Are you sure to remove from shelf?',
@@ -72,5 +76,12 @@ export default {
     total: 'Total'
   },
   uploadTime: 'Upload Time',
-  viewFiles: 'View Files'
+  viewFiles: 'View Files',
+  warning: {
+    exist: 'Book already exists',
+    inputISBN: 'Please input ISBN',
+    isbnExists: 'Book with this ISBN exists',
+    isbnNotFound: 'Book with this ISBN not found',
+    titleNotMatch: 'Book title dost not match'
+  }
 }

@@ -31,11 +31,13 @@ export default {
     add: 'Thêm bộ sưu tập',
     removeConfirm: 'Bạn có chắc chắn muốn xóa khỏi bộ sưu tập không?'
   },
+  deleteConfirm: 'Bạn có chắc chắn muốn xóa cuốn sách này vĩnh viễn không?',
   entry: 'Mục nhập sổ',
   filter: {
     all: 'Tất cả',
     book: 'Sách',
-    pdf: 'Tệp PDF'
+    pdf: 'Tệp PDF',
+    physical: 'Thuộc vật chất'
   },
   format: 'Định dạng',
   info: 'Thông tin sách',
@@ -46,6 +48,7 @@ export default {
     containBooks: 'Chứa các cuốn sách bạn đã tải lên và chia sẻ từ không gian của mình.',
     noBooks: 'Thư viện hiện chưa có cuốn sách nào. Hãy bổ sung ngay!'
   },
+  link: 'Liên kết',
   location: 'Vị trí',
   markFinished: 'Đánh dấu là đã hoàn thành',
   media: 'Sách và phương tiện truyền thông',
@@ -59,6 +62,7 @@ export default {
   newEntry: 'Mục nhập mới',
   page: 'Trang',
   previewTips: 'Ở chế độ xem trước, tiến trình đọc sẽ không được lưu lại.',
+  published: 'Năm xuất bản',
   publisher: 'Nhà xuất bản',
   refInfo: 'Thông tin tham khảo',
   removeConfirm: 'Bạn có chắc chắn muốn lấy sản phẩm ra khỏi kệ không?',
@@ -72,5 +76,12 @@ export default {
     total: 'Tổng cộng'
   },
   uploadTime: 'Thời gian tải lên',
-  viewFiles: 'Xem tệp'
+  viewFiles: 'Xem tệp',
+  warning: {
+    exist: 'Cuốn sách đã tồn tại',
+    inputISBN: 'Vui lòng nhập mã ISBN',
+    isbnExists: 'Sách có mã ISBN này tồn tại.',
+    isbnNotFound: 'Không tìm thấy sách có mã ISBN này.',
+    titleNotMatch: 'Tên sách không khớp'
+  }
 }
