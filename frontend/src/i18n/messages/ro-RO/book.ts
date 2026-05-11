@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Vă rugăm să introduceți ISBN-ul',
     isbnExists: 'Există o carte cu acest ISBN',
     isbnNotFound: 'Cartea cu acest ISBN nu a fost găsită',
-    titleNotMatch: 'Titlul cărții nu se potrivește'
+    titleNotMatch: 'Titlul cărții nu se potrivește',
+    uploadCover: 'Vă rugăm să încărcați coperta'
   }
 }

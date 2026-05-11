@@ -16,16 +16,17 @@ const platform = process.platform || os.platform()
 class FastAPIServer {
   private serverProcess?: ChildProcess
   private port?: number
-  private envPath?: string
   private serverPath?: string
   private serverEntry?: string
 
   private dbPath: string
+  private envPath: string
   private cachePath: string
   private publicPath: string
 
   constructor() {
     this.dbPath = configManager.appDbFilePath()
+    this.envPath = configManager.appEnvFilePath()
     this.cachePath = configManager.appCachePath()
     this.publicPath = configManager.appPublicPath()
   }
@@ -150,6 +151,7 @@ class FastAPIServer {
 
   private resetPath() {
     this.dbPath = configManager.appDbFilePath()
+    this.envPath = configManager.appEnvFilePath()
     this.cachePath = configManager.appCachePath()
     this.publicPath = configManager.appPublicPath()
   }
@@ -160,9 +162,8 @@ class FastAPIServer {
     const options: Indexable = {
       env: {
         ...process.env,
-        // IMPORTANT: 使用 spawn(process.execPath, ...) 启动子进程时，默认会运行一个新的 Electron 实例，导致应用重复打开。
-        // 通过设置环境变量 ELECTRON_RUN_AS_NODE，可以让子进程以普通 Node.js 模式运行服务脚本，避免创建新窗口。
         ELECTRON_RUN_AS_NODE: '1',
+        ENV_FILE: this.envPath,
         PORT: `${this.port}`,
         NODE_ENV: 'production',
         DB_PROVIDER: 'sqlite',
@@ -191,9 +192,36 @@ class FastAPIServer {
 
   private async startDev() {
     this.serverPath = path.join(currentDir, '../../../backend')
-    this.serverEntry = path.join(this.serverPath, 'app/main.py')
-    this.envPath = path.join(this.serverPath, '.env')
+    this.serverEntry = path.join(this.serverPath, 'dist/runnable/runnable')
     log.info('⚙️ serverPath', this.serverPath)
+    log.info('⚙️ envPath', this.envPath)
+
+    const options: Indexable = {
+      env: {
+        ...process.env,
+        ENV_FILE: this.envPath,
+        PORT: `${this.port}`,
+        NODE_ENV: 'development',
+        DB_PROVIDER: 'sqlite',
+        DB_DATABASE: this.dbPath,
+        CACHE_ROOT: this.cachePath,
+        PUBLIC_FILE_ROOT: this.publicPath,
+        WEB_API_CORS_ALLOW_ORIGINS: process.env.APP_URL,
+      },
+      cwd: this.serverPath,
+      stdio: 'pipe',
+      shell: true
+    }
+
+    this.serverProcess = spawn(this.serverEntry, [], options)
+    this.serverProcess.unref()
+  }
+
+  private async startDev0() {
+    this.serverPath = path.join(currentDir, '../../../backend')
+    this.serverEntry = path.join(this.serverPath, 'app/main.py')
+    log.info('⚙️ serverPath', this.serverPath)
+    log.info('⚙️ envPath', this.envPath)
 
     this.serverProcess = spawn('python', [this.serverEntry], {
       env: {

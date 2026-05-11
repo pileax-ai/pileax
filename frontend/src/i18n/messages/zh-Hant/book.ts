@@ -81,6 +81,7 @@ export default {
     inputISBN: '請輸入ISBN',
     isbnExists: 'ISBN對應的書已存在',
     isbnNotFound: 'ISBN對應的書未找到',
-    titleNotMatch: '書名不匹配'
+    titleNotMatch: '書名不匹配',
+    uploadCover: '請上傳封面'
   }
 }

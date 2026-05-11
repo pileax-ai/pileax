@@ -18,7 +18,9 @@
         </q-icon>
       </q-item-label>
       <q-item-label caption v-if="subLabel">
-        {{subLabel}}
+        <template v-if="typeof subLabel === 'string'">
+          {{ subLabel }}
+        </template>
         <slot name="sublabel"></slot>
       </q-item-label>
     </q-item-section>
@@ -88,8 +90,8 @@ const props = defineProps({
     default: ''
   },
   subLabel: {
-    type: String,
-    default: ''
+    type: [String, Boolean],
+    default: false
   },
   help: {
     type: String,

@@ -83,7 +83,7 @@ import AiTab from './tab/ai-tab.vue'
 import AppearanceTab from './tab/appearance-tab.vue'
 import GeneralTab from './tab/general-tab.vue'
 import ProfileTab from './tab/profile-tab.vue'
-import ReadingTab from './tab/reading-tab.vue'
+import SystemTab from './tab/system-tab.vue'
 import ServiceLogTab from './tab/service-log-tab.vue'
 import ShortcutTab from './tab/shortcut-tab.vue'
 import UserLogTab from './tab/user-log-tab.vue'
@@ -156,10 +156,10 @@ const tabs = computed(() => {
       show: true,
     },
     {
-      label: t('reading._'),
-      value: 'reading',
-      icon: 'o_chrome_reader_mode',
-      component: ReadingTab,
+      label: t('system'),
+      value: 'system',
+      icon: 'o_build',
+      component: SystemTab,
       show: true,
     },
     {

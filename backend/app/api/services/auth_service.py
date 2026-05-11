@@ -72,6 +72,12 @@ class AuthService:
             csrf_token=JWTService().issue_csrf_token(str(user.id)),
         )
 
+    def is_super(self, user: User) -> bool:
+        first_user = self.service.find_one({}, sort={"create_time": "asc"})
+        if first_user:
+            return first_user.id == user.id
+        return False
+
     def refresh_token(self, token: str) -> Token:
         try:
             payload = JWTService().decode(token)

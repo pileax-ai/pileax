@@ -45,6 +45,7 @@ class UserSimple(BaseApiModel):
     email: str | None = None
     avatar: str | None = None
     bio: str | None = None
+    is_super: bool | None = None
 
 
 class SigninPublic(BaseSQLModel):

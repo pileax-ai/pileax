@@ -33,7 +33,7 @@ const urls: Indexable = {
   providerDefaultModel: '/provider/default-model',
   providerModel: '/provider/model',
   system: '/system',
-  systemConfig: '/system/config',
+  systemSetting: '/system/setting',
   userBook: '/user/book',
   workspaceBook: '/workspace/book',
   workspaceBookCollection: '/workspace/book/collection',

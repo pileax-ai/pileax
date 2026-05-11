@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Inserisci il codice ISBN',
     isbnExists: 'Esiste un libro con questo ISBN',
     isbnNotFound: 'Libro con questo ISBN non trovato',
-    titleNotMatch: 'Il titolo del libro non corrisponde'
+    titleNotMatch: 'Il titolo del libro non corrisponde',
+    uploadCover: 'Si prega di caricare la copertina'
   }
 }

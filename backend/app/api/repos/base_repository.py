@@ -4,7 +4,7 @@ from typing import Any, Generic, Optional, TypeVar, cast
 from sqlalchemy import delete, exists
 from sqlmodel import Session, SQLModel, func, select
 
-from app.api.models.query import PaginationQuery, QueryResult
+from app.api.models.query import PaginationQuery, QueryResult, SortOrder
 from app.libs.db_helper import DbHelper
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
@@ -104,13 +104,17 @@ class BaseRepository(Generic[ModelType]):
             pageIndex=query.pageIndex,
         )
 
-    def find_one(self, condition: Optional[dict[str, object]] = None) -> ModelType | None:
+    def find_one(
+        self, condition: Optional[dict[str, object]] = None, sort: Optional[dict[str, SortOrder]] = None
+    ) -> ModelType | None:
         stmt = select(self.model)
 
         if condition:
             for field, value in condition.items():
                 if hasattr(self.model, field):
                     stmt = stmt.where(getattr(self.model, field) == value)
+        if sort:
+            stmt = DbHelper.apply_sort(stmt, [self.model], sort)
 
         return self.session.exec(stmt).first()
 

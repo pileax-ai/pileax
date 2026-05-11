@@ -193,6 +193,8 @@ export default {
   symbol: '象徵',
   system: '系統',
   systems: {
+    config: '配置',
+    env: '環境變數',
     log: '系統日誌',
     security: '安全',
     server: {

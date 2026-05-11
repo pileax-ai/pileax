@@ -155,6 +155,10 @@ export class ConfigManager {
     return path.join(this.appLibraryPath(), 'metadata.db')
   }
 
+  appEnvFilePath(): string {
+    return path.join(this.appLibraryPath(), '.env')
+  }
+
   appCachePath(): string {
     return path.join(this.appLibraryPath(), '.cache')
   }

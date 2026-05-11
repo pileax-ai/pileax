@@ -193,6 +193,8 @@ export default {
   symbol: '상징',
   system: '체계',
   systems: {
+    config: '구성',
+    env: '환경',
     log: '시스템 로그',
     security: '보안',
     server: {

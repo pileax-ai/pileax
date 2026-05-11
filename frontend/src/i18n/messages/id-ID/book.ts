@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Silakan masukkan ISBN',
     isbnExists: 'Buku dengan ISBN ini ada.',
     isbnNotFound: 'Buku dengan ISBN ini tidak ditemukan',
-    titleNotMatch: 'Judul buku tidak sesuai'
+    titleNotMatch: 'Judul buku tidak sesuai',
+    uploadCover: 'Silakan unggah sampulnya.'
   }
 }
