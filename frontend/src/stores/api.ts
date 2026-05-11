@@ -27,6 +27,7 @@ export const useApiStore = defineStore('api', {
         const appMode = await ipcService.getAppMode()
         if (appMode === 'standalone') {
           const serverInfo = await ipcService.getServerInfo()
+          console.log('serverInfo', serverInfo)
           const apiBase = serverInfo.apiBase || process.env.API_BASE_URL
           this.setApiBase(apiBase)
         }

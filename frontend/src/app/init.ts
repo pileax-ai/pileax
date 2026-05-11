@@ -47,6 +47,7 @@ const initApi = async () => {
 }
 
 const initListeners = () => {
+  const apiStore = useApiStore()
   const { setUpdater } = useUpdater()
   const { setOpenFile } = useOpenFile()
 
@@ -63,6 +64,12 @@ const initListeners = () => {
       case 'open-file':
         setOpenFile(data)
         break
+      case 'server-ready':
+        apiStore.setConnected(true)
+        break
+    }
+    if (import.meta.env.DEV) {
+      console.debug('onAppEvent', event, data)
     }
   })
 }

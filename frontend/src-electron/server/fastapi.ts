@@ -9,6 +9,7 @@ import os from 'os'
 
 import { configManager } from '../app/config-manager'
 import { spaServer } from '../server/spa-server'
+import { WindowManager } from '../app/window-manager'
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url))
 const platform = process.platform || os.platform()
@@ -245,6 +246,11 @@ class FastAPIServer {
     this.serverProcess?.stdout?.on('data', (data: string) => {
       console.log(`Server: ${data}`)
       log.info(`[Server] ${data.slice(22)}`)
+
+      if (data.includes('Uvicorn running on')) {
+        log.info(`[Server Ready] ✅ Serving is running`)
+        WindowManager.getMainWindow()?.webContents.send('app-event', 'server-ready', this.serverInfo)
+      }
     })
 
     this.serverProcess?.stderr?.on('data', (data) => {
