@@ -193,6 +193,8 @@ export default {
   symbol: 'Simbol',
   system: 'Sistem',
   systems: {
+    config: 'Configurare',
+    env: 'Mediu',
     log: 'Jurnal de sistem',
     security: 'Securitate',
     server: {

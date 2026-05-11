@@ -9,7 +9,6 @@ from app.libs.file_uploader import FileUploader
 
 logger = logging.getLogger(__name__)
 
-API_KEY = app_config.DOUBAN_API_KEY
 BASE_URL = "https://api.douban.com/v2/book"
 HEADERS = {
     "Accept": "application/json",
@@ -56,7 +55,12 @@ class DoubanHelper:
     @staticmethod
     async def search_by_keyword(keyword: str, page: int = 1, page_size: int = 10) -> list[dict[str, Any]]:
         url = f"{BASE_URL}/search"
-        params = {"q": keyword, "count": page_size, "start": (page - 1) * page_size, "apikey": API_KEY}
+        params = {
+            "q": keyword,
+            "count": page_size,
+            "start": (page - 1) * page_size,
+            "apikey": app_config.DOUBAN_API_KEY,
+        }
 
         async with httpx.AsyncClient(headers=HEADERS) as client:
             try:
@@ -74,7 +78,7 @@ class DoubanHelper:
     @staticmethod
     async def search_by_isbn(isbn: str) -> list[dict[str, Any]]:
         url = f"{BASE_URL}/isbn/{isbn}"
-        params = {"apikey": API_KEY}
+        params = {"apikey": app_config.DOUBAN_API_KEY}
 
         async with httpx.AsyncClient(headers=HEADERS) as client:
             try:

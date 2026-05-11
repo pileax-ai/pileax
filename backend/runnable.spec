@@ -3,7 +3,7 @@ import os
 from PyInstaller.utils.hooks import collect_all
 
 datas = [
-    ('.env', '.env'),
+    ('.env.example', '.'),
     ('alembic.ini', '.'),
     ('alembic', 'alembic'),
     ('conf', 'conf')

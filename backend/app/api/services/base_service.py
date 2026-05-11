@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from sqlmodel import Session, SQLModel
 
 from app.api.models.owner import Owner
-from app.api.models.query import PaginationQuery
+from app.api.models.query import PaginationQuery, SortOrder
 from app.api.repos.base_repository import BaseRepository
 from app.libs.exception.business_error import BusinessError
 
@@ -61,8 +61,13 @@ class BaseService(Generic[ModelType]):
     def query(self, query: PaginationQuery):
         return self.repo.query(query)
 
-    def find_one(self, condition: Optional[dict[str, object]] = None, raise_exception=False) -> ModelType | None:
-        obj = self.repo.find_one(condition)
+    def find_one(
+        self,
+        condition: Optional[dict[str, object]] = None,
+        sort: Optional[dict[str, SortOrder]] = None,
+        raise_exception=False,
+    ) -> ModelType | None:
+        obj = self.repo.find_one(condition, sort)
         if not obj and raise_exception:
             raise HTTPException(status_code=404, detail=f"{self.repo.model.__name__} not found")
         return obj

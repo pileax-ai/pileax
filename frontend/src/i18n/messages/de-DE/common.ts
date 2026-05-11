@@ -193,6 +193,8 @@ export default {
   symbol: 'Symbol',
   system: 'System',
   systems: {
+    config: 'Konfiguration',
+    env: 'Umfeld',
     log: 'Systemprotokoll',
     security: 'Sicherheit',
     server: {

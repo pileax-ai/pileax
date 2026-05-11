@@ -127,9 +127,9 @@ function fetchBookMeta() {
     coverUrl.value = res.coverUrl
   }).catch(err => {
     if (err.response.status === 409) {
-      notifyWarning('book.warning.isbnExists')
+      notifyWarning(t('book.warning.isbnExists'))
     } else if (err.response.status === 404) {
-      notifyWarning('book.warning.isbnNotFound')
+      notifyWarning(t('book.warning.isbnNotFound'))
       manual.value = true
     }
   })
@@ -140,7 +140,7 @@ function onSubmit () {
     return
   }
   if (!coverUrl.value) {
-    notifyWarning('请上传封面')
+    notifyWarning(t('book.warning.uploadCover'))
     return
   }
 

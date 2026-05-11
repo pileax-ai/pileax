@@ -25,6 +25,7 @@ EXT_NAMES = [
     "provider_default_model",
     "provider_model",
     "system",
+    "system_setting",
     "tenant",
     "tts",
     "user",

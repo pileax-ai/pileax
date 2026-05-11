@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Proszę podać numer ISBN',
     isbnExists: 'Książka o tym numerze ISBN istnieje',
     isbnNotFound: 'Nie znaleziono książki o tym numerze ISBN',
-    titleNotMatch: 'Tytuł książki nie pasuje'
+    titleNotMatch: 'Tytuł książki nie pasuje',
+    uploadCover: 'Proszę przesłać okładkę'
   }
 }

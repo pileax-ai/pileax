@@ -50,8 +50,13 @@ class AuthController:
         # set cookies
         CookieHelper.set_tokens(self.response, token)
 
+        # is_super
+        is_super = self.service.is_super(user)
+        user_simple = UserSimple(**user.model_dump(by_alias=True))
+        user_simple.is_super = is_super
+
         return SigninPublic(
-            user=UserSimple(**user.model_dump(by_alias=True)),
+            user=user_simple,
             token=TokenPublic(**token.model_dump(by_alias=True)),
         )
 

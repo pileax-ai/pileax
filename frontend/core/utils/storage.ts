@@ -202,10 +202,10 @@ export function removeUserData(prefix = PREFIX) {
   if (pinia) {
     const stores = (pinia as Pinia & { _s: Map<string, any> })._s
     stores.forEach((store, id) => {
-      console.log('to clear', id)
+      // console.log('to clear', id)
       if (storeKeys.some(k => id.startsWith(k))) {
         store.$reset()
-        console.log('clear store', id)
+        // console.log('clear store', id)
       }
     })
   } else {

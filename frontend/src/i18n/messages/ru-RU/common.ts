@@ -193,6 +193,8 @@ export default {
   symbol: 'Символ',
   system: 'Система',
   systems: {
+    config: 'Конфигурация',
+    env: 'Среда',
     log: 'Системный журнал',
     security: 'Безопасность',
     server: {

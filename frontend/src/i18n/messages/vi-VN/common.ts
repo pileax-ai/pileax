@@ -193,6 +193,8 @@ export default {
   symbol: 'Biểu tượng',
   system: 'Hệ thống',
   systems: {
+    config: 'Cấu hình',
+    env: 'Môi trường',
     log: 'Nhật ký hệ thống',
     security: 'Bảo vệ',
     server: {

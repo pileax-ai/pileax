@@ -9,8 +9,6 @@ from app.libs.file_uploader import FileUploader
 
 logger = logging.getLogger(__name__)
 
-PROXY = app_config.HTTP_PROXY
-API_KEY = app_config.GOOGLE_API_KEY
 BASE_URL = "https://www.googleapis.com/books/v1"
 HEADERS = {
     "Accept": "application/json",
@@ -81,10 +79,10 @@ class GoogleBookHelper:
             "startIndex": (page - 1) * page_size,
             "printType": "books",
             "orderBy": "relevance",
-            "key": API_KEY,
+            "key": app_config.GOOGLE_API_KEY,
         }
 
-        async with httpx.AsyncClient(headers=HEADERS, proxy=PROXY) as client:
+        async with httpx.AsyncClient(headers=HEADERS, proxy=app_config.HTTP_PROXY) as client:
             try:
                 response = await client.get(url, params=params, timeout=10.0)
                 response.raise_for_status()
@@ -100,9 +98,9 @@ class GoogleBookHelper:
     @staticmethod
     async def search_by_isbn(isbn: str) -> list[dict[str, Any]]:
         url = f"{BASE_URL}/volumes"
-        params = {"q": f"isbn:{isbn}", "maxResults": 1, "key": API_KEY}
+        params = {"q": f"isbn:{isbn}", "maxResults": 1, "key": app_config.GOOGLE_API_KEY}
 
-        async with httpx.AsyncClient(headers=HEADERS, proxy=PROXY) as client:
+        async with httpx.AsyncClient(headers=HEADERS, proxy=app_config.HTTP_PROXY) as client:
             try:
                 response = await client.get(url, params=params, timeout=10.0)
                 response.raise_for_status()
@@ -128,4 +126,4 @@ class GoogleBookHelper:
             "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
         }
 
-        return await FileUploader(date=True).download_image(url=image_url, headers=headers, proxy=PROXY)
+        return await FileUploader(date=True).download_image(url=image_url, headers=headers, proxy=app_config.HTTP_PROXY)

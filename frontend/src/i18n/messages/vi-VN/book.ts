@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Vui lòng nhập mã ISBN',
     isbnExists: 'Sách có mã ISBN này tồn tại.',
     isbnNotFound: 'Không tìm thấy sách có mã ISBN này.',
-    titleNotMatch: 'Tên sách không khớp'
+    titleNotMatch: 'Tên sách không khớp',
+    uploadCover: 'Vui lòng tải ảnh bìa lên.'
   }
 }

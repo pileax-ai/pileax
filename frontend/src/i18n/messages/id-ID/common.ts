@@ -193,6 +193,8 @@ export default {
   symbol: 'Simbol',
   system: 'Sistem',
   systems: {
+    config: 'Konfigurasi',
+    env: 'Lingkungan',
     log: 'Log Sistem',
     security: 'Keamanan',
     server: {

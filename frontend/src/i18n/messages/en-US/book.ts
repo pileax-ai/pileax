@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Please input ISBN',
     isbnExists: 'Book with this ISBN exists',
     isbnNotFound: 'Book with this ISBN not found',
-    titleNotMatch: 'Book title dost not match'
+    titleNotMatch: 'Book title dost not match',
+    uploadCover: 'Please upload cover'
   }
 }
