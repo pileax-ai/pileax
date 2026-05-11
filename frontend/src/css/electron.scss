@@ -90,6 +90,11 @@
     .o-title-bar-overlay {
       display: flex !important;
     }
+    .reader-side-panel {
+      .side-fixed {
+        top: 28px !important;
+      }
+    }
 
     .full-page-layout {
       .top-navi {

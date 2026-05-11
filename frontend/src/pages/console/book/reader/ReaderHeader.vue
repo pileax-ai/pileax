@@ -12,18 +12,15 @@
       </div>
     </section>
 
-    <div class="col spacer">
+    <div class="col spacer drag-region">
     </div>
 
     <section class="row col-auto header-right">
     </section>
 
-    <o-tool-bar-overlay class="col-auto"
-                        :window-id="windowId"
-                        v-if="!rightDrawerShow" />
 
     <!-- Hover Toolbar -->
-    <section class="row justify-between items-center text-readable top-toolbar toolbar-hover-show">
+    <section class="row justify-between items-center text-readable top-toolbar fixed-left toolbar-hover-show">
       <div class="row col-auto items-center q-px-sm">
         <div class="no-drag-region" v-if="!leftDrawerShow">
           <o-hover-btn icon="icon-sidebar"
@@ -69,10 +66,9 @@
           {{ book.title }}
         </div>
       </div>
+    </section>
 
-      <section class="col spacer drag-region">
-      </section>
-
+    <section class="row justify-between items-center text-readable top-toolbar fixed-right toolbar-hover-show">
       <div class="row col-auto q-px-sm">
         <section class="row">
           <q-btn icon="o_tune" class="o-toolbar-btn"
@@ -92,6 +88,9 @@
           </q-btn>
         </section>
       </div>
+      <o-tool-bar-overlay class="col-auto"
+                          :window-id="windowId"
+                          v-if="!rightDrawerShow" />
     </section>
 
     <transition appear
@@ -230,11 +229,16 @@ onUnmounted(() => {
 
   .header-left {
     position: relative;
+    min-width: 200px;
     height: 40px;
 
     .chapter {
       padding-left: 32px;
     }
+  }
+
+  .header-right {
+    min-width: 200px;
   }
 
   .bookmark {
@@ -299,12 +303,18 @@ onUnmounted(() => {
 
   .top-toolbar {
     position: fixed;
-    left: 0;
-    right: 0;
     top: 0;
     height: 40px;
     padding: 0;
     background: var(--q-secondary);
+
+    &.fixed-left {
+      left: 0;
+    }
+
+    &.fixed-right {
+      right: 0;
+    }
 
     &.toolbar-hover-show {
       visibility: hidden;
