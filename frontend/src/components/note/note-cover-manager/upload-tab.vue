@@ -20,7 +20,7 @@ const {
 } = useNote()
 
 const onUploaded = (meta: Indexable) => {
-  emit('cover', { type: 'upload', cover: meta.path })
+  emit('cover', { type: 'upload', cover: meta.url })
 }
 </script>
 
