@@ -236,6 +236,19 @@ onMounted(() => {
       height: calc(100vh - 54px) !important;
       border-radius: 12px;
       background: var(--q-secondary) !important;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        //background-image: url('/images/book/dark-bubble_nebula.jpg')!important;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        filter: blur(350px);
+      }
     }
     .navi-separator {
       display: none;
