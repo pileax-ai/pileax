@@ -15,7 +15,7 @@
       <section class="pi-view-grid">
         <template v-for="(item, key) in uploadCovers" :key="key">
           <div class="">
-            <cover-item :data="item" @click="onCover(item)" />
+            <cover-item :data="item" @click="onCover(item)" v-close-popup />
           </div>
         </template>
       </section>
@@ -54,7 +54,7 @@ const queryUploaded = () => {
     uploadCovers.value = res.list.map((item: Indexable) => {
       return {
         label: item.originalName,
-        value: item.path
+        value: item.url
       }
     })
   })

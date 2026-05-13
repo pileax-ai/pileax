@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+  import { computed, ref } from 'vue'
 import { useAccountStore } from 'stores/account'
 import { useNaviStore } from 'stores/navi'
 import { useNoteStore } from 'stores/note'
@@ -135,7 +135,7 @@ export default function () {
 
   function saveNoteRemote(data: Indexable): Promise<Indexable> {
     return new Promise((resolve, reject) => {
-      console.log('save', data)
+      // console.log('save', data)
       noteService.save(data).then(res => {
         refreshNote(res)
         resolve(res)
