@@ -1,7 +1,6 @@
 /**
  *  Styles
  */
-
 .layout-console {
   .q-page-container {
     overflow: hidden !important;
@@ -87,6 +86,19 @@
       .q-splitter__panel {
         background: var(--q-secondary);
         border-radius: $panelRadius;
+
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          //background-image: url('/images/book/dark-bubble_nebula.jpg')!important;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          filter: blur(350px);
+        }
       }
 
       .q-splitter__separator-area:before {

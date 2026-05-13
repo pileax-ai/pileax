@@ -46,7 +46,6 @@ export class Application {
 
   static initApp() {
     app.setName('PileaX')
-    app.disableHardwareAcceleration()
   }
 
   static initUpdater() {
