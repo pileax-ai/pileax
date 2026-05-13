@@ -212,6 +212,7 @@
   "book.warning.inputISBN": "374954d2",
   "book.warning.isbnExists": "efcd7784",
   "book.warning.isbnNotFound": "cd850108",
+  "book.warning.referencedByOthers": "18f1a9f4",
   "book.warning.titleNotMatch": "a669d66c",
   "book.warning.uploadCover": "36ca675d",
   "buildTime": "fee8deb7",

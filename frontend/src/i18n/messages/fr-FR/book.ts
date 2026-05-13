@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Veuillez saisir l\'ISBN',
     isbnExists: 'Il existe un livre portant cet ISBN',
     isbnNotFound: 'Livre introuvable avec cet ISBN',
+    referencedByOthers: 'Impossible de supprimer, livre référencé par d\'autres utilisateurs',
     titleNotMatch: 'Le titre du livre ne correspond pas',
     uploadCover: 'Veuillez télécharger la couverture'
   }

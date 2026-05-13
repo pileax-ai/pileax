@@ -81,8 +81,8 @@ export default {
     inputISBN: '请输入ISBN',
     isbnExists: 'ISBN对应的书已存在',
     isbnNotFound: 'ISBN对应的书未找到',
-    titleNotMatch: '书名不匹配',
     referencedByOthers: '无法删除，该书已被其他用户引用',
+    titleNotMatch: '书名不匹配',
     uploadCover: '请上传封面'
   }
 }

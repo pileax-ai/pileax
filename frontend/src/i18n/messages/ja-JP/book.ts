@@ -82,6 +82,7 @@ export default {
     inputISBN: 'ISBNを入力してください',
     isbnExists: 'このISBNの書籍は既に存在します',
     isbnNotFound: 'このISBNの書籍は見つかりません',
+    referencedByOthers: '削除できません。他のユーザーが参照している書籍です。',
     titleNotMatch: '書籍のタイトルが一致しません',
     uploadCover: 'カバー画像をアップロードしてください'
   }
