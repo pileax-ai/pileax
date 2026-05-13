@@ -8,7 +8,7 @@
       {{ progress.location?.current }} / {{ progress.location?.total }}
     </span>
 
-    <section class="row items-start text-readable bottom-toolbar toolbar-hover-show">
+    <section class="row items-center text-readable bottom-toolbar toolbar-hover-show">
       <div class="row col-auto q-px-sm">
         <q-btn icon="keyboard_double_arrow_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
           <o-tooltip :message="$t('reading.prevSection')" />

@@ -77,7 +77,7 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return self.service.query(query)
 
     def find_one(self, condition: Optional[dict[str, object]] = None, raise_exception=False) -> ModelType:
-        return self.service.find_one(condition, raise_exception)
+        return self.service.find_one(condition, raise_exception=raise_exception)
 
     def find_all(self, condition: Optional[dict[str, object]] = None) -> list[ModelType]:
         return self.service.find_all(condition)

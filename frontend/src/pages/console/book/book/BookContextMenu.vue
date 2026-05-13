@@ -10,8 +10,9 @@ import { computed, ref } from 'vue'
 import OContextMenu from 'core/components/menu/OContextMenu.vue'
 import useBookDetails from 'src/hooks/useBookDetails'
 import useDialog from 'core/hooks/useDialog'
-import { notifyDone } from 'core/utils/control'
+import { notifyDone, notifyWarning } from 'core/utils/control'
 import useCommon from 'core/hooks/useCommon'
+import { getErrorMessage } from 'src/utils/request'
 
 const props = defineProps({
   contextMenu: {
@@ -144,7 +145,12 @@ function onDeleteBook() {
       item: props.data
     })
   }).catch(err => {
-    // console.error(err)
+    if (err.response.status === 409) {
+      notifyWarning(t('book.warning.referencedByOthers'))
+    } else {
+      const message = getErrorMessage(err)
+      notifyWarning(message)
+    }
   })
 }
 

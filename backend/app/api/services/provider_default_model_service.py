@@ -72,7 +72,7 @@ class ProviderDefaultModelService(BaseService[ProviderDefaultModel]):
                 "workspace_id": self.workspace_id,
                 "model_type": model_type,
             },
-            True,
+            raise_exception=True,
         )
 
     def get_default_model_credential(

@@ -62,7 +62,7 @@
           </o-tooltip>
         </q-btn>
 
-        <div class="q-px-sm text-readable">
+        <div class="q-px-sm text-readable ellipsis">
           {{ book.title }}
         </div>
       </div>
@@ -310,10 +310,17 @@ onUnmounted(() => {
 
     &.fixed-left {
       left: 0;
+      max-width: 40%;
+      border-radius: 0 8px 8px 0;
+
+      .ellipsis {
+        max-width: calc(100% - 60px);
+      }
     }
 
     &.fixed-right {
       right: 0;
+      border-radius: 8px 0 0 8px;
     }
 
     &.toolbar-hover-show {

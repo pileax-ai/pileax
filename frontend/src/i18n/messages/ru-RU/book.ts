@@ -82,6 +82,7 @@ export default {
     inputISBN: 'Пожалуйста, введите ISBN.',
     isbnExists: 'Книга с таким ISBN существует.',
     isbnNotFound: 'Книга с этим ISBN не найдена',
+    referencedByOthers: 'Невозможно удалить, на книгу ссылаются другие пользователи.',
     titleNotMatch: 'Название книги не совпадает',
     uploadCover: 'Пожалуйста, загрузите обложку.'
   }

@@ -334,9 +334,9 @@ const parseTitle = (title: string) => {
   return title.replace(/【.*】$/, '').trim()
 }
 
-const parseAuthor = (data: any) => {
+const parseAuthor0 = (data: any) => {
   if (!data) return 'Author'
-  // console.log('parseAuthor', data)
+  console.log('parseAuthor', data)
   let author = data
   if (Array.isArray(data)) {
     // console.log('parseAuthor array', data)
@@ -350,6 +350,32 @@ const parseAuthor = (data: any) => {
   }
 
   return author
+}
+
+const parseAuthor = (data: any): string => {
+  if (!data) return 'Unknown'
+
+  // Recursive helper to extract name from complex objects
+  const extractName = (item: any): string => {
+    if (typeof item === 'string') return item
+    if (typeof item === 'object' && item !== null) {
+      // 1. Handle Standard Ebooks style: { name: { "en-US": "Plato" } }
+      if (typeof item.name === 'object' && item.name !== null) {
+        return item.name['en-US'] || item.name['en'] || Object.values(item.name)[0] || 'Unknown'
+      }
+      // 2. Handle flat object style: { name: "Plato" }
+      if (item.name) return item.name
+      // 3. Fallback for other potential properties
+      return item.sortAs || item.fullName || 'Unknown'
+    }
+    return 'Unknown'
+  }
+
+  if (Array.isArray(data)) {
+    return data.map(extractName).join(', ')
+  }
+
+  return extractName(data)
 }
 
 const parseBookField = (data: any) => {

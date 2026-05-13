@@ -39,7 +39,7 @@
                        :maxSize="10 * 1024 * 1024"
                        :preview="getFileUrl(form.coverUrl)"
                        :loading="loading" leading
-                       @ready="onLogoReady" />
+                       @uploaded="onCoverUpload" />
     </o-field>
   </o-simple-form-page>
 </template>
@@ -69,6 +69,7 @@ const emit = defineEmits(['close', 'success'])
 const { form, loading, actions } = useForm()
 const { getFileUrl } = useApi()
 const id = ref('')
+const coverUrl = ref('')
 
 const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },
@@ -87,8 +88,8 @@ function load () {
   }
 }
 
-function onLogoReady() {
-  //
+function onCoverUpload(info: Indexable) {
+  coverUrl.value = info.url
 }
 
 function onSubmit () {
@@ -102,6 +103,7 @@ function onSubmit () {
     author: form.value.author,
     publisher: form.value.publisher,
     description: form.value.description,
+    coverUrl: coverUrl.value,
   }
 
   actions.submit(body,(data) => {
@@ -113,6 +115,8 @@ function onSubmit () {
         description: data.description,
         publisher: data.publisher,
         title: data.title,
+        coverUrl: data.coverUrl,
+        updateTime: data.updateTime,
       }
     })
   })
