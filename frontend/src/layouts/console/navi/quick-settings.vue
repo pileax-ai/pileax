@@ -7,7 +7,7 @@
     <template v-if="type === 'tab'">
       <div class="row items-center label q-ml-sm">
         {{workspace.name}}
-        <q-icon name="circle" color="red" class="dot" v-if="indicatorUpdate" />
+        <q-icon name="circle" color="red" class="dot" size="10px" v-if="indicatorUpdate" />
       </div>
       <q-icon name="keyboard_arrow_down"
               class="text-tips q-ml-sm"
