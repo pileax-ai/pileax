@@ -74,7 +74,7 @@
 
             <template v-if="rows.length">
               <section class="pi-view-grid" v-if="bookView === 'grid'">
-                <template v-for="(item) in rows" :key="item.id">
+                <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                   <div class="">
                     <book-grid-item :data="item"
                                     @click="openBook(item)"
@@ -89,7 +89,7 @@
                 </template>
               </section>
               <section class="pi-view-grid" v-else-if="bookView === 'compact'">
-                <template v-for="(item) in rows" :key="item.id">
+                <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                   <div class="">
                     <book-compact-item :data="item"
                                        @click="openBook(item)"
@@ -105,7 +105,7 @@
               </section>
               <section class="row col-12 justify-center pi-view-list" v-else>
                 <q-list>
-                  <template v-for="(item) in rows" :key="item.id">
+                  <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                     <book-list-item :data="item"
                                     @click="openBook(item)"
                                     @details="onDetails(item)">
@@ -247,7 +247,8 @@ function onClose(options: Indexable) {
   if (options && options.action && options.item) {
     const bookId = options.item.bookId
     const index = rows.value.findIndex(e => e.bookId === bookId)
-    if (index !== -1) {
+    // console.log('onClose', options, index)
+    if (index >= 0) {
       switch (options.action) {
         case 'edit':
           rows.value.splice(index, 1, options.item)
