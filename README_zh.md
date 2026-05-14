@@ -27,7 +27,13 @@
 
 PileaX 是一款本地优先的一站式 AI 知识库，集 AI 对话、智能笔记、电子书阅读和管理于一体。从知识的生产到应用，PileaX 帮助您建立统一的知识库，利用 AI 智能体技术不断优化 AI 交互体验。数据完全由您掌控，支持离线使用的桌面应用和灵活部署的 Web 应用。
 
-![Screenshot](https://docs.pileax.ai/screenshots/main.gif)
+## 预览
+
+### 主界面
+![Screenshot](https://pileax.ai/screenshots/main.gif)
+
+### 阅读器
+![Screenshot](https://pileax.ai/screenshots/reader.gif)
 
 ## 特性
 
@@ -37,16 +43,17 @@ PileaX 是一款本地优先的一站式 AI 知识库，集 AI 对话、智能�
 🌗 支持浅色、深色模式 <br/>
 🆓 MIT 许可 <br/>
 
-## 快速开始
+## 文档
 
-- [PileaX 指南](https://docs.pileax.ai/guide/getting-started)
+- [快速开始](https://pileax.ai/zh/guide/getting-started)
+- [下载](https://pileax.ai/zh/download)
 
-如需更详细的信息，请务必查看我们的[文档](https://docs.pileax.ai/guide/getting-started)。如果您在使用过程中遇到任何问题或有改进建议，欢迎提交 [issue](https://github.com/pileax-ai/pileax/issues/new/choose)。
+如需更详细的信息，请务必查看我们的[文档](https://pileax.ai/zh)。如果您在使用过程中遇到任何问题或有改进建议，欢迎提交 [issue](https://github.com/pileax-ai/pileax/issues/new/choose)。
 
 ### 桌面应用
-前往 [release](https://github.com/pileax-ai/pileax/releases) 下载桌面应用。
+前往 [下载页面](https://pileax.ai/download) 或 [release](https://github.com/pileax-ai/pileax/releases) 下载桌面应用。
 
-### Docker
+### Docker Compose
 ```bash
 cd docker
 cp backend.env.example backend.env
@@ -76,8 +83,8 @@ docker compose down
 - [Dify](https://github.com/langgenius/dify/): An open-source platform for developing LLM applications.
 - [RAGFlow](https://github.com/infiniflow/ragflow): A leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs.
 - [foliate-js](https://github.com/johnfactotum/foliate-js): Library for rendering e-books in the browser.
-- [Yiitap](https://github.com/pileax-ai/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
 - [Anx Reader](https://github.com/Anxcye/anx-reader): A thoughtfully crafted e-book reader for book lovers.
+- [Yiitap](https://github.com/pileax-ai/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
 
 
 ## 许可证

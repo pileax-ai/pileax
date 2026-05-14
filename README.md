@@ -27,7 +27,13 @@
 
 PileaX is a local-first, all-in-one AI knowledge base that integrates AI chat, smart notes, and e-book reading & management. From knowledge creation to application, PileaX helps you build a unified knowledge base and continuously optimizes the AI interaction experience with AI agent technologies.Your data is fully under your control. It supports offline desktop apps and flexibly deployable web apps.
 
-![Screenshot](https://docs.pileax.ai/screenshots/main.gif)
+## Preview
+
+### Main
+![Screenshot](https://pileax.ai/screenshots/main.gif)
+
+### Reader
+![Screenshot](https://pileax.ai/screenshots/reader.gif)
 
 ## Features
 
@@ -39,14 +45,15 @@ PileaX is a local-first, all-in-one AI knowledge base that integrates AI chat, s
 
 ## Quick start
 
-- [Guide to PileaX](https://docs.pileax.ai/guide/getting-started)
+- [Getting started](https://pileax.ai/guide/getting-started)
+- [Download](https://pileax.ai/download)
 
-For more detailed information, make sure to check out our [documentation](https://docs.pileax.ai). If you encounter any problems or have suggestions, please open an [issue](https://github.com/pileax-ai/pileax/issues/new/choose).
+For more detailed information, make sure to check out our [documentation](https://pileax.ai). If you encounter any problems or have suggestions, please open an [issue](https://github.com/pileax-ai/pileax/issues/new/choose).
 
 ### Desktop
-Download desktop application from [release page](https://github.com/pileax-ai/pileax/releases).
+Download desktop application from [download page](https://pileax.ai/download) or [release page](https://github.com/pileax-ai/pileax/releases).
 
-### Docker
+### Docker Compose
 ```bash
 cd docker
 cp backend.env.example backend.env
@@ -75,8 +82,8 @@ Then, open http://localhost:9610 to start.
 - [Dify](https://github.com/langgenius/dify/): An open-source platform for developing LLM applications.
 - [RAGFlow](https://github.com/infiniflow/ragflow): A leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs.
 - [foliate-js](https://github.com/johnfactotum/foliate-js): Library for rendering e-books in the browser.
-- [Yiitap](https://github.com/pileax-ai/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
 - [Anx Reader](https://github.com/Anxcye/anx-reader): A thoughtfully crafted e-book reader for book lovers.
+- [Yiitap](https://github.com/pileax-ai/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
 
 
 ## License
