@@ -95,7 +95,7 @@ export default defineConfig(((ctx) => {
       // distDir
       envFolder: 'env',
       env: {
-        COLLAB: mode === 'electron' ? JSON.stringify('false') : JSON.stringify(process.env.COLLAB)
+        COLLAB: mode === 'electron' ? JSON.stringify('false') : process.env.COLLAB
       },
       rawDefine: viteConfig(ctx).rawDefine,
 
