@@ -11,6 +11,7 @@ from app.api.models.workspace_book import (
 )
 from app.api.services.user_book_service import UserBookService
 from app.api.services.workspace_book_service import WorkspaceBookService
+from app.configs import app_config
 
 
 class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate, WorkspaceBookUpdate]):
@@ -50,6 +51,14 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
             query.condition["userId"] = self.user.id
         if query.condition.get("workspaceId") is None:
             query.condition["workspaceId"] = self.workspace_id
+        if query.condition.get("media") is not None:
+            media = query.condition.get("media")
+            if app_config.DB_PROVIDER == 'sqlite':
+                query.condition["media__icontains"] = media
+            else:
+                query.condition["media.type"] = media
+                query.condition.pop("media", None)
+
         return self.service.query_details(query)
 
     def get_stats(self):
