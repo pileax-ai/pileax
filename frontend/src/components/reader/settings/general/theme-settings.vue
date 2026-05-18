@@ -18,45 +18,27 @@
     <o-view-item :label="$t('appearances.background._')"
                  class="col-12 q-mt-md"
                  align="right" arrow clickable
-                 @click="emit('next', 'background')"
-                 v-if="!fixedLayout">
+                 @click="emit('next', 'background')">
     </o-view-item>
-    <o-field-label :label="$t('appearances.viewMargin')"
-                   content-class="row justify-around" side>
-      <q-toggle v-model="viewMargin" />
-    </o-field-label>
   </section>
 </template>
 
 <script setup lang="ts">
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
+import useSetting from 'core/hooks/useSetting'
+import useReaderSetting from 'src/hooks/useReaderSetting'
+
 const props = defineProps({
   itemClass: {
     type: String,
     default: ''
   },
-  fixedLayout: {
-    type: Boolean,
-    default: false
-  },
 })
 const emit = defineEmits(['next'])
 
-import useSetting from 'core/hooks/useSetting'
-import useReaderSetting from 'src/hooks/useReaderSetting'
-import { computed } from 'vue'
 const { themeList, theme, setTheme } = useSetting()
 const { settings, setReaderTheme, setSettingItem } = useReaderSetting()
-
-const viewMargin = computed({
-  get() {
-    return settings.value.viewMargin || false
-  },
-  set(value) {
-    setSettingItem('viewMargin', value)
-  }
-})
 
 function select(value: string) {
   setTheme(value)
@@ -66,6 +48,19 @@ function select(value: string) {
 
 <style lang="scss">
 .theme-settings {
+  .o-field-label {
+    margin-top: 0 !important;
+
+    .label {
+      width: unset!important;
+    }
+
+    .side {
+      padding-left: 0 !important;
+      max-width: unset!important;
+    }
+  }
+
   .q-btn {
     color: var(--q-primary);
     width: 80px;

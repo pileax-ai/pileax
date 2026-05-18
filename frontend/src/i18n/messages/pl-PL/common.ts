@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Tryb dla daltonistów',
       grayscale: 'Tryb skali szarości'
     },
+    page: {
+      _: 'Strona',
+      columnGap: 'Szczelina między kolumnami',
+      fitPage: 'Dopasuj stronę',
+      fitWidth: 'Dopasuj szerokość',
+      horizontalMargin: 'Margines poziomy',
+      margin: 'Margines',
+      maxColumnCount: 'Maksymalna liczba kolumn',
+      pageWidth: 'Szerokość strony',
+      verticalMargin: 'Margines pionowy',
+      zoom: 'Brzęczenie'
+    },
     theme: 'Temat',
     themeColor: 'Kolor motywu',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Dopasuj szerokość',
       letterSpacing: 'Odstępy między literami',
       lineSpacing: 'Odstępy między wierszami',
-      margin: 'Margines',
-      pageWidth: 'Szerokość strony',
       paragraphSpacing: 'Odstępy między akapitami',
-      zoom: 'Brzęczenie'
-    },
-    viewMargin: 'Wyświetl margines'
+      textIndent: 'Wcięcie tekstu'
+    }
   },
   backHome: 'Powrót do strony głównej',
   backToHome: 'Powrót do strony głównej',

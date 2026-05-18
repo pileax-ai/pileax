@@ -51,6 +51,18 @@ export default {
       colorBlind: '色覚異常モード',
       grayscale: 'グレースケールモード'
     },
+    page: {
+      _: 'ページ',
+      columnGap: '列間隔',
+      fitPage: 'フィットページ',
+      fitWidth: 'フィット幅',
+      horizontalMargin: '水平余白',
+      margin: 'マージン',
+      maxColumnCount: '最大列数',
+      pageWidth: 'ページ幅',
+      verticalMargin: '垂直マージン',
+      zoom: 'ズーム'
+    },
     theme: 'テーマ',
     themeColor: 'テーマカラー',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'フィット幅',
       letterSpacing: '文字間隔',
       lineSpacing: '行間隔',
-      margin: 'マージン',
-      pageWidth: 'ページ幅',
       paragraphSpacing: '段落間隔',
-      zoom: 'ズーム'
-    },
-    viewMargin: '表示余白'
+      textIndent: 'テキストのインデント'
+    }
   },
   backHome: 'ホームに戻る',
   backToHome: 'ホームに戻る',

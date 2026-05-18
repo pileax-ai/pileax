@@ -59,17 +59,5 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .font-settings {
-  .o-field-label {
-    margin-top: 24px;
-
-    .label {
-      width: 100px;
-    }
-
-    .side {
-      padding-left: 10px;
-      max-width: 80%;
-    }
-  }
 }
 </style>

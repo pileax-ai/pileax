@@ -5,25 +5,30 @@ import { THEMES } from 'core/constants/setting'
  * Reader default settings
  */
 export const defaultSetting = {
+  // font and background
   fontSize: 1.2,
   font: 'book',
   fontName: 'book',
+  fontColor: '#000000',
+  backgroundColor: '#ffffff',
+  backgroundImage: '',
+
+  // typography
   letterSpacing: 0,
   spacing: 1.7,
   paragraphSpacing: 0,
   textIndent: 0,
-  fontColor: '#000000',
-  backgroundColor: '#ffffff',
-  backgroundImage: '',
-  topMargin: 0,
-  bottomMargin: 0,
-  sideMargin: 1,
   justify: true,
   hyphenate: true,
+
+  // page
   pageTurnStyle: 'slide',
+  columnGap: 5,
   maxColumnCount: 1,
   maxInlineSize: 720,
-  viewMargin: false,
+  margin: 0,
+  verticalMargin: 40,
+  horizontalMargin: 0,
   spread: 'none',
   zoom: 'fit-width',
 

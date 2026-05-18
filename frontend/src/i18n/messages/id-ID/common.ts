@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Mode Buta Warna',
       grayscale: 'Mode Skala Abu-abu'
     },
+    page: {
+      _: 'Halaman',
+      columnGap: 'Celah Kolom',
+      fitPage: 'Halaman yang Sesuai',
+      fitWidth: 'Lebar yang Sesuai',
+      horizontalMargin: 'Margin Horizontal',
+      margin: 'Batas',
+      maxColumnCount: 'Jumlah Kolom Maksimum',
+      pageWidth: 'Lebar Halaman',
+      verticalMargin: 'Margin Vertikal',
+      zoom: 'Zoom'
+    },
     theme: 'Tema',
     themeColor: 'Warna Tema',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Lebar yang Sesuai',
       letterSpacing: 'Jarak Antar Huruf',
       lineSpacing: 'Jarak Antar Baris',
-      margin: 'Batas',
-      pageWidth: 'Lebar Halaman',
       paragraphSpacing: 'Jarak Antar Paragraf',
-      zoom: 'Zoom'
-    },
-    viewMargin: 'Lihat Margin'
+      textIndent: 'Indentasi Teks'
+    }
   },
   backHome: 'Kembali ke Halaman Utama',
   backToHome: 'Kembali ke Beranda',

@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Mod daltonist',
       grayscale: 'Mod Tonuri de gri'
     },
+    page: {
+      _: 'Pagină',
+      columnGap: 'Spațiu în coloană',
+      fitPage: 'Potrivire pagină',
+      fitWidth: 'Lățime potrivită',
+      horizontalMargin: 'Margine orizontală',
+      margin: 'Marjă',
+      maxColumnCount: 'Număr maxim de coloane',
+      pageWidth: 'Lățimea paginii',
+      verticalMargin: 'Margine verticală',
+      zoom: 'Zoom'
+    },
     theme: 'Temă',
     themeColor: 'Culoarea temei',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Lățime potrivită',
       letterSpacing: 'Spațierea literelor',
       lineSpacing: 'Spațiere între linii',
-      margin: 'Marjă',
-      pageWidth: 'Lățimea paginii',
       paragraphSpacing: 'Spațierea paragrafelor',
-      zoom: 'Zoom'
-    },
-    viewMargin: 'Margine de vizualizare'
+      textIndent: 'Indentare text'
+    }
   },
   backHome: 'Întoarcerea acasă',
   backToHome: 'Înapoi la pagina principală',

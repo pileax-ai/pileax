@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Color-blind Mode',
       grayscale: 'Grayscale Mode'
     },
+    page: {
+      _: 'Page',
+      columnGap: 'Column Gap',
+      fitPage: 'Fit Page',
+      fitWidth: 'Fit Width',
+      horizontalMargin: 'Horizontal Margin',
+      margin: 'Margin',
+      maxColumnCount: 'Max Column Count',
+      pageWidth: 'Page Width',
+      verticalMargin: 'Vertical Margin',
+      zoom: 'Zoom'
+    },
     theme: 'Theme',
     themeColor: 'Theme Color',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Fit Width',
       letterSpacing: 'Letter Spacing',
       lineSpacing: 'Line Spacing',
-      margin: 'Margin',
-      pageWidth: 'Page Width',
       paragraphSpacing: 'Paragraph Spacing',
-      zoom: 'Zoom'
-    },
-    viewMargin: 'View Margin'
+      textIndent: 'Text Indent'
+    }
   },
   backHome: 'Return to Home',
   backToHome: 'Back to Home',

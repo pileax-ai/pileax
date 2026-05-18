@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Farbblindmodus',
       grayscale: 'Graustufenmodus'
     },
+    page: {
+      _: 'Seite',
+      columnGap: 'Säulenlücke',
+      fitPage: 'Seite „Passen“',
+      fitWidth: 'Passende Breite',
+      horizontalMargin: 'Horizontaler Rand',
+      margin: 'Marge',
+      maxColumnCount: 'Maximale Spaltenanzahl',
+      pageWidth: 'Seitenbreite',
+      verticalMargin: 'Vertikaler Rand',
+      zoom: 'Zoom'
+    },
     theme: 'Thema',
     themeColor: 'Farbthema',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Passende Breite',
       letterSpacing: 'Buchstabenabstand',
       lineSpacing: 'Zeilenabstand',
-      margin: 'Marge',
-      pageWidth: 'Seitenbreite',
       paragraphSpacing: 'Absatzabstand',
-      zoom: 'Zoom'
-    },
-    viewMargin: 'Ansichtsrand'
+      textIndent: 'Texteinzug'
+    }
   },
   backHome: 'Zurück zur Startseite',
   backToHome: 'Zurück zur Startseite',

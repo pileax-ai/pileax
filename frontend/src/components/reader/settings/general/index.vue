@@ -1,38 +1,42 @@
 <template>
   <q-list class="general-settings">
     <q-expansion-item :label="$t('appearance')"
-                      header-class="header"
+                      header-class="header bg-accent"
                       default-opened>
       <theme-settings class="row col-12 justify-between"
-                      :fixed-layout="fixedLayout"
                       @next="emit('next', $event)" />
     </q-expansion-item>
     <q-expansion-item :label="$t('appearances.font._')"
-                      header-class="header"
+                      header-class="header bg-accent"
                       default-opened
                       v-show="!fixedLayout">
       <font-settings class="row col-12 justify-between"
                      @next="emit('next', $event)" />
     </q-expansion-item>
     <q-expansion-item :label="$t('appearances.typography._')"
-                      header-class="header"
+                      header-class="header bg-accent"
+                      default-opened v-if="!fixedLayout">
+      <typography-settings class="row col-12 justify-between" />
+    </q-expansion-item>
+    <q-expansion-item :label="$t('appearances.page._')"
+                      header-class="header bg-accent"
                       default-opened>
-      <typography-settings class="row col-12 justify-between"
+      <page-settings class="row col-12 justify-between"
                            :fixed-layout="fixedLayout" />
     </q-expansion-item>
     <q-expansion-item :label="$t('more')"
-                      header-class="header"
-                      default-opened
-                      v-show="!fixedLayout">
+                      header-class="header bg-accent"
+                      default-opened v-if="false">
       <other-settings class="row col-12 justify-between" />
     </q-expansion-item>
   </q-list>
 </template>
 
 <script setup lang="ts">
+import ThemeSettings from './theme-settings.vue'
 import FontSettings from './font-settings.vue'
 import TypographySettings from './typography-settings.vue'
-import ThemeSettings from './theme-settings.vue'
+import PageSettings from './page-settings.vue'
 import OtherSettings from './other-settings.vue'
 
 defineProps({
@@ -53,6 +57,19 @@ const emit = defineEmits(['next'])
       //background: green;
       //margin-left: -10px;
       //padding-left: 10px;
+    }
+  }
+
+  .o-field-label {
+    margin-top: 24px;
+
+    .label {
+      width: 140px;
+    }
+
+    .side {
+      padding-left: 10px;
+      max-width: 80%;
     }
   }
 }

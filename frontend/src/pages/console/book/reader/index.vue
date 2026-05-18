@@ -32,7 +32,7 @@
     <!-- Reading View -->
     <section ref="bookRef"
              class="foliate-view"
-             :class="{ 'margin': settings.viewMargin }"
+             :style="{ margin: `${settings.verticalMargin}px ${settings.horizontalMargin}px` }"
              tabindex="-1"
              @click="onClick"
              @focus="onFocus"
@@ -261,13 +261,6 @@ onActivated(() => {
     right: 0;
     top: 0;
     bottom: 0;
-
-    &.margin {
-      left: 60px;
-      right: 60px;
-      top: 48px;
-      bottom: 48px;
-    }
   }
 
 }
