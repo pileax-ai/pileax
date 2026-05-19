@@ -3,6 +3,7 @@ import { webIpc } from 'src/api/ipc/web'
 import { tauriIpc } from 'src/api/ipc/tauri'
 
 export type IpcApi = {
+  windowId: string,
   hi: (message: string) => void;
   closeMainWindow: () => Promise<any>;
   closeWindow: (id: string) => Promise<any>;
@@ -21,7 +22,7 @@ export type IpcApi = {
   openNewWindow: (id: string, url: string, titleBarHeight?: number) => Promise<any>;
   openPath: (path: string, type?: string) => Promise<any>;
   publicPath: (path: string) => Promise<any>;
-  reload: (force?: boolean) => Promise<any>;
+  reload: (id: string, force?: boolean) => Promise<any>;
   restart: () => Promise<any>;
   saveImageFile: (metadata: any) => Promise<any>;
   getAppMode: () => Promise<string>;
@@ -38,6 +39,7 @@ export type IpcApi = {
 }
 
 export const ipcServiceKeys = [
+  'windowId',
   'hi',
   'closeMainWindow',
   'closeWindow',
@@ -77,13 +79,13 @@ export type IpcService = Pick<IpcApi, typeof ipcServiceKeys[number]>;
 export const ipcMethod = <K extends keyof IpcService>(
   instance: IpcService,
   method: K,
-  ...args: IpcService[K] extends (...a: any) => any ? Parameters<IpcService[K]> : never
-): IpcService[K] extends (...a: any) => any ? ReturnType<IpcService[K]> : never => {
+  ...args: IpcService[K] extends (...a: any) => any ? Parameters<IpcService[K]> : []
+): IpcService[K] extends (...a: any) => any ? ReturnType<IpcService[K]> : IpcService[K] => {
   const fn = instance[method]
-  if (typeof fn === "function") {
+  if (typeof fn === 'function') {
     return (fn as (...args: any[]) => any)(...args)
   }
-  throw new Error(`Method "${method}" not found`)
+  return fn as any
 }
 
 export const createIpcService = (): { ipcProvider: 'electron' | 'tauri' | 'web', ipcService: IpcService } => {

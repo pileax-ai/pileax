@@ -101,7 +101,7 @@ import { computed, ref } from 'vue'
 
 import OCommonPage from 'core/page/template/OCommonPage.vue'
 import { notifyDone, notifyError, notifyInfo, notifySuccess, notifyWarning } from 'core/utils/control'
-import { ipcService, ipcMethod } from 'src/api/ipc'
+import { ipcService, ipcMethod, IpcService } from 'src/api/ipc'
 import { edgeService } from 'src/api/service/remote/edge'
 import { api as request } from 'boot/axios'
 import useApi from 'src/hooks/useApi'
@@ -156,8 +156,12 @@ const notify = (type: string, position = 'top') => {
   }
 }
 
-const ipcCall = async (name: string, args?: any) => {
-  const res = await ipcMethod(ipcService, name, args)
+const ipcCall = async <K extends keyof IpcService>(
+  name: K,
+  ...args: IpcService[K] extends (...a: any) => any ? Parameters<IpcService[K]> : []
+) => {
+  // Now TS knows ...args perfectly matches the tuple expected by ipcMethod
+  const res = await ipcMethod(ipcService, name, ...args)
   console.log(name, res)
   notifyInfo(`${res}`)
 }

@@ -19,7 +19,7 @@ export const initApp = () => {
 export const reloadApp = async () => {
   await initApi()
   if (process.env.MODE === 'electron') {
-    await ipcService.reload(true)
+    await ipcService.reload(ipcService.windowId, true)
   }
 }
 
@@ -72,4 +72,8 @@ const initListeners = () => {
       console.debug('onAppEvent', event, data)
     }
   })
+
+  if (import.meta.env.DEV) {
+    console.log('WindowId', ipcService.windowId)
+  }
 }
