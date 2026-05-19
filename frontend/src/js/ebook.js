@@ -328,6 +328,7 @@ class Ebook {
       event: event
     });
   }
+
   #onLoad({ detail: { doc, index } }) {
     this.#doc = doc;
     this.#index = index;
@@ -336,6 +337,7 @@ class Ebook {
 
     setSelectionHandler(this.view, doc, index);
   }
+
   #onRelocate({ detail }) {
     // Fixed Layout Ebook
     const isFixedLayout = this.view?.isFixedLayout;
@@ -353,6 +355,7 @@ class Ebook {
     }
     onRelocated(detail);
   }
+
   #onClickView({ detail: { x, y } }) {
     const coordinatesX = x / window.innerWidth;
     const coordinatesY = y / window.innerHeight;
@@ -523,14 +526,7 @@ const onClickView = (x, y) => {
 }
 
 const onRelocated = (detail) => {
-  postMessage('onRelocated', {
-    tocItem: detail.tocItem,
-    location: detail.location,
-    chapterLocation: detail.chapterLocation,
-    section: detail.section,
-    cfi: detail.cfi,
-    percentage: detail.fraction
-  });
+  postMessage('onRelocated', detail);
 }
 
 const onSelectionEnd = (selection) => {

@@ -16,6 +16,7 @@ import type { PropType } from 'vue'
 
 import useBook from 'src/hooks/useBook'
 import type { BookTocItem } from 'src/types/reading'
+import { goToHref } from 'src/api/service/ebook/book'
 
 const props = defineProps({
   item: {
@@ -34,7 +35,7 @@ const { setTocItem } = useBook()
 
 function onClick() {
   setTocItem(props.item)
-  window.ebook.goToHref(props.item.href)
+  goToHref(props.item.href)
 }
 </script>
 
