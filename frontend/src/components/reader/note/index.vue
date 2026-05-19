@@ -16,7 +16,7 @@
 
     <book-note dense />
 
-    <footer class="meta">
+    <footer class="meta" :class="{ expand: showMeta }">
       <book-note-meta v-model="showMeta" v-if="note.type === 'note'" />
       <book-annotation v-model="showMeta" v-else-if="note.type === 'annotation'" />
     </footer>
@@ -86,9 +86,13 @@ function onEditMeta() {
     left: 8px;
     right: 8px;
     bottom: 8px;
+    z-index: -1;
+
+    &.expand {
+      z-index: 1;
+    }
   }
 }
-
 
 .slash-tippy, .tippy {
   .tippy-box {

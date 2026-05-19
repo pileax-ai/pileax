@@ -32,7 +32,7 @@ const emit = defineEmits(['update:modelValue'])
 
 <style lang="scss">
 .o-sheet {
-  border-radius: 8px;
+  border-radius: 12px;
   visibility: hidden;
   opacity: 0;
   transform: translateY(100%);
@@ -42,6 +42,10 @@ const emit = defineEmits(['update:modelValue'])
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
+  }
+
+  header {
+    border-radius: 12px 12px 0 0;
   }
 }
 </style>
