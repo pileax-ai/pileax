@@ -8,6 +8,7 @@ export interface BookTocItem {
 export enum BookOperation {
   Manual = 'manual',
   Load = 'load',
+  Navigation = 'navigation',
   Preview = 'preview',
   None = 'none',
 }

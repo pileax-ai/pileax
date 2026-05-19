@@ -3,6 +3,7 @@ import { store } from 'stores/index'
 import { CODE } from 'core/app'
 import type { BookTocItem} from 'src/types/reading'
 import { BookOperation, ReadingMode } from 'src/types/reading'
+import { goToHref } from 'src/api/service/ebook/book'
 
 export const useBookStore = defineStore('book', {
   state: () => ({
@@ -58,6 +59,7 @@ export const useBookStore = defineStore('book', {
     },
     setProgress(progress: any) {
       this.progress = progress
+      this.tempProgress = progress
       if (progress.tocItem) {
         this.setTocItem(progress.tocItem)
       }
@@ -110,7 +112,7 @@ export const useBookStore = defineStore('book', {
       this.search.result.push(value)
     },
     goResult(result: Indexable) {
-      window.ebook.goToHref(result.item.cfi)
+      goToHref(result.item.cfi)
       this.setSearchItem('current', result)
     },
     nextResult() {

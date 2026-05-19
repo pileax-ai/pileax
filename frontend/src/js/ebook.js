@@ -52,8 +52,9 @@ const setStyle = (userStyle) => {
   );
   reader.view.renderer.setAttribute('top-margin', `${style.topMargin}px`);
   reader.view.renderer.setAttribute('bottom-margin', `${style.bottomMargin}px`);
-  reader.view.renderer.setAttribute('gap', `${style.sideMargin}%`);
+  reader.view.renderer.setAttribute('margin', `${style.margin}px`);
   reader.view.renderer.setAttribute('background-color', style.backgroundColor);
+  reader.view.renderer.setAttribute('gap', `${style.columnGap}%`);
   reader.view.renderer.setAttribute('max-column-count', style.maxColumnCount);
   reader.view.renderer.setAttribute('max-inline-size', `${style.maxInlineSize}px`);
   reader.view.renderer.setAttribute('spread', style.spread); // Todo: none, both, auto
@@ -329,6 +330,7 @@ class Ebook {
       event: event
     });
   }
+
   #onLoad({ detail: { doc, index } }) {
     this.#doc = doc;
     this.#index = index;
@@ -337,6 +339,7 @@ class Ebook {
 
     setSelectionHandler(this.view, doc, index);
   }
+
   #onRelocate({ detail }) {
     // Fixed Layout Ebook
     const isFixedLayout = this.view?.isFixedLayout;
@@ -354,6 +357,7 @@ class Ebook {
     }
     onRelocated(detail);
   }
+
   #onClickView({ detail: { x, y } }) {
     const coordinatesX = x / window.innerWidth;
     const coordinatesY = y / window.innerHeight;
@@ -372,6 +376,7 @@ const openBook = async (bookElement, data,
     await reader.open(bookElement, data.file,
       { cfi, importing, userStyle });
   } catch (err) {
+    console.log('openBook', err)
     postMessage('onOpenFailed', {
       ...data,
       err: err
@@ -523,14 +528,7 @@ const onClickView = (x, y) => {
 }
 
 const onRelocated = (detail) => {
-  postMessage('onRelocated', {
-    tocItem: detail.tocItem,
-    location: detail.location,
-    chapterLocation: detail.chapterLocation,
-    section: detail.section,
-    cfi: detail.cfi,
-    percentage: detail.fraction
-  });
+  postMessage('onRelocated', detail);
 }
 
 const onSelectionEnd = (selection) => {

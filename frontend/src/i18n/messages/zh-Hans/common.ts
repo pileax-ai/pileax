@@ -51,6 +51,18 @@ export default {
       colorBlind: '色弱模式',
       grayscale: '灰度模式'
     },
+    page: {
+      _: '页面',
+      columnGap: '栏间距',
+      fitPage: '适应页面',
+      fitWidth: '适应宽度',
+      horizontalMargin: '水平边距',
+      margin: '页边距',
+      maxColumnCount: '最大分栏数',
+      pageWidth: '页宽',
+      verticalMargin: '垂直边距',
+      zoom: '缩放'
+    },
     theme: '主题',
     themeColor: '主题色',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: '适应宽度',
       letterSpacing: '字间距',
       lineSpacing: '行间距',
-      margin: '边距',
-      pageWidth: '页宽',
       paragraphSpacing: '段间距',
-      zoom: '缩放'
-    },
-    viewMargin: '视图边距'
+      textIndent: '首行缩进'
+    }
   },
   backHome: '返回首页',
   backToHome: '返回首页',

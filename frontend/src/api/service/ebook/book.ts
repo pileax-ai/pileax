@@ -3,6 +3,7 @@
  *
  * @version 1.0
  */
+import { debounce } from 'quasar'
 import { notifyWarning } from 'core/utils/control'
 import useDialog from 'core/hooks/useDialog'
 import useApi from 'src/hooks/useApi'
@@ -51,6 +52,7 @@ export const bookMimeTypes = {
   'application/x-zip-compressed-fb2': 'fbz',
 } as Indexable
 export const bookExtensions = ['epub', 'mobi', 'azw3', 'cbz', 'fb2', 'fbz']
+let readingPageCount = 0
 
 // ---------------------------------------------------------
 // From Ebook Render
@@ -114,6 +116,49 @@ const onKeydown = (data: Indexable) => {
 
 const onRelocated = (data: Indexable) => {
   // Relocated
+  // console.log('relocated', data, operation.value)
+  globalBus.emit('relocated', data)
+
+  const reason = data.reason
+  if (operation.value === BookOperation.Load) {
+    readingPageCount = 3
+    setProgress(data)
+  } else if (operation.value === BookOperation.Navigation) {
+    readingPageCount = 0
+    // Save temp progress locally
+    store.setTempProgress(data)
+  } else {
+    if (['page', 'scroll'].includes(reason)) {
+      // Ignore when switch page turning mode
+      const location = data.location.current
+      if (location === 0) {
+        console.log('switch page turning mode')
+        return
+      }
+
+      readingPageCount++
+
+      // Only save progress when read 3 more page
+      if (readingPageCount >= 3) {
+        setProgress(data)
+
+        // Only save reading progress in Read mode.
+        if (readingMode.value === ReadingMode.Read) {
+          debounceSaveBookProgress(data)
+        }
+      } else {
+        store.setTempProgress(data)
+      }
+    }
+  }
+
+  // Reset operation
+  setManual(BookOperation.None)
+}
+
+const onRelocatedByOperation = (data: Indexable) => {
+  console.log('relocated', data)
+  // Relocated
   globalBus.emit('relocated', data)
 
   // Set progress
@@ -129,7 +174,6 @@ const onRelocated = (data: Indexable) => {
   }
   store.setTempProgress(data)
 
-  // Todo: 可能没保存最终进度
   setManual(BookOperation.None)
 }
 
@@ -150,14 +194,13 @@ const clearSearch = () => {
   ebookRender.clearSearch()
 }
 
-const goToHref = (href: string, manual = false) => {
-  if (manual) {
-    setManual()
-  }
+const goToHref = (href: string) => {
+  setManual(BookOperation.Navigation)
   ebookRender.goToHref(href)
 }
 
 const goToPercent = (percent: number) => {
+  setManual(BookOperation.Navigation)
   ebookRender.goToPercent(percent)
 }
 
@@ -172,12 +215,12 @@ const nextPage = () => {
 }
 
 const prevSection = () => {
-  setManual()
+  setManual(BookOperation.Navigation)
   ebookRender.prevSection()
 }
 
 const nextSection = () => {
-  setManual()
+  setManual(BookOperation.Navigation)
   ebookRender.nextSection()
 }
 
@@ -319,14 +362,16 @@ const savingBookRemote = async (metadata: any) => {
 
 const saveBookProgress = (progress: any) => {
   // console.log('saveBookProgress', progress)
-  if (!progress.cfi || !progress.percentage) return
+  if (!progress.cfi || !progress.fraction) return
   const params = {
     book_id: bookId.value,
     readingPosition: progress.cfi,
-    readingPercentage: progress.percentage
+    readingPercentage: progress.fraction
   }
   userBookService.updateReadingProgress(params)
 }
+
+const debounceSaveBookProgress = debounce(saveBookProgress, 1000)
 
 const parseTitle = (title: string) => {
   if (!title) return ''

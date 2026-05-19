@@ -51,6 +51,18 @@ export default {
       colorBlind: '色盲模型',
       grayscale: '灰階模式'
     },
+    page: {
+      _: '頁面',
+      columnGap: '欄間距',
+      fitPage: '適應頁面',
+      fitWidth: '適應寬度',
+      horizontalMargin: '水平邊距',
+      margin: '頁邊距',
+      maxColumnCount: '最大分欄數',
+      pageWidth: '頁寬',
+      verticalMargin: '垂直邊距',
+      zoom: '縮放'
+    },
     theme: '主題',
     themeColor: '主題色',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: '適應寬度',
       letterSpacing: '字間距',
       lineSpacing: '行間距',
-      margin: '邊距',
-      pageWidth: '頁寬',
       paragraphSpacing: '段間距',
-      zoom: '縮放'
-    },
-    viewMargin: '視圖邊距'
+      textIndent: '首行縮排'
+    }
   },
   backHome: '回首頁',
   backToHome: '回首頁',

@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Режим для людей с дальтонизмом',
       grayscale: 'Режим оттенков серого'
     },
+    page: {
+      _: 'Страница',
+      columnGap: 'Зазор между колоннами',
+      fitPage: 'Подходящая страница',
+      fitWidth: 'Ширина посадки',
+      horizontalMargin: 'Горизонтальная граница',
+      margin: 'Допуск',
+      maxColumnCount: 'Максимальное количество столбцов',
+      pageWidth: 'Ширина страницы',
+      verticalMargin: 'Вертикальное поле',
+      zoom: 'Зум'
+    },
     theme: 'Тема',
     themeColor: 'Цвет темы',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Ширина посадки',
       letterSpacing: 'Межбуквенный интервал',
       lineSpacing: 'Межстрочный интервал',
-      margin: 'Допуск',
-      pageWidth: 'Ширина страницы',
       paragraphSpacing: 'Межабзацный интервал',
-      zoom: 'Зум'
-    },
-    viewMargin: 'Поля просмотра'
+      textIndent: 'Отступ текста'
+    }
   },
   backHome: 'Вернуться на главную',
   backToHome: 'Вернуться на главную',

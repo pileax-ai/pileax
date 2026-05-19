@@ -51,6 +51,18 @@ export default {
       colorBlind: '색맹 모드',
       grayscale: '회색조 모드'
     },
+    page: {
+      _: '페이지',
+      columnGap: '컬럼 간격',
+      fitPage: '맞춤 페이지',
+      fitWidth: '맞춤 너비',
+      horizontalMargin: '수평 여백',
+      margin: '여유',
+      maxColumnCount: '최대 열 개수',
+      pageWidth: '페이지 너비',
+      verticalMargin: '세로 여백',
+      zoom: '줌'
+    },
     theme: '주제',
     themeColor: '테마 색상',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: '맞춤 너비',
       letterSpacing: '글자 간격',
       lineSpacing: '줄 간격',
-      margin: '여유',
-      pageWidth: '페이지 너비',
       paragraphSpacing: '단락 간격',
-      zoom: '줌'
-    },
-    viewMargin: '보기 여백'
+      textIndent: '텍스트 들여쓰기'
+    }
   },
   backHome: '홈으로 돌아가기',
   backToHome: '홈으로 돌아가기',

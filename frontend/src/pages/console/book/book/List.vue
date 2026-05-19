@@ -211,10 +211,10 @@ function onFilter(value: Indexable) {
   switch (value.filter) {
     case 'extension':
       condition.value['extension__in'] = value.filterValue
-      delete condition.value['media__icontains']
+      delete condition.value['media']
       break
     case 'media':
-      condition.value['media__icontains'] = value.filterValue
+      condition.value['media'] = value.filterValue
       delete condition.value['extension__in']
       break
     default:

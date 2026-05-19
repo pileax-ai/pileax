@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Chế độ dành cho người mù màu',
       grayscale: 'Chế độ thang độ xám'
     },
+    page: {
+      _: 'Trang',
+      columnGap: 'Khoảng cách cột',
+      fitPage: 'Trang phù hợp',
+      fitWidth: 'Chiều rộng phù hợp',
+      horizontalMargin: 'Lề ngang',
+      margin: 'Lề',
+      maxColumnCount: 'Số cột tối đa',
+      pageWidth: 'Chiều rộng trang',
+      verticalMargin: 'Lề dọc',
+      zoom: 'Phóng'
+    },
     theme: 'Chủ đề',
     themeColor: 'Màu chủ đề',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Chiều rộng phù hợp',
       letterSpacing: 'Khoảng cách giữa các chữ',
       lineSpacing: 'Khoảng cách dòng',
-      margin: 'Lề',
-      pageWidth: 'Chiều rộng trang',
       paragraphSpacing: 'Khoảng cách đoạn văn',
-      zoom: 'Phóng'
-    },
-    viewMargin: 'Xem lề'
+      textIndent: 'Thụt lề văn bản'
+    }
   },
   backHome: 'Trở về Trang chủ',
   backToHome: 'Trở về Trang chủ',

@@ -51,6 +51,18 @@ export default {
       colorBlind: 'Modo para daltônicos',
       grayscale: 'Modo escala de cinza'
     },
+    page: {
+      _: 'Página',
+      columnGap: 'Espaço entre colunas',
+      fitPage: 'Página de ajuste',
+      fitWidth: 'Largura de ajuste',
+      horizontalMargin: 'Margem horizontal',
+      margin: 'Margem',
+      maxColumnCount: 'Contagem máxima de colunas',
+      pageWidth: 'Largura da página',
+      verticalMargin: 'Margem vertical',
+      zoom: 'Zoom'
+    },
     theme: 'Tema',
     themeColor: 'Cor do tema',
     themes: {
@@ -67,12 +79,9 @@ export default {
       fitWidth: 'Largura de ajuste',
       letterSpacing: 'Espaçamento entre letras',
       lineSpacing: 'Espaçamento entre linhas',
-      margin: 'Margem',
-      pageWidth: 'Largura da página',
       paragraphSpacing: 'Espaçamento entre parágrafos',
-      zoom: 'Zoom'
-    },
-    viewMargin: 'Margem de visualização'
+      textIndent: 'Recuo do texto'
+    }
   },
   backHome: 'Voltar para a página inicial',
   backToHome: 'Voltar para a página inicial',

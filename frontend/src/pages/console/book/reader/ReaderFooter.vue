@@ -100,11 +100,11 @@ const progressValue = ref(0)
 const phase = ref('')
 
 const reservePercent = computed(() => {
-  return `${progress.value.percentage * 100}%`
+  return `${progress.value.fraction * 100}%`
 })
 
 const showReserve = computed(() => {
-  return Math.abs(progress.value.percentage - store.tempProgress.percentage) > 0.01
+  return Math.abs(progress.value.fraction - store.tempProgress.fraction) > 0.01
 })
 
 const searchCurrent = computed(() => {
@@ -121,7 +121,7 @@ function onPan(value: string) {
 
 function onReturn() {
   goToHref(progress.value.cfi)
-  progressValue.value = progress.value.percentage
+  progressValue.value = progress.value.fraction
 }
 
 function toggleTheme() {
@@ -142,12 +142,12 @@ const themeTooltip = computed(() => {
 
 watch(() => store.tempProgress, (newValue) => {
   if (phase.value !== 'start') {
-    progressValue.value = store.tempProgress.percentage
+    progressValue.value = store.tempProgress.fraction
   }
 })
 
 onMounted(() => {
-  progressValue.value = progress.value.percentage
+  progressValue.value = progress.value.fraction
 })
 </script>
 

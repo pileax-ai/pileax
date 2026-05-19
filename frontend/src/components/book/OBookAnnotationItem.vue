@@ -53,6 +53,7 @@ import useReader from 'src/hooks/useReader'
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
 import { getAnnotationColor } from 'src/utils/book'
+import { goToHref } from 'src/api/service/ebook/book'
 
 const props = defineProps({
   item: {
@@ -122,7 +123,7 @@ function onClick() {
   store.setAnnotationId(props.item.id)
 
   if (props.item.value) {
-    window.ebook.goToHref(props.item.value)
+    goToHref(props.item.value)
   }
 
   const type = props.item.type
