@@ -8,11 +8,12 @@
           :context-menu="contextMenu">
     <q-list>
       <template v-for="(item, index) in list" :key="index">
-        <q-separator class="bg-accent" v-if="item.separator" />
-        <o-common-item clickable closable
-                       v-bind="item"
-                       @click="emit('command', item)"
-                       v-if="!item.hidden" />
+        <template v-if="!item.hidden">
+          <q-separator class="bg-accent" v-if="item.separator" />
+          <o-common-item clickable closable
+                         v-bind="item"
+                         @click="emit('command', item)" />
+        </template>
       </template>
       <slot name="list"></slot>
     </q-list>

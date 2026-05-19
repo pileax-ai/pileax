@@ -159,6 +159,7 @@ function onSubmit () {
       sha1: sha1,
       coverUrl: coverUrl.value,
     }],
+    isPhysical: 1,
     location: form.value.location,
     isbn: form.value.isbn,
     refUrl: form.value.refUrl,

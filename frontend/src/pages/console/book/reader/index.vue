@@ -1,28 +1,31 @@
 <template>
   <o-reader-page class="page-reader"
+                 :class="{ 'fixed-layout': isFixedLayout, 'scroll-mode': isScrollMode }"
                  content-class="reader-view"
                  extension-only>
     <reader-header :class="{ 'focus': bookViewFocused }" />
 
     <!-- Nav -->
-    <nav class="row items-center justify-center navi-left"
-         @click="prevPage">
-      <q-btn icon="keyboard_arrow_left"
-             class="text-readable bg-tips"
-             flat
-             @click.stop="prevPage">
-        <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
-      </q-btn>
-    </nav>
-    <nav class="row items-center justify-center navi-right"
-         @click="nextPage">
-      <q-btn icon="keyboard_arrow_right"
-             class="text-readable bg-tips"
-             flat
-             @click.stop="nextPage">
-        <o-tooltip position="left" :message="$t('reading.nextPage')" transition autohide />
-      </q-btn>
-    </nav>
+    <template v-if="!isPhysical">
+      <nav class="row items-center justify-center navi-left"
+           @click="prevPage">
+        <q-btn icon="keyboard_arrow_left"
+               class="text-readable bg-tips"
+               flat
+               @click.stop="prevPage">
+          <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
+        </q-btn>
+      </nav>
+      <nav class="row items-center justify-center navi-right"
+           @click="nextPage">
+        <q-btn icon="keyboard_arrow_right"
+               class="text-readable bg-tips"
+               flat
+               @click.stop="nextPage">
+          <o-tooltip position="left" :message="$t('reading.nextPage')" transition autohide />
+        </q-btn>
+      </nav>
+    </template>
 
     <!-- Note View -->
     <section class="foliate-view margin" v-if="isPhysical">
@@ -67,7 +70,7 @@ import ReaderSide from 'components/reader/ReaderSide.vue'
 import BookNoteView from './BookNoteView.vue'
 
 import 'js/ebook.js'
-import { onActivated, ref } from 'vue'
+import { computed, onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import useBookNote from 'src/hooks/useBookNote'
 import useReaderSetting from 'src/hooks/useReaderSetting'
@@ -79,7 +82,7 @@ import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
 
 const route = useRoute()
-const { isPhysical, store, setBook, setBookId, setWindowId } = useBook()
+const { isFixedLayout, isPhysical, store, setBook, setBookId, setWindowId } = useBook()
 const { openNote } = useBookNote()
 const { setRightDrawerView, setRightDrawerHoverShow } = useReader()
 const { settings } = useReaderSetting()
@@ -88,6 +91,10 @@ const bookRef = ref(null)
 const showShareDialog = ref(false)
 const bookViewFocused = ref(false)
 const loading = ref(false)
+
+const isScrollMode = computed(() => {
+  return settings.value.pageTurnStyle === 'scroll'
+})
 
 function prepareOpen() {
   const name = route.name

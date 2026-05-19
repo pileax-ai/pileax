@@ -35,7 +35,6 @@ const emit = defineEmits(['filter'])
 
 const { t, confirm } = useCommon()
 const bookType = ref('')
-const mediaType = ref('')
 const readingStatus = ref('')
 
 const actions = computed(() => {
@@ -66,8 +65,8 @@ const actions = computed(() => {
       label: t('book.filter.physical'),
       value: 'physical',
       icon: 'auto_stories',
-      filter: 'media',
-      filterValue: 'physical',
+      filter: 'physical',
+      filterValue: 1,
     },
     {
       label: t('reading.status.all'),
@@ -110,7 +109,7 @@ const actions = computed(() => {
 
 function isActive(action: Indexable) {
   return (action.filter === 'extension' && action.value === bookType.value)
-    || (action.filter === 'media' && action.value === bookType.value)
+    || (action.filter === 'physical' && action.value === bookType.value)
     || (action.filter === 'reading_status' && action.value === readingStatus.value)
 }
 
@@ -119,7 +118,7 @@ function onAction (action: Indexable) {
     case 'extension':
       bookType.value = action.value
       break
-    case 'media':
+    case 'physical':
       bookType.value = action.value
       break
     case 'reading_status':

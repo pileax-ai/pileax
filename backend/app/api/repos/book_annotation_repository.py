@@ -21,13 +21,16 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
             SELECT ba.*, book.title, book.cover_url
             FROM (
                 SELECT book_id, COUNT(*) as count
-                FROM book_annotation
+                FROM book_annotation ba_inner
                 WHERE user_id=:user_id
+                  AND EXISTS (
+                    SELECT 1
+                    FROM workspace_book wb
+                    WHERE wb.book_id = ba_inner.book_id AND wb.workspace_id = :workspace_id
+                  )
                 GROUP BY book_id
             ) ba
             LEFT JOIN book ON ba.book_id=book.id
-            LEFT JOIN workspace_book wb ON wb.book_id =ba.book_id
-            WHERE wb.workspace_id=:workspace_id
        """)
         with self.session as session:
             conn = session.connection()

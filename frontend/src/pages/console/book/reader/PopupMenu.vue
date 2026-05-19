@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import tippy from 'tippy.js'
 import type { Instance, Props } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
+// import 'tippy.js/dist/tippy.css'
 import { computed, onMounted, ref, watch } from 'vue'
 import {
   addAnnotation,

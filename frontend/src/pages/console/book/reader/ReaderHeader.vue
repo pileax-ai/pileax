@@ -20,7 +20,8 @@
 
 
     <!-- Hover Toolbar -->
-    <section class="row justify-between items-center text-readable top-toolbar fixed-left toolbar-hover-show">
+    <section class="row justify-between items-center text-readable top-toolbar fixed-left toolbar-hover-show"
+             :class="{ 'is-physical': isPhysical }">
       <div class="row col-auto items-center q-px-sm">
         <div class="no-drag-region" v-if="!leftDrawerShow">
           <o-hover-btn icon="icon-sidebar"
@@ -315,6 +316,12 @@ onUnmounted(() => {
 
       .ellipsis {
         max-width: calc(100% - 60px);
+      }
+
+      &.is-physical {
+        .ellipsis {
+          max-width: calc(100% - 30px);
+        }
       }
     }
 

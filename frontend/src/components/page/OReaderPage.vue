@@ -1,5 +1,5 @@
 <template>
-  <o-base-page class="o-reader-page bg-secondary full-width full-height"
+  <o-base-page class="o-reader-page full-width full-height"
           :style="`--reader-background-color: ${settings.backgroundColor};
                  --reader-background-image: url(${settings.backgroundImage});
                  --reader-background-blur: blur(${settings.backgroundBlur}px)`">
@@ -80,6 +80,12 @@ onUnmounted(() => {
       background-repeat: no-repeat;
       background-size: 100% 100%;
       filter: var(--reader-background-blur);
+    }
+  }
+
+  &.fixed-layout.scroll-mode {
+    .o-page-container .overlay {
+      background-color: var(--q-accent);
     }
   }
 }

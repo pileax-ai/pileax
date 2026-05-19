@@ -80,7 +80,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         # 1. Filters
         filter_mapping = {
             WorkspaceBook: ["workspace_id", "user_id"],
-            Book: ["title", "extension", "media"],
+            Book: ["title", "extension", "is_physical"],
             UserBook: ["reading_status"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
@@ -148,6 +148,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "location": book.location,
             "isbn": book.isbn,
             "ref_url": book.ref_url,
+            "is_physical": book.is_physical,
             "user_book_id": user_book.id if user_book else None,
             "rating": user_book.rating if user_book else None,
             "reading_position": user_book.reading_position if user_book else None,

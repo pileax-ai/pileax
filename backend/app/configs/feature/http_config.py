@@ -130,7 +130,7 @@ class HttpConfig(BaseSettings):
         default=False,
     )
 
-    HTTP_PROXY: str = Field(
+    HTTP_PROXY: str | None = Field(
         description="http proxy",
         default=None,
     )
