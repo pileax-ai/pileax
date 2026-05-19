@@ -16,7 +16,7 @@ const openNewWindow = (id: string, url: string, titleBarHeight: number) => {
   })
 }
 
-const reload = (force: boolean = false): Promise<any> => {
+const reload = (id: string, force: boolean = false): Promise<any> => {
   if (force) {
     window.location.reload()
     return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ const reload = (force: boolean = false): Promise<any> => {
 }
 
 const restart = (force: boolean = false): Promise<any> => {
-  return reload(true)
+  return reload('', true)
 }
 
 const onLoadUpdate = (callback: (data: string) => void) => {
@@ -45,6 +45,7 @@ const onAppEvent = (callback: (event: string, data?: any) => void) => {
 }
 
 window.webIpcAPI = {
+  windowId: 'Window Id',
   hi: mock as any,
   closeMainWindow: mock as any,
   closeWindow: mock as any,

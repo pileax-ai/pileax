@@ -141,7 +141,7 @@ function onAction (action: Indexable, item: MenuItem) {
       ipcService.inspect()
       break
     case 'refresh':
-      ipcService.reload()
+      ipcService.reload(ipcService.windowId)
       break
   }
 }

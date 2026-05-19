@@ -49,6 +49,7 @@ export class WindowManager {
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,
+        additionalArguments: ['--window-id=main'],
         // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
         preload: path.resolve(
           currentDir,
@@ -184,6 +185,7 @@ export class WindowManager {
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,
+        additionalArguments: [`--window-id=${id}`],
         preload: path.resolve(
           currentDir,
           path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER ?? '', 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION)
@@ -208,6 +210,14 @@ export class WindowManager {
     })
 
     this.windows[id] = newWindow
+  }
+
+  getWindow(id: string) {
+    const win = this.windows[id]
+    if (win && !win.isDestroyed()) {
+      return win
+    }
+    return null
   }
 
   closeWindow(id: string) {

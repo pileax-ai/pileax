@@ -30,8 +30,13 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type { OpenDialogOptions } from 'electron'
 
+// WindowId
+const windowIdArg = process.argv.find(arg => arg.startsWith('--window-id='))
+const windowId = windowIdArg ? windowIdArg.split('=')[1] : 'unknown'
+
 // Electron API
 const electronIpcAPI = {
+  windowId,
   hi: (message: string) => {
     return message
   },
@@ -78,8 +83,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('read-file', filePath),
   readImage: async (filePath: string) =>
     ipcRenderer.invoke('read-image', filePath),
-  reload: async (force: boolean) =>
-    ipcRenderer.invoke('reload', force),
+  reload: async (id: string, force: boolean) =>
+    ipcRenderer.invoke('reload', id, force),
   restart: async () =>
     ipcRenderer.invoke('restart'),
   saveBookFiles: async (metadata: any) =>

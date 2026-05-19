@@ -124,12 +124,23 @@ export class Application {
       })
 
     ipcMain.handle('reload',
-      async (event, force: boolean) => {
-        const mainWindow = WindowManager.getMainWindow()
-        if (force) {
-          mainWindow?.webContents.reloadIgnoringCache()
+      async (event, id: string, force: boolean) => {
+        if (!id || id === 'main') {
+          const mainWindow = WindowManager.getMainWindow()
+          if (force) {
+            mainWindow?.webContents.reloadIgnoringCache()
+          } else {
+            mainWindow?.reload()
+          }
         } else {
-          mainWindow?.reload()
+          const win = windowManager.getWindow(id)
+          if (win) {
+            if (force) {
+              win.webContents.reloadIgnoringCache()
+            } else {
+              win.reload()
+            }
+          }
         }
       })
 

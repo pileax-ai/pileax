@@ -141,7 +141,7 @@ function onPageTurningChanged(value: any) {
   setSettingItem('pageTurnStyle', value)
 
   if (props.fixedLayout) {
-    ipcService.reload(true)
+    ipcService.reload(ipcService.windowId, true)
   }
 }
 
