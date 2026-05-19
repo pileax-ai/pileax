@@ -3,7 +3,7 @@ DOCKER_REGISTRY=pileax
 WEB_IMAGE=$(DOCKER_REGISTRY)/pileax-web
 API_IMAGE=$(DOCKER_REGISTRY)/pileax-api
 COLLAB_IMAGE=$(DOCKER_REGISTRY)/pileax-collab
-VERSION ?= 0.5.3
+VERSION ?= 0.6.0
 
 # Default target - show help
 .DEFAULT_GOAL := help

@@ -6,7 +6,7 @@ from sqlalchemy import Integer, UniqueConstraint, event, text
 from sqlmodel import Field
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
-from app.api.models.enums import Scope
+from app.api.models.enums import Scope, Status
 from app.libs.db_helper import DbHelper
 
 
@@ -41,6 +41,9 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     location: str | None = None
     isbn: str | None = Field(default=None)
     ref_url: str | None = Field(default=None)
+    is_physical: int = Field(
+        default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.INACTIVE))}
+    )
 
 
 @event.listens_for(Book, "before_insert")
@@ -59,7 +62,6 @@ class BookMedia(BaseApiModel):
     format: str | None = None
     file_url: str | None = Field(default=None)
     cover_url: str | None = Field(default=None)
-    size: int | None = Field(default=0, ge=0)
 
 
 class BookBase(BaseApiModel):
@@ -74,6 +76,8 @@ class BookBase(BaseApiModel):
     isbn: str | None = None
     cover_url: str | None = ""
     ref_url: str | None = None
+    size: int | None = Field(default=0, ge=0)
+    is_physical: int | None = Status.INACTIVE
 
     @field_validator("description", "cover_url", mode="before")
     @classmethod
@@ -117,6 +121,7 @@ class BookDetails(BaseApiModel, BaseMixin):
     location: str | None = None
     isbn: str | None = None
     ref_url: str | None = None
+    is_physical: int | None = None
     scope: int
     rating: int
     user_book_id: uuid.UUID | None = None

@@ -30,7 +30,7 @@
       <q-input v-model="form.description" :placeholder="$t('description')"
                type="textarea"
                class="pi-field"
-               maxlength="256" counter
+               maxlength="256" counter autogrow
                standout dense clearable />
     </o-field>
     <o-field :label="$t('cover')"
@@ -41,6 +41,23 @@
                        :loading="loading" leading
                        @uploaded="onCoverUpload" />
     </o-field>
+
+    <o-field-separator :label="$t('book.mediaType.physical')"
+                       class="q-pb-md" />
+    <q-toggle v-model="isPhysical" :label="$t('enable')" />
+    <template v-if="isPhysical">
+      <o-field :label="$t('book.location')">
+        <q-input v-model="form.location" :placeholder="$t('book.location')"
+                 class="pi-field"
+                 standout dense clearable />
+      </o-field>
+
+      <o-field label="ISBN">
+        <q-input v-model="form.isbn" placeholder="ISBN"
+                 class="pi-field"
+                 standout dense clearable />
+      </o-field>
+    </template>
   </o-simple-form-page>
 </template>
 
@@ -55,6 +72,7 @@ import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
 import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
 import useApi from 'src/hooks/useApi'
+import OFieldSeparator from 'core/components/form/field/OFieldSeparator.vue'
 
 const apiName = 'book'
 const props = defineProps({
@@ -70,6 +88,7 @@ const { form, loading, actions } = useForm()
 const { getFileUrl } = useApi()
 const id = ref('')
 const coverUrl = ref('')
+const isPhysical = ref(false)
 
 const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },
@@ -84,6 +103,7 @@ function load () {
   if (id.value) {
     GET({name: apiName, query: {id: id.value}}).then((data) => {
       form.value = data as Indexable
+      isPhysical.value = data.isPhysical === 1
     })
   }
 }
@@ -104,6 +124,9 @@ function onSubmit () {
     publisher: form.value.publisher,
     description: form.value.description,
     coverUrl: coverUrl.value,
+    isPhysical: isPhysical.value ? 1 : -1,
+    location: form.value.location,
+    isbn: form.value.isbn
   }
 
   actions.submit(body,(data) => {

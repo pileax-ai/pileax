@@ -59,6 +59,7 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
     location: str | None = None
     isbn: str | None = None
     ref_url: str | None = None
+    is_physical: int | None = None
 
     # user_book
     user_book_id: uuid.UUID | None = None

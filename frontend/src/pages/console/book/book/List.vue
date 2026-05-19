@@ -17,7 +17,7 @@
                  class="filter"
                  :class="showFilter ? 'bg-primary text-white' : 'bg-dark'"
                  @click="onToggleFiler()"
-                 flat v-if="true" />
+                 flat />
           <div class="query-item no-drag-region">
             <q-input v-model="condition.title__icontains"
                      class="pi-field"
@@ -211,10 +211,10 @@ function onFilter(value: Indexable) {
   switch (value.filter) {
     case 'extension':
       condition.value['extension__in'] = value.filterValue
-      delete condition.value['media']
+      delete condition.value['is_physical']
       break
-    case 'media':
-      condition.value['media'] = value.filterValue
+    case 'physical':
+      condition.value['is_physical'] = value.filterValue
       delete condition.value['extension__in']
       break
     default:
