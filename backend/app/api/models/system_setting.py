@@ -7,6 +7,6 @@ class SystemSettingItem(BaseModel):
 
 
 class SystemSettingPublic(BaseModel):
-    HTTP_PROXY: str = None
-    DOUBAN_API_KEY: str = None
-    GOOGLE_API_KEY: str = None
+    HTTP_PROXY: str | None = None
+    DOUBAN_API_KEY: str | None = None
+    GOOGLE_API_KEY: str | None = None
