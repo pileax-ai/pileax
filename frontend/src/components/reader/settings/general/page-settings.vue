@@ -66,7 +66,7 @@
                 map-options emit-value
                 outlined dense
                 :menu-offset="[0, 6]"
-                @update:modelValue="onValueChanged('pageTurnStyle', $event)" />
+                @update:modelValue="onPageTurningChanged" />
     </o-field-label>
     <o-field-label :label="$t('appearances.page.zoom')" side v-if="fixedLayout">
       <q-select v-model="zoom"
@@ -85,8 +85,11 @@ import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
 import useCommon from 'core/hooks/useCommon'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import { setManual } from 'src/api/service/ebook/book'
+import { BookOperation } from 'src/types/reading'
+import { ipcService } from 'src/api/ipc'
 
-defineProps({
+const props = defineProps({
   fixedLayout: {
     type: Boolean,
     default: false
@@ -131,6 +134,15 @@ const zoomOptions = computed(() => {
 
 function onValueChanged(key: string, value: any) {
   setSettingItem(key, value)
+}
+
+function onPageTurningChanged(value: any) {
+  setManual(BookOperation.Load)
+  setSettingItem('pageTurnStyle', value)
+
+  if (props.fixedLayout) {
+    ipcService.reload(true)
+  }
 }
 
 onBeforeMount(() => {

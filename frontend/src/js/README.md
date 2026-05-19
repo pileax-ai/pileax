@@ -15,3 +15,8 @@
 
 
 
+### ESLint
+```shell
+npx eslint .
+npx eslint . --fix
+```

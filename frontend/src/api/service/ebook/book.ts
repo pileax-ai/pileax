@@ -129,6 +129,13 @@ const onRelocated = (data: Indexable) => {
     store.setTempProgress(data)
   } else {
     if (['page', 'scroll'].includes(reason)) {
+      // Ignore when switch page turning mode
+      const location = data.location.current
+      if (location === 0) {
+        console.log('switch page turning mode')
+        return
+      }
+
       readingPageCount++
 
       // Only save progress when read 3 more page
