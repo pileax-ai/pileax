@@ -8,6 +8,12 @@
                  :key="editorKey"
                  @create="onCreate" />
     </section>
+
+    <div class="toc">
+      <o-doc-toc ref="tocRef"
+                 :editor="editor"
+                 :max-level="3" v-if="false" />
+    </div>
   </q-scroll-area>
 </template>
 
@@ -21,6 +27,7 @@ import { bookAnnotationService, fileService } from 'src/api/service/remote'
 import {
   AnyExtension,
   DefaultBlockMenuOptions,
+  ODocToc,
   OStarterKit,
   OUploadManager, type SideMenuAddType,
   YiiEditor,
@@ -42,6 +49,7 @@ const {
   bookId,
   note,
   noteId,
+  isPhysical,
   setCurrentNote,
   saveNote,
   saveNoteRemote
@@ -240,9 +248,11 @@ onMounted(async () => {
         }
       }
     }
+
+    .toc {
+      top: 0;
+    }
   }
-
-
 
   .layout {
     display: grid;
@@ -275,20 +285,14 @@ onMounted(async () => {
     grid-column: content;
   }
 
-  .layout-right {
-    position: sticky;
-    top: 0;
-    grid-column: content-end / full-end;
-    grid-row: 2;
+  .toc {
+    position: fixed;
+    right: 14px;
+    top: 40px;
+    //background: red;
+    z-index: 1;
 
-    .sticky-top {
-      position: sticky;
-      top: 0;
-    }
-    .o-doc-toc {
-      position: absolute;
-      right: 20px;
-    }
+    &.isPhysical {}
   }
 
   .tippy-box {

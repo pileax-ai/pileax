@@ -5,24 +5,26 @@
     <reader-header :class="{ 'focus': bookViewFocused }" />
 
     <!-- Nav -->
-    <nav class="row items-center justify-center navi-left"
-         @click="prevPage">
-      <q-btn icon="keyboard_arrow_left"
-             class="text-readable bg-tips"
-             flat
-             @click.stop="prevPage">
-        <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
-      </q-btn>
-    </nav>
-    <nav class="row items-center justify-center navi-right"
-         @click="nextPage">
-      <q-btn icon="keyboard_arrow_right"
-             class="text-readable bg-tips"
-             flat
-             @click.stop="nextPage">
-        <o-tooltip position="left" :message="$t('reading.nextPage')" transition autohide />
-      </q-btn>
-    </nav>
+    <template v-if="!isPhysical">
+      <nav class="row items-center justify-center navi-left"
+           @click="prevPage">
+        <q-btn icon="keyboard_arrow_left"
+               class="text-readable bg-tips"
+               flat
+               @click.stop="prevPage">
+          <o-tooltip position="right" :message="$t('reading.prevPage')" transition autohide />
+        </q-btn>
+      </nav>
+      <nav class="row items-center justify-center navi-right"
+           @click="nextPage">
+        <q-btn icon="keyboard_arrow_right"
+               class="text-readable bg-tips"
+               flat
+               @click.stop="nextPage">
+          <o-tooltip position="left" :message="$t('reading.nextPage')" transition autohide />
+        </q-btn>
+      </nav>
+    </template>
 
     <!-- Note View -->
     <section class="foliate-view margin" v-if="isPhysical">
