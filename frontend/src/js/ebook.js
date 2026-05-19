@@ -50,6 +50,8 @@ const setStyle = (userStyle) => {
     'flow',
     turn.scroll ? 'scrolled' : 'paginated'
   );
+  reader.view.renderer.setAttribute('top-margin', `${style.topMargin}px`);
+  reader.view.renderer.setAttribute('bottom-margin', `${style.bottomMargin}px`);
   reader.view.renderer.setAttribute('margin', `${style.margin}px`);
   reader.view.renderer.setAttribute('background-color', style.backgroundColor);
   reader.view.renderer.setAttribute('gap', `${style.columnGap}%`);

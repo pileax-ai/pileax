@@ -193,6 +193,7 @@ const goToHref = (href: string) => {
 }
 
 const goToPercent = (percent: number) => {
+  setManual(BookOperation.Navigation)
   ebookRender.goToPercent(percent)
 }
 

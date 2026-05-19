@@ -26,6 +26,8 @@ export const defaultSetting = {
   columnGap: 5,
   maxColumnCount: 1,
   maxInlineSize: 720,
+  topMargin: 0,
+  bottomMargin: 0,
   margin: 0,
   verticalMargin: 40,
   horizontalMargin: 0,
