@@ -53,7 +53,7 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
             query.condition["workspaceId"] = self.workspace_id
         if query.condition.get("media") is not None:
             media = query.condition.get("media")
-            if app_config.DB_PROVIDER == 'sqlite':
+            if app_config.DB_PROVIDER == "sqlite":
                 query.condition["media__icontains"] = media
             else:
                 query.condition["media.type"] = media
