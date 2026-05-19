@@ -1,5 +1,6 @@
 <template>
   <o-reader-page class="page-reader"
+                 :class="{ 'fixed-layout': isFixedLayout, 'scroll-mode': isScrollMode }"
                  content-class="reader-view"
                  extension-only>
     <reader-header :class="{ 'focus': bookViewFocused }" />
@@ -69,7 +70,7 @@ import ReaderSide from 'components/reader/ReaderSide.vue'
 import BookNoteView from './BookNoteView.vue'
 
 import 'js/ebook.js'
-import { onActivated, ref } from 'vue'
+import { computed, onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import useBookNote from 'src/hooks/useBookNote'
 import useReaderSetting from 'src/hooks/useReaderSetting'
@@ -81,7 +82,7 @@ import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
 
 const route = useRoute()
-const { isPhysical, store, setBook, setBookId, setWindowId } = useBook()
+const { isFixedLayout, isPhysical, store, setBook, setBookId, setWindowId } = useBook()
 const { openNote } = useBookNote()
 const { setRightDrawerView, setRightDrawerHoverShow } = useReader()
 const { settings } = useReaderSetting()
@@ -90,6 +91,10 @@ const bookRef = ref(null)
 const showShareDialog = ref(false)
 const bookViewFocused = ref(false)
 const loading = ref(false)
+
+const isScrollMode = computed(() => {
+  return settings.value.pageTurnStyle === 'scroll'
+})
 
 function prepareOpen() {
   const name = route.name
