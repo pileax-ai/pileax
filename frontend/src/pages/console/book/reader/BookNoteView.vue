@@ -1,7 +1,7 @@
 <template>
   <book-note v-if="noteId"></book-note>
   <section class="row col-12 justify-center book-note-view" v-else>
-    <section class="note-header">
+    <section class="note-header ellipsis">
       {{ book.title }}
     </section>
     <q-list class="note-list" bordered separator v-if="recentNotes.length">

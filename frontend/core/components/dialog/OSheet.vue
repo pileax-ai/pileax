@@ -1,5 +1,5 @@
 <template>
-  <section class="o-sheet" :class="{ 'show': modelValue }">
+  <section class="o-sheet bg-secondary" :class="{ 'show': modelValue }">
     <header class="row justify-between items-center text-tips bg-accent">
       <div>
         {{ title }}
@@ -33,15 +33,18 @@ const emit = defineEmits(['update:modelValue'])
 <style lang="scss">
 .o-sheet {
   border-radius: 12px;
+  max-height: 0;
+  overflow: hidden;
   visibility: hidden;
   opacity: 0;
   transform: translateY(100%);
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s, max-height 0.3s ease-in-out;
 
   &.show {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
+    max-height: 50vh;
   }
 
   header {

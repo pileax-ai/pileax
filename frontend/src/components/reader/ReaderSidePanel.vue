@@ -18,7 +18,7 @@
       <tts-player class="side-fixed"
                   :class="{ 'active': currentView === 'tts' }"
                   @close="ttsStatus = false;"
-                  v-if="ttsStatus && main" />
+                  v-if="ttsStatus && !isPhysical" />
     </transition>
 
     <transition appear
@@ -27,7 +27,7 @@
       <book-note class="side-fixed"
                  :class="{ 'active': currentView === 'note' }"
                   @close="noteStatus = false;"
-                  v-if="noteStatus && noteId && main" />
+                  v-if="noteStatus && noteId && !isPhysical" />
     </transition>
   </section>
 </template>
@@ -51,7 +51,7 @@ const props = defineProps({
 })
 
 const { windowId } = useBook()
-const { noteId } = useBookNote()
+const { noteId, isPhysical } = useBookNote()
 const {
   rightDrawer,
   rightDrawerShow,

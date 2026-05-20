@@ -167,10 +167,7 @@ onMounted(() => {
     background: var(--q-secondary);
 
     &.toolbar-hover-show {
-      visibility: hidden;
-      //opacity: 1;
       transform: translateY(100%);
-      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, visibility 0.2s;
     }
 
     .slider-container {
