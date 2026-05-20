@@ -1,6 +1,7 @@
 <template>
   <q-scroll-area class="o-scroll-wrapper book-note"
-                 :class="{ 'dense': dense }">
+                 :class="{ 'dense': dense }"
+                 @scroll="onScroll">
     <section class="layout" :class="dense ? 'full' : 'page'">
       <YiiEditor ref="yiiEditor"
                  class="layout-content"
@@ -12,7 +13,7 @@
     <div class="toc">
       <o-doc-toc ref="tocRef"
                  :editor="editor"
-                 :max-level="3" v-if="false" />
+                 :max-level="3" />
     </div>
   </q-scroll-area>
 </template>
@@ -56,6 +57,7 @@ const {
 } = useBookNote()
 
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
+const tocRef = ref<InstanceType<typeof ODocToc>>()
 const loading = ref(false)
 const loaded = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
@@ -113,6 +115,11 @@ const markdown = computed(() => {
   return editor.value?.markdown
 })
 
+function onScroll() {
+  const event: Event | undefined = undefined
+  tocRef.value?.onScroll(event as any)
+}
+
 function onUpload(file: File, type: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const ref = {
@@ -133,9 +140,9 @@ function onCreate() {
 }
 
 function onUpdate({ editor }: { editor: Editor }) {
+  console.log('update', editorReady.value, loading.value)
   // Only update when editor is ready
   if (!editorReady.value) return
-  // console.log('update', editorReady.value, loading.value)
 
   // When editor is loading content, NO need to update.
   if (loading.value) {
@@ -205,7 +212,7 @@ function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
 
 function loadingNote(note: Indexable) {
   const docNode = note.noteJson
-  setContent(docNode, false, 'end')
+  setContent(docNode, true)
   setCurrentNote(note, false)
 }
 
@@ -221,8 +228,6 @@ function getAndLoadNote() {
     if (err.response.status === 404) {
       createNote()
     }
-  }).finally(() => {
-    loading.value = false
   })
 }
 

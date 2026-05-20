@@ -1,5 +1,5 @@
 <template>
-  <header class="row items-center justify-between text-readable header reader-header can-hover"
+  <header class="row items-center justify-between text-readable reader-header can-hover"
           :class="{
             'left-drawer-closed': !leftDrawerShow,
             'right-drawer-closed': !rightDrawerShow
@@ -22,7 +22,7 @@
     <!-- Hover Toolbar -->
     <section class="row justify-between items-center text-readable top-toolbar fixed-left toolbar-hover-show"
              :class="{ 'is-physical': isPhysical }">
-      <div class="row col-auto items-center q-px-sm">
+      <div class="row col-12 items-center q-px-sm">
         <div class="no-drag-region" v-if="!leftDrawerShow">
           <o-hover-btn icon="icon-sidebar"
                        hover-icon="mdi-backburger rotate-180"
@@ -311,7 +311,7 @@ onUnmounted(() => {
 
     &.fixed-left {
       left: 0;
-      max-width: 40%;
+      width: 40%;
       border-radius: 0 8px 8px 0;
 
       .ellipsis {
@@ -331,10 +331,7 @@ onUnmounted(() => {
     }
 
     &.toolbar-hover-show {
-      visibility: hidden;
-      //opacity: 1;
       transform: translateY(-100%);
-      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, visibility 0.2s;
     }
 
     .slider-container {

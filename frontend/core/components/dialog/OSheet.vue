@@ -1,5 +1,5 @@
 <template>
-  <section class="o-sheet" :class="{ 'show': modelValue }">
+  <section class="o-sheet bg-secondary" :class="{ 'show': modelValue }">
     <header class="row justify-between items-center text-tips bg-accent">
       <div>
         {{ title }}

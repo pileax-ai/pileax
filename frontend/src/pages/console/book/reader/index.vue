@@ -204,6 +204,8 @@ onActivated(() => {
 
     .toolbar-hover-show {
       visibility: hidden;
+      opacity: 1;
+      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, visibility 0.2s;
     }
 
     .o-toolbar-btn {

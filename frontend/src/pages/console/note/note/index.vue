@@ -291,9 +291,9 @@ function onCreate() {
 }
 
 function onUpdate({ editor }: { editor: Editor }) {
+  console.log('update', editorReady.value, loading.value)
   // Only update when editor is ready
   if (!editorReady.value) return
-  // console.log('update', editorReady.value, loading.value)
 
   // When editor is loading content, NO need to update.
   if (loading.value) {
@@ -445,7 +445,7 @@ function loadingChatNodeCollab() {
   }
 }
 
-function loadNote(note: Note, docNode: Indexable, focus: string,
+function  loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
   console.debug('Collab', collab.value.collabEnabled)
   if (collab.value.collabEnabled) {
