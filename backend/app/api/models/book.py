@@ -62,6 +62,7 @@ class BookMedia(BaseApiModel):
     format: str | None = None
     file_url: str | None = Field(default=None)
     cover_url: str | None = Field(default=None)
+    size: int | None = Field(default=0, ge=0)
 
 
 class BookBase(BaseApiModel):
@@ -76,7 +77,6 @@ class BookBase(BaseApiModel):
     isbn: str | None = None
     cover_url: str | None = ""
     ref_url: str | None = None
-    size: int | None = Field(default=0, ge=0)
     is_physical: int | None = Status.INACTIVE
 
     @field_validator("description", "cover_url", mode="before")
