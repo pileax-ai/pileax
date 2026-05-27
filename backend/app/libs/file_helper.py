@@ -23,16 +23,35 @@ class FileHelper:
 
         # 3. Handle Windows reserved names (since this is the pure base name)
         reserved_names = {
-            "CON", "PRN", "AUX", "NUL",
-            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
-            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+            "CON",
+            "PRN",
+            "AUX",
+            "NUL",
+            "COM1",
+            "COM2",
+            "COM3",
+            "COM4",
+            "COM5",
+            "COM6",
+            "COM7",
+            "COM8",
+            "COM9",
+            "LPT1",
+            "LPT2",
+            "LPT3",
+            "LPT4",
+            "LPT5",
+            "LPT6",
+            "LPT7",
+            "LPT8",
+            "LPT9",
         }
         if safe_name.upper() in reserved_names:
             safe_name = f"_{safe_name}"
 
         # 4. Fallback if the name became empty or contains only underscores/dots after sanitization
         # re.sub(r'[_.]', '', safe_name) removes all underscores and dots to check if any valid character remains
-        if not safe_name or not re.sub(r'[_.]', '', safe_name).strip():
+        if not safe_name or not re.sub(r"[_.]", "", safe_name).strip():
             return "unknown"
 
         # 5. Safe truncation by BYTES (not characters)
