@@ -167,13 +167,15 @@ function onMouseMove(e :any) {
 
 function onBeforeShow() {
   positionAlt.value = props.position
+  setWidth()
+}
+
+function setWidth() {
   const defaultWidth = toPixel(props.style.width)
   minWidth.value = toPixel(props.style.minWidth) || defaultWidth
   maxWidth.value = toPixel(props.style.maxWidth) || 2 * defaultWidth
   width.value = Math.max(defaultWidth, minWidth.value)
   width.value = Math.min(width.value, maxWidth.value)
-
-  // console.log('style', props.style, width.value, minWidth.value, maxWidth.value);
 }
 
 function toPixel(value: string) {
@@ -234,6 +236,11 @@ watch(
     }
   }
 )
+
+watch(() => props.style, (newValue) => {
+  console.log('style', newValue)
+  setWidth()
+})
 
 onMounted(() => {
   if (props.show) {

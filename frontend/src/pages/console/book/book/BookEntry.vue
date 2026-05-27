@@ -16,9 +16,10 @@
     <o-field label="ISBN">
       <q-input v-model="form.isbn"
                class="pi-field"
-               standout dense clearable>
+               standout dense clearable autofocus>
         <template #after>
           <q-btn :label="$t('book.metadata.get')"
+                 :disable="!form.isbn"
                  class="bg-primary text-white"
                  flat
                  @click="fetchBookMeta" />

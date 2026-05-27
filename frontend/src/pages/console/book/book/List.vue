@@ -226,12 +226,12 @@ function onFilter(value: Indexable) {
 
 function onDetails(item: any) {
   data.value = item
-  query.value.openSide('480px', 'details')
+  query.value.openSide('480px', 'details', 'book', t('book._'))
 }
 
 function onEdit(item: Indexable) {
   data.value = item
-  query.value.openSide('480px', 'edit', 'edit_note', t('edit'))
+  query.value.openSide('800px', 'edit', 'edit_note', t('edit'))
 }
 
 function onUpload(item: Indexable) {

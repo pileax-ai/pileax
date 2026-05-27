@@ -1,6 +1,15 @@
 // --------------------------------------------------------------------------------
 // Global
 // --------------------------------------------------------------------------------
+:root {
+  --pi-field-bg-color: rgba(0, 0, 0, 0.1);
+}
+
+:root:has(.body--dark) {
+  --pi-field-bg-color: rgba(255, 255, 255, 0.1);
+}
+
+
 .pi {
   &-result {
     &-title {
@@ -38,7 +47,7 @@
 .pi-field {
   &.q-field--standout.q-field--focused, &.q-field--highlighted {
     .q-field__control {
-      background: rgba(#000, 0.05) !important;
+      background: var(--pi-field-bg-color) !important;
       box-shadow: unset !important;
       box-sizing: border-box !important;
 
