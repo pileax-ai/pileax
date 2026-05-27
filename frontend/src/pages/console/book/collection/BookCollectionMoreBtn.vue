@@ -25,8 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import useCommon from 'core/hooks/useCommon'
+
+const props = defineProps({
+  view: {
+    type: String,
+    default: 'grid'
+  },
+})
 const emit = defineEmits(['view', 'sort'])
 
 const { t } = useCommon()
@@ -37,10 +44,22 @@ const orderDesc = ref(true)
 const actions = computed(() => {
   return [
     {
+      label: t('view.gridTitle'),
+      value: 'grid_title',
+      icon: 'mdi-cards-variant',
+      selected: bookView.value === 'grid_title',
+    },
+    {
       label: t('view.grid'),
       value: 'grid',
       icon: 'grid_view',
       selected: bookView.value === 'grid',
+    },
+    {
+      label: t('view.compact'),
+      value: 'compact',
+      icon: 'view_cozy',
+      selected: bookView.value === 'compact',
     },
     {
       label: t('view.list'),
@@ -70,6 +89,8 @@ function onAction (action :any) {
   const value = action.value
   switch (value) {
     case 'grid':
+    case 'grid_title':
+    case 'compact':
     case 'list':
       bookView.value = value
       emit('view', value)
@@ -96,4 +117,8 @@ function onAction (action :any) {
       break
   }
 }
+
+onMounted(() => {
+  bookView.value = props.view
+})
 </script>

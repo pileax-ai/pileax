@@ -37,10 +37,6 @@ export default function () {
     return store.rightDrawer.hoverShow
   })
 
-  const queryTimer = computed(() => {
-    return store.queryTimer
-  })
-
   const currentMainService = computed(() => {
     return store.currentMainService
   })
@@ -97,7 +93,8 @@ export default function () {
     store.setRightDrawerItem({key: 'width', value: value})
   }
 
-  function setRightDrawerView(view: 'agent' | 'note' | 'settings' | 'tts', value: boolean) {
+  // view: 'agent' | 'note' | 'settings' | 'tts'
+  function setRightDrawerView(view: string, value: boolean) {
     store.setRightDrawerItem({key: view, value: value})
     if (value) {
       store.setRightDrawerItem({key: 'view', value: view})
@@ -116,10 +113,6 @@ export default function () {
     setRightDrawerView(view, !value)
   }
 
-  function setQueryTimer(time: number) {
-    store.setQueryTimer(time)
-  }
-
   function setCurrentMainService(value: string) {
     store.setCurrentMainService(value)
   }
@@ -133,7 +126,6 @@ export default function () {
     rightDrawerShow,
     rightDrawerHoverShow,
     rightDrawer,
-    queryTimer,
     currentMainService,
     mainService,
     secondaryService,
@@ -150,7 +142,6 @@ export default function () {
     setRightDrawerWidth,
     setRightDrawerView,
     toggleRightDrawerView,
-    setQueryTimer,
     setCurrentMainService,
   }
 }

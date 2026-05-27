@@ -60,6 +60,7 @@ class GoogleBookHelper:
 
         return {
             "title": volume_info.get("title"),
+            "subtitle": volume_info.get("subtitle"),
             "author": author_str,
             "isbn": isbn,
             "cover_url": cover_url,

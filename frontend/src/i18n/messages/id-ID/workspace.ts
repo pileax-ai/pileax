@@ -2,7 +2,7 @@ export default {
   _: 'Ruang kerja',
   add: 'Tambahkan Ruang Kerja',
   admin: 'Kelola Ruang Kerja',
-  assignRoleConfirm: 'Apakah akan memberikan peran baru kepada {nama}?',
+  assignRoleConfirm: 'Apakah akan memberikan peran baru kepada {name}?',
   current: 'Ruang Kerja Saat Ini',
   details: 'Detail Ruang Kerja',
   invite: 'Mengundang',

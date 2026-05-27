@@ -45,7 +45,6 @@ export const useReaderStore = defineStore('reader', {
     } as Indexable,
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
-    queryTimer: 0,
     currentMainService: 'chat',
     mainService: [] as Indexable[],
     secondaryService: [] as Indexable[],
@@ -79,9 +78,6 @@ export const useReaderStore = defineStore('reader', {
     },
     setRightDrawerItem(kv: KeyValue) {
       this.rightDrawer[kv.key] = kv.value
-    },
-    setQueryTimer(time: number) {
-      this.queryTimer = time
     },
     setSettingItem(key: string, value: any) {
       this.settings[key] = value

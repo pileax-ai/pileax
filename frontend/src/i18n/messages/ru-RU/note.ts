@@ -3,7 +3,7 @@ export default {
   add: 'Добавить примечание',
   addIcon: 'Добавить значок',
   append: 'Добавить содержимое',
-  appendTo: 'Добавить {содержимое} к {примечание}',
+  appendTo: 'Добавить {content} к {note}',
   chooseLocation: 'Выберите местоположение',
   cover: {
     add: 'Добавить обложку',

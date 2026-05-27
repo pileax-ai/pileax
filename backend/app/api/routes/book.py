@@ -5,6 +5,7 @@ from fastapi import Depends, Form, UploadFile
 
 from app.api.controllers.book_controller import BookController
 from app.api.models.book import BookBase, BookCreate, BookDetails, BookPublic, BookUpdate
+from app.api.models.file_meta import FileMetaPublic
 from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookDetails
 from app.api.router import ApiRouter
@@ -33,13 +34,13 @@ async def get_by_uuid(uuid: str, controller: BookController = Depends()) -> Any:
 
 
 @router.api_get("/isbn", response_model=BookBase)
-async def get_by_isbn(isbn: str, controller: BookController = Depends()) -> Any:
-    return await controller.get_by_isbn(isbn)
+async def get_by_isbn(isbn: str, check: bool = True, controller: BookController = Depends()) -> Any:
+    return await controller.get_by_isbn(isbn, check)
 
 
 @router.api_put("", response_model=BookPublic)
 async def update(item_in: BookUpdate, controller: BookController = Depends()) -> Any:
-    return controller.update_by_user(item_in)
+    return await controller.update_by_user(item_in)
 
 
 @router.api_delete("")
@@ -55,6 +56,11 @@ async def query(query: PaginationQuery, controller: BookController = Depends()) 
 @router.api_post("/query/library", response_model=QueryResult[BookPublic])
 async def query_library(query: PaginationQuery, controller: BookController = Depends()) -> Any:
     return controller.query_library(query)
+
+
+@router.api_get("/query/cover", response_model=QueryResult[FileMetaPublic])
+async def query_cover(id: UUID, controller: BookController = Depends()) -> Any:
+    return controller.query_cover(id)
 
 
 @router.api_post("/upload", response_model=WorkspaceBookDetails)

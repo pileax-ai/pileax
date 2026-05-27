@@ -24,7 +24,10 @@ export default {
     note: 'Nota'
   },
   author: 'Autor',
+  basicInfo: 'Informații de bază',
+  categoryInfo: 'Informații despre categorie',
   chapter: 'Capitol',
+  code: 'Cod',
   collection: 'Colecție de cărți',
   collections: {
     _: 'Colecții de cărți',
@@ -54,21 +57,32 @@ export default {
   media: 'Media de carte',
   mediaType: {
     digital: 'Digital',
-    physical: 'Fizic'
+    physical: 'Fizic',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Obțineți informații despre carte'
+    _: 'Metadate',
+    edit: 'Editați metadatele',
+    general: 'General',
+    get: 'Obțineți informații despre carte',
+    user: 'Mele'
   },
   newEntry: 'Intrare nouă',
   page: 'Pagină',
   previewTips: 'În modul de previzualizare, progresul citirii nu va fi salvat.',
   published: 'Anul publicării',
   publisher: 'Editor',
+  rating: 'Evaluare',
   refInfo: 'Informații de referință',
   removeConfirm: 'Sigur vrei să scoți de pe raft?',
+  removeFromCollection: 'Eliminați din colecție',
   shelf: 'Raft de cărți',
   startPreview: 'Începeți previzualizarea',
   startReading: 'Începeți să citiți',
+  subtitle: 'Subtitlu',
+  tag: 'Etichetă',
+  tags: 'Etichete',
+  title: 'Titlu',
   uploader: {
     completed: 'Încărcarea cărților pe server a fost finalizată',
     label: 'Trageți fișierele aici sau faceți clic pentru a le încărca.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Ora încărcării',
   viewFiles: 'Vizualizare fișiere',
   warning: {
+    collectionContainBook: 'Nu se poate șterge. Această colecție este menționată în cărțile existente.',
     exist: 'Cartea există deja',
     inputISBN: 'Vă rugăm să introduceți ISBN-ul',
+    inputTitle: 'Vă rugăm să introduceți titlul',
     isbnExists: 'Există o carte cu acest ISBN',
     isbnNotFound: 'Cartea cu acest ISBN nu a fost găsită',
     referencedByOthers: 'Nu se poate șterge, cartea este menționată de alții',

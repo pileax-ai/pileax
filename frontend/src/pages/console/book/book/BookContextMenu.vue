@@ -65,10 +65,9 @@ const actions = computed(() => {
       separator: true
     },
     {
-      label: t('edit'),
+      label: t('book.metadata.edit'),
       value: 'edit',
       icon: 'edit_note',
-      hidden: props.data.userId !== props.data.bookUserId,
       separator: true
     },
     {

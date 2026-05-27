@@ -16,9 +16,9 @@ class UserBookService(BaseService[UserBook]):
         stmt = select(UserBook).where(UserBook.user_id == user_id).where(UserBook.book_id == book_id)
         return self.session.exec(stmt).first()
 
-    def create_user_book(self, user_id: UUID, book_id: UUID) -> UserBook:
+    def create_user_book(self, user_id: UUID, book_id: UUID, is_physical=False) -> UserBook:
         user_book = self.get_user_book(user_id, book_id)
         if user_book:
             return user_book
 
-        return self.save(UserBook(user_id=user_id, book_id=book_id))
+        return self.save(UserBook(user_id=user_id, book_id=book_id, is_physical=is_physical))

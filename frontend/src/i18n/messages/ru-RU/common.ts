@@ -121,7 +121,7 @@ export default {
   favorite: 'Избранное',
   file: 'Файл',
   formRules: {
-    length: '{длина} символов'
+    length: '{length} символов'
   },
   fullscreen: 'Полноэкранный',
   fullscreenExit: 'Выйти из полноэкранного режима',
@@ -163,7 +163,7 @@ export default {
   profile: 'Профиль учетной записи',
   qrcode: 'QR-код',
   query: {
-    noMoreData: 'Всего найдено {общее количество} записей. Больше данных нет.',
+    noMoreData: 'Всего найдено {total} записей. Больше данных нет.',
     noRecords: 'Нет записей',
     total: 'Общий'
   },
@@ -276,6 +276,7 @@ export default {
     _: 'Вид',
     compact: 'Компактный',
     grid: 'Сетка',
+    gridTitle: 'Заголовок сетки',
     list: 'Список'
   },
   welcome: 'Добро пожаловать'

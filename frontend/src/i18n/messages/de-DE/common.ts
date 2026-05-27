@@ -266,7 +266,7 @@ export default {
     notAvailable: 'Keine Aktualisierung verfügbar',
     restart: 'Neustart',
     title: 'Update bereit',
-    update: 'Aktualisierung auf {Version}',
+    update: 'Aktualisierung auf {version}',
     upToDate: 'Aktuell'
   },
   updateTime: 'Aktualisierungszeit',
@@ -276,6 +276,7 @@ export default {
     _: 'Sicht',
     compact: 'Kompakt',
     grid: 'Netz',
+    gridTitle: 'Rastertitel',
     list: 'Liste'
   },
   welcome: 'Willkommen'

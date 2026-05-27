@@ -61,7 +61,9 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <book-more-btn @view="onView" @sort="onSort" />
+          <book-more-btn :view="library.view"
+                         @view="onView"
+                         @sort="onSort" />
         </template>
 
         <section class="col-12">
@@ -73,37 +75,7 @@
             </template>
 
             <template v-if="rows.length">
-              <section class="pi-view-grid" v-if="bookView === 'grid'">
-                <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
-                  <div class="">
-                    <book-grid-item :data="item"
-                                    @click="openBook(item)"
-                                    @details="onDetails(item)">
-                      <book-context-menu :data="item"
-                                         @close="onClose"
-                                         @edit="onEdit"
-                                         @upload="onUpload"
-                                         context-menu />
-                    </book-grid-item>
-                  </div>
-                </template>
-              </section>
-              <section class="pi-view-grid" v-else-if="bookView === 'compact'">
-                <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
-                  <div class="">
-                    <book-compact-item :data="item"
-                                       @click="openBook(item)"
-                                       @details="onDetails(item)">
-                      <book-context-menu :data="item"
-                                         @close="onClose"
-                                         @edit="onEdit"
-                                         @upload="onUpload"
-                                         context-menu />
-                    </book-compact-item>
-                  </div>
-                </template>
-              </section>
-              <section class="row col-12 justify-center pi-view-list" v-else>
+              <section class="row col-12 justify-center pi-view-list" v-if="library.view === 'list'">
                 <q-list>
                   <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                     <book-list-item :data="item"
@@ -117,6 +89,24 @@
                     </book-list-item>
                   </template>
                 </q-list>
+              </section>
+              <section class="pi-view-grid"
+                       :class="{ 'book': ['grid', 'grid_title'].includes(library.view) }"
+                       v-else>
+                <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
+                  <div class="">
+                    <component :is="bookComponents[library.view] || bookComponents.grid"
+                               :data="item"
+                               @click="openBook(item)"
+                               @details="onDetails(item)">
+                      <book-context-menu :data="item"
+                                         @close="onClose"
+                                         @edit="onEdit"
+                                         @upload="onUpload"
+                                         context-menu />
+                    </component>
+                  </div>
+                </template>
               </section>
             </template>
             <template v-else>
@@ -147,7 +137,7 @@
                         @edit="onEdit"
                         @upload="onUpload"
                         v-if="view==='details'" />
-          <book-edit :data="data"
+          <book-meta-edit :data="data"
                      @close="onClose"
                      v-if="view==='edit'" />
           <book-upload :data="data"
@@ -165,13 +155,13 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, ref, watch } from 'vue'
+import { onActivated, onMounted, onUnmounted, ref, watch } from 'vue'
 import BookContextMenu from './BookContextMenu.vue'
 import BookGridItem from './BookGridItem.vue'
+import BookGridTitleItem from './BookGridTitleItem.vue'
 import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'
-import BookEdit from './BookEdit.vue'
 import BookUpload from './BookUpload.vue'
 import BookEntry from './BookEntry.vue'
 import BookAdd from './BookAdd.vue'
@@ -179,27 +169,33 @@ import BookFilter from './BookFilter.vue'
 import BookMoreBtn from './BookMoreBtn.vue'
 import OBookUploader from 'core/components/fIle/OBookUploader.vue'
 import OSplitPage from 'core/page/template/OSplitPage.vue'
+import BookMetaEdit from 'components/book/book-meta/edit.vue'
 
-import useReader from 'src/hooks/useReader'
 import useReading from 'src/hooks/useReading'
 import useLoadMore from 'src/hooks/useLoadMore'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import useCommon from 'core/hooks/useCommon'
+import { globalBus } from 'src/api/event/event-bus'
 
 const { t } = useCommon()
-const { queryTimer } = useReader()
-const { openBook } = useReading()
-const { condition, loading, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
+const { library, setLibraryItem, openBook } = useReading()
+const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
 const addMenu = ref(false)
 const data = ref<Indexable>({})
 const showFilter = ref(true)
-const bookView = ref('grid')
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
+const needRefresh = ref(false)
+
+const bookComponents = {
+  grid: BookGridItem,
+  grid_title: BookGridTitleItem,
+  compact: BookCompactItem,
+} as Indexable
 
 function onView(value: string) {
-  bookView.value = value
+  setLibraryItem('view', value)
 }
 
 function onSort(value: Indexable) {
@@ -231,7 +227,13 @@ function onDetails(item: any) {
 
 function onEdit(item: Indexable) {
   data.value = item
-  query.value.openSide('800px', 'edit', 'edit_note', t('edit'))
+  query.value.openSide('720px', 'edit', 'edit_note', t('book.metadata.edit'))
+
+  // showDialog({
+  //   type: 'book-meta',
+  //   id: item.bookId,
+  //   onOk: onClose
+  // })
 }
 
 function onUpload(item: Indexable) {
@@ -267,8 +269,9 @@ function onClose(options: Indexable) {
 }
 
 function onSideClose() {
-  if (view.value === 'add') {
+  if (['add', 'edit'].includes(view.value) && needRefresh.value) {
     query.value.onQuery()
+    needRefresh.value = false
   }
 }
 
@@ -299,12 +302,20 @@ function onToggleFiler() {
   showFilter.value = !showFilter.value
 }
 
-watch(() => queryTimer.value, (newValue) => {
-  query.value.onQuery()
-})
+function onLibraryRefresh(item: Indexable) {
+  needRefresh.value = true
+}
 
 onActivated(() => {
   initData()
+})
+
+onMounted(() => {
+  globalBus.on('library-need-refresh', onLibraryRefresh)
+})
+
+onUnmounted(() => {
+  globalBus.off('library-need-refresh', onLibraryRefresh)
 })
 </script>
 

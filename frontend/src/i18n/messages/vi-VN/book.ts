@@ -24,7 +24,10 @@ export default {
     note: 'Ghi chú'
   },
   author: 'Tác giả',
+  basicInfo: 'Thông tin cơ bản',
+  categoryInfo: 'Thông tin danh mục',
   chapter: 'Chương',
+  code: 'Mã số',
   collection: 'Bộ sưu tập sách',
   collections: {
     _: 'Bộ sưu tập sách',
@@ -54,21 +57,32 @@ export default {
   media: 'Sách và phương tiện truyền thông',
   mediaType: {
     digital: 'Điện tử',
-    physical: 'Thuộc vật chất'
+    physical: 'Thuộc vật chất',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Xem thông tin sách'
+    _: 'Siêu dữ liệu',
+    edit: 'Chỉnh sửa siêu dữ liệu',
+    general: 'Tổng quan',
+    get: 'Xem thông tin sách',
+    user: 'Của tôi'
   },
   newEntry: 'Mục nhập mới',
   page: 'Trang',
   previewTips: 'Ở chế độ xem trước, tiến trình đọc sẽ không được lưu lại.',
   published: 'Năm xuất bản',
   publisher: 'Nhà xuất bản',
+  rating: 'Xếp hạng',
   refInfo: 'Thông tin tham khảo',
   removeConfirm: 'Bạn có chắc chắn muốn lấy sản phẩm ra khỏi kệ không?',
+  removeFromCollection: 'Xóa khỏi bộ sưu tập',
   shelf: 'Giá sách',
   startPreview: 'Bắt đầu xem trước',
   startReading: 'Bắt đầu đọc',
+  subtitle: 'Phụ đề',
+  tag: 'Nhãn',
+  tags: 'Thẻ',
+  title: 'Tiêu đề',
   uploader: {
     completed: 'Quá trình tải sách lên máy chủ đã hoàn tất.',
     label: 'Kéo thả tệp vào đây hoặc nhấp chuột để tải lên.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Thời gian tải lên',
   viewFiles: 'Xem tệp',
   warning: {
+    collectionContainBook: 'Không thể xóa. Bộ sưu tập này được tham chiếu bởi các sách hiện có.',
     exist: 'Cuốn sách đã tồn tại',
     inputISBN: 'Vui lòng nhập mã ISBN',
+    inputTitle: 'Vui lòng nhập tiêu đề',
     isbnExists: 'Sách có mã ISBN này tồn tại.',
     isbnNotFound: 'Không tìm thấy sách có mã ISBN này.',
     referencedByOthers: 'Không thể xóa, sách này đã được người khác tham khảo.',

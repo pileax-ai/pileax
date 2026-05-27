@@ -70,6 +70,9 @@ class BookHelper:
 
     @staticmethod
     async def download_image(image_url: str) -> dict | None:
+        if not image_url:
+            return None
+
         if "doubanio.com" in image_url:
             return await DoubanHelper.download_image(image_url)
 

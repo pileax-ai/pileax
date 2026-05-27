@@ -24,7 +24,10 @@ export default {
     note: 'Nota'
   },
   author: 'Autore',
+  basicInfo: 'Informazioni di base',
+  categoryInfo: 'Informazioni sulla categoria',
   chapter: 'Capitolo',
+  code: 'Codice',
   collection: 'Collezione di libri',
   collections: {
     _: 'Collezioni di libri',
@@ -54,21 +57,32 @@ export default {
   media: 'Book Media',
   mediaType: {
     digital: 'Digitale',
-    physical: 'Fisico'
+    physical: 'Fisico',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Ottieni informazioni sul libro'
+    _: 'Metadati',
+    edit: 'Modifica i metadati',
+    general: 'Generale',
+    get: 'Ottieni informazioni sul libro',
+    user: 'Mio'
   },
   newEntry: 'Nuova voce',
   page: 'Pagina',
   previewTips: 'In modalità anteprima, l\'avanzamento della lettura non verrà salvato.',
   published: 'Anno di pubblicazione',
   publisher: 'Editore',
+  rating: 'Valutazione',
   refInfo: 'Informazioni di riferimento',
   removeConfirm: 'Vuoi davvero rimuoverlo dallo scaffale?',
+  removeFromCollection: 'Rimuovi dalla raccolta',
   shelf: 'Libreria',
   startPreview: 'Avvia anteprima',
   startReading: 'Inizia a leggere',
+  subtitle: 'Sottotitolo',
+  tag: 'Etichetta',
+  tags: 'Etichette',
+  title: 'Titolo',
   uploader: {
     completed: 'Caricamento libri sul server completato',
     label: 'Trascina i file qui oppure clicca per caricarli.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Tempo di caricamento',
   viewFiles: 'Visualizza i file',
   warning: {
+    collectionContainBook: 'Impossibile eliminare. Questa raccolta è referenziata da libri esistenti.',
     exist: 'Il libro esiste già',
     inputISBN: 'Inserisci il codice ISBN',
+    inputTitle: 'Inserisci il titolo',
     isbnExists: 'Esiste un libro con questo ISBN',
     isbnNotFound: 'Libro con questo ISBN non trovato',
     referencedByOthers: 'Impossibile eliminare il libro, citato da altri',

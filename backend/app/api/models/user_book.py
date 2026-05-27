@@ -2,10 +2,11 @@ import enum
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Integer, String, text
+from sqlalchemy import Integer, text
 from sqlmodel import Field, UniqueConstraint
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field, uuid_field
+from app.api.models.enums import Status
 
 
 class ReadStatus(enum.IntEnum):
@@ -21,7 +22,11 @@ class UserBook(BaseSQLModel, BaseMixin, table=True):
 
     book_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
-    rating: int | None = Field(default=0, ge=0, le=5)
+    is_removed: int = Field(
+        default=Status.INACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.INACTIVE))}
+    )
+
+    # Reading
     reading_position: str | None = Field(default="")
     reading_percentage: float | None = Field(default=0.0, ge=0.0, le=100.0)
     reading_status: int = Field(
@@ -32,17 +37,31 @@ class UserBook(BaseSQLModel, BaseMixin, table=True):
         sa_column_kwargs={"server_default": text(str(ReadStatus.NOT_STARTED))},
     )
     reading_status_time: datetime | None = time_field()
-    tags: str = Field(default="[]", sa_type=String, sa_column_kwargs={"server_default": "[]"})
+    rating: float | None = Field(default=0.0, ge=0.0, le=10.0)
+
+    # Copies
+    is_physical: int = Field(
+        default=Status.INACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.INACTIVE))}
+    )
+    location: str | None = Field(default=None)
+    code: str | None = Field(default=None)
+    is_weread: int = Field(
+        default=Status.INACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.INACTIVE))}
+    )
 
 
 class UserBookBase(BaseApiModel):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     user_id: uuid.UUID | None = None
     book_id: uuid.UUID | None = None
-    rating: int | None = 0
     reading_position: str | None = ""
     reading_percentage: float | None = 0.0
     reading_status: int | None = None
+    rating: float | None = 0.0
+    is_physical: int | None = None
+    location: str | None = None
+    code: str | None = None
+    is_weread: int | None = None
 
 
 class UserBookCreate(UserBookBase):
@@ -76,7 +95,7 @@ class UserBookDetails(UserBookPublic):
     published: str | None = None
     extension: str | None = None
     scope: int
-    book_rating: int
+    book_rating: float | None = 0.0
 
 
 class WorkspaceCollectionBookDetails(UserBookDetails):

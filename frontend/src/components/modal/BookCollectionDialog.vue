@@ -32,29 +32,50 @@
         </q-item-label>
       </div>
       <section class="row col-12 justify-center search-results">
-        <q-list class="col-12" v-if="results.length">
+        <q-list class="col-12">
           <template v-for="(item, index) in results" :key="index">
-            <q-item :class="{'bg-dark': index === selected}"
-                    :disable="inCollection(item)"
-                    @click="onSelected(item)" clickable>
-              <q-item-section avatar>
-                <q-icon :name="item.icon || '🍃'" size="1.2rem" />
-              </q-item-section>
-              <q-item-section class="text-bold">
-                {{item.title}}
-              </q-item-section>
-              <q-item-section class="time" side>
-                {{ item.count || 0 }}
-              </q-item-section>
-            </q-item>
+            <o-common-item :icon="item.icon || '🍃'"
+                           :label="item.title"
+                           :side-label="`${item.count || 0}`"
+                           :class="{'bg-dark': index === selected}"
+                           :disable="inCollection(item)"
+                           size="1.2rem"
+                           clickable
+                           @click="onSelected(item)" />
           </template>
+          <o-common-item icon="add" size="1.4rem"
+                         class="text-primary"
+                         :label="$t('book.collections.add')"
+                         :clickable="!collectionAdding">
+            <o-menu ref="menuRef"
+                    anchor="bottom middle"
+                    self="top middle"
+                    min-width="400px"
+                    @before-show="collectionName = ''">
+              <q-form class="q-pa-md" @submit.prevent.stop="onAddCollection">
+                <header class="text-tips">{{$t('book.collections.add')}}</header>
+
+                <section class="q-pt-md">
+                  <o-field :label="$t('title')">
+                    <q-input v-model="collectionName" :placeholder="$t('title')"
+                             class="pi-field"
+                             maxlength="100" counter
+                             standout dense clearable autofocus
+                             @keydown.enter.stop.prevent="onAddCollection" />
+                  </o-field>
+                </section>
+
+                <footer class="row col-12 justify-center">
+                  <q-btn type="submit"
+                         :label="$t('submit')"
+                         class="bg-primary text-white"
+                         flat />
+                </footer>
+              </q-form>
+            </o-menu>
+          </o-common-item>
         </q-list>
-        <o-no-data message="" image v-else>
-          <q-btn label="Add Collection"
-                 class="bg-primary text-white"
-                 to="/book/collection"
-                 flat />
-        </o-no-data>
+        <o-no-data message="" image />
       </section>
     </section>
 
@@ -78,18 +99,25 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue'
+import OMenu from 'core/components/menu/OMenu.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import { workspaceBookCollectionService } from 'src/api/service/remote/workspace-book-collection'
-import { notifyDone } from 'core/utils/control'
+import { bookCollectionService, workspaceBookCollectionService } from 'src/api/service/remote'
+import { notifyDone, notifyWarning } from 'core/utils/control'
 
-const { dialog, onHide, onOk } = useDialog()
+const { t } = useCommon()
+const { dialog, onHide } = useDialog()
 const term = ref('')
 const selected = ref(0)
 const list = ref<Indexable[]>([])
 const results = ref<Indexable[]>([])
 const records = ref<Indexable[]>([])
+
+const menuRef = ref<InstanceType<typeof OMenu>>()
+const collectionName = ref('')
+const collectionAdding = ref(false)
 
 const book = computed(() => {
   return dialog.value.data as Indexable
@@ -131,7 +159,7 @@ function onSearch (val: string | number | null) {
 }
 
 function onKeyup (e: KeyboardEvent) {
-  if (results.value.length > 0) {
+  if (results.value.length > 0 && !collectionAdding.value) {
     switch (e.code) {
       case 'ArrowDown':
         selected.value += 1
@@ -186,6 +214,25 @@ function initData() {
   })
 }
 
+function onAddCollection() {
+  if (!collectionName.value) {
+    notifyWarning(t('book.warning.inputTitle'))
+    return
+  }
+  collectionAdding.value = true
+  bookCollectionService.save({
+    title: collectionName.value
+  }).then(res => {
+    menuRef.value?.close()
+    initData()
+  }).finally(() => {
+    setTimeout(() => {
+      collectionAdding.value = false
+    }, 500)
+  })
+
+}
+
 onMounted( async () => {
   initData()
 
@@ -220,6 +267,7 @@ onUnmounted(() => {
           min-height: 40px;
           padding: 8px 12px;
           border-radius: 4px;
+          margin-bottom: 2px;
 
           .q-icon {
             margin-top: -2px;
@@ -227,6 +275,10 @@ onUnmounted(() => {
 
           .time {
             font-size: 0.9rem;
+          }
+
+          &__section--side {
+            font-size: 1rem!important;
           }
         }
       }

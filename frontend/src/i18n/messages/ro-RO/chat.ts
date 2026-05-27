@@ -16,7 +16,7 @@ export default {
   new: 'Chat nou',
   newLine: 'Linie nouă',
   send: 'Trimite',
-  sendKey: 'Apăsați tasta {} pentru a trimite',
+  sendKey: 'Apăsați tasta {key} pentru a trimite',
   sendMessage: 'Trimite mesaj',
   stopGeneration: 'Opriți generarea',
   thought: 'Gândire'

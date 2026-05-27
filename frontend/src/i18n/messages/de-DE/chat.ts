@@ -16,7 +16,7 @@ export default {
   new: 'Neuer Chat',
   newLine: 'Neue Linie',
   send: 'Schicken',
-  sendKey: 'Drücken Sie {Taste}, um zu senden',
+  sendKey: 'Drücken Sie {key}, um zu senden',
   sendMessage: 'Nachricht senden',
   stopGeneration: 'Stoppt die Stromerzeugung',
   thought: 'Gedanke'

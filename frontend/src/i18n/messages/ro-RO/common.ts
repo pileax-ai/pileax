@@ -266,7 +266,7 @@ export default {
     notAvailable: 'Nicio actualizare disponibilă',
     restart: 'Repornire',
     title: 'Gata de actualizare',
-    update: 'Actualizare la {versiunea}',
+    update: 'Actualizare la {version}',
     upToDate: 'La zi'
   },
   updateTime: 'Ora actualizării',
@@ -276,6 +276,7 @@ export default {
     _: 'Vedere',
     compact: 'Compact',
     grid: 'Grilă',
+    gridTitle: 'Titlu grilă',
     list: 'Listă'
   },
   welcome: 'Bun venit'

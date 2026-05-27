@@ -25,7 +25,7 @@ export default {
     added: '追加されたプロバイダー',
     api: {
       baseUrl: 'ベースURL',
-      baseUrlGet: '{name} から API キーを取得します',
+      baseUrlGet: '{name}からAPIキーを取得してください。',
       baseUrlPlaceholder: 'API ベース URL',
       key: 'APIキー',
       keyInvalid: 'APIキーが無効です',

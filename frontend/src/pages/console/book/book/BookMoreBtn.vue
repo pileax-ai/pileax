@@ -51,22 +51,28 @@ const props = defineProps({
 const actions = computed(() => {
   return [
     {
+      label: t('view.gridTitle'),
+      value: 'grid_title',
+      icon: 'mdi-cards-variant',
+      selected: bookView.value === 'grid_title',
+    },
+    {
       label: t('view.grid'),
       value: 'grid',
       icon: 'grid_view',
       selected: bookView.value === 'grid',
     },
     {
-      label: t('view.list'),
-      value: 'list',
-      icon: 'list',
-      selected: bookView.value === 'list',
-    },
-    {
       label: t('view.compact'),
       value: 'compact',
       icon: 'view_cozy',
       selected: bookView.value === 'compact',
+    },
+    {
+      label: t('view.list'),
+      value: 'list',
+      icon: 'list',
+      selected: bookView.value === 'list',
     },
     {
       label: t('sortBy.recentAdd'),
@@ -100,6 +106,7 @@ function onAction (action :any) {
   const value = action.value
   switch (value) {
     case 'grid':
+    case 'grid_title':
     case 'compact':
     case 'list':
       bookView.value = value

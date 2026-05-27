@@ -121,7 +121,7 @@ export default {
   favorite: 'Ulubione',
   file: 'Plik',
   formRules: {
-    length: '{długość} znaków'
+    length: '{length} znaków'
   },
   fullscreen: 'Pełny ekran',
   fullscreenExit: 'Wyjdź z trybu pełnoekranowego',
@@ -266,7 +266,7 @@ export default {
     notAvailable: 'Brak dostępnych aktualizacji',
     restart: 'Uruchom ponownie',
     title: 'Aktualizacja gotowa',
-    update: 'Aktualizacja do {wersji}',
+    update: 'Aktualizacja do {version}',
     upToDate: 'Aktualny'
   },
   updateTime: 'Czas aktualizacji',
@@ -276,6 +276,7 @@ export default {
     _: 'Pogląd',
     compact: 'Kompaktowy',
     grid: 'Siatka',
+    gridTitle: 'Tytuł siatki',
     list: 'Lista'
   },
   welcome: 'Powitanie'

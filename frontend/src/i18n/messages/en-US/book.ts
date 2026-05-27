@@ -24,7 +24,10 @@ export default {
     note: 'Note'
   },
   author: 'Author',
+  basicInfo: 'Basic Info',
+  categoryInfo: 'Category Info',
   chapter: 'Chapter',
+  code: 'Code',
   collection: 'Book Collection',
   collections: {
     _: 'Book Collections',
@@ -54,21 +57,32 @@ export default {
   media: 'Book Media',
   mediaType: {
     digital: 'Digital',
-    physical: 'Physical'
+    physical: 'Physical',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Get Book Info'
+    _: 'Metadata',
+    edit: 'Edit Metadata',
+    general: 'General',
+    get: 'Get Book Info',
+    user: 'My'
   },
   newEntry: 'New Entry',
   page: 'Page',
   previewTips: 'In preview mode, reading progress will not be saved.',
   published: 'Publish Year',
   publisher: 'Publisher',
+  rating: 'Rating',
   refInfo: 'Reference Info',
   removeConfirm: 'Are you sure to remove from shelf?',
+  removeFromCollection: 'Remove from Collection',
   shelf: 'Bookshelf',
   startPreview: 'Start Preview',
   startReading: 'Start Reading',
+  subtitle: 'Subtitle',
+  tag: 'Tag',
+  tags: 'Tags',
+  title: 'Title',
   uploader: {
     completed: 'Upload books to server completed',
     label: 'Drag files here, or click to upload.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Upload Time',
   viewFiles: 'View Files',
   warning: {
+    collectionContainBook: 'Unable to delete. This collection is referenced by existing books.',
     exist: 'Book already exists',
     inputISBN: 'Please input ISBN',
+    inputTitle: 'Please input title',
     isbnExists: 'Book with this ISBN exists',
     isbnNotFound: 'Book with this ISBN not found',
     referencedByOthers: 'Cannot delete, book referenced by others',

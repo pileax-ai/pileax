@@ -15,6 +15,16 @@
         color: #ffffff;
         opacity: 0.2;
       }
+
+      .close {
+        position: absolute;
+        right: 1rem;
+
+        .q-icon {
+          font-size: 1.8rem;
+          opacity: 0.5;
+        }
+      }
     }
 
     .content {

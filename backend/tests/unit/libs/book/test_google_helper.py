@@ -12,7 +12,7 @@ async def test_search_by_keyword() -> None:
 
 @pytest.mark.asyncio
 async def test_search_by_isbn() -> None:
-    isbn = "9787115413581"
+    isbn = "9787539957173"
     books = await GoogleBookHelper.search_by_isbn(isbn)
     print(f"books: {books}")
 

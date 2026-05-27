@@ -238,7 +238,6 @@ watch(
 )
 
 watch(() => props.style, (newValue) => {
-  console.log('style', newValue)
   setWidth()
 })
 
@@ -261,6 +260,10 @@ onMounted(() => {
         min-height: unset !important;
       }
     }
+  }
+  .q-dialog__inner--minimized > div {
+    max-width: 800px !important;
+
   }
   .q-dialog__inner--right {
     .q-layout-container {

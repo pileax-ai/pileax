@@ -1,13 +1,20 @@
+from typing import Any
+from uuid import UUID
+
+from fastapi import HTTPException
+
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
 from app.api.models.book_collection import BookCollection, BookCollectionCreate, BookCollectionUpdate
 from app.api.services.book_collection_service import BookCollectionService
+from app.api.services.workspace_book_collection_service import WorkspaceBookCollectionService
 
 
 class BookCollectionController(BaseController[BookCollection, BookCollectionCreate, BookCollectionUpdate]):
     def __init__(self, session: SessionDep, user: CurrentUser, workspace: CurrentWorkspace):
         super().__init__(BookCollection, session, user, workspace)
         self.service = BookCollectionService(session)
+        self.wbc_service = WorkspaceBookCollectionService(session)
 
     def find_all(self) -> list[BookCollection]:
         return self.service.find_all(
@@ -16,3 +23,10 @@ class BookCollectionController(BaseController[BookCollection, BookCollectionCrea
                 "workspace_id": self.workspace_id,
             }
         )
+
+    def delete(self, id: UUID) -> Any:
+        wbc = self.wbc_service.find_one({"book_collection_id": id})
+        if wbc:
+            raise HTTPException(status_code=409, detail="Book collection contains books")
+
+        return super().delete(id)

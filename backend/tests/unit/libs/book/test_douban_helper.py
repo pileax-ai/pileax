@@ -12,7 +12,8 @@ async def test_search_by_keyword() -> None:
 
 @pytest.mark.asyncio
 async def test_search_by_isbn() -> None:
-    isbn = "9787115413581"
+    # isbn = "9787115413581"
+    isbn = "9787553824291"
     books = await DoubanHelper.search_by_isbn(isbn)
     print(f"books: {books}")
 

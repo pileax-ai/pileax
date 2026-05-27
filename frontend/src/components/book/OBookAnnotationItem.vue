@@ -114,7 +114,7 @@ function onDelete() {
 
 function onMeta() {
   showDialog({
-    type: 'book-meta',
+    type: 'book-refer-meta',
     data: props.item
   })
 }

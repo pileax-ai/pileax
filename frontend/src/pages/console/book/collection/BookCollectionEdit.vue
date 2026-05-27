@@ -33,11 +33,12 @@
     <o-field :label="$t('cover')" v-if="form.id">
       <o-file-uploader accept=".png,.jpg,.svg"
                        :maxSize="10 * 1024 * 1024"
-                       :loading="loading" leading
-                       @ready="onLogoReady" />
+                       :preview="getFileUrl(form.cover)"
+                       :loading="loading"
+                       :ref-id="form.id"
+                       ref-type="book_collection"
+                       @uploaded="onCoverUpload" />
     </o-field>
-
-    <q-toggle v-model="status" :label="$t('enable')" class="col-6"/>
   </o-simple-form-page>
 </template>
 
@@ -55,6 +56,7 @@ import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
 import OField from 'core/components/form/field/OField.vue'
 import { BookCollectionDefaultIcon } from 'core/constants/constant'
+import useApi from 'src/hooks/useApi'
 
 const apiName = 'bookCollection'
 const props = defineProps({
@@ -64,8 +66,8 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['close', 'success'])
+const { getFileUrl } = useApi()
 const { form, loading, actions } = useForm()
-const status = ref(true)
 
 const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },
@@ -82,8 +84,8 @@ function load () {
   }
 }
 
-function onLogoReady() {
-  //
+function onCoverUpload(info: Indexable) {
+  form.value.cover = info.url
 }
 
 function onSelectIcon(options: Indexable) {
@@ -100,6 +102,7 @@ function onSubmit () {
     title: form.value.title,
     icon: form.value.icon,
     color: form.value.color,
+    cover: form.value.cover,
     description: form.value.description,
   }
 

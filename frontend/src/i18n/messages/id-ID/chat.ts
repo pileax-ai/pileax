@@ -16,7 +16,7 @@ export default {
   new: 'Obrolan Baru',
   newLine: 'Baris baru',
   send: 'Mengirim',
-  sendKey: 'Tekan {tombol} untuk mengirim',
+  sendKey: 'Tekan {key} untuk mengirim',
   sendMessage: 'Kirim pesan',
   stopGeneration: 'Hentikan pembangkitan',
   thought: 'Pikiran'

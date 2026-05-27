@@ -276,6 +276,7 @@ export default {
     _: '查看',
     compact: '緊湊',
     grid: '網格',
+    gridTitle: '網格標題',
     list: '清單'
   },
   welcome: '歡迎'

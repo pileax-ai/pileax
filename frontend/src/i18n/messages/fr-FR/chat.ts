@@ -16,7 +16,7 @@ export default {
   new: 'Nouvelle conversation',
   newLine: 'Nouvelle ligne',
   send: 'Envoyer',
-  sendKey: 'Appuyez sur {touche} pour envoyer',
+  sendKey: 'Appuyez sur {key} pour envoyer',
   sendMessage: 'Envoyer un message',
   stopGeneration: 'Génération stop',
   thought: 'Pensée'

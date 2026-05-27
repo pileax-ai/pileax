@@ -3,7 +3,7 @@ export default {
   add: '메모 추가',
   addIcon: '아이콘 추가',
   append: '콘텐츠 추가',
-  appendTo: '{내용}을 {참고}에 추가합니다.',
+  appendTo: '{content}을 {note}에 추가합니다.',
   chooseLocation: '위치를 선택하세요',
   cover: {
     add: '커버 추가',
@@ -12,7 +12,7 @@ export default {
     repositionDrag: '드래그하여 위치를 변경하세요'
   },
   create: '메모를 작성하세요',
-  createSub: '{parent} 아래에 {note}라는 하위 메모를 생성하세요.',
+  createSub: '{parent} 아래에 하위 메모 {note}를 생성하세요.',
   duplicate: '복제하다',
   favoriteAdd: '즐겨찾기에 추가',
   favoriteRemove: '즐겨찾기에서 삭제',

@@ -24,7 +24,10 @@ export default {
     note: 'Notatka'
   },
   author: 'Autor',
+  basicInfo: 'Informacje podstawowe',
+  categoryInfo: 'Informacje o kategorii',
   chapter: 'Rozdział',
+  code: 'Kod',
   collection: 'Kolekcja książek',
   collections: {
     _: 'Kolekcje książek',
@@ -54,21 +57,32 @@ export default {
   media: 'Książki medialne',
   mediaType: {
     digital: 'Cyfrowy',
-    physical: 'Fizyczny'
+    physical: 'Fizyczny',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Uzyskaj informacje o książce'
+    _: 'Metadane',
+    edit: 'Edytuj metadane',
+    general: 'Ogólny',
+    get: 'Uzyskaj informacje o książce',
+    user: 'Mój'
   },
   newEntry: 'Nowy wpis',
   page: 'Strona',
   previewTips: 'W trybie podglądu postęp czytania nie zostanie zapisany.',
   published: 'Rok publikacji',
   publisher: 'Wydawca',
+  rating: 'Ocena',
   refInfo: 'Informacje referencyjne',
   removeConfirm: 'Czy na pewno chcesz usunąć z półki?',
+  removeFromCollection: 'Usuń z kolekcji',
   shelf: 'Półka na książki',
   startPreview: 'Rozpocznij podgląd',
   startReading: 'Zacznij czytać',
+  subtitle: 'Podtytuł',
+  tag: 'Etykietka',
+  tags: 'Tagi',
+  title: 'Tytuł',
   uploader: {
     completed: 'Zakończono przesyłanie książek na serwer',
     label: 'Przeciągnij pliki tutaj lub kliknij, aby je przesłać.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Czas przesyłania',
   viewFiles: 'Wyświetl pliki',
   warning: {
+    collectionContainBook: 'Nie można usunąć. Do tej kolekcji odwołują się istniejące książki.',
     exist: 'Książka już istnieje',
     inputISBN: 'Proszę podać numer ISBN',
+    inputTitle: 'Proszę wpisać tytuł',
     isbnExists: 'Książka o tym numerze ISBN istnieje',
     isbnNotFound: 'Nie znaleziono książki o tym numerze ISBN',
     referencedByOthers: 'Nie można usunąć, książka jest cytowana przez innych',

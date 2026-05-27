@@ -121,7 +121,7 @@ export default {
   favorite: 'Mục yêu thích',
   file: 'Tài liệu',
   formRules: {
-    length: '{độ dài} ký tự'
+    length: '{length} ký tự'
   },
   fullscreen: 'Toàn màn hình',
   fullscreenExit: 'Thoát chế độ toàn màn hình',
@@ -266,7 +266,7 @@ export default {
     notAvailable: 'Không có bản cập nhật nào.',
     restart: 'Khởi động lại',
     title: 'Sẵn sàng cập nhật',
-    update: 'Cập nhật lên {phiên bản}',
+    update: 'Cập nhật lên {version}',
     upToDate: 'Đã cập nhật'
   },
   updateTime: 'Thời gian cập nhật',
@@ -276,6 +276,7 @@ export default {
     _: 'Xem',
     compact: 'Nhỏ gọn',
     grid: 'Lưới',
+    gridTitle: 'Tiêu đề lưới',
     list: 'Danh sách'
   },
   welcome: 'Chào mừng'

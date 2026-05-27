@@ -121,7 +121,7 @@ export default {
   favorite: 'Favoris',
   file: 'Déposer',
   formRules: {
-    length: '{longueur} caractères'
+    length: '{length} caractères'
   },
   fullscreen: 'Plein écran',
   fullscreenExit: 'Quitter le mode plein écran',
@@ -163,7 +163,7 @@ export default {
   profile: 'Profil du compte',
   qrcode: 'code QR',
   query: {
-    noMoreData: '{total} enregistrements trouvés au total. Aucune autre donnée disponible.',
+    noMoreData: 'Au total, {total} enregistrements ont été trouvés. Aucune autre donnée n\'est disponible.',
     noRecords: 'Aucun enregistrement',
     total: 'Total'
   },
@@ -276,6 +276,7 @@ export default {
     _: 'Voir',
     compact: 'Compact',
     grid: 'Grille',
+    gridTitle: 'Titre de la grille',
     list: 'Liste'
   },
   welcome: 'Accueillir'
