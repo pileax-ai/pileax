@@ -124,8 +124,8 @@
     }
 
     &.closed {
-      .q-splitter--vertical {
-        .q-splitter__separator {
+      > .q-splitter--vertical {
+        > .q-splitter__separator {
           width: 0;
         }
       }
