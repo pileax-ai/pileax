@@ -15,7 +15,7 @@
           <o-view-item :label="$t('book.author')"
                        :value="book.author" align="right" lines="2" />
           <o-view-item :label="$t('book.publisher')"
-                       :value="book.publisher" align="right" v-if="book.publisher" />
+                       :value="book.publisher" align="right" lines="2" v-if="book.publisher" />
           <o-view-item :label="$t('book.published')"
                        :value="book.published.substring(0, 4)" align="right" v-if="book.published" />
           <o-view-item :label="$t('book.format')"

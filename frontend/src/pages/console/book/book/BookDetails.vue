@@ -29,6 +29,8 @@
                      :value="data.author" align="right" lines="2" />
         <o-view-item :label="$t('book.publisher')"
                      :value="data.publisher" align="right" v-if="data.publisher" />
+        <o-view-item :label="$t('book.published')"
+                     :value="data.published.substring(0, 4)" align="right" v-if="data.published" />
         <template v-if="data.extension">
           <o-view-item :label="$t('book.format')" align="right">
             <template #value>

@@ -12,6 +12,9 @@
       </q-item-label>
       <q-item-label caption>
         {{ data.publisher }}
+        <span v-if="data.published">
+          / {{ data.published.substring(0, 4) }}
+        </span>
       </q-item-label>
     </q-item-section>
     <q-item-section class="justify-around" side>
