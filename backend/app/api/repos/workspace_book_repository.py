@@ -80,8 +80,8 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
         # 1. Filters
         filter_mapping = {
             WorkspaceBook: ["workspace_id", "user_id"],
-            Book: ["title", "extension", "is_physical"],
-            UserBook: ["reading_status"],
+            Book: ["title", "extension"],
+            UserBook: ["reading_status", "is_removed", "is_physical"],
         }
         filters = DbHelper.build_filters(filter_mapping, query.condition)
 
@@ -132,6 +132,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             **workspace_book.model_dump(),
             "book_user_id": book.user_id,
             "book_workspace_id": book.workspace_id,
+            # book
             "title": book.title,
             "path": book.path,
             "file_url": book.file_url,
@@ -142,18 +143,19 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "extension": book.extension,
             "publisher": book.publisher,
             "published": book.published,
+            "rating": book.rating,
             "scope": book.scope,
-            "book_rating": book.rating,
             "media": book.media,
-            "location": book.location,
             "isbn": book.isbn,
             "ref_url": book.ref_url,
-            "is_physical": book.is_physical,
+            # user_book
             "user_book_id": user_book.id if user_book else None,
-            "rating": user_book.rating if user_book else None,
             "reading_position": user_book.reading_position if user_book else None,
             "reading_percentage": user_book.reading_percentage if user_book else None,
             "reading_status": user_book.reading_status if user_book else None,
+            "user_rating": user_book.rating if user_book else None,
+            "is_physical": user_book.is_physical if user_book else None,
+            "location": user_book.location if user_book else None,
             "create_time": user_book.create_time if user_book else None,
             "update_time": user_book.update_time if user_book else None,
         }

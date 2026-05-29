@@ -121,7 +121,7 @@ export default {
   favorite: '즐겨찾기',
   file: '파일',
   formRules: {
-    length: '{길이} 문자'
+    length: '{length} 문자'
   },
   fullscreen: '전체 화면',
   fullscreenExit: '전체 화면 종료',
@@ -163,7 +163,7 @@ export default {
   profile: '계정 프로필',
   qrcode: 'QR 코드',
   query: {
-    noMoreData: '총 {tal}개의 레코드가 검색되었습니다. 더 이상 데이터가 없습니다.',
+    noMoreData: '총 {total}개의 레코드가 검색되었습니다. 더 이상 데이터가 없습니다.',
     noRecords: '기록 없음',
     total: '총'
   },
@@ -266,7 +266,7 @@ export default {
     notAvailable: '업데이트할 내용이 없습니다.',
     restart: '재시작',
     title: '업데이트 준비 완료',
-    update: '{버전}으로 업데이트하세요',
+    update: '{version}으로 업데이트하세요',
     upToDate: '최신 정보'
   },
   updateTime: '업데이트 시간',
@@ -276,6 +276,7 @@ export default {
     _: '보다',
     compact: '콤팩트',
     grid: '그리드',
+    gridTitle: '그리드 제목',
     list: '목록'
   },
   welcome: '환영'

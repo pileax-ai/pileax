@@ -52,21 +52,21 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
     description: str | None = None
     publisher: str | None = None
     published: str | None = None
+    rating: float | None = 0.0
     extension: str | None = None
-    scope: int
-    book_rating: int
     media: list | None = None
-    location: str | None = None
     isbn: str | None = None
     ref_url: str | None = None
-    is_physical: int | None = None
+    scope: int
 
     # user_book
     user_book_id: uuid.UUID | None = None
-    rating: int | None = 0
+    user_rating: float | None = 0.0
     reading_position: str | None = ""
     reading_percentage: float | None = 0.0
     reading_status: int | None = None
+    is_physical: int | None = None
+    location: str | None = None
 
 
 class WorkspaceCollectionBookDetails(WorkspaceBookDetails):

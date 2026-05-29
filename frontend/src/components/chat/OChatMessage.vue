@@ -68,7 +68,7 @@
             <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
             <o-tooltip position="left" transition>{{chat.modelName}}</o-tooltip>
           </q-avatar>
-          <o-chip color="info" square dense>
+          <o-chip color="blue" square dense>
             {{chat.modelProvider}}
           </o-chip>
         </div>

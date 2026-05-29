@@ -276,6 +276,7 @@ export default {
     _: 'View',
     compact: 'Compact',
     grid: 'Grid',
+    gridTitle: 'Grid Title',
     list: 'List'
   },
   welcome: 'Welcome'

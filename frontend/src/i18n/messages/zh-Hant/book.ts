@@ -23,7 +23,10 @@ export default {
     note: '筆記'
   },
   author: '作者',
+  basicInfo: '基本訊息',
+  categoryInfo: '分類資訊',
   chapter: '章節',
+  code: '編碼',
   collection: '書單',
   collections: {
     _: '書單',
@@ -53,21 +56,32 @@ export default {
   media: '書類型',
   mediaType: {
     digital: '電子書',
-    physical: '紙本書'
+    physical: '紙本書',
+    weread: '微信讀書'
   },
   metadata: {
-    get: '獲取圖書信息'
+    _: '元數據',
+    edit: '編輯元數據',
+    general: '一般',
+    get: '獲取圖書信息',
+    user: '我的'
   },
   newEntry: '新增書目',
   page: '頁碼',
   previewTips: '預覽模式下，不會儲存閱讀進度',
   published: '出版年',
   publisher: '出版商',
+  rating: '評分',
   refInfo: '引用訊息',
   removeConfirm: '你確定從書架中移除嗎？',
+  removeFromCollection: '從書單移除',
   shelf: '書架',
   startPreview: '開始預覽',
   startReading: '開始閱讀',
+  subtitle: '副標題',
+  tag: '標籤',
+  tags: '標籤',
+  title: '書名',
   uploader: {
     completed: '圖書已成功上傳至伺服器',
     label: '將文件拖曳到此處，或點擊上傳',
@@ -75,10 +89,13 @@ export default {
     total: '共計'
   },
   uploadTime: '上傳時間',
+  userInfo: '使用者資訊',
   viewFiles: '查看文件',
   warning: {
+    collectionContainBook: '無法刪除，該書單已被書籍引用。',
     exist: '書已存在',
     inputISBN: '請輸入ISBN',
+    inputTitle: '請輸入標題',
     isbnExists: 'ISBN對應的書已存在',
     isbnNotFound: 'ISBN對應的書未找到',
     referencedByOthers: '無法刪除，該書已被其他用戶引用',

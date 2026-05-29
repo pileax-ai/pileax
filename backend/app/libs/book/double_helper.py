@@ -43,8 +43,10 @@ class DoubanHelper:
         author_list = raw_data.get("author", [])
         return {
             "title": raw_data.get("title"),
+            "subtitle": raw_data.get("subtitle"),
             "author": ",".join(author_list) if isinstance(author_list, list) else str(author_list),
             "isbn": raw_data.get("isbn13") or raw_data.get("isbn10"),
+            "rating": raw_data.get("rating", {}).get("average"),
             "cover_url": raw_data.get("images", {}).get("large"),
             "ref_url": raw_data.get("alt"),
             "description": raw_data.get("summary"),

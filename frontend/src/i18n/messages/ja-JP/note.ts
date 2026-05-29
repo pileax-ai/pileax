@@ -3,7 +3,7 @@ export default {
   add: 'メモを追加',
   addIcon: 'アイコンを追加',
   append: 'コンテンツを追加',
-  appendTo: '{content}を{note}に追加',
+  appendTo: '{note}に{content}を追加します。',
   chooseLocation: '場所を選択',
   cover: {
     add: 'カバーを追加',
@@ -12,7 +12,7 @@ export default {
     repositionDrag: 'ドラッグして位置を変更します'
   },
   create: 'メモを作成',
-  createSub: '{parent} の下にサブノート {note} を作成します',
+  createSub: '{parent} の下にサブノート {note} を作成します。',
   duplicate: '重複',
   favoriteAdd: 'お気に入りに追加',
   favoriteRemove: 'お気に入りから削除',

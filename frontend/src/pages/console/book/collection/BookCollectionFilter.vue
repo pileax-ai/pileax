@@ -56,6 +56,8 @@ import { bookCollectionService } from 'src/api/service/remote/book-collection'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'
 import { BookCollectionDefaultIcon } from 'core/constants/constant'
+import { notifyWarning } from 'core/utils/control'
+import { getErrorMessage } from 'src/utils/request'
 
 const apiName = 'bookCollection'
 const props = defineProps({
@@ -122,11 +124,19 @@ function onAction (item :Indexable) {
 }
 
 function onDelete(item: Indexable) {
-  crud.remove(item.value, {
+  crud.remove(apiName, item.value, {
     icon: item.itemIcon,
     label: item.itemLabel,
-    callback: () => {
+    onOk: () => {
       refresh()
+    },
+    onError: (err) => {
+      if (err.response.status === 409) {
+        notifyWarning(t('book.warning.collectionContainBook'))
+      } else {
+        const message = getErrorMessage(err)
+        notifyWarning(message)
+      }
     }
   })
 }
@@ -143,7 +153,6 @@ function refresh() {
 }
 
 onMounted(() => {
-  crud.init(apiName)
   refresh()
 })
 

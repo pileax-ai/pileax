@@ -12,7 +12,7 @@ export default {
     repositionDrag: 'Trascina per riposizionare'
   },
   create: 'Crea nota',
-  createSub: 'Crea una sotto-nota {note} sotto {parent}',
+  createSub: 'Crea una sottonota {note} sotto {parent}',
   duplicate: 'Duplicato',
   favoriteAdd: 'Aggiungi ai preferiti',
   favoriteRemove: 'Rimuovi dai preferiti',

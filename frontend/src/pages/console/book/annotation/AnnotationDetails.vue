@@ -114,8 +114,8 @@ function onAction (action :any) {
 }
 
 function onRemove() {
-  crud.remove(props.data.id, {
-    callback: (_) => {
+  crud.remove('bookAnnotation', props.data.id, {
+    onOk: (_) => {
       emit('close', {
         action: 'remove',
         item: props.data
@@ -125,7 +125,7 @@ function onRemove() {
 }
 
 onMounted(() => {
-  crud.init('bookAnnotation')
+  //
 })
 </script>
 

@@ -23,7 +23,10 @@ export default {
     note: '笔记'
   },
   author: '作者',
+  basicInfo: '基本信息',
+  categoryInfo: '分类信息',
   chapter: '章节',
+  code: '编码',
   collection: '书单',
   collections: {
     _: '书单',
@@ -53,21 +56,32 @@ export default {
   media: '书类型',
   mediaType: {
     digital: '电子书',
-    physical: '纸质书'
+    physical: '纸质书',
+    weread: '微信读书'
   },
   metadata: {
-    get: '获取图书信息'
+    _: '元数据',
+    edit: '编辑元数据',
+    general: '通用',
+    get: '获取图书信息',
+    user: '我的'
   },
   newEntry: '添加书目',
   page: '页码',
   previewTips: '预览模式下，不会保存阅读进度',
   published: '出版年',
   publisher: '出版社',
+  rating: '评分',
   refInfo: '引用信息',
   removeConfirm: '你确定从书架中移除吗？',
+  removeFromCollection: '从书单中移除',
   shelf: '书架',
   startPreview: '开始预览',
   startReading: '开始阅读',
+  subtitle: '副标题',
+  tag: '标签',
+  tags: '标签',
+  title: '书名',
   uploader: {
     completed: '图书已成功上传至服务器',
     label: '将文件拖到此处，或点击上传',
@@ -75,10 +89,13 @@ export default {
     total: '共计'
   },
   uploadTime: '上传时间',
+  userInfo: '用户信息',
   viewFiles: '查看文件',
   warning: {
+    collectionContainBook: '无法删除，该书单已被书籍引用。',
     exist: '书已存在',
     inputISBN: '请输入ISBN',
+    inputTitle: '请输入标题',
     isbnExists: 'ISBN对应的书已存在',
     isbnNotFound: 'ISBN对应的书未找到',
     referencedByOthers: '无法删除，该书已被其他用户引用',

@@ -16,7 +16,7 @@ export default {
   new: 'Новый чат',
   newLine: 'Новая линия',
   send: 'Отправлять',
-  sendKey: 'Нажмите {клавишу} для отправки',
+  sendKey: 'Нажмите {key} для отправки',
   sendMessage: 'Отправить сообщение',
   stopGeneration: 'Остановить поколение',
   thought: 'Мысль'

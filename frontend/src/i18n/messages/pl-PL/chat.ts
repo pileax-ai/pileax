@@ -16,7 +16,7 @@ export default {
   new: 'Nowy czat',
   newLine: 'Nowa linia',
   send: 'Wysłać',
-  sendKey: 'Naciśnij {klawisz}, aby wysłać',
+  sendKey: 'Naciśnij {key}, aby wysłać',
   sendMessage: 'Wyślij wiadomość',
   stopGeneration: 'Zatrzymaj generację',
   thought: 'Myśl'

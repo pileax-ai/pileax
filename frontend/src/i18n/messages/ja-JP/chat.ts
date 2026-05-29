@@ -16,7 +16,7 @@ export default {
   new: '新しいチャット',
   newLine: '改行',
   send: '送信',
-  sendKey: '送信するには{キー}を押してください',
+  sendKey: '{key}を押して送信',
   sendMessage: 'メッセージを送信',
   stopGeneration: '生成を停止',
   thought: '考え'

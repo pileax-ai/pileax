@@ -42,7 +42,9 @@
           <q-btn icon="add" flat round @click="onEdit('')">
             <o-tooltip position="bottom">{{ $t('book.collections.add') }}</o-tooltip>
           </q-btn>
-          <book-collection-more-btn @view="onView" @sort="onSort" />
+          <book-collection-more-btn :view="collection.view"
+                                    @view="onView"
+                                    @sort="onSort" />
         </template>
 
         <section class="col-12">
@@ -54,21 +56,7 @@
             </template>
 
             <template v-if="rows.length">
-              <section class="pi-view-grid" v-if="bookView === 'grid'">
-                <template v-for="(item) in rows" :key="item.id">
-                  <div class="">
-                    <book-grid-item :data="item"
-                                    @click="openBook(item)"
-                                    @details="onDetails(item)">
-                      <book-collection-context-menu :data="item"
-                                                    @close="onClose"
-                                                    @edit="onEdit"
-                                                    context-menu />
-                    </book-grid-item>
-                  </div>
-                </template>
-              </section>
-              <section class="row col-12 justify-center pi-view-list" v-else>
+              <section class="row col-12 justify-center pi-view-list" v-if="collection.view === 'list'">
                 <q-list>
                   <template v-for="(item) in rows" :key="item.id">
                     <book-list-item :data="item"
@@ -81,6 +69,23 @@
                     </book-list-item>
                   </template>
                 </q-list>
+              </section>
+              <section class="pi-view-grid"
+                       :class="{ 'book': ['grid', 'grid_title'].includes(collection.view) }"
+                       v-else>
+                <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
+                  <div class="">
+                    <component :is="bookComponents[collection.view] || bookComponents.grid"
+                               :data="item"
+                               @click="openBook(item)"
+                               @details="onDetails(item)">
+                      <book-collection-context-menu :data="item"
+                                                    @close="onClose"
+                                                    @edit="onEdit"
+                                                    context-menu />
+                    </component>
+                  </div>
+                </template>
               </section>
             </template>
             <template v-else>
@@ -112,6 +117,8 @@
 import { onActivated, ref, watch } from 'vue'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import BookGridItem from '../book/BookGridItem.vue'
+import BookGridTitleItem from '../book/BookGridTitleItem.vue'
+import BookCompactItem from '../book/BookCompactItem.vue'
 import BookListItem from '../book/BookListItem.vue'
 import BookDetails from '../book/BookDetails.vue'
 import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
@@ -120,14 +127,12 @@ import BookCollectionFilter from './BookCollectionFilter.vue'
 import BookCollectionMoreBtn from './BookCollectionMoreBtn.vue'
 import OSplitPage from 'core/page/template/OSplitPage.vue'
 
-import useReader from 'src/hooks/useReader'
 import useLoadMore from 'src/hooks/useLoadMore'
 import useCommon from 'core/hooks/useCommon'
 import useReading from 'src/hooks/useReading'
 
 const { t } = useCommon()
-const { queryTimer } = useReader()
-const { openBook } = useReading()
+const { collection, setCollectionItem, openBook } = useReading()
 const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
@@ -137,7 +142,12 @@ const editCollectionId = ref('')
 const addMenu = ref(false)
 const data = ref<Indexable>({})
 const showFilter = ref(true)
-const bookView = ref('grid')
+
+const bookComponents = {
+  grid: BookGridItem,
+  grid_title: BookGridTitleItem,
+  compact: BookCompactItem,
+} as Indexable
 
 function onAction(item: Indexable) {
   switch (item.action) {
@@ -155,7 +165,7 @@ function onAction(item: Indexable) {
 }
 
 function onView(value: string) {
-  bookView.value = value
+  setCollectionItem('view', value)
 }
 
 function onSort(value: Indexable) {
@@ -179,7 +189,7 @@ function onEditBook(item: Indexable) {
 }
 
 function onClose(options: Indexable) {
-  console.log('close', options)
+  // console.log('close', options)
   if (options.action === 'book-collection-edit') {
     filterRef.value?.refresh()
   } else if (options && options.action && options.item) {
@@ -229,10 +239,6 @@ function onFullScreen(value: boolean) {
 function onToggleFiler() {
   showFilter.value = !showFilter.value
 }
-
-watch(() => queryTimer.value, (newValue) => {
-  doQuery()
-})
 
 onActivated(() => {
   filterRef.value?.refresh().then(res => {

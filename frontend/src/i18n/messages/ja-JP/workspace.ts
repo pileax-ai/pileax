@@ -2,7 +2,7 @@ export default {
   _: 'ワークスペース',
   add: 'ワークスペースを追加',
   admin: 'ワークスペースを管理する',
-  assignRoleConfirm: '{name} に新しい役割を割り当てますか?',
+  assignRoleConfirm: '{name}に新しい役割を割り当てますか？',
   current: '現在のワークスペース',
   details: 'ワークスペースの詳細',
   invite: '招待する',

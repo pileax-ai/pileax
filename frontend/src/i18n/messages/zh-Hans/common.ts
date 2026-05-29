@@ -276,6 +276,7 @@ export default {
     _: '查看',
     compact: '紧凑',
     grid: '网格',
+    gridTitle: '网格标题',
     list: '列表'
   },
   welcome: '欢迎'

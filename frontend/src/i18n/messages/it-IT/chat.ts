@@ -16,7 +16,7 @@ export default {
   new: 'Nuova chat',
   newLine: 'Nuova linea',
   send: 'Inviare',
-  sendKey: 'Premi {tasto} per inviare',
+  sendKey: 'Premi {key} per inviare',
   sendMessage: 'Invia messaggio',
   stopGeneration: 'Interrompere la generazione',
   thought: 'Pensiero'

@@ -2,47 +2,53 @@ import enum
 import uuid
 
 from pydantic import field_validator
-from sqlalchemy import Integer, UniqueConstraint, event, text
+from sqlalchemy import Index, Integer, UniqueConstraint, event, text
 from sqlmodel import Field
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
-from app.api.models.enums import Scope, Status
+from app.api.models.enums import Scope
 from app.libs.db_helper import DbHelper
 
 
-class BookMediaType(enum.StrEnum):
-    DIGITAL = "digital"
-    PHYSICAL = "physical"
-
-
 class Book(BaseSQLModel, BaseMixin, table=True):
-    __table_args__ = (UniqueConstraint("tenant_id", "uuid", name="unique_tenant_book"),)
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "uuid", name="unique_tenant_book"),
+        Index("idx_tenant_isbn", "tenant_id", "isbn"),
+    )
 
     tenant_id: uuid.UUID = uuid_field()
     workspace_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
+
+    # Basic
     uuid: str = Field(..., min_length=32, max_length=64, description="Book sha1 hash")
     title: str = Field(..., max_length=255, description="Book title")
+    subtitle: str | None = Field(default=None, max_length=255, description="Book subtitle")
     title_pinyin: str | None = Field(default=None)
-    path: str = Field(..., description="Book file path")
-    file_url: str | None = Field(default=None)
-    cover_url: str | None = Field(default=None)
-    extension: str | None = Field(default=None)
-    rating: int | None = Field(default=0, ge=0, le=5)
     author: str | None = Field(default=None)
     language: str | None = Field(default=None)
     description: str | None = Field(default=None)
     publisher: str | None = Field(default=None)
     published: str | None = Field(default=None)
+    rating: float | None = Field(default=0.0, ge=0.0, le=10.0)
+    ref_url: str | None = Field(default=None)
+
+    # File
+    path: str = Field(..., description="Book file path")
+    file_url: str | None = Field(default=None)
+    cover_url: str | None = Field(default=None)
+    size: int | None = Field(default=0, ge=0)
+    extension: str | None = Field(default=None)
+    media: dict | None = Field(default=None, sa_type=JSONString)
+
+    # Category
+    isbn: str | None = Field(default=None)
+    clc_code: str | None = Field(default=None)
+    ddc_code: str | None = Field(default=None)
+
+    # Share
     scope: int | None = Field(
         default=Scope.WORKSPACE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Scope.WORKSPACE))}
-    )
-    media: dict | None = Field(default=None, sa_type=JSONString)
-    location: str | None = None
-    isbn: str | None = Field(default=None)
-    ref_url: str | None = Field(default=None)
-    is_physical: int = Field(
-        default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.INACTIVE))}
     )
 
 
@@ -56,6 +62,11 @@ def before_update(mapper, connection, target: Book):
     target.title_pinyin = DbHelper.to_pinyin(target.title)
 
 
+class BookMediaType(enum.StrEnum):
+    DIGITAL = "digital"
+    PHYSICAL = "physical"
+
+
 class BookMedia(BaseApiModel):
     type: BookMediaType = BookMediaType.DIGITAL
     sha1: str = Field(..., min_length=32, max_length=64, description="Book sha1 hash")
@@ -67,23 +78,32 @@ class BookMedia(BaseApiModel):
 
 class BookBase(BaseApiModel):
     title: str
+    subtitle: str | None = None
     author: str | None = None
     language: str | None = None
     description: str | None = None
     publisher: str | None = None
     published: str | None = None
+    rating: float | None = 0.0
     media: list[BookMedia] | None = Field(default_factory=list)
-    location: str | None = None
     isbn: str | None = None
     cover_url: str | None = ""
     ref_url: str | None = None
-    is_physical: int | None = Status.INACTIVE
+    clc_code: str | None = None
+    ddc_code: str | None = None
 
     @field_validator("description", "cover_url", mode="before")
     @classmethod
     def empty_string_to_none(cls, v):
         if isinstance(v, str) and not v.strip():
             return None
+        return v
+
+    @field_validator("rating")
+    @classmethod
+    def round_rating(cls, v: float | None) -> float | None:
+        if v is not None:
+            return round(v, 1)
         return v
 
 
@@ -94,6 +114,7 @@ class BookCreate(BookBase):
     path: str | None = ""
     file_url: str | None = ""
     extension: str | None = ""
+    size: int | None = 0
 
 
 class BookUpdate(BookBase):
@@ -108,6 +129,7 @@ class BookPublic(BookCreate, BaseMixin):
 
 
 class BookDetails(BaseApiModel, BaseMixin):
+    # book
     title: str
     file_url: str | None = None
     cover_url: str | None = None
@@ -116,16 +138,18 @@ class BookDetails(BaseApiModel, BaseMixin):
     description: str | None = None
     publisher: str | None = None
     published: str | None = None
+    rating: float | None = 0.0
     extension: str | None = None
     media: list | None = None
-    location: str | None = None
     isbn: str | None = None
     ref_url: str | None = None
-    is_physical: int | None = None
     scope: int
-    rating: int
+
+    # user_book
     user_book_id: uuid.UUID | None = None
-    rating: int | None = 0
     reading_position: str | None = ""
     reading_percentage: float | None = 0.0
     reading_status: int | None = None
+    user_rating: float | None = 0.0
+    is_physical: int | None = None
+    location: str | None = None

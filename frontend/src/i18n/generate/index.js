@@ -150,6 +150,35 @@ function serializeToTs(obj, indent = 2, level = 0) {
   return String(obj)
 }
 
+// Post-translation recovery based on your method:
+// Replaces whatever is inside the translated {} with the original placeholders by order
+function forceRestorePlaceholders(translatedText, originalText) {
+  let restored = typeof translatedText === 'string' ? translatedText : String(translatedText || '')
+
+  // Extract all original placeholders like {length}, {key}
+  const originalRegex = /\{[^}]+\}/g
+  const originals = originalText.match(originalRegex)
+
+  // If the original text didn't have any placeholders, do nothing
+  if (!originals || originals.length === 0) {
+    return restored
+  }
+
+  // Match any corrupted or translated placeholders in the translated output,
+  // including cases where spaces were injected, e.g., "{ tecla }", "{longitud}"
+  const translatedRegex = /\{[^}]+\}/g
+  let matchIndex = 0
+
+  restored = restored.replace(translatedRegex, (match) => {
+    // Replace with the original placeholder if available, otherwise keep the match
+    const replacement = originals[matchIndex] !== undefined ? originals[matchIndex] : match
+    matchIndex++
+    return replacement
+  })
+
+  return restored
+}
+
 // ==================================================
 // Translate
 // ==================================================
@@ -162,14 +191,23 @@ async function translateText(text, lang) {
 
   await sleep(TRANSLATOR_INTERVAL + Math.random() * TRANSLATOR_INTERVAL * 2)
 
+  let translatedResult = ''
+
+  // 1. Perform translation on the safe text
   switch (TRANSLATOR) {
     case 'bing-free':
-      return bingFreeTranslate(text, lang)
+      translatedResult = await bingFreeTranslate(text, lang)
+      break
     case 'google-free':
-      return googleFreeTranslate(text, lang)
+      translatedResult = await googleFreeTranslate(text, lang)
+      break
     default:
-      return googleTranslate(text, lang)
+      translatedResult = await googleTranslate(text, lang)
+      break
   }
+
+  // 2. Restore the original placeholders
+  return forceRestorePlaceholders(translatedResult, text)
 }
 
 async function bingFreeTranslate(text, lang) {
@@ -341,12 +379,25 @@ async function fillTranslations(
     if (typeof baseVal === 'string') {
       const currentHash = hashText(baseVal)
       const oldHash = baseMeta[fullKey]
+      const useBase = metaObj[fullKey]?.base
       const manual = metaObj[fullKey]?.manual
       const manualUpdate = targetVal && manual
-      const needUpdate = !targetVal || oldHash !== currentHash
+      const baseChanged = oldHash !== currentHash
+      const needUpdate = !targetVal || baseChanged
 
       // missing OR changed
-      if (manualUpdate) {
+      if (useBase) {
+        if (baseChanged) {
+          console.log(`👉🏼 Use base: ${fullKey} → ${targetVal}`)
+          result[key] = baseVal
+
+          updatedList.push({
+            key: fullKey,
+            from: baseVal,
+            to: baseVal,
+          })
+        }
+      } else if (manualUpdate) {
         // ignore
         console.log(`👉🏼 Manual: ${fullKey} → ${targetVal}`)
       } else if (needUpdate) {

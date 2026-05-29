@@ -48,4 +48,4 @@ class WorkspaceBookCollectionDetails(WorkspaceBookCollectionPublic):
     published: str | None = None
     extension: str | None = None
     scope: int
-    book_rating: int
+    book_rating: float | None = 0.0

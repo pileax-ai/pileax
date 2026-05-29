@@ -16,9 +16,10 @@
     <o-field label="ISBN">
       <q-input v-model="form.isbn"
                class="pi-field"
-               standout dense clearable>
+               standout dense clearable autofocus>
         <template #after>
           <q-btn :label="$t('book.metadata.get')"
+                 :disable="!form.isbn"
                  class="bg-primary text-white"
                  flat
                  @click="fetchBookMeta" />
@@ -27,8 +28,16 @@
     </o-field>
 
     <template v-if="auto || manual">
-      <o-field :label="$t('title')" required>
+      <o-field :label="$t('book.title')" required>
         <q-input v-model="form.title"
+                 class="pi-field"
+                 standout dense clearable
+                 :error="v$.title.$errors.length > 0"
+                 :error-message="$t('formRules.length', {length: '1-100'})"
+                 :hint="$t('formRules.length', {length: '1-100'})" />
+      </o-field>
+      <o-field :label="$t('book.subtitle')">
+        <q-input v-model="form.subtitle"
                  class="pi-field"
                  standout dense clearable
                  :error="v$.title.$errors.length > 0"
@@ -148,11 +157,13 @@ function onSubmit () {
   const body = {
     uuid: sha1,
     title: form.value.title,
+    subtitle: form.value.subtitle,
     author: form.value.author,
     publisher: form.value.publisher,
     published: form.value.published,
     description: form.value.description,
     language: form.value.language,
+    rating: form.value.rating,
     coverUrl: coverUrl.value,
     media: [{
       type: 'physical',

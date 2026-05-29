@@ -276,6 +276,7 @@ export default {
     _: 'Visualizar',
     compact: 'Compactar',
     grid: 'Grade',
+    gridTitle: 'Título da grade',
     list: 'Lista'
   },
   welcome: 'Bem-vindo'

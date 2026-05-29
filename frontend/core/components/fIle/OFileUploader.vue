@@ -2,10 +2,12 @@
   <section class="o-file-uploader">
     <q-file v-model="value" class="file-uploader"
             :accept="accept"
-            @update:model-value="updateFiles" outlined>
+            :readonly="readonly"
+            outlined
+            @update:model-value="updateFiles" >
       <section class="row col-12 justify-center items-center text-info panel">
         <section class="col-12 text-center tips">
-          <div class="row items-center bg-accent q-pa-md rounded-borders" v-if="fileIcon">
+          <div class="row items-center rounded-borders" v-if="fileIcon">
             <div class="col-auto" style="width: 4rem" v-if="leading">
               <template v-if="loading">
                 <q-spinner-puff size="3rem" color="primary" />
@@ -63,7 +65,7 @@
         </section>
       </section>
     </q-file>
-    <div class="text-tips q-mt-sm tips">
+    <div class="text-tips q-mt-sm tips" v-if="tips">
       {{ tips }}
     </div>
 
@@ -105,6 +107,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  readonly: {
+    type: Boolean,
+    default: false
+  },
   leading: {
     type: Boolean,
     default: false
@@ -116,6 +122,10 @@ const props = defineProps({
   refType: {
     type: String,
     default: ''
+  },
+  reset: {
+    type: Boolean,
+    default: false
   },
 })
 const emit = defineEmits(['uploaded'])
@@ -170,6 +180,11 @@ function upload(file: File) {
   fileService.upload(file, ref).then(res => {
     done.value = true
     emit('uploaded', res)
+
+    if (props.reset) {
+      selectedFile.value = undefined
+      src.value = ''
+    }
   }).catch(err => {
     error.value = getErrorMessage(err)
   }).finally(() => {
@@ -184,8 +199,8 @@ function upload(file: File) {
   position: relative;
 
   .file-uploader {
-    //min-width: 400px;
     min-height: 160px;
+    min-width: 160px;
   }
 
   .tips {
@@ -195,6 +210,12 @@ function upload(file: File) {
 
   .q-field {
     margin: 0 !important;
+
+    &--readonly {
+      .q-field__control:hover {
+        background: transparent !important;
+      }
+    }
   }
 
   .q-field__native {
@@ -227,7 +248,7 @@ function upload(file: File) {
     z-index: 0;
 
     img {
-      max-height: 120px;
+      max-height: 160px;
       max-width: 100%;
     }
 

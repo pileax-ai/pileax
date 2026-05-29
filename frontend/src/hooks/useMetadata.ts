@@ -90,6 +90,31 @@ export default function() {
     ]
   })
 
+  const ReadingStatus = computed(() => {
+    return [
+      {
+        label: t('reading.status.notStarted'),
+        value: 0,
+        icon: 'schedule',
+      },
+      {
+        label: t('reading.status.wantToRead'),
+        value: 1,
+        icon: 'arrow_circle_right',
+      },
+      {
+        label: t('reading.status.currentlyReading'),
+        value: 2,
+        icon: 'downloading',
+      },
+      {
+        label: t('reading.status.finished'),
+        value: 3,
+        icon: 'check_circle',
+      },
+    ]
+  })
+
   return {
     getArrayItem,
     BookMediaTypes,
@@ -99,5 +124,6 @@ export default function() {
     WorkspaceMemberRoles,
     WorkspaceMemberStatus,
     WorkspaceTypes,
+    ReadingStatus,
   }
 }

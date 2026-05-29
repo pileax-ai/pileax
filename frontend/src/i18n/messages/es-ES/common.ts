@@ -163,7 +163,7 @@ export default {
   profile: 'Perfil de la cuenta',
   qrcode: 'Código QR',
   query: {
-    noMoreData: 'Se encontraron {total} registros. No hay más datos disponibles.',
+    noMoreData: 'Se encontraron {total} registros en total. No hay más datos disponibles.',
     noRecords: 'Sin registros',
     total: 'Total'
   },
@@ -266,7 +266,7 @@ export default {
     notAvailable: 'No hay actualizaciones disponibles',
     restart: 'Reanudar',
     title: 'Actualización lista',
-    update: 'Actualizar a {versión}',
+    update: 'Actualizar a {version}',
     upToDate: 'A hoy'
   },
   updateTime: 'Hora de actualización',
@@ -276,6 +276,7 @@ export default {
     _: 'Vista',
     compact: 'Compacto',
     grid: 'Red',
+    gridTitle: 'Título de la cuadrícula',
     list: 'Lista'
   },
   welcome: 'Bienvenido'

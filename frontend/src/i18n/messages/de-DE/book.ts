@@ -24,7 +24,10 @@ export default {
     note: 'Notiz'
   },
   author: 'Autor',
+  basicInfo: 'Grundlegende Informationen',
+  categoryInfo: 'Kategorieinformationen',
   chapter: 'Kapitel',
+  code: 'Code',
   collection: 'Büchersammlung',
   collections: {
     _: 'Büchersammlungen',
@@ -54,21 +57,32 @@ export default {
   media: 'Buchmedien',
   mediaType: {
     digital: 'Digital',
-    physical: 'Physisch'
+    physical: 'Physisch',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Buchinformationen anfordern'
+    _: 'Metadaten',
+    edit: 'Metadaten bearbeiten',
+    general: 'Allgemein',
+    get: 'Buchinformationen anfordern',
+    user: 'Mein'
   },
   newEntry: 'Neuer Eintrag',
   page: 'Seite',
   previewTips: 'Im Vorschaumodus wird der Lesefortschritt nicht gespeichert.',
   published: 'Erscheinungsjahr',
   publisher: 'Herausgeber',
+  rating: 'Bewertung',
   refInfo: 'Referenzinformationen',
   removeConfirm: 'Sind Sie sicher, dass Sie es aus dem Regal nehmen?',
+  removeFromCollection: 'Aus Sammlung entfernen',
   shelf: 'Bücherregal',
   startPreview: 'Vorschau starten',
   startReading: 'Lesen beginnen',
+  subtitle: 'Untertitel',
+  tag: 'Etikett',
+  tags: 'Tags',
+  title: 'Titel',
   uploader: {
     completed: 'Bücher auf Server hochgeladen (abgeschlossen)',
     label: 'Ziehen Sie Dateien hierher oder klicken Sie zum Hochladen.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Upload-Zeit',
   viewFiles: 'Dateien anzeigen',
   warning: {
+    collectionContainBook: 'Diese Sammlung kann nicht gelöscht werden, da sie von bestehenden Büchern referenziert wird.',
     exist: 'Das Buch existiert bereits.',
     inputISBN: 'Bitte geben Sie die ISBN ein.',
+    inputTitle: 'Bitte geben Sie einen Titel ein.',
     isbnExists: 'Ein Buch mit dieser ISBN existiert.',
     isbnNotFound: 'Buch mit dieser ISBN nicht gefunden',
     referencedByOthers: 'Kann nicht gelöscht werden, da das Buch von anderen Nutzern referenziert wird.',

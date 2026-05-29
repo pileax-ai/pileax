@@ -63,7 +63,7 @@
           </o-tooltip>
         </q-btn>
 
-        <div class="q-px-sm text-readable ellipsis">
+        <div class="q-px-sm text-readable cursor-pointer ellipsis" @click="onDetails">
           {{ book.title }}
         </div>
       </div>
@@ -118,6 +118,7 @@
 import { throttle } from 'quasar'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
+import useCommon from 'core/hooks/useCommon'
 import useBook from 'src/hooks/useBook'
 import useBookNote from 'src/hooks/useBookNote'
 import useReader from 'src/hooks/useReader'
@@ -127,6 +128,7 @@ import { UUID } from 'core/utils/crypto'
 import { isInside, parseCFI } from 'src/api/service/ebook/book'
 import { globalBus } from 'src/api/event/event-bus'
 
+const { showDialog } = useCommon()
 const { book, progress, search, windowId, clearSearch } = useBook()
 const {
   bookId,
@@ -200,6 +202,13 @@ function refreshBookmark(data: Indexable) {
     }
   }
   setBookmarkId('')
+}
+
+function onDetails() {
+  showDialog({
+    type: 'book-meta',
+    id: bookId.value,
+  })
 }
 
 const debounceRelocated = throttle(refreshBookmark, 500)

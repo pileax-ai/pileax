@@ -24,7 +24,10 @@ export default {
     note: 'Примечание'
   },
   author: 'Автор',
+  basicInfo: 'Основная информация',
+  categoryInfo: 'Информация о категории',
   chapter: 'Глава',
+  code: 'Код',
   collection: 'Книжная коллекция',
   collections: {
     _: 'Книжные коллекции',
@@ -54,21 +57,32 @@ export default {
   media: 'Книжные СМИ',
   mediaType: {
     digital: 'Цифровой',
-    physical: 'Физический'
+    physical: 'Физический',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Получить информацию о книге'
+    _: 'Метаданные',
+    edit: 'Редактировать метаданные',
+    general: 'Общий',
+    get: 'Получить информацию о книге',
+    user: 'Мой'
   },
   newEntry: 'Новая запись',
   page: 'Страница',
   previewTips: 'В режиме предварительного просмотра прогресс чтения не сохраняется.',
   published: 'Год публикации',
   publisher: 'Издатель',
+  rating: 'Рейтинг',
   refInfo: 'Справочная информация',
   removeConfirm: 'Вы уверены, что сняли с полки?',
+  removeFromCollection: 'Удалить из коллекции',
   shelf: 'Книжная полка',
   startPreview: 'Начать предварительный просмотр',
   startReading: 'Начать чтение',
+  subtitle: 'Субтитры',
+  tag: 'Ярлык',
+  tags: 'Теги',
+  title: 'Заголовок',
   uploader: {
     completed: 'Загрузка книг на сервер завершена.',
     label: 'Перетащите файлы сюда или нажмите для загрузки.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Время загрузки',
   viewFiles: 'Просмотреть файлы',
   warning: {
+    collectionContainBook: 'Удалить невозможно. На эту коллекцию ссылаются уже существующие книги.',
     exist: 'Книга уже существует.',
     inputISBN: 'Пожалуйста, введите ISBN.',
+    inputTitle: 'Пожалуйста, введите заголовок.',
     isbnExists: 'Книга с таким ISBN существует.',
     isbnNotFound: 'Книга с этим ISBN не найдена',
     referencedByOthers: 'Невозможно удалить, на книгу ссылаются другие пользователи.',

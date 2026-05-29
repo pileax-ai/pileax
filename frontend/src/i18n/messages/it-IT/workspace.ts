@@ -2,7 +2,7 @@ export default {
   _: 'Area di lavoro',
   add: 'Aggiungi spazio di lavoro',
   admin: 'Gestisci gli spazi di lavoro',
-  assignRoleConfirm: 'Assegnerai un nuovo ruolo a {name}?',
+  assignRoleConfirm: 'Verrà assegnato un nuovo ruolo a {name}?',
   current: 'Area di lavoro corrente',
   details: 'Dettagli dell\'area di lavoro',
   invite: 'Invitare',

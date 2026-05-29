@@ -120,6 +120,7 @@ import BookMoreBtn from './BookMoreBtn.vue'
 import { notifyDone, notifyWarning } from 'core/utils/control'
 import useLoadMore from 'src/hooks/useLoadMore'
 import useCommon from 'core/hooks/useCommon'
+import { globalBus } from 'src/api/event/event-bus'
 
 const emit = defineEmits(['close'])
 
@@ -152,10 +153,10 @@ function addBook(book: any, idx: number) {
   workspaceBookService.save({
     bookId: book.id
   }).then(res => {
-    // emit('close')
     book.workspaceBookId = res.id
     rows.value.splice(idx, 1, book)
     notifyDone()
+    globalBus.emit('library-need-refresh', res)
   }).catch(res => {
     const data = res.response.data
     if (data.message.indexOf('UNIQUE') === 0) {

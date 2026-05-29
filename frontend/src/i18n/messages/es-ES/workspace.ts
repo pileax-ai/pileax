@@ -2,7 +2,7 @@ export default {
   _: 'Espacio de trabajo',
   add: 'Agregar espacio de trabajo',
   admin: 'Administrar espacios de trabajo',
-  assignRoleConfirm: '¿Se le asignará un nuevo rol a {nombre}?',
+  assignRoleConfirm: '¿Se le asignará un nuevo rol a {name}?',
   current: 'Espacio de trabajo actual',
   details: 'Detalles del espacio de trabajo',
   invite: 'Invitar',

@@ -57,7 +57,7 @@ defineProps({
     }
   }
 
-  footer {
+  .o-drawer-navi-footer {
     position: absolute;
     bottom: 0;
     left: 0;

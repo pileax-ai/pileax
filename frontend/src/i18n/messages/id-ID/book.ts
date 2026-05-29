@@ -24,7 +24,10 @@ export default {
     note: 'Catatan'
   },
   author: 'Pengarang',
+  basicInfo: 'Informasi Dasar',
+  categoryInfo: 'Informasi Kategori',
   chapter: 'Bab',
+  code: 'Kode',
   collection: 'Koleksi Buku',
   collections: {
     _: 'Koleksi Buku',
@@ -54,21 +57,32 @@ export default {
   media: 'Media Buku',
   mediaType: {
     digital: 'Digital',
-    physical: 'Fisik'
+    physical: 'Fisik',
+    weread: 'WeRead'
   },
   metadata: {
-    get: 'Dapatkan Info Buku'
+    _: 'Metadata',
+    edit: 'Edit Metadata',
+    general: 'Umum',
+    get: 'Dapatkan Info Buku',
+    user: '-ku'
   },
   newEntry: 'Pendatang Baru',
   page: 'Halaman',
   previewTips: 'Dalam mode pratinjau, kemajuan membaca tidak akan disimpan.',
   published: 'Tahun Terbit',
   publisher: 'Penerbit',
+  rating: 'Peringkat',
   refInfo: 'Informasi Referensi',
   removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
+  removeFromCollection: 'Hapus dari Koleksi',
   shelf: 'Rak buku',
   startPreview: 'Mulai Pratinjau',
   startReading: 'Mulai Membaca',
+  subtitle: 'Subjudul',
+  tag: 'Menandai',
+  tags: 'Tag',
+  title: 'Judul',
   uploader: {
     completed: 'Unggahan buku ke server selesai.',
     label: 'Seret file ke sini, atau klik untuk mengunggah.',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'Waktu Unggah',
   viewFiles: 'Lihat File',
   warning: {
+    collectionContainBook: 'Tidak dapat dihapus. Koleksi ini dirujuk oleh buku-buku yang sudah ada.',
     exist: 'Buku sudah ada.',
     inputISBN: 'Silakan masukkan ISBN',
+    inputTitle: 'Silakan masukkan judul',
     isbnExists: 'Buku dengan ISBN ini ada.',
     isbnNotFound: 'Buku dengan ISBN ini tidak ditemukan',
     referencedByOthers: 'Tidak dapat dihapus, buku ini dirujuk oleh orang lain.',

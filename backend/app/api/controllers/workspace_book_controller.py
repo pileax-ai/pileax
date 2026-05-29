@@ -3,6 +3,7 @@ from uuid import UUID
 
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
+from app.api.models.enums import Status
 from app.api.models.query import PaginationQuery
 from app.api.models.workspace_book import (
     WorkspaceBook,
@@ -23,14 +24,14 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
         super().__init__(WorkspaceBook, session, user, workspace)
         self.service = WorkspaceBookService(session)
 
-    def save(self, item: WorkspaceBookCreate) -> WorkspaceBook:
+    def save(self, item: WorkspaceBookCreate, is_physical=False) -> WorkspaceBook:
         book = self.service.get_workspace_book(self.user.id, self.workspace_id, item.book_id)
         if book:
             return book
         book = super().save(item)
 
         # create user_book
-        UserBookService(self.session).create_user_book(self.user.id, item.book_id)
+        UserBookService(self.session).create_user_book(self.user.id, item.book_id, is_physical)
 
         self.session.refresh(book)
 
@@ -50,6 +51,9 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
             query.condition["userId"] = self.user.id
         if query.condition.get("workspaceId") is None:
             query.condition["workspaceId"] = self.workspace_id
+
+        # default: not removed
+        query.condition["isRemoved"] = Status.INACTIVE
 
         return self.service.query_details(query)
 

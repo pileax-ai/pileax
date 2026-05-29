@@ -1,7 +1,7 @@
 <template>
   <q-responsive :ratio="3/4">
     <q-card class="book-grid-item" v-ripple>
-      <q-img :src="coverUrl" @error="onError">
+      <q-img :src="coverUrl" spinner-size="2rem" @error="onError">
         <div class="absolute-top text-subtitle1 tags">
           <template v-for="(item, index) in tags" :key="index">
             <q-chip v-bind="item" square dense />

@@ -3,7 +3,7 @@ export default {
   add: 'Añadir nota',
   addIcon: 'Agregar icono',
   append: 'Añadir contenido',
-  appendTo: 'Añadir {contenido} a {nota}',
+  appendTo: 'Agregar {content} a {note}',
   chooseLocation: 'Elija la ubicación',
   cover: {
     add: 'Añadir portada',
@@ -12,7 +12,7 @@ export default {
     repositionDrag: 'Arrastre para reposicionar'
   },
   create: 'Crear nota',
-  createSub: 'Crear subnota {note} bajo {parent}',
+  createSub: 'Crear subnota {note} debajo de {parent}',
   duplicate: 'Duplicado',
   favoriteAdd: 'Añadir a favoritos',
   favoriteRemove: 'Eliminar de favoritos',

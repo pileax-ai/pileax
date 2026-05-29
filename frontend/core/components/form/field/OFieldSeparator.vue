@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center o-field-separator" :class="`justify-${align}`">
     <q-separator class="col start" v-if="align !== 'start'" />
-    <div class="label" :class="align">
+    <div class="label text-tips" :class="align">
       {{ label }}
     </div>
     <q-separator class="col end" v-if="align !== 'end'" />
@@ -42,8 +42,7 @@ defineProps({
     font-size: 1rem;
     padding: 0 10px;
     margin: 0;
-    background: var(--q-secondary);
-    opacity: 0.5;
+    opacity: 0.6;
 
     &.start {
       padding-left: 0;

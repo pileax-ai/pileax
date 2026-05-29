@@ -13,8 +13,8 @@ export class BookService extends BaseService {
     return GET({ name: this.apiName, path: '/uuid',  query: { uuid } })
   }
 
-  getByISBN(isbn: string): Promise<any> {
-    return GET({ name: this.apiName, path: '/isbn',  query: { isbn } })
+  getByISBN(isbn: string, check = true): Promise<any> {
+    return GET({ name: this.apiName, path: '/isbn',  query: { isbn, check } })
   }
 
   getDetails(id: string): Promise<any> {
@@ -39,6 +39,10 @@ export class BookService extends BaseService {
 
   queryLibrary(body: Indexable): Promise<any> {
     return POST({ name: this.apiName, path: '/query/library', body })
+  }
+
+  queryCover(booId: string): Promise<any> {
+    return GET({ name: this.apiName, path: '/query/cover', query: {id: booId} })
   }
 }
 

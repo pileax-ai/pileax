@@ -121,7 +121,7 @@ export default {
   favorite: 'Preferiti',
   file: 'File',
   formRules: {
-    length: '{lunghezza} caratteri'
+    length: '{length} caratteri'
   },
   fullscreen: 'A schermo intero',
   fullscreenExit: 'Esci dalla modalità a schermo intero',
@@ -163,7 +163,7 @@ export default {
   profile: 'Profilo dell\'account',
   qrcode: 'Codice QR',
   query: {
-    noMoreData: 'Trovati {total} record in totale. Non sono disponibili altri dati.',
+    noMoreData: 'Trovati {total} record in totale. Nessun altro dato disponibile.',
     noRecords: 'Nessun record',
     total: 'Totale'
   },
@@ -266,7 +266,7 @@ export default {
     notAvailable: 'Nessun aggiornamento disponibile',
     restart: 'Ricomincia',
     title: 'Aggiornamento pronto',
-    update: 'Aggiorna a {versione}',
+    update: 'Aggiorna alla versione {version}',
     upToDate: 'Aggiornato'
   },
   updateTime: 'Tempo di aggiornamento',
@@ -276,6 +276,7 @@ export default {
     _: 'Visualizzazione',
     compact: 'Compatto',
     grid: 'Griglia',
+    gridTitle: 'Titolo della griglia',
     list: 'Lista'
   },
   welcome: 'Benvenuto'

@@ -24,7 +24,10 @@ export default {
     note: '注記'
   },
   author: '著者',
+  basicInfo: '基本情報',
+  categoryInfo: 'カテゴリ情報',
   chapter: '章',
+  code: 'コード',
   collection: '書籍コレクション',
   collections: {
     _: '書籍コレクション',
@@ -54,21 +57,32 @@ export default {
   media: '書籍メディア',
   mediaType: {
     digital: 'デジタル',
-    physical: '物理的な'
+    physical: '物理的な',
+    weread: 'WeRead'
   },
   metadata: {
-    get: '書籍情報を入手する'
+    _: 'メタデータ',
+    edit: 'メタデータの編集',
+    general: '一般的な',
+    get: '書籍情報を入手する',
+    user: '私の'
   },
   newEntry: '新規エントリー',
   page: 'ページ',
   previewTips: 'プレビューモードでは、読み取りの進行状況は保存されません。',
   published: '出版年',
   publisher: '出版社',
+  rating: '評価',
   refInfo: '参考情報',
   removeConfirm: '棚から削除してもよろしいですか?',
+  removeFromCollection: 'コレクションから削除',
   shelf: '本棚',
   startPreview: 'プレビューを開始',
   startReading: '読み始める',
+  subtitle: '字幕',
+  tag: 'タグ',
+  tags: 'タグ',
+  title: 'タイトル',
   uploader: {
     completed: 'サーバーへの書籍のアップロードが完了しました',
     label: 'ファイルをここにドラッグするか、クリックしてアップロードします。',
@@ -78,8 +92,10 @@ export default {
   uploadTime: 'アップロード時間',
   viewFiles: 'ファイルを表示',
   warning: {
+    collectionContainBook: '削除できません。このコレクションは既存の書籍から参照されています。',
     exist: '既に書籍が存在する',
     inputISBN: 'ISBNを入力してください',
+    inputTitle: 'タイトルを入力してください',
     isbnExists: 'このISBNの書籍は既に存在します',
     isbnNotFound: 'このISBNの書籍は見つかりません',
     referencedByOthers: '削除できません。他のユーザーが参照している書籍です。',

@@ -31,6 +31,14 @@
               <div v-html="book.description"></div>
             </q-scroll-area>
           </section>
+
+          <footer class="row col-12 justify-center q-mt-md">
+            <q-btn icon="mdi-tune-variant"
+                   :label="$t('book.metadata._')"
+                   class="bg-dark text-info"
+                   flat
+                   @click="onDetails" />
+          </footer>
         </q-card-section>
 
       </q-card>
@@ -42,10 +50,11 @@
 import DrawerNavi from 'core/page/DrawerNavi.vue'
 import {computed, onBeforeMount, ref, watch} from 'vue'
 import useBook from 'src/hooks/useBook'
-import { timeMulti } from 'core/utils/format'
 import useApi from 'src/hooks/useApi'
+import useCommon from 'core/hooks/useCommon'
 
-const { book } = useBook()
+const { showDialog } = useCommon()
+const { book, bookId } = useBook()
 const { getCoverUrl } = useApi()
 const coverUrl = ref('')
 const list = ref([])
@@ -56,6 +65,13 @@ const props = defineProps({
     default: 300
   },
 })
+
+function onDetails() {
+  showDialog({
+    type: 'book-meta',
+    id: bookId.value,
+  })
+}
 
 onBeforeMount(() => {
   coverUrl.value = getCoverUrl(book.value)

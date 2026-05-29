@@ -74,6 +74,7 @@
               enter-active-class="animated slideInRight"
               leave-active-class="animated slideOutRight">
     <ai-agent-manager class="side-fixed"
+                      :class="{ 'active': currentView === 'ai-agent-manager' }"
                       :main="main"
                       @close="showAiAgent(false)"
                       v-if="addAiAgentStatus" />
@@ -83,6 +84,7 @@
               enter-active-class="animated slideInRight"
               leave-active-class="animated slideOutRight">
     <web-service-manager class="side-fixed"
+                         :class="{ 'active': currentView === 'web-service-manager' }"
                          :main="main"
                          @close="showAddService(false)"
                          @add="onAddService"
@@ -100,6 +102,7 @@ import WebServiceManager from 'components/reader/service/web-service-manager.vue
 
 import useCommon from 'core/hooks/useCommon'
 import useReader from 'src/hooks/useReader'
+import TtsPlayer from 'components/reader/tts/tts-player.vue'
 
 const props = defineProps({
   main: {
@@ -120,6 +123,7 @@ const {
   closeRightDrawer,
   toggleRightDrawer,
   setRightDrawerHoverShow,
+  setRightDrawerView,
   setRightDrawerSplit,
 } = useReader()
 const addAiAgentStatus = ref(false)
@@ -253,10 +257,12 @@ function onSelectTab(item: Indexable) {
 
 function showAiAgent(value :boolean) {
   addAiAgentStatus.value = value
+  setRightDrawerView('ai-agent-manager', value)
 }
 
 function showAddService(value :boolean) {
   addServiceStatus.value = value
+  setRightDrawerView('web-service-manager', value)
 }
 
 

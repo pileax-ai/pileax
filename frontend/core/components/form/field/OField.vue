@@ -1,17 +1,17 @@
 <template>
   <div class="o-field" :class="{ 'dense': dense }">
-    <div class="row col-12 justify-start items-center" v-if="side">
-      <div class="row col-3 main-label">
+    <div class="row col-12 justify-start items-center side" v-if="side">
+      <div class="row col-auto main-label">
         <span>{{label}}</span>
         <span class="text-red" v-if="required">*</span>
       </div>
-      <div class="col side">
+      <div class="col side" :class="contentClass">
         <slot></slot>
       </div>
     </div>
     <div class="row col-12 justify-start items-center" v-else>
       <div class="col-12 main-label">
-        <span>{{label}}</span>
+        <span class="text-bold">{{label}}</span>
         <span class="text-red q-ml-xs" v-if="required">*</span>
       </div>
       <div class="col-12 side">
@@ -45,7 +45,7 @@ defineProps({
   },
   contentClass: {
     type: String,
-    default: 'q-py-sm'
+    default: ''
   },
   errorMessage: {
     type: String,
@@ -65,7 +65,7 @@ defineProps({
 
   .main-label {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 800;
     text-align: left;
     padding-right: 8px;
   }

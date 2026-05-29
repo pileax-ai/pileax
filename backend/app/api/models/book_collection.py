@@ -16,6 +16,7 @@ class BookCollection(BaseSQLModel, BaseMixin, table=True):
     icon: str | None = Field(default=None)
     cover: str | None = Field(default=None)
     color: str | None = Field(default=None)
+    description: str | None = Field(default=None)
     position: int | None = Field(default=0)
 
 
@@ -26,6 +27,7 @@ class BookCollectionBase(BaseApiModel):
     icon: str | None = None
     cover: str | None = None
     color: str | None = None
+    description: str | None = None
 
     @field_validator("parent", mode="before")
     def parse_empty_string_as_none(cls, v):

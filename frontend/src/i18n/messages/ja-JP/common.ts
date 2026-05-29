@@ -121,7 +121,7 @@ export default {
   favorite: 'お気に入り',
   file: 'ファイル',
   formRules: {
-    length: '{長さ}文字'
+    length: '{length}文字'
   },
   fullscreen: '全画面表示',
   fullscreenExit: '全画面表示を終了',
@@ -163,7 +163,7 @@ export default {
   profile: 'アカウントプロフィール',
   qrcode: 'QRコード',
   query: {
-    noMoreData: '合計で{total}件のレコードが見つかりました。これ以上のデータは利用できません。',
+    noMoreData: '合計で{total}件のレコードが見つかりました。これ以上のデータはありません。',
     noRecords: '記録なし',
     total: '合計'
   },
@@ -266,7 +266,7 @@ export default {
     notAvailable: '更新情報はありません',
     restart: '再起動',
     title: 'アップデート準備完了',
-    update: '{バージョン}に更新',
+    update: '{version}にアップデートしてください。',
     upToDate: '最新の'
   },
   updateTime: '更新時間',
@@ -276,6 +276,7 @@ export default {
     _: 'ビュー',
     compact: 'コンパクト',
     grid: 'グリッド',
+    gridTitle: 'グリッドタイトル',
     list: 'リスト'
   },
   welcome: 'いらっしゃいませ'

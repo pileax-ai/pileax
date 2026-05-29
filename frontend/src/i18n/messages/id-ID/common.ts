@@ -121,7 +121,7 @@ export default {
   favorite: 'Favorit',
   file: 'Mengajukan',
   formRules: {
-    length: '{panjang} karakter'
+    length: '{length} karakter'
   },
   fullscreen: 'Layar Penuh',
   fullscreenExit: 'Keluar dari Layar Penuh',
@@ -266,7 +266,7 @@ export default {
     notAvailable: 'Tidak ada pembaruan yang tersedia.',
     restart: 'Mulai ulang',
     title: 'Pembaruan Siap',
-    update: 'Pembaruan ke {versi}',
+    update: 'Pembaruan ke {version}',
     upToDate: 'Terkini'
   },
   updateTime: 'Waktu Pembaruan',
@@ -276,6 +276,7 @@ export default {
     _: 'Melihat',
     compact: 'Kompak',
     grid: 'Jaringan',
+    gridTitle: 'Judul Grid',
     list: 'Daftar'
   },
   welcome: 'Selamat datang'

@@ -57,6 +57,10 @@ export default function() {
   }
 
   function getFileUrl(path: string) {
+    if (!path) {
+      return ''
+    }
+
     path = path?.startsWith('/') ? path.slice(1) : path
     return `${appBase.value}/${path}`
   }
