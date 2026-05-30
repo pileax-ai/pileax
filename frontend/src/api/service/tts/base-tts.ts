@@ -84,7 +84,7 @@ export abstract class BaseTTSClient implements TTSClient {
 
   async playResume(): Promise<void> {
     const text = await this.getResumeText()
-    console.log('playResume', text)
+    // console.log('playResume', text)
     await this.playContinuous(text)
   }
 
@@ -129,7 +129,16 @@ export abstract class BaseTTSClient implements TTSClient {
 
   private async preloadNext() {
     const nextText = await this.getNextText(false)
-    this.preload(nextText)
+    await this.preload(nextText)
+
+    // Todo: Preload more
+    // console.log('nextText', nextText)
+    // console.log('preloadNext', nextText.length, this.preloadQueue.size)
+    // if (nextText && nextText.length < 200) {
+    //   if (this.preloadQueue.size < 10) {
+    //     await this.preloadNext()
+    //   }
+    // }
   }
 
   stopContinuous() {
@@ -150,7 +159,7 @@ export abstract class BaseTTSClient implements TTSClient {
       const text = await this.getPrevText()
       await this.playContinuous(text)
     } catch (err) {
-      console.debug('prev err')
+      console.debug('prev err', err)
     }
   }
 
@@ -161,7 +170,7 @@ export abstract class BaseTTSClient implements TTSClient {
       const text = await this.getNextText(true)
       await this.playContinuous(text)
     } catch (err) {
-      console.debug('next err')
+      console.debug('next err', err)
     }
   }
 

@@ -1,14 +1,14 @@
 import { ref, reactive, computed } from 'vue'
 import type { TTSOptions } from 'src/api/service/tts'
 import { ttsManager } from 'src/api/service/tts'
+import { useBookStoreWithOut } from 'stores/book'
 import { useReaderStoreWithOut } from 'stores/reader'
 import { debounce } from 'quasar'
 
 export default function useTTS() {
   const store = useReaderStoreWithOut()
+  const bookStore = useBookStoreWithOut()
 
-  const isPlaying = ref(false)
-  const isPaused = ref(false)
   const options = reactive<TTSOptions>({
     lang: 'zh-CN',
     rate: '1.0',
@@ -38,33 +38,29 @@ export default function useTTS() {
 
   const reload = () => {
     if (ttsClient.value?.state === 'playing') {
-      isPlaying.value = true
+      setPlayStatus('play')
     } else if (ttsClient.value?.state === 'paused' || ttsClient.value?.state === 'idle') {
-      isPlaying.value = true
-      isPaused.value = true
+      setPlayStatus('pause')
     }
   }
 
   const play = async () => {
-    isPlaying.value = true
-    isPaused.value = false
+    setPlayStatus('play')
     await ttsManager.play()
-    // isPlaying.value = false;
   }
 
   const stop = async () => {
-    isPlaying.value = false
-    isPaused.value = false
+    setPlayStatus('stop')
     await ttsManager.stop()
   }
 
   const pause = async () => {
-    isPaused.value = true
+    setPlayStatus('pause')
     await ttsManager.pause()
   }
 
   const resume = async () => {
-    isPaused.value = false
+    setPlayStatus('play')
     await ttsManager.resume()
   }
 
@@ -74,15 +70,25 @@ export default function useTTS() {
 
   const togglePlayPause = async () => {
     try {
-      if (isPlaying.value && !isPaused.value) {
-        await pause()
-      } else if (isPlaying.value && isPaused.value) {
-        await resume()
-      } else {
-        await play()
+      switch (ttsPlayerStatus.value) {
+        case 'stop':
+        case 'error':
+          await play()
+          break
+        case 'play':
+          await pause()
+          break
+        case 'pause':
+          await resume()
+          break
+        case 'resume':
+          break
       }
     } catch (err) {
-      console.debug('togglePlayPause err')
+      console.debug('togglePlayPause err', err)
+      if ((err as any)?.error !== 'interrupted') {
+        setPlayStatus('error')
+      }
     }
     // console.log('after toggle', ttsClient.value?.state)
   }
@@ -104,14 +110,17 @@ export default function useTTS() {
     store.setTTSItem('volume', value)
   }
 
+  const setPlayStatus = (value: any) => {
+    bookStore.setTTSItem('playStatus', value)
+  }
+
   const ttsClient = computed(() => ttsManager.client)
   const ttsOptions = computed(() => store.tts)
   const ttsDrawer = computed(() => store.rightDrawer)
   const ttsPlayerWidth = computed(() => ttsDrawer.value.width)
+  const ttsPlayerStatus = computed(() => bookStore.tts.playStatus)
 
   const ttsState = reactive({
-    isPlaying,
-    isPaused,
     options,
   })
 
@@ -144,5 +153,6 @@ export default function useTTS() {
     ttsClient,
     ttsController,
     ttsState,
+    ttsPlayerStatus
   }
 }

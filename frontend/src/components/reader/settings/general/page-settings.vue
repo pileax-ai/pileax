@@ -1,7 +1,7 @@
 <template>
   <section class="page-settings">
     <o-field-label :label="$t('appearances.page.margin')"
-                   content-class="col" side>
+                   content-class="col" side v-if="!fixedLayout">
       <q-slider v-model="margin"
                 :min="0" :max="80" :step="1"
                 :label-value="`${margin}`"
@@ -21,7 +21,7 @@
                 @update:modelValue="onValueChanged('verticalMargin', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.page.horizontalMargin')"
-                   content-class="col" side>
+                   content-class="col" side v-if="!fixedLayout">
       <q-slider v-model="horizontalMargin"
                 :min="0" :max="80" :step="1"
                 :label-value="`${horizontalMargin}`"
@@ -33,7 +33,7 @@
     <o-field-label :label="$t('appearances.page.maxColumnCount')"
                    content-class="col" side>
       <q-slider v-model="maxColumnCount"
-                :min="1" :max="4" :step="1"
+                :min="1" :max="fixedLayout ? 2 : 4" :step="1"
                 :label-value="`${maxColumnCount}`"
                 label
                 label-always
@@ -41,7 +41,7 @@
                 @update:modelValue="onValueChanged('maxColumnCount', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.page.columnGap')"
-                   content-class="col" side>
+                   content-class="col" side v-if="!fixedLayout">
       <q-slider v-model="columnGap"
                 :min="0" :max="20" :step="1"
                 :label-value="`${columnGap}%`"
@@ -51,7 +51,7 @@
                 @update:modelValue="onValueChanged('columnGap', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.page.pageWidth')"
-                   content-class="col" side>
+                   content-class="col" side v-if="!fixedLayout">
       <q-slider v-model="maxInlineSize"
                 :min="720" :max="1440" :step="10"
                 :label-value="`${maxInlineSize}px`"

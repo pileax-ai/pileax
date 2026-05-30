@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'ISBN對應的書未找到',
     referencedByOthers: '無法刪除，該書已被其他用戶引用',
     titleNotMatch: '書名不匹配',
+    ttsError: '朗讀出錯或目前內容不支援朗讀',
     uploadCover: '請上傳封面'
   }
 }

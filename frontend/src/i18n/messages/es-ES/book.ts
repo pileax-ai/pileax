@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'No se encontró el libro con este ISBN.',
     referencedByOthers: 'No se puede eliminar, libro referenciado por otros',
     titleNotMatch: 'El título del libro no coincide',
+    ttsError: 'La función de conversión de texto a voz falló o no es compatible.',
     uploadCover: 'Por favor, suba la portada.'
   }
 }

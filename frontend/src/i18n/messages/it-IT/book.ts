@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Libro con questo ISBN non trovato',
     referencedByOthers: 'Impossibile eliminare il libro, citato da altri',
     titleNotMatch: 'Il titolo del libro non corrisponde',
+    ttsError: 'La funzione di sintesi vocale non è riuscita o non è supportata.',
     uploadCover: 'Si prega di caricare la copertina'
   }
 }

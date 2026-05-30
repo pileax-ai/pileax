@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Book with this ISBN not found',
     referencedByOthers: 'Cannot delete, book referenced by others',
     titleNotMatch: 'Book title dost not match',
+    ttsError: 'Text-to-speech failed or unsupported.',
     uploadCover: 'Please upload cover'
   }
 }

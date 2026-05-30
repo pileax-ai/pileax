@@ -46,6 +46,7 @@ const setStyle = (userStyle) => {
       break;
   }
 
+  const spread = style.maxColumnCount > 1 ? 'both' : 'none'
   reader.view.renderer.setAttribute(
     'flow',
     turn.scroll ? 'scrolled' : 'paginated'
@@ -57,7 +58,7 @@ const setStyle = (userStyle) => {
   reader.view.renderer.setAttribute('gap', `${style.columnGap}%`);
   reader.view.renderer.setAttribute('max-column-count', style.maxColumnCount);
   reader.view.renderer.setAttribute('max-inline-size', `${style.maxInlineSize}px`);
-  reader.view.renderer.setAttribute('spread', style.spread); // Todo: none, both, auto
+  reader.view.renderer.setAttribute('spread', spread); // Todo: none, both, auto
 
   // zoom
   const zoom = style.zoom;
@@ -131,6 +132,7 @@ const formatContributor = contributor => Array.isArray(contributor)
 const getView = async (bookElement, file) => {
   const view = document.createElement('foliate-view');
   bookElement.append(view);
+
   await view.open(file);
   return view;
 }
@@ -166,6 +168,15 @@ class Ebook {
              { cfi = '', importing = false, userStyle }) {
     this.view = await getView(bookElement, file);
     if (importing) return;
+
+    // Fixed-layout spread
+    const renderer = this.view.renderer;
+    const isFixedLayout = renderer?.tagName === 'FOLIATE-FXL';
+    const spread = style.maxColumnCount > 1 ? 'both' : 'none';
+    if (isFixedLayout && renderer.book && spread === 'none') {
+      renderer.book.rendition.spread = spread;
+      await renderer.open(renderer.book);
+    }
 
     // events
     this.view.addEventListener('load', this.#onLoad.bind(this));
@@ -620,10 +631,10 @@ const clearSelection = () =>
   reader.view.deselect();
 
 // TTS
-const initTTS = () => reader.view.initTTS();
+const initTTS = () => reader.view.initTTS('sentence');
 const ttsStart = async () => {
   await initTTS();
-  console.log('range', reader.view.lastLocation.range)
+  // console.log('range', reader.view.lastLocation.range)
   return reader.view.tts.from(reader.view.lastLocation.range);
 };
 const ttsResume = () => reader.view.tts.resume();

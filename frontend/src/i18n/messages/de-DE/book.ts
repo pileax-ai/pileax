@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Buch mit dieser ISBN nicht gefunden',
     referencedByOthers: 'Kann nicht gelöscht werden, da das Buch von anderen Nutzern referenziert wird.',
     titleNotMatch: 'Der Buchtitel stimmt nicht überein.',
+    ttsError: 'Die Text-zu-Sprache-Funktion ist fehlgeschlagen oder wird nicht unterstützt.',
     uploadCover: 'Bitte laden Sie das Cover hoch.'
   }
 }

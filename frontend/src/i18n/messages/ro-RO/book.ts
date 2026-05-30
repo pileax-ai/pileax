@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Cartea cu acest ISBN nu a fost găsită',
     referencedByOthers: 'Nu se poate șterge, cartea este menționată de alții',
     titleNotMatch: 'Titlul cărții nu se potrivește',
+    ttsError: 'Transformarea textului în vorbire a eșuat sau nu este acceptată.',
     uploadCover: 'Vă rugăm să încărcați coperta'
   }
 }

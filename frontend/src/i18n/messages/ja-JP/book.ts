@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'このISBNの書籍は見つかりません',
     referencedByOthers: '削除できません。他のユーザーが参照している書籍です。',
     titleNotMatch: '書籍のタイトルが一致しません',
+    ttsError: 'テキスト読み上げ機能が失敗したか、サポートされていません。',
     uploadCover: 'カバー画像をアップロードしてください'
   }
 }

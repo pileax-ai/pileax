@@ -24,12 +24,13 @@ const {
   store,
   bookId,
   operation,
+  readingMode,
   setProgress,
   setSelection,
   setToc,
   setOperation,
   setSearch,
-  readingMode,
+  resetPlayStatus,
 } = useBook()
 
 export const uploadBookWaiters = new Map()
@@ -116,7 +117,7 @@ const onKeydown = (data: Indexable) => {
 
 const onRelocated = (data: Indexable) => {
   // Relocated
-  // console.log('relocated', data, operation.value)
+  // console.log('relocated', data, operation.value, data.reason)
   globalBus.emit('relocated', data)
 
   const reason = data.reason
@@ -128,7 +129,7 @@ const onRelocated = (data: Indexable) => {
     // Save temp progress locally
     store.setTempProgress(data)
   } else {
-    if (['page', 'scroll'].includes(reason)) {
+    if (['anchor', 'page', 'scroll'].includes(reason)) {
       // Ignore when switch page turning mode
       const location = data.location.current
       if (location === 0) {
@@ -205,21 +206,25 @@ const goToPercent = (percent: number) => {
 }
 
 const prevPage = () => {
+  resetPlayStatus()
   setManual()
   ebookRender.prevPage()
 }
 
 const nextPage = () => {
+  resetPlayStatus()
   setManual()
   ebookRender.nextPage()
 }
 
 const prevSection = () => {
+  resetPlayStatus()
   setManual(BookOperation.Navigation)
   ebookRender.prevSection()
 }
 
 const nextSection = () => {
+  resetPlayStatus()
   setManual(BookOperation.Navigation)
   ebookRender.nextSection()
 }

@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Buku dengan ISBN ini tidak ditemukan',
     referencedByOthers: 'Tidak dapat dihapus, buku ini dirujuk oleh orang lain.',
     titleNotMatch: 'Judul buku tidak sesuai',
+    ttsError: 'Konversi teks ke suara gagal atau tidak didukung.',
     uploadCover: 'Silakan unggah sampulnya.'
   }
 }

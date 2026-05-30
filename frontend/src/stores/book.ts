@@ -29,7 +29,8 @@ export const useBookStore = defineStore('book', {
       current: {} as Indexable
     } as Indexable,
     tts: {
-      playing: false
+      playing: false,
+      playStatus: 'stop'
     } as Indexable,
     noteId: '',
     note: {} as Indexable,
