@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Nie znaleziono książki o tym numerze ISBN',
     referencedByOthers: 'Nie można usunąć, książka jest cytowana przez innych',
     titleNotMatch: 'Tytuł książki nie pasuje',
+    ttsError: 'Funkcja zamiany tekstu na mowę nie działa lub nie jest obsługiwana.',
     uploadCover: 'Proszę przesłać okładkę'
   }
 }

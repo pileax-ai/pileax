@@ -31,7 +31,7 @@
               {{ previousTocItem?.label }}
             </o-tooltip>
           </q-btn>
-          <q-btn icon="fast_rewind" @click="ttsController.prev()" flat round v-if="ttsState.isPlaying">
+          <q-btn icon="fast_rewind" @click="ttsController.prev()" flat round v-if="ttsPlayerStatus === 'play'">
             <o-tooltip position="bottom">
               {{ $t('reading.player.backward') }}
             </o-tooltip>
@@ -44,7 +44,7 @@
                  @click="ttsController.togglePlayPause()" />
         </div>
         <div class="row action justify-end">
-          <q-btn icon="fast_forward" @click="ttsController.next()" flat round v-if="ttsState.isPlaying">
+          <q-btn icon="fast_forward" @click="ttsController.next()" flat round v-if="ttsPlayerStatus === 'play'">
             <o-tooltip position="bottom">
               {{ $t('reading.player.forward') }}
             </o-tooltip>
@@ -85,13 +85,23 @@
       </section>
       <section class="marquee">
         <vue3-marquee :duration="marqueeDuration"
-                      :pause="ttsState.isPaused"
+                      :pause="ttsPlayerStatus === 'pause'"
                       :gradient-color="gradientColor"
                       gradient
                       pause-on-hover
                       animate-on-overflow-only>
           <span>{{ speakingText }}</span>
         </vue3-marquee>
+      </section>
+
+      <section class="error">
+        <q-banner class="bg-transparent text-orange" rounded dense
+                  v-if="ttsPlayerStatus === 'error'">
+          <template v-slot:avatar>
+            <q-icon name="error" />
+          </template>
+          {{$t('book.warning.ttsError')}}
+        </q-banner>
       </section>
     </q-scroll-area>
   </reader-side-view>
@@ -111,6 +121,7 @@ import useTTS from 'src/hooks/useTTS'
 import { ebookRender } from 'src/api/service/ebook'
 import { ssmlUtils } from 'src/api/service/tts/utils/ssml-util'
 import useSetting from 'core/hooks/useSetting'
+import { ttsManager } from 'src/api/service/tts/tts-manager'
 
 const emit = defineEmits(['close'])
 
@@ -127,6 +138,7 @@ const {
   ttsClient,
   ttsController,
   ttsState,
+  ttsPlayerStatus,
 } = useTTS()
 
 const speakingText = ref('')
@@ -136,9 +148,17 @@ const coverUrl = computed(() => {
 })
 
 const playIcon = computed(() => {
-  return ttsState.isPlaying
-    ? ttsState.isPaused ? 'play_circle' : 'pause_circle'
-    : 'play_circle'
+  switch (ttsPlayerStatus.value) {
+    case 'pause':
+    case 'stop':
+    case 'error':
+      return 'play_circle'
+    case 'play':
+    case 'resume':
+      return 'pause_circle'
+    default:
+      return 'play_circle'
+  }
 })
 
 const playerWidth = computed(() => {
@@ -155,7 +175,7 @@ const onNextChapter = async () => {
     await ebookRender.nextSection()
     await ttsController.play()
   } catch (err) {
-    console.debug('nextChapter err')
+    console.debug('nextChapter err', err)
   }
 }
 
@@ -165,7 +185,7 @@ const onPrevChapter = async () => {
     await ebookRender.prevSection()
     await ttsController.play()
   } catch (err) {
-    console.debug('prevChapter err')
+    console.debug('prevChapter err', err)
   }
 }
 
@@ -176,7 +196,7 @@ const onStart = (ssml: string) => {
 }
 
 const onTTSProviderChanged = async (item: Indexable) => {
-  if (ttsState.isPlaying) {
+  if (ttsPlayerStatus.value === 'play') {
     await ttsController.pause()
   }
 
@@ -189,7 +209,7 @@ const onTTSProviderChanged = async (item: Indexable) => {
     true
   )
 
-  if (ttsState.isPaused) {
+  if (ttsPlayerStatus.value === 'pause') {
     await ttsController.resume()
   }
 }
@@ -205,15 +225,16 @@ onMounted(async () => {
       ebookRender.ttsPrev,
       tts.options
     )
+    await ttsController.stop()
   }
 
   // events
-  ttsClient.value?.on('start', onStart)
+  ttsManager.client?.on('start', onStart)
   window.addEventListener("pagehide", ttsController.stop)
 })
 
 onUnmounted(() => {
-  ttsClient.value?.off('start', onStart)
+  ttsManager.client?.off('start', onStart)
   window.removeEventListener("pagehide", ttsController.stop)
 })
 </script>
@@ -278,6 +299,15 @@ onUnmounted(() => {
 
   .marquee {
     padding: 20px 24px;
+    border-radius: 12px;
+
+    .horizontal {
+      border-radius: 12px;
+    }
+  }
+
+  .error {
+    padding: 8px 16px;
   }
 }
 </style>

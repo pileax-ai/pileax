@@ -100,6 +100,7 @@ export default {
     isbnNotFound: '해당 ISBN을 가진 책을 찾을 수 없습니다.',
     referencedByOthers: '삭제할 수 없습니다. 다른 사람들이 해당 책을 참조하고 있습니다.',
     titleNotMatch: '책 제목이 일치하지 않습니다',
+    ttsError: '텍스트 음성 변환에 실패했거나 지원되지 않습니다.',
     uploadCover: '표지 이미지를 업로드해 주세요.'
   }
 }

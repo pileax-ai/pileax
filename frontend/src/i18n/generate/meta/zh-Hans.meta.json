@@ -237,6 +237,7 @@
   "book.warning.isbnNotFound": "94e8af91",
   "book.warning.referencedByOthers": "c688b166",
   "book.warning.titleNotMatch": "d18669fc",
+  "book.warning.ttsError": "dff69658",
   "book.warning.uploadCover": "fc2007f8",
   "buildTime": "5f3bebed",
   "cancel": "625fb26b",

@@ -138,6 +138,13 @@ export default function () {
     store.clearSearch()
   }
 
+  function resetPlayStatus() {
+    const playStatus = store.tts.playStatus
+    if (playStatus === 'pause' || playStatus === 'error') {
+      store.setTTSItem('playStatus', 'stop')
+    }
+  }
+
   return {
     store,
     book,
@@ -175,5 +182,6 @@ export default function () {
     setSearch,
     clearSearch,
     setWindowId,
+    resetPlayStatus,
   }
 }

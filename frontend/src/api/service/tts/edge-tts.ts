@@ -23,12 +23,15 @@ export class EdgeTTSClient extends BaseTTSClient {
   }
 
   async preload(text: string): Promise<void> {
-    // console.log('preload', text)
+    // console.log('preload', this.preloadQueue.size)
     try {
       const id = generateTextId(text)
-      const audioData = await getEdgeTTSAudio(text)
-      const audioBuffer = await this.audioContext!.decodeAudioData(audioData)
-      this.preloadQueue.set(id, audioBuffer)
+
+      if (!this.preloadQueue.has(id)) {
+        const audioData = await getEdgeTTSAudio(text)
+        const audioBuffer = await this.audioContext!.decodeAudioData(audioData)
+        this.preloadQueue.set(id, audioBuffer)
+      }
     } catch (err) {
       console.debug('preload err')
     }
@@ -82,7 +85,7 @@ export class EdgeTTSClient extends BaseTTSClient {
 
   async stop(reset = true): Promise<void> {
     if (reset) {
-      console.log('stop reset', reset, new Date().getTime() / 1000)
+      // console.log('stop reset', reset, new Date().getTime() / 1000)
       this.stopContinuous()
       this.state = 'stopped'
     }

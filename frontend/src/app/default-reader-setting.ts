@@ -31,7 +31,7 @@ export const defaultSetting = {
   margin: 0,
   verticalMargin: 40,
   horizontalMargin: 0,
-  spread: 'none',
+  spread: 'both',
   zoom: 'fit-width',
 
   // annotation

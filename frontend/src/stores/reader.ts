@@ -37,6 +37,7 @@ export const useReaderStore = defineStore('reader', {
       pitch: '1.0',
       volume: '1.0',
       initFrom: '',
+      playStatus: 'ready',
     } as Indexable,
     ttsModel: {
       modelProvider: '',

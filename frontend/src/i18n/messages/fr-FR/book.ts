@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Livre introuvable avec cet ISBN',
     referencedByOthers: 'Impossible de supprimer, livre référencé par d\'autres utilisateurs',
     titleNotMatch: 'Le titre du livre ne correspond pas',
+    ttsError: 'La synthèse vocale a échoué ou n\'est pas prise en charge.',
     uploadCover: 'Veuillez télécharger la couverture'
   }
 }

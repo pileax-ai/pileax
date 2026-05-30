@@ -100,6 +100,7 @@ export default {
     isbnNotFound: 'Không tìm thấy sách có mã ISBN này.',
     referencedByOthers: 'Không thể xóa, sách này đã được người khác tham khảo.',
     titleNotMatch: 'Tên sách không khớp',
+    ttsError: 'Chức năng chuyển văn bản thành giọng nói bị lỗi hoặc không được hỗ trợ.',
     uploadCover: 'Vui lòng tải ảnh bìa lên.'
   }
 }
