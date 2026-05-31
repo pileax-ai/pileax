@@ -82,7 +82,7 @@ import { createEmojiFavicon } from 'core/utils/url'
 const { t } = useCommon()
 const route = useRoute()
 const { darkMode, locale } = useSetting()
-const docTitle = useTitle('ABC')
+const docTitle = useTitle('')
 const docFavicon = useFavicon()
 
 const notePage = ref<InstanceType<typeof QPage>>()

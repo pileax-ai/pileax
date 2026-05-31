@@ -1,5 +1,8 @@
 {
   "book.mediaType.weread": {
     "base": true
+  },
+  "product.name": {
+    "base": true
   }
 }
