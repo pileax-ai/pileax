@@ -59,6 +59,7 @@ import { changeStyle } from 'src/api/service/ebook/book'
 
 import ReaderSideView from '../ReaderSideView.vue'
 import GeneralTab from './general/index.vue'
+import CssTab from './css/index.vue'
 import FontTab from './font/index.vue'
 import BackgroundTab from './background/index.vue'
 import useCommon from 'core/hooks/useCommon'
@@ -72,6 +73,7 @@ const currentTab = ref('general')
 const tabs = computed(() => {
   return [
     { label: t('general'), value: 'general', icon: 'public', component: GeneralTab },
+    { label: 'CSS', value: 'style', icon: 'css', component: CssTab },
     // { label: t('systems.shortcut'), value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
   ]
 })
