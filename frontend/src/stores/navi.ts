@@ -6,6 +6,7 @@ import { GET } from 'src/hooks/useRequest'
 import { flattenMenu, nestMenu } from 'core/hooks/useMenu'
 import { defaultConsoleMenus } from 'src/app/default-menu'
 import { useTabStore } from 'stores/tab'
+import { store } from 'stores/index'
 
 export const useNaviStore = defineStore('navi', {
   state: () => ({
@@ -15,13 +16,13 @@ export const useNaviStore = defineStore('navi', {
       width: 300,
       miniState: false,
       activity: '',
-    },
+    } as Indexable,
     rightDrawer: {
       show: true,
       hoverShow: false,
       width: 300,
       miniState: false,
-    },
+    } as Indexable,
     menus: [] as MenuItem[],
     consoleMenus: [] as MenuItem[],
     openedMenus: [] as MenuItem[],
@@ -149,3 +150,7 @@ export const useNaviStore = defineStore('navi', {
     storage: sessionStorage,
   }
 })
+
+export const useNaviStoreWithOut = () => {
+  return useNaviStore(store)
+}

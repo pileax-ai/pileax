@@ -64,7 +64,7 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useElementSize } from '@vueuse/core'
+import { useElementSize, useTitle } from '@vueuse/core'
 import { useAppStore } from 'stores/app'
 import { useTabStore } from 'stores/tab'
 import useAccount from 'src/hooks/useAccount'
@@ -77,7 +77,11 @@ import NaviTab from './NaviTab.vue'
 import type { MenuItem, TabItem } from 'core/types/menu'
 import draggable from 'vuedraggable'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
+import useCommon from 'core/hooks/useCommon'
+import { menuLabel } from 'core/hooks/useMenu'
 
+const docTitle = useTitle('')
+const { t } = useCommon()
 const route = useRoute()
 const appStore = useAppStore()
 const tabStore = useTabStore()
@@ -150,6 +154,9 @@ function onTabClosed() {
   switchWorkspaceByTab(tab.value)
 }
 
+watchEffect(() => {
+  docTitle.value = t(tab.value.name) + ' | ' + t('product.name')
+})
 </script>
 
 <style lang="scss">

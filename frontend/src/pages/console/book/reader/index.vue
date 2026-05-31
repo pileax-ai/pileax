@@ -61,6 +61,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
+import { useFavicon, useTitle } from '@vueuse/core'
 import PopupMenu from './PopupMenu.vue'
 import ShareDialog from './ShareDialog.vue'
 import ReaderHeader from './ReaderHeader.vue'
@@ -80,8 +81,11 @@ import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/boo
 import { ReadingMode } from 'src/types/reading'
 import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
+import useCommon from 'core/hooks/useCommon'
 
 const route = useRoute()
+const docTitle = useTitle('')
+const { t } = useCommon()
 const { isFixedLayout, isPhysical, store, setBook, setBookId, setWindowId } = useBook()
 const { openNote } = useBookNote()
 const { setRightDrawerView, setRightDrawerHoverShow } = useReader()
@@ -141,6 +145,7 @@ async function open(bookId: string, initialCfi = '') {
   // console.log('open', bookId)
   const book: Indexable = await bookService.getDetails(bookId)
   if (book) {
+    docTitle.value = `${book.title.substring(0, 32)} | ${t('product.name')}`
     setBookId(bookId)
     setBook(book)
 

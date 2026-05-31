@@ -18,8 +18,12 @@ export const getArrayItem = (array :Indexable[], value :string, field = '') => {
 }
 
 export default function () {
-  const { t } = useI18n()
+  const i18n = useI18n()
   const componentStore = useComponentStoreWithOut()
+
+  const t = (key: string) => {
+    return i18n.te(key) ? i18n.t(key) : key
+  }
 
   const copy = (text :string, notify = false) => {
     copyToClipboard(text).then(() => {
