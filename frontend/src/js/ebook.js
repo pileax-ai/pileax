@@ -86,14 +86,16 @@ const setStyle = (userStyle) => {
     hyphenate: style.hyphenate,
   };
 
-  const bookCSS = `
+  const defaultBookCSS = `
     img {
       border-radius: 10px !important;
       cursor: zoom-in;
     }
   `;
+  const bookCSS = style.bookCSS
+  console.log('bookCSS', bookCSS)
 
-  const combinedCSS = getCSS(newStyle) + bookCSS;
+  const combinedCSS = getCSS(newStyle) + defaultBookCSS + bookCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
 
   // Renderer shadowRoot styles

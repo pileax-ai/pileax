@@ -37,6 +37,9 @@ export const defaultSetting = {
   // annotation
   annStyle: 'highlight',
   annColor: 'green',
+
+  // css
+  bookCSS: ''
 } as Indexable
 
 export const scrollbarStyles = () => {
