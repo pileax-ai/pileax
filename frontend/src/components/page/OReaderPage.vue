@@ -33,7 +33,7 @@ const props = defineProps({
 })
 
 const { settings } = useReaderSetting()
-const footnoteDialog = ref(null)
+const footnoteDialog: any = ref(null)
 
 function onClickOutside() {
   footnoteDialog.value?.close()

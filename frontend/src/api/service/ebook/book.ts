@@ -82,7 +82,7 @@ export const postMessage = (name :string, data :any) => {
     case 'onImageClick':
       openDialog({
         type: 'image-viewer',
-        message: data
+        images: [data]
       })
       break
     case 'onMetadata':
