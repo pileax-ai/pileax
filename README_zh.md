@@ -83,6 +83,7 @@ docker compose down
 - [Dify](https://github.com/langgenius/dify/): An open-source platform for developing LLM applications.
 - [RAGFlow](https://github.com/infiniflow/ragflow): A leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs.
 - [foliate-js](https://github.com/johnfactotum/foliate-js): Library for rendering e-books in the browser.
+- [Readest](https://github.com/readest/readest): An open-source ebook reader designed for immersive and deep reading experiences.
 - [Anx Reader](https://github.com/Anxcye/anx-reader): A thoughtfully crafted e-book reader for book lovers.
 - [Yiitap](https://github.com/pileax-ai/yiitap): An AI powered, Notion-style WYSIWYG rich-text block-based editor built on top of [Tiptap](https://github.com/ueberdosis/tiptap) & [ProseMirror](https://github.com/ProseMirror/prosemirror).
 

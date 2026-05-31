@@ -57,6 +57,27 @@ export default function () {
       })
   }
 
+  const downloadImage = async (imageUrl: string) => {
+    try {
+      const response = await fetch(imageUrl)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+
+      const fileName = `image-${Math.floor(Date.now() / 1000)}`
+      const link = document.createElement('a')
+      link.href = url
+      link.download = fileName
+
+      document.body.appendChild(link)
+      link.click()
+
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      window.open(imageUrl, '_blank')
+    }
+  }
+
   const updateBook = (data: Indexable) => {
     return workspaceBookService.update(data)
   }
@@ -122,6 +143,7 @@ export default function () {
   return {
     bookTags,
     downloadBook,
+    downloadImage,
     removeBook,
     deleteBook,
     updateBook,

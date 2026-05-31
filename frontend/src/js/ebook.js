@@ -87,8 +87,9 @@ const setStyle = (userStyle) => {
   };
 
   const bookCSS = `
-    .kindle-cn-kai {
-      color: red !important;
+    img {
+      border-radius: 10px !important;
+      cursor: zoom-in;
     }
   `;
 
