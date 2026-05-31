@@ -109,10 +109,15 @@ onUnmounted(() => {
   transition: opacity 0.1s ease;
   margin-top: -100px; /* 负值是对话框高度的一半，用于垂直居中 */
   margin-left: max(-40%, -360px); /* 负值是对话框宽度的一半，用于水平居中 */
+  padding: 1rem 0;
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.9);
   }
+}
+
+.fncontent {
+  margin: 0 !important;
 }
 
 dialog[open] {
