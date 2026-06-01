@@ -4,6 +4,7 @@ import { useAppStore } from 'stores/app'
 import { useReaderStore } from 'stores/reader'
 import { ipcService } from 'src/api/ipc'
 import { router } from 'src/router'
+import { globalBus } from 'src/api/event/event-bus'
 
 export default function () {
   const appStore = useAppStore()
@@ -28,7 +29,7 @@ export default function () {
 
         // navigate to book library and refresh
         router.push({ name: 'book-library' })
-        readerStore.setQueryTimer(Date.now())
+        globalBus.emit('library-need-refresh', res, true)
       }).catch(err => {
         console.error(err)
         // Failed
