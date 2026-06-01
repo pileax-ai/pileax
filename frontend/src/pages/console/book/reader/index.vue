@@ -28,19 +28,18 @@
     </template>
 
     <!-- Note View -->
-    <section class="foliate-view margin" v-if="isPhysical">
+    <div class="foliate-view margin" v-if="isPhysical">
       <book-note-view />
-    </section>
+    </div>
 
     <!-- Reading View -->
-    <section ref="bookRef"
+    <div ref="bookRef"
              class="foliate-view"
              :style="{ margin: `${settings.verticalMargin}px ${settings.horizontalMargin}px` }"
-             tabindex="-1"
-             @click="onClick"
-             @focus="onFocus"
-             @blur="onBlur" v-else>
-    </section>
+             tabindex="0"
+             @keydown="onKeydown"
+             v-else>
+    </div>
 
     <reader-footer :class="{ 'focus': bookViewFocused }" v-if="!isPhysical" />
 
@@ -61,7 +60,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { useFavicon, useTitle } from '@vueuse/core'
+import { useTitle } from '@vueuse/core'
 import PopupMenu from './PopupMenu.vue'
 import ShareDialog from './ShareDialog.vue'
 import ReaderHeader from './ReaderHeader.vue'
@@ -91,7 +90,7 @@ const { openNote } = useBookNote()
 const { setRightDrawerView, setRightDrawerHoverShow } = useReader()
 const { settings } = useReaderSetting()
 
-const bookRef = ref(null)
+const bookRef = ref<HTMLDivElement | null>(null)
 const showShareDialog = ref(false)
 const bookViewFocused = ref(false)
 const loading = ref(false)
@@ -174,23 +173,27 @@ function onShare(show = true) {
 }
 
 function onClick() {
-  // TODO
-  // console.log('click', selection.value)
-  // bookViewFocused.value = !bookViewFocused.value
+  bookRef.value?.focus()
   setRightDrawerHoverShow(false)
+
+  // Todo
+  // bookViewFocused.value = !bookViewFocused.value
 }
 
-function onFocus() {
-  console.log('focus')
-}
-
-function onBlur() {
-  console.log('blur')
+function onKeydown(event: KeyboardEvent) {
+  const key = event.key
+  if (['ArrowLeft', 'ArrowUp', 'k'].includes(key)) {
+    prevPage()
+  } else if (['ArrowRight', 'ArrowDown', 'j'].includes(key)) {
+    nextPage()
+  }
 }
 
 onActivated(() => {
   prepareOpen()
   globalBus.on('book-view-clicked', onClick)
+
+  bookRef.value?.focus()
 })
 </script>
 
@@ -275,6 +278,11 @@ onActivated(() => {
     right: 0;
     top: 0;
     bottom: 0;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
   }
 
 }

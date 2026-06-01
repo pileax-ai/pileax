@@ -109,10 +109,7 @@ export const postMessage = (name :string, data :any) => {
 }
 
 const onKeydown = (data: Indexable) => {
-  const keys = ['ArrowLeft', 'ArrowRight', 'h', 'l']
-  if (keys.indexOf(data.key) >= 0) {
-    setManual()
-  }
+  // 
 }
 
 const onRelocated = (data: Indexable) => {
