@@ -278,6 +278,8 @@ onActivated(() => {
     right: 0;
     top: 0;
     bottom: 0;
+    overscroll-behavior-y: none!important;
+    overflow-y: hidden !important;
 
     &:focus,
     &:focus-visible {

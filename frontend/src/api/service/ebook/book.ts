@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import { debounce } from 'quasar'
+import { debounce, throttle } from 'quasar'
 import { notifyWarning } from 'core/utils/control'
 import useDialog from 'core/hooks/useDialog'
 import useApi from 'src/hooks/useApi'
@@ -79,6 +79,9 @@ export const postMessage = (name :string, data :any) => {
     case 'onKeydown':
       onKeydown(data)
       break
+    case 'onWheel':
+      onWheel(data)
+      break
     case 'onImageClick':
       openDialog({
         type: 'image-viewer',
@@ -108,8 +111,58 @@ export const postMessage = (name :string, data :any) => {
   }
 }
 
-const onKeydown = (data: Indexable) => {
-  //
+const onKeydown = (event: KeyboardEvent) => {
+  console.log('keydown', event)
+}
+
+const findFoliateFxl = (): HTMLElement | null => {
+  // Escape iframe sandbox to get the main window's document
+  const mainDoc = window.parent?.document || document
+  const foliateViewDiv = mainDoc.querySelector('.foliate-view') as HTMLElement
+
+  if (foliateViewDiv) {
+    // Find the nested <foliate-view> custom element inside it
+    const foliateViewTag = foliateViewDiv.querySelector('foliate-view') || foliateViewDiv
+
+    // Pierce the shadowRoot to grab the target <foliate-fxl>
+    const fxlElement = foliateViewTag.shadowRoot?.querySelector('foliate-fxl') as HTMLElement | null
+
+    if (fxlElement) {
+      return fxlElement
+    }
+  }
+  return null
+}
+
+const onWheel = (event: WheelEvent) => {
+  // Ignore in scroll mode
+  if (style.value.pageTurnStyle === 'scroll') return
+
+  const deltaY = event.deltaY
+  let isTurnNext = deltaY > 20
+  let isTurnPrev = deltaY < -20
+
+  const fxlElement = findFoliateFxl()
+  if (fxlElement) {
+    // Fixed-layout
+    const { scrollTop, scrollHeight, clientHeight } = fxlElement
+    const isAtTop = scrollTop <= 0
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 0.5
+    isTurnNext = isTurnNext && isAtBottom
+    isTurnPrev = isTurnPrev && isAtTop
+  }
+
+  if (isTurnNext) {
+    event.stopPropagation()
+    event.preventDefault()
+    turnNextPage()
+
+    // Todo (bug): scroll up extra space
+  } else if (isTurnPrev) {
+    event.stopPropagation()
+    event.preventDefault()
+    turnPrevPage()
+  }
 }
 
 const onRelocated = (data: Indexable) => {
@@ -225,6 +278,9 @@ const nextSection = () => {
   setManual(BookOperation.Navigation)
   ebookRender.nextSection()
 }
+
+const turnPrevPage = throttle(prevPage, 500)
+const turnNextPage = throttle(nextPage, 500)
 
 const isInside = (cfi: string, rangeCfi: string) => {
   return ebookRender.isInside(cfi, rangeCfi)

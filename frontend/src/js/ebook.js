@@ -88,12 +88,10 @@ const setStyle = (userStyle) => {
 
   const defaultBookCSS = `
     img {
-      border-radius: 10px !important;
       cursor: zoom-in;
     }
   `;
   const bookCSS = style.bookCSS
-  console.log('bookCSS', bookCSS)
 
   const combinedCSS = getCSS(newStyle) + defaultBookCSS + bookCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
@@ -334,10 +332,11 @@ class Ebook {
   }
 
   #handleKeydown(event) {
-    postMessage('onKeydown', {
-      key: event.key,
-      event: event
-    });
+    postMessage('onKeydown', event);
+  }
+
+  #handleWheel(event) {
+    postMessage('onWheel', event);
   }
 
   #onLoad({ detail: { doc, index } }) {
@@ -345,6 +344,7 @@ class Ebook {
     this.#index = index;
     this.#originalContent = doc.cloneNode(true);
     doc.addEventListener('keydown', this.#handleKeydown.bind(this));
+    doc.addEventListener('wheel', this.#handleWheel.bind(this), { passive: false });
 
     setSelectionHandler(this.view, doc, index);
   }
