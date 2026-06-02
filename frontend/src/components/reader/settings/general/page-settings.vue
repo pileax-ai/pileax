@@ -60,14 +60,6 @@
                 track-size="5px"
                 @update:modelValue="onValueChanged('maxInlineSize', $event)" />
     </o-field-label>
-    <o-field-label :label="$t('reading.setting.pageTurningMode')" side>
-      <q-select v-model="pageTurnStyle"
-                :options="turnStyles"
-                map-options emit-value
-                outlined dense
-                :menu-offset="[0, 6]"
-                @update:modelValue="onPageTurningChanged" />
-    </o-field-label>
     <o-field-label :label="$t('appearances.page.zoom')" side v-if="fixedLayout">
       <q-select v-model="zoom"
                 :options="zoomOptions"
@@ -104,16 +96,7 @@ const verticalMargin = ref(0)
 const maxColumnCount = ref(1)
 const columnGap = ref(0)
 const maxInlineSize = ref(720)
-const pageTurnStyle = ref('slide')
 const zoom = ref('fit-width')
-
-
-const turnStyles = computed(() => {
-  return [
-    { label: t('reading.setting.slide'), value: 'slide', icon: 'public' },
-    { label: t('reading.setting.scroll'), value: 'scroll', icon: 'public' },
-  ]
-})
 
 const zoomOptions = computed(() => {
   return [
@@ -136,14 +119,6 @@ function onValueChanged(key: string, value: any) {
   setSettingItem(key, value)
 }
 
-function onPageTurningChanged(value: any) {
-  setManual(BookOperation.Load)
-  setSettingItem('pageTurnStyle', value)
-
-  if (props.fixedLayout) {
-    ipcService.reload(ipcService.windowId, true)
-  }
-}
 
 onBeforeMount(() => {
   margin.value = settings.value.margin || 0
@@ -152,7 +127,6 @@ onBeforeMount(() => {
   maxColumnCount.value = settings.value.maxColumnCount || 1
   columnGap.value = settings.value.columnGap || 0
   maxInlineSize.value = settings.value.maxInlineSize || 720
-  pageTurnStyle.value = settings.value.pageTurnStyle || 'slide'
   zoom.value = settings.value.zoom || 'fit-page'
 })
 </script>
