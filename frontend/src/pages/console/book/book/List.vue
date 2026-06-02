@@ -302,8 +302,12 @@ function onToggleFiler() {
   showFilter.value = !showFilter.value
 }
 
-function onLibraryRefresh(item: Indexable) {
-  needRefresh.value = true
+function onLibraryRefresh(item: Indexable, immediate = false) {
+  if (immediate) {
+    query.value.onQuery()
+  } else {
+    needRefresh.value = true
+  }
 }
 
 onActivated(() => {

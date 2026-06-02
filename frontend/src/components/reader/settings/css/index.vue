@@ -51,9 +51,6 @@ const editorOptions = computed(() => {
 })
 
 function onUpdate({ editor, language, code, }: { editor: Editor, language: string, code: string }) {
-  // code
-  console.debug('language', language)
-  console.debug('code', code)
   editingCSS.value = code
 }
 

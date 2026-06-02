@@ -69,7 +69,7 @@
       </div>
     </section>
 
-    <section class="row justify-between items-center text-readable top-toolbar fixed-right toolbar-hover-show">
+    <section class="row justify-end items-center text-readable top-toolbar fixed-right toolbar-hover-show">
       <div class="row col-auto q-px-sm">
         <section class="row">
           <q-btn icon="o_tune" class="o-toolbar-btn"
@@ -239,8 +239,8 @@ onUnmounted(() => {
 
   .header-left {
     position: relative;
-    min-width: 200px;
     height: 40px;
+    min-width: 100px;
 
     .chapter {
       padding-left: 32px;
@@ -248,7 +248,7 @@ onUnmounted(() => {
   }
 
   .header-right {
-    min-width: 200px;
+    min-width: 100px;
   }
 
   .bookmark {
@@ -316,12 +316,13 @@ onUnmounted(() => {
     top: 0;
     height: 40px;
     padding: 0;
-    background: var(--q-secondary);
+    //background: var(--q-secondary);
 
     &.fixed-left {
       left: 0;
       width: 40%;
       border-radius: 0 8px 8px 0;
+      background: linear-gradient(90deg, var(--q-secondary) 50%, transparent 100%);
 
       .ellipsis {
         max-width: calc(100% - 60px);
@@ -336,7 +337,9 @@ onUnmounted(() => {
 
     &.fixed-right {
       right: 0;
+      min-width: 200px;
       border-radius: 8px 0 0 8px;
+      background: linear-gradient(-90deg, var(--q-secondary) 20%, transparent 80%, transparent 100%);
     }
 
     &.toolbar-hover-show {
