@@ -96,7 +96,7 @@ const bookViewFocused = ref(false)
 const loading = ref(false)
 
 const isScrollMode = computed(() => {
-  return settings.value.pageTurnStyle === 'scroll'
+  return settings.value.flow === 'scrolled'
 })
 
 function prepareOpen() {

@@ -26,31 +26,9 @@ const setStyle = (userStyle) => {
   if (userStyle && typeof userStyle === 'object') {
     style = userStyle;
   }
-  const turn = {
-    scroll: false,
-    animated: true,
-  };
-
-  switch (style.pageTurnStyle) {
-    case 'slide':
-      turn.scroll = false;
-      turn.animated = true;
-      break;
-    case 'scroll':
-      turn.scroll = true;
-      turn.animated = true;
-      break;
-    case 'noAnimation':
-      turn.scroll = false;
-      turn.animated = false;
-      break;
-  }
 
   const spread = style.maxColumnCount > 1 ? 'both' : 'none'
-  reader.view.renderer.setAttribute(
-    'flow',
-    turn.scroll ? 'scrolled' : 'paginated'
-  );
+  reader.view.renderer.setAttribute('flow', style.flow);
   reader.view.renderer.setAttribute('top-margin', `${style.topMargin}px`);
   reader.view.renderer.setAttribute('bottom-margin', `${style.bottomMargin}px`);
   reader.view.renderer.setAttribute('margin', `${style.margin}px`);
@@ -67,7 +45,7 @@ const setStyle = (userStyle) => {
   reader.view.renderer.style.justifyContent = isZoomedIn ? 'flex-start' : 'center';
   reader.view.renderer.setAttribute('zoom', zoom); // 1.2, fit-width, fit-page
 
-  turn.animated
+  style.animated
     ? reader.view.renderer.setAttribute('animated', 'true')
     : reader.view.renderer.removeAttribute('animated');
 

@@ -112,7 +112,7 @@ export const postMessage = (name :string, data :any) => {
 }
 
 const onKeydown = (event: KeyboardEvent) => {
-  console.log('keydown', event)
+  // console.log('keydown', event)
 }
 
 const findFoliateFxl = (): HTMLElement | null => {
@@ -136,7 +136,9 @@ const findFoliateFxl = (): HTMLElement | null => {
 
 const onWheel = (event: WheelEvent) => {
   // Ignore in scroll mode
-  if (style.value.pageTurnStyle === 'scroll') return
+  if (style.value.flow === 'scrolled' || !style.value.wheelPageNavigation) {
+    return
+  }
 
   const deltaY = event.deltaY
   let isTurnNext = deltaY > 20

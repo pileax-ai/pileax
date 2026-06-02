@@ -68,9 +68,14 @@ export default {
       serif: 'Serif',
       system: 'System'
     },
-    pageTurningMode: 'Page Turning Mode',
     scroll: 'Scroll Up/Down',
-    slide: 'Slide Left/Right'
+    slide: 'Slide Left/Right',
+    pagination: {
+      _: 'Pagination',
+      flow: 'Mode',
+      wheel: 'Use Wheel',
+      animated: 'Animation',
+    }
   },
   settings: 'Reading Settings',
   status: {

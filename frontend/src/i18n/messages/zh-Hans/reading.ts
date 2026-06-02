@@ -68,9 +68,14 @@ export default {
       serif: '衬线体',
       system: '系统'
     },
-    pageTurningMode: '翻页模式',
     scroll: '上下滚动',
-    slide: '左右滑动'
+    slide: '左右滑动',
+    pagination: {
+      _: '翻页',
+      flow: '翻页模式',
+      wheel: '使用滚轮',
+      animated: '翻页动画',
+    }
   },
   settings: '阅读设置',
   status: {

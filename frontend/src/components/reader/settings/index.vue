@@ -138,9 +138,13 @@ watch(
             font-size: 1.2rem;
           }
           .q-icon {
-            font-size: 18px;
-            opacity: 0.3;
+            font-size: 24px;
           }
+        }
+
+        .q-item__section--avatar {
+          min-width: 24px;
+          padding-right: 8px;
         }
 
         .q-expansion-item__content {
