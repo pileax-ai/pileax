@@ -27,6 +27,7 @@ import { WindowManager, windowManager } from './window-manager'
 import { PROTOCOL_SCHEME, VIRTUAL_HOST } from './constant'
 import { joinPath } from '../utils/path'
 import { storageManager } from './storage-manager'
+import { getSystemFonts } from 'app/src-electron/utils/font'
 
 let trayManager: TrayManager
 
@@ -72,6 +73,8 @@ export class Application {
   }
 
   static initIpcMain() {
+    const fonts = getSystemFonts()
+
     ipcMain.handle('get-open-file',
       (event) => {
         openFileManager.getFile()
@@ -84,6 +87,10 @@ export class Application {
 
     ipcMain.handle('get-server-info', () => {
       return server.serverInfo
+    })
+
+    ipcMain.handle('get-system-fonts', async () => {
+      return await getSystemFonts()
     })
 
     ipcMain.handle("log:init", (event, maxLines = 100) => {

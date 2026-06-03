@@ -77,9 +77,6 @@ import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 
 import useCommon from 'core/hooks/useCommon'
 import useReaderSetting from 'src/hooks/useReaderSetting'
-import { setManual } from 'src/api/service/ebook/book'
-import { BookOperation } from 'src/types/reading'
-import { ipcService } from 'src/api/ipc'
 
 const props = defineProps({
   fixedLayout: {

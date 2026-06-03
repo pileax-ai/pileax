@@ -10,6 +10,7 @@ export type IpcApi = {
   getOpenFile: () => Promise<void>;
   getPath: (key: string) => Promise<string>;
   getServerInfo: () => Promise<Indexable>;
+  getSystemFonts: () => Promise<Indexable>;
   inspect: () => Promise<void>;
   isWindowMaximized: () => Promise<boolean>;
   logInit: (maxLines?: number) => Promise<string>;
@@ -46,6 +47,7 @@ export const ipcServiceKeys = [
   'getOpenFile',
   'getPath',
   'getServerInfo',
+  'getSystemFonts',
   'inspect',
   'isWindowMaximized',
   'logInit',

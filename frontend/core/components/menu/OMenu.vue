@@ -2,7 +2,7 @@
   <q-menu ref="menu"
           v-model="modelValue"
           @before-show="emit('before-show')">
-    <div :style="{ minWidth: minWidth, maxWidth: maxWidth }">
+    <div :style="{ minWidth: minWidth, maxWidth: maxWidth, maxHeight: '50vh' }">
       <q-list no-border link inset-delimiter>
         <slot></slot>
       </q-list>

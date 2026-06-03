@@ -75,7 +75,7 @@
             </o-menu>
           </o-common-item>
         </q-list>
-        <o-no-data message="" image />
+        <o-no-data image v-if="!results.length" />
       </section>
     </section>
 
