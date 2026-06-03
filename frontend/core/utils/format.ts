@@ -57,6 +57,17 @@ export function formatNumber(value: number, {
 
 }
 
+/**
+ * Removes all double and single quotes from a string for clean UI display
+ * @param str - The raw font name or string that may contain quotes
+ * @returns string
+ */
+export function stripQuotes(str: string): string {
+  if (!str) return ''
+  // Use regex to globally replace all single and double quotes with an empty string
+  return str.replace(/['"]/g, '')
+}
+
 // =========================================================
 // Time
 // =========================================================

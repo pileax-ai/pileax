@@ -50,6 +50,8 @@ const electronIpcAPI = {
     ipcRenderer.invoke('get-path', key),
   getServerInfo: async (): Promise<Indexable> =>
     ipcRenderer.invoke('get-server-info'),
+  getSystemFonts: async (): Promise<Indexable> =>
+    ipcRenderer.invoke('get-system-fonts'),
   inspect: async () =>
     ipcRenderer.send('window-control:toggle-devtools'),
   openNewWindow: async (id: string, url: string, titleBarHeight = 40) =>

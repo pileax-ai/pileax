@@ -66,7 +66,9 @@ export default {
       custom: 'Custom',
       mono: 'Mono',
       serif: 'Serif',
-      system: 'System'
+      sansSerif: 'Sans-Serif',
+      system: 'System',
+      download: 'Download Font',
     },
     scroll: 'Scroll Up/Down',
     slide: 'Slide Left/Right',

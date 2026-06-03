@@ -45,8 +45,17 @@
                 enter-active-class="animated slideInRight"
                 leave-active-class="animated slideOutRight">
       <font-tab class="side-fixed"
-                  @close="onNext('font', false)"
-                  v-if="next['font']" />
+                @next="onNext"
+                @close="onNext('font', false)"
+                v-if="next['font']" />
+    </transition>
+
+    <transition appear
+                enter-active-class="animated slideInRight"
+                leave-active-class="animated slideOutRight">
+      <font-download-tab class="side-fixed"
+                @close="onNext('font-download', false)"
+                v-if="next['font-download']" />
     </transition>
   </reader-side-view>
 </template>
@@ -61,6 +70,7 @@ import ReaderSideView from '../ReaderSideView.vue'
 import GeneralTab from './general/index.vue'
 import CssTab from './css/index.vue'
 import FontTab from './font/index.vue'
+import FontDownloadTab from './font/download.vue'
 import BackgroundTab from './background/index.vue'
 import useCommon from 'core/hooks/useCommon'
 

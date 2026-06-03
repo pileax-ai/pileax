@@ -263,6 +263,14 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .image-viewer-dialog {
+  .q-dialog__inner {
+    padding: 0;
+
+    > div {
+      max-height: 100vh !important;
+    }
+  }
+
   .dialog-card {
     max-width: unset !important;
     background: transparent;

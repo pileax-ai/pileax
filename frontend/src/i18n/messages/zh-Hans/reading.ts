@@ -66,7 +66,9 @@ export default {
       custom: '自定义',
       mono: '等宽体',
       serif: '衬线体',
-      system: '系统'
+      sansSerif: '无衬线体',
+      system: '系统',
+      download: '下载字体',
     },
     scroll: '上下滚动',
     slide: '左右滑动',

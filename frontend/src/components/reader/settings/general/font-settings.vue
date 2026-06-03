@@ -37,15 +37,17 @@ const { settings, setSettingItem } = useReaderSetting()
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 import SettingView from 'components/reader/settings/setting-view.vue'
 import useCommon from 'core/hooks/useCommon'
+import { stripQuotes } from 'core/utils/format'
 
 const emit = defineEmits(['next'])
 
 const { t } = useCommon()
 const fontSize = ref(1.2)
 const fontFamily = computed(() => {
-  return settings.value.font === 'custom'
+  const name = ['serif', 'sansSerif', 'mono', 'more', 'custom'].includes(settings.value.font)
     ? settings.value.fontName
-    :  t(`reading.setting.font.${settings.value.font}`)
+    : t(`reading.setting.font.${settings.value.font}`)
+  return stripQuotes(name)
 })
 
 function onValueChanged(key: string, value: any) {
