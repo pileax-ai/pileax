@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'Nebuloasa Bulă',
+      cosmicCliffs: 'Stâncile Cosmice',
+      fuchunMountains: 'Locuind în Munții Fuchun',
+      moon: 'Luna',
       oldBook: 'Carte veche',
+      paperTexture: 'Textură hârtie',
       pillarsCreation: 'Pilonii Creației',
       willowBank: 'Malul mărginit de salcie'
     },
     font: {
       book: 'Carte',
       custom: 'Personalizat',
+      download: 'Descărcați fontul',
       mono: 'Mono',
+      sansSerif: 'Sans-Serif',
       serif: 'Serif',
       system: 'Sistem'
     },
-    pageTurningMode: 'Mod de întoarcere a paginilor',
+    pagination: {
+      _: 'Paginare',
+      animated: 'Animaţie',
+      flow: 'Mod',
+      wheel: 'Folosește roata'
+    },
     scroll: 'Derulare în sus/în jos',
     slide: 'Glisare stânga/dreapta'
   },

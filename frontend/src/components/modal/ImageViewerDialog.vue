@@ -273,8 +273,9 @@ onBeforeUnmount(() => {
 
   .dialog-card {
     max-width: unset !important;
-    background: transparent;
+    background-color: transparent !important;
     box-shadow: none;
+
 
     display: flex;
     flex-direction: column;
@@ -375,6 +376,11 @@ onBeforeUnmount(() => {
       }
     }
   }
+}
 
+body.body--dark .image-viewer-dialog {
+  .dialog-card.q-card--dark {
+    background-color: transparent !important;
+  }
 }
 </style>

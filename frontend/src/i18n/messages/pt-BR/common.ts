@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Fundo',
       blur: 'Desfoque de fundo',
-      image: 'Imagem de fundo'
+      image: 'Imagem de fundo',
+      opacity: 'Opacidade'
     },
     colors: {
       amber: 'Âmbar',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Título da grade',
     list: 'Lista'
   },
-  welcome: 'Bem-vindo'
+  welcome: 'Bem-vindo',
+  wideScreen: 'Tela ampla',
+  wideScreenExit: 'Sair do formato widescreen'
 }

@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: '거품 성운',
+      cosmicCliffs: '우주의 절벽',
+      fuchunMountains: '푸춘산맥에 거주',
+      moon: '달',
       oldBook: '고서',
+      paperTexture: '종이 질감',
       pillarsCreation: '창조의 기둥',
       willowBank: '버드나무가 늘어선 둑'
     },
     font: {
       book: '책',
       custom: '관습',
+      download: '글꼴 다운로드',
       mono: '단핵증',
+      sansSerif: '산세리프',
       serif: '가는 장식 선',
       system: '체계'
     },
-    pageTurningMode: '페이지 넘기기 모드',
+    pagination: {
+      _: '쪽수 매기기',
+      animated: '생기',
+      flow: '방법',
+      wheel: '휠을 사용하세요'
+    },
     scroll: '위/아래로 스크롤',
     slide: '왼쪽/오른쪽으로 밀어주세요'
   },

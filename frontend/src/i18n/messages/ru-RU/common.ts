@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Фон',
       blur: 'Размытие фона',
-      image: 'Фоновое изображение'
+      image: 'Фоновое изображение',
+      opacity: 'Непрозрачность'
     },
     colors: {
       amber: 'Янтарь',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Заголовок сетки',
     list: 'Список'
   },
-  welcome: 'Добро пожаловать'
+  welcome: 'Добро пожаловать',
+  wideScreen: 'Широкоэкранный',
+  wideScreenExit: 'Выход Широкоэкранный'
 }

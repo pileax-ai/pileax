@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Sfondo',
       blur: 'Sfocatura dello sfondo',
-      image: 'Immagine di sfondo'
+      image: 'Immagine di sfondo',
+      opacity: 'Opacità'
     },
     colors: {
       amber: 'Ambra',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Titolo della griglia',
     list: 'Lista'
   },
-  welcome: 'Benvenuto'
+  welcome: 'Benvenuto',
+  wideScreen: 'Schermo panoramico',
+  wideScreenExit: 'Esci dalla modalità Schermo panoramico'
 }

@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'Mgławica Bańka',
+      cosmicCliffs: 'Kosmiczne Klify',
+      fuchunMountains: 'Mieszkanie w górach Fuchun',
+      moon: 'Księżyc',
       oldBook: 'Stara Księga',
+      paperTexture: 'Tekstura papieru',
       pillarsCreation: 'Filary Stworzenia',
       willowBank: 'Brzeg wierzbowy'
     },
     font: {
       book: 'Książka',
       custom: 'Zwyczaj',
+      download: 'Pobierz czcionkę',
       mono: 'Mononukleoza',
+      sansSerif: 'Bezszeryfowy',
       serif: 'Szeryfowy',
       system: 'System'
     },
-    pageTurningMode: 'Tryb przewracania stron',
+    pagination: {
+      _: 'Paginacja',
+      animated: 'Ożywienie',
+      flow: 'Tryb',
+      wheel: 'Użyj koła'
+    },
     scroll: 'Przewiń w górę/w dół',
     slide: 'Przesuń w lewo/prawo'
   },

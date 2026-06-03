@@ -22,7 +22,7 @@
     <!-- Hover Toolbar -->
     <section class="row justify-between items-center text-readable top-toolbar fixed-left toolbar-hover-show"
              :class="{ 'is-physical': isPhysical }">
-      <div class="row col-12 items-center q-px-sm">
+      <div class="row col-auto items-center q-px-sm">
         <div class="no-drag-region" v-if="!leftDrawerShow">
           <o-hover-btn icon="icon-sidebar"
                        hover-icon="mdi-backburger rotate-180"
@@ -62,10 +62,10 @@
             {{ $t('note.add') }}
           </o-tooltip>
         </q-btn>
+      </div>
 
-        <div class="q-px-sm text-readable cursor-pointer ellipsis" @click="onDetails">
-          {{ book.title }}
-        </div>
+      <div class="col text-readable cursor-pointer ellipsis" @click="onDetails">
+        {{ book.title }}
       </div>
     </section>
 
@@ -79,6 +79,15 @@
                  v-if="!isPhysical">
             <o-tooltip position="bottom" transition autohide>
               {{ $t('reading.settings') }}
+            </o-tooltip>
+          </q-btn>
+          <q-btn class="o-toolbar-btn"
+                 :class="{ 'active': isWideScreen }"
+                 flat
+                 @click="toggleDrawers">
+            <o-icon :name="isWideScreen ? 'icon-fullscreen_portrait' : 'o_view_array'" />
+            <o-tooltip position="bottom" transition autohide>
+              {{ isWideScreen ? $t('wideScreen') : $t('wideScreenExit') }}
             </o-tooltip>
           </q-btn>
           <q-btn class="o-toolbar-btn"
@@ -145,11 +154,13 @@ const {
   leftDrawerHoverShow,
   rightDrawer,
   rightDrawerShow,
+  isWideScreen,
   toggleLeftDrawer,
   toggleRightDrawer,
   setLeftDrawerHoverShow,
   setRightDrawerView,
   toggleRightDrawerView,
+  toggleDrawers,
 } = useReader()
 
 const searchCurrent = computed(() => {
@@ -320,19 +331,9 @@ onUnmounted(() => {
 
     &.fixed-left {
       left: 0;
-      width: 50%;
+      width: 40%;
       border-radius: 0 8px 8px 0;
       background: linear-gradient(90deg, var(--q-secondary) 50%, transparent 100%);
-
-      .ellipsis {
-        max-width: calc(100% - 60px);
-      }
-
-      &.is-physical {
-        .ellipsis {
-          max-width: calc(100% - 30px);
-        }
-      }
     }
 
     &.fixed-right {

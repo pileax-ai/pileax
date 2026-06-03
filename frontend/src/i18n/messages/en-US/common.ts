@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Background',
       blur: 'Background Blur',
-      image: 'Background Image'
+      image: 'Background Image',
+      opacity: 'Opacity'
     },
     colors: {
       amber: 'Amber',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Grid Title',
     list: 'List'
   },
-  welcome: 'Welcome'
+  welcome: 'Welcome',
+  wideScreen: 'Wide Screen',
+  wideScreenExit: 'Exit Wide Screen'
 }

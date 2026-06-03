@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Hintergrund',
       blur: 'Hintergrundunschärfe',
-      image: 'Hintergrundbild'
+      image: 'Hintergrundbild',
+      opacity: 'Opazität'
     },
     colors: {
       amber: 'Bernstein',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Rastertitel',
     list: 'Liste'
   },
-  welcome: 'Willkommen'
+  welcome: 'Willkommen',
+  wideScreen: 'Breitbild',
+  wideScreenExit: 'Ausgang Breitbild'
 }

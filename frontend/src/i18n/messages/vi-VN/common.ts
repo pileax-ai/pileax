@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Lý lịch',
       blur: 'Làm mờ nền',
-      image: 'Hình nền'
+      image: 'Hình nền',
+      opacity: 'Độ mờ đục'
     },
     colors: {
       amber: 'Hổ phách',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Tiêu đề lưới',
     list: 'Danh sách'
   },
-  welcome: 'Chào mừng'
+  welcome: 'Chào mừng',
+  wideScreen: 'Màn hình rộng',
+  wideScreenExit: 'Thoát khỏi màn hình rộng'
 }

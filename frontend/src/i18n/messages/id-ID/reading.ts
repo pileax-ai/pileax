@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'Nebula Gelembung',
+      cosmicCliffs: 'Tebing Kosmik',
+      fuchunMountains: 'Tinggal di Pegunungan Fuchun',
+      moon: 'Bulan',
       oldBook: 'Buku Tua',
+      paperTexture: 'Tekstur Kertas',
       pillarsCreation: 'Pilar-Pilar Penciptaan',
       willowBank: 'Tepi sungai yang dihiasi pohon willow'
     },
     font: {
       book: 'Buku',
       custom: 'Kebiasaan',
+      download: 'Unduh Font',
       mono: 'Mono',
+      sansSerif: 'Sans-Serif',
       serif: 'Serif',
       system: 'Sistem'
     },
-    pageTurningMode: 'Mode Membalik Halaman',
+    pagination: {
+      _: 'Penomoran halaman',
+      animated: 'Animasi',
+      flow: 'Mode',
+      wheel: 'Gunakan Roda'
+    },
     scroll: 'Gulir ke Atas/Bawah',
     slide: 'Geser ke Kiri/Kanan'
   },

@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Fundal',
       blur: 'Estompare fundal',
-      image: 'Imagine de fundal'
+      image: 'Imagine de fundal',
+      opacity: 'Opacitate'
     },
     colors: {
       amber: 'Chihlimbar',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Titlu grilă',
     list: 'Listă'
   },
-  welcome: 'Bun venit'
+  welcome: 'Bun venit',
+  wideScreen: 'Ecran lat',
+  wideScreenExit: 'Ieșire ecran lat'
 }

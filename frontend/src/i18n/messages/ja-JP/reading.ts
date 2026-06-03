@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'バブル星雲',
+      cosmicCliffs: '宇宙の断崖',
+      fuchunMountains: '富春山地での暮らし',
+      moon: '月',
       oldBook: '古書',
+      paperTexture: '紙の質感',
       pillarsCreation: '創造の柱',
       willowBank: '柳に縁取られた土手'
     },
     font: {
       book: '本',
       custom: 'カスタム',
+      download: 'フォントをダウンロード',
       mono: '単核症',
+      sansSerif: 'サンセリフ',
       serif: 'セリフ',
       system: 'システム'
     },
-    pageTurningMode: 'ページめくりモード',
+    pagination: {
+      _: 'ページネーション',
+      animated: 'アニメーション',
+      flow: 'モード',
+      wheel: 'ホイールを使用する'
+    },
     scroll: '上/下にスクロール',
     slide: '左/右にスライド'
   },

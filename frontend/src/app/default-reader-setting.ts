@@ -8,6 +8,11 @@ export const defaultSetting = {
   // appearance
   backgroundColor: '#ffffff',
   backgroundImage: '',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: '',
+  backgroundPosition: '',
+  backgroundBlur: 0,
+  backgroundOpacity: 1.0,
 
   // font
   fontSize: 1.2,

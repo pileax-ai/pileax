@@ -10,7 +10,8 @@ export default {
     background: {
       _: '背景',
       blur: '背景ぼかし',
-      image: '背景画像'
+      image: '背景画像',
+      opacity: '不透明度'
     },
     colors: {
       amber: 'アンバー',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'グリッドタイトル',
     list: 'リスト'
   },
-  welcome: 'いらっしゃいませ'
+  welcome: 'いらっしゃいませ',
+  wideScreen: 'ワイドスクリーン',
+  wideScreenExit: 'ワイドスクリーンを終了する'
 }

@@ -80,8 +80,6 @@ const slide = ref('1')
 const slides = computed(() => {
   return [
     { label: 'Slide 1', value: '1', img: '/images/ui/signin/01.jpg' },
-    { label: 'Slide 2', value: '2', img: '/images/ui/signin/02.jpg' },
-    { label: 'Slide 3', value: '3', img: '/images/ui/signin/03.png' },
   ]
 })
 </script>

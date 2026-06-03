@@ -24,7 +24,7 @@
               <div class="text-red text-bold">
                 {{error}}
               </div>
-              <div class="q-mt-md text-tips limit">
+              <div class="q-mt-md text-tips limit" v-if="!hideLimit">
                 <template v-for="(item, index) in accept.split(',')" :key="index">
                   <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
                 </template>
@@ -51,7 +51,7 @@
               <div class="text-tips">
                 <span>{{ label || $t('book.uploader.label') }}</span>
               </div>
-              <div class="q-mt-md limit" :class="{ 'text-red': error }">
+              <div class="q-mt-md limit" :class="{ 'text-red': error }"  v-if="!hideLimit">
                 <template v-for="(item, index) in accept.split(',')" :key="index">
                   <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
                 </template>
@@ -124,6 +124,10 @@ const props = defineProps({
     default: ''
   },
   reset: {
+    type: Boolean,
+    default: false
+  },
+  hideLimit: {
     type: Boolean,
     default: false
   },

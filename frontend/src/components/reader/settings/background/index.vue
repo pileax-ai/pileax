@@ -1,66 +1,85 @@
 <template>
-  <setting-tab :title="$t('appearances.background._')"  @close="emit('close')">
-    <q-list>
-      <q-item-label class="text-readable">
-        {{ $t('appearances.background.image') }}
-      </q-item-label>
-      <template v-for="(item, index) in list" :key="index">
-        <q-item class="bg-accent" clickable
-                @click="onBackgroundImage(item)">
-          <q-item-section avatar>
-            <q-avatar rounded>
-              <q-icon :name="item.icon" size="3rem" class="text-tips" v-if="item.icon" />
-              <q-img :src="item.url.indexOf('http') === 0 ? item.url : $public(item.url)" v-else />
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label class="text-bold">
+  <setting-tab class="background-settings"
+               :title="$t('appearances.background._')"
+               @close="emit('close')">
+    <section class="col-12 column justify-between columns">
+      <header class="row col-auto justify-center">
+        <q-tabs v-model="currentTab"
+                active-color="white"
+                active-bg-color="primary"
+                indicator-color="transparent"
+                content-class="pi-btn-group"
+                inline-label dense>
+          <template v-for="(item, index) in tabs" :key="index">
+            <q-tab :name="item.value">
               {{ item.label }}
-            </q-item-label>
-            <q-item-label caption>
-              {{ $t(`appearances.themes.${item.theme}`) }}
-            </q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <div class="row">
-              <q-btn icon="radio_button_checked" color="primary" size="12px"
-                     flat round
-                     v-if="item.url === backgroundImageUrl" />
-            </div>
-          </q-item-section>
-        </q-item>
-      </template>
+            </q-tab>
+          </template>
+        </q-tabs>
+      </header>
 
-    </q-list>
+      <section class="col container">
+        <q-tab-panels v-model="currentTab"
+                      class="bg-transparent"
+                      keep-alive>
+          <template v-for="(item, index) in tabs" :key="index">
+            <q-tab-panel :name="item.value" class="no-padding">
+              <component :is="item.component" />
+            </q-tab-panel>
+          </template>
+        </q-tab-panels>
+      </section>
 
-    <q-separator class="bg-accent" />
-    <q-list>
-      <q-item-label class="text-readable">
-        {{ $t('appearances.background.blur') }}
-      </q-item-label>
-      <o-field-label content-class="col-8">
-        <q-slider v-model="backgroundBlur"
-                  :min="0" :max="200" :step="1"
-                  :label-value="`${backgroundBlur}`"
-                  label
-                  label-always
-                  track-size="5px" />
-      </o-field-label>
-    </q-list>
+      <footer class="col-auto">
+        <q-list>
+          <q-item-label class="text-readable text-bold">
+            {{ $t('settings') }}
+          </q-item-label>
+          <o-field-label :label="$t('appearances.background.blur')" content-class="col-8" side>
+            <q-slider v-model="backgroundBlur"
+                      :min="0" :max="300" :step="1"
+                      :label-value="`${backgroundBlur}`"
+                      label
+                      label-always
+                      track-size="5px" />
+          </o-field-label>
+          <o-field-label :label="$t('appearances.background.opacity')" content-class="col-8" side>
+            <q-slider v-model="backgroundOpacity"
+                      :min="0" :max="1" :step="0.05"
+                      :label-value="`${backgroundOpacity}`"
+                      label
+                      label-always
+                      track-size="5px" />
+          </o-field-label>
+        </q-list>
+      </footer>
+    </section>
   </setting-tab>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
-import SettingTab from 'components/reader/settings/setting-tab.vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
-import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 import useCommon from 'core/hooks/useCommon'
+
+import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
+import SettingTab from 'components/reader/settings/setting-tab.vue'
+import BackgroundImages from './images.vue'
+import BackgroundColors from './colors.vue'
 
 const emit = defineEmits(['close'])
 
-const { t, publicPath } = useCommon()
+const { t } = useCommon()
 const { settings, setSettingItem } = useReaderSetting()
+const currentTab = ref('image')
+
+const tabs = computed(() => {
+  return [
+    { label: t('image'), value: 'image', component: BackgroundImages },
+    { label: t('color'), value: 'color', component: BackgroundColors },
+  ]
+})
+
 const backgroundBlur = computed({
   get() {
     return settings.value.backgroundBlur
@@ -69,63 +88,14 @@ const backgroundBlur = computed({
     setSettingItem('backgroundBlur', value)
   }
 })
-
-const list = computed(() => {
-  return [
-    {
-      label: 'None',
-      value: 'google',
-      icon: 'block',
-      theme: 'none',
-      blur: 0,
-      url: '',
-    },
-    {
-      label: t('reading.setting.background.bubbleNebula'),
-      value: 'bubble_nebula',
-      icon: '',
-      theme: 'dark',
-      blur: 150,
-      url: '/images/book/dark-bubble_nebula.jpg',
-    },
-    {
-      label: t('reading.setting.background.pillarsCreation'),
-      value: 'pillars_of_creation',
-      icon: '',
-      theme: 'dark',
-      blur: 150,
-      url: '/images/book/dark-pillars_of_creation.jpg',
-    },
-    {
-      label: t('reading.setting.background.willowBank'),
-      value: 'willow_bank',
-      icon: '',
-      theme: 'light',
-      blur: 50,
-      url: '/images/book/light-willow_bank.jpg',
-    },
-    {
-      label: t('reading.setting.background.oldBook'),
-      value: 'old_book',
-      icon: '',
-      theme: 'light',
-      blur: 0,
-      url: '/images/book/light-old_book.jpg',
-    },
-  ]
+const backgroundOpacity = computed({
+  get() {
+    return settings.value.backgroundOpacity
+  },
+  set(value: number) {
+    setSettingItem('backgroundOpacity', value)
+  }
 })
-
-const backgroundImageUrl = computed(() => settings.value.backgroundImageUrl)
-
-const onBackgroundImage = async (item: Indexable) => {
-  const imagePath = await publicPath(item.url)
-
-  setSettingItem('backgroundImage', imagePath)
-  setSettingItem('backgroundImageUrl', item.url)
-  setSettingItem('backgroundBlur', item.blur)
-  const fontColor = item.theme === 'dark' ? '#e9e9e9' : '#262626'
-  setSettingItem('fontColor', fontColor)
-}
 
 onBeforeMount(() => {
   backgroundBlur.value = settings.value.backgroundBlur || 0
@@ -133,5 +103,67 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss">
+.background-settings {
+  .columns {
+    height: calc(100vh - 40px);
 
+    header {
+      height: unset !important;
+      padding: 10px 0 !important;
+    }
+
+    footer {
+      border-top: solid 1px var(--q-accent);
+    }
+  }
+
+  .container {
+    overflow-y: scroll;
+
+    .pi-view-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+      gap: 1rem;
+
+      .cover-item {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+
+        &:hover {
+          .action {
+            visibility: visible;
+          }
+        }
+
+        &.none {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 12px;
+          outline: solid 1px var(--q-accent);
+        }
+
+        .q-img {
+          height: 100%;
+          border-radius: 12px;
+        }
+
+        .action {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          z-index: 1;
+          font-size: 1.4rem;
+          border-radius: 50%;
+          visibility: hidden;
+        }
+
+        .selected {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}
 </style>

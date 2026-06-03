@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'A Nebulosa da Bolha',
+      cosmicCliffs: 'Os Penhascos Cósmicos',
+      fuchunMountains: 'Habitando as montanhas Fuchun',
+      moon: 'A Lua',
       oldBook: 'Livro antigo',
+      paperTexture: 'Textura de papel',
       pillarsCreation: 'Pilares da Criação',
       willowBank: 'A margem rodeada de salgueiros'
     },
     font: {
       book: 'Livro',
       custom: 'Personalizado',
+      download: 'Baixar fonte',
       mono: 'Mono',
+      sansSerif: 'Sem serifa',
       serif: 'Serif',
       system: 'Sistema'
     },
-    pageTurningMode: 'Modo de virar páginas',
+    pagination: {
+      _: 'Paginação',
+      animated: 'Animação',
+      flow: 'Modo',
+      wheel: 'Use a roda'
+    },
     scroll: 'Deslizar para cima/para baixo',
     slide: 'Deslizar para a esquerda/direita'
   },
