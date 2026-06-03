@@ -57,27 +57,31 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'The Bubble Nebula',
+      cosmicCliffs: 'The Cosmic Cliffs',
+      fuchunMountains: 'Dwelling in the Fuchun Mountains',
+      moon: 'The Moon',
       oldBook: 'Old Book',
+      paperTexture: 'Paper Texture',
       pillarsCreation: 'Pillars of Creation',
       willowBank: 'The willow-fringed bank'
     },
     font: {
       book: 'Book',
       custom: 'Custom',
-      mono: 'Mono',
-      serif: 'Serif',
-      sansSerif: 'Sans-Serif',
-      system: 'System',
       download: 'Download Font',
+      mono: 'Mono',
+      sansSerif: 'Sans-Serif',
+      serif: 'Serif',
+      system: 'System'
     },
-    scroll: 'Scroll Up/Down',
-    slide: 'Slide Left/Right',
     pagination: {
       _: 'Pagination',
-      flow: 'Mode',
-      wheel: 'Use Wheel',
       animated: 'Animation',
-    }
+      flow: 'Mode',
+      wheel: 'Use Wheel'
+    },
+    scroll: 'Scroll Up/Down',
+    slide: 'Slide Left/Right'
   },
   settings: 'Reading Settings',
   status: {

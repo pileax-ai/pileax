@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Arrière-plan',
       blur: 'Flou d\'arrière-plan',
-      image: 'Image de fond'
+      image: 'Image de fond',
+      opacity: 'Opacité'
     },
     colors: {
       amber: 'Ambre',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Titre de la grille',
     list: 'Liste'
   },
-  welcome: 'Accueillir'
+  welcome: 'Accueillir',
+  wideScreen: 'Écran large',
+  wideScreenExit: 'Sortie grand écran'
 }

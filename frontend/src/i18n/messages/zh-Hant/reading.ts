@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: '汽泡星雲',
+      cosmicCliffs: '宇宙之崖',
+      fuchunMountains: '富春山居圖',
+      moon: '月亮',
       oldBook: '古書',
+      paperTexture: '紙質紋理',
       pillarsCreation: '創生之柱',
       willowBank: '楊柳岸'
     },
     font: {
       book: '隨書',
       custom: '自訂',
+      download: '下載字體',
       mono: '等寬體',
+      sansSerif: '無襯線體',
       serif: '襯線體',
       system: '系統'
     },
-    pageTurningMode: '翻頁模式',
+    pagination: {
+      _: '翻頁',
+      animated: '翻頁動畫',
+      flow: '翻頁模式',
+      wheel: '使用滾輪'
+    },
     scroll: '上下滾動',
     slide: '左右滑動'
   },

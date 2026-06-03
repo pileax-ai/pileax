@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Fondo',
       blur: 'Desenfoque de fondo',
-      image: 'Imagen de fondo'
+      image: 'Imagen de fondo',
+      opacity: 'Opacidad'
     },
     colors: {
       amber: 'Ámbar',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Título de la cuadrícula',
     list: 'Lista'
   },
-  welcome: 'Bienvenido'
+  welcome: 'Bienvenido',
+  wideScreen: 'Pantalla panorámica',
+  wideScreenExit: 'Salir de la pantalla ancha'
 }

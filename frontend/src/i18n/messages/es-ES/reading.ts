@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'La Nebulosa de la Burbuja',
+      cosmicCliffs: 'Los acantilados cósmicos',
+      fuchunMountains: 'Habitar en las montañas Fuchun',
+      moon: 'La Luna',
       oldBook: 'Libro antiguo',
+      paperTexture: 'Textura del papel',
       pillarsCreation: 'Pilares de la creación',
       willowBank: 'El banco bordeado de sauces'
     },
     font: {
       book: 'Libro',
       custom: 'Costumbre',
+      download: 'Descargar fuente',
       mono: 'Mononucleosis infecciosa',
+      sansSerif: 'Sans-serif',
       serif: 'Serif',
       system: 'Sistema'
     },
-    pageTurningMode: 'Modo de cambio de página',
+    pagination: {
+      _: 'Paginación',
+      animated: 'Animación',
+      flow: 'Modo',
+      wheel: 'Utilice la rueda'
+    },
     scroll: 'Desplazarse hacia arriba/abajo',
     slide: 'Deslizar hacia la izquierda/derecha'
   },

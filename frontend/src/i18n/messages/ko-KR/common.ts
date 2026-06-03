@@ -10,7 +10,8 @@ export default {
     background: {
       _: '배경',
       blur: '배경 흐림',
-      image: '배경 이미지'
+      image: '배경 이미지',
+      opacity: '불투명'
     },
     colors: {
       amber: '호박색',
@@ -279,5 +280,7 @@ export default {
     gridTitle: '그리드 제목',
     list: '목록'
   },
-  welcome: '환영'
+  welcome: '환영',
+  wideScreen: '와이드 스크린',
+  wideScreenExit: '와이드 스크린 종료'
 }

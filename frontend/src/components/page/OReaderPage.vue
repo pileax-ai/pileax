@@ -2,7 +2,11 @@
   <o-base-page class="o-reader-page full-width full-height"
           :style="`--reader-background-color: ${settings.backgroundColor};
                  --reader-background-image: url(${settings.backgroundImage});
-                 --reader-background-blur: blur(${settings.backgroundBlur}px)`">
+                 --reader-background-repeat: ${settings.backgroundRepeat};
+                 --reader-background-position: ${settings.backgroundPosition};
+                 --reader-background-size: ${settings.backgroundSize};
+                 --reader-background-blur: blur(${settings.backgroundBlur}px);
+                 --reader-background-opacity: ${settings.backgroundOpacity};`">
     <q-scroll-area ref="contentScroll"
                    class="o-page-container fit"
                    :class="contentClass">
@@ -60,6 +64,9 @@ onUnmounted(() => {
 
 <style lang="scss">
 .o-reader-page {
+  background: var(--reader-background-color)!important;
+  //background: linear-gradient(to bottom, #97cda1 10%, transparent 100%) !important;
+
   .o-page-wrapper {
     width: 100%;
   }
@@ -75,11 +82,12 @@ onUnmounted(() => {
       right: 0;
       top: 0;
       bottom: 0;
-      //background-color: var(--reader-background-color)!important;
-      background-image: var(--reader-background-image)!important;
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
+      background-image: var(--reader-background-image) !important;
+      background-repeat: var(--reader-background-repeat);
+      background-position: var(--reader-background-position);
+      background-size: var(--reader-background-size);
       filter: var(--reader-background-blur);
+      opacity: var(--reader-background-opacity);
     }
   }
 

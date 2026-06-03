@@ -57,27 +57,31 @@ export default {
   setting: {
     background: {
       bubbleNebula: '汽泡星云',
+      cosmicCliffs: '宇宙之崖',
+      fuchunMountains: '富春山居图',
+      moon: '月亮',
       oldBook: '古书',
+      paperTexture: '纸质纹理',
       pillarsCreation: '创生之柱',
       willowBank: '杨柳岸'
     },
     font: {
       book: '随书',
       custom: '自定义',
-      mono: '等宽体',
-      serif: '衬线体',
-      sansSerif: '无衬线体',
-      system: '系统',
       download: '下载字体',
+      mono: '等宽体',
+      sansSerif: '无衬线体',
+      serif: '衬线体',
+      system: '系统'
     },
-    scroll: '上下滚动',
-    slide: '左右滑动',
     pagination: {
       _: '翻页',
-      flow: '翻页模式',
-      wheel: '使用滚轮',
       animated: '翻页动画',
-    }
+      flow: '翻页模式',
+      wheel: '使用滚轮'
+    },
+    scroll: '上下滚动',
+    slide: '左右滑动'
   },
   settings: '阅读设置',
   status: {

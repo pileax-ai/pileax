@@ -30,7 +30,9 @@ export default function () {
         fontColor = '#E2E2F0'
         break
     }
-    setSettingItem('backgroundColor', backgroundColor)
+
+    // Todo: backgroundColor
+    // setSettingItem('backgroundColor', backgroundColor)
     setSettingItem('fontColor', fontColor)
   }
 

@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'Туманность Пузырь',
+      cosmicCliffs: 'Космические скалы',
+      fuchunMountains: 'Проживание в горах Фучунь',
+      moon: 'Луна',
       oldBook: 'Старая книга',
+      paperTexture: 'Текстура бумаги',
       pillarsCreation: 'Столпы Творения',
       willowBank: 'Берег, окаймленный ивами'
     },
     font: {
       book: 'Книга',
       custom: 'Обычай',
+      download: 'Скачать шрифт',
       mono: 'Мононуклеоз',
+      sansSerif: 'Sans-Serif',
       serif: 'Засечка',
       system: 'Система'
     },
-    pageTurningMode: 'Режим перелистывания страниц',
+    pagination: {
+      _: 'Пагинация',
+      animated: 'Анимация',
+      flow: 'Режим',
+      wheel: 'Используйте колесо'
+    },
     scroll: 'Прокрутка вверх/вниз',
     slide: 'Сдвиньте влево/вправо'
   },

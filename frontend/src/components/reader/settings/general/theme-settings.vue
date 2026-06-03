@@ -38,10 +38,10 @@ const props = defineProps({
 const emit = defineEmits(['next'])
 
 const { themeList, theme, setTheme } = useSetting()
-const { settings, setReaderTheme, setSettingItem } = useReaderSetting()
+const { setReaderTheme } = useReaderSetting()
 
 function select(value: string) {
-  setTheme(value)
+  setTheme(value as AppTheme)
   setReaderTheme(value)
 }
 </script>

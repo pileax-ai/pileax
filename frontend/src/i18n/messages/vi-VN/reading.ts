@@ -57,18 +57,29 @@ export default {
   setting: {
     background: {
       bubbleNebula: 'Tinh vân Bong bóng',
+      cosmicCliffs: 'Vách đá vũ trụ',
+      fuchunMountains: 'Cư trú tại vùng núi Phúc Xuân.',
+      moon: 'Mặt trăng',
       oldBook: 'Sách cũ',
+      paperTexture: 'Kết cấu giấy',
       pillarsCreation: 'Các trụ cột của sự sáng tạo',
       willowBank: 'Bờ sông rợp bóng cây liễu'
     },
     font: {
       book: 'Sách',
       custom: 'Phong tục',
+      download: 'Tải xuống phông chữ',
       mono: 'Bệnh tăng bạch cầu đơn nhân',
+      sansSerif: 'Chữ không chân',
       serif: 'Serif',
       system: 'Hệ thống'
     },
-    pageTurningMode: 'Chế độ lật trang',
+    pagination: {
+      _: 'Đánh số trang',
+      animated: 'Hoạt hình',
+      flow: 'Cách thức',
+      wheel: 'Sử dụng bánh xe'
+    },
     scroll: 'Cuộn lên/xuống',
     slide: 'Vuốt sang trái/phải'
   },

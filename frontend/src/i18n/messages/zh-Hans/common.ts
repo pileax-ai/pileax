@@ -10,7 +10,8 @@ export default {
     background: {
       _: '背景',
       blur: '背景模糊',
-      image: '背景图片'
+      image: '背景图片',
+      opacity: '透明度'
     },
     colors: {
       amber: '琥珀',
@@ -279,5 +280,7 @@ export default {
     gridTitle: '网格标题',
     list: '列表'
   },
-  welcome: '欢迎'
+  welcome: '欢迎',
+  wideScreen: '宽屏',
+  wideScreenExit: '退出宽屏'
 }

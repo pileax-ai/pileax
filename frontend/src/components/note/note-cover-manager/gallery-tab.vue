@@ -31,10 +31,12 @@ import { fileMetaService } from 'src/api/service/remote'
 const emit = defineEmits(['cover'])
 
 const DefaultCovers = [
+  { label: 'Cosmic Cliffs', value: '/images/book/dark-cosmic_cliffs.png'},
   { label: 'Bubble Nebula', value: '/images/book/dark-bubble_nebula.jpg'},
   { label: 'Pillars of Creation', value: '/images/book/dark-pillars_of_creation.jpg'},
   { label: 'Old Book', value: '/images/book/light-old_book.jpg'},
   { label: 'Willow Bank', value: '/images/book/light-willow_bank.jpg'},
+  { label: 'Fuchun Mountains', value: '/images/book/light-fuchun_mountains.jpg'},
 ]
 const uploadCovers = ref<Indexable>([])
 

@@ -37,6 +37,10 @@ export default function () {
     return store.rightDrawer.hoverShow
   })
 
+  const isWideScreen = computed(() => {
+    return store.leftDrawer.show && store.rightDrawer.show
+  })
+
   const currentMainService = computed(() => {
     return store.currentMainService
   })
@@ -75,6 +79,16 @@ export default function () {
 
   function toggleRightDrawer() {
     store.toggleRightDrawer()
+  }
+
+  function toggleDrawers() {
+    if (store.leftDrawer.show && store.rightDrawer.show) {
+      store.closeLeftDrawer()
+      store.closeRightDrawer()
+    } else {
+      store.showLeftDrawer()
+      store.showRightDrawer()
+    }
   }
 
   function toggleShowRightDrawer() {
@@ -126,6 +140,7 @@ export default function () {
     rightDrawerShow,
     rightDrawerHoverShow,
     rightDrawer,
+    isWideScreen,
     currentMainService,
     mainService,
     secondaryService,
@@ -142,6 +157,7 @@ export default function () {
     setRightDrawerWidth,
     setRightDrawerView,
     toggleRightDrawerView,
+    toggleDrawers,
     setCurrentMainService,
   }
 }

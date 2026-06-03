@@ -62,6 +62,12 @@ export const useReaderStore = defineStore('reader', {
     },
   },
   actions: {
+    closeLeftDrawer() {
+      this.leftDrawer.show = false
+    },
+    showLeftDrawer() {
+      this.leftDrawer.show = true
+    },
     toggleLeftDrawer() {
       this.leftDrawer.show = !this.leftDrawer.show
     },

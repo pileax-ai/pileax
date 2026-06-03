@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Tło',
       blur: 'Rozmycie tła',
-      image: 'Obraz tła'
+      image: 'Obraz tła',
+      opacity: 'Nieprzezroczystość'
     },
     colors: {
       amber: 'Bursztyn',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Tytuł siatki',
     list: 'Lista'
   },
-  welcome: 'Powitanie'
+  welcome: 'Powitanie',
+  wideScreen: 'Szeroki ekran',
+  wideScreenExit: 'Wyjście z szerokiego ekranu'
 }

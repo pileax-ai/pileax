@@ -10,7 +10,8 @@ export default {
     background: {
       _: 'Latar belakang',
       blur: 'Latar Belakang Buram',
-      image: 'Gambar Latar Belakang'
+      image: 'Gambar Latar Belakang',
+      opacity: 'Kegelapan'
     },
     colors: {
       amber: 'Amber',
@@ -279,5 +280,7 @@ export default {
     gridTitle: 'Judul Grid',
     list: 'Daftar'
   },
-  welcome: 'Selamat datang'
+  welcome: 'Selamat datang',
+  wideScreen: 'Layar Lebar',
+  wideScreenExit: 'Keluar Layar Lebar'
 }
