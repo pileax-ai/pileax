@@ -240,7 +240,7 @@ onUnmounted(() => {
   .header-left {
     position: relative;
     height: 40px;
-    min-width: 100px;
+    min-width: 200px;
 
     .chapter {
       padding-left: 32px;
@@ -320,7 +320,7 @@ onUnmounted(() => {
 
     &.fixed-left {
       left: 0;
-      width: 40%;
+      width: 50%;
       border-radius: 0 8px 8px 0;
       background: linear-gradient(90deg, var(--q-secondary) 50%, transparent 100%);
 
