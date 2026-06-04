@@ -122,6 +122,7 @@ import { ebookRender } from 'src/api/service/ebook'
 import { ssmlUtils } from 'src/api/service/tts/utils/ssml-util'
 import useSetting from 'core/hooks/useSetting'
 import { ttsManager } from 'src/api/service/tts/tts-manager'
+import { globalBus } from 'src/api/event/event-bus'
 
 const emit = defineEmits(['close'])
 
@@ -214,6 +215,14 @@ const onTTSProviderChanged = async (item: Indexable) => {
   }
 }
 
+async function onTTSPlay(source = '') {
+  if (source === 'selection') {
+    await ttsController.stop()
+    await ebookRender.ttsStop()
+    await ttsController.play()
+  }
+}
+
 onMounted(async () => {
   if (ttsClient.value) {
     ttsController.reload()
@@ -231,11 +240,13 @@ onMounted(async () => {
   // events
   ttsManager.client?.on('start', onStart)
   window.addEventListener("pagehide", ttsController.stop)
+  globalBus.on('tts-play', onTTSPlay)
 })
 
 onUnmounted(() => {
   ttsManager.client?.off('start', onStart)
   window.removeEventListener("pagehide", ttsController.stop)
+  globalBus.off('tts-play', onTTSPlay)
 })
 </script>
 

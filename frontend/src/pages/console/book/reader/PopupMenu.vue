@@ -83,6 +83,7 @@ import useReader from 'src/hooks/useReader'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import { AnnotationColors } from 'core/constants/constant'
 import { getAnnotationColor } from 'src/utils/book'
+import { globalBus } from 'src/api/event/event-bus'
 
 const emit = defineEmits(['share'])
 
@@ -303,6 +304,7 @@ function onSearch() {
 
 function onAiReading() {
   setRightDrawerView('tts', true)
+  globalBus.emit('tts-play', 'selection')
 }
 
 function getOffset() {

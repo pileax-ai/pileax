@@ -83,10 +83,8 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import useSetting from 'core/hooks/useSetting'
 import useBook from 'src/hooks/useBook'
 import {
-  changeStyle,
   goToHref,
   goToPercent,
   nextPage,
@@ -98,11 +96,8 @@ import {
   canGoBack,
   canGoForward,
 } from 'src/api/service/ebook/book'
-import useCommon from 'core/hooks/useCommon'
 import useReader from 'src/hooks/useReader'
 
-const { t } = useCommon()
-const { setTheme, theme } = useSetting()
 const { store, progress, tempProgress, search } = useBook()
 const {
   rightDrawer,
@@ -137,22 +132,6 @@ function onReturn() {
   goToHref(progress.value.cfi)
   progressValue.value = progress.value.fraction
 }
-
-function toggleTheme() {
-  const name = (theme.value.name === 'dark') ? 'light' : 'dark'
-  setTheme(name)
-  changeStyle({
-    backgroundColor: name === 'dark' ? '#000000' : '#ffffff',
-    fontColor: name === 'dark' ? '#ffffff' : '#000000'
-  })
-}
-
-const themeIcon = computed(() => {
-  return theme.value.name === 'dark' ? 'light_mode' : 'dark_mode'
-})
-const themeTooltip = computed(() => {
-  return theme.value.name === 'dark' ? 'mode.light' : 'mode.dark'
-})
 
 watch(() => store.tempProgress, (newValue) => {
   if (phase.value !== 'start') {
