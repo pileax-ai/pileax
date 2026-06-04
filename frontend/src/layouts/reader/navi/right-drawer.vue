@@ -7,7 +7,7 @@
     :max-width="800"
     :overlay="rightDrawerHoverShow"
     class="right-drawer"
-    :class="{'hover-show shadow-2': rightDrawerHoverShow}"
+    :class="{'hover-show shadow-2': rightDrawerHoverShow, 'right-drawer-show': rightDrawerShow}"
     @leave="emit('leave', $event)"
     @resize="onResize">
     <section class="col-12 fit bg-secondary side-bar">
