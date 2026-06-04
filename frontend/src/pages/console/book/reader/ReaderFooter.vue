@@ -13,8 +13,16 @@
         <q-btn icon="keyboard_double_arrow_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
           <o-tooltip :message="$t('reading.prevSection')" />
         </q-btn>
-        <q-btn icon="chevron_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
+        <q-btn icon="chevron_left" class="o-toolbar-btn hover-show" flat @click="prevPage">
           <o-tooltip :message="$t('reading.prevPage')" />
+        </q-btn>
+        <q-btn icon="mdi-arrow-u-left-top" class="o-toolbar-btn hover-show" flat
+               :disabled="!canGoBackAlt" @click="goBack">
+          <o-tooltip :message="$t('reading.goBack')" />
+        </q-btn>
+        <q-btn icon="mdi-arrow-u-right-top" class="o-toolbar-btn hover-show" flat
+               :disabled="!canGoForwardAlt" @click="goForward">
+          <o-tooltip :message="$t('reading.goForward')" />
         </q-btn>
       </div>
 
@@ -85,6 +93,10 @@ import {
   prevPage,
   nextSection,
   prevSection,
+  goBack,
+  goForward,
+  canGoBack,
+  canGoForward,
 } from 'src/api/service/ebook/book'
 import useCommon from 'core/hooks/useCommon'
 import useReader from 'src/hooks/useReader'
@@ -98,6 +110,8 @@ const {
 } = useReader()
 const progressValue = ref(0)
 const phase = ref('')
+const canGoBackAlt = ref(false)
+const canGoForwardAlt = ref(false)
 
 const reservePercent = computed(() => {
   return `${progress.value.fraction * 100}%`
@@ -144,6 +158,9 @@ watch(() => store.tempProgress, (newValue) => {
   if (phase.value !== 'start') {
     progressValue.value = store.tempProgress.fraction
   }
+
+  canGoBackAlt.value = canGoBack()
+  canGoForwardAlt.value = canGoForward()
 })
 
 onMounted(() => {

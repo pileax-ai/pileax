@@ -11,6 +11,8 @@ export default {
     add: 'Lesezeichen hinzufügen',
     remove: 'Lesezeichen entfernen'
   },
+  goBack: 'Geh zurück',
+  goForward: 'Weiter geht\'s',
   libraries: {
     location: 'Bibliotheksstandort',
     locations: {

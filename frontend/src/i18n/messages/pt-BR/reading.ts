@@ -11,6 +11,8 @@ export default {
     add: 'Adicionar aos favoritos',
     remove: 'Remover marcador'
   },
+  goBack: 'Volte',
+  goForward: 'Siga em frente',
   libraries: {
     location: 'Localização da biblioteca',
     locations: {

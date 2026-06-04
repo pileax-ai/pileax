@@ -11,6 +11,8 @@ export default {
     add: 'Добавить закладку',
     remove: 'Удалить закладку'
   },
+  goBack: 'Возвращаться',
+  goForward: 'Вперед',
   libraries: {
     location: 'Местоположение библиотеки',
     locations: {

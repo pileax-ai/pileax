@@ -11,6 +11,8 @@ export default {
     add: 'ブックマークを追加',
     remove: 'ブックマークを削除'
   },
+  goBack: '戻る',
+  goForward: '前進せよ',
   libraries: {
     location: '図書館の場所',
     locations: {

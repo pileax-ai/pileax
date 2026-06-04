@@ -11,6 +11,8 @@ export default {
     add: 'Tambahkan Bookmark',
     remove: 'Hapus Bookmark'
   },
+  goBack: 'Kembali',
+  goForward: 'Maju',
   libraries: {
     location: 'Lokasi Perpustakaan',
     locations: {

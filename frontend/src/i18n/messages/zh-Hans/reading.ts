@@ -11,6 +11,8 @@ export default {
     add: '添加书签',
     remove: '删除书签'
   },
+  goBack: '返回',
+  goForward: '前进',
   libraries: {
     location: '书库位置',
     locations: {

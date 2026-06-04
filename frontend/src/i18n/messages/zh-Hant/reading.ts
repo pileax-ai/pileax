@@ -11,6 +11,8 @@ export default {
     add: '新增書籤',
     remove: '刪除書籤'
   },
+  goBack: '返回',
+  goForward: '前進',
   libraries: {
     location: '書庫位置',
     locations: {

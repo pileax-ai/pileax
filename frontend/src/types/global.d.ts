@@ -15,6 +15,10 @@ declare global {
       prevPage: () => void;
       goToHref: (href: string) => void;
       goToPercent: (percent: number) => void;
+      goBack: () => void;
+      goForward: () => void;
+      canGoBack: () => boolean;
+      canGoForward: () => boolean;
       addAnnotation: (annotation: any) => void;
       removeAnnotation: (cfi: string) => void;
       renderAnnotations: (annotations: []) => void;

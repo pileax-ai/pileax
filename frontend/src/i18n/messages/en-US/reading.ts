@@ -11,6 +11,8 @@ export default {
     add: 'Add Bookmark',
     remove: 'Remove Bookmark'
   },
+  goBack: 'Go Back',
+  goForward: 'Go Forward',
   libraries: {
     location: 'Library Location',
     locations: {
