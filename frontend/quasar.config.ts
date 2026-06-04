@@ -403,7 +403,7 @@ export default defineConfig(((ctx) => {
           ],
         },
         linux: {
-          target: ['AppImage'],
+          target: ['AppImage', 'deb'],
           executableName: 'PileaX',
           category: 'Utility',
           icon: 'src-electron/icons/icon.png',
