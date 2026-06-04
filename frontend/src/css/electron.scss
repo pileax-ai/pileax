@@ -84,6 +84,14 @@
       //top: 68px !important;
     }
 
+
+
+    .right-drawer.right-drawer-show {
+      .background-settings .columns {
+        height: calc(100vh - 68px);
+      }
+    }
+
     .o-title-bar {
       display: flex !important;
     }
