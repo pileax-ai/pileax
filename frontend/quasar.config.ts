@@ -324,7 +324,7 @@ export default defineConfig(((ctx) => {
         productName: 'PileaX',
         extraMetadata: {
           homepage: 'https://pileax.ai',
-          description: 'PileaX is a one-stop AI knowledge base system',
+          description: 'PileaX is an all-in-one AI knowledge base system',
           license: 'MIT',
         },
 
@@ -379,6 +379,7 @@ export default defineConfig(((ctx) => {
 
         mac: {
           ...macSign,
+          executableName: 'PileaX',
           target: [
             {
               target: 'dmg',
@@ -403,13 +404,14 @@ export default defineConfig(((ctx) => {
         },
         linux: {
           target: ['AppImage'],
+          executableName: 'PileaX',
           category: 'Utility',
           icon: 'src-electron/icons/icon.png',
           desktop: {
             entry: {
               Icon: 'PileaX',
               Name: 'PileaX',
-              Comment: 'PileaX is a one-stop AI knowledge base system',
+              Comment: 'PileaX is an all-in-one AI knowledge base system',
               StartupWMClass: 'PileaX',
               Type: 'Application'
             }
@@ -417,6 +419,7 @@ export default defineConfig(((ctx) => {
         },
         win: {
           target: ['nsis'],
+          executableName: 'PileaX',
           artifactName: 'PileaX-${version}-${arch}.exe'
         },
         nsis: {
