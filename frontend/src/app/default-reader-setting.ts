@@ -6,7 +6,7 @@ import { THEMES } from 'core/constants/setting'
  */
 export const defaultSetting = {
   // appearance
-  backgroundColor: '#ffffff',
+  backgroundColor: 'transparent',
   backgroundImage: '',
   backgroundRepeat: 'no-repeat',
   backgroundSize: '',
