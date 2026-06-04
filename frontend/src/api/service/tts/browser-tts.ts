@@ -131,7 +131,6 @@ export class BrowserTTSClient extends BaseTTSClient {
     // voice
     const voice = this.getVoice()
     text = prepareTextForVoice(text, voice)
-    // console.log('text', text)
 
     // utterance
     const u = new SpeechSynthesisUtterance(text)
