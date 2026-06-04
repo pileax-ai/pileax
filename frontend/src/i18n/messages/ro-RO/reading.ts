@@ -11,6 +11,8 @@ export default {
     add: 'Adăugați un marcaj',
     remove: 'Eliminare marcaj'
   },
+  goBack: 'Întoarce-te',
+  goForward: 'Mergi înainte',
   libraries: {
     location: 'Locația bibliotecii',
     locations: {

@@ -11,6 +11,8 @@ export default {
     add: 'Thêm dấu trang',
     remove: 'Xóa dấu trang'
   },
+  goBack: 'Quay lại',
+  goForward: 'Tiến lên phía trước',
   libraries: {
     location: 'Vị trí thư viện',
     locations: {

@@ -11,6 +11,8 @@ export default {
     add: 'Agregar marcador',
     remove: 'Eliminar marcador'
   },
+  goBack: 'Volver',
+  goForward: 'Avanzar',
   libraries: {
     location: 'Ubicación de la biblioteca',
     locations: {

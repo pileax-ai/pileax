@@ -11,6 +11,8 @@ export default {
     add: 'Dodaj zakładkę',
     remove: 'Usuń zakładkę'
   },
+  goBack: 'Wracać',
+  goForward: 'Idź naprzód',
   libraries: {
     location: 'Lokalizacja biblioteki',
     locations: {

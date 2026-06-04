@@ -85,8 +85,9 @@ export default function useTTS() {
           break
       }
     } catch (err) {
-      console.debug('togglePlayPause err', err)
-      if ((err as any)?.error !== 'interrupted') {
+      const error = (err as any)?.error
+      console.debug('togglePlayPause err', err, error)
+      if (error !== 'interrupted') {
         setPlayStatus('error')
       }
     }

@@ -143,6 +143,10 @@ class Ebook {
     this.#originalContent = null;
   }
 
+  get doc() {
+    return this.#doc
+  }
+
   async open(bookElement, file,
              { cfi = '', importing = false, userStyle }) {
     this.view = await getView(bookElement, file);
@@ -438,7 +442,6 @@ const setSelectionHandler = (view, doc, index) => {
 };
 
 const handleSelection = (view, doc, index) => {
-  //    isSelecting = false;
   const sel = doc.getSelection();
   const range = getSelectionRange(sel);
   if (!range) return;
@@ -452,8 +455,7 @@ const handleSelection = (view, doc, index) => {
     newSel.addRange(range);
     text = newSel.toString();
   }
-  // onSelectionEnd({ index, range, lang, cfi, pos, text });
-  // return
+
   onSelectionEnd({ index, range, lang, cfi, pos, text });
 };
 
@@ -609,12 +611,19 @@ const clearSelection = () =>
 // TTS
 const initTTS = () => reader.view.initTTS('sentence');
 const ttsStart = async () => {
+  // Init
   await initTTS();
-  // console.log('range', reader.view.lastLocation.range)
-  return reader.view.tts.from(reader.view.lastLocation.range);
+
+  // Read from selection or the last location
+  const sel = reader.doc.getSelection();
+  let range = getSelectionRange(sel);
+  if (!range) {
+    range = reader.view.lastLocation.range
+  }
+  return reader.view.tts.from(range);
 };
 const ttsResume = () => reader.view.tts.resume();
-const ttsStop = () => reader.view.initTTS(true);
+const ttsStop = () => reader.view.initTTS('sentence');
 const ttsCurrentDetails = async () => {
   await initTts();
   return reader.view.tts.currentDetail();
@@ -654,6 +663,10 @@ window.ebook = {
   prevSection: prevSection,
   goToHref: goToHref,
   goToPercent: goToPercent,
+  goBack: () => reader.view.history.back(),
+  goForward: () => reader.view.history.forward(),
+  canGoBack: () => reader.view.history.canGoBack,
+  canGoForward: () => reader.view.history.canGoForward,
   addAnnotation: addAnnotation,
   removeAnnotation: removeAnnotation,
   renderAnnotations: renderAnnotations,

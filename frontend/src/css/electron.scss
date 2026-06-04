@@ -80,8 +80,8 @@
       }
     }
 
-    .right-drawer .side-bar .o-scroll-wrapper {
-      top: 68px !important;
+    .right-drawer.right-drawer-show .side-bar .o-scroll-wrapper {
+      //top: 68px !important;
     }
 
     .o-title-bar {
@@ -90,7 +90,7 @@
     .o-title-bar-overlay {
       display: flex !important;
     }
-    .reader-side-panel {
+    .reader-side-panel.right-drawer-show {
       .side-fixed {
         top: 28px !important;
       }

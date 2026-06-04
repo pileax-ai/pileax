@@ -374,6 +374,8 @@
   "reading.bookmark._": "46779389",
   "reading.bookmark.add": "0b306101",
   "reading.bookmark.remove": "095ea43d",
+  "reading.goBack": "5f411223",
+  "reading.goForward": "5811e283",
   "reading.libraries.location": "d1a5874c",
   "reading.libraries.locations.choose": "b2280aee",
   "reading.libraries.locations.create": "2c7ea281",

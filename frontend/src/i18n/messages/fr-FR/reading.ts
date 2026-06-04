@@ -11,6 +11,8 @@ export default {
     add: 'Ajouter aux favoris',
     remove: 'Supprimer le signet'
   },
+  goBack: 'Retour',
+  goForward: 'Aller de l\'avant',
   libraries: {
     location: 'Emplacement de la bibliothèque',
     locations: {

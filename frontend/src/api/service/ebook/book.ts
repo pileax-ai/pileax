@@ -257,6 +257,22 @@ const goToPercent = (percent: number) => {
   ebookRender.goToPercent(percent)
 }
 
+const goBack = () => {
+  ebookRender.goBack()
+}
+
+const goForward = () => {
+  ebookRender.goForward()
+}
+
+const canGoBack = () => {
+  return ebookRender.canGoBack()
+}
+
+const canGoForward = () => {
+  return ebookRender.canGoForward()
+}
+
 const prevPage = () => {
   resetPlayStatus()
   setManual()
@@ -544,6 +560,10 @@ export {
   nextPage,
   prevSection,
   nextSection,
+  goBack,
+  goForward,
+  canGoBack,
+  canGoForward,
   changeStyle,
   search,
   clearSearch,

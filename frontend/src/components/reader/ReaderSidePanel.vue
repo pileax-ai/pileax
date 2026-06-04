@@ -1,5 +1,5 @@
 <template>
-  <section class="reader-side-panel">
+  <section class="reader-side-panel" :class="{ 'right-drawer-show': rightDrawerShow }">
     <o-tool-bar :window-id="windowId" v-if="rightDrawerShow" />
     <agent-view :main="main" />
 

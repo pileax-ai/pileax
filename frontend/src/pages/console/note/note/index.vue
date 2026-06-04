@@ -609,6 +609,7 @@ provide('insertContent', insertContent)
           }
 
           .o-icon {
+            justify-content: center;
             font-size: 80px;
             line-height: 1.1;
           }

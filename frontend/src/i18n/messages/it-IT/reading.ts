@@ -11,6 +11,8 @@ export default {
     add: 'Aggiungi segnalibro',
     remove: 'Rimuovi segnalibro'
   },
+  goBack: 'Torna indietro',
+  goForward: 'Avanti',
   libraries: {
     location: 'Posizione della biblioteca',
     locations: {

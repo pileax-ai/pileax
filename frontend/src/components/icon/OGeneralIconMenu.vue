@@ -84,21 +84,21 @@ function onSelectIcon(option: Indexable) {
 <style lang="scss">
 .o-general-icon-menu {
   padding: 0;
-  width: 650px;
-  height: 608px;
+  width: 475px;
+  height: 408px;
 
   .q-tabs {
   }
 
   .q-tab-panel {
     padding: 10px;
-    height: 560px;
+    height: 360px;
 
     .o-emoji-select {
       width: 100%;
 
       .o-scroll {
-        max-height: 450px!important;
+        max-height: 250px!important;
       }
 
       .item {

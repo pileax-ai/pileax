@@ -13,8 +13,16 @@
         <q-btn icon="keyboard_double_arrow_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
           <o-tooltip :message="$t('reading.prevSection')" />
         </q-btn>
-        <q-btn icon="chevron_left" class="o-toolbar-btn hover-show" flat @click="prevSection">
+        <q-btn icon="chevron_left" class="o-toolbar-btn hover-show" flat @click="prevPage">
           <o-tooltip :message="$t('reading.prevPage')" />
+        </q-btn>
+        <q-btn icon="mdi-arrow-u-left-top" class="o-toolbar-btn hover-show" flat
+               :disabled="!canGoBackAlt" @click="goBack">
+          <o-tooltip :message="$t('reading.goBack')" />
+        </q-btn>
+        <q-btn icon="mdi-arrow-u-right-top" class="o-toolbar-btn hover-show" flat
+               :disabled="!canGoForwardAlt" @click="goForward">
+          <o-tooltip :message="$t('reading.goForward')" />
         </q-btn>
       </div>
 
@@ -75,22 +83,21 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import useSetting from 'core/hooks/useSetting'
 import useBook from 'src/hooks/useBook'
 import {
-  changeStyle,
   goToHref,
   goToPercent,
   nextPage,
   prevPage,
   nextSection,
   prevSection,
+  goBack,
+  goForward,
+  canGoBack,
+  canGoForward,
 } from 'src/api/service/ebook/book'
-import useCommon from 'core/hooks/useCommon'
 import useReader from 'src/hooks/useReader'
 
-const { t } = useCommon()
-const { setTheme, theme } = useSetting()
 const { store, progress, tempProgress, search } = useBook()
 const {
   rightDrawer,
@@ -98,6 +105,8 @@ const {
 } = useReader()
 const progressValue = ref(0)
 const phase = ref('')
+const canGoBackAlt = ref(false)
+const canGoForwardAlt = ref(false)
 
 const reservePercent = computed(() => {
   return `${progress.value.fraction * 100}%`
@@ -124,26 +133,13 @@ function onReturn() {
   progressValue.value = progress.value.fraction
 }
 
-function toggleTheme() {
-  const name = (theme.value.name === 'dark') ? 'light' : 'dark'
-  setTheme(name)
-  changeStyle({
-    backgroundColor: name === 'dark' ? '#000000' : '#ffffff',
-    fontColor: name === 'dark' ? '#ffffff' : '#000000'
-  })
-}
-
-const themeIcon = computed(() => {
-  return theme.value.name === 'dark' ? 'light_mode' : 'dark_mode'
-})
-const themeTooltip = computed(() => {
-  return theme.value.name === 'dark' ? 'mode.light' : 'mode.dark'
-})
-
 watch(() => store.tempProgress, (newValue) => {
   if (phase.value !== 'start') {
     progressValue.value = store.tempProgress.fraction
   }
+
+  canGoBackAlt.value = canGoBack()
+  canGoForwardAlt.value = canGoForward()
 })
 
 onMounted(() => {

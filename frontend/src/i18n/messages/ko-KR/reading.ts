@@ -11,6 +11,8 @@ export default {
     add: '즐겨찾기에 추가',
     remove: '북마크 제거'
   },
+  goBack: '뒤로 가기',
+  goForward: '앞으로 나아가라',
   libraries: {
     location: '도서관 위치',
     locations: {

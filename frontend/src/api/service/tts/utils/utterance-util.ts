@@ -4,7 +4,7 @@ export const recommendVoices = (voices: SpeechSynthesisVoice[]) => {
 }
 
 export const prepareTextForVoice = (text: string, voice?: SpeechSynthesisVoice) => {
-  if (voice && !voice.localService) {
+  if (voice) {
     return text.replace(/<[^>]+>/g, "")
   }
   return text
