@@ -290,6 +290,7 @@ export default defineConfig(((ctx) => {
             'electron-log',
             'electron-store',
             'electron-updater',
+            'font-list',
             'fs-extra',
             'get-port',
             'mime-types',
