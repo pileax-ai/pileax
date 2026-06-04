@@ -379,7 +379,6 @@ export default defineConfig(((ctx) => {
 
         mac: {
           ...macSign,
-          executableName: 'PileaX',
           target: [
             {
               target: 'dmg',
@@ -390,6 +389,7 @@ export default defineConfig(((ctx) => {
               arch: [process.env.TARGET_ARCH || 'arm64'] // Apple Silicon / Intel
             }
           ],
+          executableName: 'PileaX',
           artifactName: 'PileaX-${version}-${arch}.${ext}',
           category: 'public.app-category.productivity',
           icon: 'src-electron/icons/icon.icns',
@@ -405,6 +405,7 @@ export default defineConfig(((ctx) => {
         linux: {
           target: ['AppImage', 'deb'],
           executableName: 'PileaX',
+          artifactName: 'PileaX-${version}-${arch}.${ext}',
           category: 'Utility',
           icon: 'src-electron/icons/icon.png',
           desktop: {
@@ -420,7 +421,7 @@ export default defineConfig(((ctx) => {
         win: {
           target: ['nsis'],
           executableName: 'PileaX',
-          artifactName: 'PileaX-${version}-${arch}.exe'
+          artifactName: 'PileaX-${version}-${arch}.${ext}'
         },
         nsis: {
           oneClick: false,
