@@ -113,6 +113,7 @@ onBeforeMount(() => {
 .layout-reader {
   .q-page-container {
     overflow: hidden !important;
+    background: var(--q-secondary);
   }
 
   .drawer-handler {

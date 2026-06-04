@@ -6,7 +6,7 @@
           :offset="offset">
     <q-tabs v-model="currentTab"
             align="left"
-            inline-label>
+            inline-label narrow-indicator>
       <template v-for="(item, index) in tabs" :key="index">
         <q-tab :name="item.value" :label="item.label" />
       </template>
@@ -85,14 +85,14 @@ function onSelectIcon(option: Indexable) {
 .o-general-icon-menu {
   padding: 0;
   width: 650px;
-  height: 600px;
+  height: 608px;
 
   .q-tabs {
   }
 
   .q-tab-panel {
     padding: 10px;
-    height: 552px;
+    height: 560px;
 
     .o-emoji-select {
       width: 100%;

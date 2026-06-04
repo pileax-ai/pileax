@@ -189,7 +189,6 @@ const onBackgroundImage = async (item: Indexable) => {
 
   // Colors
   let fontColor = item.theme === 'dark' ? '#e9e9e9' : '#262626'
-  const backgroundColor = 'transparent'
   if (item.theme === 'none') {
     switch (theme.value.name) {
       case 'light':
@@ -203,6 +202,7 @@ const onBackgroundImage = async (item: Indexable) => {
         break
     }
   } else {
+    const backgroundColor = 'transparent'
     setSettingItem('backgroundColor', backgroundColor)
   }
   setSettingItem('fontColor', fontColor)

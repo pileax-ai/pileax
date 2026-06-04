@@ -36,15 +36,50 @@
       .orbit-wrapper {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        animation: rotate-all 20s linear infinite;
-
         border-radius: 50%;
+
+
         border: 0.5px solid transparent;
         background-image:
           linear-gradient(var(--q-secondary), var(--q-secondary)),
           linear-gradient(to right, #00bcd4, #3f51b5, #673ab7, #ffffff, #00bcd4, #3f51b5);
         background-origin: border-box;
         background-clip: padding-box, border-box;
+
+        /* Smooth base rotation */
+        animation: rotate-clockwise 15s linear infinite;
+      }
+
+      /* Energy Particle: A bright glowing bead traveling along the track */
+      .orbit-wrapper::after {
+        content: '';
+        position: absolute;
+        /* Positions the particle right on the track line */
+        top: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #00bcd4;
+
+        /* Intense neon glow around the particle */
+        box-shadow:
+          0 0 8px #00bcd4,
+          0 0 15px #00bcd4,
+          0 0 25px #03a9f4;
+      }
+
+      /* Keyframes for multi-directional dynamics */
+      @keyframes rotate-clockwise {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes rotate-counter {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
       }
     }
 

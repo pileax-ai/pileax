@@ -3,7 +3,7 @@
           :class="{
             'left-drawer-closed': !leftDrawerShow,
             'right-drawer-closed': !rightDrawerShow
-          }">
+          }" :style="`--reader-right-min-width: ${rightDrawer.show ? '100' : rightDrawer.width}px`">
     <section class="row col-auto items-center header-left">
       <div class="bookmark" :class="{ 'show': bookmarkId }"></div>
 
@@ -259,7 +259,7 @@ onUnmounted(() => {
   }
 
   .header-right {
-    min-width: 100px;
+    min-width: var(--reader-right-min-width);
   }
 
   .bookmark {
