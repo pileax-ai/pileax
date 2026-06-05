@@ -39,7 +39,8 @@ export default {
       _: 'Font',
       color: 'Font Color',
       family: 'Font Family',
-      size: 'Font Size'
+      size: 'Font Size',
+      weight: 'Font Weight',
     },
     layout: 'Layout',
     layouts: {

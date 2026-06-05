@@ -5,7 +5,7 @@ import { THEMES } from 'core/constants/setting'
  * Reader default settings
  */
 export const defaultSetting = {
-  // appearance
+  // background
   backgroundColor: 'transparent',
   backgroundImage: '',
   backgroundRepeat: 'no-repeat',
@@ -15,10 +15,11 @@ export const defaultSetting = {
   backgroundOpacity: 1.0,
 
   // font
-  fontSize: 1.2,
+  fontSize: 20,
   font: 'book',
   fontName: 'book',
   fontColor: '#000000',
+  fontWeight: 400,
 
   // typography
   letterSpacing: 0,
