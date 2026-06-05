@@ -55,5 +55,5 @@ async def find_all_by_book(
 
 
 @router.api_get("/group/book", response_model=list[BookAnnotationGroup])
-async def group_by_book(controller: BookAnnotationController = Depends()) -> Any:
-    return controller.group_by_book()
+async def group_by_book(keyword: str | None = None, controller: BookAnnotationController = Depends()) -> Any:
+    return controller.group_by_book(keyword)

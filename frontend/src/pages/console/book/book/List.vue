@@ -109,7 +109,7 @@
                 </template>
               </section>
             </template>
-            <template v-else>
+            <template v-else-if="loaded">
               <o-no-data :message="$t('query.noRecords')" image
                          v-if="condition.title__icontains" />
               <section class="row col-12 justify-center no-records" v-else>
@@ -179,7 +179,7 @@ import { globalBus } from 'src/api/event/event-bus'
 
 const { t } = useCommon()
 const { library, setLibraryItem, openBook } = useReading()
-const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
+const { condition, sort, rows, loaded, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
 const addMenu = ref(false)

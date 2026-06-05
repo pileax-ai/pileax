@@ -39,7 +39,8 @@ export default {
       _: 'Font',
       color: 'Warna Huruf',
       family: 'Keluarga Font',
-      size: 'Ukuran Huruf'
+      size: 'Ukuran Huruf',
+      weight: 'Ketebalan Huruf'
     },
     layout: 'Tata Letak',
     layouts: {

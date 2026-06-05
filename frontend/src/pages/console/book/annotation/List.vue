@@ -40,6 +40,12 @@
         </template>
 
         <section class="col-12">
+          <section class="row col-12 justify-center pi-view-list q-mb-md" v-if="book.bookId">
+            <q-list>
+              <book-item :data="book" :key="book.bookId" />
+            </q-list>
+          </section>
+
           <q-infinite-scroll ref="scrollRef" @load="query.onLoadMore" :offset="350">
             <template v-slot:loading>
               <div class="row justify-center q-my-md">
@@ -48,15 +54,18 @@
             </template>
 
             <template v-if="rows.length">
-              <section class="row col-12 justify-center pi-view-list">
+              <section class="row col-12 justify-center pi-view-list"
+                       :class="{ 'single-book': !!book.bookId }">
                 <q-list>
                   <template v-for="(item) in rows" :key="item.id">
-                    <annotation-list-item :data="item" @details="onDetails" />
+                    <annotation-list-item :data="item"
+                                          :annotation-only="!!book.bookId"
+                                          @details="onDetails" />
                   </template>
                 </q-list>
               </section>
             </template>
-            <template v-else>
+            <template v-else-if="loaded">
               <o-no-data image>
                 {{ condition.note__icontains
                 ? $t('query.noRecords')
@@ -90,26 +99,30 @@ import AnnotationFilter from './AnnotationFilter.vue'
 import AnnotationFilterBtn from './AnnotationFilterBtn.vue'
 import AnnotationListItem from './AnnotationListItem.vue'
 import AnnotationDetails from './AnnotationDetails.vue'
+import BookItem from './BookItem.vue'
 
 import useLoadMore from 'src/hooks/useLoadMore'
 import useCommon from 'core/hooks/useCommon'
 
 const { t } = useCommon()
-const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
+const { condition, sort, rows, loaded, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
 const filterRef = ref<InstanceType<typeof AnnotationFilter>>()
 const showFilter = ref(true)
 const isActivated = ref(false)
-const data = ref({})
+const data = ref<Indexable>({})
+const book = ref<Indexable>({})
 const coverUrl = ref('')
-
 
 function onFilter(item: Indexable) {
   switch (item.field) {
     default:
       condition.value[item.field] = item.value
       break
+  }
+  if (item.field === 'bookId') {
+    book.value = item.data
   }
   doQuery()
 }
@@ -165,10 +178,14 @@ onMounted(() => {
 
 <style lang="scss">
 .book-annotation-list {
-  .list-view {
+  .single-book {
+    .annotation-list-item {
+      background: transparent!important;
+    }
+
     .q-list {
-      width: 100%;
-      max-width: 1000px;
+      border-radius: 8px;
+      border: solid 1px var(--q-dark);
     }
   }
 

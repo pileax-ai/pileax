@@ -40,7 +40,7 @@ export default {
       color: 'Font Color',
       family: 'Font Family',
       size: 'Font Size',
-      weight: 'Font Weight',
+      weight: 'Font Weight'
     },
     layout: 'Layout',
     layouts: {

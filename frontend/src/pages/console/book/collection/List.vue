@@ -88,7 +88,7 @@
                 </template>
               </section>
             </template>
-            <template v-else>
+            <template v-else-if="loaded">
               <o-no-data :message="$t('query.noRecords')" image />
             </template>
 
@@ -133,7 +133,7 @@ import useReading from 'src/hooks/useReading'
 
 const { t } = useCommon()
 const { collection, setCollectionItem, openBook } = useReading()
-const { condition, sort, rows, view, query, scrollRef, total, initQuery } = useLoadMore()
+const { condition, sort, rows, loaded, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
 const filterRef = ref<InstanceType<typeof BookCollectionFilter>>()

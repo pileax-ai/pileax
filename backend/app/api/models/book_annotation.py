@@ -74,5 +74,8 @@ class BookAnnotationDetails(BookAnnotationPublic):
 class BookAnnotationGroup(BaseApiModel):
     cover_url: str | None = None
     title: str | None = None
+    author: str | None = None
+    publisher: str | None = None
+    published: str | None = None
     book_id: uuid.UUID
     count: int

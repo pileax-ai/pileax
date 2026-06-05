@@ -20,8 +20,8 @@ export class BookAnnotationService extends BaseService {
   /**
    * Group by book
    */
-  async groupByBook(): Promise<any> {
-    return GET({ name: this.apiName, path: '/group/book' })
+  async groupByBook(keyword: string = ''): Promise<any> {
+    return GET({ name: this.apiName, path: '/group/book', query: { keyword } })
   }
 }
 

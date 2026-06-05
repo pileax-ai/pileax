@@ -39,7 +39,8 @@ export default {
       _: 'Chrzcielnica',
       color: 'Kolor czcionki',
       family: 'Rodzina czcionek',
-      size: 'Rozmiar czcionki'
+      size: 'Rozmiar czcionki',
+      weight: 'Grubość czcionki'
     },
     layout: 'Układ',
     layouts: {

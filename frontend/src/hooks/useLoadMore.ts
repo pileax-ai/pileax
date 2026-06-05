@@ -149,6 +149,7 @@ export default function () {
     rows,
     total,
     loading,
+    loaded,
 
     id,
     view,

@@ -39,7 +39,8 @@ export default {
       _: 'Font',
       color: 'Culoare font',
       family: 'Familie de fonturi',
-      size: 'Dimensiunea fontului'
+      size: 'Dimensiunea fontului',
+      weight: 'Grosimea fontului'
     },
     layout: 'Aspect',
     layouts: {

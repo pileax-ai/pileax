@@ -39,7 +39,8 @@ export default {
       _: 'Schriftart',
       color: 'Schriftfarbe',
       family: 'Schriftfamilie',
-      size: 'Schriftgröße'
+      size: 'Schriftgröße',
+      weight: 'Schriftstärke'
     },
     layout: 'Layout',
     layouts: {

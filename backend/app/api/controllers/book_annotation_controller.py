@@ -34,5 +34,5 @@ class BookAnnotationController(BaseController[BookAnnotation, BookAnnotationCrea
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(Owner(user_id=self.user.id), id)
 
-    def group_by_book(self) -> Any:
-        return self.service.group_by_book(self.user.id, self.workspace_id)
+    def group_by_book(self, keyword: str | None = None) -> Any:
+        return self.service.group_by_book(self.user.id, self.workspace_id, keyword)

@@ -14,5 +14,5 @@ class BookAnnotationService(BaseService[BookAnnotation]):
     def query_details(self, query: PaginationQuery):
         return self.repo.query_details(query)
 
-    def group_by_book(self, user_id: UUID, workspace_id: UUID) -> Any:
-        return self.repo.group_by_book(user_id, workspace_id)
+    def group_by_book(self, user_id: UUID, workspace_id: UUID, keyword: str | None = None) -> Any:
+        return self.repo.group_by_book(user_id, workspace_id, keyword)

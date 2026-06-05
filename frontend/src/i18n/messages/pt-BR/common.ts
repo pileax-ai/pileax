@@ -39,7 +39,8 @@ export default {
       _: 'Fonte',
       color: 'Cor da fonte',
       family: 'Família de fontes',
-      size: 'Tamanho da fonte'
+      size: 'Tamanho da fonte',
+      weight: 'Peso da fonte'
     },
     layout: 'Layout',
     layouts: {

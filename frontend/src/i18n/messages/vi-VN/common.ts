@@ -39,7 +39,8 @@ export default {
       _: 'Phông chữ',
       color: 'Màu chữ',
       family: 'Họ phông chữ',
-      size: 'Kích thước phông chữ'
+      size: 'Kích thước phông chữ',
+      weight: 'Độ dày phông chữ'
     },
     layout: 'Cách trình bày',
     layouts: {

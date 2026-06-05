@@ -10,6 +10,7 @@
       </q-avatar>
     </q-item-section>
     <q-item-section>
+      <slot name="main"></slot>
       <q-item-label :lines="lines">
         <span v-html="label"></span>
         <slot name="label"></slot>
