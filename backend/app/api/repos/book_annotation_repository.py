@@ -42,12 +42,15 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
         with self.session as session:
             conn = session.connection()
-            result = conn.execute(sql, {
-                "user_id": str(user_id),
-                "workspace_id": str(workspace_id),
-                "keyword": keyword,
-                "like_keyword": like_keyword
-            })
+            result = conn.execute(
+                sql,
+                {
+                    "user_id": str(user_id),
+                    "workspace_id": str(workspace_id),
+                    "keyword": keyword,
+                    "like_keyword": like_keyword,
+                },
+            )
             rows = result.mappings().all()
 
         return rows
