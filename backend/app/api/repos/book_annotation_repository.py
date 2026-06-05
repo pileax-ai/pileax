@@ -37,7 +37,9 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
                 GROUP BY book_id
             ) ba
             LEFT JOIN book ON ba.book_id=book.id
+            LEFT JOIN user_book ub ON ub.book_id=book.id AND ub.user_id=:user_id
             WHERE (:keyword IS NULL OR book.title LIKE :like_keyword OR book.author LIKE :like_keyword)
+            ORDER BY ub.update_time DESC
        """)
 
         with self.session as session:
