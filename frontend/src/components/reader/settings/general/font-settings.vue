@@ -72,7 +72,7 @@ function onValueChanged(key: string, value: any) {
 
 onBeforeMount(() => {
   fontSize.value = settings.value.fontSize || 20              // default: 20px
-  fontSize.value = fontSize.value < 16 ? 16 : fontSize.value  // min: 16px
+  fontSize.value = fontSize.value < 16 ? 22 : fontSize.value  // min: 16px
   fontWeight.value = settings.value.fontWeight || 400         // default: 400
 })
 </script>

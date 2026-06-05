@@ -49,8 +49,9 @@ const setStyle = (userStyle) => {
     ? reader.view.renderer.setAttribute('animated', 'true')
     : reader.view.renderer.removeAttribute('animated');
 
+  const fontSize = style.fontSize < 16 ? 22 : style.fontSize
   const newStyle = {
-    fontSize: style.fontSize,
+    fontSize: fontSize,
     fontName: style.fontName,
     fontPath: style.fontPath,
     fontColor: style.fontColor,

@@ -15,7 +15,7 @@ export const defaultSetting = {
   backgroundOpacity: 1.0,
 
   // font
-  fontSize: 20,
+  fontSize: 22,
   font: 'book',
   fontName: 'book',
   fontColor: '#000000',
