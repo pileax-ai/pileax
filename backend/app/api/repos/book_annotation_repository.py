@@ -16,9 +16,15 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
     def __init__(self, model, session):
         super().__init__(model, session)
 
-    def group_by_book(self, user_id: UUID, workspace_id: UUID) -> Any:
+    def group_by_book(self, user_id: UUID, workspace_id: UUID, keyword: str | None = None) -> Any:
+        if keyword is not None:
+            keyword = keyword.strip()
+            if not keyword:
+                keyword = None
+        like_keyword = f"%{keyword}%" if keyword else None
+
         sql: TextClause = text("""
-            SELECT ba.*, book.title, book.cover_url
+            SELECT ba.*, book.title, book.cover_url, book.author, book.publisher, book.published
             FROM (
                 SELECT book_id, COUNT(*) as count
                 FROM book_annotation ba_inner
@@ -31,10 +37,20 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
                 GROUP BY book_id
             ) ba
             LEFT JOIN book ON ba.book_id=book.id
+            WHERE (:keyword IS NULL OR book.title LIKE :like_keyword OR book.author LIKE :like_keyword)
        """)
+
         with self.session as session:
             conn = session.connection()
-            result = conn.execute(sql, {"user_id": str(user_id), "workspace_id": str(workspace_id)})
+            result = conn.execute(
+                sql,
+                {
+                    "user_id": str(user_id),
+                    "workspace_id": str(workspace_id),
+                    "keyword": keyword,
+                    "like_keyword": like_keyword,
+                },
+            )
             rows = result.mappings().all()
 
         return rows

@@ -39,7 +39,8 @@ export default {
       _: '세례반',
       color: '글꼴 색상',
       family: '글꼴 패밀리',
-      size: '글꼴 크기'
+      size: '글꼴 크기',
+      weight: '글꼴 두께'
     },
     layout: '공들여 나열한 것',
     layouts: {

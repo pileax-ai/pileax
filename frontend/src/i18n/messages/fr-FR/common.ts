@@ -39,7 +39,8 @@ export default {
       _: 'Fonte',
       color: 'Couleur de la police',
       family: 'Famille de polices',
-      size: 'Taille de la police'
+      size: 'Taille de la police',
+      weight: 'Poids de la police'
     },
     layout: 'Mise en page',
     layouts: {

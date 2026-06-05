@@ -39,7 +39,8 @@ export default {
       _: 'フォント',
       color: 'フォント色',
       family: 'フォントファミリー',
-      size: 'フォントサイズ'
+      size: 'フォントサイズ',
+      weight: 'フォントの太さ'
     },
     layout: 'レイアウト',
     layouts: {

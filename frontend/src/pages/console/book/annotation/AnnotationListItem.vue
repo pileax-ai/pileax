@@ -1,47 +1,91 @@
 <template>
-  <q-item class="annotation-list-item bg-accent" clickable @click="emit('details', data, coverUrl)">
-    <q-item-section avatar>
-      <q-img :src="coverUrl" :ratio="3/4" spinner-size="20px" />
-    </q-item-section>
-    <q-item-section class="meta">
-      <q-item-label class="title" lines="1" caption>
-        <section class="row justify-between text-readable">
-          <div class="col-6  ellipsis">
-            {{data.bookTitle}}
-          </div>
-          <div class="row col-6">
-            <div class="col ellipsis text-right">
-              {{data.chapter}}
+  <q-item class="annotation-list-item"
+          :class="{ 'annotation-only': annotationOnly }"
+          clickable
+          @click="emit('details', data, coverUrl)">
+    <template v-if="annotationOnly">
+      <q-item-section class="meta" :class="data.type">
+        <q-item-label class="title" lines="1" caption>
+          <section class="row justify-between text-readable">
+            <div class="row col-6">
+              <div class="row col-auto items-center q-pr-sm">
+                <q-icon :name="getArrayItem(BookAnnotationTypes, data.type).icon"
+                        :style="{ color: data.color ? getAnnotationColor(data.color) : '' }"
+                        class="q-mr-sm"
+                        size="1rem" />
+                {{data.page}} /
+                <o-tooltip position="left" transition>
+                  {{ getArrayItem(BookAnnotationTypes, data.type).label }}
+                </o-tooltip>
+              </div>
+              <div class="col ellipsis text-left">
+                {{data.chapter}}
+              </div>
             </div>
-            <div class="row col-auto items-center q-pl-sm">
-              / {{data.page}}
-              <q-icon :name="getArrayItem(BookAnnotationTypes, data.type).icon"
-                      :style="{ color: data.color ? getAnnotationColor(data.color) : '' }"
-                      class="q-ml-sm"
-                      size="1rem" />
+            <div class="row col-6 justify-end">
+              <div>
+                {{ timeMulti(data.updateTime).fromNow() }}
+                <o-tooltip>
+                  {{ timeMulti(data.updateTime).timestamp() }}
+                </o-tooltip>
+              </div>
+            </div>
+          </section>
+        </q-item-label>
+        <q-item-label lines="6" v-if="data.type !== 'bookmark'">
+          <div class="content" v-if="data.type === 'annotation'">
+            {{ data.title }}
+          </div>
+          <div v-else>
+            <o-note-view :text="data.noteJson"></o-note-view>
+          </div>
+        </q-item-label>
+      </q-item-section>
+    </template>
+    <template v-else>
+      <q-item-section avatar>
+        <q-img :src="coverUrl" :ratio="3/4" spinner-size="20px" />
+      </q-item-section>
+      <q-item-section class="meta">
+        <q-item-label class="title" lines="1" caption>
+          <section class="row justify-between text-readable">
+            <div class="col-6  ellipsis">
+              {{data.bookTitle}}
+            </div>
+            <div class="row col-6">
+              <div class="col ellipsis text-right">
+                {{data.chapter}}
+              </div>
+              <div class="row col-auto items-center q-pl-sm">
+                / {{data.page}}
+                <q-icon :name="getArrayItem(BookAnnotationTypes, data.type).icon"
+                        :style="{ color: data.color ? getAnnotationColor(data.color) : '' }"
+                        class="q-ml-sm"
+                        size="1rem" />
+              </div>
+            </div>
+          </section>
+        </q-item-label>
+        <q-item-label lines="6">
+          <div class="content" v-if="data.type === 'annotation'">
+            {{ data.title }}
+          </div>
+          <div v-else>
+            <o-note-view :text="data.noteJson"></o-note-view>
+          </div>
+        </q-item-label>
+        <q-item-label caption>
+          <div class="row q-pt-md relative-position">
+            <div>
+              {{ timeMulti(data.updateTime).fromNow() }}
+              <o-tooltip>
+                {{ timeMulti(data.updateTime).timestamp() }}
+              </o-tooltip>
             </div>
           </div>
-        </section>
-      </q-item-label>
-      <q-item-label lines="6">
-        <div v-if="data.type === 'annotation'">
-          {{ data.title }}
-        </div>
-        <div v-else>
-          <o-note-view :text="data.noteJson"></o-note-view>
-        </div>
-      </q-item-label>
-      <q-item-label caption>
-        <div class="row q-pt-md relative-position">
-          <div>
-            {{ timeMulti(data.updateTime).fromNow() }}
-            <o-tooltip>
-              {{ timeMulti(data.updateTime).timestamp() }}
-            </o-tooltip>
-          </div>
-        </div>
-      </q-item-label>
-    </q-item-section>
+        </q-item-label>
+      </q-item-section>
+    </template>
   </q-item>
 </template>
 
@@ -62,6 +106,10 @@ const props = defineProps({
       return {}
     }
   },
+  annotationOnly: {
+    type: Boolean,
+    default: false
+  }
 })
 const emit = defineEmits(['details'])
 
@@ -92,6 +140,16 @@ onMounted(() => {
   cursor: pointer;
   border-radius: 8px;
   max-width: 100%;
+  background: var(--q-accent);
+
+  &.annotation-only {
+    &:not(:first-child) {
+      margin: 0 !important;
+      border-top: solid 1px var(--q-dark);
+    }
+
+    border-radius: 0;
+  }
 
   &:not(:first-child) {
     margin-top: 8px;
@@ -105,10 +163,20 @@ onMounted(() => {
     padding: 10px 0;
     justify-content: start;
 
+    &.bookmark {
+      .title {
+        margin: 0;
+      }
+    }
+
     .title {
       overflow: hidden;
       text-overflow: ellipsis;
       margin-bottom: 1rem;
+    }
+
+    .content {
+      line-height: 1.6;
     }
 
     .q-item__label--caption {
