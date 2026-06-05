@@ -93,10 +93,6 @@ const props = defineProps({
   }
 })
 
-const collapse = computed(() => {
-  return props.value?.length > 50
-})
-
 const linkUrl = computed(() => {
   return props.link.indexOf('http') === 0 ? props.link : 'https://' + props.link
 })

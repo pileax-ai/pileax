@@ -2,11 +2,12 @@ const getCSS = ({
                   fontSize,
                   fontName,
                   fontPath,
+                  fontColor,
+                  fontWeight,
                   letterSpacing,
                   spacing,
                   textIndent,
                   paragraphSpacing,
-                  fontColor,
                   backgroundImage,
                   backgroundColor,
                   justify,
@@ -33,7 +34,8 @@ const getCSS = ({
         // background-color: ${backgroundColor} !important;
         background-color: transparent !important;
         letter-spacing: ${letterSpacing}px;
-        font-size: ${fontSize}em;
+        font-size: ${fontSize}px;
+        font-weight: ${fontWeight};
     }
 
     body {

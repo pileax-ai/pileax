@@ -39,7 +39,8 @@ export default {
       _: '字体',
       color: '字体颜色',
       family: '字体',
-      size: '字体大小'
+      size: '字号',
+      weight: '字重',
     },
     layout: '布局',
     layouts: {
