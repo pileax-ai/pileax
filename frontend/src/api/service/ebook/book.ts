@@ -573,4 +573,5 @@ export {
 
   openBook,
   uploadBook,
+  onWheel,
 }

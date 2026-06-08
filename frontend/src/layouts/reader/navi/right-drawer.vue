@@ -118,6 +118,9 @@ onBeforeMount(() => {
     .drawer-separator {
       width: 0;
     }
+    .side-fixed {
+      border-radius: 12px 0 0 12px;
+    }
   }
 }
 

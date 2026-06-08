@@ -23,6 +23,10 @@ let globalReader = null;
 let style = defaultSetting;
 
 const setStyle = (userStyle) => {
+  if (!globalReader) {
+    return
+  }
+
   if (userStyle && typeof userStyle === 'object') {
     style = userStyle;
   }

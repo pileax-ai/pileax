@@ -1,31 +1,33 @@
 <template>
-  <book-note v-if="noteId"></book-note>
-  <section class="row col-12 justify-center book-note-view" v-else>
-    <section class="note-header ellipsis">
-      {{ book.title }}
+  <section class="book-note-view">
+    <book-note v-if="noteId"></book-note>
+    <section class="row col-12 justify-center book-note-list" v-else>
+      <section class="note-header ellipsis">
+        {{ book.title }}
+      </section>
+      <q-list class="note-list" bordered separator v-if="recentNotes.length">
+        <template v-for="(item, index) in recentNotes" :key="index">
+          <o-common-item icon="article"
+                         :label="item.title"
+                         clickable right-side
+                         @click="openNote(item.id)"
+                         v-if="index < 10">
+            <template #side>
+              <div class="row items-center">
+                {{ timeMulti(item.updateTime).fromNow() }}
+                <q-icon name="chevron_right" size="1.2rem" class="q-ml-md" />
+              </div>
+            </template>
+          </o-common-item>
+        </template>
+      </q-list>
+      <o-no-data class="col-12" image v-else>
+        <q-btn icon="add"
+               label="New note"
+               class="bg-primary text-white"
+               @click="onNewNote" />
+      </o-no-data>
     </section>
-    <q-list class="note-list" bordered separator v-if="recentNotes.length">
-      <template v-for="(item, index) in recentNotes" :key="index">
-        <o-common-item icon="article"
-                       :label="item.title"
-                       clickable right-side
-                       @click="openNote(item.id)"
-                       v-if="index < 10">
-          <template #side>
-            <div class="row items-center">
-              {{ timeMulti(item.updateTime).fromNow() }}
-              <q-icon name="chevron_right" size="1.2rem" class="q-ml-md" />
-            </div>
-          </template>
-        </o-common-item>
-      </template>
-    </q-list>
-    <o-no-data class="col-12" image v-else>
-      <q-btn icon="add"
-             label="New note"
-             class="bg-primary text-white"
-             @click="onNewNote" />
-    </o-no-data>
   </section>
 </template>
 
@@ -57,6 +59,9 @@ function onNewNote() {
 
 <style lang="scss">
 .book-note-view {
+  width: 100%;
+  max-width: 800px;
+
   .note-header {
     width: 100%;
     max-width: 800px;

@@ -560,6 +560,16 @@ model-viewer {
       counter-increment: h3-count;
     }
   }
+
+  .o-code-block-view.splitHorizontal {
+    pre {
+      background: var(--q-accent);
+    }
+
+    .preview {
+      background: var(--q-secondary);
+    }
+  }
 }
 
 // --------------------------------------------------------------------------------
