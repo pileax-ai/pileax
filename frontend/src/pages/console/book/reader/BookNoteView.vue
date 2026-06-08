@@ -61,6 +61,7 @@ function onNewNote() {
 .book-note-view {
   width: 100%;
   max-width: 800px;
+  padding-top: 40px;
 
   .note-header {
     width: 100%;
@@ -70,6 +71,7 @@ function onNewNote() {
     padding: 12px 0 24px 0;
     text-align: center;
   }
+
   .note-list {
     width: 100%;
     max-width: 800px;
@@ -86,7 +88,10 @@ function onNewNote() {
         border-bottom-right-radius: 10px;
       }
     }
+  }
 
+  .book-note {
+    top: 40px !important;
   }
 }
 </style>
