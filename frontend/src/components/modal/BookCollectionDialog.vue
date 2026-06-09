@@ -36,12 +36,21 @@
           <template v-for="(item, index) in results" :key="index">
             <o-common-item :icon="item.icon || '🍃'"
                            :label="item.title"
-                           :side-label="`${item.count || 0}`"
                            :class="{'bg-dark': index === selected}"
                            :disable="inCollection(item)"
                            size="1.2rem"
-                           clickable
-                           @click="onSelected(item)" />
+                           clickable right-side
+                           @click="onSelected(item)">
+              <template #side>
+                <div class="row">
+                  <div>{{item.count || 0}}</div>
+                  <div class="q-ml-md">
+                    <q-icon name="check_circle" v-if="inCollection(item)" />
+                    <q-icon name="o_circle" v-else />
+                  </div>
+                </div>
+              </template>
+            </o-common-item>
           </template>
           <o-common-item icon="add" size="1.4rem"
                          class="text-primary"
