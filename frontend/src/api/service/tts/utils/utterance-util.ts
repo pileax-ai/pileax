@@ -1,3 +1,5 @@
+import { sanitizeForNarration } from './tts-util'
+
 export const recommendVoices = (voices: SpeechSynthesisVoice[]) => {
   const keywords = ['Microsoft', 'Apple', 'Premium', 'Natural', 'Google']
   return voices.filter(v => keywords.some(k => v.name.includes(k)))
@@ -5,7 +7,7 @@ export const recommendVoices = (voices: SpeechSynthesisVoice[]) => {
 
 export const prepareTextForVoice = (text: string, voice?: SpeechSynthesisVoice) => {
   if (voice) {
-    return text.replace(/<[^>]+>/g, "")
+    return sanitizeForNarration(text)
   }
   return text
 }

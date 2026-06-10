@@ -14,7 +14,7 @@ const RE_URLS = /https?:\/\/\S+/gi
 const RE_EMOJI = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu
 const RE_WHITESPACE = /[\u00a0\s\r\n]+/g
 
-export const getPlainText = (text: string) => {
+export const sanitizeForNarration = (text: string) => {
   if (!text) return ''
 
   return text
@@ -51,7 +51,7 @@ export const getEdgeTTSAudio = async (text: string, controller?: AbortController
   }
 
   const body = {
-    text: getPlainText(text),
+    text: sanitizeForNarration(text),
     voice: 'zh-CN-XiaoyiNeural',
     rate: '+0%'
   }
@@ -81,7 +81,7 @@ export const getLLMTTSAudio = async (text: string, controller?: AbortController)
     model_provider: ttsModel.modelProvider,
     model_name: ttsModel.modelName,
     model_type: ttsModel.modelType,
-    message: getPlainText(text),
+    message: sanitizeForNarration(text),
     ...readerStore.tts
   }
 

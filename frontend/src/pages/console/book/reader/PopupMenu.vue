@@ -69,11 +69,9 @@
 <script setup lang="ts">
 import tippy from 'tippy.js'
 import type { Instance, Props } from 'tippy.js'
-// import 'tippy.js/dist/tippy.css'
 import { computed, onMounted, ref, watch } from 'vue'
 import {
   addAnnotation,
-  removeAnnotation,
   updateAnnotation,
 } from 'src/api/service/ebook/book-annotation'
 import useCommon from 'core/hooks/useCommon'
@@ -84,6 +82,7 @@ import useReaderSetting from 'src/hooks/useReaderSetting'
 import { AnnotationColors } from 'core/constants/constant'
 import { getAnnotationColor } from 'src/utils/book'
 import { globalBus } from 'src/api/event/event-bus'
+import { sanitizeForNarration } from 'src/api/service/tts/utils/tts-util'
 
 const emit = defineEmits(['share'])
 
@@ -215,7 +214,8 @@ function onAction(action: string) {
 }
 
 async function onAnnotation() {
-  const { cfi, text } = selection.value
+  let { cfi, text } = selection.value
+  text = sanitizeForNarration(text)
   if (!cfi || !text) {
     return
   }
