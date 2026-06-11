@@ -83,7 +83,11 @@ export default {
       wheel: 'Folosește roata'
     },
     scroll: 'Derulare în sus/în jos',
-    slide: 'Glisare stânga/dreapta'
+    slide: 'Glisare stânga/dreapta',
+    style: {
+      bookCss: 'CSS pentru cărți',
+      globalCss: 'CSS global'
+    }
   },
   settings: 'Setări de citire',
   status: {

@@ -83,7 +83,11 @@ export default {
       wheel: 'Utilisez la roue'
     },
     scroll: 'Défilez vers le haut/bas',
-    slide: 'Glisser à gauche/à droite'
+    slide: 'Glisser à gauche/à droite',
+    style: {
+      bookCss: 'Réserver CSS',
+      globalCss: 'CSS global'
+    }
   },
   settings: 'Paramètres de lecture',
   status: {

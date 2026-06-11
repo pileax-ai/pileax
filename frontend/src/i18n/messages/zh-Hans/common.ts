@@ -102,6 +102,7 @@ export default {
   cover: '封面',
   create: '创建',
   current: '当前',
+  custom: '自定义',
   dashboard: '仪表盘',
   delete: '删除',
   deleteConfirm: '你确定删除该项？',

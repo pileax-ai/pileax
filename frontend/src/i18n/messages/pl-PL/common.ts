@@ -102,6 +102,7 @@ export default {
   cover: 'Okładka',
   create: 'Tworzyć',
   current: 'Aktualny',
+  custom: 'Zwyczaj',
   dashboard: 'Panel',
   delete: 'Usuwać',
   deleteConfirm: 'Czy na pewno chcesz usunąć ten element?',

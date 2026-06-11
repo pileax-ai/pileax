@@ -102,6 +102,7 @@ export default {
   cover: 'Крышка',
   create: 'Создавать',
   current: 'Текущий',
+  custom: 'Обычай',
   dashboard: 'Панель управления',
   delete: 'Удалить',
   deleteConfirm: 'Вы уверены, что удалите этот элемент?',

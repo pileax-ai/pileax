@@ -83,7 +83,11 @@ export default {
       wheel: '휠을 사용하세요'
     },
     scroll: '위/아래로 스크롤',
-    slide: '왼쪽/오른쪽으로 밀어주세요'
+    slide: '왼쪽/오른쪽으로 밀어주세요',
+    style: {
+      bookCss: 'CSS 책',
+      globalCss: '글로벌 CSS'
+    }
   },
   settings: '읽기 설정',
   status: {

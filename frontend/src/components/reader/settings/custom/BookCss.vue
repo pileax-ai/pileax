@@ -1,5 +1,5 @@
 <template>
-  <section class="css-settings layout">
+  <section class="book-css-settings layout">
     <YiiCodeEditor
       ref="yiiEditor"
       class="layout-content"
@@ -19,6 +19,8 @@ import { Editor } from '@tiptap/core'
 import {
   YiiCodeEditor,
 } from '@yiitap/vue'
+import useBook from 'src/hooks/useBook'
+import { changeStyle } from 'src/api/service/ebook/book'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 
 defineProps({
@@ -29,15 +31,20 @@ defineProps({
 })
 const emit = defineEmits(['next'])
 
-const { settings, setSettingItem } = useReaderSetting()
+const { bookCss, setBookCss } = useBook()
+const { settings } = useReaderSetting()
 const editingCSS = ref('')
 
 const bookCSS = computed({
   get() {
-    return settings.value.bookCSS
+    return bookCss.value
   },
   set(value: string) {
-    setSettingItem('bookCSS', value)
+    setBookCss(value)
+    changeStyle({
+      ...settings.value,
+      bookCSS: value
+    })
   }
 })
 
@@ -64,8 +71,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.css-settings {
-  height: calc(100vh - 40px);
+.book-css-settings {
+  height: calc(100vh - 80px);
 
   .editor-content {
     padding: 0 0 60px 0;

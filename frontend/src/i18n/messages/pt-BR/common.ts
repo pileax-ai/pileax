@@ -102,6 +102,7 @@ export default {
   cover: 'Cobrir',
   create: 'Criar',
   current: 'Atual',
+  custom: 'Personalizado',
   dashboard: 'Painel',
   delete: 'Excluir',
   deleteConfirm: 'Tem certeza de que deseja excluir este item?',

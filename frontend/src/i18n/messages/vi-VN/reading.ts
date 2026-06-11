@@ -83,7 +83,11 @@ export default {
       wheel: 'Sử dụng bánh xe'
     },
     scroll: 'Cuộn lên/xuống',
-    slide: 'Vuốt sang trái/phải'
+    slide: 'Vuốt sang trái/phải',
+    style: {
+      bookCss: 'Đặt lịch CSS',
+      globalCss: 'CSS toàn cầu'
+    }
   },
   settings: 'Cài đặt đọc',
   status: {

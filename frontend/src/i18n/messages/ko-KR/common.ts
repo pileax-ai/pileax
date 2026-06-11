@@ -102,6 +102,7 @@ export default {
   cover: '씌우다',
   create: '만들다',
   current: '현재의',
+  custom: '관습',
   dashboard: '계기반',
   delete: '삭제',
   deleteConfirm: '이 항목을 삭제하시겠습니까?',

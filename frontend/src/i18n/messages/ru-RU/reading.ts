@@ -83,7 +83,11 @@ export default {
       wheel: 'Используйте колесо'
     },
     scroll: 'Прокрутка вверх/вниз',
-    slide: 'Сдвиньте влево/вправо'
+    slide: 'Сдвиньте влево/вправо',
+    style: {
+      bookCss: 'Книга CSS',
+      globalCss: 'Глобальный CSS'
+    }
   },
   settings: 'Настройки чтения',
   status: {

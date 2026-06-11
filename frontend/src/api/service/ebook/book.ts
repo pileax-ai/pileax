@@ -23,6 +23,7 @@ const { style } = useReader()
 const {
   store,
   bookId,
+  bookCss,
   operation,
   readingMode,
   setProgress,
@@ -339,7 +340,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
 
       // console.log('openBook', cfi)
       ebookRender.open(bookElement, data,
-        { cfi, userStyle: style.value })
+        { cfi, userStyle: { ...style.value, bookCSS: bookCss.value} })
       setManual(BookOperation.Load)
       resolve(data)
     }).catch((err: any) => {

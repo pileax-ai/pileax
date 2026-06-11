@@ -83,7 +83,11 @@ export default {
       wheel: 'Użyj koła'
     },
     scroll: 'Przewiń w górę/w dół',
-    slide: 'Przesuń w lewo/prawo'
+    slide: 'Przesuń w lewo/prawo',
+    style: {
+      bookCss: 'Książka CSS',
+      globalCss: 'Globalny CSS'
+    }
   },
   settings: 'Ustawienia czytania',
   status: {

@@ -68,7 +68,7 @@ import { changeStyle } from 'src/api/service/ebook/book'
 
 import ReaderSideView from '../ReaderSideView.vue'
 import GeneralTab from './general/index.vue'
-import CssTab from './css/index.vue'
+import CustomTab from './custom/index.vue'
 import FontTab from './font/index.vue'
 import FontDownloadTab from './font/download.vue'
 import BackgroundTab from './background/index.vue'
@@ -83,7 +83,7 @@ const currentTab = ref('general')
 const tabs = computed(() => {
   return [
     { label: t('general'), value: 'general', icon: 'public', component: GeneralTab },
-    { label: 'CSS', value: 'style', icon: 'css', component: CssTab },
+    { label: t('custom'), value: 'custom', icon: 'extension', component: CustomTab },
     // { label: t('systems.shortcut'), value: 'key-bindings', icon: 'public', component: KeyBindingsTab },
   ]
 })
@@ -99,7 +99,7 @@ function onNext(name: string, value = true) {
 watch(
   () => settings.value,
   (newValue) => {
-    // console.log('settings', newValue);
+    // console.log('settings', newValue)
     changeStyle(newValue)
   },
   { deep: true }

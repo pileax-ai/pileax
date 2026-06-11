@@ -70,14 +70,16 @@ const setStyle = (userStyle) => {
     hyphenate: style.hyphenate,
   };
 
+  // CSS
   const defaultBookCSS = `
     img {
       cursor: zoom-in;
     }
   `;
+  const globalCSS = style.globalCSS
   const bookCSS = style.bookCSS
 
-  const combinedCSS = getCSS(newStyle) + defaultBookCSS + bookCSS;
+  const combinedCSS = getCSS(newStyle) + defaultBookCSS + globalCSS + bookCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
 
   // Renderer shadowRoot styles

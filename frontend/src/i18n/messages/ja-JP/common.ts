@@ -102,6 +102,7 @@ export default {
   cover: 'カバー',
   create: '作成する',
   current: '現在',
+  custom: 'カスタム',
   dashboard: 'ダッシュボード',
   delete: '消去',
   deleteConfirm: 'このアイテムを削除してもよろしいですか?',

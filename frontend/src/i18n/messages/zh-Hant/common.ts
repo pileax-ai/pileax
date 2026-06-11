@@ -102,6 +102,7 @@ export default {
   cover: '封面',
   create: '創建',
   current: '目前',
+  custom: '自訂',
   dashboard: '儀表板',
   delete: '刪除',
   deleteConfirm: '你確定刪除該項目？',

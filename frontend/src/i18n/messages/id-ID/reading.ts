@@ -83,7 +83,11 @@ export default {
       wheel: 'Gunakan Roda'
     },
     scroll: 'Gulir ke Atas/Bawah',
-    slide: 'Geser ke Kiri/Kanan'
+    slide: 'Geser ke Kiri/Kanan',
+    style: {
+      bookCss: 'Buku CSS',
+      globalCss: 'CSS Global'
+    }
   },
   settings: 'Pengaturan Bacaan',
   status: {

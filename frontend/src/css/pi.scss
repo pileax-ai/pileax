@@ -296,6 +296,26 @@
   }
 }
 
+.pi-tabs {
+  .q-tab {
+    background: var(--q-dark);
+    border-radius: 4px 4px 0 0;
+    min-height: unset;
+
+    &:before {
+      border-radius: 0!important;
+    }
+
+    &:only-child {
+      border-radius: 4px !important;
+    }
+
+    &:not(:first-child) {
+      margin-left: 4px;
+    }
+  }
+}
+
 .pi-toolbar-btn {
   width: 28px;
   height: 28px;
