@@ -6,12 +6,25 @@ const readerStore = useReaderStoreWithOut()
 const requestQueue = new Map<string, AbortController>()
 
 // Define regex as constants outside the function to avoid re-compilation
+// Match HTML tags (e.g., <div>, <br />)
 const RE_HTML_TAGS = /<[^>]+>/g
+
+// Match Markdown links to extract the label (e.g., [Google](https://google.com))
 const RE_MARKDOWN_LINK = /\[([^\]]+)\]\([^)]+\)/g
+
+// Match Markdown formatting symbols (e.g., #, **, _, ~)
 const RE_MARKDOWN_SYMBOLS = /([#*_~`>]+)/g
-const RE_FOOTNOTES = /\[\^?\d+\]/g
+
+// Match numeric footnotes inside brackets or parentheses (e.g., [2], (2))
+const RE_FOOTNOTES = /\[\d+\]|\(\d+\)/g
+
+// Match full URLs starting with http or https (e.g., https://example.com)
 const RE_URLS = /https?:\/\/\S+/gi
+
+// Match various emoji characters (e.g., 😀, 🚀, 🌲)
 const RE_EMOJI = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu
+
+// Match spaces, tabs, and newline characters (e.g., \n, \r, \u00a0)
 const RE_WHITESPACE = /[\u00a0\s\r\n]+/g
 
 export const sanitizeForNarration = (text: string) => {

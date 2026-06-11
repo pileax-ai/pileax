@@ -14,7 +14,7 @@
               </div>
               <o-tooltip>{{ item.label }}</o-tooltip>
             </q-btn>
-            <o-copy-btn :value="selection.text"
+            <o-copy-btn :value="selectedText"
                         :class="{ 'active': item.value === currentAction }"
                         flat
                         @click.stop="onAction(item.value)"
@@ -108,6 +108,11 @@ const showAnnotationMore = ref(false)
 
 const clickedAnnotation = computed(() => {
   return selection.value.annotation
+})
+
+const selectedText = computed(() => {
+  const { text } = selection.value
+  return sanitizeForNarration(text)
 })
 
 const annStyle = computed({
@@ -214,9 +219,8 @@ function onAction(action: string) {
 }
 
 async function onAnnotation() {
-  let { cfi, text } = selection.value
-  text = sanitizeForNarration(text)
-  if (!cfi || !text) {
+  const { cfi } = selection.value
+  if (!cfi || !selectedText.value) {
     return
   }
 
@@ -229,7 +233,7 @@ async function onAnnotation() {
     value: cfi,
     page: progress.value.location?.current || 0,
     chapter: progress.value.tocItem?.label,
-    title: text,
+    title: selectedText.value,
   }
 
   addAnnotation(annotation).then(res => {
@@ -291,11 +295,11 @@ function onNote() {
 }
 
 function onCopy() {
-  copy(selection.value.text, true)
+  copy(selectedText.value, true)
 }
 
 function onSearch() {
-  setKeyword(selection.value.text)
+  setKeyword(selectedText.value)
   if (!rightDrawerShow.value) {
     setRightDrawerHoverShow(true)
   }

@@ -1,7 +1,7 @@
 <template>
   <section class="reader-side-panel" :class="{ 'right-drawer-show': rightDrawerShow }">
     <o-tool-bar :window-id="windowId" v-if="rightDrawerShow" />
-    <agent-view :main="main" />
+    <agent-view :main="main" :class="{ 'active': currentView === 'agent' }" />
 
     <transition appear
                 enter-active-class="animated slideInRight"
