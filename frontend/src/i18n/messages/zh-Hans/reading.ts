@@ -86,7 +86,9 @@ export default {
     slide: '左右滑动',
     style: {
       bookCss: '本书 CSS',
-      globalCss: '全局 CSS'
+      bookCssTips: '本书独立样式',
+      globalCss: '全局 CSS',
+      globalCssTips: '启用全局样式'
     }
   },
   settings: '阅读设置',

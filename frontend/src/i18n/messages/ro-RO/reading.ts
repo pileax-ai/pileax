@@ -86,7 +86,9 @@ export default {
     slide: 'Glisare stânga/dreapta',
     style: {
       bookCss: 'CSS pentru cărți',
-      globalCss: 'CSS global'
+      bookCssTips: 'Stiluri independente de carte.',
+      globalCss: 'CSS global',
+      globalCssTips: 'Aplicați stiluri globale cititorului.'
     }
   },
   settings: 'Setări de citire',

@@ -86,7 +86,9 @@ export default {
     slide: 'Przesuń w lewo/prawo',
     style: {
       bookCss: 'Książka CSS',
-      globalCss: 'Globalny CSS'
+      bookCssTips: 'Style niezależne od książek.',
+      globalCss: 'Globalny CSS',
+      globalCssTips: 'Zastosuj globalne style do czytnika.'
     }
   },
   settings: 'Ustawienia czytania',

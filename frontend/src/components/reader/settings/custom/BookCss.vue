@@ -1,5 +1,19 @@
 <template>
   <section class="book-css-settings layout">
+    <header class="row col-12 justify-between items-center text-readable">
+      <div>
+        {{ $t('reading.setting.style.bookCssTips') }}
+      </div>
+      <div>
+        <q-icon name="help"
+                size="1.4rem"
+                class="text-tips cursor-pointer"
+                @click="openGuide('reading/styles/book')">
+          <o-tooltip position="left" transition>{{ $t('help') }}</o-tooltip>
+        </q-icon>
+      </div>
+    </header>
+
     <YiiCodeEditor
       ref="yiiEditor"
       class="layout-content"
@@ -20,8 +34,9 @@ import {
   YiiCodeEditor,
 } from '@yiitap/vue'
 import useBook from 'src/hooks/useBook'
-import { changeStyle } from 'src/api/service/ebook/book'
+import useGuide from 'src/hooks/useGuide'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import { changeStyle } from 'src/api/service/ebook/book'
 
 defineProps({
   fixedLayout: {
@@ -32,6 +47,7 @@ defineProps({
 const emit = defineEmits(['next'])
 
 const { bookCss, setBookCss } = useBook()
+const { openGuide } = useGuide()
 const { settings } = useReaderSetting()
 const editingCSS = ref('')
 
@@ -75,7 +91,7 @@ onMounted(() => {
   height: calc(100vh - 80px);
 
   .editor-content {
-    padding: 0 0 60px 0;
+    padding: 40px 0 60px 0;
   }
 
   .ProseMirror {
@@ -92,6 +108,17 @@ onMounted(() => {
         background: transparent;
       }
     }
+  }
+
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    padding: 0 1rem !important;
+    background: var(--q-secondary) !important;
+    z-index: 1;
   }
 
   footer {

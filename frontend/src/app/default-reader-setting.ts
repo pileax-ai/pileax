@@ -51,6 +51,7 @@ export const defaultSetting = {
   annColor: 'green',
 
   // css
+  globalCSSEnabled: true,
   globalCSS: '',
   bookCSS: ''
 } as Indexable

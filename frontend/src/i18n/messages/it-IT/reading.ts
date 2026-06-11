@@ -86,7 +86,9 @@ export default {
     slide: 'Scorri verso sinistra/destra',
     style: {
       bookCss: 'Prenota CSS',
-      globalCss: 'CSS globale'
+      bookCssTips: 'Libri di stili indipendenti.',
+      globalCss: 'CSS globale',
+      globalCssTips: 'Applica gli stili globali al lettore.'
     }
   },
   settings: 'Impostazioni di lettura',

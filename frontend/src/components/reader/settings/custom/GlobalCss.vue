@@ -1,5 +1,18 @@
 <template>
   <section class="global-css-settings layout">
+    <header class="row col-12 justify-between items-center text-readable">
+      <div style="margin-left: -10px;">
+         <q-checkbox v-model="globalCSSEnabled" />{{ $t('reading.setting.style.globalCssTips') }}
+      </div>
+      <div>
+        <q-icon name="help"
+                size="1.4rem"
+                class="text-tips cursor-pointer"
+                @click="openGuide('reading/styles/global')">
+          <o-tooltip position="left" transition>{{ $t('help') }}</o-tooltip>
+        </q-icon>
+      </div>
+    </header>
     <YiiCodeEditor
       ref="yiiEditor"
       class="layout-content"
@@ -20,6 +33,7 @@ import {
   YiiCodeEditor,
 } from '@yiitap/vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import useGuide from 'src/hooks/useGuide'
 
 defineProps({
   fixedLayout: {
@@ -29,6 +43,7 @@ defineProps({
 })
 const emit = defineEmits(['next'])
 
+const { openGuide } = useGuide()
 const { settings, setSettingItem } = useReaderSetting()
 const editingCSS = ref('')
 
@@ -38,6 +53,15 @@ const globalCSS = computed({
   },
   set(value: string) {
     setSettingItem('globalCSS', value)
+  }
+})
+
+const globalCSSEnabled = computed({
+  get() {
+    return settings.value.globalCSSEnabled
+  },
+  set(value: string) {
+    setSettingItem('globalCSSEnabled', value)
   }
 })
 
@@ -68,7 +92,7 @@ onMounted(() => {
   height: calc(100vh - 80px);
 
   .editor-content {
-    padding: 0 0 60px 0;
+    padding: 40px 0 60px 0;
   }
 
   .ProseMirror {
@@ -87,6 +111,17 @@ onMounted(() => {
     }
   }
 
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    padding: 0 1rem !important;
+    background: var(--q-secondary) !important;
+    z-index: 1;
+  }
+
   footer {
     position: absolute;
     bottom: 0;
@@ -95,6 +130,7 @@ onMounted(() => {
     height: 60px;
     border-top: solid 1px var(--q-accent);
     background: var(--q-secondary);
+    z-index: 1;
 
     .q-btn {
       min-width: 120px;

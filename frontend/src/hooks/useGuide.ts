@@ -7,6 +7,10 @@ export default function () {
   const componentStore = useComponentStoreWithOut()
   const appStore = useAppStoreWithOut()
 
+  const locale = computed(() => {
+    return appStore.setting.locale
+  })
+
   const tour = computed(() => {
     return appStore.tour
   })
@@ -56,10 +60,19 @@ export default function () {
     appStore.closeTour(name)
   }
 
+  const openGuide = (path: string) => {
+    let url = `${process.env.APP_GUIDE_URL}/guide/${path}`
+    if (locale.value.includes('zh')) {
+      url = `${process.env.APP_GUIDE_URL}/zh/guide/${path}`
+    }
+    window.open(url, '_blank', 'noopener')
+  }
+
   return {
     tour,
     showGuide,
-    closeGuide
+    closeGuide,
+    openGuide
   }
 }
 

@@ -86,7 +86,9 @@ export default {
     slide: 'Nach links/rechts wischen',
     style: {
       bookCss: 'CSS-Buch',
-      globalCss: 'Globales CSS'
+      bookCssTips: 'Buchen Sie unabhängige Stile.',
+      globalCss: 'Globales CSS',
+      globalCssTips: 'Globale Stile auf den Leser anwenden.'
     }
   },
   settings: 'Leseeinstellungen',

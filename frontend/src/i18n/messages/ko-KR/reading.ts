@@ -86,7 +86,9 @@ export default {
     slide: '왼쪽/오른쪽으로 밀어주세요',
     style: {
       bookCss: 'CSS 책',
-      globalCss: '글로벌 CSS'
+      bookCssTips: '독립적인 스타일을 예약하세요.',
+      globalCss: '글로벌 CSS',
+      globalCssTips: '리더에 전역 스타일을 적용합니다.'
     }
   },
   settings: '읽기 설정',

@@ -86,7 +86,9 @@ export default {
     slide: 'Deslizar para a esquerda/direita',
     style: {
       bookCss: 'Livro CSS',
-      globalCss: 'CSS global'
+      bookCssTips: 'Reserve estilos independentes.',
+      globalCss: 'CSS global',
+      globalCssTips: 'Aplicar estilos globais ao leitor.'
     }
   },
   settings: 'Configurações de leitura',

@@ -86,7 +86,9 @@ export default {
     slide: 'Geser ke Kiri/Kanan',
     style: {
       bookCss: 'Buku CSS',
-      globalCss: 'CSS Global'
+      bookCssTips: 'Pesan gaya independen.',
+      globalCss: 'CSS Global',
+      globalCssTips: 'Terapkan gaya global ke pembaca.'
     }
   },
   settings: 'Pengaturan Bacaan',

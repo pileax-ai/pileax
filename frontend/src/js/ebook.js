@@ -76,7 +76,7 @@ const setStyle = (userStyle) => {
       cursor: zoom-in;
     }
   `;
-  const globalCSS = style.globalCSS
+  const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
   const bookCSS = style.bookCSS
 
   const combinedCSS = getCSS(newStyle) + defaultBookCSS + globalCSS + bookCSS;

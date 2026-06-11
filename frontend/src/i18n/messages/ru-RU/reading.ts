@@ -86,7 +86,9 @@ export default {
     slide: 'Сдвиньте влево/вправо',
     style: {
       bookCss: 'Книга CSS',
-      globalCss: 'Глобальный CSS'
+      bookCssTips: 'Забронируйте книги в независимом стиле.',
+      globalCss: 'Глобальный CSS',
+      globalCssTips: 'Примените глобальные стили к стилю читателя.'
     }
   },
   settings: 'Настройки чтения',

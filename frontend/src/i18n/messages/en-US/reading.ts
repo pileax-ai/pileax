@@ -86,7 +86,9 @@ export default {
     slide: 'Slide Left/Right',
     style: {
       bookCss: 'Book CSS',
-      globalCss: 'Global CSS'
+      bookCssTips: 'Book independent styles.',
+      globalCss: 'Global CSS',
+      globalCssTips: 'Apply global styles to reader.'
     }
   },
   settings: 'Reading Settings',

@@ -86,7 +86,9 @@ export default {
     slide: 'Glisser à gauche/à droite',
     style: {
       bookCss: 'Réserver CSS',
-      globalCss: 'CSS global'
+      bookCssTips: 'Livrez des styles indépendants.',
+      globalCss: 'CSS global',
+      globalCssTips: 'Appliquer les styles globaux au lecteur.'
     }
   },
   settings: 'Paramètres de lecture',
