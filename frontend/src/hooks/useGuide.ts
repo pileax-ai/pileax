@@ -2,6 +2,7 @@ import { useComponentStoreWithOut } from 'stores/component'
 import OBadge from 'core/components/misc/OBadge.vue'
 import { useAppStoreWithOut } from 'stores/app'
 import { computed } from 'vue'
+import { openURL } from 'quasar'
 
 export default function () {
   const componentStore = useComponentStoreWithOut()
@@ -65,7 +66,7 @@ export default function () {
     if (locale.value.includes('zh')) {
       url = `${process.env.APP_GUIDE_URL}/zh/guide/${path}`
     }
-    window.open(url, '_blank', 'noopener')
+    openURL(url)
   }
 
   return {

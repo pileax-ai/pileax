@@ -65,7 +65,7 @@
       <q-input v-model="form.description" placeholder="NA"
                type="textarea"
                class="pi-field max-height"
-               maxlength="256" counter
+               maxlength="2048" counter
                standout dense clearable readonly />
     </o-field>
 
