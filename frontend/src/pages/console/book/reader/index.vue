@@ -28,7 +28,7 @@
     </template>
 
     <!-- Note View -->
-    <div class="foliate-view margin" v-if="isPhysical">
+    <div class="foliate-view is-physical" v-if="isPhysical">
       <book-note-view />
     </div>
 
@@ -38,6 +38,7 @@
              :style="{ margin: `${settings.verticalMargin}px ${settings.horizontalMargin}px` }"
              tabindex="0"
              @keydown="onKeydown"
+         @wheel="onWheel"
              v-else>
     </div>
 
@@ -80,6 +81,7 @@ import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/boo
 import { ReadingMode } from 'src/types/reading'
 import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
+import { onWheel } from 'src/api/service/ebook/book'
 import useCommon from 'core/hooks/useCommon'
 
 const route = useRoute()
@@ -284,6 +286,11 @@ onActivated(() => {
     &:focus,
     &:focus-visible {
       outline: none;
+    }
+
+    &.is-physical {
+      display: flex;
+      justify-content: center;
     }
   }
 

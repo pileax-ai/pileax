@@ -2,10 +2,15 @@ import { useComponentStoreWithOut } from 'stores/component'
 import OBadge from 'core/components/misc/OBadge.vue'
 import { useAppStoreWithOut } from 'stores/app'
 import { computed } from 'vue'
+import { openURL } from 'quasar'
 
 export default function () {
   const componentStore = useComponentStoreWithOut()
   const appStore = useAppStoreWithOut()
+
+  const locale = computed(() => {
+    return appStore.setting.locale
+  })
 
   const tour = computed(() => {
     return appStore.tour
@@ -56,10 +61,19 @@ export default function () {
     appStore.closeTour(name)
   }
 
+  const openGuide = (path: string) => {
+    let url = `${process.env.APP_GUIDE_URL}/guide/${path}`
+    if (locale.value.includes('zh')) {
+      url = `${process.env.APP_GUIDE_URL}/zh/guide/${path}`
+    }
+    openURL(url)
+  }
+
   return {
     tour,
     showGuide,
-    closeGuide
+    closeGuide,
+    openGuide
   }
 }
 

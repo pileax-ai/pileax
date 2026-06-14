@@ -34,11 +34,12 @@ const getCSS = ({
         // background-color: ${backgroundColor} !important;
         background-color: transparent !important;
         letter-spacing: ${letterSpacing}px;
-        font-size: ${fontSize}px;
+        font-size: ${fontSize}px !important;
         font-weight: ${fontWeight};
     }
 
     body {
+        font-size: ${fontSize}px !important;
         background: none !important;
         background-color: transparent;
     }

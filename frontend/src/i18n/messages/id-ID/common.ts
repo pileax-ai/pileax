@@ -102,6 +102,7 @@ export default {
   cover: 'Menutupi',
   create: 'Membuat',
   current: 'Saat ini',
+  custom: 'Kebiasaan',
   dashboard: 'Dasbor',
   delete: 'Menghapus',
   deleteConfirm: 'Apakah Anda yakin ingin menghapus item ini?',

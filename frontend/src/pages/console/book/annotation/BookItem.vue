@@ -1,5 +1,5 @@
 <template>
-  <q-item class="book-item bg-accent" clickable>
+  <q-item class="book-item bg-accent" clickable @click="openBook(data)">
     <q-item-section avatar>
       <q-img :src="coverUrl" :ratio="3/4" spinner-size="20px" @error="onError" />
     </q-item-section>
@@ -27,8 +27,8 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
-import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
+import useReading from 'src/hooks/useReading'
 
 const props = defineProps({
   data: {
@@ -45,6 +45,7 @@ const props = defineProps({
 const emit = defineEmits(['add', 'details'])
 
 const { getCoverUrl } = useApi()
+const { openBook } = useReading()
 const coverUrl = ref('')
 
 function onError(event: any) {

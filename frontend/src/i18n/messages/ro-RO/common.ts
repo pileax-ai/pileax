@@ -102,6 +102,7 @@ export default {
   cover: 'Acoperi',
   create: 'Crea',
   current: 'Actual',
+  custom: 'Personalizat',
   dashboard: 'Bord',
   delete: 'Şterge',
   deleteConfirm: 'Sigur ștergeți acest element?',

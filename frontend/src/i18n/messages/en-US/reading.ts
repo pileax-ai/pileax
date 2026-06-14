@@ -83,7 +83,13 @@ export default {
       wheel: 'Use Wheel'
     },
     scroll: 'Scroll Up/Down',
-    slide: 'Slide Left/Right'
+    slide: 'Slide Left/Right',
+    style: {
+      bookCss: 'Book CSS',
+      bookCssTips: 'Book independent styles.',
+      globalCss: 'Global CSS',
+      globalCssTips: 'Apply global styles to reader.'
+    }
   },
   settings: 'Reading Settings',
   status: {

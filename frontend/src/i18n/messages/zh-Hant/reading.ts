@@ -83,7 +83,13 @@ export default {
       wheel: '使用滾輪'
     },
     scroll: '上下滾動',
-    slide: '左右滑動'
+    slide: '左右滑動',
+    style: {
+      bookCss: '本書 CSS',
+      bookCssTips: '本書獨立樣式',
+      globalCss: '全域 CSS',
+      globalCssTips: '啟用全域樣式'
+    }
   },
   settings: '閱讀設定',
   status: {

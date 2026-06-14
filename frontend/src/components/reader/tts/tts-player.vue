@@ -123,6 +123,7 @@ import { ssmlUtils } from 'src/api/service/tts/utils/ssml-util'
 import useSetting from 'core/hooks/useSetting'
 import { ttsManager } from 'src/api/service/tts/tts-manager'
 import { globalBus } from 'src/api/event/event-bus'
+import { sanitizeForNarration } from 'src/api/service/tts/utils/tts-util'
 
 const emit = defineEmits(['close'])
 
@@ -192,7 +193,7 @@ const onPrevChapter = async () => {
 
 const onStart = (ssml: string) => {
   const data = ssmlUtils.parseSSML(ssml)
-  speakingText.value = data.text
+  speakingText.value = sanitizeForNarration(data.text)
   marqueeDuration.value = data.duration
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <reader-side-view class="book-note-view" header-class="justify-between text-readable">
+  <reader-side-view class="reader-note-view" header-class="justify-between text-readable">
     <template #header>
       <section class="col row items-center">
         <q-icon name="o_article" size="20px" />
@@ -47,20 +47,7 @@ function onEditMeta() {
 </script>
 
 <style lang="scss">
-.book-note-view {
-  .yiitap {
-    .tiptap {
-      font-size: 85% !important;
-
-      h1 {
-        font-size: 1.8rem;
-      }
-    }
-  }
-
-  .ProseMirror {
-    padding-inline: 0!important;
-  }
+.reader-note-view {
 
   footer.meta {
     position: absolute;

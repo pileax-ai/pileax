@@ -22,6 +22,9 @@ export default function () {
   const bookId = computed(() => {
     return store.bookId
   })
+  const bookCss = computed(() => {
+    return store.bookCss
+  })
   const isPhysical = computed(() => {
     const media = book.value.media as Indexable[]
     const physical = media?.find(item => item.type === 'physical')
@@ -82,6 +85,10 @@ export default function () {
 
   function setBookId(value: string) {
     store.setBookId(value)
+  }
+
+  function setBookCss(value: string) {
+    store.setBookCss(value)
   }
 
   function setWorkspaceBookId(value: string) {
@@ -149,6 +156,7 @@ export default function () {
     store,
     book,
     bookId,
+    bookCss,
     isPhysical,
     workspaceBookId,
     progress,
@@ -169,6 +177,7 @@ export default function () {
 
     setBook,
     setBookId,
+    setBookCss,
     setWorkspaceBookId,
     setTocItem,
     setKeyword,

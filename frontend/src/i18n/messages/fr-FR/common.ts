@@ -102,6 +102,7 @@ export default {
   cover: 'Couverture',
   create: 'Créer',
   current: 'Actuel',
+  custom: 'Coutume',
   dashboard: 'Tableau de bord',
   delete: 'Supprimer',
   deleteConfirm: 'Êtes-vous sûr de vouloir supprimer cet élément ?',

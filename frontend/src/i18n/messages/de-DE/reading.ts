@@ -83,7 +83,13 @@ export default {
       wheel: 'Rad benutzen'
     },
     scroll: 'Nach oben/unten scrollen',
-    slide: 'Nach links/rechts wischen'
+    slide: 'Nach links/rechts wischen',
+    style: {
+      bookCss: 'CSS-Buch',
+      bookCssTips: 'Buchen Sie unabhängige Stile.',
+      globalCss: 'Globales CSS',
+      globalCssTips: 'Globale Stile auf den Leser anwenden.'
+    }
   },
   settings: 'Leseeinstellungen',
   status: {

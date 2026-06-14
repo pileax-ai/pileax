@@ -102,6 +102,7 @@ export default {
   cover: 'Cubrir',
   create: 'Crear',
   current: 'Actual',
+  custom: 'Costumbre',
   dashboard: 'Panel',
   delete: 'Borrar',
   deleteConfirm: '¿Estás seguro de eliminar este elemento?',

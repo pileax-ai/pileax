@@ -112,19 +112,25 @@ export default function () {
     store.setRightDrawerItem({key: view, value: value})
     if (value) {
       store.setRightDrawerItem({key: 'view', value: view})
-      // store.showRightDrawer()
 
       if (!rightDrawerShow.value) {
         setTimeout(() => {
           setRightDrawerHoverShow(true)
         }, 100)
       }
+    } else {
+      store.setRightDrawerItem({key: 'view', value: ''})
     }
   }
 
   function toggleRightDrawerView(view: 'note' | 'settings' | 'tts') {
     const value = rightDrawer.value[view]
-    setRightDrawerView(view, !value)
+    const currentView = rightDrawer.value.view
+    if (value && currentView !== view && currentView !== '') {
+      setRightDrawerView(view, value)
+    } else {
+      setRightDrawerView(view, !value)
+    }
   }
 
   function setCurrentMainService(value: string) {

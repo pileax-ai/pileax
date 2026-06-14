@@ -14,7 +14,7 @@
               </div>
               <o-tooltip>{{ item.label }}</o-tooltip>
             </q-btn>
-            <o-copy-btn :value="selection.text"
+            <o-copy-btn :value="selectedText"
                         :class="{ 'active': item.value === currentAction }"
                         flat
                         @click.stop="onAction(item.value)"
@@ -69,11 +69,9 @@
 <script setup lang="ts">
 import tippy from 'tippy.js'
 import type { Instance, Props } from 'tippy.js'
-// import 'tippy.js/dist/tippy.css'
 import { computed, onMounted, ref, watch } from 'vue'
 import {
   addAnnotation,
-  removeAnnotation,
   updateAnnotation,
 } from 'src/api/service/ebook/book-annotation'
 import useCommon from 'core/hooks/useCommon'
@@ -84,6 +82,7 @@ import useReaderSetting from 'src/hooks/useReaderSetting'
 import { AnnotationColors } from 'core/constants/constant'
 import { getAnnotationColor } from 'src/utils/book'
 import { globalBus } from 'src/api/event/event-bus'
+import { sanitizeForNarration } from 'src/api/service/tts/utils/tts-util'
 
 const emit = defineEmits(['share'])
 
@@ -109,6 +108,11 @@ const showAnnotationMore = ref(false)
 
 const clickedAnnotation = computed(() => {
   return selection.value.annotation
+})
+
+const selectedText = computed(() => {
+  const { text } = selection.value
+  return sanitizeForNarration(text)
 })
 
 const annStyle = computed({
@@ -215,8 +219,8 @@ function onAction(action: string) {
 }
 
 async function onAnnotation() {
-  const { cfi, text } = selection.value
-  if (!cfi || !text) {
+  const { cfi } = selection.value
+  if (!cfi || !selectedText.value) {
     return
   }
 
@@ -229,7 +233,7 @@ async function onAnnotation() {
     value: cfi,
     page: progress.value.location?.current || 0,
     chapter: progress.value.tocItem?.label,
-    title: text,
+    title: selectedText.value,
   }
 
   addAnnotation(annotation).then(res => {
@@ -291,11 +295,11 @@ function onNote() {
 }
 
 function onCopy() {
-  copy(selection.value.text, true)
+  copy(selectedText.value, true)
 }
 
 function onSearch() {
-  setKeyword(selection.value.text)
+  setKeyword(selectedText.value)
   if (!rightDrawerShow.value) {
     setRightDrawerHoverShow(true)
   }

@@ -83,7 +83,13 @@ export default {
       wheel: 'Sử dụng bánh xe'
     },
     scroll: 'Cuộn lên/xuống',
-    slide: 'Vuốt sang trái/phải'
+    slide: 'Vuốt sang trái/phải',
+    style: {
+      bookCss: 'Đặt lịch CSS',
+      bookCssTips: 'Hãy đặt lịch theo phong cách độc lập.',
+      globalCss: 'CSS toàn cầu',
+      globalCssTips: 'Áp dụng kiểu định dạng toàn cầu cho trình đọc.'
+    }
   },
   settings: 'Cài đặt đọc',
   status: {

@@ -102,6 +102,7 @@ export default {
   cover: 'Che phủ',
   create: 'Tạo nên',
   current: 'Hiện hành',
+  custom: 'Phong tục',
   dashboard: 'Bảng điều khiển',
   delete: 'Xóa bỏ',
   deleteConfirm: 'Bạn có chắc chắn muốn xóa mục này không?',

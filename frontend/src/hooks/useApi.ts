@@ -1,6 +1,6 @@
 
 import { useApiStore } from 'stores/api'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed } from 'vue'
 
 export default function() {
   const apiStore = useApiStore()

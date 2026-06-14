@@ -102,6 +102,7 @@ export default {
   cover: 'Abdeckung',
   create: 'Erstellen',
   current: 'Aktuell',
+  custom: 'Brauch',
   dashboard: 'Armaturenbrett',
   delete: 'Löschen',
   deleteConfirm: 'Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?',

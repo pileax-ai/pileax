@@ -83,7 +83,13 @@ export default {
       wheel: 'ホイールを使用する'
     },
     scroll: '上/下にスクロール',
-    slide: '左/右にスライド'
+    slide: '左/右にスライド',
+    style: {
+      bookCss: 'ブックCSS',
+      bookCssTips: '独立したスタイルの本を読もう。',
+      globalCss: 'グローバルCSS',
+      globalCssTips: 'グローバルスタイルをリーダーに適用する。'
+    }
   },
   settings: '読み取り設定',
   status: {

@@ -83,7 +83,13 @@ export default {
       wheel: 'Utilice la rueda'
     },
     scroll: 'Desplazarse hacia arriba/abajo',
-    slide: 'Deslizar hacia la izquierda/derecha'
+    slide: 'Deslizar hacia la izquierda/derecha',
+    style: {
+      bookCss: 'Libro CSS',
+      bookCssTips: 'Libro de estilos independientes.',
+      globalCss: 'CSS global',
+      globalCssTips: 'Aplicar estilos globales al lector.'
+    }
   },
   settings: 'Configuración de lectura',
   status: {

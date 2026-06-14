@@ -102,6 +102,7 @@ export default {
   cover: 'Cover',
   create: 'Create',
   current: 'Current',
+  custom: 'Custom',
   dashboard: 'Dashboard',
   delete: 'Delete',
   deleteConfirm: 'Are you sure to delete this item?',

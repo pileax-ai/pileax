@@ -15,7 +15,7 @@ export const defaultSetting = {
   backgroundOpacity: 1.0,
 
   // font
-  fontSize: 20,
+  fontSize: 22,
   font: 'book',
   fontName: 'book',
   fontColor: '#000000',
@@ -51,6 +51,8 @@ export const defaultSetting = {
   annColor: 'green',
 
   // css
+  globalCSSEnabled: true,
+  globalCSS: '',
   bookCSS: ''
 } as Indexable
 

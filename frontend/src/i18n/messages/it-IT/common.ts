@@ -102,6 +102,7 @@ export default {
   cover: 'Copertina',
   create: 'Creare',
   current: 'Attuale',
+  custom: 'Costume',
   dashboard: 'Pannello di controllo',
   delete: 'Eliminare',
   deleteConfirm: 'Vuoi davvero eliminare questo elemento?',

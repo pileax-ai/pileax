@@ -123,6 +123,7 @@ function onFilter(item: Indexable) {
   }
   if (item.field === 'bookId') {
     book.value = item.data
+    console.log('book', book.value)
   }
   doQuery()
 }
@@ -166,6 +167,7 @@ function onClose() {
 onActivated(() => {
   if (isActivated.value) {
     query.value.onQuery()
+    filterRef.value?.refresh()
   }
 
   isActivated.value = true

@@ -35,6 +35,7 @@ export const useBookStore = defineStore('book', {
     noteId: '',
     note: {} as Indexable,
     bookmarkId: '',
+    bookCss: '',
   }),
   getters: {
     getToc: (state) => state.toc,
@@ -185,6 +186,9 @@ export const useBookStore = defineStore('book', {
     },
     setBookmarkId(value: string) {
       this.bookmarkId = value
+    },
+    setBookCss(value: string) {
+      this.bookCss = value
     },
   },
   persist: {

@@ -75,8 +75,7 @@
           <q-btn icon="o_tune" class="o-toolbar-btn"
                  :class="{ 'active': rightDrawer.settings }"
                  flat
-                 @click="toggleRightDrawerView('settings')"
-                 v-if="!isPhysical">
+                 @click="toggleRightDrawerView('settings')">
             <o-tooltip position="bottom" transition autohide>
               {{ $t('reading.settings') }}
             </o-tooltip>

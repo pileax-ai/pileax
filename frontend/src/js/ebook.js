@@ -23,6 +23,10 @@ let globalReader = null;
 let style = defaultSetting;
 
 const setStyle = (userStyle) => {
+  if (!globalReader) {
+    return
+  }
+
   if (userStyle && typeof userStyle === 'object') {
     style = userStyle;
   }
@@ -49,8 +53,9 @@ const setStyle = (userStyle) => {
     ? reader.view.renderer.setAttribute('animated', 'true')
     : reader.view.renderer.removeAttribute('animated');
 
+  const fontSize = style.fontSize < 16 ? 22 : style.fontSize
   const newStyle = {
-    fontSize: style.fontSize,
+    fontSize: fontSize,
     fontName: style.fontName,
     fontPath: style.fontPath,
     fontColor: style.fontColor,
@@ -65,14 +70,16 @@ const setStyle = (userStyle) => {
     hyphenate: style.hyphenate,
   };
 
+  // CSS
   const defaultBookCSS = `
     img {
       cursor: zoom-in;
     }
   `;
+  const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
   const bookCSS = style.bookCSS
 
-  const combinedCSS = getCSS(newStyle) + defaultBookCSS + bookCSS;
+  const combinedCSS = getCSS(newStyle) + defaultBookCSS + globalCSS + bookCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
 
   // Renderer shadowRoot styles

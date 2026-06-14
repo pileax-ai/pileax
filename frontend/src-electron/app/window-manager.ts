@@ -203,6 +203,21 @@ export class WindowManager {
       await newWindow.loadURL(`${spaServer.serverInfo.url}#${url}`)
     }
 
+    // Open url in system browser
+    newWindow.webContents.on('will-navigate', (event, url) => {
+      // Only process in production mode
+      if (process.env.NODE_ENV === 'production' && url.startsWith('http')) {
+        event.preventDefault()
+        shell.openExternal(url)
+      }
+    })
+    newWindow.webContents.setWindowOpenHandler(({ url }) => {
+      if (url.startsWith('http')) {
+        shell.openExternal(url)
+      }
+      return { action: 'deny' }
+    })
+
     newWindow.on('closed', () => {
       if (this.windows[id]) {
         delete this.windows[id]

@@ -83,7 +83,13 @@ export default {
       wheel: 'Utilizzare la ruota'
     },
     scroll: 'Scorri verso l\'alto/verso il basso',
-    slide: 'Scorri verso sinistra/destra'
+    slide: 'Scorri verso sinistra/destra',
+    style: {
+      bookCss: 'Prenota CSS',
+      bookCssTips: 'Libri di stili indipendenti.',
+      globalCss: 'CSS globale',
+      globalCssTips: 'Applica gli stili globali al lettore.'
+    }
   },
   settings: 'Impostazioni di lettura',
   status: {

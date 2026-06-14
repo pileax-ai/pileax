@@ -4,6 +4,7 @@ import { ttsManager } from 'src/api/service/tts'
 import { useBookStoreWithOut } from 'stores/book'
 import { useReaderStoreWithOut } from 'stores/reader'
 import { debounce } from 'quasar'
+import { getErrorMessage } from 'src/utils/request'
 
 export default function useTTS() {
   const store = useReaderStoreWithOut()
@@ -69,6 +70,7 @@ export default function useTTS() {
   }, 1000)
 
   const togglePlayPause = async () => {
+    // console.log('toggle', ttsPlayerStatus.value)
     try {
       switch (ttsPlayerStatus.value) {
         case 'stop':
@@ -85,13 +87,12 @@ export default function useTTS() {
           break
       }
     } catch (err) {
-      const error = (err as any)?.error
-      console.debug('togglePlayPause err', err, error)
-      if (error !== 'interrupted') {
+      const message = getErrorMessage(err)
+      console.debug('togglePlayPause: ', message)
+      if (!['interrupted', 'canceled'].some(k => message.includes(k))) {
         setPlayStatus('error')
       }
     }
-    // console.log('after toggle', ttsClient.value?.state)
   }
 
   const setProvider = (value: any) => {

@@ -83,7 +83,13 @@ export default {
       wheel: 'Użyj koła'
     },
     scroll: 'Przewiń w górę/w dół',
-    slide: 'Przesuń w lewo/prawo'
+    slide: 'Przesuń w lewo/prawo',
+    style: {
+      bookCss: 'Książka CSS',
+      bookCssTips: 'Style niezależne od książek.',
+      globalCss: 'Globalny CSS',
+      globalCssTips: 'Zastosuj globalne style do czytnika.'
+    }
   },
   settings: 'Ustawienia czytania',
   status: {
