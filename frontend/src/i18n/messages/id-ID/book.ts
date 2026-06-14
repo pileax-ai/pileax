@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Silakan masukkan judul',
     isbnExists: 'Buku dengan ISBN ini ada.',
     isbnNotFound: 'Buku dengan ISBN ini tidak ditemukan',
+    notFound: 'Buku tidak ditemukan atau akses ditolak',
     referencedByOthers: 'Tidak dapat dihapus, buku ini dirujuk oleh orang lain.',
     titleNotMatch: 'Judul buku tidak sesuai',
     ttsError: 'Konversi teks ke suara gagal atau tidak didukung.',

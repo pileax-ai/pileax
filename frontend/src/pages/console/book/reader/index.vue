@@ -83,6 +83,8 @@ import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
 import { onWheel } from 'src/api/service/ebook/book'
 import useCommon from 'core/hooks/useCommon'
+import { notifyWarning } from 'core/utils/control'
+import { getErrorMessage } from 'src/utils/request'
 
 const route = useRoute()
 const docTitle = useTitle('')
@@ -144,22 +146,30 @@ async function openWithAnnotation(annotationId: string) {
 
 async function open(bookId: string, initialCfi = '') {
   // console.log('open', bookId)
-  const book: Indexable = await bookService.getDetails(bookId)
-  if (book) {
-    docTitle.value = `${book.title.substring(0, 32)} | ${t('product.name')}`
-    setBookId(bookId)
-    setBook(book)
+  try {
+    const book: Indexable = await bookService.getDetails(bookId)
+    if (book) {
+      docTitle.value = `${book.title.substring(0, 32)} | ${t('product.name')}`
+      setBookId(bookId)
+      setBook(book)
 
-    const filePath = book.fileUrl
-    const cfi = initialCfi || book.readingPosition || ''
+      const filePath = book.fileUrl
+      const cfi = initialCfi || book.readingPosition || ''
 
-    loading.value = true
-    await openBook(bookRef.value, filePath, cfi)
-    loading.value = false
+      loading.value = true
+      await openBook(bookRef.value, filePath, cfi)
+      loading.value = false
 
-    setTimeout(() => {
-      prepareAnnotations(bookId)
-    }, 300)
+      setTimeout(() => {
+        prepareAnnotations(bookId)
+      }, 300)
+    }
+  } catch (err: any) {
+    let message = getErrorMessage(err)
+    if (err.response.status === 404) {
+      message = t('book.warning.notFound')
+    }
+    notifyWarning(message)
   }
 }
 

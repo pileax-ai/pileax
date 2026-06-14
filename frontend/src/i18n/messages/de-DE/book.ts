@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Bitte geben Sie einen Titel ein.',
     isbnExists: 'Ein Buch mit dieser ISBN existiert.',
     isbnNotFound: 'Buch mit dieser ISBN nicht gefunden',
+    notFound: 'Buch nicht gefunden oder Zugriff verweigert',
     referencedByOthers: 'Kann nicht gelöscht werden, da das Buch von anderen Nutzern referenziert wird.',
     titleNotMatch: 'Der Buchtitel stimmt nicht überein.',
     ttsError: 'Die Text-zu-Sprache-Funktion ist fehlgeschlagen oder wird nicht unterstützt.',

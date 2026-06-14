@@ -98,6 +98,7 @@ export default {
     inputTitle: '请输入标题',
     isbnExists: 'ISBN对应的书已存在',
     isbnNotFound: 'ISBN对应的书未找到',
+    notFound: '书不存在或无访问权限',
     referencedByOthers: '无法删除，该书已被其他用户引用',
     titleNotMatch: '书名不匹配',
     ttsError: '朗读出错或当前内容不支持朗读',

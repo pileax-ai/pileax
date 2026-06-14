@@ -104,6 +104,9 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
 
     def get_details(self, id: uuid.UUID) -> WorkspaceBookDetails:
         book = self.wb_service.get_workspace_book_details(id, self.user.id, self.workspace.id)
+        if book is None:
+            raise HTTPException(status_code=404, detail="Book not found")
+
         book_details = WorkspaceBookDetails(**book)
         self.service.check_read_permission(Owner(workspace=self.workspace, user_id=self.user.id), book_details)
         return book_details

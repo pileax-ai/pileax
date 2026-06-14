@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Vă rugăm să introduceți titlul',
     isbnExists: 'Există o carte cu acest ISBN',
     isbnNotFound: 'Cartea cu acest ISBN nu a fost găsită',
+    notFound: 'Carte negăsită sau acces refuzat',
     referencedByOthers: 'Nu se poate șterge, cartea este menționată de alții',
     titleNotMatch: 'Titlul cărții nu se potrivește',
     ttsError: 'Transformarea textului în vorbire a eșuat sau nu este acceptată.',

@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Proszę wpisać tytuł',
     isbnExists: 'Książka o tym numerze ISBN istnieje',
     isbnNotFound: 'Nie znaleziono książki o tym numerze ISBN',
+    notFound: 'Książka nie została znaleziona lub dostęp zabroniony',
     referencedByOthers: 'Nie można usunąć, książka jest cytowana przez innych',
     titleNotMatch: 'Tytuł książki nie pasuje',
     ttsError: 'Funkcja zamiany tekstu na mowę nie działa lub nie jest obsługiwana.',
