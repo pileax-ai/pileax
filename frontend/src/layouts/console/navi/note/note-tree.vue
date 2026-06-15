@@ -212,7 +212,6 @@ function onDragStart (e: DragEvent, node: Indexable) {
   e.dataTransfer?.setData('text', JSON.stringify(data))
   // e.dataTransfer?.dropEffect = 'move';
   target.classList.add('dragging')
-  console.log('drag', e)
 }
 
 function onDragEnd (e: DragEvent) {

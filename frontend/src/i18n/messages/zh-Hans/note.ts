@@ -1,5 +1,6 @@
 export default {
   _: '笔记',
+  format: '格式',
   add: '添加笔记',
   addIcon: '添加图标',
   append: '添加内容',
@@ -30,7 +31,8 @@ export default {
     monoFont: '等宽体',
     serifFont: '衬线体',
     smallText: '小字号',
-    toc: '目录'
+    toc: '目录',
+    autoNumbering: '自动编号',
   },
   version: '版本历史',
   versions: {

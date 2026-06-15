@@ -138,7 +138,7 @@ const actions = computed(() => {
       separator: true
     },
     {
-      label: '自动编号',
+      label: t('note.style.autoNumbering'),
       value: "autoNumbering",
       icon: "format_list_numbered",
       rightSide: true,
@@ -236,6 +236,9 @@ function onAction (action: Indexable, value: any) {
       onStyles()
       emit('action', { ...action, actionValue: value })
       break
+    default:
+      emit('action', action)
+      break
   }
 }
 
@@ -286,8 +289,8 @@ onMounted(() => {
       font-size: 1.6rem;
 
       &.active {
-        color: var(--q-primary);
-        background: var(--q-accent);
+        color: var(--q-primary) !important;
+        background: var(--q-accent) !important;
       }
 
       .serif {

@@ -1,5 +1,6 @@
 export default {
   _: 'Note',
+  format: 'Format',
   add: 'Add note',
   addIcon: 'Add Icon',
   append: 'Append content',
@@ -30,7 +31,8 @@ export default {
     monoFont: 'Mono',
     serifFont: 'Serif',
     smallText: 'Small text',
-    toc: 'Table of contents'
+    toc: 'Table of contents',
+    autoNumbering: 'Auto Numbering',
   },
   version: 'Version history',
   versions: {

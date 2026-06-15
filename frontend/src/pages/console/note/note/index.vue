@@ -92,6 +92,7 @@ import {
 } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
+import useCommon from 'core/hooks/useCommon'
 import useSetting from 'core/hooks/useSetting'
 import useApi from 'src/hooks/useApi'
 import useNote from 'src/hooks/useNote'
@@ -112,6 +113,7 @@ import { getDeviceId } from 'src/utils/auth'
 import { fileService } from 'src/api/service/remote'
 
 const route = useRoute()
+const { showDialog } = useCommon()
 const { darkMode, locale } = useSetting()
 const { account } = useAccount()
 const { getFileUrl } = useApi()
@@ -273,6 +275,13 @@ function onAction(action: Indexable) {
   switch (action.value) {
     case 'split':
       notePage.value?.toggleSide()
+      break
+    case 'export':
+      showDialog({
+        type: 'note-export',
+        note: currentNote.value,
+        editor: editor.value
+      })
       break
     default:
       break
