@@ -100,6 +100,7 @@ export default {
   copied: 'Disalin',
   copy: 'Menyalin',
   cover: 'Menutupi',
+  coverList: 'Daftar Sampul',
   create: 'Membuat',
   current: 'Saat ini',
   custom: 'Kebiasaan',

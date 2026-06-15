@@ -7,6 +7,7 @@
     <connect-dialog v-if="type === 'connect'" />
     <guide-dialog v-if="type === 'guide'" />
     <note-export-dialog v-if="type === 'note-export'" />
+    <note-import-dialog v-if="type === 'note-import'" />
     <note-search-dialog v-if="type === 'note-search'" />
     <note-share-dialog v-if="type === 'note-share'" />
     <signin-dialog v-if="type === 'signin'" />
@@ -28,6 +29,7 @@ import ChatToNoteDialog from './ChatToNoteDialog.vue'
 import ConnectDialog from './ConnectDialog.vue'
 import GuideDialog from './GuideDialog.vue'
 import NoteExportDialog from './NoteExportDialog.vue'
+import NoteImportDialog from './NoteImportDialog.vue'
 import NoteSearchDialog from './NoteSearchDialog.vue'
 import NoteShareDialog from './NoteShareDialog.vue'
 import SigninDialog from './SigninDialog.vue'

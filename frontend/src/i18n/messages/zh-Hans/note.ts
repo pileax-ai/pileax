@@ -1,6 +1,5 @@
 export default {
   _: '笔记',
-  format: '格式',
   add: '添加笔记',
   addIcon: '添加图标',
   append: '添加内容',
@@ -17,6 +16,7 @@ export default {
   duplicate: '创建副本',
   favoriteAdd: '添加到收藏',
   favoriteRemove: '从收藏中移除',
+  format: '格式',
   insert: '插入笔记',
   moveTo: '移动到',
   newTab: '在新标签页中打开',
@@ -26,13 +26,13 @@ export default {
   search: '搜索笔记',
   searchResults: '搜索结果',
   style: {
+    autoNumbering: '自动编号',
     defaultFont: '默认',
     fullWidth: '全宽',
     monoFont: '等宽体',
     serifFont: '衬线体',
     smallText: '小字号',
-    toc: '目录',
-    autoNumbering: '自动编号',
+    toc: '目录'
   },
   version: '版本历史',
   versions: {

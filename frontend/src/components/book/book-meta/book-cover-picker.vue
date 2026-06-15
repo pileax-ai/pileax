@@ -1,7 +1,7 @@
 <template>
   <section class="book-cover-picker">
     <nav class="col-12 navi">
-      封面列表
+      {{ $t('coverList') }}
     </nav>
 
     <section class="row col-12 covers-container">

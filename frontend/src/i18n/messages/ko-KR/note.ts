@@ -16,6 +16,7 @@ export default {
   duplicate: '복제하다',
   favoriteAdd: '즐겨찾기에 추가',
   favoriteRemove: '즐겨찾기에서 삭제',
+  format: '체재',
   insert: '메모 삽입',
   moveTo: '이동하다',
   newTab: '새 탭에서 열기',
@@ -25,6 +26,7 @@ export default {
   search: '검색 노트',
   searchResults: '검색 결과',
   style: {
+    autoNumbering: '자동 번호 매기기',
     defaultFont: '기본',
     fullWidth: '전폭',
     monoFont: '단핵증',

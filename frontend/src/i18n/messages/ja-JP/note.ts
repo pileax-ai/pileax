@@ -16,6 +16,7 @@ export default {
   duplicate: '重複',
   favoriteAdd: 'お気に入りに追加',
   favoriteRemove: 'お気に入りから削除',
+  format: '形式',
   insert: 'メモを挿入',
   moveTo: '移動先',
   newTab: '新しいタブで開く',
@@ -25,6 +26,7 @@ export default {
   search: '検索メモ',
   searchResults: '検索結果',
   style: {
+    autoNumbering: '自動番号付け',
     defaultFont: 'デフォルト',
     fullWidth: '全幅',
     monoFont: '単核症',

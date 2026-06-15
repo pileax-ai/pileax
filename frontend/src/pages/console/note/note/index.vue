@@ -283,6 +283,13 @@ function onAction(action: Indexable) {
         editor: editor.value
       })
       break
+    case 'import':
+      showDialog({
+        type: 'note-import',
+        note: currentNote.value,
+        editor: editor.value
+      })
+      break
     default:
       break
   }
@@ -456,6 +463,7 @@ function loadingChatNodeCollab() {
 
 function  loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
+  console.debug('Collab', collab.value.collabEnabled)
   if (collab.value.collabEnabled) {
     initCollab()
   } else {
@@ -475,9 +483,13 @@ function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
 }
 
 const insertContent = (value: string) => {
-  const json = markdown.value?.parse(value)
-  if (json?.content) {
-    editor.value?.commands.insertContent(sanitizeContent(json))
+  try {
+    const json = markdown.value?.parse(value)
+    if (json?.content) {
+      editor.value?.commands.insertContent(sanitizeContent(json))
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 

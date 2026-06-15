@@ -16,6 +16,7 @@ export default {
   duplicate: 'Nhân bản',
   favoriteAdd: 'Thêm vào mục yêu thích',
   favoriteRemove: 'Xóa khỏi mục yêu thích',
+  format: 'Định dạng',
   insert: 'Chèn ghi chú',
   moveTo: 'Di chuyển đến',
   newTab: 'Mở trong tab mới',
@@ -25,6 +26,7 @@ export default {
   search: 'Ghi chú tìm kiếm',
   searchResults: 'Kết quả tìm kiếm',
   style: {
+    autoNumbering: 'Đánh số tự động',
     defaultFont: 'Mặc định',
     fullWidth: 'Chiều rộng đầy đủ',
     monoFont: 'Bệnh tăng bạch cầu đơn nhân',

@@ -16,6 +16,7 @@ export default {
   duplicate: 'Duplicado',
   favoriteAdd: 'Añadir a favoritos',
   favoriteRemove: 'Eliminar de favoritos',
+  format: 'Formato',
   insert: 'Insertar nota',
   moveTo: 'Convidar a',
   newTab: 'Abrir en nueva pestaña',
@@ -25,6 +26,7 @@ export default {
   search: 'Nota de búsqueda',
   searchResults: 'Resultados de la búsqueda',
   style: {
+    autoNumbering: 'Numeración automática',
     defaultFont: 'Por defecto',
     fullWidth: 'Ancho completo',
     monoFont: 'Mononucleosis infecciosa',

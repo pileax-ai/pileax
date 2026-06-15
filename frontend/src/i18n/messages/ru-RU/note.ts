@@ -16,6 +16,7 @@ export default {
   duplicate: 'Дубликат',
   favoriteAdd: 'Добавить в избранное',
   favoriteRemove: 'Удалить из избранных',
+  format: 'Формат',
   insert: 'Вставить примечание',
   moveTo: 'Переместиться в',
   newTab: 'Открыть в новой вкладке',
@@ -25,6 +26,7 @@ export default {
   search: 'Примечание по поиску',
   searchResults: 'Результаты поиска',
   style: {
+    autoNumbering: 'Автоматическая нумерация',
     defaultFont: 'По умолчанию',
     fullWidth: 'Полная ширина',
     monoFont: 'Мононуклеоз',

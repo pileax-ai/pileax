@@ -111,6 +111,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  local: {
+    type: Boolean,
+    default: false
+  },
   leading: {
     type: Boolean,
     default: false
@@ -132,7 +136,7 @@ const props = defineProps({
     default: false
   },
 })
-const emit = defineEmits(['uploaded'])
+const emit = defineEmits(['ready', 'uploaded'])
 
 const value = ref(null)
 const selectedFile = ref<File>()
@@ -172,10 +176,17 @@ function updateFiles (file: File) {
     }
   }
 
-  upload(file)
+  if (props.local) {
+    onReady(file)
+  } else {
+    onUpload(file)
+  }
+}
+function onReady(file: File) {
+  emit('ready', file)
 }
 
-function upload(file: File) {
+function onUpload(file: File) {
   loading.value = true
   const ref = {
     refId: props.refId,

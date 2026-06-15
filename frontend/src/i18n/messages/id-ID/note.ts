@@ -16,6 +16,7 @@ export default {
   duplicate: 'Duplikat',
   favoriteAdd: 'Tambahkan ke favorit',
   favoriteRemove: 'Hapus dari favorit',
+  format: 'Format',
   insert: 'Sisipkan catatan',
   moveTo: 'Pindah ke',
   newTab: 'Buka di tab baru',
@@ -25,6 +26,7 @@ export default {
   search: 'Catatan pencarian',
   searchResults: 'Hasil Pencarian',
   style: {
+    autoNumbering: 'Penomoran Otomatis',
     defaultFont: 'Bawaan',
     fullWidth: 'Lebar penuh',
     monoFont: 'Mono',

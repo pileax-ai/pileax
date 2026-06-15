@@ -100,6 +100,7 @@ export default {
   copied: '복사됨',
   copy: '복사',
   cover: '씌우다',
+  coverList: '표지 목록',
   create: '만들다',
   current: '현재의',
   custom: '관습',

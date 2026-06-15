@@ -100,6 +100,7 @@ export default {
   copied: 'Đã sao chép',
   copy: 'Sao chép',
   cover: 'Che phủ',
+  coverList: 'Danh sách bìa',
   create: 'Tạo nên',
   current: 'Hiện hành',
   custom: 'Phong tục',

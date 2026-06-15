@@ -96,12 +96,12 @@ export const useNaviStore = defineStore('navi', {
       }
       this.openedMenus.unshift(menu)
     },
-    closeOpenedMenu(menu: MenuItem) {
+    closeOpenedMenu(menu: MenuItem, openLatest = true) {
       const index = this.openedMenus.findIndex((e: MenuItem) => e.path === menu.path)
       if (index >= 0) {
         this.openedMenus.splice(index, 1)
 
-        if (menu.path === this.currentMenu.path) {
+        if (openLatest && menu.path === this.currentMenu.path) {
           let latestPath = '/welcome'
           if (this.openedMenus.length) {
             latestPath = this.openedMenus?.slice(-1).length
