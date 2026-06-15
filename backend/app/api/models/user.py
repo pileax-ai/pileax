@@ -25,9 +25,7 @@ class User(BaseSQLModel, BaseMixin, table=True):
     status: int = Field(
         default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
     )
-    role: str = Field(
-        default="normal", sa_type=String, sa_column_kwargs={"server_default": "normal"}
-    )
+    role: str = Field(default="normal", sa_type=String, sa_column_kwargs={"server_default": "normal"})
 
 
 class UserBase(BaseApiModel):

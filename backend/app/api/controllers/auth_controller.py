@@ -25,9 +25,7 @@ class AuthController:
         self.response = response
 
     async def get_init(self) -> dict:
-        return {
-            "init": self.service.has_super()
-        }
+        return {"init": self.service.has_super()}
 
     async def signup(self, item_in: Signup) -> SigninPublic:
         item = item_in.model_dump(by_alias=True)
