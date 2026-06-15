@@ -27,13 +27,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { Editor } from '@tiptap/core'
 import {
   YiiCodeEditor,
 } from '@yiitap/vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import useGuide from 'src/hooks/useGuide'
+import { defaultGlobalCSS } from 'src/app/default-reader-setting'
 
 defineProps({
   fixedLayout: {
@@ -61,6 +62,7 @@ const globalCSSEnabled = computed({
     return settings.value.globalCSSEnabled
   },
   set(value: string) {
+    onSave()
     setSettingItem('globalCSSEnabled', value)
   }
 })
@@ -69,7 +71,7 @@ const editorOptions = computed(() => {
   return {
     editable: true,
     content:
-      `<pre><code class="language-css">${globalCSS.value}</code></pre>`,
+      `<pre><code class="language-css">${editingCSS.value}</code></pre>`,
     pageView: 'page',
   }
 })
@@ -82,8 +84,8 @@ function onSave() {
   globalCSS.value = editingCSS.value
 }
 
-onMounted(() => {
-  editingCSS.value = globalCSS.value
+onBeforeMount(() => {
+  editingCSS.value = globalCSS.value || defaultGlobalCSS
 })
 </script>
 

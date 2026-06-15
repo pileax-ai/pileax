@@ -22,6 +22,7 @@ const { openDialog } = useDialog()
 const { style } = useReader()
 const {
   store,
+  book,
   bookId,
   bookCss,
   operation,
@@ -233,7 +234,11 @@ const onRelocatedByOperation = (data: Indexable) => {
 // ---------------------------------------------------------
 // To Ebook Render
 // ---------------------------------------------------------
-const changeStyle = (newStyle: Indexable) => {
+const changeStyle = () => {
+  const newStyle = {
+    ...style.value,
+    bookCSS: bookCss.value
+  }
   ebookRender.changeStyle(newStyle)
 }
 
@@ -329,23 +334,25 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
     fetch(bookUrl)
       .then((res: any) => res.blob())
       .then((blob) => {
+        const file = new File([blob], new URL(bookUrl, window.location.origin).pathname)
+        const data = {
+          saving: 'local',
+          file: file,
+          filePath: filePath
+        }
 
-      const file = new File([blob], new URL(bookUrl, window.location.origin).pathname)
-      const data = {
-        saving: 'local',
-        file: file,
-        filePath: filePath
-      }
-
-      // console.log('openBook', cfi)
-      ebookRender.open(bookElement, data,
-        { cfi, userStyle: { ...style.value, bookCSS: bookCss.value} })
-      setManual(BookOperation.Load)
-      resolve(data)
-    }).catch((err: any) => {
-      console.error('Failed to open file：', err)
-      reject(err)
-    })
+        // console.log('openBook', cfi)
+        const userStyle = {
+          ...style.value,
+          bookCSS: bookCss.value || book.value.options?.css
+        }
+        ebookRender.open(bookElement, data, { cfi, userStyle })
+        setManual(BookOperation.Load)
+        resolve(data)
+      }).catch((err: any) => {
+        console.error('Failed to open file：', err)
+        reject(err)
+      })
   })
 }
 

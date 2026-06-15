@@ -19,6 +19,7 @@
       class="layout-content"
       v-bind="editorOptions"
       @update="onUpdate"
+      v-if="loading"
     />
 
     <footer class="row col-12 justify-center items-center">
@@ -28,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { Editor } from '@tiptap/core'
 import {
   YiiCodeEditor,
@@ -37,6 +38,7 @@ import useBook from 'src/hooks/useBook'
 import useGuide from 'src/hooks/useGuide'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import { changeStyle } from 'src/api/service/ebook/book'
+import { userBookService } from 'src/api/service/remote'
 
 defineProps({
   fixedLayout: {
@@ -46,10 +48,12 @@ defineProps({
 })
 const emit = defineEmits(['next'])
 
-const { bookCss, setBookCss } = useBook()
+const { book, bookCss, setBookCss } = useBook()
 const { openGuide } = useGuide()
 const { settings } = useReaderSetting()
 const editingCSS = ref('')
+const loading = ref(false)
+const useBookOptions = ref<Indexable>({})
 
 const bookCSS = computed({
   get() {
@@ -57,10 +61,7 @@ const bookCSS = computed({
   },
   set(value: string) {
     setBookCss(value)
-    changeStyle({
-      ...settings.value,
-      bookCSS: value
-    })
+    changeStyle()
   }
 })
 
@@ -68,7 +69,7 @@ const editorOptions = computed(() => {
   return {
     editable: true,
     content:
-      `<pre><code class="language-css">${bookCSS.value}</code></pre>`,
+      `<pre><code class="language-css">${editingCSS.value}</code></pre>`,
     pageView: 'page',
   }
 })
@@ -77,13 +78,37 @@ function onUpdate({ editor, language, code, }: { editor: Editor, language: strin
   editingCSS.value = code
 }
 
-function onSave() {
+function onSave(remote = true) {
   bookCSS.value = editingCSS.value
+
+  if (remote) {
+    const body = {
+      id: book.value.userBookId,
+      options: {
+        ...useBookOptions.value,
+        css: editingCSS.value
+      }
+    }
+    userBookService.update(body)
+  }
 }
 
-onMounted(() => {
-  editingCSS.value = bookCSS.value
-})
+function loadCSS() {
+  if (bookCSS.value) {
+    editingCSS.value = bookCSS.value
+    loading.value = true
+  } else {
+    userBookService.get(book.value.userBookId).then(res => {
+      useBookOptions.value = res.options || {}
+      editingCSS.value = useBookOptions.value.css || ''
+      onSave(false)
+    }).finally(() => {
+      loading.value = true
+    })
+  }
+}
+
+onBeforeMount(loadCSS)
 </script>
 
 <style lang="scss">
