@@ -35,13 +35,19 @@
         </section>
 
         <section class="layout-content title">
+          <div class="skeletons" v-if="loading">
+            <q-skeleton type="QInput" width="40%" />
+            <q-skeleton type="rect" width="60%" />
+            <q-skeleton type="rect" />
+          </div>
           <q-input ref="title"
                    :model-value="currentNote.title"
                    debounce="100"
                    placeholder="Loading"
                    class=""
                    borderless
-                   readonly />
+                   readonly
+                   v-else />
         </section>
 
         <YiiEditor ref="yiiEditor"
@@ -49,6 +55,10 @@
                    :class="{ 'auto-numbering': styles.autoNumbering }"
                    v-bind="options"
                    v-if="currentNote.id" />
+
+        <section class="layout-content q-py-md text-center">
+          {{`©${(new Date()).getFullYear()}`}} <a href="/">{{ $t('product.name') }} AI</a>.
+        </section>
 
         <aside class="layout-right desktop-only">
           <div class="sticky-top">
@@ -286,6 +296,10 @@ onActivated(() => {
         &__control {
           padding: 0;
         }
+      }
+
+      .q-skeleton {
+        margin-bottom: 8px;
       }
     }
 
