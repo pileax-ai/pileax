@@ -56,7 +56,6 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
         sql: TextClause = text(sql_template.format(where_clause=where_clause))
 
-
         with self.session as session:
             conn = session.connection()
             result = conn.execute(sql, params)
