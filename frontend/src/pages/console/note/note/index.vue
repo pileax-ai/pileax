@@ -92,6 +92,7 @@ import {
 } from '@yiitap/vue'
 import 'katex/dist/katex.min.css'
 
+import useCommon from 'core/hooks/useCommon'
 import useSetting from 'core/hooks/useSetting'
 import useApi from 'src/hooks/useApi'
 import useNote from 'src/hooks/useNote'
@@ -112,6 +113,7 @@ import { getDeviceId } from 'src/utils/auth'
 import { fileService } from 'src/api/service/remote'
 
 const route = useRoute()
+const { showDialog } = useCommon()
 const { darkMode, locale } = useSetting()
 const { account } = useAccount()
 const { getFileUrl } = useApi()
@@ -273,6 +275,20 @@ function onAction(action: Indexable) {
   switch (action.value) {
     case 'split':
       notePage.value?.toggleSide()
+      break
+    case 'export':
+      showDialog({
+        type: 'note-export',
+        note: currentNote.value,
+        editor: editor.value
+      })
+      break
+    case 'import':
+      showDialog({
+        type: 'note-import',
+        note: currentNote.value,
+        editor: editor.value
+      })
       break
     default:
       break
@@ -447,6 +463,7 @@ function loadingChatNodeCollab() {
 
 function  loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
+  console.debug('Collab', collab.value.collabEnabled)
   if (collab.value.collabEnabled) {
     initCollab()
   } else {
@@ -466,9 +483,13 @@ function setContent (docNode: Indexable, emitUpdate = false, focus = 'start') {
 }
 
 const insertContent = (value: string) => {
-  const json = markdown.value?.parse(value)
-  if (json?.content) {
-    editor.value?.commands.insertContent(sanitizeContent(json))
+  try {
+    const json = markdown.value?.parse(value)
+    if (json?.content) {
+      editor.value?.commands.insertContent(sanitizeContent(json))
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 

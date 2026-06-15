@@ -16,6 +16,7 @@ export default {
   duplicate: '创建副本',
   favoriteAdd: '添加到收藏',
   favoriteRemove: '从收藏中移除',
+  format: '格式',
   insert: '插入笔记',
   moveTo: '移动到',
   newTab: '在新标签页中打开',
@@ -25,6 +26,7 @@ export default {
   search: '搜索笔记',
   searchResults: '搜索结果',
   style: {
+    autoNumbering: '自动编号',
     defaultFont: '默认',
     fullWidth: '全宽',
     monoFont: '等宽体',

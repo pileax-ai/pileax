@@ -100,6 +100,7 @@ export default {
   copied: 'Copiat',
   copy: 'Copie',
   cover: 'Acoperi',
+  coverList: 'Listă de copertă',
   create: 'Crea',
   current: 'Actual',
   custom: 'Personalizat',

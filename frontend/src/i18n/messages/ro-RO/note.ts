@@ -16,6 +16,7 @@ export default {
   duplicate: 'Duplicat',
   favoriteAdd: 'Adaugă la favorite',
   favoriteRemove: 'Eliminare din favorite',
+  format: 'Format',
   insert: 'Introduceți o notă',
   moveTo: 'Mută la',
   newTab: 'Deschide într-o filă nouă',
@@ -25,6 +26,7 @@ export default {
   search: 'Notă de căutare',
   searchResults: 'Rezultate căutare',
   style: {
+    autoNumbering: 'Numerotare automată',
     defaultFont: 'Implicit',
     fullWidth: 'Lățime completă',
     monoFont: 'Mono',

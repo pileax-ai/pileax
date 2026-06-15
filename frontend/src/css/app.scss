@@ -524,8 +524,10 @@ model-viewer {
   }
 
   &.auto-numbering {
+    // 1. Initialize counters at the container root
     counter-reset: h1-count h2-count h3-count;
 
+    // 2. Headings prefix styling (Your conditional rendering logic)
     &:has(h1) h2::before {
       content: counter(h1-count) "." counter(h2-count) " ";
     }
@@ -542,9 +544,11 @@ model-viewer {
       content: counter(h2-count) "." counter(h3-count) " ";
     }
 
+    // 3. Increments and FORCE sibling resets via counter-set
     h1 {
-      counter-reset: h2-count;
       counter-increment: h1-count;
+      // ✅ FORCE the sibling h2-count to roll back to 0
+      counter-set: h2-count 0;
     }
 
     h1::before {
@@ -552,8 +556,9 @@ model-viewer {
     }
 
     h2 {
-      counter-reset: h3-count;
       counter-increment: h2-count;
+      // ✅ FORCE the sibling h3-count to roll back to 0
+      counter-set: h3-count 0;
     }
 
     h3 {

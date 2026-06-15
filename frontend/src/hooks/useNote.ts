@@ -17,6 +17,7 @@ import { timeDiff } from 'core/utils/dayjs'
 import { noteVersionService } from 'src/api/service/remote/note-version'
 import { debounce } from 'quasar'
 import axios from 'axios'
+import type { Chat } from 'src/types/chat'
 
 export default function () {
   const naviStore = useNaviStore()
@@ -119,6 +120,10 @@ export default function () {
     recentNotes.value = res.list as Note[]
   }
 
+  function setChatToNote(value: Chat) {
+    noteStore.value.setChatToNote(value)
+  }
+
   function addNote(parent = '', source = '') {
     const id = UUID()
     const query = {} as Indexable
@@ -202,14 +207,13 @@ export default function () {
     const index = notes.value.findIndex((item) => item.id === note.id)
     if (index >= 0) {
       notes.value.splice(index, 1)
-      // todo: Route to note home page
     }
 
     // Remove from opened tabs
     naviStore.closeOpenedMenu({
       name: note.title,
       path: `/note/${note.id}`,
-    } as MenuItem)
+    } as MenuItem, false)
 
     if (publish) {
       // Remove from database
@@ -217,6 +221,12 @@ export default function () {
 
       // publish
       publishCollabEvent(CollabEvent.NOTE_DELETE, note)
+    }
+
+    // Route to note home page
+    if (notes.value.length > 0) {
+      const id = notes.value.at(0)?.id
+      router.push({ name: 'note', params: { id } })
     }
   }
 
@@ -347,6 +357,22 @@ export default function () {
     openNewWindow(note.id, `/note/${note.id}`)
   }
 
+  function exportMarkdown(title: string, content: string) {
+    const filename = `${title}.md`
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    URL.revokeObjectURL(url)
+  }
+
   return {
     noteStore,
     noteService,
@@ -368,6 +394,7 @@ export default function () {
     saveNoteRemote,
     saveNoteMarkdown,
     setParent,
+    setChatToNote,
     toggleFavorite,
     shareNote,
     duplicateNote,
@@ -375,5 +402,6 @@ export default function () {
     newWindow,
     refreshNote,
     deleteNote,
+    exportMarkdown,
   }
 }

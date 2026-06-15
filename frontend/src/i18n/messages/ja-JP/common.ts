@@ -100,6 +100,7 @@ export default {
   copied: 'コピーしました',
   copy: 'コピー',
   cover: 'カバー',
+  coverList: '表紙一覧',
   create: '作成する',
   current: '現在',
   custom: 'カスタム',

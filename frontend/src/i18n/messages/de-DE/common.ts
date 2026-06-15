@@ -100,6 +100,7 @@ export default {
   copied: 'Kopiert',
   copy: 'Kopie',
   cover: 'Abdeckung',
+  coverList: 'Deckliste',
   create: 'Erstellen',
   current: 'Aktuell',
   custom: 'Brauch',

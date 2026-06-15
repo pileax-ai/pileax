@@ -16,6 +16,7 @@ export default {
   duplicate: 'Duplikat',
   favoriteAdd: 'Dodaj do ulubionych',
   favoriteRemove: 'Usuń z ulubionych',
+  format: 'Format',
   insert: 'Wstaw notatkę',
   moveTo: 'Przenieś się do',
   newTab: 'Otwórz w nowej karcie',
@@ -25,6 +26,7 @@ export default {
   search: 'Wyszukaj notatkę',
   searchResults: 'Wyniki wyszukiwania',
   style: {
+    autoNumbering: 'Numerowanie automatyczne',
     defaultFont: 'Domyślny',
     fullWidth: 'Pełna szerokość',
     monoFont: 'Mononukleoza',

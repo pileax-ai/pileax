@@ -16,6 +16,7 @@ export default {
   duplicate: '建立副本',
   favoriteAdd: '加入收藏',
   favoriteRemove: '從收藏中移除',
+  format: '格式',
   insert: '插入筆記',
   moveTo: '移動到',
   newTab: '在新分頁中開啟',
@@ -25,6 +26,7 @@ export default {
   search: '搜尋筆記',
   searchResults: '搜尋結果',
   style: {
+    autoNumbering: '自動編號',
     defaultFont: '預設',
     fullWidth: '全寬',
     monoFont: '等寬體',

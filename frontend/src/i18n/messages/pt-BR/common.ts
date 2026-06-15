@@ -100,6 +100,7 @@ export default {
   copied: 'Copiado',
   copy: 'Cópia',
   cover: 'Cobrir',
+  coverList: 'Lista de Capa',
   create: 'Criar',
   current: 'Atual',
   custom: 'Personalizado',

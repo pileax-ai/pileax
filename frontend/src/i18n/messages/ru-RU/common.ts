@@ -100,6 +100,7 @@ export default {
   copied: 'Скопировано',
   copy: 'Копия',
   cover: 'Крышка',
+  coverList: 'Список обложек',
   create: 'Создавать',
   current: 'Текущий',
   custom: 'Обычай',

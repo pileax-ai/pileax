@@ -16,6 +16,7 @@ export default {
   duplicate: 'Duplicate',
   favoriteAdd: 'Add to favorite',
   favoriteRemove: 'Remove from favorite',
+  format: 'Format',
   insert: 'Insert note',
   moveTo: 'Move to',
   newTab: 'Open in new tab',
@@ -25,6 +26,7 @@ export default {
   search: 'Search note',
   searchResults: 'Search Results',
   style: {
+    autoNumbering: 'Auto Numbering',
     defaultFont: 'Default',
     fullWidth: 'Full width',
     monoFont: 'Mono',

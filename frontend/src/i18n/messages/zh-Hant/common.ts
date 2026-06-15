@@ -100,6 +100,7 @@ export default {
   copied: '已複製',
   copy: '複製',
   cover: '封面',
+  coverList: '封面列表',
   create: '創建',
   current: '目前',
   custom: '自訂',
