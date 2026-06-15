@@ -254,7 +254,7 @@ function onCoverPick(url: string) {
 
 function queryCover() {
   bookService.queryCover(id.value).then(res => {
-    console.log('cover', res)
+    // console.log('cover', res)
   })
 }
 

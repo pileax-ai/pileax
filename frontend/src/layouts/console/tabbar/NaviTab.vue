@@ -116,7 +116,7 @@ function onAction (action: Indexable, item: MenuItem) {
   // console.log('Tab action', item)
   switch (action.value) {
     case 'close':
-      tabStore.closeTab(item.id)
+      onClose(item)
       break
     case 'closeOther':
       tabStore.closeOtherTabs(item.id)
@@ -132,7 +132,7 @@ function onAction (action: Indexable, item: MenuItem) {
       break
     case 'newWindow':
       openNewWindowFromWorkspace(item.workspaceId!, item.id, item.path)
-      tabStore.closeTab(item.id)
+      onClose(item)
       break
     case 'pin':
       tabStore.togglePinTab(item.id)

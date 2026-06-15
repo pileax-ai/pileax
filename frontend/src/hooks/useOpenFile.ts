@@ -24,7 +24,6 @@ export default function () {
         lastModified: fileData.lastModified
       })
       uploadBook(file).then(res => {
-        console.log('uploadBook', res)
         appStore.resetOpenFile()
 
         // navigate to book library and refresh

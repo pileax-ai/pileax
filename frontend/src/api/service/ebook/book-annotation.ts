@@ -10,7 +10,6 @@ import { bookAnnotationService } from 'src/api/service/remote/book-annotation'
 // Reader
 // ---------------------------------------------------------
 const addAnnotation = async (annotation: any) => {
-  // console.log('annotation', annotation)
   ebookRender.addAnnotation(annotation)
   return bookAnnotationService.save(annotation)
 }

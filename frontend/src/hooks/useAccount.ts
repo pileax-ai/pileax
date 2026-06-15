@@ -78,8 +78,8 @@ export default function () {
   }
 
   async function login(params: LoginParams) {
-    await accountStore.reset()
-    await workspaceStore.reset()
+    // await accountStore.reset()
+    // await workspaceStore.reset()
     return await accountStore.login(params)
   }
 

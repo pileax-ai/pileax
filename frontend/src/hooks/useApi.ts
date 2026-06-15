@@ -4,9 +4,9 @@ import { useApiStore } from 'stores/api'
 import { useWorkspaceStore } from 'stores/workspace'
 import { computed } from 'vue'
 import { ipcService } from 'src/api/ipc'
+import { saveItem } from 'core/utils/storage'
 
 export default function() {
-  const accountStore = useAccountStore()
   const apiStore = useApiStore()
   const workspaceStore = useWorkspaceStore()
 
@@ -79,6 +79,7 @@ export default function() {
   }
 
   function openNewWindowFromWorkspace(workspace: string, id: string, path: string, titleBarHeight?: number) {
+    const accountStore = useAccountStore()
     // Create child window
     // Update parent window's workspace immediately
     // Used to init child window's workspace
@@ -87,7 +88,8 @@ export default function() {
   }
 
   function openNewWindow(id: string, path: string, titleBarHeight?: number) {
-    openNewWindowFromWorkspace(workspaceStore.workspaceId, id, path, titleBarHeight)
+    const currentWorkspaceId = workspaceStore.workspaceId
+    openNewWindowFromWorkspace(currentWorkspaceId, id, path, titleBarHeight)
   }
 
   return {

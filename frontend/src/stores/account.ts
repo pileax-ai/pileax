@@ -7,6 +7,7 @@ import { authService } from 'src/api/service/remote/auth'
 import { workspaceService } from 'src/api/service/remote/workspace'
 import { workspaceManager } from 'core/workspace/workspace-manager'
 import type { LoginParams } from 'src/api/models/account'
+import { globalCrossTabBus } from 'src/api/event/event-bus'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
@@ -63,6 +64,9 @@ export const useAccountStore = defineStore('account', {
       if (redirect) {
         this.router.push(redirect)
       }
+
+      globalCrossTabBus.emit('auth:login')
+
       return result.user
     },
     async logout({redirect = '/auth/signin', signout = true} = {}) {

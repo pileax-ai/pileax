@@ -186,7 +186,6 @@ const onRelocated = (data: Indexable) => {
       // Ignore when switch page turning mode
       const location = data.location.current
       if (location === 0) {
-        console.log('switch page turning mode')
         return
       }
 
@@ -454,24 +453,6 @@ const parseTitle = (title: string) => {
   if (!title) return ''
 
   return title.replace(/【.*】$/, '').trim()
-}
-
-const parseAuthor0 = (data: any) => {
-  if (!data) return 'Author'
-  console.log('parseAuthor', data)
-  let author = data
-  if (Array.isArray(data)) {
-    // console.log('parseAuthor array', data)
-    const arr = data.map(item => {
-      return (typeof item === 'object') ? item['name'] : item
-    })
-    author = arr.join(',')
-  } else if (typeof data === 'object') {
-    // console.log('parseAuthor object', data)
-    author = data['name'] ?? 'unknown'
-  }
-
-  return author
 }
 
 const parseAuthor = (data: any): string => {

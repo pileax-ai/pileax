@@ -54,7 +54,7 @@
               <header class="">{{ $t('document') }}</header>
               <section class="q-mt-md links">
                 <q-btn :label="$t('quickstart')" flat
-                       href="https://docs.pileax.ai/quick-start"
+                       href="https://docs.pileax.ai/guide/getting-started"
                        target="_blank" />
                 <q-btn :label="$t('docs')" flat
                        href="https://docs.pileax.ai"

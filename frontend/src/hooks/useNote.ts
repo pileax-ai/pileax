@@ -134,7 +134,6 @@ export default function () {
 
   function saveNoteRemote(data: Indexable): Promise<Indexable> {
     return new Promise((resolve, reject) => {
-      // console.log('save', data)
       noteService.save(data).then(res => {
         refreshNote(res)
         resolve(res)
@@ -203,8 +202,6 @@ export default function () {
     const index = notes.value.findIndex((item) => item.id === note.id)
     if (index >= 0) {
       notes.value.splice(index, 1)
-      console.log('delete note', index, notes.value)
-
       // todo: Route to note home page
     }
 

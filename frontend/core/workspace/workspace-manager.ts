@@ -1,4 +1,4 @@
-import { getItemObject, getSessionItem, saveSessionItem } from 'core/utils/storage'
+import { getItemObject, getSessionItem, getSessionItemObject, saveSessionItem } from 'core/utils/storage'
 
 export interface WorkspaceInfo {
   id: string;
@@ -73,10 +73,11 @@ export class WorkspaceManager {
   }
 
   loadWorkspace(): void {
-    const account = getItemObject('account') as Indexable
-    const workspace = account.workspace
-    const workspaceId = workspace?.id || ''
-    saveSessionItem(cacheKey, workspaceId)
+    const workspace = getSessionItemObject('workspace') as Indexable
+    if (workspace?.workspace) {
+      const workspaceId = workspace.workspace?.id || ''
+      saveSessionItem(cacheKey, workspaceId)
+    }
   }
 
   // Remove workspace

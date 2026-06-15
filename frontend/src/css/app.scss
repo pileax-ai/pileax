@@ -569,6 +569,10 @@ model-viewer {
     .preview {
       background: var(--q-secondary);
     }
+
+    .code-block-toolbar {
+      -webkit-app-region: no-drag !important;
+    }
   }
 }
 

@@ -126,7 +126,7 @@ api.interceptors.response.use(
         tokenRefreshManager.setIsRefreshing(false)
       }
     } else if (status === 403) {
-      if (originalRequest._retry || originalRequest.url === '/auth/refresh-token') {
+      if (originalRequest._retry && originalRequest.url === '/auth/refresh-token') {
         // Guide to signin again
         openDialog({ type: 'signin' })
         return Promise.reject(error)
@@ -138,7 +138,7 @@ api.interceptors.response.use(
     } else if (status === 500) {
       notifyWarning(message)
     } else {
-      if (message === 'Network Error') {
+      if (message === 'Network Error' && originalRequest.url !== '/system/health-check') {
         openDialog({ type: 'tips', message: 'warning.networkError', needTranslate: true })
       }
     }

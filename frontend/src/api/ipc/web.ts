@@ -24,7 +24,9 @@ const reload = (id: string, force: boolean = false): Promise<any> => {
       resolve(force)
     })
   } else {
-    return refresh()
+    // return refresh()
+    window.location.reload()
+    return Promise.resolve()
   }
 }
 

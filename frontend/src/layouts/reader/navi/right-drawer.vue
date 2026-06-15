@@ -56,7 +56,6 @@ watch(() => rightDrawerHoverShow.value, (newValue) => {
 })
 
 watch(() => rightDrawer.value.split, (newValue) => {
-  console.log('split', newValue)
   splitterPercent.value = newValue ? 50 : 0
 })
 
