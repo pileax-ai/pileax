@@ -1,5 +1,5 @@
-  import { computed, ref } from 'vue'
-import { useAccountStore } from 'stores/account'
+import { computed, ref } from 'vue'
+import { useWorkspaceStore } from 'src/stores/workspace'
 import { useNaviStore } from 'stores/navi'
 import { useNoteStore } from 'stores/note'
 import { useTabStore } from 'stores/tab'
@@ -10,7 +10,6 @@ import { router } from 'src/router'
 import useCommon from 'core/hooks/useCommon'
 import useApi from 'src/hooks/useApi'
 import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
-import { ipcService } from 'src/api/ipc'
 import { noteService } from 'src/api/service/remote/note'
 import { workspaceManager } from 'core/workspace/workspace-manager'
 import { CollabEvent } from 'src/types/collab'
@@ -21,18 +20,18 @@ import axios from 'axios'
 
 export default function () {
   const naviStore = useNaviStore()
-  const accountStore = useAccountStore()
+  const workspaceStore = useWorkspaceStore()
   const tabStore = useTabStore()
   const { t, confirm, showDialog } = useCommon()
   const { publishCollabEvent } = useWorkspaceCollab()
-  const { getFileUrl } = useApi()
+  const { getFileUrl, openNewWindow } = useApi()
   const recentNotes = ref<Note[]>([])
 
   // version
   const lastVersionTime = ref('')
 
   const noteStore = computed(() => {
-    const currentWorkspaceId = accountStore.workspaceId
+    const currentWorkspaceId = workspaceStore.workspaceId
     return useNoteStore(currentWorkspaceId)
   })
 
@@ -348,7 +347,7 @@ export default function () {
   }
 
   function newWindow(note: Indexable) {
-    ipcService.openNewWindow(note.id, `/note/${note.id}`)
+    openNewWindow(note.id, `/note/${note.id}`)
   }
 
   return {

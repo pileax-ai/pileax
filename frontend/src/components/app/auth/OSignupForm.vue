@@ -105,15 +105,15 @@ import type { BaseValidation } from '@vuelidate/core'
 import useVuelidate from '@vuelidate/core'
 import {maxLength, minLength, required, email, sameAs} from '@vuelidate/validators'
 import { notifyError } from 'core/utils/control'
-import { useAccountStore } from 'stores/account'
 import type { Ref } from 'vue-demi'
 import { getErrorMessage } from 'src/utils/request'
 import useCommon from 'core/hooks/useCommon'
+import useAccount from 'src/hooks/useAccount'
 
 const emit = defineEmits(['success'])
 
 const { t } = useCommon()
-const accountStore = useAccountStore()
+const { signup } = useAccount()
 const form = reactive({
   email: '',
   name: '',
@@ -135,12 +135,11 @@ async function onSubmit() {
   vuelidate.value = v$.value
   v$.value.$touch()
   if (v$.value.$error) {
-    console.log('submit', v$.value)
     return
   }
 
   try {
-    const account = await accountStore.signup({
+    const account = await signup({
       email: form.email,
       name: form.name,
       password: form.password

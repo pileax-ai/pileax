@@ -1,20 +1,20 @@
 
 import { useAiStore } from 'stores/ai'
 import { computed } from 'vue'
-import { useAccountStore } from 'stores/account'
+import { useWorkspaceStore } from 'src/stores/workspace'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import useGuide from 'src/hooks/useGuide'
 import { notifyWarning } from 'core/utils/control'
 
 export default function() {
-  const accountStore = useAccountStore()
+  const workspaceStore = useWorkspaceStore()
   const { t } = useCommon()
   const { openDialog } = useDialog()
   const { showGuide } = useGuide()
 
   const aiStore = computed(() => {
-    const currentWorkspaceId = accountStore.workspaceId
+    const currentWorkspaceId = workspaceStore.workspaceId
     return useAiStore(currentWorkspaceId)
   })
 

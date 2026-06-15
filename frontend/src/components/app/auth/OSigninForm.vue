@@ -79,9 +79,9 @@
 import { onBeforeMount, reactive, ref } from 'vue'
 import { getItemObject, saveItemObject } from 'core/utils/storage'
 import { notifyError } from 'core/utils/control'
-import { useAccountStore } from 'stores/account'
 import { getErrorMessage } from 'src/utils/request'
 import useCommon from 'core/hooks/useCommon'
+import useAccount from 'src/hooks/useAccount'
 
 const emit = defineEmits(['success'])
 const type = ref<'text' | 'password'>('password')
@@ -93,13 +93,13 @@ const form = reactive({
 })
 
 const { t, hideDialog } = useCommon()
-const accountStore = useAccountStore()
+const { login } = useAccount()
 
 async function onSubmit () {
   hideDialog()
   loading.value = true
   try {
-    const account = await accountStore.login(form)
+    const account = await login(form)
     emit('success')
 
     if (remember.value) {

@@ -5,7 +5,7 @@ import { CODE } from 'core/app'
 export const usePageStore = defineStore('page', {
   state: ()=> ({
     status: 200,
-    data: {}
+    data: {} as Indexable
   }),
   actions: {
     setPageStatus(value: number, data?: Indexable) {

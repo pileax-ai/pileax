@@ -23,7 +23,7 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
                 keyword = None
         like_keyword = f"%{keyword}%" if keyword else None
 
-        sql: TextClause = text("""
+        sql_template = """
             SELECT ba.*, book.title, book.cover_url, book.author, book.publisher, book.published
             FROM (
                 SELECT book_id, COUNT(*) as count
@@ -38,21 +38,28 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
             ) ba
             LEFT JOIN book ON ba.book_id=book.id
             LEFT JOIN user_book ub ON ub.book_id=book.id AND ub.user_id=:user_id
-            WHERE (:keyword IS NULL OR book.title LIKE :like_keyword OR book.author LIKE :like_keyword)
+            {where_clause}
             ORDER BY ub.update_time DESC
-       """)
+        """
+
+        # Dynamically build WHERE clause based on keyword presence
+        params = {
+            "user_id": str(user_id),
+            "workspace_id": str(workspace_id),
+        }
+
+        if keyword:
+            where_clause = "WHERE (book.title LIKE :like_keyword OR book.author LIKE :like_keyword)"
+            params["like_keyword"] = like_keyword
+        else:
+            where_clause = ""
+
+        sql: TextClause = text(sql_template.format(where_clause=where_clause))
+
 
         with self.session as session:
             conn = session.connection()
-            result = conn.execute(
-                sql,
-                {
-                    "user_id": str(user_id),
-                    "workspace_id": str(workspace_id),
-                    "keyword": keyword,
-                    "like_keyword": like_keyword,
-                },
-            )
+            result = conn.execute(sql, params)
             rows = result.mappings().all()
 
         return rows

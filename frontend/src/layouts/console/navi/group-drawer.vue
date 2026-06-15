@@ -130,7 +130,6 @@ function onResize(value: number) {
 }
 
 watch(() => activity.value, (newValue) => {
-  console.log('watch activity', newValue)
   selectedActivity.value = activity.value
 })
 

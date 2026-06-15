@@ -6,7 +6,7 @@ export interface WorkspaceInfo {
   icon?: string;
 }
 
-const cacheKey = `workspace`
+const cacheKey = `current-workspace`
 
 export class WorkspaceManager {
   private static instance: WorkspaceManager
@@ -51,6 +51,15 @@ export class WorkspaceManager {
     // console.log('setWorkspaces', this.workspaces)
   }
 
+  setCurrentWorkspace(workspaceId: string): void {
+    const oldWorkspaceId = this.currentWorkspaceId
+    this.currentWorkspaceId = workspaceId
+
+    // Persist to sessionStorage
+    saveSessionItem(cacheKey, workspaceId)
+    // console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`)
+  }
+
   switchWorkspace(workspaceId: string): void {
     if (workspaceId === this.currentWorkspaceId) {
       return
@@ -60,12 +69,7 @@ export class WorkspaceManager {
       return
     }
 
-    const oldWorkspaceId = this.currentWorkspaceId
-    this.currentWorkspaceId = workspaceId
-
-    // Persist to sessionStorage
-    saveSessionItem(cacheKey, workspaceId)
-    // console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`)
+    this.setCurrentWorkspace(workspaceId)
   }
 
   loadWorkspace(): void {

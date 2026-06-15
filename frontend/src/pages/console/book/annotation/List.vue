@@ -123,7 +123,6 @@ function onFilter(item: Indexable) {
   }
   if (item.field === 'bookId') {
     book.value = item.data
-    console.log('book', book.value)
   }
   doQuery()
 }

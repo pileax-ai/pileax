@@ -17,7 +17,7 @@ export const useApiStore = defineStore('api', {
     collabProvider: window.APP_CONFIG?.COLLAB_PROVIDER_URL
       || process.env.COLLAB_PROVIDER_URL
       || 'ws://localhost:9611',
-    connected: false,
+    connected: false
   }),
   actions: {
     async resetServer() {

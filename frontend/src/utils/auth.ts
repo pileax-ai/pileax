@@ -6,7 +6,15 @@
  */
 import { jwtDecode } from 'jwt-decode'
 
-import { getCookieItem, getItem, getItemObject, getSessionItem, saveItem, saveItemObject } from 'core/utils/storage'
+import {
+  getCookieItem,
+  getItem,
+  getItemObject,
+  getSessionItem,
+  getSessionItemObject,
+  saveItem,
+  saveItemObject,
+} from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
@@ -52,15 +60,17 @@ export const getCollabToken = () => {
 }
 
 export const getWorkspaceId = (): string => {
-  let workspaceId = getSessionItem('workspace') as string
-
-  if (!workspaceId) {
-    const account = getItemObject('account') as Indexable
-    const workspace = account.workspace
-    workspaceId = workspace?.id
+  // Use active workspace by default
+  const workspace = getSessionItemObject('workspace') as Indexable
+  // console.log('workspace', workspace?.workspace)
+  if (workspace?.workspace) {
+    return workspace.workspace?.id
   }
 
-  return workspaceId
+  // Fallback, use parent workspace
+  const account = getItemObject('account') as Indexable
+  console.log('account', account)
+  return account?.parentWorkspace || ''
 }
 
 

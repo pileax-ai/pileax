@@ -1,9 +1,14 @@
 
+import { useAccountStore } from 'stores/account'
 import { useApiStore } from 'stores/api'
+import { useWorkspaceStore } from 'stores/workspace'
 import { computed } from 'vue'
+import { ipcService } from 'src/api/ipc'
 
 export default function() {
+  const accountStore = useAccountStore()
   const apiStore = useApiStore()
+  const workspaceStore = useWorkspaceStore()
 
   const appMode = computed(() => {
     return apiStore.appMode
@@ -73,6 +78,19 @@ export default function() {
     apiStore.stopCheckConnectivity()
   }
 
+  function openNewWindowFromWorkspace(workspace: string, id: string, path: string, titleBarHeight?: number) {
+    console.log('workspace', workspace)
+    // Create child window
+    // Update parent window's workspace immediately
+    // Used to init child window's workspace
+    accountStore.setParentWorkspace(workspace)
+    ipcService.openNewWindow(id, path, titleBarHeight)
+  }
+
+  function openNewWindow(id: string, path: string, titleBarHeight?: number) {
+    openNewWindowFromWorkspace(workspaceStore.workspaceId, id, path, titleBarHeight)
+  }
+
   return {
     apiStore,
     appMode,
@@ -91,5 +109,7 @@ export default function() {
     getFileUrl,
     startCheckConnectivity,
     stopCheckConnectivity,
+    openNewWindow,
+    openNewWindowFromWorkspace
   }
 }

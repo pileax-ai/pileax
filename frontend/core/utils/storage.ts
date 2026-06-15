@@ -158,7 +158,7 @@ export function getSessionItem (name: string, prefix = PREFIX) {
  */
 export function getSessionItemObject (name: string, prefix = PREFIX) {
   const item = getSessionItem(name, prefix)
-  return item || {}
+  return item ? JSON.parse(item as string) : {}
 }
 
 /**
