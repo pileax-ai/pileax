@@ -33,7 +33,8 @@ def upgrade() -> None:
         batch_op.alter_column('settings',
                existing_type=sa.VARCHAR(),
                type_=app.api.models.base.JSONString(),
-               existing_nullable=True)
+               existing_nullable=True,
+               postgresql_using='settings::jsonb')
         batch_op.alter_column('status',
                existing_type=sa.INTEGER(),
                nullable=False)
