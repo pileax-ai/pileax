@@ -13,6 +13,7 @@ export default {
       password_tips: 'Schimbați parola de conectare.',
       title: 'Securitate'
     },
+    setAdmin: 'Setați administratorul',
     user_id: 'ID-ul de utilizator'
   },
   accountAlready: 'Ai deja un cont?',

@@ -282,6 +282,10 @@ export default {
     gridTitle: '그리드 제목',
     list: '목록'
   },
+  warning: {
+    _: '경고',
+    networkError: '네트워크 오류가 발생했습니다. 네트워크 연결 상태를 확인해 주세요.'
+  },
   welcome: '환영',
   wideScreen: '와이드 스크린',
   wideScreenExit: '와이드 스크린 종료'

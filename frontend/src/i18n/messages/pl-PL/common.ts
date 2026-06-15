@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Tytuł siatki',
     list: 'Lista'
   },
+  warning: {
+    _: 'Ostrzeżenie',
+    networkError: 'Błąd sieciowy. Sprawdź połączenie sieciowe.'
+  },
   welcome: 'Powitanie',
   wideScreen: 'Szeroki ekran',
   wideScreenExit: 'Wyjście z szerokiego ekranu'

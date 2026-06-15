@@ -13,6 +13,7 @@ export default {
       password_tips: 'Change your login password.',
       title: 'Security'
     },
+    setAdmin: 'Set Admin',
     user_id: 'User ID'
   },
   accountAlready: 'Already have an account?',

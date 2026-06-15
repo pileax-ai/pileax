@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import Integer, text
 from sqlmodel import Field, UniqueConstraint
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, time_field, uuid_field
 from app.api.models.enums import Status
 
 
@@ -38,6 +38,7 @@ class UserBook(BaseSQLModel, BaseMixin, table=True):
     )
     reading_status_time: datetime | None = time_field()
     rating: float | None = Field(default=0.0, ge=0.0, le=10.0)
+    options: dict | None = Field(default=None, sa_type=JSONString)
 
     # Copies
     is_physical: int = Field(
@@ -62,6 +63,7 @@ class UserBookBase(BaseApiModel):
     location: str | None = None
     code: str | None = None
     is_weread: int | None = None
+    options: dict | None = None
 
 
 class UserBookCreate(UserBookBase):

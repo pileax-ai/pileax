@@ -90,7 +90,7 @@ async function initConsole () {
   onRouteChanged()
 
   // First
-  console.log('First initConsole')
+  // console.log('First initConsole')
   await initWorkspace()
   await initWorkspaceData()
 }

@@ -447,7 +447,6 @@ function loadingChatNodeCollab() {
 
 function  loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
-  console.debug('Collab', collab.value.collabEnabled)
   if (collab.value.collabEnabled) {
     initCollab()
   } else {

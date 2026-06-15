@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Titlu grilă',
     list: 'Listă'
   },
+  warning: {
+    _: 'Avertizare',
+    networkError: 'Eroare de rețea, vă rugăm să verificați conexiunea la rețea.'
+  },
   welcome: 'Bun venit',
   wideScreen: 'Ecran lat',
   wideScreenExit: 'Ieșire ecran lat'

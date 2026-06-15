@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Titolo della griglia',
     list: 'Lista'
   },
+  warning: {
+    _: 'Avvertimento',
+    networkError: 'Errore di rete, si prega di verificare la connessione di rete.'
+  },
   welcome: 'Benvenuto',
   wideScreen: 'Schermo panoramico',
   wideScreenExit: 'Esci dalla modalità Schermo panoramico'

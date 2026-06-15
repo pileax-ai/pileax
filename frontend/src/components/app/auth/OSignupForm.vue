@@ -1,7 +1,10 @@
 <template>
   <q-card class="o-auth-card" flat>
     <q-card-section class="header">
-      <div class="label">
+      <div class="label" v-if="isSuper">
+        {{ $t('auth.account.setAdmin') }} | {{ $t('product.name') }}
+      </div>
+      <div class="label" v-else>
         {{ $t('signup') }} {{ $t('product.name') }}
       </div>
       <div class="text-tips">
@@ -100,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import type { BaseValidation } from '@vuelidate/core'
 import useVuelidate from '@vuelidate/core'
 import {maxLength, minLength, required, email, sameAs} from '@vuelidate/validators'
@@ -109,11 +112,13 @@ import type { Ref } from 'vue-demi'
 import { getErrorMessage } from 'src/utils/request'
 import useCommon from 'core/hooks/useCommon'
 import useAccount from 'src/hooks/useAccount'
+import { authService } from 'src/api/service/remote'
 
 const emit = defineEmits(['success'])
 
 const { t } = useCommon()
 const { signup } = useAccount()
+const isSuper = ref(false)
 const form = reactive({
   email: '',
   name: '',
@@ -153,6 +158,15 @@ async function onSubmit() {
     notifyError(message)
   }
 }
+
+function checkInit() {
+  authService.getInit().then(res => {
+    console.log('res', res)
+    isSuper.value = !res.init
+  })
+}
+
+onMounted(checkInit)
 </script>
 
 <style lang="scss">

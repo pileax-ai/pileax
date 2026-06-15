@@ -13,6 +13,7 @@ export default {
       password_tips: 'Hãy đổi mật khẩu đăng nhập của bạn.',
       title: 'Bảo vệ'
     },
+    setAdmin: 'Thiết lập quản trị viên',
     user_id: 'ID người dùng'
   },
   accountAlready: 'Bạn đã có tài khoản chưa?',

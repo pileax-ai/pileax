@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Rastertitel',
     list: 'Liste'
   },
+  warning: {
+    _: 'Warnung',
+    networkError: 'Netzwerkfehler, bitte überprüfen Sie Ihre Netzwerkverbindung.'
+  },
   welcome: 'Willkommen',
   wideScreen: 'Breitbild',
   wideScreenExit: 'Ausgang Breitbild'

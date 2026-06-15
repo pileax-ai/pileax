@@ -13,6 +13,7 @@ export default {
       password_tips: 'Alterar a senha de login.',
       title: 'Segurança'
     },
+    setAdmin: 'Definir administrador',
     user_id: 'ID do usuário'
   },
   accountAlready: 'Já tem uma conta?',

@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Tiêu đề lưới',
     list: 'Danh sách'
   },
+  warning: {
+    _: 'Cảnh báo',
+    networkError: 'Lỗi mạng, vui lòng kiểm tra kết nối mạng của bạn.'
+  },
   welcome: 'Chào mừng',
   wideScreen: 'Màn hình rộng',
   wideScreenExit: 'Thoát khỏi màn hình rộng'

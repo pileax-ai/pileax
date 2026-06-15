@@ -9,6 +9,10 @@ import { ipcProvider, ipcService } from 'src/api/ipc'
 export class RemoteAuthService {
   private apiName = 'auth'
 
+  async getInit(): Promise<any> {
+    return GET({ name: this.apiName, path: '/init' })
+  }
+
   async signup(body: Indexable): Promise<any> {
     return POST({
       name: this.apiName,

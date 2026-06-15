@@ -40,6 +40,7 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     size: int | None = Field(default=0, ge=0)
     extension: str | None = Field(default=None)
     media: dict | None = Field(default=None, sa_type=JSONString)
+    options: dict | None = Field(default=None, sa_type=JSONString)
 
     # Category
     isbn: str | None = Field(default=None)
@@ -85,6 +86,7 @@ class BookBase(BaseApiModel):
     publisher: str | None = None
     published: str | None = None
     rating: float | None = 0.0
+    options: dict | None = None
     media: list[BookMedia] | None = Field(default_factory=list)
     isbn: str | None = None
     cover_url: str | None = ""

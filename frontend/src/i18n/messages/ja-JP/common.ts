@@ -282,6 +282,10 @@ export default {
     gridTitle: 'グリッドタイトル',
     list: 'リスト'
   },
+  warning: {
+    _: '警告',
+    networkError: 'ネットワークエラーが発生しました。ネットワーク接続を確認してください。'
+  },
   welcome: 'いらっしゃいませ',
   wideScreen: 'ワイドスクリーン',
   wideScreenExit: 'ワイドスクリーンを終了する'

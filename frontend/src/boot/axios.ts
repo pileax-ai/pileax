@@ -8,7 +8,6 @@ import { getErrorMessage } from 'src/utils/request'
 import { notifyWarning } from 'core/utils/control'
 import { TokenRefreshManager } from 'src/utils/token-refresh-manager'
 import { usePageStoreWithOut } from 'stores/page'
-import { router } from 'src/router'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -138,6 +137,10 @@ api.interceptors.response.use(
       }
     } else if (status === 500) {
       notifyWarning(message)
+    } else {
+      if (message === 'Network Error') {
+        openDialog({ type: 'tips', message: 'warning.networkError', needTranslate: true })
+      }
     }
 
     return Promise.reject(error)

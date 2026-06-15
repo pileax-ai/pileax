@@ -21,6 +21,7 @@ class Note(BaseSQLModel, BaseMixin, table=True):
     styles: dict | None = Field(default=None, sa_type=JSONString)
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general", description="Ref type: general, chat, book, etc.")
+    last_edit_by: uuid.UUID | None = uuid_field(default_none=True)
 
 
 class NoteBase(BaseApiModel):
@@ -33,6 +34,7 @@ class NoteBase(BaseApiModel):
     cover: str | None = None
     favorite: int | None = None
     styles: dict | None = None
+    last_edit_by: uuid.UUID | None = None
 
     @field_validator("parent", mode="before")
     def parse_empty_string_as_none(cls, v):
