@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Inserisci il titolo',
     isbnExists: 'Esiste un libro con questo ISBN',
     isbnNotFound: 'Libro con questo ISBN non trovato',
+    notFound: 'Libro non trovato o accesso negato',
     referencedByOthers: 'Impossibile eliminare il libro, citato da altri',
     titleNotMatch: 'Il titolo del libro non corrisponde',
     ttsError: 'La funzione di sintesi vocale non è riuscita o non è supportata.',

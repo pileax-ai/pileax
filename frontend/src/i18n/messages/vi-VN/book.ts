@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Vui lòng nhập tiêu đề',
     isbnExists: 'Sách có mã ISBN này tồn tại.',
     isbnNotFound: 'Không tìm thấy sách có mã ISBN này.',
+    notFound: 'Không tìm thấy sách hoặc quyền truy cập bị từ chối',
     referencedByOthers: 'Không thể xóa, sách này đã được người khác tham khảo.',
     titleNotMatch: 'Tên sách không khớp',
     ttsError: 'Chức năng chuyển văn bản thành giọng nói bị lỗi hoặc không được hỗ trợ.',

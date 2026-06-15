@@ -26,6 +26,7 @@ export interface MenuItem {
   favorite?: number,
   pinned?: boolean,
   isShow?: number,
+  workspaceId?: string,
 }
 
 export interface TabItem {

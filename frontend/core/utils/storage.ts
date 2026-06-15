@@ -158,7 +158,7 @@ export function getSessionItem (name: string, prefix = PREFIX) {
  */
 export function getSessionItemObject (name: string, prefix = PREFIX) {
   const item = getSessionItem(name, prefix)
-  return item || {}
+  return item ? JSON.parse(item as string) : {}
 }
 
 /**
@@ -176,7 +176,7 @@ export function saveSessionItemObject (name: string, value: any, prefix = PREFIX
 // Common
 // ================================================================================
 export function removeUserData(prefix = PREFIX) {
-  const userKeys = ['account', 'ai', 'chat', 'navi', 'note', 'tab', 'user', 'workspace']
+  const userKeys = ['account', 'ai', 'chat', 'navi', 'note', 'tab', 'workspace']
 
   // localStorage
   let keys = Object.keys(localStorage)
@@ -197,7 +197,7 @@ export function removeUserData(prefix = PREFIX) {
   }
 
   // Pinia stores
-  const storeKeys = ['account', 'ai', 'chat', 'collab', 'note', 'tab']
+  const storeKeys = ['account', 'ai', 'chat', 'collab', 'note', 'tab', 'workspace']
   const pinia = getActivePinia()
   if (pinia) {
     const stores = (pinia as Pinia & { _s: Map<string, any> })._s

@@ -13,6 +13,7 @@ export default {
       password_tips: '修改你的登录密码。',
       title: '安全'
     },
+    setAdmin: '设置管理员',
     user_id: '用户 ID'
   },
   accountAlready: '已有账户？',

@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Judul Grid',
     list: 'Daftar'
   },
+  warning: {
+    _: 'Peringatan',
+    networkError: 'Terjadi kesalahan jaringan, harap periksa koneksi jaringan Anda.'
+  },
   welcome: 'Selamat datang',
   wideScreen: 'Layar Lebar',
   wideScreenExit: 'Keluar Layar Lebar'

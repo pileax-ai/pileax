@@ -1,4 +1,4 @@
-import { getItemObject, getSessionItem, saveSessionItem } from 'core/utils/storage'
+import { getItemObject, getSessionItem, getSessionItemObject, saveSessionItem } from 'core/utils/storage'
 
 export interface WorkspaceInfo {
   id: string;
@@ -6,7 +6,7 @@ export interface WorkspaceInfo {
   icon?: string;
 }
 
-const cacheKey = `workspace`
+const cacheKey = `current-workspace`
 
 export class WorkspaceManager {
   private static instance: WorkspaceManager
@@ -51,6 +51,15 @@ export class WorkspaceManager {
     // console.log('setWorkspaces', this.workspaces)
   }
 
+  setCurrentWorkspace(workspaceId: string): void {
+    const oldWorkspaceId = this.currentWorkspaceId
+    this.currentWorkspaceId = workspaceId
+
+    // Persist to sessionStorage
+    saveSessionItem(cacheKey, workspaceId)
+    // console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`)
+  }
+
   switchWorkspace(workspaceId: string): void {
     if (workspaceId === this.currentWorkspaceId) {
       return
@@ -60,19 +69,15 @@ export class WorkspaceManager {
       return
     }
 
-    const oldWorkspaceId = this.currentWorkspaceId
-    this.currentWorkspaceId = workspaceId
-
-    // Persist to sessionStorage
-    saveSessionItem(cacheKey, workspaceId)
-    // console.log(`Workspace switched: ${oldWorkspaceId} → ${workspaceId}`)
+    this.setCurrentWorkspace(workspaceId)
   }
 
   loadWorkspace(): void {
-    const account = getItemObject('account') as Indexable
-    const workspace = account.workspace
-    const workspaceId = workspace?.id || ''
-    saveSessionItem(cacheKey, workspaceId)
+    const workspace = getSessionItemObject('workspace') as Indexable
+    if (workspace?.workspace) {
+      const workspaceId = workspace.workspace?.id || ''
+      saveSessionItem(cacheKey, workspaceId)
+    }
   }
 
   // Remove workspace

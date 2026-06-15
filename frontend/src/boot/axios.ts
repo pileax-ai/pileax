@@ -8,7 +8,6 @@ import { getErrorMessage } from 'src/utils/request'
 import { notifyWarning } from 'core/utils/control'
 import { TokenRefreshManager } from 'src/utils/token-refresh-manager'
 import { usePageStoreWithOut } from 'stores/page'
-import { router } from 'src/router'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -41,7 +40,7 @@ api.interceptors.request.use(
     }
 
     // refresh-token request
-    if (config.url?.includes('refresh-token')) {
+    if (config.url?.includes('refresh-token') || config.url?.includes('signin')) {
       return config
     }
     // console.log('config', config)
@@ -127,11 +126,21 @@ api.interceptors.response.use(
         tokenRefreshManager.setIsRefreshing(false)
       }
     } else if (status === 403) {
+      if (originalRequest._retry && originalRequest.url === '/auth/refresh-token') {
+        // Guide to signin again
+        openDialog({ type: 'signin' })
+        return Promise.reject(error)
+      }
+
       if (message.indexOf('Access denied') === 0) {
         pageStore.setPageStatus(403, data?.data)
       }
     } else if (status === 500) {
       notifyWarning(message)
+    } else {
+      if (message === 'Network Error' && originalRequest.url !== '/system/health-check') {
+        openDialog({ type: 'tips', message: 'warning.networkError', needTranslate: true })
+      }
     }
 
     return Promise.reject(error)

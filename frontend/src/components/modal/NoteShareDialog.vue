@@ -106,7 +106,6 @@ const onView = () => {
 }
 
 const onToggleShare = async (value: boolean) => {
-  console.log('value', value)
   try {
     if (value) {
       await enableShare()

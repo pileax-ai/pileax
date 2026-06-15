@@ -13,6 +13,7 @@ export default {
       password_tips: 'ログインパスワードを変更します。',
       title: '安全'
     },
+    setAdmin: '管理者設定',
     user_id: 'ユーザーID'
   },
   accountAlready: 'すでにアカウントをお持ちですか?',

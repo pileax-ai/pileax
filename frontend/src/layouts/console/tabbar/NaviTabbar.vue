@@ -78,7 +78,6 @@ import type { MenuItem, TabItem } from 'core/types/menu'
 import draggable from 'vuedraggable'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
 import useCommon from 'core/hooks/useCommon'
-import { menuLabel } from 'core/hooks/useMenu'
 
 const docTitle = useTitle('')
 const { t } = useCommon()
@@ -150,12 +149,13 @@ function onTabChanged(id: string) {
 }
 
 function onTabClosed() {
-  // console.log('onTabClose', tab.value);
   switchWorkspaceByTab(tab.value)
 }
 
 watchEffect(() => {
-  docTitle.value = t(tab.value.name) + ' | ' + t('product.name')
+  docTitle.value = tab.value.name
+    ? t(tab.value.name) + ' | ' + t('product.name')
+    : t('product.name')
 })
 </script>
 

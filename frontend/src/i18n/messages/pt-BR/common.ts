@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Título da grade',
     list: 'Lista'
   },
+  warning: {
+    _: 'Aviso',
+    networkError: 'Erro de rede. Por favor, verifique sua conexão de internet.'
+  },
   welcome: 'Bem-vindo',
   wideScreen: 'Tela ampla',
   wideScreenExit: 'Sair do formato widescreen'

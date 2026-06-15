@@ -1,12 +1,13 @@
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useAccountStore } from 'stores/account'
+import { useWorkspaceStore } from 'stores/workspace'
 import { useTabStore } from 'stores/tab'
 import type { TabItem } from 'core/types/menu'
-import { checkPermission } from 'src/utils/permission'
-import { hasPermission } from 'src/directives/permission'
+import type { LoginParams } from 'src/api/models/account'
 
 export default function () {
   const accountStore = useAccountStore()
+  const workspaceStore = useWorkspaceStore()
   const tabStore = useTabStore()
 
   const account = computed(() => {
@@ -19,19 +20,20 @@ export default function () {
 
   // workspace
   const workspace = computed(() => {
-    return accountStore.workspace
+    return workspaceStore.workspace
   })
   const workspaces = computed(() => {
-    return accountStore.workspaces
+    return workspaceStore.workspaces
   })
   const activeWorkspaces = computed(() => {
-    return accountStore.activeWorkspaces
+    return workspaceStore.activeWorkspaces
   })
 
   const initWorkspace = async () => {
     try {
       if (isLogin.value) {
-        const defaultWorkspace = await accountStore.initWorkspaces() as Indexable
+        await accountStore.initWorkspaces()
+        const defaultWorkspace = workspaceStore.loadWorkspace() as Indexable
         if (defaultWorkspace.id) {
           tabStore.updateWorkspace(defaultWorkspace.id)
         }
@@ -41,28 +43,44 @@ export default function () {
     }
   }
 
-  const setWorkspace = (value: Indexable) => {
-    accountStore.setWorkspace(value)
-  }
-
   const setWorkspaces = (value: Indexable[]) => {
     accountStore.setWorkspaces(value)
   }
 
+  const loadWorkspace = () => {
+    workspaceStore.loadWorkspace()
+  }
+
+  const setWorkspace = (value: Indexable) => {
+    workspaceStore.setWorkspace(value)
+  }
+
   const switchWorkspace = (workspace: Indexable) => {
-    accountStore.switchWorkspace(workspace)
+    workspaceStore.switchWorkspace(workspace)
     tabStore.updateWorkspace(workspace.id)
   }
 
   const switchWorkspaceByTab = (tab: TabItem) => {
-    const workspace = accountStore.getWorkspace(tab.workspaceId)
+    const workspace = workspaceStore.getWorkspace(tab.workspaceId)
     if (workspace) {
-      accountStore.switchWorkspace(workspace, '')
+      workspaceStore.switchWorkspace(workspace, '')
     }
   }
 
   function setAccount(value: Indexable) {
     accountStore.setAccount(value)
+  }
+
+  async function signup(data: Indexable) {
+    await accountStore.reset()
+    await workspaceStore.reset()
+    return await accountStore.signup(data)
+  }
+
+  async function login(params: LoginParams) {
+    // await accountStore.reset()
+    // await workspaceStore.reset()
+    return await accountStore.login(params)
   }
 
   function logout() {
@@ -78,12 +96,15 @@ export default function () {
     workspaces,
     activeWorkspaces,
 
+    signup,
+    login,
     logout,
     setAccount,
     initWorkspace,
+    loadWorkspace,
+    setWorkspaces,
     setWorkspace,
     switchWorkspace,
     switchWorkspaceByTab,
-    setWorkspaces,
   }
 }

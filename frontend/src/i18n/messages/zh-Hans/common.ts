@@ -282,6 +282,10 @@ export default {
     gridTitle: '网格标题',
     list: '列表'
   },
+  warning: {
+    _: '警告',
+    networkError: '网络错误，请检查你的网络连接'
+  },
   welcome: '欢迎',
   wideScreen: '宽屏',
   wideScreenExit: '退出宽屏'

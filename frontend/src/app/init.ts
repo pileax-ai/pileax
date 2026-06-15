@@ -1,6 +1,7 @@
 /**
  * App Init
  */
+import { useRoute } from 'vue-router'
 import { useApiStore } from 'stores/api'
 import { useNaviStore } from 'stores/navi'
 import useSetting from 'core/hooks/useSetting'
@@ -8,6 +9,8 @@ import useUpdater from 'core/hooks/useUpdater'
 import useOpenFile from 'src/hooks/useOpenFile'
 import { ipcService } from 'src/api/ipc'
 import { getDeviceId } from 'src/utils/auth'
+import { globalCrossTabBus } from 'src/api/event/event-bus'
+import { router } from 'src/router'
 
 export const initApp = () => {
   initApi()
@@ -47,6 +50,7 @@ const initApi = async () => {
 }
 
 const initListeners = () => {
+  const route = useRoute()
   const apiStore = useApiStore()
   const { setUpdater } = useUpdater()
   const { setOpenFile } = useOpenFile()
@@ -76,4 +80,13 @@ const initListeners = () => {
   if (import.meta.env.DEV) {
     console.log('WindowId', ipcService.windowId)
   }
+
+  // Listening login event from other tabs.
+  // Refresh/reload current page/window after new login
+  globalCrossTabBus.on('auth:login', async () => {
+    if (route.name == 'signin' || route.name == 'signup') {
+      await router.push('/welcome')
+    }
+    await ipcService.reload(ipcService.windowId)
+  })
 }

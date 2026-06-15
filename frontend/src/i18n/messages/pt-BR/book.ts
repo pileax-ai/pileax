@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Por favor, insira o título',
     isbnExists: 'Existe um livro com este ISBN.',
     isbnNotFound: 'Livro com este ISBN não encontrado',
+    notFound: 'Livro não encontrado ou acesso negado',
     referencedByOthers: 'Não é possível excluir, livro referenciado por outros.',
     titleNotMatch: 'O título do livro não corresponde.',
     ttsError: 'A função de conversão de texto em fala falhou ou não é compatível.',

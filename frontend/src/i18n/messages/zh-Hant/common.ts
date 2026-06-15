@@ -282,6 +282,10 @@ export default {
     gridTitle: '網格標題',
     list: '清單'
   },
+  warning: {
+    _: '警告',
+    networkError: '網路錯誤，請檢查你的網路連接'
+  },
   welcome: '歡迎',
   wideScreen: '寬螢幕',
   wideScreenExit: '退出寬螢幕'

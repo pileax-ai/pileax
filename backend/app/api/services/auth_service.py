@@ -32,6 +32,8 @@ class AuthService:
             obj.password_salt = password_salt
 
         # Create user
+        if self.has_super() is False:
+            obj.role = "super"
         obj.status = Status.ACTIVE
         user = self.service.create(obj)
 
@@ -77,6 +79,10 @@ class AuthService:
         if first_user:
             return first_user.id == user.id
         return False
+
+    def has_super(self):
+        first_user = self.service.find_one({}, sort={"create_time": "asc"})
+        return first_user is not None
 
     def refresh_token(self, token: str) -> Token:
         try:

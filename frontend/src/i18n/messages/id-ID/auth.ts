@@ -13,6 +13,7 @@ export default {
       password_tips: 'Ubah kata sandi login Anda.',
       title: 'Keamanan'
     },
+    setAdmin: 'Atur Admin',
     user_id: 'ID Pengguna'
   },
   accountAlready: 'Sudah punya akun?',

@@ -12,9 +12,11 @@
     </header>
     <section class="content">
       <div class="title" v-if="dialog.title">
-        {{ dialog.title }}
+        {{ needTranslate ? $t(dialog.title) : dialog.title }}
       </div>
-      <div class="message" v-html="dialog.message" v-if="isString(dialog.message)"></div>
+      <div class="message q-py-md" v-if="isString(dialog.message)">
+        {{ needTranslate ? $t(dialog.message) : dialog.message }}
+      </div>
       <div class="message row items-center" v-else>
         <template v-for="(item, index) in dialog.message" :key="index">
           <component :is="item.component"
@@ -35,6 +37,10 @@ import useDialog from 'core/hooks/useDialog'
 
 const { dialog, onHide, onOk } = useDialog()
 const pos = reactive({ x: 0, y: 0 })
+
+const needTranslate = computed(() => {
+  return !!dialog.value.needTranslate
+})
 
 const style = computed(() => {
   return {

@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Grid Title',
     list: 'List'
   },
+  warning: {
+    _: 'Warning',
+    networkError: 'Network error, please check your network connection.'
+  },
   welcome: 'Welcome',
   wideScreen: 'Wide Screen',
   wideScreenExit: 'Exit Wide Screen'

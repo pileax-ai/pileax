@@ -98,6 +98,7 @@ export default {
     inputTitle: 'タイトルを入力してください',
     isbnExists: 'このISBNの書籍は既に存在します',
     isbnNotFound: 'このISBNの書籍は見つかりません',
+    notFound: '書籍が見つからないか、アクセスが拒否されました',
     referencedByOthers: '削除できません。他のユーザーが参照している書籍です。',
     titleNotMatch: '書籍のタイトルが一致しません',
     ttsError: 'テキスト読み上げ機能が失敗したか、サポートされていません。',

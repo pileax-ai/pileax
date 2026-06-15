@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Título de la cuadrícula',
     list: 'Lista'
   },
+  warning: {
+    _: 'Advertencia',
+    networkError: 'Error de red, por favor compruebe su conexión a internet.'
+  },
   welcome: 'Bienvenido',
   wideScreen: 'Pantalla panorámica',
   wideScreenExit: 'Salir de la pantalla ancha'

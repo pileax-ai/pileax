@@ -1,22 +1,20 @@
 import { computed, ref } from 'vue'
 import type { ChatConversation } from 'src/types/chat'
-import { ChatInput } from 'src/types/chat'
 import { chatConversationService } from 'src/api/service/remote/chat-conversation'
 import type { MenuItem } from 'core/types/menu'
-import { useAccountStore } from 'stores/account'
 import { useChatStore } from 'stores/chat'
 import { useNaviStore } from 'stores/navi'
-import { useNoteStore } from 'stores/note'
+import { useWorkspaceStore } from 'src/stores/workspace'
 
 export default function () {
   const appId = ref('')
   const conversationId = ref('')
   const conversation = ref<ChatConversation>()
   const naviStore = useNaviStore()
-  const accountStore = useAccountStore()
+  const workspaceStore = useWorkspaceStore()
 
   const chatStore = computed(() => {
-    const currentWorkspaceId = accountStore.workspaceId
+    const currentWorkspaceId = workspaceStore.workspaceId
     return useChatStore(currentWorkspaceId)
   })
 

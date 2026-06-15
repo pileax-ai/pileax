@@ -23,7 +23,6 @@ export class LLMTTSClient extends BaseTTSClient {
   }
 
   async preload(text: string): Promise<void> {
-    console.log('preload', text)
     try {
       const id = generateTextId(text)
       const audioData = await getLLMTTSAudio(text)

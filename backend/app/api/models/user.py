@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import UniqueConstraint
-from sqlmodel import Column, Field, Integer
+from sqlalchemy import UniqueConstraint, text
+from sqlmodel import Field, Integer, String
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, time_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, time_field
 from app.api.models.enums import Status
 
 
@@ -18,11 +18,14 @@ class User(BaseSQLModel, BaseMixin, table=True):
     avatar: str | None = Field(default=None, max_length=255)
     bio: str | None = Field(default=None, max_length=255)
     timezone: str | None = Field(default=None, max_length=255)
-    status: int | None = Field(default=1, sa_column=Column(Integer, default=Status.ACTIVE))
-    settings: str | None = Field(default=None, description="UI settings")
+    settings: dict | None = Field(default=None, sa_type=JSONString)
     last_login_time: datetime | None = time_field()
     last_login_ip: str | None = Field(default=None, max_length=64)
     last_active_time: datetime | None = time_field()
+    status: int = Field(
+        default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
+    )
+    role: str = Field(default="normal", sa_type=String, sa_column_kwargs={"server_default": "normal"})
 
 
 class UserBase(BaseApiModel):

@@ -282,6 +282,10 @@ export default {
     gridTitle: 'Titre de la grille',
     list: 'Liste'
   },
+  warning: {
+    _: 'Avertissement',
+    networkError: 'Erreur réseau, veuillez vérifier votre connexion réseau.'
+  },
   welcome: 'Accueillir',
   wideScreen: 'Écran large',
   wideScreenExit: 'Sortie grand écran'

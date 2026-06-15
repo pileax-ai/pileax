@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Veuillez saisir le titre',
     isbnExists: 'Il existe un livre portant cet ISBN',
     isbnNotFound: 'Livre introuvable avec cet ISBN',
+    notFound: 'Livre introuvable ou accès refusé',
     referencedByOthers: 'Impossible de supprimer, livre référencé par d\'autres utilisateurs',
     titleNotMatch: 'Le titre du livre ne correspond pas',
     ttsError: 'La synthèse vocale a échoué ou n\'est pas prise en charge.',

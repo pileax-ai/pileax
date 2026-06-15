@@ -203,7 +203,6 @@ const onCustomFont = (type: string, item: Indexable) => {
 const getSystemFonts = async () => {
   if (ipcProvider === 'electron') {
     fonts.value = await ipcService.getSystemFonts()
-    console.log('systemFonts', fonts.value)
   } else {
     fonts.value = defaultFonts.value
   }

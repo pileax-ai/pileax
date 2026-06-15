@@ -1,4 +1,4 @@
-import { useAccountStore } from 'src/stores/account'
+import { useWorkspaceStore } from 'src/stores/workspace'
 
 /**
  * Common logic to check if user has required permissions
@@ -6,8 +6,8 @@ import { useAccountStore } from 'src/stores/account'
  * @returns boolean
  */
 export function checkPermission(requiredPermissions: string[]): boolean {
-  const accountStore = useAccountStore()
-  const userPermissions = accountStore.workspace.memberRole?.split(',')
+  const workspaceStore = useWorkspaceStore()
+  const userPermissions = workspaceStore.workspace.memberRole?.split(',')
 
   if (!userPermissions || !Array.isArray(requiredPermissions) || requiredPermissions.length === 0) {
     return true

@@ -98,6 +98,7 @@ export default {
     inputTitle: '請輸入標題',
     isbnExists: 'ISBN對應的書已存在',
     isbnNotFound: 'ISBN對應的書未找到',
+    notFound: '書不存在或無存取權限',
     referencedByOthers: '無法刪除，該書已被其他用戶引用',
     titleNotMatch: '書名不匹配',
     ttsError: '朗讀出錯或目前內容不支援朗讀',

@@ -11,6 +11,18 @@ from app.api.router import ApiRouter
 router = ApiRouter(prefix="/auth", tags=["Auth"])
 
 
+@router.api_get("/init", response_model=dict)
+async def get_init(
+    session: SessionDep,
+    request: Request,
+    response: Response,
+):
+    """
+    Check if init
+    """
+    return await AuthController(session, request, response).get_init()
+
+
 @router.api_post("/signup", response_model=SigninPublic)
 async def signup(
     item_in: Signup,

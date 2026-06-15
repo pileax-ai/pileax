@@ -44,6 +44,7 @@ import type { PropType } from 'vue'
 import { computed } from 'vue'
 import { useTabStore } from 'stores/tab'
 import useCommon from 'core/hooks/useCommon'
+import useApi from 'src/hooks/useApi'
 import { menuLabel } from 'core/hooks/useMenu'
 import { ipcProvider, ipcService } from 'src/api/ipc'
 import { NoteDefaultIcon } from 'core/constants/constant'
@@ -62,6 +63,7 @@ const props = defineProps({
 const emits = defineEmits(['close'])
 
 const { t } = useCommon()
+const { openNewWindowFromWorkspace } = useApi()
 const tabStore = useTabStore()
 
 const actions = computed(() => {
@@ -110,14 +112,11 @@ function onClose(item: MenuItem) {
   emits('close')
 }
 
-function onNewWindow(item: MenuItem) {
-  ipcService.openNewWindow(item.id, item.path)
-}
-
 function onAction (action: Indexable, item: MenuItem) {
+  // console.log('Tab action', item)
   switch (action.value) {
     case 'close':
-      tabStore.closeTab(item.id)
+      onClose(item)
       break
     case 'closeOther':
       tabStore.closeOtherTabs(item.id)
@@ -132,7 +131,8 @@ function onAction (action: Indexable, item: MenuItem) {
       tabStore.duplicateTab(item.id)
       break
     case 'newWindow':
-      onNewWindow(item)
+      openNewWindowFromWorkspace(item.workspaceId!, item.id, item.path)
+      onClose(item)
       break
     case 'pin':
       tabStore.togglePinTab(item.id)

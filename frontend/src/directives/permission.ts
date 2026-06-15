@@ -7,6 +7,7 @@
 import { Directive, DirectiveBinding, watch, WatchStopHandle } from 'vue'
 import { checkPermission } from 'src/utils/permission'
 import { useAccountStore } from 'src/stores/account'
+import { useWorkspaceStore } from 'src/stores/workspace'
 
 interface PermissionElement extends HTMLElement {
   _unwatch?: WatchStopHandle;
@@ -15,9 +16,10 @@ interface PermissionElement extends HTMLElement {
 export const hasPermission: Directive = {
   mounted(el: PermissionElement, binding: DirectiveBinding) {
     const accountStore = useAccountStore()
+    const workspaceStore = useWorkspaceStore()
 
     el._unwatch = watch(
-      () => accountStore.workspace.memberRole,
+      () => workspaceStore.workspace?.memberRole,
       () => {
         const hasAuth = checkPermission(binding.value)
         // Use visibility or display to handle reactivity safely

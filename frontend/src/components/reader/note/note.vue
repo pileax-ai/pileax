@@ -140,7 +140,6 @@ function onCreate() {
 }
 
 function onUpdate({ editor }: { editor: Editor }) {
-  console.log('update', editorReady.value, loading.value)
   // Only update when editor is ready
   if (!editorReady.value) return
 

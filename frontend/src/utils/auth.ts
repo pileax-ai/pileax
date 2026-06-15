@@ -6,7 +6,15 @@
  */
 import { jwtDecode } from 'jwt-decode'
 
-import { getCookieItem, getItem, getItemObject, getSessionItem, saveItem, saveItemObject } from 'core/utils/storage'
+import {
+  getCookieItem,
+  getItem,
+  getItemObject,
+  getSessionItem,
+  getSessionItemObject,
+  saveItem,
+  saveItemObject,
+} from 'core/utils/storage'
 import { authService } from 'src/api/service/remote/auth'
 import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
@@ -52,15 +60,17 @@ export const getCollabToken = () => {
 }
 
 export const getWorkspaceId = (): string => {
-  let workspaceId = getSessionItem('workspace') as string
-
-  if (!workspaceId) {
-    const account = getItemObject('account') as Indexable
-    const workspace = account.workspace
-    workspaceId = workspace?.id
+  // Use active workspace by default
+  const workspace = getSessionItemObject('workspace') as Indexable
+  // console.log('workspace', workspace?.workspace)
+  if (workspace?.workspace) {
+    return workspace.workspace?.id
   }
 
-  return workspaceId
+  // Fallback, use parent workspace
+  const account = getItemObject('account') as Indexable
+  // console.log('account', account)
+  return account?.parentWorkspace || ''
 }
 
 
@@ -118,11 +128,6 @@ export const validateJwtToken = (token?: string, bufferSeconds: number = 0): boo
   }
 }
 
-export const isJwtTokenNeedRefresh = (): boolean => {
-  const token = getJwtToken()
-  return !validateJwtToken(token, 15 * 10) // 15 minutes
-}
-
 export const isTokenNeedRefresh = (): boolean => {
   const exp = getTokenExp()
   const currentTime = Math.floor(Date.now() / 1000)
@@ -130,23 +135,7 @@ export const isTokenNeedRefresh = (): boolean => {
   return validTime > 0 && validTime < 5 * 60 // 5 minutes
 }
 
-
-let lastRefreshTime = 0
-export const refreshTokenThrottle = () => {
-  const now = Date.now()
-  if (now - lastRefreshTime < 10 * 1000) {
-    return
-  }
-  // console.log('throttle', now, lastRefreshTime)
-  lastRefreshTime = now
-
-  if (isTokenNeedRefresh()) {
-    refreshToken('pre-refresh')
-  }
-}
-
 export const refreshToken = (source = 'retry'): Promise<Indexable> => {
-  // console.log('refreshToken', source)
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
       saveToken(res)
@@ -157,12 +146,6 @@ export const refreshToken = (source = 'retry'): Promise<Indexable> => {
   })
 }
 
-export const validateRefreshToken = () => {
-  const refreshToken = getCookieItem('refresh_token', '') || ''
-  console.log('refresh_token', refreshToken)
-  return validateJwtToken(refreshToken)
-}
-
 // -----------------------------------------------------------------------------
 // Permission
 // -----------------------------------------------------------------------------
@@ -170,7 +153,6 @@ export function hasPathPermission (to: Indexable) {
   if (process.env.ENV_CONFIG === 'dev') {
     return true
   } else {
-    // const appMenuList = store.getters.appMenuList;
     const appMenuList: MenuItem[] = []
     return appMenuList.some(menu => menu.path.indexOf(to.path) >= 0)
   }

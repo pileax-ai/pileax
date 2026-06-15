@@ -80,8 +80,6 @@ export default function () {
         }
       }
     }
-    // console.log('reduce', path, menus);
-    // console.log('reduce', activity);
     return activity
   }
 

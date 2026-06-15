@@ -98,6 +98,7 @@ export default {
     inputTitle: 'Please input title',
     isbnExists: 'Book with this ISBN exists',
     isbnNotFound: 'Book with this ISBN not found',
+    notFound: 'Book not found or access denied',
     referencedByOthers: 'Cannot delete, book referenced by others',
     titleNotMatch: 'Book title dost not match',
     ttsError: 'Text-to-speech failed or unsupported.',

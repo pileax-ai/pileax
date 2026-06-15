@@ -291,7 +291,7 @@ function onCreate() {
 }
 
 function onUpdate({ editor }: { editor: Editor }) {
-  console.log('update', editorReady.value, loading.value)
+  // console.log('update', editorReady.value, loading.value)
   // Only update when editor is ready
   if (!editorReady.value) return
 
@@ -447,7 +447,6 @@ function loadingChatNodeCollab() {
 
 function  loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
-  console.debug('Collab', collab.value.collabEnabled)
   if (collab.value.collabEnabled) {
     initCollab()
   } else {
