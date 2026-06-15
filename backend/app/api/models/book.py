@@ -155,3 +155,4 @@ class BookDetails(BaseApiModel, BaseMixin):
     user_rating: float | None = 0.0
     is_physical: int | None = None
     location: str | None = None
+    options: dict | None = None

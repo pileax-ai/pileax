@@ -100,7 +100,7 @@ watch(
   () => settings.value,
   (newValue) => {
     // console.log('settings', newValue)
-    changeStyle(newValue)
+    changeStyle()
   },
   { deep: true }
 )

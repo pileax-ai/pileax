@@ -156,6 +156,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "user_rating": user_book.rating if user_book else None,
             "is_physical": user_book.is_physical if user_book else None,
             "location": user_book.location if user_book else None,
+            "options": user_book.options if user_book else None,
             "create_time": user_book.create_time if user_book else None,
             "update_time": user_book.update_time if user_book else None,
         }
