@@ -79,7 +79,6 @@ export default function() {
   }
 
   function openNewWindowFromWorkspace(workspace: string, id: string, path: string, titleBarHeight?: number) {
-    console.log('workspace', workspace)
     // Create child window
     // Update parent window's workspace immediately
     // Used to init child window's workspace

@@ -69,7 +69,7 @@ export const getWorkspaceId = (): string => {
 
   // Fallback, use parent workspace
   const account = getItemObject('account') as Indexable
-  console.log('account', account)
+  // console.log('account', account)
   return account?.parentWorkspace || ''
 }
 
@@ -128,11 +128,6 @@ export const validateJwtToken = (token?: string, bufferSeconds: number = 0): boo
   }
 }
 
-export const isJwtTokenNeedRefresh = (): boolean => {
-  const token = getJwtToken()
-  return !validateJwtToken(token, 15 * 10) // 15 minutes
-}
-
 export const isTokenNeedRefresh = (): boolean => {
   const exp = getTokenExp()
   const currentTime = Math.floor(Date.now() / 1000)
@@ -140,23 +135,7 @@ export const isTokenNeedRefresh = (): boolean => {
   return validTime > 0 && validTime < 5 * 60 // 5 minutes
 }
 
-
-let lastRefreshTime = 0
-export const refreshTokenThrottle = () => {
-  const now = Date.now()
-  if (now - lastRefreshTime < 10 * 1000) {
-    return
-  }
-  // console.log('throttle', now, lastRefreshTime)
-  lastRefreshTime = now
-
-  if (isTokenNeedRefresh()) {
-    refreshToken('pre-refresh')
-  }
-}
-
 export const refreshToken = (source = 'retry'): Promise<Indexable> => {
-  // console.log('refreshToken', source)
   return new Promise((resolve, reject) => {
     authService.refreshToken().then(res => {
       saveToken(res)
@@ -167,12 +146,6 @@ export const refreshToken = (source = 'retry'): Promise<Indexable> => {
   })
 }
 
-export const validateRefreshToken = () => {
-  const refreshToken = getCookieItem('refresh_token', '') || ''
-  console.log('refresh_token', refreshToken)
-  return validateJwtToken(refreshToken)
-}
-
 // -----------------------------------------------------------------------------
 // Permission
 // -----------------------------------------------------------------------------
@@ -180,7 +153,6 @@ export function hasPathPermission (to: Indexable) {
   if (process.env.ENV_CONFIG === 'dev') {
     return true
   } else {
-    // const appMenuList = store.getters.appMenuList;
     const appMenuList: MenuItem[] = []
     return appMenuList.some(menu => menu.path.indexOf(to.path) >= 0)
   }

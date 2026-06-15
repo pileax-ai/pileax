@@ -18,10 +18,10 @@
 
           <template #body-cell-name="props">
             <q-td :props="props">
-              <div class="row items-center">
+              <div class="row items-center no-wrap">
                 <o-icon :name="props.row.icon" size="2rem" v-if="props.row.icon" />
                 <o-icon name="🍃" size="2rem" v-else />
-                <span class="q-mx-sm">{{ props.value }}</span>
+                <div class="q-mx-sm ellipsis">{{ props.value }}</div>
 
                 <o-badge color="blue-grey" round v-if="props.row.id === workspace.id">
                   {{ $t('current') }}

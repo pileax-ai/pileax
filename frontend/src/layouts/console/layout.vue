@@ -113,7 +113,6 @@ function onRouteChanged() {
       activity = reduceActivity(path)
       break
   }
-  // console.log('onRouteChanged', activity)
   if (!activity) return
   setActivity(activity)
 }
