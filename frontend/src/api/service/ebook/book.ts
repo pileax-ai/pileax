@@ -344,7 +344,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
         // console.log('openBook', cfi)
         const userStyle = {
           ...style.value,
-          bookCSS: bookCss.value || book.value.options?.css
+          bookCSS: bookCss.value || book.value.userExtra?.css || book.value.extra?.css
         }
         ebookRender.open(bookElement, data, { cfi, userStyle })
         setManual(BookOperation.Load)

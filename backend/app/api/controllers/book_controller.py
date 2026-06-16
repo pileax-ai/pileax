@@ -11,7 +11,16 @@ from app.api.controllers.base_controller import BaseController
 from app.api.controllers.file_meta_controller import FileMetaController
 from app.api.controllers.workspace_book_controller import WorkspaceBookController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
-from app.api.models.book import Book, BookBase, BookCreate, BookMedia, BookMediaType, BookPublic, BookUpdate
+from app.api.models.book import (
+    Book,
+    BookBase,
+    BookCreate,
+    BookDetails,
+    BookMedia,
+    BookMediaType,
+    BookPublic,
+    BookUpdate,
+)
 from app.api.models.file_meta import FileMeta, FileMetaCreate
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery, QueryResult
@@ -102,14 +111,14 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         else:
             return BookBase(**book_list[0])
 
-    def get_details(self, id: uuid.UUID) -> WorkspaceBookDetails:
-        book = self.wb_service.get_workspace_book_details(id, self.user.id, self.workspace.id)
+    def get_details(self, id: uuid.UUID) -> BookDetails:
+        book = self.service.get_wb_details(id, self.user.id, self.workspace.id)
         if book is None:
             raise HTTPException(status_code=404, detail="Book not found")
 
-        book_details = WorkspaceBookDetails(**book)
-        self.service.check_read_permission(Owner(workspace=self.workspace, user_id=self.user.id), book_details)
-        return book_details
+        details = BookDetails(**book)
+        self.service.check_read_permission(Owner(workspace=self.workspace, user_id=self.user.id), details)
+        return book
 
     async def upload(self, book_str: str, files: list[UploadFile]) -> Any:
         """

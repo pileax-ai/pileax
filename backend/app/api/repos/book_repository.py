@@ -30,6 +30,25 @@ class BookRepository(BaseRepository[Book]):
             return self.build_details(book, user_book)
         return None
 
+    def get_wb_details(self, id: UUID, user_id: UUID, workspace_id: UUID):
+        stmt = (
+            select(WorkspaceBook, Book, UserBook)
+            .join(Book, Book.id == WorkspaceBook.book_id, isouter=True)
+            .join(
+                UserBook,
+                and_(UserBook.book_id == WorkspaceBook.book_id, UserBook.user_id == WorkspaceBook.user_id),
+                isouter=True,
+            )
+            .where(WorkspaceBook.book_id == id)
+            .where(WorkspaceBook.user_id == user_id)
+            .where(WorkspaceBook.workspace_id == workspace_id)
+        )
+        result = self.session.exec(stmt).first()
+        if result:
+            workspace_book, book, user_book = result
+            return self.build_wb_details(workspace_book, book, user_book)
+        return None
+
     def query_library(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
         # 1. Basic Filter
         filters = DbHelper.get_filters(Book, query.condition)
@@ -85,4 +104,28 @@ class BookRepository(BaseRepository[Book]):
             "reading_position": user_book.reading_position if user_book else None,
             "reading_percentage": user_book.reading_percentage if user_book else None,
             "reading_status": user_book.reading_status if user_book else None,
+        }
+
+    @staticmethod
+    def build_wb_details(workspace_book: WorkspaceBook, book: Book, user_book: UserBook | None = None) -> dict:
+        if book is None:
+            return None
+
+        return {
+            **book.model_dump(),
+            "owner": book.user_id,
+            # workspace_book
+            "user_id": workspace_book.user_id if workspace_book else None,
+            "workspace_id": workspace_book.workspace_id if workspace_book else None,
+            # user_book
+            "user_book_id": user_book.id if user_book else None,
+            "user_extra": user_book.extra if user_book else None,
+            "user_rating": user_book.rating if user_book else None,
+            "reading_position": user_book.reading_position if user_book else None,
+            "reading_percentage": user_book.reading_percentage if user_book else None,
+            "reading_status": user_book.reading_status if user_book else None,
+            "is_physical": user_book.is_physical if user_book else None,
+            "location": user_book.location if user_book else None,
+            "create_time": user_book.create_time if user_book else None,
+            "update_time": user_book.update_time if user_book else None,
         }
