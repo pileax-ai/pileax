@@ -237,6 +237,7 @@ export default {
     service: 'Пользовательское соглашение'
   },
   test: 'Тест',
+  texture: 'Текстура',
   time: 'Время',
   times: {
     byMonth: 'По месяцам',

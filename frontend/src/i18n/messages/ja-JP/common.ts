@@ -237,6 +237,7 @@ export default {
     service: 'ユーザー契約'
   },
   test: 'テスト',
+  texture: 'テクスチャ',
   time: '時間',
   times: {
     byMonth: '月別',

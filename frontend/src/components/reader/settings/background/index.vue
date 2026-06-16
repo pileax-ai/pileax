@@ -65,6 +65,7 @@ import useCommon from 'core/hooks/useCommon'
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 import SettingTab from 'components/reader/settings/setting-tab.vue'
 import BackgroundImages from './images.vue'
+import BackgroundTextures from './textures.vue'
 import BackgroundColors from './colors.vue'
 
 const emit = defineEmits(['close'])
@@ -76,6 +77,7 @@ const currentTab = ref('image')
 const tabs = computed(() => {
   return [
     { label: t('image'), value: 'image', component: BackgroundImages },
+    { label: t('texture'), value: 'texture', component: BackgroundTextures },
     { label: t('color'), value: 'color', component: BackgroundColors },
   ]
 })

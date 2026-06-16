@@ -237,6 +237,7 @@ export default {
     service: 'Acord de utilizare'
   },
   test: 'Test',
+  texture: 'Textură',
   time: 'Timp',
   times: {
     byMonth: 'Pe lună',

@@ -237,6 +237,7 @@ export default {
     service: '사용자 계약'
   },
   test: '시험',
+  texture: '조직',
   time: '시간',
   times: {
     byMonth: '월별',

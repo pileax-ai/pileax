@@ -237,6 +237,7 @@ export default {
     service: 'Nutzungsvereinbarung'
   },
   test: 'Prüfen',
+  texture: 'Textur',
   time: 'Zeit',
   times: {
     byMonth: 'Nach Monat',

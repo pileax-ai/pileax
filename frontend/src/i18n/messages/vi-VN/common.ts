@@ -237,6 +237,7 @@ export default {
     service: 'Thỏa thuận người dùng'
   },
   test: 'Bài kiểm tra',
+  texture: 'Kết cấu',
   time: 'Thời gian',
   times: {
     byMonth: 'Theo tháng',

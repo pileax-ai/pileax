@@ -1,5 +1,5 @@
 <template>
-  <q-list class="background-images">
+  <q-list class="background-textures">
     <section class="images-container pi-view-grid">
       <template v-for="(item, index) in list" :key="index">
         <div @click="onBackgroundImage(item)">
@@ -31,13 +31,13 @@
         </div>
       </template>
 
-      <div>
+      <div v-if="false">
         <q-responsive :ratio="16/9">
           <q-card class="cover-item" flat v-ripple>
             <o-file-uploader accept=".png,.jpg,.svg"
                              :maxSize="10 * 1024 * 1024"
                              ref-id="book"
-                             ref-type="reader-background"
+                             ref-type="reader-background-texture"
                              reset hide-limit
                              @uploaded="onImageUpload" />
           </q-card>
@@ -60,7 +60,7 @@ import useCrud from 'src/hooks/useCrud'
 const emit = defineEmits(['close'])
 
 const { t, publicPath } = useCommon()
-const { theme } = useSetting()
+const { darkMode, theme } = useSetting()
 const { getFileUrl } = useApi()
 const { crud } = useCrud()
 const { settings, setSettingItem } = useReaderSetting()
@@ -72,76 +72,109 @@ const list = computed(() => {
       label: 'None',
       value: 'none',
       theme: 'none',
-      size: '100% 100%',
-      blur: 0,
-      opacity: 1,
       url: '',
     },
     {
-      label: t('reading.setting.background.moon'),
-      value: 'moon',
+      label: 'Asfalt',
+      value: 'paper',
       theme: 'none',
-      size: '200px 200px',
-      position: 'right 20px top 20px',
-      blur: 0,
+      url: '/images/book/texture/asfalt-dark.png',
+    },
+    {
+      label: 'Beige Paper',
+      value: 'paper',
+      theme: 'none',
+      url: '/images/book/texture/beige-paper.png',
+    },
+    {
+      label: 'Paper',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/paper.png',
+    },
+    {
+      label: 'Absurdity',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/absurdity.png',
+    },
+    {
+      label: 'Arches',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/arches.png',
+      opacity: 0.75,
+    },
+    {
+      label: 'Church',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/church.png',
+    },
+    {
+      label: 'Cubes',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/cubes.png',
+      opacity: 0.75,
+    },
+    {
+      label: 'Flowers',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/flowers.png',
+    },
+    {
+      label: 'Egg Shell',
+      value: 'paper',
+      theme: 'light',
+      url: '/images/book/texture/egg-shell.png',
+    },
+    {
+      label: '3Px Tile',
+      value: 'paper',
+      theme: 'dark',
+      url: '/images/book/texture/3px-tile.png',
+    },
+    {
+      label: 'Arabesque',
+      value: 'paper',
+      theme: 'dark',
+      url: '/images/book/texture/arabesque.png',
       opacity: 0.5,
-      url: '/images/book/moon.png',
     },
     {
-      label: t('reading.setting.background.cosmicCliffs'),
-      value: 'cosmic_cliffs',
+      label: 'Black Linen',
+      value: 'paper',
       theme: 'dark',
-      size: 'cover',
-      blur: 125,
-      opacity: 1,
-      url: '/images/book/dark-cosmic_cliffs.png',
+      url: '/images/book/texture/black-linen.png',
     },
     {
-      label: t('reading.setting.background.bubbleNebula'),
-      value: 'bubble_nebula',
+      label: 'Black Orchid',
+      value: 'paper',
       theme: 'dark',
-      size: 'cover',
-      blur: 150,
-      opacity: 1,
-      url: '/images/book/dark-bubble_nebula.jpg',
+      url: '/images/book/texture/black-orchid.png',
     },
     {
-      label: t('reading.setting.background.pillarsCreation'),
-      value: 'pillars_of_creation',
+      label: 'Mosaic',
+      value: 'paper',
       theme: 'dark',
-      size: 'cover',
-      blur: 150,
-      opacity: 1,
-      url: '/images/book/dark-pillars_of_creation.jpg',
+      url: '/images/book/texture/dark-mosaic.png',
+      opacity: 0.5,
     },
     {
-      label: t('reading.setting.background.fuchunMountains'),
-      value: 'fuchun_mountains',
-      theme: 'light',
-      size: 'cover',
-      position: 'center',
-      blur: 0,
-      opacity: 0.65,
-      url: '/images/book/light-fuchun_mountains.jpg',
+      label: 'Washi',
+      value: 'paper',
+      theme: 'dark',
+      url: '/images/book/texture/washi.png',
+      opacity: 0.1
     },
-    {
-      label: t('reading.setting.background.willowBank'),
-      value: 'willow_bank',
-      theme: 'light',
-      size: 'cover',
-      blur: 0,
-      opacity: 0.2,
-      url: '/images/book/light-willow_bank.jpg',
-    },
-    {
-      label: t('reading.setting.background.oldBook'),
-      value: 'old_book',
-      theme: 'light',
-      size: 'cover',
-      blur: 0,
-      opacity: 1,
-      url: '/images/book/light-old_book.jpg',
-    },
+    // {
+    //   label: 'Test',
+    //   value: 'paper',
+    //   theme: 'none',
+    //   url: 'https://www.transparenttextures.com/patterns/ice-age.png',
+    // },
   ]
 
   const userList = userBackgrounds.value.map(item => {
@@ -157,45 +190,25 @@ const list = computed(() => {
     }
   })
 
-  return defaultList.concat(userList) as Indexable[]
+  const filterThemes = ['none', darkMode.value ? 'dark' : 'light']
+  return defaultList.filter(item => filterThemes.includes(item.theme)) as Indexable[]
 })
 
 const backgroundImageUrl = computed(() => settings.value.backgroundImageUrl)
 
 const onBackgroundImage = async (item: Indexable) => {
   const imagePath = await publicPath(item.url)
+  const opacity = item.opacity || 1
 
   setSettingItem('backgroundImage', imagePath)
   setSettingItem('backgroundImageUrl', item.url)
-  setSettingItem('backgroundSize', item.size)
-  setSettingItem('backgroundBlur', item.blur)
-  setSettingItem('backgroundOpacity', item.opacity)
+  setSettingItem('backgroundSize', '')
+  setSettingItem('backgroundBlur', 0)
+  setSettingItem('backgroundOpacity', opacity)
 
   // position
-  const repeat = item.repeat || 'no-repeat'
-  const position = item.position || ''
-  setSettingItem('backgroundRepeat', repeat)
-  setSettingItem('backgroundPosition', position)
-
-  // Colors
-  let fontColor = item.theme === 'dark' ? '#e9e9e9' : '#262626'
-  if (item.theme === 'none') {
-    switch (theme.value.name) {
-      case 'light':
-        fontColor = '#000000'
-        break
-      case 'dark':
-        fontColor = '#f2f2f7'
-        break
-      case 'darkBlue':
-        fontColor = '#E2E2F0'
-        break
-    }
-  } else {
-    const backgroundColor = 'transparent'
-    setSettingItem('backgroundColor', backgroundColor)
-  }
-  setSettingItem('fontColor', fontColor)
+  setSettingItem('backgroundRepeat', 'repeat')
+  setSettingItem('backgroundPosition', '0 0')
 }
 
 function onImageUpload(info: Indexable) {
@@ -208,7 +221,7 @@ function queryBackground() {
     pageSize: 100,
     condition: {
       refId: 'book',
-      refType: 'reader-background'
+      refType: 'reader-background-texture'
     }
   }
   fileMetaService.query(query).then(res => {
@@ -225,12 +238,12 @@ function onDelete(item: Indexable) {
 }
 
 onBeforeMount(() => {
-  queryBackground()
+  // queryBackground()
 })
 </script>
 
 <style lang="scss">
-.background-images {
+.background-textures {
   .o-file-uploader {
     height: 100%;
     .file-uploader {
