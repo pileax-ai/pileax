@@ -19,5 +19,8 @@ class BookService(BaseService[Book]):
     def get_details(self, id: UUID, user_id: UUID) -> BookDetails:
         return self.repo.get_details(id, user_id)
 
+    def get_wb_details(self, id: UUID, user_id: UUID, workspace_id: UUID) -> BookDetails | None:
+        return self.repo.get_wb_details(id, user_id, workspace_id)
+
     def query_library(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
         return self.repo.query_library(user_id, workspace_id, query)

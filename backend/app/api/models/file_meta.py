@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Column, Field, Integer
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 from app.api.models.enums import Status
 
 
@@ -19,6 +19,7 @@ class FileMeta(BaseSQLModel, BaseMixin, table=True):
     url: str | None = Field(default="")
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general")
+    extra: dict | None = Field(default=None, sa_type=JSONString)
     status: int = Field(default=Status.ACTIVE, sa_column=Column(Integer, default=Status.ACTIVE))
 
 
@@ -32,6 +33,7 @@ class FileMetaBase(BaseApiModel):
     url: str | None = Field(default="")
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general")
+    extra: dict | None = None
     status: int | None = Field(default=1)
 
 

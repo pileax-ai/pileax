@@ -84,9 +84,8 @@ export const scrollbarStyles = () => {
 export const defaultGlobalCSS = `/* Kaiti */
 aside,
 table,
+.annotation,
 .block,
-.calibre3,
-.calibre10,
 .small,
 .small1,
 .note,
@@ -94,30 +93,34 @@ table,
 .msonormal,
 .img,
 .jiazhu,
+.jiaozhu,
 .fnote,
 .fnoteright,
 .fs,
 .quotation,
 .quotation span,
-[class*="kaiti"],
-[class*="Kai"],
-[class*="kt"] {
-    font-family: "STKaiti", serif !important;
+[class*="kai" i],
+[class*="kai" i] *,
+[class*="kt" i],
+[class*="kt" i] * {
+    font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
     line-height: 1.2 !important;
-    opacity: 0.8;
 }
 
-[class*="fangsong"] {
+[class*="fangsong"],
+[class*="fangsong"] * {
     font-family: "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
     line-height: 1.5 !important;
-    opacity: 1;
 }
 
 [class*="poem"],
-[class*="shiju"] {
+[class*="poem"] *,
+[class*="shige"],
+[class*="shige"] *,
+[class*="shiju"],
+[class*="shiju"] * {
     font-family: "FZLiuGongQuanKaiShuS", "TsangerJinKai05", "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
     line-height: 1.5 !important;
-    opacity: 1;
 }
 
 /* Heading */

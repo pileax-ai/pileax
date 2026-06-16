@@ -67,7 +67,6 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
     reading_status: int | None = None
     is_physical: int | None = None
     location: str | None = None
-    options: dict | None = None
 
 
 class WorkspaceCollectionBookDetails(WorkspaceBookDetails):

@@ -148,15 +148,16 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "media": book.media,
             "isbn": book.isbn,
             "ref_url": book.ref_url,
+            "book_extra": book.extra,
             # user_book
             "user_book_id": user_book.id if user_book else None,
             "reading_position": user_book.reading_position if user_book else None,
             "reading_percentage": user_book.reading_percentage if user_book else None,
             "reading_status": user_book.reading_status if user_book else None,
             "user_rating": user_book.rating if user_book else None,
+            "user_extra": user_book.extra if user_book else None,
             "is_physical": user_book.is_physical if user_book else None,
             "location": user_book.location if user_book else None,
-            "options": user_book.options if user_book else None,
             "create_time": user_book.create_time if user_book else None,
             "update_time": user_book.update_time if user_book else None,
         }

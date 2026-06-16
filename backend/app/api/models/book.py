@@ -32,6 +32,7 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     published: str | None = Field(default=None)
     rating: float | None = Field(default=0.0, ge=0.0, le=10.0)
     ref_url: str | None = Field(default=None)
+    extra: dict | None = Field(default=None, sa_type=JSONString)
 
     # File
     path: str = Field(..., description="Book file path")
@@ -40,7 +41,6 @@ class Book(BaseSQLModel, BaseMixin, table=True):
     size: int | None = Field(default=0, ge=0)
     extension: str | None = Field(default=None)
     media: dict | None = Field(default=None, sa_type=JSONString)
-    options: dict | None = Field(default=None, sa_type=JSONString)
 
     # Category
     isbn: str | None = Field(default=None)
@@ -86,7 +86,7 @@ class BookBase(BaseApiModel):
     publisher: str | None = None
     published: str | None = None
     rating: float | None = 0.0
-    options: dict | None = None
+    extra: dict | None = None
     media: list[BookMedia] | None = Field(default_factory=list)
     isbn: str | None = None
     cover_url: str | None = ""
@@ -132,6 +132,7 @@ class BookPublic(BookCreate, BaseMixin):
 
 class BookDetails(BaseApiModel, BaseMixin):
     # book
+    owner: uuid.UUID
     title: str
     file_url: str | None = None
     cover_url: str | None = None
@@ -146,13 +147,18 @@ class BookDetails(BaseApiModel, BaseMixin):
     isbn: str | None = None
     ref_url: str | None = None
     scope: int
+    extra: dict | None = None
+
+    # workspace_book
+    user_id: uuid.UUID | None = None
+    workspace_id: uuid.UUID | None = None
 
     # user_book
     user_book_id: uuid.UUID | None = None
+    user_extra: dict | None = None
+    user_rating: float | None = 0.0
     reading_position: str | None = ""
     reading_percentage: float | None = 0.0
     reading_status: int | None = None
-    user_rating: float | None = 0.0
     is_physical: int | None = None
     location: str | None = None
-    options: dict | None = None

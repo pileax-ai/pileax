@@ -19,7 +19,7 @@
       class="layout-content"
       v-bind="editorOptions"
       @update="onUpdate"
-      v-if="loading"
+      v-if="loaded"
     />
 
     <footer class="row col-12 justify-center items-center">
@@ -29,16 +29,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref } from 'vue'
+import { computed, onActivated, onBeforeMount, onMounted, ref } from 'vue'
 import { Editor } from '@tiptap/core'
 import {
   YiiCodeEditor,
 } from '@yiitap/vue'
+import useAccount from 'src/hooks/useAccount'
 import useBook from 'src/hooks/useBook'
 import useGuide from 'src/hooks/useGuide'
-import useReaderSetting from 'src/hooks/useReaderSetting'
 import { changeStyle } from 'src/api/service/ebook/book'
-import { userBookService } from 'src/api/service/remote'
+import { bookService, userBookService } from 'src/api/service/remote'
 
 defineProps({
   fixedLayout: {
@@ -48,12 +48,14 @@ defineProps({
 })
 const emit = defineEmits(['next'])
 
+const { account } = useAccount()
 const { book, bookCss, setBookCss } = useBook()
 const { openGuide } = useGuide()
-const { settings } = useReaderSetting()
 const editingCSS = ref('')
-const loading = ref(false)
-const useBookOptions = ref<Indexable>({})
+const loaded = ref(false)
+const bookDetails = ref<Indexable>({})
+const bookExtra = ref<Indexable>({})
+const userExtra = ref<Indexable>({})
 
 const bookCSS = computed({
   get() {
@@ -81,34 +83,48 @@ function onUpdate({ editor, language, code, }: { editor: Editor, language: strin
 function onSave(remote = true) {
   bookCSS.value = editingCSS.value
 
-  if (remote) {
-    const body = {
-      id: book.value.userBookId,
-      options: {
-        ...useBookOptions.value,
-        css: editingCSS.value
-      }
+  if (remote && bookDetails.value.id) {
+    // Save on remote
+    // Save to book's extra if user is book owner
+    if (bookDetails.value.owner === account.value.id) {
+      bookService.update({
+        id: bookDetails.value.id,
+        extra: {
+          ...bookExtra.value,
+          css: editingCSS.value
+        }
+      })
+    } else {
+      userBookService.update({
+        id: book.value.userBookId,
+        extra: {
+          ...userExtra.value,
+          css: editingCSS.value
+        }
+      })
     }
-    userBookService.update(body)
   }
 }
 
 function loadCSS() {
-  if (bookCSS.value) {
-    editingCSS.value = bookCSS.value
-    loading.value = true
-  } else {
-    userBookService.get(book.value.userBookId).then(res => {
-      useBookOptions.value = res.options || {}
-      editingCSS.value = useBookOptions.value.css || ''
+  loaded.value = false
+  bookService.getDetails(book.value.id).then(res => {
+    bookDetails.value = res
+    bookExtra.value = res.extra || {}
+    userExtra.value = res.userExtra || {}
+  }).finally(() => {
+    if (bookCSS.value) {
+      editingCSS.value = bookCSS.value
+    } else {
+      editingCSS.value = userExtra.value.css || bookExtra.value.css || ''
       onSave(false)
-    }).finally(() => {
-      loading.value = true
-    })
-  }
+    }
+
+    loaded.value = true
+  })
 }
 
-onBeforeMount(loadCSS)
+onActivated(loadCSS)
 </script>
 
 <style lang="scss">

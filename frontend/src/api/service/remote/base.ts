@@ -17,11 +17,15 @@ export abstract class BaseService {
   }
 
   get(id: string): Promise<any> {
-    return GET({ name: this.apiName, query: {id: id} })
+    return GET({ name: this.apiName, query: { id } })
+  }
+
+  getDetails(id: string): Promise<any> {
+    return GET({ name: this.apiName, path: '/details', query: { id } })
   }
 
   delete(id: string) {
-    return DELETE({ name: this.apiName, query: {id: id} })
+    return DELETE({ name: this.apiName, query: { id } })
   }
 
   query(body: Indexable): Promise<any> {
