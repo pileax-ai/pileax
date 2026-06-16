@@ -237,6 +237,7 @@ export default {
     service: 'Perjanjian Pengguna'
   },
   test: 'Tes',
+  texture: 'Tekstur',
   time: 'Waktu',
   times: {
     byMonth: 'Per bulan',

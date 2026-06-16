@@ -237,6 +237,7 @@ export default {
     service: '用户协议'
   },
   test: '测试',
+  texture: '纹理',
   time: '时间',
   times: {
     byMonth: '按月',

@@ -237,6 +237,7 @@ export default {
     service: 'Contratto d\'uso'
   },
   test: 'Test',
+  texture: 'Struttura',
   time: 'Tempo',
   times: {
     byMonth: 'Per mese',

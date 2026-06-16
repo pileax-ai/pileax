@@ -237,6 +237,7 @@ export default {
     service: '使用者協定'
   },
   test: '測試',
+  texture: '紋理',
   time: '時間',
   times: {
     byMonth: '按月',
