@@ -76,6 +76,12 @@ export default {
       serif: 'Serif',
       system: 'System'
     },
+    options: {
+      hideParentheticalCitation: 'Zitat in Klammern ausblenden',
+      hideSubscript: 'Indiz ausblenden',
+      hideSuperscript: 'Hochgestellte Zeichen ausblenden',
+      visibility: 'Sichtweite'
+    },
     pagination: {
       _: 'Pagination',
       animated: 'Animation',

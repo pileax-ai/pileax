@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Ne plus afficher',
   ok: 'D\'accord',
   open: 'Ouvrir',
+  options: 'Options',
   password: 'Mot de passe',
   pin: 'Épingle',
   profile: 'Profil du compte',

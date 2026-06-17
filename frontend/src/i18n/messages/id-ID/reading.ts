@@ -76,6 +76,12 @@ export default {
       serif: 'Serif',
       system: 'Sistem'
     },
+    options: {
+      hideParentheticalCitation: 'Sembunyikan kutipan dalam tanda kurung',
+      hideSubscript: 'Sembunyikan subskrip',
+      hideSuperscript: 'Sembunyikan superskrip',
+      visibility: 'Visibilitas'
+    },
     pagination: {
       _: 'Penomoran halaman',
       animated: 'Animasi',

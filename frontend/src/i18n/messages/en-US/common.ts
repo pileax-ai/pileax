@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Do not show again',
   ok: 'Ok',
   open: 'Open',
+  options: 'Options',
   password: 'Password',
   pin: 'Pin',
   profile: 'Account Profile',

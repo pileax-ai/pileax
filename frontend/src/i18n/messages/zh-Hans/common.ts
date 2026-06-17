@@ -162,6 +162,7 @@ export default {
   noShowAgain: '不再显示',
   ok: '确定',
   open: '打开',
+  options: '选项',
   password: '密码',
   pin: '固定',
   profile: '账户详情',

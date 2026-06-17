@@ -183,7 +183,7 @@ const onRelocated = (data: Indexable) => {
     // Save temp progress locally
     store.setTempProgress(data)
   } else {
-    if (['anchor', 'page', 'scroll'].includes(reason)) {
+    if (['page', 'scroll'].includes(reason)) {
       // Ignore when switch page turning mode
       const location = data.location.current
       if (location === 0) {

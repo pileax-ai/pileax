@@ -53,9 +53,90 @@ export const defaultSetting = {
   // css
   globalCSSEnabled: false,
   globalCSS: '',
-  bookCSS: ''
+  bookCSS: '',
+  hideItems: []
 } as Indexable
 
+export const defaultGlobalStyles = `
+img {
+    cursor: zoom-in;
+}
+`
+
+export const defaultGlobalCSS = `/* Kaiti */
+a,
+aside,
+blockquote,
+blockquote *,
+.annotation,
+.block,
+.fncontent,
+.fs,
+.jiazhu,
+.jiaozhu,
+.small,
+.small1,
+.tuti,
+.tuzhu,
+[class*="note" i],
+[class*="quotation" i],
+[class*="quotation" i] *,
+[class*="kai" i],
+[class*="kai" i] *,
+[class*="kt" i],
+[class*="kt" i] * {
+    font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
+    line-height: 1.2 !important;
+}
+
+[class*="fangsong"],
+[class*="fangsong"] * {
+    font-family: "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
+    line-height: 1.5 !important;
+}
+
+.msonormal,
+.yinwen,
+[class*="poem"],
+[class*="poem"] *,
+[class*="poetry"],
+[class*="poetry"] *,
+[class*="shige"],
+[class*="shige"] *,
+[class*="shiju"],
+[class*="shiju"] * {
+    font-family: "FZLiuGongQuanKaiShuS", "TsangerJinKai05", "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+}
+
+/* Heading */
+h1 {
+    font-size: 1.5rem !important;
+}
+h2 {
+    font-size: 1.4rem !important;
+}
+h3 {
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    text-indent: 0 !important;
+    border-bottom: solid 1px rgba(0,0,0,0.08);
+}
+h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    border-bottom: solid 1px rgba(0,0,0,0.08);
+}
+
+/* Superscript */
+sub,
+sup,
+[class*="sub" i],
+[class*="sup" i] {
+    font-size: 0.6rem !important;
+}
+`
 export const scrollbarStyles = () => {
   const appStore = useAppStoreWithOut()
   const theme = appStore.setting.theme
@@ -81,62 +162,22 @@ export const scrollbarStyles = () => {
 `
 }
 
-export const defaultGlobalCSS = `/* Kaiti */
-a,
-aside,
-table,
-.annotation,
-.block,
-.fs,
-.img,
-.jiazhu,
-.jiaozhu,
-.small,
-.small1,
-[class*="note" i],
-[class*="quotation" i],
-[class*="quotation" i] *,
-[class*="kai" i],
-[class*="kai" i] *,
-[class*="kt" i],
-[class*="kt" i] * {
-    font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
-    line-height: 1.2 !important;
+export const itemCssSelectors: Indexable = {
+  sub: ['sub'],
+  sup: ['sup', '[class*="sup"]'],
+  parentheticalCitation: ['.jiazhu', '.note'],
 }
 
-[class*="fangsong"],
-[class*="fangsong"] * {
-    font-family: "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
-    line-height: 1.5 !important;
-}
+export const buildOptionalCSS = (hideItems?: string[]) => {
+  if (!hideItems || !Array.isArray(hideItems) || !hideItems.length) {
+    return ''
+  }
 
-.msonormal,
-[class*="poem"],
-[class*="poem"] *,
-[class*="shige"],
-[class*="shige"] *,
-[class*="shiju"],
-[class*="shiju"] * {
-    font-family: "FZLiuGongQuanKaiShuS", "TsangerJinKai05", "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
-    line-height: 1.5 !important;
-}
+  let selectors: string[] = []
+  for (const item of hideItems) {
+    const itemSelectors = itemCssSelectors[item] || []
+    selectors = selectors.concat(itemSelectors)
+  }
 
-/* Heading */
-h1 {
-    font-size: 1.8rem !important;
+  return selectors.join(',') + ` { display: none; } `
 }
-h2 {
-    font-size: 1.6rem !important;
-}
-h3 {
-    font-size: 1.4rem !important;
-    font-weight: bold !important;
-    text-indent: 0 !important;
-    border-bottom: solid 1px rgba(0,0,0,0.08);
-}
-h4 {
-    font-size: 1.2rem !important;
-    font-weight: bold !important;
-    border-bottom: solid 1px rgba(0,0,0,0.08);
-}
-`

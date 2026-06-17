@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Non mostrare più',
   ok: 'OK',
   open: 'Aprire',
+  options: 'Opzioni',
   password: 'Password',
   pin: 'Spillo',
   profile: 'Profilo dell\'account',

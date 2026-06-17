@@ -76,6 +76,12 @@ export default {
       serif: 'Serif',
       system: 'Hệ thống'
     },
+    options: {
+      hideParentheticalCitation: 'Ẩn trích dẫn trong ngoặc đơn',
+      hideSubscript: 'Ẩn chỉ mục',
+      hideSuperscript: 'Ẩn chỉ số trên',
+      visibility: 'Khả năng hiển thị'
+    },
     pagination: {
       _: 'Đánh số trang',
       animated: 'Hoạt hình',

@@ -162,6 +162,7 @@ export default {
   noShowAgain: '다시 표시하지 않음',
   ok: '좋아요',
   open: '열려 있는',
+  options: '옵션',
   password: '비밀번호',
   pin: '핀',
   profile: '계정 프로필',

@@ -76,6 +76,12 @@ export default {
       serif: '衬线体',
       system: '系统'
     },
+    options: {
+      hideParentheticalCitation: '隐藏夹注',
+      hideSubscript: '隐藏下标',
+      hideSuperscript: '隐藏上标',
+      visibility: '显示隐藏'
+    },
     pagination: {
       _: '翻页',
       animated: '翻页动画',

@@ -10,7 +10,7 @@ import {
   getSelectionRange,
   getRealCoverBlob,
 } from './utils';
-import { defaultSetting, scrollbarStyles } from 'src/app/default-reader-setting';
+import { defaultSetting, defaultGlobalStyles, scrollbarStyles, buildOptionalCSS } from 'src/app/default-reader-setting';
 import { postMessage } from 'src/api/service/ebook/book.js';
 import { getAnnotationColor } from 'src/utils/book.ts'
 
@@ -71,15 +71,12 @@ const setStyle = (userStyle) => {
   };
 
   // CSS
-  const defaultBookCSS = `
-    img {
-      cursor: zoom-in;
-    }
-  `;
   const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
   const bookCSS = style.bookCSS
+  const optionalCSS = buildOptionalCSS(style.hideItems)
+  // console.log('optionalCSS', optionalCSS)
 
-  const combinedCSS = getCSS(newStyle) + defaultBookCSS + globalCSS + bookCSS;
+  const combinedCSS = getCSS(newStyle) + defaultGlobalStyles + globalCSS + bookCSS + optionalCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
 
   // Renderer shadowRoot styles

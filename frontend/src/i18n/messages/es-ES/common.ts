@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'No volver a mostrar',
   ok: 'De acuerdo',
   open: 'Abierto',
+  options: 'Opciones',
   password: 'Contraseña',
   pin: 'Alfiler',
   profile: 'Perfil de la cuenta',

@@ -76,6 +76,12 @@ export default {
       serif: 'Serif',
       system: 'Sistema'
     },
+    options: {
+      hideParentheticalCitation: 'Nascondi la citazione tra parentesi',
+      hideSubscript: 'Nascondi l\'indicizzazione',
+      hideSuperscript: 'Nascondi l\'apice',
+      visibility: 'Visibilità'
+    },
     pagination: {
       _: 'Paginazione',
       animated: 'Animazione',
