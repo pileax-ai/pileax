@@ -162,6 +162,7 @@ export default {
   noShowAgain: '不再顯示',
   ok: '確定',
   open: '打開',
+  options: '選項',
   password: '密碼',
   pin: '固定',
   profile: '帳戶詳情',

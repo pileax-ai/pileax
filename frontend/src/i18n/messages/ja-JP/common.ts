@@ -162,6 +162,7 @@ export default {
   noShowAgain: '再度表示しない',
   ok: 'わかりました',
   open: '開ける',
+  options: 'オプション',
   password: 'パスワード',
   pin: 'ピン',
   profile: 'アカウントプロフィール',

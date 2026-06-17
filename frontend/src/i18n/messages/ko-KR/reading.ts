@@ -76,6 +76,12 @@ export default {
       serif: '가는 장식 선',
       system: '체계'
     },
+    options: {
+      hideParentheticalCitation: '괄호 안의 인용문 숨기기',
+      hideSubscript: '아래첨자 숨기기',
+      hideSuperscript: '위첨자 숨기기',
+      visibility: '시계'
+    },
     pagination: {
       _: '쪽수 매기기',
       animated: '생기',

@@ -10,6 +10,7 @@ export enum BookOperation {
   Load = 'load',
   Navigation = 'navigation',
   Preview = 'preview',
+  System = 'system',
   None = 'none',
 }
 

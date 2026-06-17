@@ -76,6 +76,12 @@ export default {
       serif: 'Serif',
       system: 'Sistem'
     },
+    options: {
+      hideParentheticalCitation: 'Ascundeți citarea între paranteze',
+      hideSubscript: 'Ascunde indicele',
+      hideSuperscript: 'Ascunde exponentul',
+      visibility: 'Vizibilitate'
+    },
     pagination: {
       _: 'Paginare',
       animated: 'Animaţie',

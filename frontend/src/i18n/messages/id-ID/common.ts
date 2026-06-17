@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Jangan tampilkan lagi',
   ok: 'Oke',
   open: 'Membuka',
+  options: 'Opsi',
   password: 'Kata sandi',
   pin: 'Pin',
   profile: 'Profil Akun',

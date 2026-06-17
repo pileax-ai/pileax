@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Nu mai afișa',
   ok: 'Bine',
   open: 'Deschide',
+  options: 'Opțiuni',
   password: 'Parolă',
   pin: 'Fixează',
   profile: 'Profilul contului',

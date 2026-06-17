@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Больше не показываться',
   ok: 'Хорошо',
   open: 'Открыть',
+  options: 'Параметры',
   password: 'Пароль',
   pin: 'Приколоть',
   profile: 'Профиль учетной записи',

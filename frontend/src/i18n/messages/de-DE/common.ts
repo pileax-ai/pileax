@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Nicht erneut anzeigen',
   ok: 'OK',
   open: 'Offen',
+  options: 'Optionen',
   password: 'Passwort',
   pin: 'Stift',
   profile: 'Kontoprofil',

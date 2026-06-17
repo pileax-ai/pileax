@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Không hiển thị lại',
   ok: 'Được rồi',
   open: 'Mở',
+  options: 'Tùy chọn',
   password: 'Mật khẩu',
   pin: 'Ghim',
   profile: 'Hồ sơ tài khoản',

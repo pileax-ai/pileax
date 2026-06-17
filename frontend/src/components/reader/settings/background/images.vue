@@ -34,7 +34,7 @@
       <div>
         <q-responsive :ratio="16/9">
           <q-card class="cover-item" flat v-ripple>
-            <o-file-uploader accept=".png,.jpg,.svg"
+            <o-file-uploader accept=".png,.jpg,.svg,.webp,.avif"
                              :maxSize="10 * 1024 * 1024"
                              ref-id="book"
                              ref-type="reader-background"
@@ -142,6 +142,15 @@ const list = computed(() => {
       opacity: 1,
       url: '/images/book/light-old_book.jpg',
     },
+    // {
+    //   label: 'Test',
+    //   value: 'test',
+    //   theme: 'light',
+    //   size: 'cover',
+    //   blur: 0,
+    //   opacity: 1,
+    //   url: '',
+    // },
   ]
 
   const userList = userBackgrounds.value.map(item => {

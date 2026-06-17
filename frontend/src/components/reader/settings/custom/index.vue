@@ -31,6 +31,7 @@
 import { computed, onMounted, ref } from 'vue'
 import GlobalCss from './GlobalCss.vue'
 import BookCss from './BookCss.vue'
+import Options from './Options.vue'
 import useCommon from 'core/hooks/useCommon'
 
 defineProps({
@@ -46,6 +47,7 @@ const tabs = computed(() => {
   return [
     { label: t('reading.setting.style.globalCss'), value: 'globalCss', component: GlobalCss },
     { label: t('reading.setting.style.bookCss'), value: 'bookCss', component: BookCss },
+    { label: t('options'), value: 'options', component: Options },
   ]
 })
 

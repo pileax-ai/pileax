@@ -76,6 +76,12 @@ export default {
       serif: 'Serif',
       system: 'System'
     },
+    options: {
+      hideParentheticalCitation: 'Hide parenthetical citation',
+      hideSubscript: 'Hide subscript',
+      hideSuperscript: 'Hide superscript',
+      visibility: 'Visibility'
+    },
     pagination: {
       _: 'Pagination',
       animated: 'Animation',

@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Não mostrar novamente',
   ok: 'OK',
   open: 'Abrir',
+  options: 'Opções',
   password: 'Senha',
   pin: 'Alfinete',
   profile: 'Perfil da conta',

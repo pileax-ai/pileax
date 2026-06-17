@@ -162,6 +162,7 @@ export default {
   noShowAgain: 'Nie pokazuj ponownie',
   ok: 'OK',
   open: 'Otwarte',
+  options: 'Opcje',
   password: 'Hasło',
   pin: 'Szpilka',
   profile: 'Profil konta',

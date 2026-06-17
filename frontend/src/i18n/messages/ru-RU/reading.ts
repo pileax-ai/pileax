@@ -76,6 +76,12 @@ export default {
       serif: 'Засечка',
       system: 'Система'
     },
+    options: {
+      hideParentheticalCitation: 'Скрыть цитату в скобках',
+      hideSubscript: 'Скрыть нижний индекс',
+      hideSuperscript: 'Скрыть верхний индекс',
+      visibility: 'Видимость'
+    },
     pagination: {
       _: 'Пагинация',
       animated: 'Анимация',

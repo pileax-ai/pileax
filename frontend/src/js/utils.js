@@ -52,7 +52,8 @@ const getCSS = ({
     }
 
     a:link {
-        color: #66ccff !important;
+        color: #2563eb !important;
+        text-decoration: none;
     }
 
     * {
