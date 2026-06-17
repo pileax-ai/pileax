@@ -34,6 +34,7 @@ $dark_separator_color: #222222;
 .q-menu,
 .tab-drawer.shadow-2,
 .resizable-drawer.shadow-2,
+.footnote-dialog,
 .o-side-dialog.card .q-dialog__inner .q-layout-container,
 .o-sheet {
   box-shadow:
@@ -97,6 +98,7 @@ body.body--dark {
   .q-menu--dark,
   .resizable-drawer.shadow-2,
   .dialog-card.q-card--dark,
+  .footnote-dialog,
   .o-side-dialog.card .q-dialog__inner .q-layout-container,
   .o-sheet,
   .q-dialog .q-dialog__inner .q-layout-container,
