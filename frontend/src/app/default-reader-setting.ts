@@ -82,23 +82,20 @@ export const scrollbarStyles = () => {
 }
 
 export const defaultGlobalCSS = `/* Kaiti */
+a,
 aside,
 table,
 .annotation,
 .block,
-.small,
-.small1,
-.note,
-.note5,
-.msonormal,
+.fs,
 .img,
 .jiazhu,
 .jiaozhu,
-.fnote,
-.fnoteright,
-.fs,
-.quotation,
-.quotation span,
+.small,
+.small1,
+[class*="note" i],
+[class*="quotation" i],
+[class*="quotation" i] *,
 [class*="kai" i],
 [class*="kai" i] *,
 [class*="kt" i],
@@ -113,6 +110,7 @@ table,
     line-height: 1.5 !important;
 }
 
+.msonormal,
 [class*="poem"],
 [class*="poem"] *,
 [class*="shige"],
