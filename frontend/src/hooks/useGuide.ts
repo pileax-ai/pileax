@@ -61,19 +61,30 @@ export default function () {
     appStore.closeTour(name)
   }
 
-  const openGuide = (path: string) => {
-    let url = `${process.env.APP_GUIDE_URL}/guide/${path}`
+  const getDocUrl = (path: string) => {
+    let url = `${process.env.APP_GUIDE_URL}/${path}`
     if (locale.value.includes('zh')) {
-      url = `${process.env.APP_GUIDE_URL}/zh/guide/${path}`
+      url = `${process.env.APP_GUIDE_URL}/zh/${path}`
     }
+    return url
+  }
+
+  const openDocUrl = (path: string) => {
+    let url = getDocUrl(path)
     openURL(url)
+  }
+
+  const openGuide = (path: string) => {
+    openDocUrl(`guide/${path}`)
   }
 
   return {
     tour,
     showGuide,
     closeGuide,
-    openGuide
+    openGuide,
+    getDocUrl,
+    openDocUrl
   }
 }
 

@@ -10,7 +10,7 @@
       </span>
     </div>
 
-    <q-toolbar-title class="no-drag-region">
+    <q-toolbar-title class="drag-region">
       <q-tabs class="o-navi-tabs" align="left" shrink inline-label>
         <template v-for="(item, index) in topMenus" :key="`r-${index}`">
           <div v-if="!item.hidden">

@@ -10,7 +10,7 @@
       </span>
     </div>
 
-    <q-toolbar-title></q-toolbar-title>
+    <q-toolbar-title class="drag-region"></q-toolbar-title>
 
 
     <div class="row items-center o-toolbar-extra no-drag-region">

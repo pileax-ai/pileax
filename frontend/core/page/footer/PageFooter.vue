@@ -27,7 +27,7 @@
                 <o-icon name="icon-telegram" />
               </q-btn>
               <q-btn flat round
-                     href="https://docs.pileax.ai"
+                     :href="getDocUrl('')"
                      target="_blank">
                 <o-icon name="icon-docs" />
               </q-btn>
@@ -54,12 +54,15 @@
               <header class="">{{ $t('document') }}</header>
               <section class="q-mt-md links">
                 <q-btn :label="$t('quickstart')" flat
-                       href="https://docs.pileax.ai/guide/getting-started"
+                       :href="getDocUrl('guide/getting-started')"
                        target="_blank" />
                 <q-btn :label="$t('docs')" flat
-                       href="https://docs.pileax.ai"
+                       :href="getDocUrl('')"
                        target="_blank" />
-                <q-btn :label="$t('test')" flat to="/test" />
+                <q-btn :label="$t('download')" flat
+                       :href="getDocUrl('download')"
+                       target="_blank" />
+                <q-btn :label="$t('test')" flat to="/test" v-if="false" />
               </section>
             </section>
             <section class="col-md-3 col-sm-4">
@@ -67,10 +70,10 @@
               <section class="q-mt-md links">
                 <q-btn :label="$t('about')" to="/about" flat />
                 <q-btn :label="$t('terms.service')" flat
-                       href="https://docs.pileax.ai/agreement"
+                       :href="getDocUrl('agreement')"
                        target="_blank" />
                 <q-btn :label="$t('terms.privacy')" flat
-                       href="https://docs.pileax.ai/privacy"
+                       :href="getDocUrl('privacy')"
                        target="_blank" />
               </section>
             </section>
@@ -84,8 +87,10 @@
 <script setup lang="ts">
 import useSetting from 'core/hooks/useSetting'
 import LocaleHoverBtn from 'core/components/button/LocaleHoverBtn.vue'
+import useGuide from 'src/hooks/useGuide'
 
 const { darkMode, toggleTheme } = useSetting()
+const { getDocUrl } = useGuide()
 </script>
 
 <style lang="scss">

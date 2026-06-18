@@ -66,7 +66,7 @@
         <span class="text-tips">{{ $t('auth.useToConsent') }}</span>
         <q-btn flat
                dense
-               href="https://docs.pileax.ai/agreement"
+               :href="getDocUrl('agreement')"
                target="_blank">
           {{ $t('terms.service') }} & {{ $t('terms.privacy') }}
         </q-btn>
@@ -82,6 +82,7 @@ import { notifyError } from 'core/utils/control'
 import { getErrorMessage } from 'src/utils/request'
 import useCommon from 'core/hooks/useCommon'
 import useAccount from 'src/hooks/useAccount'
+import useGuide from 'src/hooks/useGuide'
 
 const emit = defineEmits(['success'])
 const type = ref<'text' | 'password'>('password')
@@ -94,6 +95,7 @@ const form = reactive({
 
 const { t, hideDialog } = useCommon()
 const { login } = useAccount()
+const { getDocUrl } = useGuide()
 
 async function onSubmit () {
   hideDialog()

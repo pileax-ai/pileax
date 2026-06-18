@@ -93,7 +93,7 @@
         <span class="text-tips">{{ $t('auth.useToConsent') }}</span>
         <q-btn flat
                dense
-               href="https://docs.pileax.ai/agreement"
+               :href="getDocUrl('agreement')"
                target="_blank">
           {{ $t('terms.service') }} & {{ $t('terms.privacy') }}
         </q-btn>
@@ -113,11 +113,13 @@ import { getErrorMessage } from 'src/utils/request'
 import useCommon from 'core/hooks/useCommon'
 import useAccount from 'src/hooks/useAccount'
 import { authService } from 'src/api/service/remote'
+import useGuide from 'src/hooks/useGuide'
 
 const emit = defineEmits(['success'])
 
 const { t } = useCommon()
 const { signup } = useAccount()
+const { getDocUrl } = useGuide()
 const isSuper = ref(false)
 const form = reactive({
   email: '',
