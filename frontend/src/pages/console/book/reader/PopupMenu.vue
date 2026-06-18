@@ -390,7 +390,7 @@ function initTippy() {
 }
 
 watch(() => selection.value?.text, (newValue) => {
-  if (newValue) {
+  if (newValue && !selection.value?.footnote) {
     show()
   } else {
     hide()

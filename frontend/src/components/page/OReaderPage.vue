@@ -12,20 +12,20 @@
                    :class="contentClass">
       <div class="overlay"></div>
       <slot></slot>
-      <dialog ref="footnoteDialog"
-              id="footnote-dialog"
-              v-on-click-outside="onClickOutside">
-        <div>
-          <main></main>
-        </div>
-      </dialog>
     </q-scroll-area>
+
+    <div ref="footnoteDialog"
+         id="footnote-dialog"
+         class="footnote-dialog">
+      <div>
+        <main></main>
+      </div>
+    </div>
   </o-base-page>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, onUnmounted, ref} from 'vue'
-import { vOnClickOutside } from '@vueuse/components'
+import { ref } from 'vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import OBasePage from 'core/page/template/OBasePage.vue'
 
@@ -38,34 +38,11 @@ const props = defineProps({
 
 const { settings } = useReaderSetting()
 const footnoteDialog: any = ref(null)
-
-function onClickOutside() {
-  footnoteDialog.value?.close()
-}
-
-function onDialogShow() {
-  console.log('show')
-}
-
-function onDialogClose() {
-  console.log('close')
-}
-
-onMounted(() => {
-  footnoteDialog.value?.addEventListener('footnote-dialog-shown', onDialogShow)
-  footnoteDialog.value?.addEventListener('close', onDialogClose)
-})
-
-onUnmounted(() => {
-  footnoteDialog.value?.removeEventListener('footnote-dialog-shown', onDialogShow)
-  footnoteDialog.value?.removeEventListener('close', onDialogClose)
-})
 </script>
 
 <style lang="scss">
 .o-reader-page {
   background: var(--reader-background-color)!important;
-  //background: linear-gradient(to bottom, #97cda1 10%, transparent 100%) !important;
 
   .o-page-wrapper {
     width: 100%;
@@ -99,42 +76,32 @@ onUnmounted(() => {
 }
 
 #footnote-dialog {
+  opacity: 0;
   visibility: hidden;
   position: absolute !important;
-  top: 50%;
-  left: 50%;
-  width: 80%;
-  max-width: 720px;
-  height: 160px !important;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 0 !important;
+  box-sizing: border-box;
+
+  width: max-content;
+  height: auto;
+  min-width: 640px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   background: var(--q-secondary) !important;
   user-select: none !important;
-  //transform: translate(-50%, -50%);
-  transform: scale(0.5); /* 初始缩小 */
-  transform-origin: center center;
+
+  transform-origin: left top;
   transition: opacity 0.1s ease;
-  margin-top: -100px; /* 负值是对话框高度的一半，用于垂直居中 */
-  margin-left: max(-40%, -360px); /* 负值是对话框宽度的一半，用于水平居中 */
   padding: 1rem 0;
+  z-index: 99999;
 
-  &::backdrop {
-    background: rgba(0, 0, 0, 0.9);
+  &.is-open {
+    visibility: visible !important;
+    animation: footnoteZoomIn 0.2s ease-out forwards;
   }
-}
-
-.fncontent {
-  margin: 0 !important;
-}
-
-dialog[open] {
-  visibility: visible !important;
-  animation: zoomIn 0.2s ease-out forwards;
-}
-
-dialog:focus {
-  outline: none !important;
 }
 
 #footnote-dialog div {
@@ -146,5 +113,18 @@ dialog:focus {
 #footnote-dialog main {
   overflow: auto;
   flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes footnoteZoomIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px) scale(0.5)
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1)
+  }
 }
 </style>

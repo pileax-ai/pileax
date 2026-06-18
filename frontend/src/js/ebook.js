@@ -1,3 +1,4 @@
+import { computePosition, flip, shift, offset, size } from '@floating-ui/dom'
 import './foliate-js/view.js';
 import { FootnoteHandler } from './foliate-js/footnotes.js';
 import { Overlayer } from './foliate-js/overlayer.js';
@@ -21,6 +22,7 @@ import { getAnnotationColor } from 'src/utils/book.ts'
 // Default style
 let globalReader = null;
 let style = defaultSetting;
+let footnoteDialogShow = false;
 
 const setStyle = (userStyle) => {
   if (!globalReader) {
@@ -74,7 +76,6 @@ const setStyle = (userStyle) => {
   const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
   const bookCSS = style.bookCSS
   const optionalCSS = buildOptionalCSS(style.hideItems)
-  // console.log('optionalCSS', optionalCSS)
 
   const combinedCSS = getCSS(newStyle) + defaultGlobalStyles + globalCSS + bookCSS + optionalCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
@@ -131,21 +132,71 @@ class Ebook {
   #doc;
   #index;
   #originalContent;
+  #lastClickCoords = null
 
   constructor() {
     this.#footnoteHandler.addEventListener('before-render', (e) => {
       const { view } = e.detail;
       this.setView(view);
       replaceFootnote(view);
-      console.log('before-render footnote');
     });
+
     this.#footnoteHandler.addEventListener('render', (e) => {
-      const { view } = e.detail;
-      footnoteDialog.show();
-      footnoteDialog.dispatchEvent(new Event('footnote-dialog-shown'));
-      console.log('render footnote');
-    });
-    this.#originalContent = null;
+      const { view } = e.detail
+
+      // 1. Display
+      footnoteDialog.style.display = 'block'
+      footnoteDialog.style.visibility = 'hidden'
+
+      // 2. Footnote position
+      if (this.#lastClickCoords) {
+        const virtualElement = {
+          getBoundingClientRect: () => ({
+            ...this.#lastClickCoords,
+            width: this.#lastClickCoords.width || 1,
+            height: this.#lastClickCoords.height || 1
+          })
+        }
+
+        computePosition(virtualElement, footnoteDialog, {
+          placement: 'bottom',
+          middleware: [
+            offset(16),
+            flip(),
+            shift({ padding: 16 }),
+            size({
+              apply({ availableWidth, availableHeight }) {
+                Object.assign(footnoteDialog.style, {
+                  maxWidth: `${Math.min(availableWidth - 32, 640)}px`,
+                  maxHeight: `${Math.min(availableHeight - 40, 480)}px`
+                })
+              }
+            })
+          ],
+        }).then(({ x, y }) => {
+          Object.assign(footnoteDialog.style, {
+            left: `50%`,
+            top: `${y}px`,
+            transformOrigin: 'top center',
+            transform: 'translate(-50%, 0)',
+            margin: '0',
+            visibility: 'visible'
+          })
+          footnoteDialog.classList.add('is-open')
+          footnoteDialogShow = true
+        })
+      } else {
+        Object.assign(footnoteDialog.style, {
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          margin: '0',
+          visibility: 'visible'
+        })
+        footnoteDialog.classList.add('is-open')
+      }
+    })
+    this.#originalContent = null
   }
 
   get doc() {
@@ -241,12 +292,13 @@ class Ebook {
       e.preventDefault();
       // onExternalLink(e.detail); // todo
     });
-    view.addEventListener('link', (e) =>
+
+    view.addEventListener('link', (e) => {
       this.#footnoteHandler.handle(this.view.book, e)?.catch((err) => {
-        console.warn(err);
-        this.view.goTo(e.detail.href);
+        console.warn(err)
+        this.view.goTo(e.detail.href)
       })
-    );
+    })
 
     view.history.addEventListener('pushstate', (e) => {
       postMessage('onPushState', {
@@ -333,6 +385,40 @@ class Ebook {
     doc.addEventListener('keydown', this.#handleKeydown.bind(this));
     doc.addEventListener('wheel', this.#handleWheel.bind(this), { passive: false });
 
+    doc.addEventListener('pointerdown', (event) => {
+      const renderer = this.view?.renderer
+      const target = event.composedPath?.()?.[0] || event.target
+
+      if (target && renderer) {
+        const rect = target.getBoundingClientRect()
+        const containerRect = renderer.getBoundingClientRect()
+
+        this.#lastClickCoords = {
+          left: event.clientX,
+          right: event.clientX,
+          x: event.clientX,
+
+          top: containerRect.top + rect.top,
+          bottom: containerRect.top + rect.bottom,
+          y: containerRect.top + rect.top,
+
+          width: rect.width,
+          height: rect.height
+        }
+      } else {
+        this.#lastClickCoords = {
+          width: 0,
+          height: 0,
+          top: event.clientY,
+          bottom: event.clientY,
+          left: event.clientX,
+          right: event.clientX,
+          x: event.clientX,
+          y: event.clientY
+        }
+      }
+    }, { passive: true })
+
     setSelectionHandler(this.view, doc, index);
   }
 
@@ -355,6 +441,15 @@ class Ebook {
   }
 
   #onClickView({ detail: { x, y } }) {
+    if (this.#lastClickCoords) {
+      this.#lastClickCoords = {
+        ...this.#lastClickCoords,
+        left: x,
+        right: x,
+        x: x,
+      }
+    }
+
     const coordinatesX = x / window.innerWidth;
     const coordinatesY = y / window.innerHeight;
     onClickView(coordinatesX, coordinatesY);
@@ -470,11 +565,13 @@ const onAnnotationClick = (annotation, pos) => {
 
 const initFootDialog = () => {
   const footnoteDialog = document.getElementById('footnote-dialog');
-  // console.log('footnoteDialog', footnoteDialog);
 
-  footnoteDialog.addEventListener('close', () => {
+  footnoteDialog.close = () => {
+    footnoteDialog.style.display = 'none';
+    footnoteDialogShow = false;
     postMessage('onFootnoteClose', null);
-  });
+  };
+
   footnoteDialog.addEventListener('click', (e) =>
     e.target === footnoteDialog ? footnoteDialog.close() : null
   );
@@ -483,14 +580,27 @@ const initFootDialog = () => {
 }
 
 const replaceFootnote = (view) => {
-  clearSelection();
-  footnoteDialog.querySelector('main').replaceChildren(view);
+  clearSelection()
+  const mainContainer = footnoteDialog.querySelector('main')
+  mainContainer.replaceChildren(view)
 
   view.addEventListener('load', (e) => {
-    const { doc, index } = e.detail;
-    globalThis.footnoteSelection = () => handleSelection(view, doc, index);
-    setSelectionHandler(view, doc, index);
-  });
+    const { doc, index } = e.detail
+    globalThis.footnoteSelection = () => handleSelection(view, doc, index)
+    setSelectionHandler(view, doc, index)
+
+    // Content height
+    requestAnimationFrame(() => {
+      if (doc && doc.body) {
+        doc.body.style.margin = '0'
+        doc.body.style.padding = '0'
+        const contentHeight = doc.body.scrollHeight
+        const finalHeight = contentHeight + 30
+        const boundedHeight = Math.max(60, Math.min(finalHeight, 480))
+        footnoteDialog.style.height = `${boundedHeight}px`
+      }
+    })
+  })
 
   const { renderer } = view;
   renderer.setAttribute('flow', 'scrolled');
@@ -507,12 +617,20 @@ const replaceFootnote = (view) => {
     justify: true,
     hyphenate: true,
   };
-  renderer.setStyles(getCSS(footNoteStyle));
-  // set background color of dialog
-  // if #rrggbbaa, replace aa to ee
-  footnoteDialog.style.backgroundColor =
-    style.backgroundColor.slice(0, 7) + 'ee';
-};
+
+  const defaultGlobalStyles = `
+    body > :first-child {
+      margin: 0 !important;
+      text-indent: 0 !important;
+    }
+  `
+  const combinedCSS = getCSS(footNoteStyle) + defaultGlobalStyles
+  renderer.setStyles(combinedCSS);
+}
+
+const closeFootnote = () => {
+
+}
 
 // --------------------------------------------------------------------------------
 // postMessage API
@@ -526,7 +644,7 @@ const onRelocated = (detail) => {
 }
 
 const onSelectionEnd = (selection) => {
-  if (footnoteDialog.open) {
+  if (footnoteDialogShow) {
     postMessage('onSelectionEnd', { ...selection, footnote: true });
   } else {
     postMessage('onSelectionEnd', { ...selection, footnote: false });
