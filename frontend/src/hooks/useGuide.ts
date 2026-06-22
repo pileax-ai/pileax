@@ -70,7 +70,7 @@ export default function () {
   }
 
   const openDocUrl = (path: string) => {
-    let url = getDocUrl(path)
+    const url = getDocUrl(path)
     openURL(url)
   }
 

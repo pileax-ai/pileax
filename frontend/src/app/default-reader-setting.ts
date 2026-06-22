@@ -61,6 +61,10 @@ export const defaultGlobalStyles = `
 img {
     cursor: zoom-in;
 }
+
+sup img {
+    cursor: pointer;
+}
 `
 
 export const defaultGlobalCSS = `/* Kaiti */
