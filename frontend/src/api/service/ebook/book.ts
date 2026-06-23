@@ -25,6 +25,7 @@ const {
   book,
   bookId,
   bookCss,
+  bookHideItems,
   operation,
   readingMode,
   setProgress,
@@ -246,7 +247,8 @@ const onRelocatedByOperation = (data: Indexable) => {
 const changeStyle = () => {
   const newStyle = {
     ...style.value,
-    bookCSS: bookCss.value
+    bookCSS: bookCss.value,
+    bookHideItems: bookHideItems.value
   }
   ebookRender.changeStyle(newStyle)
 }

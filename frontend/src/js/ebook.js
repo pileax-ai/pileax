@@ -11,7 +11,13 @@ import {
   getSelectionRange,
   getRealCoverBlob,
 } from './utils';
-import { defaultSetting, defaultGlobalStyles, scrollbarStyles, buildOptionalCSS } from 'src/app/default-reader-setting';
+import {
+  defaultSetting,
+  defaultGlobalStyles,
+  defaultFootnoteGlobalStyles,
+  scrollbarStyles,
+  buildOptionalCSS
+} from 'src/app/default-reader-setting';
 import { postMessage } from 'src/api/service/ebook/book.js';
 import { getAnnotationColor } from 'src/utils/book.ts'
 
@@ -75,7 +81,7 @@ const setStyle = (userStyle) => {
   // CSS
   const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
   const bookCSS = style.bookCSS
-  const optionalCSS = buildOptionalCSS(style.hideItems)
+  const optionalCSS = buildOptionalCSS(style.bookHideItems)
 
   const combinedCSS = getCSS(newStyle) + defaultGlobalStyles + globalCSS + bookCSS + optionalCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
@@ -617,13 +623,7 @@ const replaceFootnote = (view) => {
     hyphenate: true,
   };
 
-  const defaultGlobalStyles = `
-    body > :first-child {
-      margin: 0 !important;
-      text-indent: 0 !important;
-    }
-  `
-  const combinedCSS = getCSS(footNoteStyle) + defaultGlobalStyles
+  const combinedCSS = getCSS(footNoteStyle) + defaultFootnoteGlobalStyles
   renderer.setStyles(combinedCSS);
 }
 

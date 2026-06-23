@@ -54,7 +54,6 @@ export const defaultSetting = {
   globalCSSEnabled: false,
   globalCSS: '',
   bookCSS: '',
-  hideItems: []
 } as Indexable
 
 export const defaultGlobalStyles = `
@@ -64,6 +63,18 @@ img {
 
 a img {
     cursor: pointer;
+}
+`
+
+export const defaultFootnoteGlobalStyles = `
+body > :first-child {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-indent: 0 !important;
+}
+
+p, li {
+    text-indent: 0 !important;
 }
 `
 

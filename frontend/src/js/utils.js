@@ -51,7 +51,7 @@ const getCSS = ({
         box-sizing: border-box !important;
     }
 
-    a:link {
+    a:link, a:link * {
         color: #2563eb !important;
         text-decoration: none;
     }
@@ -84,6 +84,13 @@ const getCSS = ({
 
     pre {
         white-space: pre-wrap !important;
+    }
+
+    aside[epub|type~="endnote"],
+    aside[epub|type~="footnote"],
+    aside[epub|type~="note"],
+    aside[epub|type~="rearnote"] {
+        display: none;
     }
 `;
 };
