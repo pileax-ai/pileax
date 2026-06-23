@@ -1,7 +1,10 @@
-[*.{jsx,mjs,cjs,ts,tsx,mts,cts,vue}]
+[*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,vue}]
 charset = utf-8
 indent_size = 2
 indent_style = space
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[**/foliate-js/**/*.{js,jsx,mjs,cjs}]
+indent_size = 4

@@ -290,7 +290,7 @@ class Ebook {
     });
     view.addEventListener('external-link', (e) => {
       e.preventDefault();
-      // onExternalLink(e.detail); // todo
+      postMessage('onExternalLink', e.detail);
     });
 
     view.addEventListener('link', (e) => {
