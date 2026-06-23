@@ -314,15 +314,19 @@ class Ebook {
       // Footnote
       if (closestLink) {
         const rel = closestLink.getAttribute('rel') || ''
+        const type = closestLink.getAttribute('type') || ''
         const epubType = closestLink.getAttribute('epub:type') || ''
         const href = closestLink.getAttribute('href') || ''
 
-        // If it looks like a footnote link, ignore the image click to let the link listener handle it
-        if (
+        const isFootnote =
+          type === 'noteref' ||
           rel.includes('footnote') ||
           epubType.includes('noteref') ||
-          href.startsWith('#')
-        ) {
+          href.startsWith('#') ||
+          href.includes('kindle:pos')
+
+        // If it looks like a footnote link, ignore the image click to let the link listener handle it
+        if (isFootnote) {
           // Image click ignored: inside a footnote link
           e.preventDefault();
           e.stopPropagation();

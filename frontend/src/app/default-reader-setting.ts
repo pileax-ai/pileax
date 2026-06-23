@@ -62,7 +62,7 @@ img {
     cursor: zoom-in;
 }
 
-sup img {
+a img {
     cursor: pointer;
 }
 `
