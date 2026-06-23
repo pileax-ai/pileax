@@ -5,3 +5,6 @@ indent_style = space
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[**/foliate-js/**/*.{js,jsx,mjs,cjs}]
+indent_size = 4

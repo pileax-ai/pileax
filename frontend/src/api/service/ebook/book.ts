@@ -3,7 +3,7 @@
  *
  * @version 1.0
  */
-import { debounce, throttle } from 'quasar'
+import { debounce, throttle, openURL } from 'quasar'
 import { notifyWarning } from 'core/utils/control'
 import useDialog from 'core/hooks/useDialog'
 import useApi from 'src/hooks/useApi'
@@ -25,6 +25,7 @@ const {
   book,
   bookId,
   bookCss,
+  bookHideItems,
   operation,
   readingMode,
   setProgress,
@@ -78,11 +79,11 @@ export const postMessage = (name :string, data :any) => {
       setSelection({})
       globalBus.emit('book-view-clicked')
       break
+    case 'onExternalLink':
+      onExternalLink(data)
+      break
     case 'onKeydown':
       onKeydown(data)
-      break
-    case 'onWheel':
-      onWheel(data)
       break
     case 'onImageClick':
       openDialog({
@@ -108,8 +109,17 @@ export const postMessage = (name :string, data :any) => {
     case 'onSearch':
       setSearch(data)
       break
+    case 'onWheel':
+      onWheel(data)
+      break
     default:
       break
+  }
+}
+
+const onExternalLink = (data: Indexable) => {
+  if (data.href_) {
+    openURL(data.href_)
   }
 }
 
@@ -237,7 +247,8 @@ const onRelocatedByOperation = (data: Indexable) => {
 const changeStyle = () => {
   const newStyle = {
     ...style.value,
-    bookCSS: bookCss.value
+    bookCSS: bookCss.value,
+    bookHideItems: bookHideItems.value
   }
   ebookRender.changeStyle(newStyle)
 }

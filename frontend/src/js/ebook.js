@@ -11,7 +11,13 @@ import {
   getSelectionRange,
   getRealCoverBlob,
 } from './utils';
-import { defaultSetting, defaultGlobalStyles, scrollbarStyles, buildOptionalCSS } from 'src/app/default-reader-setting';
+import {
+  defaultSetting,
+  defaultGlobalStyles,
+  defaultFootnoteGlobalStyles,
+  scrollbarStyles,
+  buildOptionalCSS
+} from 'src/app/default-reader-setting';
 import { postMessage } from 'src/api/service/ebook/book.js';
 import { getAnnotationColor } from 'src/utils/book.ts'
 
@@ -75,7 +81,7 @@ const setStyle = (userStyle) => {
   // CSS
   const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
   const bookCSS = style.bookCSS
-  const optionalCSS = buildOptionalCSS(style.hideItems)
+  const optionalCSS = buildOptionalCSS(style.bookHideItems)
 
   const combinedCSS = getCSS(newStyle) + defaultGlobalStyles + globalCSS + bookCSS + optionalCSS;
   reader.view.renderer.setStyles?.(combinedCSS);
@@ -290,7 +296,7 @@ class Ebook {
     });
     view.addEventListener('external-link', (e) => {
       e.preventDefault();
-      // onExternalLink(e.detail); // todo
+      postMessage('onExternalLink', e.detail);
     });
 
     view.addEventListener('link', (e) => {
@@ -307,35 +313,6 @@ class Ebook {
       });
     });
     view.addEventListener('click-image', async (e) => {
-      // Check if the image is inside a footnote link
-      const img = e.detail.img
-      const closestLink = img.closest('a')
-
-      // Footnote
-      if (closestLink) {
-        const rel = closestLink.getAttribute('rel') || ''
-        const type = closestLink.getAttribute('type') || ''
-        const epubType = closestLink.getAttribute('epub:type') || ''
-        const href = closestLink.getAttribute('href') || ''
-
-        const isFootnote =
-          type === 'noteref' ||
-          rel.includes('footnote') ||
-          epubType.includes('noteref') ||
-          href.startsWith('#') ||
-          href.includes('kindle:pos')
-
-        // If it looks like a footnote link, ignore the image click to let the link listener handle it
-        if (isFootnote) {
-          // Image click ignored: inside a footnote link
-          e.preventDefault();
-          e.stopPropagation();
-          closestLink.click();
-          return;
-        }
-      }
-
-      // Show image
       const blobUrl = e.detail.img.src;
       const blob = await fetch(blobUrl).then((r) => r.blob());
       const base64 = await new Promise((resolve, reject) => {
@@ -646,13 +623,7 @@ const replaceFootnote = (view) => {
     hyphenate: true,
   };
 
-  const defaultGlobalStyles = `
-    body > :first-child {
-      margin: 0 !important;
-      text-indent: 0 !important;
-    }
-  `
-  const combinedCSS = getCSS(footNoteStyle) + defaultGlobalStyles
+  const combinedCSS = getCSS(footNoteStyle) + defaultFootnoteGlobalStyles
   renderer.setStyles(combinedCSS);
 }
 

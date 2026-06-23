@@ -25,7 +25,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import useReaderSetting from 'src/hooks/useReaderSetting'
+import useBook from 'src/hooks/useBook'
+import { changeStyle } from 'src/api/service/ebook/book'
 
 defineProps({
   fixedLayout: {
@@ -34,7 +35,7 @@ defineProps({
   },
 })
 const emit = defineEmits(['next'])
-const { settings, setSettingItem } = useReaderSetting()
+const { bookHideItems, setBookHideItems } = useBook()
 
 const hideSup = computed({
   get() {
@@ -64,18 +65,19 @@ const hideParentheticalCitation = computed({
 })
 
 const getValue = (key: string) => {
-  return (settings.value.hideItems || []).includes(key)
+  return (bookHideItems.value || []).includes(key)
 }
 
 const setValue = (key: string, value: boolean) => {
-  const itemSet = new Set(settings.value.hideItems || [])
+  const itemSet = new Set(bookHideItems.value || [])
 
   if (value) {
     itemSet.add(key)
   } else {
     itemSet.delete(key)
   }
-  setSettingItem('hideItems', Array.from(itemSet))
+  setBookHideItems(Array.from(itemSet))
+  changeStyle()
 }
 </script>
 
