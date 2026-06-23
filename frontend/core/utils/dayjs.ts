@@ -44,7 +44,7 @@ export const setDayjsLocale = async (lang: string) => {
   dayjs.locale(locale)
 }
 
-export const timeMulti = (time :string, format = 'YYYY/MM/DD HH:mm:ss') => {
+export const timeMulti = (time: string, format = 'YYYY/MM/DD HH:mm:ss') => {
   const { locale, timezone } = useSetting()
 
   const d = () => {
