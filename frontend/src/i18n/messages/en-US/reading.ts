@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: 'Hide parenthetical citation',
+      hideRubyTitle: 'Hide ruby title',
       hideSubscript: 'Hide subscript',
       hideSuperscript: 'Hide superscript',
       visibility: 'Visibility'

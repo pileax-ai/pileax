@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: '括弧内の引用を非表示にする',
+      hideRubyTitle: 'ルビーのタイトルを非表示にする',
       hideSubscript: '下付き文字を非表示にする',
       hideSuperscript: '上付き文字を非表示にする',
       visibility: '可視性'

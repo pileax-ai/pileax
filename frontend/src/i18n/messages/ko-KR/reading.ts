@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: '괄호 안의 인용문 숨기기',
+      hideRubyTitle: '루비 제목 숨기기',
       hideSubscript: '아래첨자 숨기기',
       hideSuperscript: '위첨자 숨기기',
       visibility: '시계'
