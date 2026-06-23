@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: '隱藏夾注',
+      hideRubyTitle: '隱藏旁注（音標）',
       hideSubscript: '隱藏下標',
       hideSuperscript: '隱藏上標',
       visibility: '顯示隱藏'

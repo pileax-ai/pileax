@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: 'Скрыть цитату в скобках',
+      hideRubyTitle: 'Скрыть рубиновый заголовок',
       hideSubscript: 'Скрыть нижний индекс',
       hideSuperscript: 'Скрыть верхний индекс',
       visibility: 'Видимость'

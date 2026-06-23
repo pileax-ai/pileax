@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: 'Ẩn trích dẫn trong ngoặc đơn',
+      hideRubyTitle: 'Ẩn tiêu đề ruby',
       hideSubscript: 'Ẩn chỉ mục',
       hideSuperscript: 'Ẩn chỉ số trên',
       visibility: 'Khả năng hiển thị'

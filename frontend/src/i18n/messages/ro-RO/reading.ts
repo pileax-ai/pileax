@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: 'Ascundeți citarea între paranteze',
+      hideRubyTitle: 'Ascunde titlul Ruby',
       hideSubscript: 'Ascunde indicele',
       hideSuperscript: 'Ascunde exponentul',
       visibility: 'Vizibilitate'

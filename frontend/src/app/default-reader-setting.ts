@@ -178,9 +178,10 @@ export const scrollbarStyles = () => {
 }
 
 export const itemCssSelectors: Indexable = {
+  rubyTitle: ['rt'],
   sub: ['sub'],
   sup: ['sup', '[class*="sup"]'],
-  parentheticalCitation: ['.jiazhu', '.note'],
+  parentheticalCitation: ['.jiazhu'],
 }
 
 export const buildOptionalCSS = (hideItems?: string[]) => {

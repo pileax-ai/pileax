@@ -14,6 +14,10 @@
                         :label="$t('reading.setting.options.hideSubscript')" />
           </div>
           <div>
+            <q-checkbox v-model="hideRubyTitle"
+                        :label="$t('reading.setting.options.hideRubyTitle')" />
+          </div>
+          <div>
             <q-checkbox v-model="hideParentheticalCitation"
                         :label="$t('reading.setting.options.hideParentheticalCitation')" />
           </div>
@@ -52,6 +56,15 @@ const hideSub = computed({
   },
   set(value: boolean) {
     setValue('sub', value)
+  }
+})
+
+const hideRubyTitle = computed({
+  get() {
+    return getValue('rubyTitle')
+  },
+  set(value: boolean) {
+    setValue('rubyTitle', value)
   }
 })
 

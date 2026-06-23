@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: 'Sembunyikan kutipan dalam tanda kurung',
+      hideRubyTitle: 'Sembunyikan judul ruby',
       hideSubscript: 'Sembunyikan subskrip',
       hideSuperscript: 'Sembunyikan superskrip',
       visibility: 'Visibilitas'

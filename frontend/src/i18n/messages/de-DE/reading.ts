@@ -78,6 +78,7 @@ export default {
     },
     options: {
       hideParentheticalCitation: 'Zitat in Klammern ausblenden',
+      hideRubyTitle: 'Ruby-Titel ausblenden',
       hideSubscript: 'Indiz ausblenden',
       hideSuperscript: 'Hochgestellte Zeichen ausblenden',
       visibility: 'Sichtweite'
