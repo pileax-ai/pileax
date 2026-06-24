@@ -67,14 +67,24 @@ a img {
 `
 
 export const defaultFootnoteGlobalStyles = `
-body > :first-child {
+body,
+body > :first-child,
+p,
+li {
     margin: 0 !important;
     padding: 0 !important;
+    line-height: 1.4 !important;
+    color: unset !important;
+    font-size: 20px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important;
     text-indent: 0 !important;
+    border: none !important;
+    color: unset !important;
 }
 
-p, li {
-    text-indent: 0 !important;
+body > :first-child * {
+    color: unset !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important;
 }
 `
 
@@ -128,9 +138,11 @@ blockquote *,
 /* Heading */
 h1 {
     font-size: 1.5rem !important;
+    text-indent: 0 !important;
 }
 h2 {
     font-size: 1.4rem !important;
+    text-indent: 0 !important;
 }
 h3 {
     font-size: 1.2rem !important;
@@ -141,6 +153,7 @@ h3 {
 h4 {
     font-size: 1.1rem !important;
     font-weight: bold !important;
+    text-indent: 0 !important;
     border-bottom: solid 1px rgba(0,0,0,0.08);
 }
 
