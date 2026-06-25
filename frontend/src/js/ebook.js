@@ -719,6 +719,8 @@ const parseCFI = (cfi) => {
 // --------------------------------------------------------------------------------
 const goToHref = (href) => reader.view.goTo(href);
 const goToPercent = (percent) => reader.view.goToFraction(percent);
+const nextPage = () => reader.view.next();
+const prevPage = () => reader.view.prev();
 const nextSection = () => reader.view.renderer.nextSection();
 const prevSection = () => reader.view.renderer.prevSection();
 const addAnnotation = (annotation) =>
@@ -779,14 +781,15 @@ const ttsPrevSection = async (last) => {
 
 window.ebook = {
   open: openBook,
-  nextPage: () => reader.view.next(),
-  prevPage: () => reader.view.prev(),
+  nextPage: nextPage,
+  prevPage: prevPage,
   nextSection: nextSection,
   prevSection: prevSection,
   goToHref: goToHref,
   goToPercent: goToPercent,
   goBack: () => reader.view.history.back(),
   goForward: () => reader.view.history.forward(),
+  clearHistory: () => reader.view.history.clear(),
   canGoBack: () => reader.view.history.canGoBack,
   canGoForward: () => reader.view.history.canGoForward,
   addAnnotation: addAnnotation,

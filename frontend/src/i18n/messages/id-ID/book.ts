@@ -44,6 +44,7 @@ export default {
   },
   format: 'Format',
   info: 'Informasi Buku',
+  jumpToBook: 'Lompat ke Posisi dalam Buku',
   lastReadTime: 'Waktu Baca Terakhir',
   library: {
     _: 'Perpustakaan',

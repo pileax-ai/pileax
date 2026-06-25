@@ -45,12 +45,11 @@ const props = defineProps({
 
 const { darkMode, locale } = useSetting()
 const { getFileUrl } = useApi()
-const { progress } = useBook()
+const { tempProgress } = useBook()
 const {
   bookId,
   note,
   noteId,
-  isPhysical,
   setCurrentNote,
   saveNote,
   saveNoteRemote
@@ -186,9 +185,9 @@ async function createNote() {
     id: noteId.value,
     bookId: bookId.value,
     type: 'note',
-    value: progress.value.cfi,
-    chapter: progress.value.tocItem?.label,
-    page: progress.value.location?.current || 0,
+    value: tempProgress.value.cfi,
+    chapter: tempProgress.value.tocItem?.label,
+    page: tempProgress.value.location?.current || 0,
     note: '',
     title: 'New',
   }).then(note => {

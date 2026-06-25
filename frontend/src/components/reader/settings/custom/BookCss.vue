@@ -49,7 +49,7 @@ defineProps({
 const emit = defineEmits(['next'])
 
 const { account } = useAccount()
-const { book, bookCss, setBookCss } = useBook()
+const { book, bookCss, setBookCss, setBookItem } = useBook()
 const { openGuide } = useGuide()
 const editingCSS = ref('')
 const loaded = ref(false)
@@ -81,29 +81,32 @@ function onUpdate({ editor, language, code, }: { editor: Editor, language: strin
 }
 
 function onSave(remote = true) {
-  bookCSS.value = editingCSS.value
-
   if (remote && bookDetails.value.id) {
     // Save on remote
     // Save to book's extra if user is book owner
     if (bookDetails.value.owner === account.value.id) {
+      const extra = {
+        ...bookExtra.value,
+        css: editingCSS.value
+      }
       bookService.update({
         id: bookDetails.value.id,
-        extra: {
-          ...bookExtra.value,
-          css: editingCSS.value
-        }
+        extra: extra
       })
+      setBookItem('extra', extra)
     } else {
+      const extra = {
+        ...userExtra.value,
+        css: editingCSS.value
+      }
       userBookService.update({
         id: book.value.userBookId,
-        extra: {
-          ...userExtra.value,
-          css: editingCSS.value
-        }
+        extra: extra
       })
+      setBookItem('userExtra', extra)
     }
   }
+  bookCSS.value = editingCSS.value
 }
 
 function loadCSS() {

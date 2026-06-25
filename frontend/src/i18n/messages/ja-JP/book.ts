@@ -44,6 +44,7 @@ export default {
   },
   format: '形式',
   info: '書籍情報',
+  jumpToBook: '書籍内の位置へジャンプ',
   lastReadTime: '最終閲覧時間',
   library: {
     _: '図書館',

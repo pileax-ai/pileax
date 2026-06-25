@@ -8,7 +8,7 @@
         {{ item.title }}
       </q-item-label>
       <q-item-label lines="1" caption>
-        <q-icon :name="getArrayItem(BookAnnotationTypes, item.type).icon"
+        <q-icon :name="getIcon(item)"
                 :style="{ color: item.color ? getAnnotationColor(item.color) : '' }"
                 size="1rem" />
         {{ item.chapter }}
@@ -18,26 +18,28 @@
       </q-item-label>
     </q-item-section>
     <q-item-section class="side" side>
-      <q-btn icon="more_horiz" size="0.8rem" flat dense @click.stop="() => {}">
-        <q-menu class="pi-menu" :offset="[0, 4]">
-          <q-list :style="{minWidth: '200px'}">
-            <template v-for="(action, index) in actions" :key="`action-${index}`">
-              <q-separator class="bg-accent" v-if="action.separator" />
-              <o-common-item v-bind="action"
-                             class="text-tips"
-                             @click="onAction(action)"
-                             clickable
-                             closable
-                             right-side
-                             v-if="action.show">
-              </o-common-item>
-            </template>
-            <slot></slot>
-          </q-list>
-        </q-menu>
-      </q-btn>
-      <div class="page">
-        {{ item.page }}
+      <div class="side-wrapper">
+        <q-btn icon="more_horiz" size="0.8rem" flat dense @click.stop="() => {}">
+          <q-menu class="pi-menu" :offset="[0, 4]">
+            <q-list :style="{minWidth: '200px'}">
+              <template v-for="(action, index) in actions" :key="`action-${index}`">
+                <q-separator class="bg-accent" v-if="action.separator" />
+                <o-common-item v-bind="action"
+                               class="text-tips"
+                               @click="onAction(action)"
+                               clickable
+                               closable
+                               right-side
+                               v-if="action.show">
+                </o-common-item>
+              </template>
+              <slot></slot>
+            </q-list>
+          </q-menu>
+        </q-btn>
+        <div class="page">
+          {{ item.page }}
+        </div>
       </div>
     </q-item-section>
   </q-item>
@@ -66,11 +68,18 @@ const props = defineProps({
 
 const { t, confirm, showDialog } = useCommon()
 const { store } = useBook()
-const { noteId, openNote, deleteNote } = useBookNote()
+const { openNote, deleteNote } = useBookNote()
 const { BookAnnotationTypes, getArrayItem } = useMetadata()
 
 const actions = computed(() => {
   return [
+    {
+      label: t('book.jumpToBook'),
+      value: 'navigate',
+      icon: 'o_navigation',
+      sortable: true,
+      show: props.item.type === 'note',
+    },
     {
       label: t('book.refInfo'),
       value: 'meta',
@@ -83,6 +92,7 @@ const actions = computed(() => {
       label: t('delete'),
       value: 'delete',
       icon: 'o_delete',
+      class: 'text-red',
       sortable: true,
       show: true,
       separator: props.item.type === 'note',
@@ -97,6 +107,9 @@ function onAction (action :Indexable) {
       break
     case 'meta':
       onMeta()
+      break
+    case 'navigate':
+      onNavigate()
       break
     default:
       break
@@ -119,16 +132,31 @@ function onMeta() {
   })
 }
 
-function onClick() {
-  store.setAnnotationId(props.item.id)
-
+function onNavigate() {
   if (props.item.value) {
     goToHref(props.item.value)
   }
+}
 
+function onClick() {
+  store.setAnnotationId(props.item.id)
   const type = props.item.type
+
   if (type === 'note' || (type === 'annotation' && props.item.note)) {
     openNote(props.item.id)
+  }
+
+  // Navigate to annotation position except notes.
+  if (type !== 'note' && props.item.value) {
+    goToHref(props.item.value)
+  }
+}
+
+function getIcon(item: Indexable) {
+  if (item.type === 'annotation' && item.note) {
+    return 'mdi-square-rounded-badge'
+  } else {
+    return getArrayItem(BookAnnotationTypes.value, item.type).icon
   }
 }
 </script>
@@ -167,7 +195,7 @@ function onClick() {
 
     .side {
       .q-btn {
-        display: block;
+        visibility: visible;
       }
       .page {
         display: none;
@@ -182,12 +210,20 @@ function onClick() {
   .side {
     padding-left: 0;
     min-width: 30px;
+
+    .side-wrapper {
+      position: relative;
+      height: 30px;
+    }
+
     .q-btn {
-      display: none;
-      margin-right: -2px;
+      position: absolute;
+      right: 0;
+      white-space: nowrap;
+      visibility: hidden;
     }
     .page {
-      width: 100%;
+      white-space: nowrap;
       display: block;
       text-align: right;
     }

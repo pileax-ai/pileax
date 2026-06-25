@@ -44,6 +44,7 @@ export default {
   },
   format: 'Định dạng',
   info: 'Thông tin sách',
+  jumpToBook: 'Chuyển đến vị trí trong sách',
   lastReadTime: 'Thời gian đọc lần cuối',
   library: {
     _: 'Thư viện',

@@ -44,6 +44,7 @@ export default {
   },
   format: 'Format',
   info: 'Informații despre carte',
+  jumpToBook: 'Salt la poziția din carte',
   lastReadTime: 'Ultima oră de citire',
   library: {
     _: 'Bibliotecă',

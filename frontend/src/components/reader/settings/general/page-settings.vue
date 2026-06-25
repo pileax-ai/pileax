@@ -21,7 +21,7 @@
                 @update:modelValue="onValueChanged('verticalMargin', $event)" />
     </o-field-label>
     <o-field-label :label="$t('appearances.page.horizontalMargin')"
-                   content-class="col" side v-if="!fixedLayout">
+                   content-class="col" side>
       <q-slider v-model="horizontalMargin"
                 :min="0" :max="80" :step="1"
                 :label-value="`${horizontalMargin}`"

@@ -12,6 +12,7 @@ export type EbookApi = {
   goToPercent: (percent: number) => void;
   goBack: () => void;
   goForward: () => void;
+  clearHistory: () => void;
   canGoBack: () => boolean;
   canGoForward: () => boolean;
   addAnnotation: (annotation: any) => void;

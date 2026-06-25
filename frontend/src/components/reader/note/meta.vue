@@ -60,6 +60,10 @@ watch(() => props.modelValue, () => {
   show.value = props.modelValue
 })
 
+watch(() => note.value.id, () => {
+  load()
+})
+
 function onSubmit() {
   if (!actions.validate(v$)) {
     return
@@ -76,10 +80,14 @@ function onSubmit() {
   })
 }
 
-onMounted(() => {
-  show.value = props.modelValue
+function load() {
   form.value.chapter = note.value.chapter
   form.value.page = note.value.page
+}
+
+onMounted(() => {
+  show.value = props.modelValue
+  load()
 })
 </script>
 
