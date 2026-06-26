@@ -124,6 +124,7 @@ export default {
   export: 'Xuất khẩu',
   favorite: 'Mục yêu thích',
   file: 'Tài liệu',
+  fileSize: 'Kích thước tệp',
   formRules: {
     length: '{length} ký tự'
   },

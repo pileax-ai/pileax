@@ -27,7 +27,7 @@
 
           <section class="description" v-if="book.description">
             <span class="text-readable">{{ $t('description') }}</span>
-            <q-scroll-area>
+            <q-scroll-area class="o-book-desc">
               <div v-html="book.description"></div>
             </q-scroll-area>
           </section>
@@ -95,9 +95,6 @@ onBeforeMount(() => {
 
   .description {
      margin-top: 4px;
-     .q-scrollarea {
-       height: 160px;
-     }
    }
 }
 </style>

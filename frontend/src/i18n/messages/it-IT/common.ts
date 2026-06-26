@@ -124,6 +124,7 @@ export default {
   export: 'Esportare',
   favorite: 'Preferiti',
   file: 'File',
+  fileSize: 'Dimensione del file',
   formRules: {
     length: '{length} caratteri'
   },

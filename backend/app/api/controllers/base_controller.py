@@ -42,8 +42,11 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             item["userId"] = self.user.id
         return self.service.save(self.model(**item))
 
-    def get(self, id: UUID) -> Any:
-        return self.service.get_by_owner(Owner(user_id=self.user.id, workspace=self.workspace), id)
+    def get(self, id: UUID, filter_by_workspace=True) -> Any:
+        if filter_by_workspace:
+            return self.service.get_by_owner(Owner(user_id=self.user.id, workspace=self.workspace), id)
+        else:
+            return self.service.get_by_owner(Owner(user_id=self.user.id), id)
 
     def update(self, item_in: UpdateSchemaType) -> Any:
         return self.service.update_by_owner(

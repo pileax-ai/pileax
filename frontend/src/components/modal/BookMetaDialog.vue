@@ -1,5 +1,5 @@
 <template>
-  <o-common-dialog class="book-meta-dialog dialog-theme"
+  <o-common-dialog class="book-meta-dialog dialog-theme dense"
                    :show="dialog.type === 'book-meta'"
                    :content-style="style"
                    @close="onHide">
@@ -9,7 +9,7 @@
              v-close-popup dense round flat  />
     </header>
     <section class="content">
-      <book-general :id="id" v-if="id" />
+      <book-general-tab :book-id="id" v-if="id" />
     </section>
   </o-common-dialog>
 </template>
@@ -18,7 +18,7 @@
 import { computed, onMounted, reactive } from 'vue'
 
 import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
-import BookGeneral from 'components/book/book-meta/book-general.vue'
+import BookGeneralTab from 'components/book/book-meta/book-general-tab.vue'
 
 import useDialog from 'core/hooks/useDialog'
 
@@ -28,7 +28,7 @@ const pos = reactive({ x: 0, y: 0 })
 const style = computed(() => {
   return {
     minWidth: '720px',
-    maxWidth: '1200px',
+    maxWidth: '720px',
     padding: '0px',
     transform: `translate(${pos.x}px, ${pos.y}px)`
   }

@@ -10,9 +10,10 @@
 
         <section class="row col-12 justify-center full-width actions"
                  v-if="enableActions">
+          <slot name="actions"></slot>
           <q-btn type="submit"
                  class="bg-primary text-white"
-                 :label="$t('save')"
+                 :label="actionLabel || $t('save')"
                  :loading="loading"
                  flat />
         </section>
@@ -28,6 +29,10 @@ defineProps({
     default: false
   },
   title: {
+    type: String,
+    default: ''
+  },
+  actionLabel: {
     type: String,
     default: ''
   },
@@ -83,6 +88,7 @@ function onReset () {
 
   .actions {
     margin: 1rem 0 1.5rem 0;
+    gap: 1rem;
 
     .q-btn {
       min-width: 120px;

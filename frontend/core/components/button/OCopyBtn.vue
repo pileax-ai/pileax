@@ -1,5 +1,5 @@
 <template>
-  <q-btn :icon="icon" @click="onCopy">
+  <q-btn class="o-copy-btn" :icon="icon" @click="onCopy">
     <o-tooltip v-if="tooltip">
       {{tooltip}}
     </o-tooltip>

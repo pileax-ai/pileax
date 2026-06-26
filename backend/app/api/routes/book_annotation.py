@@ -24,7 +24,7 @@ async def save(item_in: BookAnnotationCreate, controller: BookAnnotationControll
 
 @router.api_get("", response_model=BookAnnotationPublic)
 async def get(id: UUID, controller: BookAnnotationController = Depends()) -> Any:
-    return controller.get(id)
+    return controller.get(id, filter_by_workspace=False)
 
 
 @router.api_put("", response_model=BookAnnotationPublic)
@@ -39,7 +39,7 @@ async def delete(id: UUID, controller: BookAnnotationController = Depends()) -> 
 
 @router.api_post("/query", response_model=QueryResult[BookAnnotationPublic])
 async def query(query: PaginationQuery, controller: BookAnnotationController = Depends()) -> Any:
-    return controller.query(query)
+    return controller.query(query, filter_by_user=True, filter_by_workspace=False)
 
 
 @router.api_post("/query/details", response_model=QueryResult[BookAnnotationDetails])

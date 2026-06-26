@@ -484,6 +484,23 @@ kbd {
   }
 }
 
+.o-book-desc {
+  height: 160px;
+  text-align: justify;
+
+  h1 {
+    font-size: 1.4rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
 model-viewer {
   width: 100%;
   height: 100%;

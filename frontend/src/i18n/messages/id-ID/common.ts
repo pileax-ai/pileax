@@ -124,6 +124,7 @@ export default {
   export: 'Ekspor',
   favorite: 'Favorit',
   file: 'Mengajukan',
+  fileSize: 'Ukuran File',
   formRules: {
     length: '{length} karakter'
   },

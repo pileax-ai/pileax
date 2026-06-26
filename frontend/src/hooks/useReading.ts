@@ -2,6 +2,7 @@ import { computed } from 'vue'
 import { READER_TITLE_BAR_HEIGHT } from 'core/constants/style'
 import { useReadingStoreWithOut } from 'stores/reading'
 import useApi from 'src/hooks/useApi'
+import { formatFileSize } from 'core/utils/format'
 
 export default function () {
   const store = useReadingStoreWithOut()
@@ -32,12 +33,30 @@ export default function () {
       READER_TITLE_BAR_HEIGHT)
   }
 
+  function bookSize(book: Indexable) {
+    const media = book.media
+    const extension = book.extension
+    let size = ''
+    if (media && extension) {
+      if (Array.isArray(media)) {
+        const item = media.find(e => e.format === extension)
+        if (item && item.size) {
+          // Todo: Intl.NumberFormat
+          size = formatFileSize(item.size)
+        }
+      }
+    }
+
+    return size
+  }
+
   return {
     library,
     collection,
     setLibraryItem,
     setCollectionItem,
     openBook,
-    openBookAnnotation
+    openBookAnnotation,
+    bookSize
   }
 }

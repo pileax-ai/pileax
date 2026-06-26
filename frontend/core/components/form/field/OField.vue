@@ -1,18 +1,20 @@
 <template>
   <div class="o-field" :class="{ 'dense': dense }">
     <div class="row col-12 justify-start items-center side" v-if="side">
-      <div class="row col-auto main-label">
+      <div class="row col-auto items-center main-label">
         <span>{{label}}</span>
         <span class="text-red" v-if="required">*</span>
+        <slot name="label"></slot>
       </div>
       <div class="col side" :class="contentClass">
         <slot></slot>
       </div>
     </div>
     <div class="row col-12 justify-start items-center" v-else>
-      <div class="col-12 main-label">
+      <div class="row col-12 items-center main-label">
         <span class="text-bold">{{label}}</span>
         <span class="text-red q-ml-xs" v-if="required">*</span>
+        <slot name="label"></slot>
       </div>
       <div class="col-12 side">
         <slot></slot>
