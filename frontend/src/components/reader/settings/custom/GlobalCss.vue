@@ -62,7 +62,6 @@ const globalCSSEnabled = computed({
     return settings.value.globalCSSEnabled
   },
   set(value: string) {
-    onSave()
     setSettingItem('globalCSSEnabled', value)
   }
 })

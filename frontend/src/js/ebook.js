@@ -16,8 +16,8 @@ import {
   defaultGlobalStyles,
   defaultFootnoteGlobalStyles,
   scrollbarStyles,
-  buildOptionalCSS
-} from 'src/app/default-reader-setting';
+  buildOptionalCSS, defaultGlobalCSS,
+} from 'src/app/default-reader-setting'
 import { postMessage } from 'src/api/service/ebook/book.js';
 import { getAnnotationColor } from 'src/utils/book.ts'
 
@@ -79,7 +79,9 @@ const setStyle = (userStyle) => {
   };
 
   // CSS
-  const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
+  const globalCSS = style.globalCSSEnabled
+    ? style.globalCSS || defaultGlobalCSS
+    : ''
   const bookCSS = style.bookCSS
   const optionalCSS = buildOptionalCSS(style.bookHideItems)
 

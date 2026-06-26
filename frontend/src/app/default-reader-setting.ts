@@ -111,7 +111,7 @@ blockquote *,
 [class*="kt" i],
 [class*="kt" i] * {
     font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
-    line-height: 1.2 !important;
+    line-height: 1.5 !important;
 }
 
 [class*="fangsong"],
@@ -130,6 +130,7 @@ blockquote *,
 [class*="shige"] *,
 [class*="shiju"],
 [class*="shiju"] * {
+    font-size: 1.1rem !important;
     font-family: "FZLiuGongQuanKaiShuS", "TsangerJinKai05", "LXGW WenKai Lite", "FangSong_GB2312", serif !important;
     line-height: 1.5 !important;
     text-align: center !important;
