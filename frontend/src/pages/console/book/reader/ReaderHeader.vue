@@ -5,10 +5,15 @@
             'right-drawer-closed': !rightDrawerShow
           }" :style="`--reader-right-min-width: ${rightDrawer.show ? '100' : rightDrawer.width}px`">
     <section class="row col-auto items-center header-left">
-      <div class="bookmark" :class="{ 'show': bookmarkId }"></div>
+      <div class="bookmark" :class="{ 'show': pageBookmark }">
+        <q-icon name="mdi-bookmark-outline" size="16px" />
+      </div>
+      <div class="bookmark note" :class="{ 'show': pageNote }" @click="openNote(pageNote)">
+        <q-icon name="o_article" size="14px" />
+      </div>
 
-      <div class="text-tips chapter" v-if="progress.chapterLocation?.current > 1">
-        {{ progress.tocItem?.label }}
+      <div class="text-tips chapter" v-if="tempProgress.chapterLocation?.current > 1">
+        {{ tempProgress.tocItem?.label }}
       </div>
     </section>
 
@@ -17,7 +22,6 @@
 
     <section class="row col-auto header-right">
     </section>
-
 
     <!-- Hover Toolbar -->
     <section class="row justify-between items-center text-readable top-toolbar fixed-left toolbar-hover-show"
@@ -39,7 +43,7 @@
                  class="o-toolbar-btn"
                  flat
                  @click="onRemoveBookmark"
-                 v-if="bookmarkId">
+                 v-if="pageBookmark">
             <o-tooltip position="bottom" transition autohide>
               {{ $t('reading.bookmark.remove') }}
             </o-tooltip>
@@ -137,16 +141,18 @@ import { isInside, parseCFI } from 'src/api/service/ebook/book'
 import { globalBus } from 'src/api/event/event-bus'
 
 const { showDialog } = useCommon()
-const { book, progress, search, windowId, clearSearch } = useBook()
+const { book, tempProgress, search, windowId, clearSearch } = useBook()
 const {
   bookId,
   isPhysical,
-  bookmarkId,
-  bookmarks,
+  pageBookmark,
+  pageNote,
   openNote,
   saveNoteRemote,
   deleteNote,
-  setBookmarkId,
+  setPageBookmark,
+  setPageNote,
+  refreshPage,
 } = useBookNote()
 const {
   leftDrawerShow,
@@ -157,7 +163,6 @@ const {
   toggleLeftDrawer,
   toggleRightDrawer,
   setLeftDrawerHoverShow,
-  setRightDrawerView,
   toggleRightDrawerView,
   toggleDrawers,
 } = useReader()
@@ -179,39 +184,26 @@ function onLeftDrawerLeave() {
 function onAddNote() {
   const id = UUID()
   openNote(id)
+  setPageNote(id)
 }
 
 function onAddBookmark() {
-  const location = parseCFI(progress.value.cfi)
+  const location = parseCFI(tempProgress.value.cfi)
   saveNoteRemote({
     bookId: bookId.value,
     type: 'bookmark',
     value: location.start,
-    chapter: progress.value.tocItem?.label,
-    page: progress.value.location?.current || 0,
+    chapter: tempProgress.value.tocItem?.label,
+    page: tempProgress.value.location?.current || 0,
   }).then(res => {
-    setBookmarkId(res.id)
+    setPageBookmark(res.id)
   })
 }
 
 function onRemoveBookmark() {
-  if (bookmarkId.value) {
-    deleteNote({ id: bookmarkId.value })
+  if (pageBookmark.value) {
+    deleteNote({ id: pageBookmark.value })
   }
-}
-
-function refreshBookmark(data: Indexable) {
-  const rangeCfi = data.cfi
-
-  if (rangeCfi) {
-    for (const item of bookmarks.value) {
-      if (isInside(item.value, rangeCfi)) {
-        setBookmarkId(item.id)
-        return
-      }
-    }
-  }
-  setBookmarkId('')
 }
 
 function onDetails() {
@@ -221,7 +213,7 @@ function onDetails() {
   })
 }
 
-const debounceRelocated = throttle(refreshBookmark, 500)
+const debounceRelocated = throttle(refreshPage, 500)
 
 onMounted(() => {
   globalBus.on('relocated', debounceRelocated)
@@ -253,7 +245,7 @@ onUnmounted(() => {
     min-width: 200px;
 
     .chapter {
-      padding-left: 32px;
+      padding-left: 60px;
     }
   }
 
@@ -268,8 +260,9 @@ onUnmounted(() => {
     width: 20px;
     height: 60px;
     margin: 0 4px;
+    padding: 10px 0;
     display: flex;
-    align-items: center;
+    //align-items: center;
     justify-content: center;
     color: white;
     font-size: 20px;
@@ -282,17 +275,31 @@ onUnmounted(() => {
 
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 85%, 0% 100%);
     background: radial-gradient(
-      circle at 80% 10%,
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(255, 255, 255, 0) 50%
-    ),
-    linear-gradient(135deg, #4dabf7 0%, #1971c2 50%, #0b3d66 100%);
+        circle at 80% 10%,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0) 50%
+      ),
+      linear-gradient(135deg, #4dabf7 0%, #1971c2 50%, #0b3d66 100%);
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
 
     &.show {
       visibility: visible;
       opacity: 1;
       transform: translateY(0);
+    }
+
+    &.note {
+      left: 28px;
+      background: radial-gradient(
+          circle at 80% 10%,
+          rgba(255, 255, 255, 0.6) 0%,
+          rgba(255, 255, 255, 0) 50%
+        ),
+        linear-gradient(135deg, #d0bfff 0%, #7048e8 50%, #3b199c 100%);
+    }
+
+    .q-icon {
+      opacity: 0.8;
     }
   }
 
@@ -333,6 +340,10 @@ onUnmounted(() => {
       width: 40%;
       border-radius: 0 8px 8px 0;
       background: linear-gradient(90deg, var(--q-secondary) 50%, transparent 100%);
+
+      .o-toolbar-btn {
+        margin: 0 !important;
+      }
     }
 
     &.fixed-right {

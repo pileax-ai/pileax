@@ -44,6 +44,7 @@ export default {
   },
   format: '체재',
   info: '책 정보',
+  jumpToBook: '책에서 해당 위치로 이동',
   lastReadTime: '최종 조회 시간',
   library: {
     _: '도서관',

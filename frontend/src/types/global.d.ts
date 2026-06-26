@@ -1,5 +1,5 @@
-import type { OpenDialogOptions, SaveDialogOptions } from 'electron'
 import type { IpcApi } from 'src/api/ipc'
+import type { EbookApi } from 'src/api/service/ebook'
 
 declare global {
   interface Window {
@@ -7,34 +7,7 @@ declare global {
     tauriIpcAPI: IpcApi;
     webIpcAPI: IpcApi;
 
-    ebook: {
-      open: (bookElement: any, data: any,
-             { cfi, importing, userStyle }:
-             { cfi?: string, importing?: boolean, userStyle?: Indexable }) => Promise<any>;
-      nextPage: () => void;
-      prevPage: () => void;
-      goToHref: (href: string) => void;
-      goToPercent: (percent: number) => void;
-      goBack: () => void;
-      goForward: () => void;
-      canGoBack: () => boolean;
-      canGoForward: () => boolean;
-      addAnnotation: (annotation: any) => void;
-      removeAnnotation: (cfi: string) => void;
-      renderAnnotations: (annotations: []) => void;
-      changeStyle: (newStyle: Indexable) => void;
-      search: (text: string, opts: Indexable) => void;
-      clearSearch: () => void;
-      ttsStart: () => Promise<string>;
-      ttsStop: () => Promise<void>;
-      ttsPrepare: () => Promise<void>;
-      ttsNext: () => Promise<string>;
-      ttsPrev: () => Promise<string>;
-      ttsNextSection: () => Promise<string>;
-      ttsPrevSection: () => Promise<string>;
-      isInside: (cfi: string, rangeCfi: string) => boolean;
-      parseCFI: (cfi: string) => Indexable;
-    };
+    ebook: EbookApi;
 
     APP_CONFIG: {
       API_BASE_URL: string

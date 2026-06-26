@@ -5,6 +5,7 @@ import { bookAnnotationService } from 'src/api/service/remote'
 import { debounce } from 'quasar'
 import useReader from 'src/hooks/useReader'
 import { removeAnnotation } from 'src/api/service/ebook/book-annotation'
+import { isInside } from 'src/api/service/ebook/book'
 
 export default function () {
   const store = useBookStoreWithOut()
@@ -46,8 +47,12 @@ export default function () {
     return store.noteId
   })
 
-  const bookmarkId = computed(() => {
-    return store.bookmarkId
+  const pageBookmark = computed(() => {
+    return store.currentPage.bookmark
+  })
+
+  const pageNote = computed(() => {
+    return store.currentPage.note
   })
 
   function initAnnotationData(type = '', sort: Indexable = { update_time: 'asc' }) {
@@ -143,8 +148,11 @@ export default function () {
         if (id === noteId.value) {
           setRightDrawerView('note', false)
         }
-        if (id === bookmarkId.value) {
-          setBookmarkId('')
+        if (id === pageBookmark.value) {
+          setPageBookmark('')
+        }
+        if (id === pageNote.value) {
+          setPageNote('')
         }
       }).catch(err => {
         reject(err)
@@ -152,8 +160,45 @@ export default function () {
     })
   }
 
-  function setBookmarkId(value: string) {
-    store.setBookmarkId(value)
+  function setPageBookmark(value: string) {
+    store.setCurrentPageItem('bookmark', value)
+  }
+
+  function setPageNote(value: string) {
+    store.setCurrentPageItem('note', value)
+  }
+
+  function refreshPage(data: Indexable) {
+    refreshPageBookmark(data)
+    refreshPageNote(data)
+  }
+
+  function refreshPageBookmark(data: Indexable) {
+    const rangeCfi = data.cfi
+
+    if (rangeCfi) {
+      for (const item of bookmarks.value) {
+        if (isInside(item.value, rangeCfi)) {
+          setPageBookmark(item.id)
+          return
+        }
+      }
+    }
+    setPageBookmark('')
+  }
+
+  function refreshPageNote(data: Indexable) {
+    const rangeCfi = data.cfi
+
+    if (rangeCfi) {
+      for (const item of notes.value) {
+        if (isInside(item.value, rangeCfi)) {
+          setPageNote(item.id)
+          return
+        }
+      }
+    }
+    setPageNote('')
   }
 
   return {
@@ -166,7 +211,8 @@ export default function () {
     notes,
     note,
     noteId,
-    bookmarkId,
+    pageBookmark,
+    pageNote,
 
     initAnnotationData,
     openNote,
@@ -175,6 +221,8 @@ export default function () {
     saveNoteRemote,
     saveNote,
     deleteNote,
-    setBookmarkId,
+    setPageBookmark,
+    setPageNote,
+    refreshPage,
   }
 }

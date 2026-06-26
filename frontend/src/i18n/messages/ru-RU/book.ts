@@ -44,6 +44,7 @@ export default {
   },
   format: 'Формат',
   info: 'Информация о книге',
+  jumpToBook: 'Перейти к положению в книге',
   lastReadTime: 'Последнее время чтения',
   library: {
     _: 'Библиотека',

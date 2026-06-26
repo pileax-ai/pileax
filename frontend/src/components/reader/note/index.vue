@@ -9,7 +9,15 @@
       </section>
 
       <section class="col-auto">
-        <q-btn icon="mdi-tune-variant" class="o-toolbar-btn" flat @click="onEditMeta" />
+        <q-btn icon="o_navigation" class="o-toolbar-btn" flat @click="onNavigate">
+          <o-tooltip position="left" transition>
+            {{ $t('book.jumpToBook') }}
+          </o-tooltip>
+        </q-btn>
+        <q-btn icon="mdi-tune-variant"
+               class="o-toolbar-btn"
+               :class="{ 'active': showMeta }"
+               flat @click="onEditMeta" />
         <q-btn icon="close" class="o-toolbar-btn" flat @click="emit('close')" />
       </section>
     </template>
@@ -32,6 +40,7 @@ import BookNoteMeta from './meta.vue'
 import BookAnnotation from './annotation.vue'
 
 import useBookNote from 'src/hooks/useBookNote'
+import { goToHref } from 'src/api/service/ebook/book'
 
 const emit = defineEmits(['close'])
 
@@ -40,6 +49,12 @@ const {
 } = useBookNote()
 
 const showMeta = ref(false)
+
+function onNavigate() {
+  if (note.value.value) {
+    goToHref(note.value.value)
+  }
+}
 
 function onEditMeta() {
   showMeta.value = !showMeta.value

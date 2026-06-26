@@ -90,6 +90,10 @@ export default function () {
     store.setBookId(value)
   }
 
+  function setBookItem(key: string, value: any) {
+    store.setBookItem(key, value)
+  }
+
   function setBookCss(value: string) {
     store.setBookCss(value)
   }
@@ -185,6 +189,7 @@ export default function () {
 
     setBook,
     setBookId,
+    setBookItem,
     setBookCss,
     setBookHideItems,
     setWorkspaceBookId,

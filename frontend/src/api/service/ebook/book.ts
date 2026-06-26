@@ -190,8 +190,6 @@ const onRelocated = (data: Indexable) => {
     setProgress(data)
   } else if (operation.value === BookOperation.Navigation) {
     readingPageCount = 0
-    // Save temp progress locally
-    store.setTempProgress(data)
   } else {
     if (['page', 'scroll'].includes(reason)) {
       // Ignore when switch page turning mode
@@ -210,13 +208,12 @@ const onRelocated = (data: Indexable) => {
         if (readingMode.value === ReadingMode.Read) {
           debounceSaveBookProgress(data)
         }
-      } else {
-        store.setTempProgress(data)
       }
     }
   }
 
   // Reset operation
+  store.setTempProgress(data)
   setManual(BookOperation.None)
 }
 
@@ -244,13 +241,16 @@ const onRelocatedByOperation = (data: Indexable) => {
 // ---------------------------------------------------------
 // To Ebook Render
 // ---------------------------------------------------------
-const changeStyle = () => {
-  const newStyle = {
+const getUserStyle = () => {
+  return {
     ...style.value,
-    bookCSS: bookCss.value,
+    bookCSS: bookCss.value || book.value.userExtra?.css || book.value.extra?.css,
     bookHideItems: bookHideItems.value
   }
-  ebookRender.changeStyle(newStyle)
+}
+const changeStyle = () => {
+  const userStyle = getUserStyle()
+  ebookRender.changeStyle(userStyle)
 }
 
 const search = (text: string, opts: Indexable) => {
@@ -353,10 +353,7 @@ const openBook = async (bookElement: any, filePath: string, cfi = '') => {
         }
 
         // console.log('openBook', cfi)
-        const userStyle = {
-          ...style.value,
-          bookCSS: bookCss.value || book.value.userExtra?.css || book.value.extra?.css
-        }
+        const userStyle = getUserStyle()
         ebookRender.open(bookElement, data, { cfi, userStyle })
         setManual(BookOperation.Load)
         resolve(data)

@@ -36,7 +36,7 @@
 
     .o-reader-page {
       .reader-header.left-drawer-closed {
-        padding-left: $trafficLightWidth !important;
+        padding-left: calc($trafficLightWidth + 35px) !important;
         .top-toolbar {
           padding-left: $trafficLightWidth !important;
         }

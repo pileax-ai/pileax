@@ -34,7 +34,7 @@ export const useBookStore = defineStore('book', {
     } as Indexable,
     noteId: '',
     note: {} as Indexable,
-    bookmarkId: '',
+    currentPage: {} as Indexable,
     bookCss: '',
     bookHideItems: [] as string[],
   }),
@@ -53,6 +53,9 @@ export const useBookStore = defineStore('book', {
     },
     setBook(value: any) {
       this.book = value
+    },
+    setBookItem(key: string, value: any) {
+      this.book[key] = value
     },
     setTocItem(item: BookTocItem) {
       this.tocItem = item
@@ -185,8 +188,8 @@ export const useBookStore = defineStore('book', {
     setNote(value: Indexable) {
       this.note = value
     },
-    setBookmarkId(value: string) {
-      this.bookmarkId = value
+    setCurrentPageItem(key: string, value: any) {
+      this.currentPage[key] = value
     },
     setBookCss(value: string) {
       this.bookCss = value

@@ -90,7 +90,6 @@ export const useReaderStore = defineStore('reader', {
       this.settings[key] = value
     },
     setTTSItem(key: string, value: any) {
-      console.log('setTTSItem', key, value)
       this.tts[key] = value
     },
     setTTSModel(value: Indexable) {

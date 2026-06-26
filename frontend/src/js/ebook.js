@@ -16,8 +16,8 @@ import {
   defaultGlobalStyles,
   defaultFootnoteGlobalStyles,
   scrollbarStyles,
-  buildOptionalCSS
-} from 'src/app/default-reader-setting';
+  buildOptionalCSS, defaultGlobalCSS,
+} from 'src/app/default-reader-setting'
 import { postMessage } from 'src/api/service/ebook/book.js';
 import { getAnnotationColor } from 'src/utils/book.ts'
 
@@ -79,7 +79,9 @@ const setStyle = (userStyle) => {
   };
 
   // CSS
-  const globalCSS = style.globalCSSEnabled ? style.globalCSS : ''
+  const globalCSS = style.globalCSSEnabled
+    ? style.globalCSS || defaultGlobalCSS
+    : ''
   const bookCSS = style.bookCSS
   const optionalCSS = buildOptionalCSS(style.bookHideItems)
 
@@ -719,6 +721,8 @@ const parseCFI = (cfi) => {
 // --------------------------------------------------------------------------------
 const goToHref = (href) => reader.view.goTo(href);
 const goToPercent = (percent) => reader.view.goToFraction(percent);
+const nextPage = () => reader.view.next();
+const prevPage = () => reader.view.prev();
 const nextSection = () => reader.view.renderer.nextSection();
 const prevSection = () => reader.view.renderer.prevSection();
 const addAnnotation = (annotation) =>
@@ -779,14 +783,15 @@ const ttsPrevSection = async (last) => {
 
 window.ebook = {
   open: openBook,
-  nextPage: () => reader.view.next(),
-  prevPage: () => reader.view.prev(),
+  nextPage: nextPage,
+  prevPage: prevPage,
   nextSection: nextSection,
   prevSection: prevSection,
   goToHref: goToHref,
   goToPercent: goToPercent,
   goBack: () => reader.view.history.back(),
   goForward: () => reader.view.history.forward(),
+  clearHistory: () => reader.view.history.clear(),
   canGoBack: () => reader.view.history.canGoBack,
   canGoForward: () => reader.view.history.canGoForward,
   addAnnotation: addAnnotation,

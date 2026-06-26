@@ -43,6 +43,7 @@ export default {
   },
   format: '格式',
   info: '圖書資訊',
+  jumpToBook: '跳轉至書中位置',
   lastReadTime: '最後閱讀時間',
   library: {
     _: '書庫',

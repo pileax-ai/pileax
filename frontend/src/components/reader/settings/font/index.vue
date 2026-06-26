@@ -92,7 +92,7 @@ const fontOptions = computed(() => {
     {
       label: t('reading.setting.font.system'),
       value: 'system',
-      family: '"Roboto", "-apple-system", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI',
+      family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
       icon: 'mdi-format-font',
       type: 'system',
     },

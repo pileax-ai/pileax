@@ -44,6 +44,7 @@ export default {
   },
   format: 'Formatar',
   info: 'Informações do livro',
+  jumpToBook: 'Ir para a posição no livro',
   lastReadTime: 'Última leitura',
   library: {
     _: 'Biblioteca',

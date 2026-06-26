@@ -161,6 +161,15 @@ onBeforeMount(() => {
     padding: unset;
     min-height: unset;
     border-radius: 4px;
+
+    &:not(:first-child) {
+      margin-left: 4px;
+    }
+
+    &.active {
+      background: var(--q-dark);
+    }
+
     .q-icon {
       font-size: 20px;
     }
