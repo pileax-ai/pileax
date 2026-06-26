@@ -79,7 +79,7 @@ import { isMobile } from 'core/hooks/useCommon'
 const slide = ref('1')
 const slides = computed(() => {
   return [
-    { label: 'Slide 1', value: '1', img: '/images/ui/signin/01.jpg' },
+    { label: 'Slide 1', value: '1', img: '/images/book/light-fuchun_mountains.jpg' },
   ]
 })
 </script>

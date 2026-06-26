@@ -1,6 +1,6 @@
 <template>
   <o-single-page class="page-home" :footer="connected">
-    <content-wide class="connecting" content-class="items-center" v-if="showLoading">
+    <content-wide class="connecting" content-class="items-center" v-if="connecting">
       <section class="row justify-center items-center orbit-container">
         <section class="orbit-wrapper">
         </section>
@@ -113,18 +113,15 @@ import { isMobile } from 'core/hooks/useCommon'
 import useApi from 'src/hooks/useApi'
 import { ipcProvider } from 'src/api/ipc'
 
-const { connected } = useApi()
+const { connected, connecting } = useApi()
 const showHelp = ref(false)
-const showLoading = computed(() => {
-  return !connected.value && ipcProvider !== 'web'
-})
 
 onMounted(() => {
   setTimeout(() => {
     if (!connected.value) {
       showHelp.value = true
     }
-  }, 5000)
+  }, 10000)
 })
 </script>
 

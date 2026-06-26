@@ -1,9 +1,26 @@
 /**
  * Styles
  */
+$darkBgColor: #1E1F22;
+
+.full-page-layout:has(.connecting) {
+  background: $darkBgColor !important;
+  .base-toolbar {
+    background: $darkBgColor !important;
+
+    .app {
+      color: #ffffff !important;
+    }
+  }
+}
+
 
 .page-home {
   position: relative;
+
+  &:has(.connecting) {
+    background: $darkBgColor;
+  }
 
   .o-wide {
     max-width: 1200px !important;
@@ -41,7 +58,7 @@
 
         border: 0.5px solid transparent;
         background-image:
-          linear-gradient(var(--q-secondary), var(--q-secondary)),
+          linear-gradient($darkBgColor, $darkBgColor),
           linear-gradient(to right, #00bcd4, #3f51b5, #673ab7, #ffffff, #00bcd4, #3f51b5);
         background-origin: border-box;
         background-clip: padding-box, border-box;

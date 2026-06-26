@@ -3,7 +3,7 @@ import { useAccountStore } from 'stores/account'
 import { useApiStore } from 'stores/api'
 import { useWorkspaceStore } from 'stores/workspace'
 import { computed } from 'vue'
-import { ipcService } from 'src/api/ipc'
+import { ipcProvider, ipcService } from 'src/api/ipc'
 import { saveItem } from 'core/utils/storage'
 
 export default function() {
@@ -32,6 +32,11 @@ export default function() {
 
   const connected = computed(() => {
     return apiStore.connected
+  })
+
+  const connecting = computed(() => {
+    // return true
+    return !connected.value && ipcProvider !== 'web'
   })
 
   function setAppMode(mode: string) {
@@ -100,6 +105,7 @@ export default function() {
     collabEnabled,
     collabProvider,
     connected,
+    connecting,
 
     setAppMode,
     setApiBase,
