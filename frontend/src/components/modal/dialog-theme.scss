@@ -2,6 +2,18 @@
  *  Styles
  */
 .dialog-theme {
+  &.dense .dialog-content {
+    header {
+      height: 56px;
+
+      .o-icon, .q-icon {
+        font-size: 40px;
+        color: #ffffff;
+        opacity: 0.2;
+      }
+    }
+  }
+
   .dialog-content {
     padding: 0 !important;
 

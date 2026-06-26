@@ -134,6 +134,7 @@ class BookDetails(BaseApiModel, BaseMixin):
     # book
     owner: uuid.UUID
     title: str
+    subtitle: str | None = None
     file_url: str | None = None
     cover_url: str | None = None
     author: str | None = None

@@ -124,6 +124,7 @@ export default {
   export: '輸出',
   favorite: 'お気に入り',
   file: 'ファイル',
+  fileSize: 'ファイルサイズ',
   formRules: {
     length: '{length}文字'
   },

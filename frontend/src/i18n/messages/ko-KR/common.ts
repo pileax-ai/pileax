@@ -124,6 +124,7 @@ export default {
   export: '내보내다',
   favorite: '즐겨찾기',
   file: '파일',
+  fileSize: '파일 크기',
   formRules: {
     length: '{length} 문자'
   },

@@ -1,6 +1,6 @@
 <template>
   <q-item class="o-view-item" :class="{'dense': dense}" :clickable="clickable">
-    <q-item-section avatar>
+    <q-item-section avatar v-if="icon || label">
       <section class="row items-center text-tips">
         <div class="row items-center q-px-xs" v-if="icon">
           <o-icon :name="icon" size="1.2rem" />
@@ -15,7 +15,7 @@
           <span>{{value}}</span>
           <q-icon name="open_in_new" class="q-ml-xs" />
         </a>
-        <span v-else>{{value}}</span>
+        <span v-else>{{value || placeholder}}</span>
         <o-tooltip max-width="400px" v-if="showTooltip">
           {{value}}
         </o-tooltip>
@@ -23,12 +23,14 @@
     </q-item-section>
     <q-item-section side v-if="rightSide || copiable || arrow">
       <div class="row items-center">
-        <q-btn icon="open_in_new" flat round v-if="link">
+        <q-btn icon="open_in_new" flat round
+               @click="openURL(link)"
+               v-if="link">
           <q-tooltip class="bg-primary text-white">
-            Open in new tab
+            {{$t('note.newTab')}}
           </q-tooltip>
         </q-btn>
-        <o-copy-btn :value="value" flat round v-if="copiable" />
+        <o-copy-btn :value="`${value}`" flat round v-if="value && copiable" />
         <slot name="side"></slot>
 
         <q-icon name="chevron_right" class="text-tips" v-if="arrow" />
@@ -40,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import { openURL } from 'quasar'
 import { computed } from 'vue'
 import OIcon from 'core/components/icon/OIcon.vue'
 import OCopyBtn from 'core/components/button/OCopyBtn.vue'
@@ -54,6 +57,12 @@ const props = defineProps({
     default: ''
   },
   value: {
+    type: [String, Number],
+    default: ''
+  },
+  placeholder: {
+    type: String,
+    default: ''
   },
   align: {
     type: String,

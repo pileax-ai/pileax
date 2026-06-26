@@ -124,6 +124,7 @@ export default {
   export: '匯出',
   favorite: '收藏',
   file: '文件',
+  fileSize: '文件大小',
   formRules: {
     length: '{length} 字符'
   },

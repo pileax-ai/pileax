@@ -22,7 +22,7 @@
         <template v-for="(item, index) of tabs" :key="index">
           <template v-if="item.show">
             <q-tab-panel :name="item.value">
-              <component :is="item.component" :data="data" />
+              <component :is="item.component" :data="data" :book-id="data.bookId" />
             </q-tab-panel>
           </template>
         </template>
