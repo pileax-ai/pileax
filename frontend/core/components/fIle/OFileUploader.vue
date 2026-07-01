@@ -51,11 +51,13 @@
               <div class="text-tips">
                 <span>{{ label || $t('book.uploader.label') }}</span>
               </div>
-              <div class="q-mt-md limit" :class="{ 'text-red': error }"  v-if="!hideLimit">
-                <template v-for="(item, index) in accept.split(',')" :key="index">
-                  <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
+              <div class="q-mt-md limit" :class="{ 'text-red': error }">
+                <template v-if="showAccept">
+                  <template v-for="(item, index) in accept.split(',')" :key="index">
+                    <o-badge>{{item.replaceAll('.', '').toUpperCase()}}</o-badge>
+                  </template>
                 </template>
-                <q-chip square dense>
+                <q-chip square dense v-if="!hideLimit">
                   <q-avatar color="red" text-color="white">Max</q-avatar>
                   <span>{{maxSize / (1024 * 1024)}}M</span>
                 </q-chip>
@@ -128,6 +130,10 @@ const props = defineProps({
     default: ''
   },
   reset: {
+    type: Boolean,
+    default: false
+  },
+  showAccept: {
     type: Boolean,
     default: false
   },

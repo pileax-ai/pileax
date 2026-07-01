@@ -44,6 +44,7 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
 
     # book
     title: str
+    subtitle: str | None = None
     path: str | None = None
     file_url: str | None = None
     cover_url: str | None = None

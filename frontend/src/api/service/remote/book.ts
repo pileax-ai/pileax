@@ -17,10 +17,6 @@ export class BookService extends BaseService {
     return GET({ name: this.apiName, path: '/isbn',  query: { isbn, check } })
   }
 
-  getDetails(id: string): Promise<any> {
-    return GET({ name: this.apiName, path: '/details', query: {id: id} })
-  }
-
   upload(file: File, cover: File, book: Indexable): Promise<any> {
     const formData = new FormData()
     formData.append('files', file)

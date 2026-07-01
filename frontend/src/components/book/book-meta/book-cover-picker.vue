@@ -22,7 +22,7 @@
       </template>
 
       <div class="row col-4 q-pa-sm items-center">
-        <o-file-uploader accept=".png,.jpg,.svg"
+        <o-file-uploader :accept="ImageExts"
                          :maxSize="10 * 1024 * 1024"
                          :ref-id="bookId"
                          ref-type="book"
@@ -41,6 +41,7 @@ import useApi from 'src/hooks/useApi'
 import { bookService } from 'src/api/service/remote'
 import OFileUploader from 'core/components/fIle/OFileUploader.vue'
 import useCrud from 'src/hooks/useCrud'
+import { ImageExts } from 'core/constants/constant'
 
 const props = defineProps({
   data: {
@@ -83,7 +84,7 @@ function queryCover() {
 }
 
 onMounted(() => {
-  bookId.value = props.data.bookId
+  bookId.value = props.data.id
   currentUrl.value = props.data.coverUrl
   queryCover()
 })
