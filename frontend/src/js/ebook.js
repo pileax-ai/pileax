@@ -507,8 +507,7 @@ const getMetadata = async (data) => {
   } else {
     postMessage('onMetadata', {
       ...reader.view.book.metadata,
-      sha1: data.sha1,
-      filePath: data.filePath,
+      ...data,
       cover: null,
     });
   }

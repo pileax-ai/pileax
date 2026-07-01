@@ -440,7 +440,7 @@ const savingBookRemote = async (metadata: any) => {
     // New upload
     const book = buildBook(metadata, {
       path: metadata.sha1,
-      fileName: metadata.file.name,
+      fileName: metadata.file?.name,
     })
     const coverFile = base64ToFile(metadata.cover, book.title)
     try {
