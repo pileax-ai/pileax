@@ -77,6 +77,7 @@ export default {
   refInfo: 'Informações de referência',
   removeConfirm: 'Tem certeza de que deseja remover da prateleira?',
   removeFromCollection: 'Remover da coleção',
+  search: 'Título, Autor, Editora',
   shelf: 'Estante de livros',
   startPreview: 'Iniciar pré-visualização',
   startReading: 'Comece a ler',

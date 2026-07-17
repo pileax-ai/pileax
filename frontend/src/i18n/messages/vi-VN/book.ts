@@ -77,6 +77,7 @@ export default {
   refInfo: 'Thông tin tham khảo',
   removeConfirm: 'Bạn có chắc chắn muốn lấy sản phẩm ra khỏi kệ không?',
   removeFromCollection: 'Xóa khỏi bộ sưu tập',
+  search: 'Tên sách, Tác giả, Nhà xuất bản',
   shelf: 'Giá sách',
   startPreview: 'Bắt đầu xem trước',
   startReading: 'Bắt đầu đọc',

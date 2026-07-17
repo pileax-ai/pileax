@@ -77,6 +77,7 @@ export default {
   refInfo: 'Informasi Referensi',
   removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
   removeFromCollection: 'Hapus dari Koleksi',
+  search: 'Judul, Penulis, Penerbit',
   shelf: 'Rak buku',
   startPreview: 'Mulai Pratinjau',
   startReading: 'Mulai Membaca',

@@ -77,6 +77,7 @@ export default {
   refInfo: 'Informations de référence',
   removeConfirm: 'Êtes-vous sûr de l\'avoir retiré de l\'étagère ?',
   removeFromCollection: 'Retirer de la collection',
+  search: 'Titre, Auteur, Éditeur',
   shelf: 'Bibliothèque',
   startPreview: 'Aperçu',
   startReading: 'Commencez la lecture',

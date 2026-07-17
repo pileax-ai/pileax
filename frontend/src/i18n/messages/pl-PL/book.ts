@@ -77,6 +77,7 @@ export default {
   refInfo: 'Informacje referencyjne',
   removeConfirm: 'Czy na pewno chcesz usunąć z półki?',
   removeFromCollection: 'Usuń z kolekcji',
+  search: 'Tytuł, Autor, Wydawca',
   shelf: 'Półka na książki',
   startPreview: 'Rozpocznij podgląd',
   startReading: 'Zacznij czytać',

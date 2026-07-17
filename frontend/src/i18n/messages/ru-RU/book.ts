@@ -77,6 +77,7 @@ export default {
   refInfo: 'Справочная информация',
   removeConfirm: 'Вы уверены, что сняли с полки?',
   removeFromCollection: 'Удалить из коллекции',
+  search: 'Название, Автор, Издатель',
   shelf: 'Книжная полка',
   startPreview: 'Начать предварительный просмотр',
   startReading: 'Начать чтение',

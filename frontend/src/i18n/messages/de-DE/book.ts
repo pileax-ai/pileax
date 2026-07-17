@@ -77,6 +77,7 @@ export default {
   refInfo: 'Referenzinformationen',
   removeConfirm: 'Sind Sie sicher, dass Sie es aus dem Regal nehmen?',
   removeFromCollection: 'Aus Sammlung entfernen',
+  search: 'Titel, Autor, Verlag',
   shelf: 'Bücherregal',
   startPreview: 'Vorschau starten',
   startReading: 'Lesen beginnen',

@@ -77,6 +77,7 @@ export default {
   refInfo: 'Informazioni di riferimento',
   removeConfirm: 'Vuoi davvero rimuoverlo dallo scaffale?',
   removeFromCollection: 'Rimuovi dalla raccolta',
+  search: 'Titolo, Autore, Editore',
   shelf: 'Libreria',
   startPreview: 'Avvia anteprima',
   startReading: 'Inizia a leggere',

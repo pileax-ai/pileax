@@ -77,6 +77,7 @@ export default {
   refInfo: 'Informații de referință',
   removeConfirm: 'Sigur vrei să scoți de pe raft?',
   removeFromCollection: 'Eliminați din colecție',
+  search: 'Titlu, Autor, Editura',
   shelf: 'Raft de cărți',
   startPreview: 'Începeți previzualizarea',
   startReading: 'Începeți să citiți',
