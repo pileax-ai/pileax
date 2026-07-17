@@ -42,6 +42,10 @@ class BookHelper:
         return f"book/{l1}/{l2}/{sha1}"
 
     @staticmethod
+    def is_isbn(isbn_str: str) -> bool:
+        return isbn.is_valid(isbn_str)
+
+    @staticmethod
     def parse_isbn_info(isbn_str: str):
         if not isbn.is_valid(isbn_str):
             return None

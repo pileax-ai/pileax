@@ -1,9 +1,11 @@
+import re
 from collections import OrderedDict
 from typing import Any, Optional
 
+from pypinyin import Style, pinyin
 from pypinyin.core import lazy_pinyin
 from sqlalchemy.sql.elements import BinaryExpression
-from sqlmodel import SQLModel, func
+from sqlmodel import SQLModel, func, or_
 
 from app.api.models.query import SortOrder
 from app.libs.helper import StringHelper
@@ -95,6 +97,25 @@ class DbHelper:
         return filters
 
     @staticmethod
+    def build_or_filters(
+        field_mapping: dict[type[SQLModel], Optional[list[str]]], or_condition: Optional[dict[str, Any]]
+    ) -> Optional[BinaryExpression]:
+        """
+        Build OR filters from a flat dictionary of conditions.
+        All conditions inside this dictionary will be combined using SQLAlchemy's or_().
+        """
+        if not or_condition or not isinstance(or_condition, dict):
+            return None
+
+        or_filters: list[BinaryExpression] = []
+        for model, fields in field_mapping.items():
+            # Gather all sub-filters that belong to the OR condition
+            or_filters += DbHelper.get_filters(model, or_condition, fields)
+
+        # Wrap with or_() if any filters are matched
+        return or_(*or_filters) if or_filters else None
+
+    @staticmethod
     def apply_sort(stmt, models: list[type[SQLModel]], sort: Optional[dict[str, SortOrder]]):
         """
         Sort, like {"user.name": "asc", "tenant.created_at": "desc"}
@@ -137,3 +158,25 @@ class DbHelper:
     @staticmethod
     def to_pinyin(s):
         return "".join(lazy_pinyin(s or ""))
+
+    @staticmethod
+    def is_pinyin(text: str) -> bool:
+        """
+        Strictly determine if the text is valid Mandarin pinyin.
+        """
+        if not text:
+            return False
+
+        # Standardize input to lowercase and remove spaces
+        clean_text = text.lower().replace(" ", "")
+
+        # 1. Quick check if it contains any non-english characters
+        if not re.match(r"^[a-z]+$", clean_text):
+            return False
+
+        # 2. Use pypinyin to see if the library can parse it as normal pinyin
+        # Note: If it's already pinyin, pypinyin typically returns it as-is
+        parsed = pinyin(clean_text, style=Style.NORMAL)
+        flat_parsed = "".join([item[0] for item in parsed])
+
+        return flat_parsed == clean_text

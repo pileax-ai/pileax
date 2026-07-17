@@ -76,6 +76,7 @@ export default {
   refInfo: '引用信息',
   removeConfirm: '你确定从书架中移除吗？',
   removeFromCollection: '从书单中移除',
+  search: '书名、作者、出版社',
   shelf: '书架',
   startPreview: '开始预览',
   startReading: '开始阅读',

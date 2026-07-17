@@ -77,6 +77,7 @@ export default {
   refInfo: '참고 정보',
   removeConfirm: '선반에서 확실히 꺼내신 건가요?',
   removeFromCollection: '컬렉션에서 제거',
+  search: '제목, 저자, 출판사',
   shelf: '책장',
   startPreview: '미리보기 시작',
   startReading: '읽기 시작',

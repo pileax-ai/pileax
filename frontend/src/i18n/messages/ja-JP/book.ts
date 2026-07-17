@@ -77,6 +77,7 @@ export default {
   refInfo: '参考情報',
   removeConfirm: '棚から削除してもよろしいですか?',
   removeFromCollection: 'コレクションから削除',
+  search: 'タイトル、著者、出版社',
   shelf: '本棚',
   startPreview: 'プレビューを開始',
   startReading: '読み始める',

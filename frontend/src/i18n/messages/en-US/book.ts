@@ -77,6 +77,7 @@ export default {
   refInfo: 'Reference Info',
   removeConfirm: 'Are you sure to remove from shelf?',
   removeFromCollection: 'Remove from Collection',
+  search: 'Title, Author, Publisher',
   shelf: 'Bookshelf',
   startPreview: 'Start Preview',
   startReading: 'Start Reading',

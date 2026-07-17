@@ -35,15 +35,13 @@
         <q-list class="col-12">
           <template v-for="(item, index) in results" :key="index">
             <o-common-item :icon="item.icon || '🍃'"
-                           :label="item.title"
+                           :label="`${item.title} (${item.count || 0})`"
                            :class="{'bg-dark': index === selected}"
-                           :disable="inCollection(item)"
                            size="1.2rem"
                            clickable right-side
                            @click="onSelected(item)">
               <template #side>
                 <div class="row">
-                  <div>{{item.count || 0}}</div>
                   <div class="q-ml-md">
                     <q-icon name="check_circle" v-if="inCollection(item)" />
                     <q-icon name="o_circle" v-else />
@@ -194,17 +192,29 @@ function onKeyup (e: KeyboardEvent) {
 
 function onSelected (item: Indexable) {
   if (inCollection(item)) {
-    return
+    removeFromCollection(item)
+  } else {
+    addToCollection(item)
   }
+}
+
+function addToCollection(item: Indexable) {
   const body = {
     bookCollectionId: item.id,
     workspaceBookId: book.value.id
   }
   workspaceBookCollectionService.save(body).then(res => {
-    notifyDone()
+    initData()
   })
+}
 
-  onHide()
+function removeFromCollection(item: Indexable) {
+  const wbc = records.value.find(e => e.bookCollectionId === item.id && e.workspaceBookId === book.value.id)
+  if (wbc) {
+    workspaceBookCollectionService.delete(wbc.id).then(res => {
+      initData()
+    })
+  }
 }
 
 function initData() {
@@ -213,6 +223,10 @@ function initData() {
     results.value = res
   })
 
+  getInCollectionRecords()
+}
+
+function getInCollectionRecords() {
   workspaceBookCollectionService.query({
     pageSize: 1000,
     condition: {

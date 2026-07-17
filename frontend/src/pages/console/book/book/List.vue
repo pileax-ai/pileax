@@ -20,8 +20,8 @@
                  flat />
           <div class="query-item no-drag-region">
             <q-input v-model="condition.title__icontains"
-                     class="pi-field"
-                     :placeholder="$t('search')"
+                     class="pi-field w-wide"
+                     :placeholder="$t('book.search')"
                      debounce="800"
                      standout dense clearable
                      @update:model-value="query.onQuery(true)">

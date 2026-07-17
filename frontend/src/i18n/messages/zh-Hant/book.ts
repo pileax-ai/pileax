@@ -76,6 +76,7 @@ export default {
   refInfo: '引用訊息',
   removeConfirm: '你確定從書架中移除嗎？',
   removeFromCollection: '從書單移除',
+  search: '書名、作者、出版社',
   shelf: '書架',
   startPreview: '開始預覽',
   startReading: '開始閱讀',
