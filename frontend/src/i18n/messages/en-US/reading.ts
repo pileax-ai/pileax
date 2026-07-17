@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Hide ruby title',
       hideSubscript: 'Hide subscript',
       hideSuperscript: 'Hide superscript',
+      instantSearch: 'Instant Search',
+      toolbar: 'Toolbar',
       visibility: 'Visibility'
     },
     pagination: {

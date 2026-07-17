@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Ascunde titlul Ruby',
       hideSubscript: 'Ascunde indicele',
       hideSuperscript: 'Ascunde exponentul',
+      instantSearch: 'Căutare instantanee',
+      toolbar: 'Bara de instrumente',
       visibility: 'Vizibilitate'
     },
     pagination: {

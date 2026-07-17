@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'ルビーのタイトルを非表示にする',
       hideSubscript: '下付き文字を非表示にする',
       hideSuperscript: '上付き文字を非表示にする',
+      instantSearch: 'インスタント検索',
+      toolbar: 'ツールバー',
       visibility: '可視性'
     },
     pagination: {

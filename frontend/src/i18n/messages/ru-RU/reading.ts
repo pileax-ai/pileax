@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Скрыть рубиновый заголовок',
       hideSubscript: 'Скрыть нижний индекс',
       hideSuperscript: 'Скрыть верхний индекс',
+      instantSearch: 'Мгновенный поиск',
+      toolbar: 'Панель инструментов',
       visibility: 'Видимость'
     },
     pagination: {

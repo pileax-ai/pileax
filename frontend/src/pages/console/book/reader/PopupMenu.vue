@@ -298,6 +298,12 @@ function onCopy() {
   copy(selectedText.value, true)
 }
 
+function onInstantSearch() {
+  if (settings.value.instantSearch && selectedText.value) {
+    onSearch()
+  }
+}
+
 function onSearch() {
   setKeyword(selectedText.value)
   if (!rightDrawerShow.value) {
@@ -392,6 +398,8 @@ function initTippy() {
 watch(() => selection.value?.text, (newValue) => {
   if (newValue && !selection.value?.footnote) {
     show()
+
+    onInstantSearch()
   } else {
     hide()
   }

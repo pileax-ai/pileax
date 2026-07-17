@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Ẩn tiêu đề ruby',
       hideSubscript: 'Ẩn chỉ mục',
       hideSuperscript: 'Ẩn chỉ số trên',
+      instantSearch: 'Tìm kiếm tức thì',
+      toolbar: 'Thanh công cụ',
       visibility: 'Khả năng hiển thị'
     },
     pagination: {

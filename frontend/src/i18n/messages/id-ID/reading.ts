@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Sembunyikan judul ruby',
       hideSubscript: 'Sembunyikan subskrip',
       hideSuperscript: 'Sembunyikan superskrip',
+      instantSearch: 'Pencarian Instan',
+      toolbar: 'Bilah alat',
       visibility: 'Visibilitas'
     },
     pagination: {
