@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Ocultar título rubí',
       hideSubscript: 'Ocultar subíndice',
       hideSuperscript: 'Ocultar superíndice',
+      instantSearch: 'Búsqueda instantánea',
+      toolbar: 'Barra de herramientas',
       visibility: 'Visibilidad'
     },
     pagination: {

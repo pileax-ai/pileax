@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: '隐藏旁注（音标）',
       hideSubscript: '隐藏下标',
       hideSuperscript: '隐藏上标',
+      instantSearch: '即时搜索',
+      toolbar: '工具条',
       visibility: '显示隐藏'
     },
     pagination: {

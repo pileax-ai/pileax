@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: '루비 제목 숨기기',
       hideSubscript: '아래첨자 숨기기',
       hideSuperscript: '위첨자 숨기기',
+      instantSearch: '즉시 검색',
+      toolbar: '툴바',
       visibility: '시계'
     },
     pagination: {

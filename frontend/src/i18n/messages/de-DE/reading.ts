@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Ruby-Titel ausblenden',
       hideSubscript: 'Indiz ausblenden',
       hideSuperscript: 'Hochgestellte Zeichen ausblenden',
+      instantSearch: 'Sofortsuche',
+      toolbar: 'Symbolleiste',
       visibility: 'Sichtweite'
     },
     pagination: {

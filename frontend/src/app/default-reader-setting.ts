@@ -54,6 +54,9 @@ export const defaultSetting = {
   globalCSSEnabled: false,
   globalCSS: '',
   bookCSS: '',
+
+  // toolbar
+  instantSearch: false
 } as Indexable
 
 export const defaultGlobalStyles = `

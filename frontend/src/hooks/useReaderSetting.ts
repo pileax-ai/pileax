@@ -9,6 +9,10 @@ export default function () {
     return store.settings
   })
 
+  function getSettingItem(key: string, defaultValue: any) {
+    return store.settings[key] || defaultValue
+  }
+
   function setSettingItem(key: string, value: any) {
     store.setSettingItem(key, value)
   }
@@ -44,6 +48,7 @@ export default function () {
     store,
     settings,
 
+    getSettingItem,
     setSettingItem,
     setReaderTheme,
     setTTSModel,

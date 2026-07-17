@@ -47,7 +47,6 @@ import { computed, onBeforeMount, ref } from 'vue'
 import { OColorBoard } from '@yiitap/vue'
 
 import useReaderSetting from 'src/hooks/useReaderSetting'
-const { settings, setSettingItem } = useReaderSetting()
 import OFieldLabel from 'core/components/form/field/OFieldLabel.vue'
 import SettingView from 'components/reader/settings/setting-view.vue'
 import useCommon from 'core/hooks/useCommon'
@@ -56,6 +55,7 @@ import { stripQuotes } from 'core/utils/format'
 const emit = defineEmits(['next'])
 
 const { t } = useCommon()
+const { settings, setSettingItem } = useReaderSetting()
 const fontSize = ref(20)
 const fontWeight = ref(400)
 

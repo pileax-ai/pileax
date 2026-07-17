@@ -81,6 +81,8 @@ export default {
       hideRubyTitle: 'Ukryj tytuł Ruby',
       hideSubscript: 'Ukryj indeks dolny',
       hideSuperscript: 'Ukryj indeks górny',
+      instantSearch: 'Natychmiastowe wyszukiwanie',
+      toolbar: 'Pasek narzędzi',
       visibility: 'Widoczność'
     },
     pagination: {

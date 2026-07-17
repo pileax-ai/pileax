@@ -22,6 +22,14 @@
                         :label="$t('reading.setting.options.hideParentheticalCitation')" />
           </div>
         </q-expansion-item>
+        <q-expansion-item icon="search" :label="$t('reading.setting.options.toolbar')"
+                          header-class="header bg-accent"
+                          default-opened>
+          <div>
+            <q-checkbox v-model="instantSearch"
+                        :label="$t('reading.setting.options.instantSearch')" />
+          </div>
+        </q-expansion-item>
       </q-list>
     </section>
   </section>
@@ -30,6 +38,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
+import useReaderSetting from 'src/hooks/useReaderSetting'
 import { changeStyle } from 'src/api/service/ebook/book'
 
 defineProps({
@@ -40,6 +49,7 @@ defineProps({
 })
 const emit = defineEmits(['next'])
 const { bookHideItems, setBookHideItems } = useBook()
+const { getSettingItem, setSettingItem } = useReaderSetting()
 
 const hideSup = computed({
   get() {
@@ -74,6 +84,15 @@ const hideParentheticalCitation = computed({
   },
   set(value: boolean) {
     setValue('parentheticalCitation', value)
+  }
+})
+
+const instantSearch = computed({
+  get() {
+    return getSettingItem('instantSearch', false)
+  },
+  set(value: boolean) {
+    setSettingItem('instantSearch', value)
   }
 })
 
