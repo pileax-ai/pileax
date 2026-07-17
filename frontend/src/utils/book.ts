@@ -21,9 +21,11 @@ export const getFileSHA1 =  async (file: File): Promise<string> => {
 }
 
 export const base64ToFile = (base64: string, name: string): File => {
-  const arr = base64.split(',')
-  if (arr.length < 2) throw new Error('Invalid base64 string')
+  if (!base64 || typeof base64 !== 'string' || !base64.includes(',')) {
+    return new File([new Uint8Array(0)], 'NA', { type: 'application/octet-stream' })
+  }
 
+  const arr = base64.split(',')
   const base64Content = arr[1] || ''
   const mimeMatch = arr[0]?.match(/:(.*?);/)
   // console.log('mimeMatch', mimeMatch)

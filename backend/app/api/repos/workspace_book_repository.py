@@ -134,6 +134,7 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             "book_workspace_id": book.workspace_id,
             # book
             "title": book.title,
+            "subtitle": book.subtitle,
             "path": book.path,
             "file_url": book.file_url,
             "cover_url": book.cover_url,

@@ -6,7 +6,7 @@
                  enable-actions>
     <div class="row col-12 q-col-gutter-md">
       <div class="col-auto">
-        <o-file-uploader accept=".png,.jpg,.svg"
+        <o-file-uploader :accept="ImageExts"
                          :maxSize="10 * 1024 * 1024"
                          :preview="getFileUrl(form.coverUrl)"
                          :loading="loading"
@@ -141,7 +141,7 @@
       <q-input v-model="form.description" :placeholder="$t('description')"
                type="textarea"
                class="pi-field max-height"
-               maxlength="256" counter
+               maxlength="2048" counter
                standout dense clearable>
         <template #append>
           <q-icon :name="lockedItems.includes('description') ? 'lock' : 'lock_open'"
@@ -194,7 +194,6 @@
     <template #actions>
       <q-btn class="bg-dark text-info"
              :label="$t('cancel')"
-             :loading="loading"
              flat @click="emit('view')" />
     </template>
   </o-simple-form>
@@ -218,6 +217,7 @@ import useForm from 'src/hooks/useForm'
 import useApi from 'src/hooks/useApi'
 import { bookService } from 'src/api/service/remote'
 import { globalBus } from 'src/api/event/event-bus'
+import { ImageExts } from 'core/constants/constant'
 
 const apiName = 'book'
 const props = defineProps({

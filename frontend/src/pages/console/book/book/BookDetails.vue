@@ -24,7 +24,10 @@
 
     <q-card class="meta-card" flat>
       <q-card-section class="meta">
-        <header class="title">{{data.title}}</header>
+        <header class="header">
+          <div class="title">{{data.title}}</div>
+          <div class="subtitle text-tips" v-if="data.subtitle">{{data.subtitle}}</div>
+        </header>
         <o-view-item :label="$t('book.author')"
                      :value="data.author" align="right" lines="2" />
         <o-view-item :label="$t('book.publisher')"
@@ -63,9 +66,8 @@
 
         <section class="description" v-if="data.description">
           <span class="text-readable">{{ $t('description') }}</span>
-          <q-scroll-area class="o-book-desc">
-            <div v-html="data.description"></div>
-          </q-scroll-area>
+
+          <o-book-desc :desc="data.description" />
         </section>
       </q-card-section>
 
@@ -89,6 +91,7 @@
 import { onMounted, ref } from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
+import OBookDesc from 'components/book/OBookDesc.vue'
 import BookContextMenu from 'pages/console/book/book/BookContextMenu.vue'
 import BookCollectionContextMenu from 'pages/console/book/collection/BookCollectionContextMenu.vue'
 import useReading from 'src/hooks/useReading'
@@ -172,12 +175,26 @@ onMounted(() => {
   }
 
   .meta {
-    .title {
-      font-size: 1.1rem;
-      font-weight: 600;
+    .header {
       margin-bottom: 10px;
-      display: inline-flex;
     }
+
+    .title, .subtitle {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-all;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      -webkit-line-clamp: 2;
+    }
+    .subtitle {
+      -webkit-line-clamp: 1;
+    }
+
     .o-view-item {
       min-height: unset;
       padding: 4px 0;

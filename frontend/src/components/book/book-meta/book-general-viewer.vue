@@ -102,9 +102,7 @@
                maxlength="2048" counter
                standout dense clearable readonly v-if="false" />
 
-      <q-scroll-area class="o-book-desc">
-        <div v-html="form.description" />
-      </q-scroll-area>
+      <o-book-desc :desc="form.description" />
     </o-field>
 
     <!-- Category -->
@@ -149,6 +147,7 @@ import { computed, onMounted } from 'vue'
 import OSimpleForm from 'core/page/section/OSimpleForm.vue'
 import OFileUploader from 'core/components/fIle/OFileUploader.vue'
 import OFieldSeparator from 'core/components/form/field/OFieldSeparator.vue'
+import OBookDesc from 'components/book/OBookDesc.vue'
 
 import { GET } from 'src/hooks/useRequest'
 import useApi from 'src/hooks/useApi'

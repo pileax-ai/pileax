@@ -34,7 +34,7 @@
       <div>
         <q-responsive :ratio="16/9">
           <q-card class="cover-item" flat v-ripple>
-            <o-file-uploader accept=".png,.jpg,.svg,.webp,.avif"
+            <o-file-uploader :accept="ImageExts"
                              :maxSize="10 * 1024 * 1024"
                              ref-id="book"
                              ref-type="reader-background"
@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
 import useReaderSetting from 'src/hooks/useReaderSetting'
+import { ImageExts } from 'core/constants/constant'
 import useCommon from 'core/hooks/useCommon'
 import useSetting from 'core/hooks/useSetting'
 import OFileUploader from 'core/components/fIle/OFileUploader.vue'
