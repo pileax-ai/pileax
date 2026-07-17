@@ -194,7 +194,6 @@
     <template #actions>
       <q-btn class="bg-dark text-info"
              :label="$t('cancel')"
-             :loading="loading"
              flat @click="emit('view')" />
     </template>
   </o-simple-form>

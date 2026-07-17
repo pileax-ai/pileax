@@ -13,10 +13,11 @@ import {
 } from './utils';
 import {
   defaultSetting,
+  defaultGlobalCSS,
   defaultGlobalStyles,
   defaultFootnoteGlobalStyles,
   scrollbarStyles,
-  buildOptionalCSS, defaultGlobalCSS,
+  buildOptionalCSS,
 } from 'src/app/default-reader-setting'
 import { postMessage } from 'src/api/service/ebook/book.js';
 import { getAnnotationColor } from 'src/utils/book.ts'
@@ -492,6 +493,7 @@ const openBook = async (bookElement, data,
 
 const getMetadata = async (data) => {
   const coverBlob = await reader.view.book.getCover();
+  // console.log('cover', coverBlob)
   if (coverBlob) {
     const realCoverBlob = await getRealCoverBlob(coverBlob, reader.view.book)
     // cover is a blob, so we need to convert it to base64

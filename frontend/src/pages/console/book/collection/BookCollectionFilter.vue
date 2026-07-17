@@ -1,52 +1,68 @@
 <template>
-  <nav class="book-collection-filter pi-menu">
-    <header>
+  <nav class="book-collection-filter column fit pi-menu">
+    <header class="col-auto">
+      <q-list>
+        <q-item-label class="group" caption>
+          {{ $t('book.collections._') }}
+        </q-item-label>
+      </q-list>
     </header>
-    <q-list>
-      <q-item-label class="group" caption>
-        {{ $t('book.collections._') }}
-      </q-item-label>
-      <template v-for="(item, index) of collections" :key="`item-${index}`">
-        <o-common-item v-bind="item"
-                       :class="`text-${item.color} ${item.value === modelValue ? 'active' : ''}`"
-                       @click="onAction(item)"
-                       clickable
-                       closable
-                       right-side>
-          <template #side>
-            <q-icon name="circle"
-                    size="8px"
-                    class="dot"
-                    :color="item.color"
-                    v-if="item.value === modelValue && false" />
-            <q-btn icon="more_vert"
-                   flat
-                   class="more"
-                   @click.stop="() => {}"
-                   v-if="item.value && item.value !== 'add'">
-              <q-menu class="pi-menu" :offset="[0, 4]" anchor="bottom right" self="top right">
-                <q-list>
-                  <template v-for="(action, _index) in actions" :key="_index">
-                    <o-common-item v-bind="action"
-                                   class="text-readable"
-                                   @click="onAction({
+
+    <section class="col by-collection" v-if="collections.length">
+      <q-list>
+        <template v-for="(item, index) of collections" :key="`item-${index}`">
+          <o-common-item v-bind="item"
+                         :class="`text-${item.color} ${item.value === modelValue ? 'active' : ''}`"
+                         @click="onAction(item)"
+                         clickable
+                         closable
+                         right-side>
+            <template #side>
+              <q-icon name="circle"
+                      size="8px"
+                      class="dot"
+                      :color="item.color"
+                      v-if="item.value === modelValue && false" />
+              <q-btn icon="more_vert"
+                     flat
+                     class="more"
+                     @click.stop="() => {}"
+                     v-if="item.value && item.value !== 'add'">
+                <q-menu class="pi-menu" :offset="[0, 4]" anchor="bottom right" self="top right">
+                  <q-list>
+                    <template v-for="(action, _index) in actions" :key="_index">
+                      <o-common-item v-bind="action"
+                                     class="text-readable"
+                                     @click="onAction({
                                       ...action, value:
                                       item.value,
                                       itemLabel: item.label,
                                       itemIcon: item.icon
                                    })"
-                                   clickable
-                                   closable>
-                    </o-common-item>
-                  </template>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </template>
+                                     clickable
+                                     closable>
+                      </o-common-item>
+                    </template>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </template>
+          </o-common-item>
+        </template>
+        <slot></slot>
+      </q-list>
+    </section>
+    <section :class="collections.length > 10 ? 'col-auto' : 'col'">
+      <q-list>
+        <o-common-item :label="t('book.collections.add')"
+                       icon="add"
+                       @click="onAction({value: 'add', action: 'add'})"
+                       clickable
+                       closable
+                       right-side>
         </o-common-item>
-      </template>
-      <slot></slot>
-    </q-list>
+      </q-list>
+    </section>
   </nav>
 </template>
 
@@ -82,13 +98,13 @@ const collections = computed(() => {
       action: 'filter',
     }
   }) || [] as Indexable[]
-  newList.push({
-    label: t('book.collections.add'),
-    value: 'add',
-    icon: 'add',
-    color: '',
-    action: 'add',
-  })
+  // newList.push({
+  //   label: t('book.collections.add'),
+  //   value: 'add',
+  //   icon: 'add',
+  //   color: '',
+  //   action: 'add',
+  // })
   return newList
 })
 
@@ -163,6 +179,13 @@ defineExpose({
 
 <style lang="scss">
 .book-collection-filter {
+  max-height: unset!important;
+
+  .by-collection {
+    width: 100%;
+    overflow-y: scroll;
+  }
+
   .q-list {
     .group {
       margin: 20px 0 6px 0;

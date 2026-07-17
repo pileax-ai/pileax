@@ -75,7 +75,7 @@ li {
     padding: 0 !important;
     line-height: 1.4 !important;
     color: unset !important;
-    font-size: 20px !important;
+    font-size: 0.9rem !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important;
     text-indent: 0 !important;
     border: none !important;
@@ -101,8 +101,6 @@ blockquote *,
 .jiaozhu,
 .small,
 .small1,
-.tuti,
-.tuzhu,
 [class*="note" i],
 [class*="quotation" i],
 [class*="quotation" i] *,
@@ -112,6 +110,17 @@ blockquote *,
 [class*="kt" i] * {
     font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
     line-height: 1.5 !important;
+}
+
+.tuti,
+.tuti *,
+.tuzhu,
+.tuzhu *,
+[class*="tushuo" i],
+[class*="tushuo" i] * {
+    font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
 }
 
 [class*="fangsong"],
@@ -160,9 +169,7 @@ h4 {
 
 /* Superscript */
 sub,
-sup,
-[class*="sub" i],
-[class*="sup" i] {
+sup    {
     font-size: 0.6rem !important;
 }
 `

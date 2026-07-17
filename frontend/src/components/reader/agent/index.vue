@@ -2,7 +2,7 @@
   <section>
     <section class="agent-view no-drag-region bg-secondary side-fixed"
              :class="{ 'active': currentView === 'agent' }">
-      <header class="row col-12 justify-between items-center text-readable toolbar">
+      <header class="row col-12 justify-between items-center text-readable no-drag-region toolbar">
         <section class="col row items-center">
           <o-menu-btn :label="tab?.label"
                       class="bg-accent"
