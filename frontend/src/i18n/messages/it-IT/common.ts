@@ -217,6 +217,7 @@ export default {
       log: 'Registro del server'
     },
     shortcut: 'Scorciatoia',
+    storage: 'Magazzinaggio',
     user: {
       log: 'Registro utente'
     }

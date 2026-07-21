@@ -65,6 +65,18 @@
                 </div>
               </template>
             </section>
+            <section class="pi-view-grid" v-else-if="bookView === 'grid_title'">
+              <template v-for="(item, index) in rows" :key="item.id">
+                <div class="">
+                  <book-grid-title-item :data="item"
+                                  add
+                                  @click="addBook(item, index)"
+                                  @add="addBook(item, index)"
+                                  @details="onDetails(item)">
+                  </book-grid-title-item>
+                </div>
+              </template>
+            </section>
             <section class="pi-view-grid" v-else-if="bookView === 'compact'">
               <template v-for="(item, index) in rows" :key="item.id">
                 <div class="">
@@ -112,6 +124,7 @@
 import { onMounted, ref } from 'vue'
 import { workspaceBookService } from 'src/api/service/remote'
 import BookGridItem from './BookGridItem.vue'
+import BookGridTitleItem from './BookGridTitleItem.vue'
 import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'

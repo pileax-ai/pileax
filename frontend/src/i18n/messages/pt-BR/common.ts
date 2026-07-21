@@ -217,6 +217,7 @@ export default {
       log: 'Registro do servidor'
     },
     shortcut: 'Atalho',
+    storage: 'Armazenar',
     user: {
       log: 'Registro do usuário'
     }

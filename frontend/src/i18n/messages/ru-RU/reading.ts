@@ -54,7 +54,7 @@ export default {
   },
   service: {
     manage: 'Управление услугами',
-    services: 'Услуги'
+    services: 'Сторонние сервисы'
   },
   setting: {
     background: {

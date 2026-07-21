@@ -54,7 +54,7 @@ export default {
   },
   service: {
     manage: 'Manage Services',
-    services: 'Services'
+    services: 'Third-party Services'
   },
   setting: {
     background: {

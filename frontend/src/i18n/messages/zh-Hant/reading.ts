@@ -54,7 +54,7 @@ export default {
   },
   service: {
     manage: '管理服務',
-    services: '服務'
+    services: '第三方服務'
   },
   setting: {
     background: {

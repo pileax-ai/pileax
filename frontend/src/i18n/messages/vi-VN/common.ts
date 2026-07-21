@@ -217,6 +217,7 @@ export default {
       log: 'Nhật ký máy chủ'
     },
     shortcut: 'Phím tắt',
+    storage: 'Kho',
     user: {
       log: 'Đăng nhập người dùng'
     }

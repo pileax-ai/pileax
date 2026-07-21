@@ -217,6 +217,7 @@ export default {
       log: 'Jurnal server'
     },
     shortcut: 'Comandă rapidă',
+    storage: 'Depozitare',
     user: {
       log: 'Jurnal utilizator'
     }

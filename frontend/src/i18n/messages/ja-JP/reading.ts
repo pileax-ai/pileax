@@ -54,7 +54,7 @@ export default {
   },
   service: {
     manage: 'サービスの管理',
-    services: 'サービス'
+    services: '第三者サービス'
   },
   setting: {
     background: {
