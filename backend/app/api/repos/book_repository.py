@@ -8,6 +8,7 @@ from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.user_book import UserBook
 from app.api.models.workspace_book import WorkspaceBook
 from app.api.repos.base_repository import BaseRepository
+from app.libs.book.book_helper import BookHelper
 from app.libs.db_helper import DbHelper
 
 
@@ -51,8 +52,36 @@ class BookRepository(BaseRepository[Book]):
 
     def query_library(self, user_id: UUID, workspace_id: UUID, query: PaginationQuery) -> QueryResult[BookPublic]:
         # 1. Basic Filter
+        condition = query.condition
+        title = condition.pop("title__icontains", None)
+
+        # 1.1 filters
+        filter_mapping = {
+            Book: ["author", "description", "extension", "isbn", "publisher", "subtitle", "title", "title_pinyin"],
+        }
         filters = DbHelper.get_filters(Book, query.condition)
         filters.append(or_(Book.user_id == user_id, Book.workspace_id == workspace_id))
+
+        # 1.2 or filter
+        if title:
+            title_value = str(title)
+            or_condition = {}
+            if BookHelper.is_isbn(title_value):
+                or_condition["isbn"] = title_value
+            else:
+                or_condition = {
+                    "author__icontains": title_value,
+                    "description__icontains": title_value,
+                    "publisher__icontains": title_value,
+                    "subtitle__icontains": title_value,
+                    "title__icontains": title_value,
+                }
+                if DbHelper.is_pinyin(title_value):
+                    or_condition["title_pinyin__icontains"] = title_value
+
+            or_filter = DbHelper.build_or_filters(filter_mapping, or_condition)
+            if or_filter is not None:
+                filters.append(or_filter)
 
         # 2. stmt
         stmt = select(Book, WorkspaceBook).join(

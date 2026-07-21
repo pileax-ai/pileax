@@ -217,6 +217,7 @@ export default {
       log: 'Serverprotokoll'
     },
     shortcut: 'Abkürzung',
+    storage: 'Lagerung',
     user: {
       log: 'Benutzerprotokoll'
     }

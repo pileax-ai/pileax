@@ -217,6 +217,7 @@ export default {
       log: 'Journal du serveur'
     },
     shortcut: 'Raccourci',
+    storage: 'Stockage',
     user: {
       log: 'Journal utilisateur'
     }

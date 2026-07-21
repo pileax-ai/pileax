@@ -54,7 +54,7 @@ export default {
   },
   service: {
     manage: 'Quản lý dịch vụ',
-    services: 'Dịch vụ'
+    services: 'Dịch vụ của bên thứ ba'
   },
   setting: {
     background: {

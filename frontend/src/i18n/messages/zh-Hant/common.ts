@@ -217,6 +217,7 @@ export default {
       log: '服務日誌'
     },
     shortcut: '快速鍵',
+    storage: '儲存',
     user: {
       log: '操作日誌'
     }

@@ -42,13 +42,13 @@ import useAccount from 'src/hooks/useAccount'
 
 const { t } = useCommon()
 const { account } = useAccount()
-const currentTab = ref('reading')
+const currentTab = ref('storage')
 const tabs = computed(() => {
   return [
     {
-      label: t('reading._'),
-      value: 'reading',
-      icon: 'o_chrome_reader_mode',
+      label: t('systems.storage'),
+      value: 'storage',
+      icon: 'mdi-database',
       component: ReadingTab,
       show: true
     },

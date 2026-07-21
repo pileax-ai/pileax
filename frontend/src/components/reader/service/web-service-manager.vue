@@ -4,7 +4,7 @@
       <section class="col row items-center">
         <q-icon name="language" size="20px" />
         <span class="q-px-sm">
-          Manage Services
+          {{$t('reading.service.manage')}}
         </span>
       </section>
 
@@ -15,7 +15,7 @@
     <q-scroll-area class="o-scroll-wrapper">
       <q-list>
         <q-item-label class="text-readable">
-          {{ $t('recommend') }}
+          {{ $t('reading.service.services') }}
         </q-item-label>
         <template v-for="(item, index) in availableServices" :key="index">
           <q-item class="bg-accent" clickable>

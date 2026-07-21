@@ -217,6 +217,7 @@ export default {
       log: '서버 로그'
     },
     shortcut: '지름길',
+    storage: '저장',
     user: {
       log: '사용자 로그'
     }

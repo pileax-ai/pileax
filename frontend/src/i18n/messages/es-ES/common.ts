@@ -217,6 +217,7 @@ export default {
       log: 'Registro del servidor'
     },
     shortcut: 'Atajo',
+    storage: 'Almacenamiento',
     user: {
       log: 'Registro de usuario'
     }

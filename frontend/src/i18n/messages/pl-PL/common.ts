@@ -217,6 +217,7 @@ export default {
       log: 'Dziennik serwera'
     },
     shortcut: 'Skrót',
+    storage: 'Składowanie',
     user: {
       log: 'Dziennik użytkownika'
     }

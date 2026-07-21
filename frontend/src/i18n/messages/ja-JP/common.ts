@@ -217,6 +217,7 @@ export default {
       log: 'サーバーログ'
     },
     shortcut: 'ショートカット',
+    storage: 'ストレージ',
     user: {
       log: 'ユーザーログ'
     }

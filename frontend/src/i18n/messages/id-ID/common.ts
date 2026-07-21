@@ -217,6 +217,7 @@ export default {
       log: 'Log Server'
     },
     shortcut: 'Jalan pintas',
+    storage: 'Penyimpanan',
     user: {
       log: 'Log Pengguna'
     }

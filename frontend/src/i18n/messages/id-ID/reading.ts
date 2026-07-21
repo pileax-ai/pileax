@@ -54,7 +54,7 @@ export default {
   },
   service: {
     manage: 'Kelola Layanan',
-    services: 'Layanan'
+    services: 'Layanan Pihak Ketiga'
   },
   setting: {
     background: {
