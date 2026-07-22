@@ -33,14 +33,21 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def save(self, item_in: CreateSchemaType) -> Any:
         item = item_in.model_dump(by_alias=True)
-        if hasattr(self.model, "tenant_id") and item.get("tenant_id") is None:
-            if self.workspace:
-                item["tenantId"] = self.workspace.tenant_id
-        if hasattr(self.model, "workspace_id") and item.get("workspace_id") is None:
-            item["workspaceId"] = self.workspace_id
-        if hasattr(self.model, "user_id"):
-            item["userId"] = self.user.id
-        return self.service.save(self.model(**item))
+        id = item["id"]
+        obj = self.service.get(id, raise_exception=False)
+        if obj:
+            update_dict = item_in.model_dump(exclude_unset=True, exclude_none=True, exclude_defaults=True)
+            return self.service.update(id, update_dict)
+        else:
+            if hasattr(self.model, "tenant_id") and item.get("tenant_id") is None:
+                if self.workspace:
+                    item["tenantId"] = self.workspace.tenant_id
+            if hasattr(self.model, "workspace_id") and item.get("workspace_id") is None:
+                item["workspaceId"] = self.workspace_id
+            if hasattr(self.model, "user_id"):
+                item["userId"] = self.user.id
+            return self.service.create(self.model(**item))
+
 
     def get(self, id: UUID, filter_by_workspace=True) -> Any:
         if filter_by_workspace:

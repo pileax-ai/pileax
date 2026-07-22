@@ -212,7 +212,7 @@ function onSelectNode (key: string) {
 function onConfirm() {
   if (selectedNote.value) {
     if (currentTab.value === 'add') {
-      addNote(selectedNote.value?.id, 'chat')
+      addNote({ parent: selectedNote.value?.id, source: 'chat' })
     } else {
       openNote(selectedNote.value, 'chat')
     }

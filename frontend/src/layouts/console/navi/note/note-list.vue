@@ -26,7 +26,7 @@
     <section class="panel">
       <header class="row col-12 justify-between items-center section text-tips">
         <div>
-          {{ $t('note.notes') }}
+          {{ $t('workspace.types.personal') }}
         </div>
         <div class="top-actions">
           <q-btn icon="search" class="action q-mr-sm" flat
@@ -34,13 +34,32 @@
             <o-tooltip :message="$t('note.search')" :caption="nativeShortcut('mod + P')" />
           </q-btn>
           <q-btn icon="add" class="action" flat
-                 @click.stop="addNote()" v-permission="['owner', 'admin', 'editor']">
+                 @click.stop="addNote({ scope: 1 })"
+                 v-permission="['owner', 'admin', 'editor']">
             <o-tooltip :message="$t('note.add')" />
           </q-btn>
         </div>
       </header>
       <section class="note-tree-panel">
-        <note-tree scope="all" />
+        <note-tree scope="personal" />
+      </section>
+    </section>
+
+    <section class="panel" v-if="workspace.type === 'team'">
+      <header class="row col-12 justify-between items-center section text-tips">
+        <div>
+          {{ $t('workspace.types.team') }}
+        </div>
+        <div class="top-actions">
+          <q-btn icon="add" class="action" flat
+                 @click.stop="addNote({ scope: 2 })"
+                 v-permission="['owner', 'admin', 'editor']">
+            <o-tooltip :message="$t('note.add')" />
+          </q-btn>
+        </div>
+      </header>
+      <section class="note-tree-panel">
+        <note-tree scope="team" />
       </section>
     </section>
   </section>
@@ -48,10 +67,11 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
-import useDialog from 'core/hooks/useDialog'
-import useNote from 'src/hooks/useNote'
 import useCommon from 'core/hooks/useCommon'
+import useDialog from 'core/hooks/useDialog'
 import useShortcut from 'core/hooks/useShortcut'
+import useNote from 'src/hooks/useNote'
+import useWorkspace from 'src/hooks/useWorkspace'
 
 import NoteTree from './note-tree.vue'
 import OContextMenu from 'core/components/menu/OContextMenu.vue'
@@ -66,10 +86,8 @@ defineProps({
 const { t } = useCommon()
 const { openDialog } = useDialog()
 const { nativeShortcut } = useShortcut()
-const {
-  noteStore,
-  addNote,
-} = useNote()
+const { noteStore, addNote, } = useNote()
+const { workspace } = useWorkspace()
 
 const favoriteTop = ref(true)
 const panelCommands = computed(() => {

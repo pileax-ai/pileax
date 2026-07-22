@@ -11,12 +11,13 @@
     <template v-slot:default-header="prop">
       <section class="row justify-between items-center full-width note-item"
                :class="{'allow-drop': prop.node.allowDrop}"
+               :data-scope="prop.node.data.scope"
                :draggable="prop.node.type === 'note'"
                @dragstart="onDragStart($event, prop.node)"
                @dragend="onDragEnd"
-               @dragenter="onDragEnter"
+               @dragenter="onDragEnter($event, prop.node)"
                @dragleave="onDragLeave"
-               @dragover="onDragOver"
+               @dragover="onDragOver($event, prop.node)"
                @drop="onDrop($event, prop.node)"
                @click.stop="onOpenNote(prop.node.data)">
         <section class="none-pointer-events note-title" v-if="prop.node.type === 'note'">
@@ -46,7 +47,7 @@
           </q-item>
           <q-btn icon="add"
                  class="bg-dark full-width text-bold"
-                 @click="addNote()"
+                 @click="addNote({ scope: scope === 'team' ? 2 : 1 })"
                  flat v-else>
             {{ $t('note.add') }}
           </q-btn>
@@ -56,7 +57,7 @@
       <!--Actions-->
       <section class="row justify-end text-tips actions" v-if="prop.node.type==='note'">
         <q-btn icon="add" class="action" flat
-               @click.stop="addNote(prop.node.key)"
+               @click.stop="addNote({ parent: prop.node.key, scope: prop.node.data.scope || 1 })"
                v-permission="['owner', 'admin', 'editor']" />
         <q-btn icon="more_horiz" class="action" flat
                @click.stop="() => {}">
@@ -82,16 +83,13 @@ import { timeMulti } from 'core/utils/format'
 import { NoteDefaultIcon } from 'core/constants/constant'
 import OContextMenu from 'core/components/menu/OContextMenu.vue'
 import useNote from 'src/hooks/useNote'
-import usePermission from 'src/hooks/usePermission'
-import { useTabStore } from 'stores/tab'
-import { ipcService } from 'src/api/ipc'
 import useCommon from 'core/hooks/useCommon'
 import useShortcut from 'core/hooks/useShortcut'
 
 const props = defineProps({
   scope: {
     type: String,
-    default: 'all'
+    default: 'personal' // favorite, personal, team
   },
 })
 
@@ -110,15 +108,20 @@ const {
   duplicateNote,
   newTab,
   newWindow,
+  canEdit,
+  canAdmin
 } = useNote()
-const { hasPermission } = usePermission()
-const tabStore = useTabStore()
+const draggingNode = ref<Indexable>({})
 const selected = ref('')
 
 const noteTree = computed(() => {
   switch (props.scope) {
-    case 'all':
-      return buildNoteTree(notes.value, null, true)
+    case 'personal':
+      const personalNotes = notes.value.filter(item => item.scope === 1)
+      return buildNoteTree(personalNotes, null, true)
+    case 'team':
+      const teamNotes = notes.value.filter(item => item.scope === 2)
+      return buildNoteTree(teamNotes, null, true)
     case 'favorite':
       return buildFavoriteTree(notes.value,  true)
     default:
@@ -137,9 +140,8 @@ function noteCommands(note: Indexable) {
       label: t('note.duplicate'),
       value: 'duplicate',
       icon: 'copy_all',
-      // sideLabel: nativeShortcut('mod + D'),
-      separator: hasPermission(['owner', 'admin', 'editor']).value,
-      hidden: !hasPermission(['owner', 'admin', 'editor']).value
+      separator: canEdit(note),
+      hidden: !canEdit(note)
     },
     // {
     //   label: t('note.moveTo'),
@@ -153,7 +155,7 @@ function noteCommands(note: Indexable) {
       value: 'delete',
       icon: 'delete_outline',
       class: 'text-red',
-      hidden: !hasPermission(['owner', 'admin', 'editor']).value
+      hidden: !canAdmin(note)
     },
     {
       label: t('note.newTab'),
@@ -212,16 +214,19 @@ function onDragStart (e: DragEvent, node: Indexable) {
   e.dataTransfer?.setData('text', JSON.stringify(data))
   // e.dataTransfer?.dropEffect = 'move';
   target.classList.add('dragging')
+  draggingNode.value = node
 }
 
 function onDragEnd (e: DragEvent) {
   const target = e.target as HTMLElement
   target.classList.remove('dragging')
+  draggingNode.value = {}
 }
 
-function onDragEnter (e: DragEvent) {
+function onDragEnter (e: DragEvent, node: Indexable) {
   const target = e.target as HTMLElement
-  if (target.classList.contains('allow-drop')) {
+  const sameScope = draggingNode.value.data.scope === node.data.scope
+  if (target.classList.contains('allow-drop') && sameScope) {
     e.preventDefault()
     target.classList.add('drag-enter')
   }
@@ -234,9 +239,10 @@ function onDragLeave (e: DragEvent) {
   }
 }
 
-function onDragOver (e: DragEvent) {
+function onDragOver (e: DragEvent, node: Indexable) {
   const target = e.target as HTMLElement
-  if (target.classList.contains('allow-drop')) {
+  const sameScope = draggingNode.value.data.scope === node.data.scope
+  if (target.classList.contains('allow-drop') && sameScope) {
     e.preventDefault()
   }
 }
@@ -246,6 +252,12 @@ function onDrop (e: DragEvent, node: Indexable) {
   const data = JSON.parse(e.dataTransfer?.getData('text') || '{}')
   if (data.contentType === 'note') {
     const note = node.data
+
+    // Save scope
+    if (data.scope !== note.scope) {
+      return
+    }
+
     // console.log('drop', data.id, note.id)
     if ((data.id !== note.id) && (data.parent !== note.id)) {
       setParent(data.id, note.id)
@@ -274,9 +286,11 @@ watch(() => currentNote.value, (newValue) => {
       .allow-drop .none-pointer-events {
         pointer-events: none;
       }
+
       .note-item {
         height: 36px;
         padding: 0 4px;
+        border-radius: 4px;
 
         &.dragging {
           background: var(--q-dark) !important;

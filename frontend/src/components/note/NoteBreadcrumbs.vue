@@ -1,6 +1,11 @@
 <template>
   <section class="note-breadcrumbs">
     <q-breadcrumbs gutter="none">
+      <q-breadcrumbs-el class="text-tips" v-if="currentNote.scope === 2">
+        <div class="row items-center q-mr-xs">
+          <q-icon name="o_workspaces" />
+        </div>
+      </q-breadcrumbs-el>
       <template v-for="(item, index) in links" :key="index">
         <q-breadcrumbs-el :to="`/note/${item.id}`"
                           :class="{ 'is-icon': isIcon(item.icon || '') }"
@@ -73,17 +78,6 @@ const links = computed(() => {
     text-overflow: ellipsis;
   }
 
-
-  .q-icon {
-    margin-top: -6px;
-    margin-right: 4px;
-  }
-  .is-icon {
-    .q-icon {
-      margin-top: -2px;
-    }
-  }
-
   a {
     padding: 2px 4px;
 
@@ -91,6 +85,21 @@ const links = computed(() => {
       background: var(--q-accent);
       border-radius: 4px;
     }
+
+    .q-icon {
+      margin-top: -6px;
+      margin-right: 4px;
+    }
+    .is-icon {
+      .q-icon {
+        margin-top: -2px;
+      }
+    }
+  }
+
+  .q-breadcrumbs__separator {
+    margin: 0 2px;
+    opacity: 0.3;
   }
 }
 </style>

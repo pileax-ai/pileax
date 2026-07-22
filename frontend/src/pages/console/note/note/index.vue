@@ -3,7 +3,13 @@
                class="page-note"
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
     <nav class="row items-center justify-between text-readable note-nav">
-      <note-breadcrumbs :id="noteId" />
+      <div class="row items-center">
+        <note-breadcrumbs :id="noteId" />
+
+        <div class="tag" v-if="!editable">
+          只读
+        </div>
+      </div>
       <note-actions :key="currentNote.id"
                     :ydoc="collab.ydoc!"
                     @action="onAction"
@@ -124,6 +130,7 @@ const {
   saveNote,
   saveNoteRemote,
   setCurrentNote,
+  canEdit
 } = useNote()
 const { aiOptions, initNoteAi } = useNoteAi()
 const {
@@ -145,6 +152,7 @@ const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const parent = ref('')
 const source = ref('')
+const scope = ref('1')
 const loading = ref(false)
 const loaded = ref(false)
 const editorReady = ref(false)
@@ -398,6 +406,7 @@ async function createNote() {
   saveNoteRemote({
     id: noteId.value,
     parent: parent.value || '',
+    scope: scope.value || '1',
     title: title,
     content: docNode
   }).then(note => {
@@ -501,6 +510,7 @@ onActivated(() => {
   noteId.value = route.params.id as string
   parent.value = route.query.parent as string
   source.value = route.query.source as string
+  scope.value = route.query.scope as string
 
   getAndLoadNote()
   initNoteAi(noteId.value)

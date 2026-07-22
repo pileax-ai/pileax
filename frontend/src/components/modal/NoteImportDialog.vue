@@ -79,7 +79,7 @@ const onImport = (title: string, content: string) => {
     message: title,
     content: content
   } as Chat)
-  addNote(note.value.id, 'chat')
+  addNote({ parent: note.value.id, source: 'chat' })
 }
 </script>
 

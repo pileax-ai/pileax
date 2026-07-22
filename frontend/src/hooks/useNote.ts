@@ -8,7 +8,9 @@ import type { MenuItem } from 'core/types/menu'
 import { UUID } from 'core/utils/crypto'
 import { router } from 'src/router'
 import useCommon from 'core/hooks/useCommon'
+import useAccount from 'src/hooks/useAccount'
 import useApi from 'src/hooks/useApi'
+import usePermission from 'src/hooks/usePermission'
 import useWorkspaceCollab from 'src/hooks/useWorkspaceCollab'
 import { noteService } from 'src/api/service/remote/note'
 import { workspaceManager } from 'core/workspace/workspace-manager'
@@ -25,7 +27,9 @@ export default function () {
   const tabStore = useTabStore()
   const { t, confirm, showDialog } = useCommon()
   const { publishCollabEvent } = useWorkspaceCollab()
+  const { isOwner } = useAccount()
   const { getFileUrl, openNewWindow } = useApi()
+  const { hasEditPermission, hasAdminPermission } = usePermission()
   const recentNotes = ref<Note[]>([])
 
   // version
@@ -124,11 +128,16 @@ export default function () {
     noteStore.value.setChatToNote(value)
   }
 
-  function addNote(parent = '', source = '') {
+  function addNote({
+     parent = '',
+     source = '',
+     scope = 1 } = {}
+  ) {
     const id = UUID()
     const query = {} as Indexable
     if (parent) query.parent = parent
     if (source) query.source = source
+    if (scope) query.scope = scope
 
     router.push({
       name: 'note',
@@ -373,6 +382,14 @@ export default function () {
     URL.revokeObjectURL(url)
   }
 
+  function canEdit(note: Indexable) {
+    return isOwner(note.userId) || hasEditPermission()
+  }
+
+  function canAdmin(note: Indexable) {
+    return isOwner(note.userId) || hasAdminPermission()
+  }
+
   return {
     noteStore,
     noteService,
@@ -403,5 +420,7 @@ export default function () {
     refreshNote,
     deleteNote,
     exportMarkdown,
+    canEdit,
+    canAdmin
   }
 }

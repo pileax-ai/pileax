@@ -29,6 +29,10 @@ export default function () {
     return workspaceStore.activeWorkspaces
   })
 
+  const isOwner = (userId: string) => {
+    return account.value.id === userId
+  }
+
   const initWorkspace = async () => {
     try {
       if (isLogin.value) {
@@ -96,6 +100,7 @@ export default function () {
     workspaces,
     activeWorkspaces,
 
+    isOwner,
     signup,
     login,
     logout,
