@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from sqlalchemy import func
-from sqlmodel import Field, Session, SQLModel, select, or_, and_
+from sqlmodel import and_, or_, select
 
 from app.api.models.enums import Scope
 from app.api.models.note import Note
@@ -16,13 +16,7 @@ class NoteRepository(BaseRepository[Note]):
 
     def find_all_by_workspace(self, user_id: UUID, workspace_id: UUID) -> list:
         statement = select(Note).where(
-            and_(
-                Note.workspace_id == workspace_id,
-                or_(
-                    Note.user_id == user_id,
-                    Note.scope == Scope.WORKSPACE
-                )
-            )
+            and_(Note.workspace_id == workspace_id, or_(Note.user_id == user_id, Note.scope == Scope.WORKSPACE))
         )
 
         results = self.session.exec(statement).all()

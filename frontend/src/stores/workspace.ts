@@ -28,6 +28,10 @@ export const useWorkspaceStore = defineStore('workspace', {
         // 1. Use active workspace, restore from storage
         // e.g. Refresh a page
         workspaceManager.setCurrentWorkspace(this.workspace.id)
+        const w = this.workspaces.find(item => item.id === this.workspace.id)
+        if (w) {
+          this.workspace = w
+        }
         // console.log('load: restore', this.workspace.id)
       } else {
         // 2. Use parent workspace

@@ -174,6 +174,7 @@ export default {
     total: 'Общий'
   },
   quickstart: 'Быстрый старт',
+  readonly: 'Только для чтения',
   ready: 'Готовый',
   recommend: 'Рекомендовать',
   refresh: 'Обновить',

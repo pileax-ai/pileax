@@ -6,8 +6,8 @@
       <div class="row items-center">
         <note-breadcrumbs :id="noteId" />
 
-        <div class="tag" v-if="!editable">
-          只读
+        <div class="row items-center tag text-orange" v-if="!editable">
+          <q-icon name="o_lock" class="q-mr-xs" /> {{ $t('readonly') }}
         </div>
       </div>
       <note-actions :key="currentNote.id"
@@ -34,8 +34,7 @@
                                    v-if="editable" />
             </div>
           </section>
-          <section class="text-readable note-meta-wrapper"
-                   v-permission="['owner', 'admin', 'editor']">
+          <section class="text-readable note-meta-wrapper" v-if="editable">
             <q-btn icon="sentiment_satisfied_alt"
                    :label="$t('note.addIcon')"
                    flat
@@ -56,7 +55,7 @@
                    placeholder="New page"
                    class=""
                    borderless
-                   :readonly="!hasPermission(['owner', 'admin', 'editor']).value"
+                   :readonly="!editable"
                    @update:modelValue="setTitle"
                    @keyup.enter="onTitleEnter" />
         </section>
@@ -156,6 +155,7 @@ const scope = ref('1')
 const loading = ref(false)
 const loaded = ref(false)
 const editorReady = ref(false)
+const editable = ref(true)
 const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
@@ -235,10 +235,6 @@ const editorKey = computed(() => {
   return collab.value.collabEnabled
     ? `collab-${collab.value.ydocId}`
     : `normal-${noteId.value}`
-})
-
-const editable = computed(() => {
-  return hasPermission(['owner', 'admin', 'editor']).value
 })
 
 const pageView = computed(() => {
@@ -480,6 +476,7 @@ function  loadNote(note: Note, docNode: Indexable, focus: string,
   }
 
   setCurrentNote(note)
+  editable.value = canEdit(note)
   router.replace({ ...route, query: {} })
 }
 
@@ -540,6 +537,14 @@ provide('insertContent', insertContent)
       var(--q-secondary) 30%,
       transparent 50%,
       var(--q-secondary) 90%);
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      margin-left: 6px;
+      border-radius: 8px;
+      border: solid 1px var(--q-accent);
+    }
   }
 
   .o-scroll-wrapper {

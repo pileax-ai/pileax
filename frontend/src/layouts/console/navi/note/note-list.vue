@@ -34,8 +34,7 @@
             <o-tooltip :message="$t('note.search')" :caption="nativeShortcut('mod + P')" />
           </q-btn>
           <q-btn icon="add" class="action" flat
-                 @click.stop="addNote({ scope: 1 })"
-                 v-permission="['owner', 'admin', 'editor']">
+                 @click.stop="addNote({ scope: 1 })">
             <o-tooltip :message="$t('note.add')" />
           </q-btn>
         </div>

@@ -507,6 +507,17 @@ model-viewer {
   --poster-color: transparent;
 }
 
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  caret-color: var(--q-info) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--q-secondary) inset !important;
+  -webkit-text-fill-color: var(--q-info) !important;
+  transition: background-color 50000s ease-in-out 0s;
+}
+
 // --------------------------------------------------------------------------------
 // yiitap
 // --------------------------------------------------------------------------------

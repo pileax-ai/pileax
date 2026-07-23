@@ -174,6 +174,7 @@ export default {
     total: '총'
   },
   quickstart: '빠른 시작',
+  readonly: '읽기 전용',
   ready: '준비가 된',
   recommend: '추천하다',
   refresh: '새로 고치다',

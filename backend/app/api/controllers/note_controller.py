@@ -29,10 +29,12 @@ class NoteController(BaseController[Note, NoteCreate, NoteUpdate]):
                 parent=note.parent,
                 title=f"{note.title}(1)",
                 content=note.content,
+                content_markdown=note.content_markdown,
                 icon=note.icon,
                 cover=note.cover,
                 styles=note.styles,
                 doc=note.doc,
+                scope=note.scope,
             )
         )
 

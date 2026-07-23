@@ -116,12 +116,14 @@ const selected = ref('')
 
 const noteTree = computed(() => {
   switch (props.scope) {
-    case 'personal':
+    case 'personal': {
       const personalNotes = notes.value.filter(item => item.scope === 1)
       return buildNoteTree(personalNotes, null, true)
-    case 'team':
+    }
+    case 'team': {
       const teamNotes = notes.value.filter(item => item.scope === 2)
       return buildNoteTree(teamNotes, null, true)
+    }
     case 'favorite':
       return buildFavoriteTree(notes.value,  true)
     default:

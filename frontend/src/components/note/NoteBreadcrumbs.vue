@@ -5,6 +5,9 @@
         <div class="row items-center q-mr-xs">
           <q-icon name="o_workspaces" />
         </div>
+        <o-tooltip position="bottom" :delay="800">
+          {{ workspace.name }}
+        </o-tooltip>
       </q-breadcrumbs-el>
       <template v-for="(item, index) in links" :key="index">
         <q-breadcrumbs-el :to="`/note/${item.id}`"
@@ -36,10 +39,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import useNote from 'src/hooks/useNote'
 import type { Note } from 'src/types/note'
 import { isIcon } from 'core/utils/misc'
 import { NoteDefaultIcon } from 'core/constants/constant'
+import useNote from 'src/hooks/useNote'
+import useWorkspace from 'src/hooks/useWorkspace'
 
 const props = defineProps({
   id: {
@@ -49,6 +53,7 @@ const props = defineProps({
 })
 
 const { notes, currentNote } = useNote()
+const { workspace } = useWorkspace()
 
 const links = computed(() => {
   const list: Note[] = []

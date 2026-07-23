@@ -174,6 +174,7 @@ export default {
     total: '合計'
   },
   quickstart: 'クイックスタート',
+  readonly: '読み取り専用',
   ready: '準備ができて',
   recommend: '推薦する',
   refresh: 'リフレッシュ',

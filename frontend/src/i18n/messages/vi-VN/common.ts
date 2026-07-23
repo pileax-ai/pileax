@@ -174,6 +174,7 @@ export default {
     total: 'Tổng cộng'
   },
   quickstart: 'Hướng dẫn nhanh',
+  readonly: 'Chỉ đọc',
   ready: 'Sẵn sàng',
   recommend: 'Gợi ý',
   refresh: 'Làm cho khỏe lại',

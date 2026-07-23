@@ -59,11 +59,13 @@ import {
   workspaceBookService, workspaceMemberService,
 } from 'src/api/service/remote'
 import useDialog from 'core/hooks/useDialog'
+import useAccount from 'src/hooks/useAccount'
 import useWorkspace from 'src/hooks/useWorkspace'
 import useGuide from 'src/hooks/useGuide'
 
 const visibility = useDocumentVisibility()
 const { openDialog } = useDialog()
+const { initWorkspace } = useAccount()
 const { tour } = useGuide()
 const { workspaceId } = useWorkspace()
 const conversations = ref<Indexable[]>()
@@ -79,6 +81,7 @@ const recentQuery = {
 function init() {
   // First console page, make sure workspace initialized.
   if (workspaceId.value) {
+    initWorkspace()
     getRecentConversations()
     getRecentNotes()
     getRecentBooks()

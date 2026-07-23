@@ -174,6 +174,7 @@ const actions = computed(() => {
       icon: "mdi-arrow-collapse-up",
       clickable: true,
       separator: true,
+      hidden: !canEdit(currentNote.value)
     },
     {
       label: t('export'),
@@ -260,7 +261,8 @@ function loadStyle() {
     font: 'default',
     smallText: false,
     fullWidth: false,
-    toc: true
+    toc: true,
+    autoNumbering: false,
   }
 }
 

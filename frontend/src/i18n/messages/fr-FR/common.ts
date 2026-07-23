@@ -174,6 +174,7 @@ export default {
     total: 'Total'
   },
   quickstart: 'Démarrage rapide',
+  readonly: 'Lecture seule',
   ready: 'Prêt',
   recommend: 'Recommander',
   refresh: 'Rafraîchir',

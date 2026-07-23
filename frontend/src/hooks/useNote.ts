@@ -193,6 +193,7 @@ export default function () {
       noteService.duplicate(data.id).then(res => {
         refreshNote(res)
         resolve(res)
+        openNote(res)
       }).catch(err => {
         reject(err)
       })
