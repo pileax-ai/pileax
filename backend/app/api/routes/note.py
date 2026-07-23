@@ -33,7 +33,7 @@ async def delete(id: uuid.UUID, controller: NoteController = Depends()) -> Any:
 
 @router.api_post("/query", response_model=QueryResult[NotePublic])
 async def query(query: PaginationQuery, controller: NoteController = Depends()) -> Any:
-    return controller.query(query)
+    return controller.query_my(query)
 
 
 @router.api_get("/all", response_model=list[NotePublic])

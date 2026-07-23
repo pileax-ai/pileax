@@ -174,6 +174,7 @@ export default {
     total: '共計'
   },
   quickstart: '快速開始',
+  readonly: '只讀',
   ready: '就緒',
   recommend: '推薦',
   refresh: '重新整理',

@@ -174,6 +174,7 @@ export default {
     total: 'Total'
   },
   quickstart: 'Pornire rapidă',
+  readonly: 'Numai citire',
   ready: 'Gata',
   recommend: 'Recomanda',
   refresh: 'Reîmprospăta',

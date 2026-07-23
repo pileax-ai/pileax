@@ -174,6 +174,7 @@ export default {
     total: 'Total'
   },
   quickstart: 'Panduan Singkat',
+  readonly: 'Hanya baca',
   ready: 'Siap',
   recommend: 'Menyarankan',
   refresh: 'Menyegarkan',

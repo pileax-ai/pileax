@@ -82,7 +82,6 @@ import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import * as Y from 'yjs'
-import usePermission from 'src/hooks/usePermission'
 import { ipcProvider } from 'src/api/ipc'
 
 const props = defineProps({
@@ -104,8 +103,9 @@ const {
   duplicateNote,
   newTab,
   newWindow,
+  canEdit,
+  canAdmin
 } = useNote()
-const { hasPermission } = usePermission()
 
 const styles = ref<Indexable>({
   font: 'default',
@@ -149,8 +149,8 @@ const actions = computed(() => {
       icon: "copy_all",
       // sideLabel: "⌘D",
       clickable: true,
-      separator: hasPermission(['owner', 'admin', 'editor']).value,
-      hidden: !hasPermission(['owner', 'admin', 'editor']).value
+      separator: canEdit(currentNote.value),
+      hidden: !canEdit(currentNote.value)
     },
     // {
     //   label: t('note.moveTo'),
@@ -164,8 +164,9 @@ const actions = computed(() => {
       label: t('delete'),
       value: "delete",
       icon: "delete_outline",
+      class: 'text-red',
       clickable: true,
-      hidden: !hasPermission(['owner', 'admin', 'editor']).value
+      hidden: !canAdmin(currentNote.value)
     },
     {
       label: t('import'),
@@ -173,6 +174,7 @@ const actions = computed(() => {
       icon: "mdi-arrow-collapse-up",
       clickable: true,
       separator: true,
+      hidden: !canEdit(currentNote.value)
     },
     {
       label: t('export'),
@@ -185,8 +187,8 @@ const actions = computed(() => {
       value: "version",
       icon: "o_web_stories",
       clickable: true,
-      separator: hasPermission(['owner', 'admin', 'editor']).value,
-      hidden: !hasPermission(['owner', 'admin', 'editor']).value
+      separator: canEdit(currentNote.value),
+      hidden: !canEdit(currentNote.value)
     },
     {
       label: t('note.newTab'),
@@ -259,7 +261,8 @@ function loadStyle() {
     font: 'default',
     smallText: false,
     fullWidth: false,
-    toc: true
+    toc: true,
+    autoNumbering: false,
   }
 }
 

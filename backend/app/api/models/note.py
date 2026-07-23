@@ -2,9 +2,10 @@ import uuid
 
 from pydantic import field_validator
 from sqlalchemy import Column, LargeBinary
-from sqlmodel import Field
+from sqlmodel import Field, Integer, text
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
+from app.api.models.enums import Scope
 
 
 class Note(BaseSQLModel, BaseMixin, table=True):
@@ -22,6 +23,9 @@ class Note(BaseSQLModel, BaseMixin, table=True):
     ref_id: str | None = Field(default=None)
     ref_type: str | None = Field(default="general", description="Ref type: general, chat, book, etc.")
     last_edit_by: uuid.UUID | None = uuid_field(default_none=True)
+    scope: int | None = Field(
+        default=Scope.OWNER, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Scope.OWNER))}
+    )
 
 
 class NoteBase(BaseApiModel):
@@ -35,6 +39,7 @@ class NoteBase(BaseApiModel):
     favorite: int | None = None
     styles: dict | None = None
     last_edit_by: uuid.UUID | None = None
+    scope: int | None = Scope.OWNER
 
     @field_validator("parent", mode="before")
     def parse_empty_string_as_none(cls, v):
@@ -55,6 +60,7 @@ class NoteUpdate(NoteBase):
 
 
 class NotePublic(NoteBase, BaseMixin):
+    user_id: uuid.UUID
     workspace_id: uuid.UUID
     ref_id: str | None = None
     ref_type: str | None = None

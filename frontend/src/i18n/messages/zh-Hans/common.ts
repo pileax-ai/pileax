@@ -174,6 +174,7 @@ export default {
     total: '共计'
   },
   quickstart: '快速开始',
+  readonly: '只读',
   ready: '就绪',
   recommend: '推荐',
   refresh: '刷新',

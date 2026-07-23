@@ -3,7 +3,13 @@
                class="page-note"
                :style="`--note-font: ${font}; --note-font-size: ${ styles.smallText ? '85%' : '100%' }`">
     <nav class="row items-center justify-between text-readable note-nav">
-      <note-breadcrumbs :id="noteId" />
+      <div class="row items-center">
+        <note-breadcrumbs :id="noteId" />
+
+        <div class="row items-center tag text-orange" v-if="!editable">
+          <q-icon name="o_lock" class="q-mr-xs" /> {{ $t('readonly') }}
+        </div>
+      </div>
       <note-actions :key="currentNote.id"
                     :ydoc="collab.ydoc!"
                     @action="onAction"
@@ -28,8 +34,7 @@
                                    v-if="editable" />
             </div>
           </section>
-          <section class="text-readable note-meta-wrapper"
-                   v-permission="['owner', 'admin', 'editor']">
+          <section class="text-readable note-meta-wrapper" v-if="editable">
             <q-btn icon="sentiment_satisfied_alt"
                    :label="$t('note.addIcon')"
                    flat
@@ -50,7 +55,7 @@
                    placeholder="New page"
                    class=""
                    borderless
-                   :readonly="!hasPermission(['owner', 'admin', 'editor']).value"
+                   :readonly="!editable"
                    @update:modelValue="setTitle"
                    @keyup.enter="onTitleEnter" />
         </section>
@@ -124,6 +129,7 @@ const {
   saveNote,
   saveNoteRemote,
   setCurrentNote,
+  canEdit
 } = useNote()
 const { aiOptions, initNoteAi } = useNoteAi()
 const {
@@ -145,9 +151,11 @@ const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
 const tocRef = ref<InstanceType<typeof ODocToc>>()
 const parent = ref('')
 const source = ref('')
+const scope = ref('1')
 const loading = ref(false)
 const loaded = ref(false)
 const editorReady = ref(false)
+const editable = ref(true)
 const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
@@ -227,10 +235,6 @@ const editorKey = computed(() => {
   return collab.value.collabEnabled
     ? `collab-${collab.value.ydocId}`
     : `normal-${noteId.value}`
-})
-
-const editable = computed(() => {
-  return hasPermission(['owner', 'admin', 'editor']).value
 })
 
 const pageView = computed(() => {
@@ -398,6 +402,7 @@ async function createNote() {
   saveNoteRemote({
     id: noteId.value,
     parent: parent.value || '',
+    scope: scope.value || '1',
     title: title,
     content: docNode
   }).then(note => {
@@ -471,6 +476,7 @@ function  loadNote(note: Note, docNode: Indexable, focus: string,
   }
 
   setCurrentNote(note)
+  editable.value = canEdit(note)
   router.replace({ ...route, query: {} })
 }
 
@@ -501,6 +507,7 @@ onActivated(() => {
   noteId.value = route.params.id as string
   parent.value = route.query.parent as string
   source.value = route.query.source as string
+  scope.value = route.query.scope as string
 
   getAndLoadNote()
   initNoteAi(noteId.value)
@@ -530,6 +537,14 @@ provide('insertContent', insertContent)
       var(--q-secondary) 30%,
       transparent 50%,
       var(--q-secondary) 90%);
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      margin-left: 6px;
+      border-radius: 8px;
+      border: solid 1px var(--q-accent);
+    }
   }
 
   .o-scroll-wrapper {

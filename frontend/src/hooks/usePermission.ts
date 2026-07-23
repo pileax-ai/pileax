@@ -42,6 +42,18 @@ export default function () {
     return computed((): boolean => checkPermission(searchList))
   }
 
+  const hasReadPermission = () => {
+    return hasPermission(['owner', 'admin', 'editor', 'normal']).value
+  }
+
+  const hasEditPermission = () => {
+    return hasPermission(['owner', 'admin', 'editor']).value
+  }
+
+  const hasAdminPermission = () => {
+    return hasPermission(['owner', 'admin']).value
+  }
+
   return {
     pageStatus,
     pageData,
@@ -51,6 +63,9 @@ export default function () {
     setPageStatus,
     resetPageStatus,
     hasPermission,
+    hasReadPermission,
+    hasEditPermission,
+    hasAdminPermission
   }
 }
 

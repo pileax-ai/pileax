@@ -269,7 +269,6 @@ const onAcceptInvite = () => {
 }
 
 const onAssignRole = (item: Indexable, role: Indexable) => {
-  console.log('assign role', item, role)
   $q.dialog({
     class: 'pi-dialog-theme',
     title: t('confirm'),
