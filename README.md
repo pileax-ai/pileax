@@ -14,6 +14,8 @@
     <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" /></a>
   <a href="https://github.com/pileax-ai/pileax/blob/main/LICENSE" alt="License">
     <img src="https://img.shields.io/badge/license-MIT-green?style=square" /></a>
+  <a href="https://linux.do" alt="LINUX DO">
+    <img src="https://shorturl.at/ggSqS" /></a>
 </p>
 
 <p align="center">
