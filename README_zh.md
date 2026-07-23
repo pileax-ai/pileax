@@ -9,8 +9,6 @@
   <a href="https://github.com/pileax-ai/pileax/releases/latest">
     <img src="https://img.shields.io/github/v/release/pileax-ai/pileax" alt="Latest Release"></a>
   <a href="https://github.com/pileax-ai/pileax/releases">
-    <img src="https://img.shields.io/github/v/release/pileax-ai/pileax?include_prereleases&label=pre-release" alt="Pre-release"></a>
-  <a href="https://github.com/pileax-ai/pileax/releases">
     <img src="https://img.shields.io/github/downloads/pileax-ai/pileax/total" alt="Downloads"></a>
   <a href="https://github.com/badges/shields/pulse" alt="Activity">
     <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" /></a>
@@ -33,6 +31,18 @@ PileaX 是一款本地优先的一站式 AI 知识库，集 AI 对话、智能�
 ![Screenshot](https://pileax.ai/screenshots/main.gif)
 
 ### 阅读器
+
+#### 书架
+![Screenshot](https://pileax.ai/images/zh/reading/bookshelf.webp)
+
+#### 阅读视频
+![Screenshot](https://pileax.ai/images/zh/reading/reader-vertical.webp)
+![Screenshot](https://pileax.ai/images/zh/reading/reader-horizontal.webp)
+
+#### 目录、书签、高亮、注释和AI
+![Screenshot](https://pileax.ai/images/zh/reading/reader.webp)
+
+#### 更多
 ![Screenshot](https://pileax.ai/screenshots/reader.gif)
 
 ## 特性

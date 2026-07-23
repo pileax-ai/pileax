@@ -9,8 +9,6 @@
   <a href="https://github.com/pileax-ai/pileax/releases/latest">
     <img src="https://img.shields.io/github/v/release/pileax-ai/pileax" alt="Latest Release"></a>
   <a href="https://github.com/pileax-ai/pileax/releases">
-    <img src="https://img.shields.io/github/v/release/pileax-ai/pileax?include_prereleases&label=pre-release" alt="Pre-release"></a>
-  <a href="https://github.com/pileax-ai/pileax/releases">
     <img src="https://img.shields.io/github/downloads/pileax-ai/pileax/total" alt="Downloads"></a>
   <a href="https://github.com/badges/shields/pulse" alt="Activity">
     <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" /></a>
@@ -33,6 +31,17 @@ PileaX is a local-first, all-in-one AI knowledge base that integrates AI chat, s
 ![Screenshot](https://pileax.ai/screenshots/main.gif)
 
 ### Reader
+#### Bookshelf
+![Screenshot](https://pileax.ai/images/en/reading/bookshelf.webp)
+
+#### Reading view
+![Screenshot](https://pileax.ai/images/en/reading/reader-vertical.webp)
+![Screenshot](https://pileax.ai/images/en/reading/reader-horizontal.webp)
+
+#### TOC, Bookmark, Highlight, Annotation and AI
+![Screenshot](https://pileax.ai/images/en/reading/reader.webp)
+
+#### More
 ![Screenshot](https://pileax.ai/screenshots/reader.gif)
 
 ## Features
