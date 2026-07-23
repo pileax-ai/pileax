@@ -35,7 +35,7 @@ PileaX 是一款本地优先的一站式 AI 知识库，集 AI 对话、智能�
 #### 书架
 ![Screenshot](https://pileax.ai/images/zh/reading/bookshelf.webp)
 
-#### 阅读视频
+#### 阅读视图
 ![Screenshot](https://pileax.ai/images/zh/reading/reader-vertical.webp)
 ![Screenshot](https://pileax.ai/images/zh/reading/reader-horizontal.webp)
 
