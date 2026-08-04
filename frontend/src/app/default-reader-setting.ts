@@ -119,6 +119,8 @@ blockquote *,
 .tuti *,
 .tuzhu,
 .tuzhu *,
+[class*="tuzhu" i],
+[class*="tuzhu" i] *,
 [class*="tushuo" i],
 [class*="tushuo" i] * {
     font-family: "STKaiti", STKai, "MKai PRC", Kai, "楷体", serif !important;
@@ -132,8 +134,6 @@ blockquote *,
     line-height: 1.5 !important;
 }
 
-.msonormal,
-.yinwen,
 [class*="poem"],
 [class*="poem"] *,
 [class*="poetry"],
