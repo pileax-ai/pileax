@@ -155,7 +155,7 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, onMounted, onUnmounted, ref, watch } from 'vue'
+import { onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
 import BookContextMenu from './BookContextMenu.vue'
 import BookGridItem from './BookGridItem.vue'
 import BookGridTitleItem from './BookGridTitleItem.vue'
@@ -228,12 +228,6 @@ function onDetails(item: any) {
 function onEdit(item: Indexable) {
   data.value = item
   query.value.openSide('720px', 'edit', 'edit_note', t('book.metadata.edit'))
-
-  // showDialog({
-  //   type: 'book-meta',
-  //   id: item.bookId,
-  //   onOk: onClose
-  // })
 }
 
 function onUpload(item: Indexable) {
@@ -312,13 +306,10 @@ function onLibraryRefresh(item: Indexable, immediate = false) {
 
 onActivated(() => {
   initData()
-})
-
-onMounted(() => {
   globalBus.on('library-need-refresh', onLibraryRefresh)
 })
 
-onUnmounted(() => {
+onDeactivated(() => {
   globalBus.off('library-need-refresh', onLibraryRefresh)
 })
 </script>
