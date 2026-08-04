@@ -65,9 +65,27 @@ class BookAnnotationRepository(BaseRepository[BookAnnotation]):
 
     def query_details(self, query: PaginationQuery) -> QueryResult:
         # 1. Filters
-        filters = DbHelper.get_filters(
-            BookAnnotation, query.condition, ["note", "book_id", "type", "workspace_id", "user_id"]
-        )
+        condition = query.condition
+        title = condition.pop("note__icontains", None)
+
+        # 1.1 filters
+        filter_mapping = {
+            BookAnnotation: ["note", "title", "chapter", "book_id", "type", "workspace_id", "user_id"],
+        }
+        filters = DbHelper.build_filters(filter_mapping, condition)
+
+        # 1.2 or filter
+        if title:
+            title_value = str(title)
+            or_condition = {
+                "chapter__icontains": title_value,
+                "note__icontains": title_value,
+                "title__icontains": title_value,
+            }
+
+            or_filter = DbHelper.build_or_filters(filter_mapping, or_condition)
+            if or_filter is not None:
+                filters.append(or_filter)
 
         # 2. stmt
         stmt = select(BookAnnotation, Book).join(Book, Book.id == BookAnnotation.book_id)
