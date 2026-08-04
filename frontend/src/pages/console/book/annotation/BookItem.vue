@@ -7,7 +7,7 @@
       <q-item-label class="title" lines="1">
         {{ data.title }}
       </q-item-label>
-      <q-item-label caption>
+      <q-item-label lines="1" caption>
         {{ data.author }}
       </q-item-label>
       <q-item-label caption>

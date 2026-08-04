@@ -16,7 +16,8 @@
                          disable-meta
                          enable-fullscreen
                          fixed-header
-                         @full-screen="onFullScreen">
+                         @full-screen="onFullScreen"
+                         @sideClose="onSideClose">
         <template #header-left>
           <q-btn icon="tune"
                  class="filter"
@@ -64,7 +65,7 @@
                                     @details="onDetails(item)">
                       <book-collection-context-menu :data="item"
                                                     @close="onClose"
-                                                    @edit="onEdit"
+                                                    @edit="onEditBook"
                                                     context-menu />
                     </book-list-item>
                   </template>
@@ -81,7 +82,7 @@
                                @details="onDetails(item)">
                       <book-collection-context-menu :data="item"
                                                     @close="onClose"
-                                                    @edit="onEdit"
+                                                    @edit="onEditBook"
                                                     context-menu />
                     </component>
                   </div>
@@ -107,6 +108,9 @@
           <book-collection-edit :id="editCollectionId"
                      @close="onClose"
                      v-if="view==='edit'" />
+          <book-meta-edit :data="data"
+                          @close="onClose"
+                          v-if="view==='edit-book'" />
         </template>
       </o-console-section>
     </template>
@@ -114,13 +118,14 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, ref, watch } from 'vue'
+import { onActivated, onDeactivated, ref } from 'vue'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import BookGridItem from '../book/BookGridItem.vue'
 import BookGridTitleItem from '../book/BookGridTitleItem.vue'
 import BookCompactItem from '../book/BookCompactItem.vue'
 import BookListItem from '../book/BookListItem.vue'
 import BookDetails from '../book/BookDetails.vue'
+import BookMetaEdit from 'components/book/book-meta/edit.vue'
 import BookCollectionContextMenu from './BookCollectionContextMenu.vue'
 import BookCollectionEdit from './BookCollectionEdit.vue'
 import BookCollectionFilter from './BookCollectionFilter.vue'
@@ -130,6 +135,7 @@ import OSplitPage from 'core/page/template/OSplitPage.vue'
 import useLoadMore from 'src/hooks/useLoadMore'
 import useCommon from 'core/hooks/useCommon'
 import useReading from 'src/hooks/useReading'
+import { globalBus } from 'src/api/event/event-bus'
 
 const { t } = useCommon()
 const { collection, setCollectionItem, openBook } = useReading()
@@ -142,6 +148,7 @@ const editCollectionId = ref('')
 const addMenu = ref(false)
 const data = ref<Indexable>({})
 const showFilter = ref(true)
+const needRefresh = ref(false)
 
 const bookComponents = {
   grid: BookGridItem,
@@ -185,7 +192,7 @@ function onEdit(id = '', icon = 'add', title = t('book.collections.add')) {
 
 function onEditBook(item: Indexable) {
   data.value = item
-  query.value.openSide('480px', 'edit-book', 'edit_note', t('edit'))
+  query.value.openSide('720px', 'edit-book', 'edit_note', t('book.metadata.edit'))
 }
 
 function onClose(options: Indexable) {
@@ -212,9 +219,11 @@ function onClose(options: Indexable) {
   query.value.closeSide(false, false)
 }
 
-async function onUploadCompleted() {
-  addMenu.value = false
-  doQuery()
+function onSideClose() {
+  if (['edit-book'].includes(view.value) && needRefresh.value) {
+    query.value.onQuery()
+    needRefresh.value = false
+  }
 }
 
 function doQuery() {
@@ -240,6 +249,14 @@ function onToggleFiler() {
   showFilter.value = !showFilter.value
 }
 
+function onLibraryRefresh(item: Indexable, immediate = false) {
+  if (immediate) {
+    query.value.onQuery()
+  } else {
+    needRefresh.value = true
+  }
+}
+
 onActivated(() => {
   filterRef.value?.refresh().then(res => {
     const collectionList = res as Indexable[]
@@ -249,6 +266,11 @@ onActivated(() => {
     }
     initData()
   })
+  globalBus.on('library-need-refresh', onLibraryRefresh)
+})
+
+onDeactivated(() => {
+  globalBus.off('library-need-refresh', onLibraryRefresh)
 })
 </script>
 

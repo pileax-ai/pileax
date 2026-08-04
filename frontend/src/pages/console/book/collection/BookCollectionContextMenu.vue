@@ -27,7 +27,7 @@ const props = defineProps({
 const emit = defineEmits(['edit', 'close'])
 
 const { t } = useCommon()
-const { removeBookFromCollection, updateBook } = useBookDetails()
+const { downloadBook, removeBookFromCollection, updateBook } = useBookDetails()
 const { openDialog } = useDialog()
 
 const actions = computed(() => {
@@ -43,6 +43,19 @@ const actions = computed(() => {
       value: 'status_finished',
       icon: 'check_circle',
       hidden: props.data.readingStatus === 3,
+    },
+    {
+      label: t('download'),
+      value: 'download',
+      icon: 'mdi-arrow-collapse-down',
+      hidden: !props.data.fileUrl,
+      separator: true
+    },
+    {
+      label: t('book.metadata.edit'),
+      value: 'edit',
+      icon: 'edit_note',
+      separator: true
     },
     {
       label: t('book.addToCollection'),
@@ -67,6 +80,12 @@ function onAction (action :any) {
       break
     case 'remove_collection':
       onRemoveCollection()
+      break
+    case 'download':
+      downloadBook(props.data)
+      break
+    case 'edit':
+      emit('edit', props.data)
       break
     case 'status_want':
       updateReadingStatus(1)

@@ -153,7 +153,7 @@ function onSubmit () {
     return
   }
 
-  const sha1 = SHA1(form.value.title)
+  const sha1 = SHA1(form.value.isbn)
   const body = {
     uuid: sha1,
     title: form.value.title,

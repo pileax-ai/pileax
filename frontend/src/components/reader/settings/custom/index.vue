@@ -42,12 +42,12 @@ defineProps({
 })
 
 const { t } = useCommon()
-const currentTab = ref('globalCss')
+const currentTab = ref('options')
 const tabs = computed(() => {
   return [
+    { label: t('options'), value: 'options', component: Options },
     { label: t('reading.setting.style.globalCss'), value: 'globalCss', component: GlobalCss },
     { label: t('reading.setting.style.bookCss'), value: 'bookCss', component: BookCss },
-    { label: t('options'), value: 'options', component: Options },
   ]
 })
 

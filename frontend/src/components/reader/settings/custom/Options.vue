@@ -2,6 +2,14 @@
   <section class="book-options layout">
     <section>
       <q-list>
+        <q-expansion-item icon="search" :label="$t('reading.setting.options.toolbar')"
+                          header-class="header bg-accent"
+                          default-opened>
+          <div>
+            <q-checkbox v-model="instantSearch"
+                        :label="$t('reading.setting.options.instantSearch')" />
+          </div>
+        </q-expansion-item>
         <q-expansion-item icon="visibility" :label="$t('reading.setting.options.visibility')"
                           header-class="header bg-accent"
                           default-opened>
@@ -20,14 +28,6 @@
           <div>
             <q-checkbox v-model="hideParentheticalCitation"
                         :label="$t('reading.setting.options.hideParentheticalCitation')" />
-          </div>
-        </q-expansion-item>
-        <q-expansion-item icon="search" :label="$t('reading.setting.options.toolbar')"
-                          header-class="header bg-accent"
-                          default-opened>
-          <div>
-            <q-checkbox v-model="instantSearch"
-                        :label="$t('reading.setting.options.instantSearch')" />
           </div>
         </q-expansion-item>
       </q-list>
