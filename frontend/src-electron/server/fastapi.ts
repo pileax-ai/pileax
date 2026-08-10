@@ -100,7 +100,7 @@ class FastAPIServer {
     return new Promise((resolve, reject) => {
       const req = http.get(
         {
-          host: 'localhost',
+          host: this.getHost(),
           port: this.port,
           path: '/api/v1/system/health-check'
         },
@@ -143,11 +143,26 @@ class FastAPIServer {
   }
 
   get serverInfo(): Indexable {
+    const host = this.getHost()
     return {
       port: this.port,
-      apiBase: `http://localhost:${this.port}/api/v1`,
-      apiDocs: `http://localhost:${this.port}/docs`,
+      apiBase: `http://${host}:${this.port}/api/v1`,
+      apiDocs: `http://${host}:${this.port}/docs`,
     }
+  }
+
+  private getHost(): string {
+    const interfaces = os.networkInterfaces()
+    for (const devName in interfaces) {
+      const iface = interfaces[devName]
+      if (!iface) continue
+      for (const alias of iface) {
+        if (alias.family === 'IPv4' && !alias.internal) {
+          return alias.address
+        }
+      }
+    }
+    return 'localhost'
   }
 
   private resetPath() {
@@ -201,6 +216,7 @@ class FastAPIServer {
       env: {
         ...process.env,
         ENV_FILE: this.envPath,
+        HOST: '0.0.0.0',
         PORT: `${this.port}`,
         NODE_ENV: 'development',
         DB_PROVIDER: 'sqlite',
