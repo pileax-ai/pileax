@@ -77,6 +77,7 @@ export default {
       system: 'Sistem'
     },
     options: {
+      hideFootnote: 'Sembunyikan catatan kaki sebaris',
       hideParentheticalCitation: 'Sembunyikan kutipan dalam tanda kurung',
       hideRubyTitle: 'Sembunyikan judul ruby',
       hideSubscript: 'Sembunyikan subskrip',

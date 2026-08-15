@@ -29,6 +29,10 @@
             <q-checkbox v-model="hideParentheticalCitation"
                         :label="$t('reading.setting.options.hideParentheticalCitation')" />
           </div>
+          <div>
+            <q-checkbox v-model="hideFootnote"
+                        :label="$t('reading.setting.options.hideFootnote')" />
+          </div>
         </q-expansion-item>
       </q-list>
     </section>
@@ -84,6 +88,15 @@ const hideParentheticalCitation = computed({
   },
   set(value: boolean) {
     setValue('parentheticalCitation', value)
+  }
+})
+
+const hideFootnote = computed({
+  get() {
+    return getValue('footnote')
+  },
+  set(value: boolean) {
+    setValue('footnote', value)
   }
 })
 

@@ -77,6 +77,7 @@ export default {
       system: 'Sistem'
     },
     options: {
+      hideFootnote: 'Ascunde nota de subsol în linie',
       hideParentheticalCitation: 'Ascundeți citarea între paranteze',
       hideRubyTitle: 'Ascunde titlul Ruby',
       hideSubscript: 'Ascunde indicele',

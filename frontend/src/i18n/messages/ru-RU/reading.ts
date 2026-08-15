@@ -77,6 +77,7 @@ export default {
       system: 'Система'
     },
     options: {
+      hideFootnote: 'Скрыть встроенную сноску',
       hideParentheticalCitation: 'Скрыть цитату в скобках',
       hideRubyTitle: 'Скрыть рубиновый заголовок',
       hideSubscript: 'Скрыть нижний индекс',

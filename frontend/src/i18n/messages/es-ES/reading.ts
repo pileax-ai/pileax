@@ -77,6 +77,7 @@ export default {
       system: 'Sistema'
     },
     options: {
+      hideFootnote: 'Ocultar nota al pie en línea',
       hideParentheticalCitation: 'Ocultar la cita entre paréntesis',
       hideRubyTitle: 'Ocultar título rubí',
       hideSubscript: 'Ocultar subíndice',

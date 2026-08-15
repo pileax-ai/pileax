@@ -77,6 +77,7 @@ export default {
       system: 'System'
     },
     options: {
+      hideFootnote: 'Hide inline footnote',
       hideParentheticalCitation: 'Hide parenthetical citation',
       hideRubyTitle: 'Hide ruby title',
       hideSubscript: 'Hide subscript',

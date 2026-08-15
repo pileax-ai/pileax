@@ -77,6 +77,7 @@ export default {
       system: 'Hệ thống'
     },
     options: {
+      hideFootnote: 'Ẩn chú thích nội tuyến',
       hideParentheticalCitation: 'Ẩn trích dẫn trong ngoặc đơn',
       hideRubyTitle: 'Ẩn tiêu đề ruby',
       hideSubscript: 'Ẩn chỉ mục',

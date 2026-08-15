@@ -77,6 +77,7 @@ export default {
       system: 'システム'
     },
     options: {
+      hideFootnote: 'インライン脚注を非表示にする',
       hideParentheticalCitation: '括弧内の引用を非表示にする',
       hideRubyTitle: 'ルビーのタイトルを非表示にする',
       hideSubscript: '下付き文字を非表示にする',

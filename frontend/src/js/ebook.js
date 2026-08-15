@@ -83,10 +83,16 @@ const setStyle = (userStyle) => {
   const globalCSS = style.globalCSSEnabled
     ? style.globalCSS || defaultGlobalCSS
     : ''
-  const bookCSS = style.bookCSS
+  const bookCSS = style.bookCSS || ''
   const optionalCSS = buildOptionalCSS(style.bookHideItems)
 
-  const combinedCSS = getCSS(newStyle) + defaultGlobalStyles + globalCSS + bookCSS + optionalCSS;
+  const combinedCSS = [
+    getCSS(newStyle),
+    defaultGlobalStyles,
+    globalCSS,
+    bookCSS,
+    optionalCSS
+  ].join('\n')
   reader.view.renderer.setStyles?.(combinedCSS);
 
   // Renderer shadowRoot styles
@@ -626,7 +632,7 @@ const replaceFootnote = (view) => {
     hyphenate: true,
   };
 
-  const combinedCSS = getCSS(footNoteStyle) + defaultFootnoteGlobalStyles
+  const combinedCSS = getCSS(footNoteStyle) + '\n' + defaultFootnoteGlobalStyles
   renderer.setStyles(combinedCSS);
 }
 
