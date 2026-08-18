@@ -154,12 +154,12 @@ const shouldShowAnnotationMore = computed(() => {
 const actions = computed(() => {
   return [
     { label: t('reading.popup.clearHighlight'), value: 'removeAnnotation', icon: 'font_download_off', show: clickedAnnotation.value },
-    { label: t('note._'), value: 'note', icon: 'article', show: clickedAnnotation.value },
     { label: t('reading.popup.highlight'), value: 'annotation', icon: 'font_download', show: !clickedAnnotation.value },
     { label: t('reading.popup.copy'), value: 'copy', icon: 'content_copy', show: true },
     { label: t('reading.popup.share'), value: 'share', icon: 'share', show: true },
     { label: t('reading.popup.search'), value: 'search', icon: 'search', show: true },
     { label: t('reading.aiReading'), value: 'aiReading', icon: 'o_headphones', show: true },
+    { label: t('note._'), value: 'note', icon: 'article', show: clickedAnnotation.value },
     { label: t('reading.popup.more'), value: 'more', icon: 'more_horiz', show: false },
   ]
 })
