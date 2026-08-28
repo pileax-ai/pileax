@@ -82,7 +82,27 @@ export default function () {
     store.setWindowId(value)
   }
 
-  function setBook(value: any) {
+  function setBookOptions(options: Indexable) {
+    const itemSet = new Set([] as string[])
+    for (let [key, value] of Object.entries(options)) {
+      switch (key) {
+        case 'instantSearch':
+          break
+        default:
+          if (value) {
+            itemSet.add(key)
+          }
+          break
+      }
+    }
+    setBookHideItems(Array.from(itemSet))
+  }
+
+  function setBook(value: Indexable) {
+    // Options
+    setBookOptions(value.userExtra?.options || {})
+
+    // Book details
     store.setBook(value)
   }
 
@@ -192,6 +212,7 @@ export default function () {
     setBookItem,
     setBookCss,
     setBookHideItems,
+    setBookOptions,
     setWorkspaceBookId,
     setTocItem,
     setKeyword,

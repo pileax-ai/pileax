@@ -40,10 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onActivated, ref } from 'vue'
 import useBook from 'src/hooks/useBook'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import { changeStyle } from 'src/api/service/ebook/book'
+import { bookService, userBookService } from 'src/api/service/remote'
 
 defineProps({
   fixedLayout: {
@@ -52,8 +53,10 @@ defineProps({
   },
 })
 const emit = defineEmits(['next'])
-const { bookHideItems, setBookHideItems } = useBook()
+const { book, bookHideItems, setBookHideItems, setBookOptions } = useBook()
 const { getSettingItem, setSettingItem } = useReaderSetting()
+const userExtra = ref<Indexable>({})
+const options = ref<Indexable>({})
 
 const hideSup = computed({
   get() {
@@ -123,7 +126,39 @@ const setValue = (key: string, value: boolean) => {
   }
   setBookHideItems(Array.from(itemSet))
   changeStyle()
+  saveOption(key, value)
 }
+
+const setOptions = () => {
+  setBookOptions(options.value)
+  changeStyle()
+}
+
+function saveOption(key: string, value: any) {
+  const extra = {
+    ...userExtra.value,
+    options: {
+      ...options.value,
+      [key]: value
+    }
+  }
+  userBookService.update({
+    id: book.value.userBookId,
+    extra: extra
+  })
+}
+
+function loadOptions() {
+  bookService.getDetails(book.value.id).then(res => {
+    userExtra.value = res.userExtra || {}
+    options.value = userExtra.value.options || {}
+    setOptions()
+  }).finally(() => {
+
+  })
+}
+
+onActivated(loadOptions)
 </script>
 
 <style lang="scss">
