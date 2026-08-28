@@ -386,12 +386,13 @@ const uploadBook = async (file: File, bookData: Indexable = {}) => {
 const onMetadata = async (metadata: any) => {
   const sha1 = metadata.sha1
   const waiter = uploadBookWaiters.get(sha1)
+  const savingTitle = metadata.title || parseFileName(metadata.file)
+  metadata.title = savingTitle
   try {
     // If upload to existing book, check book title
     const bookData = waiter.bookData
     if (bookData.id) {
       const title = bookData.title
-      const savingTitle = metadata.title
       if (!isTitleSimilar(title, savingTitle)) {
         waiter.reject(new Error('book.warning.titleNotMatch'))
         return
@@ -407,7 +408,7 @@ const onMetadata = async (metadata: any) => {
     }
   } catch (err) {
     if (waiter) {
-      waiter.reject()
+      waiter.reject(err)
       uploadBookWaiters.delete(sha1)
     }
   }
@@ -441,6 +442,7 @@ const savingBookRemote = async (metadata: any) => {
     const book = buildBook(metadata, {
       path: metadata.sha1,
       fileName: metadata.file?.name,
+      fileTitle: parseFileName(metadata.file)
     })
     const coverFile = base64ToFile(metadata.cover, book.title)
     try {
@@ -533,6 +535,13 @@ const parseBookExtension = (file: File) => {
   // 2. Fallback: use file name
   const fileName = file.name
   return fileName.includes('.') ? fileName.split('.').pop() : ''
+}
+
+const parseFileName = (file: File) => {
+  const fileName = file.name
+  return fileName.includes('.')
+    ? fileName.substring(0, fileName.lastIndexOf('.'))
+    : fileName
 }
 
 const buildBook = (metadata: any, fileInfo: any) => {
