@@ -84,7 +84,7 @@ export default function () {
 
   function setBookOptions(options: Indexable) {
     const itemSet = new Set([] as string[])
-    for (let [key, value] of Object.entries(options)) {
+    for (const [key, value] of Object.entries(options)) {
       switch (key) {
         case 'instantSearch':
           break
