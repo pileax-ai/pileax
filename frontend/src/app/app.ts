@@ -4,7 +4,7 @@
 import type { AppState } from 'core/types/app'
 import defaultSetting from './default-setting'
 
-export const APP_HOME_URL = 'https://pileax.ai'
+export const APP_HOME_URL = 'https://www.pileax.ai'
 export const APP_DOC_URL = 'https://www.pileax.ai'
 export const APP_GITHUB_URL = 'https://github.com/pileax-ai/pileax'
 

@@ -139,7 +139,10 @@ api.interceptors.response.use(
       notifyWarning(message)
     } else {
       if (message === 'Network Error' && originalRequest.url !== '/system/health-check') {
-        openDialog({ type: 'tips', message: 'warning.networkError', needTranslate: true })
+        const url: string = originalRequest.url
+        if (!url.startsWith('http') && url !== '/system/health-check') {
+          openDialog({ type: 'tips', message: 'warning.networkError', needTranslate: true })
+        }
       }
     }
 

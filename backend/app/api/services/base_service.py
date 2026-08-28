@@ -124,7 +124,10 @@ class BaseService(Generic[ModelType]):
                     data={"type": "workspace", "message": "Not workspace member", "location": "service"},
                 )
 
-        if owner.user_id and hasattr(obj, "user_id") and str(obj.user_id) == str(owner.user_id):
-            return True
+        if hasattr(obj, "user_id"):
+            if owner.user_id and str(obj.user_id) == str(owner.user_id):
+                return True
+            else:
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied [User]")
         else:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied [User]")
+            return True

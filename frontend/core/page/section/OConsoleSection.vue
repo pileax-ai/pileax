@@ -9,7 +9,7 @@
     <!--Header-->
     <header class="console-header"
             :class="{'full': fullScreen, 'fixed-header': fixedHeader && !fullScreen}">
-      <section class="row col-12 justify-between text-info console-toolbar">
+      <section class="row col-12 justify-between items-center text-info console-toolbar">
         <div class="row items-center meta">
           <div class="row items-center" v-if="!disableMeta">
             <o-icon :name="icon || (menu.icon ? menu.icon : 'apps')" size="2rem" />
@@ -83,15 +83,14 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onActivated, onMounted, ref, watch} from 'vue'
+import {computed, onActivated, ref, watch} from 'vue'
 import { useRoute } from 'vue-router'
 
 import OCommonSection from './OCommonSection.vue'
 import OIcon from 'core/components/icon/OIcon.vue'
 
 import { toggleClass } from 'core/utils/misc'
-import { MenuItem } from 'core/types/menu'
-import { findMenuByPath, menuLabel } from 'core/hooks/useMenu'
+import { menuLabel } from 'core/hooks/useMenu'
 import { openPath } from 'core/hooks/useRouter'
 import { useNaviStore } from 'stores/navi'
 import OToolBarOverlay from 'core/components/electron/OToolBarOverlay.vue'
@@ -234,6 +233,7 @@ onActivated(() => {
 
       .q-btn {
         padding: 4px 12px;
+        min-height: 40px !important;
 
         .q-icon {
           font-size: 1.4rem;
@@ -246,6 +246,8 @@ onActivated(() => {
 
         &--round {
           border-radius: 6px;
+          min-width: 40px !important;
+          min-height: 40px !important;
         }
       }
 
@@ -271,6 +273,10 @@ onActivated(() => {
         var(--q-secondary) 30%,
         transparent 50%,
         var(--q-secondary) 70%);
+    }
+
+    .query-table-actions {
+      gap: 12px;
     }
   }
 

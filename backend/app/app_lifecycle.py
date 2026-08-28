@@ -7,7 +7,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from app.configs import app_config
-from app.extensions import ext_cache, ext_database, ext_perf, setup_extensions
+from app.extensions import ext_ai, ext_cache, ext_database, ext_perf, setup_extensions
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await asyncio.to_thread(ext_database.setup)
+    await asyncio.to_thread(ext_ai.sync_providers)
     await ext_cache.setup(app)
 
     # startup

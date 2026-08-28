@@ -17,6 +17,7 @@ export default {
     stt: '语音转文字',
     sttModel: '语音转文字模型 (STT)',
     system: '系统模型设置',
+    default: '默认模型设置',
     tts: '文字转语音',
     ttsModel: '文字转语音模型 (TTS)',
     vector: '向量数据库 (Vector)'
@@ -34,6 +35,8 @@ export default {
       namePlaceholder: '配置名称'
     },
     available: '可用提供商',
+    manage: '提供商管理',
+    models: '模型',
     model: {
       _: '模型',
       get: '获取模型',
@@ -44,7 +47,8 @@ export default {
     },
     set: '设置 AI 模型提供商',
     setTips: '设置服务提供商以启用 AI 功能',
-    title: '模型提供商'
+    title: '模型提供商',
+    _: '模型提供商',
   },
   regenerate: '重新生成',
   settings: 'AI 设置'

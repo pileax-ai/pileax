@@ -17,6 +17,7 @@ export default {
     stt: 'Speech-to-Text',
     sttModel: 'Speech-to-Text Model',
     system: 'System Model Settings',
+    default: 'Default Model Settings',
     tts: 'Text-to-Speech',
     ttsModel: 'Text-to-Speech Model (TTS)',
     vector: 'Vector Database'
@@ -34,6 +35,8 @@ export default {
       namePlaceholder: 'Config Name'
     },
     available: 'Available Providers',
+    manage: 'Provider Manage',
+    models: 'Models',
     model: {
       _: 'Model',
       get: 'List Models',
@@ -44,7 +47,8 @@ export default {
     },
     set: 'Set AI providers',
     setTips: 'Set AI providers to enable AI capabilities.',
-    title: 'Model Providers'
+    title: 'Model Providers',
+    _: 'Model Provider',
   },
   regenerate: 'Re-generate',
   settings: 'AI Settings'

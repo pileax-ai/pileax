@@ -32,12 +32,15 @@ class ProviderCredentialController(
         self.service = ProviderCredentialService(session)
         self.provider_service = ProviderService(session, workspace)
         self.pdm_service = ProviderDefaultModelService(session, user.id, workspace.id)
-        self.workspace_llm_service = WorkspaceLLMService(session, workspace)
+        self.workspace_llm_service = WorkspaceLLMService(session)
 
-    def get(self, id: UUID) -> ProviderCredential:
+    def get(self, id: UUID, decrypt=True) -> ProviderCredential:
         pc = super().get(id)
-        if hasattr(pc.credential, "apiKey") and pc.credential.apiKey is not None:
-            pc.credential["apiKey"] = self.service.decrypt_api_key(pc.credential["apiKey"], self.workspace)
+        if pc.credential["apiKey"]:
+            if decrypt:
+                pc.credential["apiKey"] = self.service.decrypt_api_key(pc.credential["apiKey"], self.workspace)
+            else:
+                pc.credential["apiKey"] = HIDDEN_VALUE
 
         return pc
 
@@ -75,7 +78,7 @@ class ProviderCredentialController(
             llm_item_in = item_in.llm.model_dump(by_alias=True)
             llm_item_in["provider"] = provider
             llm_item_in["credential_id"] = item_out.id
-            self.workspace_llm_service.save(WorkspaceLLMCreate(**llm_item_in))
+            self.workspace_llm_service.save(WorkspaceLLMCreate(**llm_item_in), self.workspace.id)
 
         # Init default models
         self.pdm_service.init(provider_info)
@@ -89,13 +92,19 @@ class ProviderCredentialController(
         if provider_info is None:
             raise HTTPException(status_code=404, detail="Provider not supported")
 
+        # Check credential
+        pc = super().get(item_in.id)
+
         # Check api_key
         api_key = item_in.credential.api_key
-        if api_key and api_key != HIDDEN_VALUE:
-            LLMHelper.validate_api_key(provider, api_key, item_in.credential.base_url)
+        if api_key:
+            if api_key == HIDDEN_VALUE:
+                item_in.credential.api_key = pc.credential["apiKey"]
+            else:
+                LLMHelper.validate_api_key(provider, api_key, item_in.credential.base_url)
+                item_in.credential.api_key = self.service.encrypt_api_key(item_in.credential.api_key, self.workspace)
 
         # Update
-        item_in.credential.api_key = self.service.encrypt_api_key(item_in.credential.api_key, self.workspace)
         item = item_in.model_dump(by_alias=True)
 
         return self.service.update_by_owner(Owner(workspace=self.workspace, user_id=self.user.id), item_in.id, item)

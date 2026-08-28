@@ -1,5 +1,5 @@
 <template>
-  <o-menu-btn class="text-tips bg-accent"
+  <o-menu-btn class="text-readable bg-accent"
               menu-class="pi-menu show-side-icon"
               min-width="360px"
               :anchor="anchor"

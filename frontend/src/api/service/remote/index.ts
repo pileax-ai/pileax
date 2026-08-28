@@ -13,6 +13,8 @@ import { chatConversationService } from './chat-conversation'
 import { edgeService } from './edge'
 import { fileService } from './file'
 import { fileMetaService } from './file-meta'
+import { llmService } from './llm'
+import { llmProviderService } from './llm-provider'
 import { noteService } from './note'
 import { noteShareService } from './note-share'
 import { noteVersionService } from './note-version'
@@ -41,6 +43,8 @@ export {
   edgeService,
   fileService,
   fileMetaService,
+  llmService,
+  llmProviderService,
   noteService,
   noteShareService,
   noteVersionService,

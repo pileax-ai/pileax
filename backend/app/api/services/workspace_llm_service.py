@@ -4,11 +4,10 @@ from app.api.services.base_service import BaseService
 
 
 class WorkspaceLLMService(BaseService[WorkspaceLLM]):
-    def __init__(self, session, workspace):
+    def __init__(self, session):
         super().__init__(WorkspaceLLM, session, WorkspaceLLMRepository)
-        self.workspace = workspace
 
-    def save(self, item_in: WorkspaceLLMCreate) -> WorkspaceLLM:
+    def save(self, item_in: WorkspaceLLMCreate, workspace_id) -> WorkspaceLLM:
         item = item_in.model_dump(by_alias=True)
-        item["workspace_id"] = self.workspace.id
+        item["workspace_id"] = workspace_id
         return super().save(WorkspaceLLM(**item))

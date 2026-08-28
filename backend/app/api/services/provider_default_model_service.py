@@ -51,7 +51,7 @@ class ProviderDefaultModelService(BaseService[ProviderDefaultModel]):
         :param provider_info: Provider info
         """
         provider = provider_info.name
-        llm_list = provider_info.llm
+        llm_list = provider_info.models
         model_type_list = []
         for llm in llm_list:
             model_type = llm.model_type

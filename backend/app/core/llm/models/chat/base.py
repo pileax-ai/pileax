@@ -35,6 +35,7 @@ class ReActMode(StrEnum):
 
 
 ERROR_PREFIX = "**ERROR**"
+ERROR_JSON = "**ERROR_JSON**"
 LENGTH_NOTIFICATION_CN = "······\n由于大模型的上下文窗口大小限制，回答已经被大模型截断。"
 LENGTH_NOTIFICATION_EN = "...\nThe answer is truncated by your chosen LLM due to its limitation on context length."
 
@@ -150,7 +151,13 @@ class Base(ABC):
             time.sleep(delay)
             return None
 
-        return f"{ERROR_PREFIX}: {error_code} - {str(e)}"
+        error = {
+            "type": ERROR_JSON,
+            "code": error_code,
+            "message": str(e),
+        }
+
+        return json.dumps(error, ensure_ascii=False, indent=2)
 
     def _chat(self, history, gen_conf, **kwargs):
         logging.info("[HISTORY] %s", json.dumps(history, ensure_ascii=False, indent=2))
@@ -166,7 +173,7 @@ class Base(ABC):
                 tol_token = tol
 
             if len(final_ans.strip()) == 0:
-                final_ans = "**ERROR**: Empty response from reasoning model"
+                final_ans = f"{ERROR_PREFIX}: Empty response from reasoning model"
 
             return final_ans.strip(), tol_token
 
@@ -251,6 +258,6 @@ class Base(ABC):
                 yield delta_ans
                 total_tokens += tol
         except Exception as e:
-            yield ans + "\n**ERROR**: " + str(e)
+            yield ans + f"\n{ERROR_PREFIX}: " + str(e)
 
         yield total_tokens

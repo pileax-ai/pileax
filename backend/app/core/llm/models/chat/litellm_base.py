@@ -11,7 +11,7 @@ from app.libs.import_helper import ImportHelper
 from ... import FACTORY_DEFAULT_BASE_URL, LITELLM_PROVIDER_PREFIX, SupportedLiteLLMProvider
 from ...utils.token import num_tokens_from_string, total_token_count_from_response
 from ..registry import register
-from .base import ERROR_PREFIX, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, Base, LLMErrorCode
+from .base import ERROR_JSON, ERROR_PREFIX, LENGTH_NOTIFICATION_CN, LENGTH_NOTIFICATION_EN, Base, LLMErrorCode
 
 logger = logging.getLogger(__name__)
 
@@ -86,13 +86,13 @@ class LiteLLMBase(Base):
                 ["rate limit", "429", "tpm limit", "too many requests", "requests per minute"],
                 LLMErrorCode.ERROR_RATE_LIMIT,
             ),
+            (["model", "not found", "does not exist", "not available"], LLMErrorCode.ERROR_MODEL),
             (["auth", "key", "apikey", "401", "forbidden", "permission"], LLMErrorCode.ERROR_AUTHENTICATION),
             (["invalid", "bad request", "400", "format", "malformed", "parameter"], LLMErrorCode.ERROR_INVALID_REQUEST),
             (["server", "503", "502", "504", "500", "unavailable"], LLMErrorCode.ERROR_SERVER),
             (["timeout", "timed out"], LLMErrorCode.ERROR_TIMEOUT),
             (["connect", "network", "unreachable", "dns"], LLMErrorCode.ERROR_CONNECTION),
             (["filter", "content", "policy", "blocked", "safety", "inappropriate"], LLMErrorCode.ERROR_CONTENT_FILTER),
-            (["model", "not found", "does not exist", "not available"], LLMErrorCode.ERROR_MODEL),
             (["max rounds"], LLMErrorCode.ERROR_MODEL),
         ]
         for words, code in keywords_mapping:
@@ -258,7 +258,13 @@ class LiteLLMBase(Base):
             time.sleep(delay)
             return None
 
-        return f"{ERROR_PREFIX}: {error_code} - {str(e)}"
+        error = {
+            "type": ERROR_JSON,
+            "code": error_code,
+            "message": str(e),
+        }
+
+        return json.dumps(error, ensure_ascii=False, indent=2)
 
     def chat(self, system, history, gen_conf={}, **kwargs):
         if system and history and history[0].get("role") != "system":
@@ -287,6 +293,6 @@ class LiteLLMBase(Base):
                 yield delta_ans
                 total_tokens += tol
         except Exception as e:
-            yield ans + "\n**ERROR**: " + str(e)
+            yield ans + f"\n{ERROR_PREFIX}: " + str(e)
 
         yield total_tokens

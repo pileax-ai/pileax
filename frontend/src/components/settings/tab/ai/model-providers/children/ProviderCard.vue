@@ -13,8 +13,8 @@
           </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <div class="row" v-if="false">
-            <q-btn icon="add" color="primary"
+          <div class="row">
+            <q-btn icon="add" :label="$t('add')" class="bg-primary text-white add"
                    @click="emit('add')" flat />
           </div>
         </q-item-section>
@@ -29,7 +29,7 @@
       </q-item-label>
     </q-card-section>
 
-    <div class="row justify-center actions">
+    <div class="row justify-center actions" v-if="false">
       <section class="text-tips">
         <q-btn icon="add" :label="$t('add')" class="bg-primary text-white"
                flat @click="emit('add')" />
@@ -67,6 +67,11 @@ const emit = defineEmits(['add'])
       opacity: 1;
       transform: translateY(0);
     }
+
+    .header .add {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   .header {
@@ -75,6 +80,14 @@ const emit = defineEmits(['add'])
     .q-item__section--side {
       min-width: 36px;
       padding-right: 0;
+    }
+
+    .add {
+      padding: 4px 12px;
+      min-height: unset;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
     }
   }
 

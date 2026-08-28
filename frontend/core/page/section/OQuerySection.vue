@@ -19,7 +19,7 @@
 
       <template #query-table-actions>
         <template v-if="!disableActions">
-          <q-btn icon="refresh" flat round @click="onQuery" />
+          <q-btn icon="refresh" flat round @click="onQuery" v-if="false" />
           <q-btn icon="settings" flat v-if="false">
             <q-menu class="pi-menu">
               <div>
@@ -141,6 +141,10 @@ const props = defineProps({
   docUrl: {
     type: String,
     default: ''
+  },
+  disableMeta: {
+    type: Boolean,
+    default: false
   },
   disableActions: {
     type: Boolean,

@@ -6,7 +6,8 @@
                     :class="`${headerClass}`"
                     v-if="header">
       <div class="row items-center title">
-        <q-icon :name="icon" class="icon" v-if="icon" /> {{title}}
+        <q-icon :name="icon" class="icon" v-if="icon" />
+        <span class="label">{{title}}</span>
         <slot name="header"></slot>
       </div>
       <div class="row items-center card-header-right">

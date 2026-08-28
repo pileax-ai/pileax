@@ -205,6 +205,11 @@ export default {
     title: 'Title'
   },
   status: 'Status',
+  statusOptions: {
+    enabled: 'Enabled',
+    disabled: 'Disabled',
+    pending: 'Pending',
+  },
   submit: 'Submit',
   symbol: 'Symbol',
   system: 'System',
@@ -251,6 +256,8 @@ export default {
     today: 'Today',
     yesterday: 'Yesterday'
   },
+  tag: 'Tag',
+  tags: 'Tags',
   tips: 'Tips',
   title: 'Title',
   toc: 'Table of Content',
