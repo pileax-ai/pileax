@@ -77,6 +77,7 @@ export default {
       system: '系統'
     },
     options: {
+      hideFootnote: '隱藏文間註腳',
       hideParentheticalCitation: '隱藏夾注',
       hideRubyTitle: '隱藏旁注（音標）',
       hideSubscript: '隱藏下標',

@@ -77,6 +77,7 @@ export default {
       system: 'System'
     },
     options: {
+      hideFootnote: 'Ukryj przypis w tekście',
       hideParentheticalCitation: 'Ukryj cytat w nawiasie',
       hideRubyTitle: 'Ukryj tytuł Ruby',
       hideSubscript: 'Ukryj indeks dolny',

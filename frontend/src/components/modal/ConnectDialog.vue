@@ -53,6 +53,8 @@
                      flat
                      @click="onTest"
                      v-if="needTest" />
+              <o-copy-btn :value="form.baseUrl"
+                          flat round />
             </template>
           </q-input>
         </o-field>
@@ -63,8 +65,21 @@
                    class="pi-field"
                    :readonly="readonly"
                    standout dense clearable>
+            <template #after>
+              <o-copy-btn :value="form.collabProvider"
+                          flat round />
+            </template>
           </q-input>
         </o-field>
+      </div>
+
+
+      <q-separator class="q-mt-md" />
+      <div class="row col-12 justify-center qrcode-container">
+        <div class="qrcode">
+          <o-qrcode :text="form.baseUrl" :size="200" />
+        </div>
+        <div class="col-12 text-center text-tips">扫一扫进行连接</div>
       </div>
     </section>
 
@@ -84,6 +99,7 @@ import { computed, onBeforeMount, reactive, ref } from 'vue'
 import { useQuasar } from 'quasar'
 
 import OCommonDialog from 'core/components/dialog/OCommonDialog.vue'
+import OQrcode from 'core/components/misc/OQrcode.vue'
 import useDialog from 'core/hooks/useDialog'
 import useApi from 'src/hooks/useApi'
 import useCommon from 'core/hooks/useCommon'
@@ -300,8 +316,6 @@ const onConfirm = () => {
   }
 }
 
-
-
 onBeforeMount(() => {
   form.value = {
     mode: appMode.value,
@@ -334,6 +348,21 @@ onBeforeMount(() => {
           font-size: 14px;
         }
       }
+
+      .o-copy-btn {
+        .q-icon {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .qrcode-container {
+    .qrcode {
+      margin: 16px 0 4px 0;
+    }
+    canvas {
+      display: block;
     }
   }
 }

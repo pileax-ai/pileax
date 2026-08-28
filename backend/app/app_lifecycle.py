@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -47,7 +48,8 @@ def start_server(app: FastAPI):
     :param app:
     :return:
     """
+    host = os.getenv("HOST", "localhost")
     port = app_config.PORT
-    logger.info("Starting server at http://localhost:%s, docs at http://localhost:%s/docs", port, port)
+    logger.info("Starting server at http://%s:%s, docs at http://%s:%s/docs", host, port, host, port)
 
-    uvicorn.run(app, host="localhost", port=port, log_config=None)
+    uvicorn.run(app, host=host, port=port, log_config=None)

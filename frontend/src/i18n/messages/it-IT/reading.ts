@@ -77,6 +77,7 @@ export default {
       system: 'Sistema'
     },
     options: {
+      hideFootnote: 'Nascondi la nota a piè di pagina',
       hideParentheticalCitation: 'Nascondi la citazione tra parentesi',
       hideRubyTitle: 'Nascondi il titolo rubino',
       hideSubscript: 'Nascondi l\'indicizzazione',

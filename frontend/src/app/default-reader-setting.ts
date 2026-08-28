@@ -206,6 +206,16 @@ export const itemCssSelectors: Indexable = {
   sub: ['sub'],
   sup: ['sup', '[class*="sup"]'],
   parentheticalCitation: ['.jiazhu'],
+  footnote: [
+    'aside[type~="endnote"]',
+    'aside[type~="footnote"]',
+    'aside[type~="note"]',
+    'aside[type~="rearnote"]',
+    'aside[epub|type~="endnote"]',
+    'aside[epub|type~="footnote"]',
+    'aside[epub|type~="note"]',
+    'aside[epub|type~="rearnote"]',
+  ],
 }
 
 export const buildOptionalCSS = (hideItems?: string[]) => {

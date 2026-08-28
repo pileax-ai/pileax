@@ -77,6 +77,7 @@ export default {
       system: '체계'
     },
     options: {
+      hideFootnote: '인라인 각주 숨기기',
       hideParentheticalCitation: '괄호 안의 인용문 숨기기',
       hideRubyTitle: '루비 제목 숨기기',
       hideSubscript: '아래첨자 숨기기',

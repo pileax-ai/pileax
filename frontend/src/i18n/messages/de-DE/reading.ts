@@ -77,6 +77,7 @@ export default {
       system: 'System'
     },
     options: {
+      hideFootnote: 'Inline-Fußnote ausblenden',
       hideParentheticalCitation: 'Zitat in Klammern ausblenden',
       hideRubyTitle: 'Ruby-Titel ausblenden',
       hideSubscript: 'Indiz ausblenden',
