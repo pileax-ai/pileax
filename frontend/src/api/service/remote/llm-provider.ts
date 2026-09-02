@@ -5,8 +5,8 @@
  */
 import { GET, POST, DELETE } from 'src/hooks/useRequest'
 
-export class RemoteLLMService {
-  private apiName = 'llm'
+export class RemoteLLMProviderService {
+  private apiName = 'llmProvider'
 
   async save(data: Indexable): Promise<any> {
     return POST({ name: this.apiName, body: data })
@@ -30,6 +30,14 @@ export class RemoteLLMService {
     return POST({ name: this.apiName, path: '/query', body: query })
   }
 
+  async getProviders() {
+    return GET({ name: this.apiName, path: '/providers' })
+  }
+
+  async updateProviders() {
+    return POST({ name: this.apiName, path: '/update' })
+  }
+
 }
 
-export const llmService = new RemoteLLMService()
+export const llmProviderService = new RemoteLLMProviderService()

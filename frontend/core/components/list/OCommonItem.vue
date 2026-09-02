@@ -34,7 +34,7 @@
 
     <slot></slot>
 
-    <div class="row items-center" v-if="active">
+    <div class="row items-center" v-if="active && activeIcon">
       <q-icon name="done" size="1rem" color="primary" />
     </div>
   </q-item>
@@ -119,6 +119,10 @@ const props = defineProps({
     default: false
   },
   active: {
+    type: Boolean,
+    default: false
+  },
+  activeIcon: {
     type: Boolean,
     default: false
   }

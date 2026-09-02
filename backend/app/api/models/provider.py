@@ -58,4 +58,11 @@ class ProviderInfo(BaseApiModel):
     logo: str | None = ""
     tags: str | None = ""
     apikey_url: str | None = ""
-    llm: list[LLMInfo] | None
+    models: list[LLMInfo] | None
+
+
+class LLMConfigInfo(BaseApiModel):
+    version: str
+    description: str | None = ""
+    modified: str | None = ""
+    providers: list[ProviderInfo] | None

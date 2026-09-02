@@ -6,7 +6,8 @@
     <o-field :label="$t('name')" required>
       <q-input v-model="form.name" :placeholder="$t('name')"
                class="pi-field"
-               standout dense clearable
+               tabindex="1"
+               standout dense clearable autofocus
                :error="v$.name.$errors.length > 0"
                :error-message="$t('required')" />
     </o-field>
@@ -14,6 +15,7 @@
       <q-input v-model="form.apiKey" :placeholder="$t('ai.providers.api.key')"
                :type="isPwd ? 'password' : 'text'"
                class="pi-field"
+               tabindex="2"
                standout dense clearable
                :error="v$.apiKey.$errors.length > 0"
                :error-message="$t('required')">
@@ -29,6 +31,7 @@
     <o-field :label="$t('ai.providers.api.baseUrl')">
       <q-input v-model="form.baseUrl" :placeholder="$t('ai.providers.api.baseUrlPlaceholder')"
                class="pi-field"
+               tabindex="3"
                standout dense clearable />
     </o-field>
 
@@ -36,6 +39,9 @@
       <o-link class="text-primary" :link="data.apikeyUrl">
         {{ $t('ai.providers.api.baseUrlGet', {name: data.name}) }}
       </o-link>
+    </section>
+    <section class="row col-12 q-mt-md q-pa-sm bg-accent text-red error-message" v-if="errorMessage">
+      {{ errorMessage }}
     </section>
 
     <template #control>
@@ -74,8 +80,8 @@ const emit = defineEmits(['success'])
 
 const { t } = useCommon()
 const { form, loading, actions } = useForm()
-
 const isPwd = ref(true)
+const errorMessage = ref('')
 const rules = {
   name: { required },
   apiKey: { required },
@@ -94,6 +100,7 @@ function load () {
 }
 
 function onSubmit () {
+  errorMessage.value = ''
   if (!actions.validate(v$)) {
     return
   }
@@ -113,11 +120,11 @@ function onSubmit () {
       emit('success')
     },
     (err) => {
+      errorMessage.value = getErrorMessage(err)
       if (err.response.status === 403) {
         notifyWarning(t('ai.providers.api.keyInvalid'))
       } else {
-        const message = getErrorMessage(err)
-        notifyWarning(message)
+        notifyWarning(errorMessage.value)
         console.error(err)
       }
     }
@@ -148,6 +155,10 @@ onMounted(() => {
 
   .link {
     font-size: 0.9rem;
+  }
+
+  .error-message {
+    border-radius: 4px;
   }
 }
 </style>

@@ -1,22 +1,7 @@
 <template>
   <setting-card class="ai-tab">
-    <o-common-card small header>
-      <template #header>
-        <q-tabs v-model="currentTab"
-                active-color="white"
-                active-bg-color="primary"
-                indicator-color="transparent"
-                content-class="pi-btn-group"
-                inline-label dense>
-          <template v-for="(item, index) of tabs" :key="index">
-            <q-tab class="o-navi-tab"
-                   :name="item.value"
-                   :label="item.label" />
-          </template>
-        </q-tabs>
-      </template>
-
-      <q-tab-panels v-model="currentTab" class="fit col-12" vertical keep-alive>
+    <o-common-card small>
+      <q-tab-panels v-model="aiTab" class="fit col-12" vertical keep-alive>
         <template v-for="(item, index) of tabs" :key="index">
           <q-tab-panel :name="item.value">
             <component :is="item.component" />
@@ -30,23 +15,39 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import SettingCard from './setting-card.vue'
-import AllProvidersTab from './ai/all-providers-tab.vue'
+import ModelProvidersTab from './ai/model-providers/index.vue'
 import SystemProvidersTab from './ai/system-providers-tab.vue'
+import ProviderManageTab from './ai/provider-manage/index.vue'
 import useCommon from 'core/hooks/useCommon'
+import useSetting from 'core/hooks/useSetting'
 
 const { t } = useCommon()
-const currentTab = ref('model-providers')
+const { ui, setUi } = useSetting()
+
+const aiTab = computed({
+  get() {
+    return ui.value.aiTab
+  },
+  set(value: string) {
+    setUi('aiTab', value)
+  }
+})
 
 const tabs = computed(() => {
   return [
-    { label: t('ai.providers.title'), value: 'model-providers', component: AllProvidersTab },
-    { label: t('ai.models.system'), value: 'system-settings', component: SystemProvidersTab },
+    { label: t('ai.providers.title'), value: 'model-providers', component: ModelProvidersTab },
+    { label: t('ai.models.default'), value: 'default-models', component: SystemProvidersTab },
+    { label: t('ai.providers.manage'), value: 'provider-manage', component: ProviderManageTab },
   ]
 })
 </script>
 
 <style lang="scss">
 .ai-tab {
+  .q-tab-panel {
+    padding: 0;
+  }
+
   .o-ai-provider-select-btn {
     min-width: 200px;
   }

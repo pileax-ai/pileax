@@ -7,6 +7,7 @@ from app.api.models.owner import Owner
 from app.api.models.provider import LLMInfoDetails, Provider
 from app.api.repos.provider_repository import ProviderRepository
 from app.api.services.base_service import BaseService
+from app.api.services.llm_provider_service import LLMProviderService
 from app.api.services.llm_service import LLMService
 from app.api.services.provider_credential_service import ProviderCredentialService
 
@@ -15,7 +16,8 @@ class ProviderService(BaseService[Provider]):
     def __init__(self, session, workspace):
         super().__init__(Provider, session, ProviderRepository)
         self.workspace = workspace
-        self.llm_service = LLMService(session, workspace)
+        self.llm_service = LLMService(session)
+        self.llm_provider_service = LLMProviderService(session)
         self.credential_service = ProviderCredentialService(session)
 
     def save(self, provider_in: Provider) -> Provider:
@@ -78,21 +80,43 @@ class ProviderService(BaseService[Provider]):
                 "workspace_id": workspace_id,
             }
         )
-        filtered_providers = [p for p in providers if p.credential_id is not None]
+        filtered_providers = [p.provider for p in providers if p.credential_id is not None]
 
         all_models: list[LLMInfoDetails] = []
-        for p in filtered_providers:
-            provider = self.llm_service.get_provider(p.provider)
-            if provider:
-                llm = provider.llm
-                for item in llm:
+        llm_providers = self.llm_provider_service.find_all_providers(workspace_id)
+        for p in llm_providers:
+            if p["name"] in filtered_providers:
+                models = p["models"]
+                for item in models:
                     item_details = LLMInfoDetails.model_validate(item.model_dump())
-                    item_details.provider = provider.name
-                    item_details.logo = provider.logo
+                    item_details.provider = p["name"]
+                    item_details.logo = p["logo"]
                     all_models.append(item_details)
 
+        # return self.llm_service.find_all_by_providers(filtered_providers)
         return all_models
 
     def find_model_by_type(self, workspace_id: UUID, model_type: str) -> Any:
         all_models = self.find_all_model(workspace_id)
         return [x for x in all_models if x.model_type.lower() == model_type.lower()]
+
+    def select_credential(self, workspace_id: UUID, provider: str) -> Any:
+        """
+        Select provider's credential
+        1. defautl credential
+        2. random
+        """
+        p = self.find_one({"workspace_id": workspace_id, "provider": provider})
+
+        credential = None
+        if p:
+            credential = self.credential_service.get(p.credential_id)
+            if credential is None:
+                credential = self.credential_service.find_one(
+                    {
+                        "workspace_id": workspace_id,
+                        "provider": p.provider,
+                    }
+                )
+
+        return credential

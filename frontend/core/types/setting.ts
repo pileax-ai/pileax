@@ -24,6 +24,10 @@ export interface BreadcrumbSetting {
   style: string,
 }
 
+export interface UiSetting {
+  aiTab: string,
+}
+
 export interface PageLoadingSetting {
   enable: boolean,
   loading: boolean,
@@ -41,6 +45,7 @@ export interface Setting {
   navi: NaviSetting,
   tabBar: TabBarSetting,
   breadcrumb: BreadcrumbSetting,
+  ui: UiSetting,
   pageLoading: PageLoadingSetting,
   pageTransition: PageTransitionSetting
 }

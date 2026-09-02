@@ -1,7 +1,11 @@
 <template>
   <section class="system-providers-tab">
-    <o-common-card small>
-      <section class="col-12">
+    <o-common-card small header>
+      <template #header>
+        <q-icon name="tune" class="icon" />
+        <span class="label">{{ $t('ai.models.default') }}</span>
+      </template>
+      <section class="col-12 q-py-md">
         <q-list no-border link>
           <o-common-item icon="mdi-creation"
                          :label="$t('ai.models.chatModel')"

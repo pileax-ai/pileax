@@ -6,7 +6,8 @@
     <o-field :label="$t('name')" required>
       <q-input v-model="form.name" :placeholder="$t('ai.providers.api.namePlaceholder')"
                class="pi-field"
-               standout dense clearable
+               tabindex="1"
+               standout dense clearable autofocus
                :error="v$.name.$errors.length > 0"
                :error-message="$t('required')" />
     </o-field>
@@ -14,6 +15,7 @@
       <q-input v-model="form.apiKey" :placeholder="$t('ai.providers.api.key')"
                :type="isPwd ? 'password' : 'text'"
                class="pi-field"
+               tabindex="2"
                standout dense clearable>
         <template v-slot:append>
           <q-icon
@@ -27,6 +29,7 @@
     <o-field :label="$t('ai.providers.api.baseUrl')">
       <q-input v-model="form.baseUrl" :placeholder="$t('ai.providers.api.baseUrlPlaceholder')"
                class="pi-field"
+               tabindex="3"
                standout dense clearable>
         <template #after>
           <q-btn :label="$t('ai.providers.model.get')"
@@ -45,6 +48,7 @@
         <o-field :label="$t('ai.providers.model.name')" required>
           <q-select v-model="form.modelName"
                     class="pi-field"
+                    tabindex="4"
                     placeholder="Select"
                     :options="models"
                     :error="v$.modelName.$errors.length > 0"
@@ -58,6 +62,7 @@
         <o-field :label="$t('ai.providers.model.type')" required>
           <q-select v-model="form.modelType"
                     class="pi-field"
+                    tabindex="5"
                     placeholder="Select"
                     :options="LLMTypes"
                     :error="v$.modelType.$errors.length > 0"
@@ -74,11 +79,16 @@
         <q-input v-model="form.maxTokens" :placeholder="$t('ai.providers.model.maxTokens')"
                  type="number"
                  class="pi-field"
+                 tabindex="6"
                  standout dense clearable
                  :error="v$.maxTokens.$errors.length > 0"
                  :error-message="$t('required')" />
       </o-field>
     </div>
+
+    <section class="row col-12 q-mt-md q-pa-sm bg-accent text-red error-message" v-if="errorMessage">
+      {{ errorMessage }}
+    </section>
 
     <template #control>
       <footer class="row col-12 items-center justify-center bg-accent text-tips">
@@ -120,8 +130,8 @@ const emit = defineEmits(['success'])
 const { t } = useCommon()
 const { form, loading, actions } = useForm()
 const { LLMTypes } = useMetadata()
-
 const isPwd = ref(true)
+const errorMessage = ref('')
 const rules = {
   name: { required },
   modelType: { required },
@@ -162,10 +172,15 @@ function getModels(notify = false) {
     if (notify) {
       notifyDone()
     }
+  }).catch(err => {
+    if (notify) {
+      notifyWarning(t('app.unableConnect'))
+    }
   })
 }
 
 function onSubmit () {
+  errorMessage.value = ''
   if (!actions.validate(v$)) {
     return
   }
@@ -191,11 +206,11 @@ function onSubmit () {
       emit('success')
     },
     (err) => {
+      errorMessage.value = getErrorMessage(err)
       if (err.response.status === 403) {
         notifyWarning(t('ai.providers.api.keyInvalid'))
       } else {
-        const message = getErrorMessage(err)
-        notifyWarning(message)
+        notifyWarning(errorMessage.value)
         console.error(err)
       }
     }

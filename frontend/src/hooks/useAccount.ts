@@ -14,6 +14,10 @@ export default function () {
     return accountStore.account
   })
 
+  const isSuper = computed(() => {
+    return accountStore.account.isSuper
+  })
+
   const isLogin = computed(() => {
     return accountStore.accountId !== undefined
   })
@@ -95,6 +99,7 @@ export default function () {
   return {
     accountStore,
     account,
+    isSuper,
     isLogin,
     workspace,
     workspaces,

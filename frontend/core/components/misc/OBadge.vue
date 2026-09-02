@@ -25,10 +25,14 @@ const props = defineProps({
 })
 
 const bgColor = computed(() => {
-  return Dark.isActive ?  props.color : `${props.color}-1`
+  return ['accent', 'dark'].includes(props.color)
+    ? props.color
+    : Dark.isActive ?  props.color : `${props.color}-1`
 })
 const textColor = computed(() => {
-  return Dark.isActive ?  'white' : props.color
+  return ['accent', 'dark'].includes(props.color)
+    ? 'readable'
+    : Dark.isActive ?  'white' : props.color
 })
 </script>
 

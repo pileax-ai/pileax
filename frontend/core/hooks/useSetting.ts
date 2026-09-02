@@ -13,7 +13,7 @@ export default function () {
   const appStore = useAppStoreWithOut()
   const i18n = useI18n()
 
-  const setLocale = (locale :string, updateI18n = false) => {
+  const setLocale = (locale: string, updateI18n = false) => {
     if (updateI18n) {
       i18n.locale.value = locale
     }
@@ -68,11 +68,11 @@ export default function () {
   }
 
   const toggleTheme = () => {
-    const name = Dark.isActive ? 'light' : 'dark'
+    const name = Dark.isActive ? 'light':  'dark'
     setTheme(name)
   }
 
-  const setThemeColor = (colorName :string) => {
+  const setThemeColor = (colorName: string) => {
     const color = THEME_COLORS.find(m => m.name === colorName)
     if (!color) return
     setCssVar('primary', color.value as string)
@@ -82,7 +82,7 @@ export default function () {
     appStore.setTheme(themeSetting)
   }
 
-  const setThemeGray = (gray :boolean) => {
+  const setThemeGray = (gray: boolean) => {
     if (gray) {
       document.body.classList.add('body--gray')
     } else {
@@ -94,7 +94,7 @@ export default function () {
     appStore.setTheme(themeSetting)
   }
 
-  const setThemeWeak = (weak :boolean) => {
+  const setThemeWeak = (weak: boolean) => {
     if (weak) {
       document.body.classList.add('body--weak')
     } else {
@@ -120,34 +120,39 @@ export default function () {
     }
   }
 
-  const setNavi = (key :string, value :never) => {
+  const setNavi = (key: string, value: never) => {
     const s = appStore.setting.navi
     s[key as keyof typeof s] = value
     appStore.setNavi(s)
 
-    console.log('navi', value)
     ipcService.setWindowButton(value)
   }
 
-  const setTabBar = (key :string, value :never) => {
+  const setTabBar = (key: string, value: never) => {
     const s = appStore.setting.tabBar
     s[key as keyof typeof s] = value
     appStore.setTabBar(s)
   }
 
-  const setBreadcrumb = (key :string, value :never) => {
+  const setBreadcrumb = (key: string, value: never) => {
     const s = appStore.setting.breadcrumb
     s[key as keyof typeof s] = value
     appStore.setBreadcrumb(s)
   }
 
-  const setPageTransition = (key :string, value :never) => {
+  const setUi = (key: string, value: any) => {
+    const s = appStore.setting.ui
+    s[key as keyof typeof s] = value
+    appStore.setUi(s)
+  }
+
+  const setPageTransition = (key: string, value: never) => {
     const s = appStore.setting.pageTransition
     s[key as keyof typeof s] = value
     appStore.setPageTransition(s)
   }
 
-  const setPageLoading = (key :string, value :never) => {
+  const setPageLoading = (key: string, value: never) => {
     const s = appStore.setting.pageLoading
     s[key as keyof typeof s] = value
     appStore.setPageLoading(s)
@@ -172,6 +177,10 @@ export default function () {
 
   const theme = computed(() => {
     return appStore.setting.theme
+  })
+
+  const ui = computed(() => {
+    return appStore.setting.ui
   })
 
   const darkMode = computed(() => {
@@ -223,6 +232,7 @@ export default function () {
     breadcrumb,
     pageTransition,
     pageLoading,
+    ui,
 
     setSetting,
     setLocale,
@@ -239,5 +249,6 @@ export default function () {
     setBreadcrumb,
     setPageTransition,
     setPageLoading,
+    setUi,
   }
 }

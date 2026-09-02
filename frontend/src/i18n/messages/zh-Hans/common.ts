@@ -205,6 +205,11 @@ export default {
     title: '标题'
   },
   status: '状态',
+  statusOptions: {
+    enabled: '启用',
+    disabled: '禁用',
+    pending: '待定',
+  },
   submit: '提交',
   symbol: 'Symbol',
   system: '系统',
@@ -251,6 +256,8 @@ export default {
     today: '今天',
     yesterday: '昨天'
   },
+  tag: '标签',
+  tags: '标签',
   tips: '提示',
   title: '标题',
   toc: '目录',

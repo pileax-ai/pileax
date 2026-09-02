@@ -32,5 +32,8 @@ export default {
   pageTransition: {
     enable: false,
     name: 'fade'
+  },
+  ui: {
+    aiTab: 'model-providers'
   }
 }

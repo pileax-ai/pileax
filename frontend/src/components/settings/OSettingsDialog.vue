@@ -10,9 +10,14 @@
       <q-splitter v-model="splitterModel"
                   :limits="[200, 400]"
                   unit="px"
-                  class="fit">
+                  class="fit"
+                  before-class="column">
         <template v-slot:before>
-          <nav class="bg-accent navi">
+          <header class="col-auto bg-accent left"
+                  :class="{ 'grab': !isMaximized }"
+                  v-touch-pan.prevent.mouse="onPan">
+          </header>
+          <nav class="col bg-accent navi">
             <q-tabs v-model="currentTab"
                     unix="px"
                     vertical inline-label
@@ -35,12 +40,14 @@
         </template>
 
         <template v-slot:after>
-          <q-header class="bg-secondary text-info">
+          <q-header class="bg-secondary text-info"
+                    :class="{ 'grab': !isMaximized }"
+                    v-touch-pan.prevent.mouse="onPan">
             <q-toolbar>
               <q-toolbar-title class="text-bold">
-                {{tab?.label}}
+                <ai-tabs v-if="tab?.value === 'ai'"></ai-tabs>
+                <span v-else>{{tab?.label}}</span>
               </q-toolbar-title>
-              <q-space />
               <section class="text-tips actions no-drag-region">
                 <q-btn flat round dense @click="onMinimized">
                   <o-icon :name="isMaximized ? 'icon-fluent-restore' : 'icon-fluent-maximize'" size="10px" />
@@ -74,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, provide, ref, useTemplateRef, watch } from 'vue'
+import { computed, onMounted, provide, reactive, ref, useTemplateRef, watch } from 'vue'
 import useDialog from 'core/hooks/useDialog'
 import useCommon from 'core/hooks/useCommon'
 
@@ -87,11 +94,11 @@ import SystemTab from './tab/system-tab.vue'
 import ServiceLogTab from './tab/service-log-tab.vue'
 import ShortcutTab from './tab/shortcut-tab.vue'
 import UserLogTab from './tab/user-log-tab.vue'
+import AiTabs from './tab/ai/tabs.vue'
 import WorkspaceTab from './tab/workspace-tab.vue'
 import { QScrollArea } from 'quasar'
 import { ipcProvider } from 'src/api/ipc'
 import useAccount from 'src/hooks/useAccount'
-
 
 const scrollRef = useTemplateRef<QScrollArea>('scrollRef')
 
@@ -118,6 +125,8 @@ const modal = ref()
 const splitterModel = ref(300)
 const currentTab = ref('profile')
 const isMaximized = ref(false)
+const pos = reactive({ x: 0, y: 0 })
+
 const style = computed(() => {
   return isMaximized.value
     ? {
@@ -129,6 +138,7 @@ const style = computed(() => {
       maxHeight: '90vh',
       width: '90vw',
       maxWidth: '1555px',
+      transform: `translate(${pos.x}px, ${pos.y}px)`
     }
 })
 const tabs = computed(() => {
@@ -221,6 +231,13 @@ const tab = computed(() => {
 
 const type = computed(() => dialog.value.type)
 
+
+const onPan = (evt: any) => {
+  if (isMaximized.value) return
+  pos.x += evt.delta.x
+  pos.y += evt.delta.y
+}
+
 function onMinimized() {
   isMaximized.value = !isMaximized.value
 }
@@ -251,21 +268,30 @@ provide('scrollToBottom', scrollToBottom)
 
 <style lang="scss">
 .o-settings-dialog {
+  &.fullscreen {
+    .q-splitter__before {
+      height: 100vh;
+    }
+  }
+
   .q-layout-container > div > div {
     overflow: hidden;
   }
 
   .q-splitter__before {
-    height: 100%;
+    height: 90vh;
   }
 
   .q-splitter__separator {
     background-color: transparent !important;
   }
 
+  header.left {
+    height: 52px;
+  }
+
   nav {
-    height: 90vh;
-    padding: 40px 10px 16px 10px;
+    padding: 0 10px 16px 10px;
     .group {
       padding: 0 12px;
       opacity: 0.5;
@@ -274,7 +300,7 @@ provide('scrollToBottom', scrollToBottom)
       }
     }
     .q-tab {
-      padding: 0 8px;
+      padding: 4px 8px;
       margin-bottom: 2px;
       min-height: 36px;
       border-radius: 4px;
@@ -327,6 +353,10 @@ provide('scrollToBottom', scrollToBottom)
     nav {
       height: 100vh;
     }
+  }
+
+  .grab {
+    cursor: grab;
   }
 }
 </style>

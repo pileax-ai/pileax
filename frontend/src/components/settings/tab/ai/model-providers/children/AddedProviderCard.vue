@@ -60,7 +60,7 @@
     </q-card-section>
 
     <q-card-section class="row col-12 justify-between content">
-      <o-menu-btn :label="`${$t('model')} (${data.llm?.length})`"
+      <o-menu-btn :label="`${$t('model')} (${data.models?.length})`"
                   class="text-tips bg-dark"
                   menu-class="pi-menu added-provider-llm-menu"
                   self="top left"
@@ -68,7 +68,7 @@
                   min-width="500px"
                   flat dropdown>
         <template #menu>
-          <template v-for="(item, index) in data.llm" :key="index">
+          <template v-for="(item, index) in data.models" :key="index">
             <o-common-item :icon="`icon-${data.logo}`" :label="item.modelName" right-side clickable style="min-height: 40px;">
               <template #label>
                 <template v-for="(tag, index) in item.tags.split(',')" :key="index">
@@ -98,7 +98,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import OMenuBtn from 'core/components/menu/OMenuBtn.vue'
-import toFixed from 'xe-utils/toFixed'
 
 const props = defineProps({
   data: {

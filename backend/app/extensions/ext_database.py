@@ -1,6 +1,7 @@
 import hashlib
 import logging
 import os
+from contextlib import contextmanager
 from datetime import UTC, datetime
 
 from alembic.config import Config
@@ -34,6 +35,12 @@ engine = create_new_engine()
 
 
 def get_db_session():
+    with Session(engine) as session:
+        yield session
+
+
+@contextmanager
+def get_session():
     with Session(engine) as session:
         yield session
 

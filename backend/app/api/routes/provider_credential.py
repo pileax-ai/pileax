@@ -22,7 +22,7 @@ async def save(item_in: ProviderCredentialCreate, controller: ProviderCredential
 
 @router.api_get("", response_model=ProviderCredentialPublic)
 async def get(id: uuid.UUID, controller: ProviderCredentialController = Depends()) -> Any:
-    return controller.get(id)
+    return controller.get(id, False)
 
 
 @router.api_put("", response_model=ProviderCredentialPublic)

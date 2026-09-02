@@ -1,8 +1,11 @@
+import json
+
 from fastapi import HTTPException
 
 from app.api.models.llm import LLM
 from app.constants.enums import LLMType
 from app.core.llm.models import ChatModel
+from app.core.llm.models.chat.base import ERROR_JSON, ERROR_PREFIX, LLMErrorCode
 from app.libs.provider_helper import ProviderHelper
 
 
@@ -13,7 +16,7 @@ class LLMHelper:
         if not provide_info:
             raise HTTPException(status_code=404, detail=f"Provider {provider} not found")
 
-        llm_list = provide_info.llm
+        llm_list = provide_info.models
         if len(llm_list) == 0:
             raise HTTPException(status_code=404, detail=f"LLM of {provider} not found")
 
@@ -34,8 +37,15 @@ class LLMHelper:
                         [{"role": "user", "content": "."}],
                         {"max_tokens": 1},
                     )
-                    if m.find("**ERROR**") >= 0:
+                    if m.find(ERROR_PREFIX) >= 0:
                         raise Exception(m)
+                    elif m.find(ERROR_JSON) >= 0:
+                        try:
+                            error = json.loads(m)
+                            if error["code"] not in [LLMErrorCode.ERROR_QUOTA, LLMErrorCode.ERROR_MODEL]:
+                                raise Exception(m)
+                        except:
+                            raise Exception(m)
                     chat_passed = True
                 except Exception as e:
                     msg = f"\nFail to access model({provider}/{model_name}) using this api key." + str(e)
@@ -69,8 +79,15 @@ class LLMHelper:
                     [{"role": "user", "content": "."}],
                     {"max_tokens": 1},
                 )
-                if m.find("**ERROR**") >= 0:
+                if m.find(ERROR_PREFIX) >= 0:
                     raise Exception(m)
+                elif m.find(ERROR_JSON) >= 0:
+                    try:
+                        error = json.loads(m)
+                        if error["code"] not in [LLMErrorCode.ERROR_QUOTA, LLMErrorCode.ERROR_MODEL]:
+                            raise Exception(m)
+                    except:
+                        raise Exception(m)
                 return True
             except Exception as e:
                 msg = f"\nFail to access model({provider}/{model_name}) using this api key." + str(e)

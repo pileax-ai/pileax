@@ -6,7 +6,8 @@ import type {
   PageLoadingSetting,
   PageTransitionSetting,
   TabBarSetting,
-  ThemeSetting
+  ThemeSetting,
+  UiSetting,
 } from 'core/types/setting'
 import { CODE } from 'core/app'
 
@@ -26,28 +27,31 @@ export const useAppStore = defineStore('app', {
     getNavi: (state) => state.navi,
   },
   actions: {
-    setLocale(value :string) {
+    setLocale(value: string) {
       this.setting.locale = value
     },
-    setTimezone(value :string) {
+    setTimezone(value: string) {
       this.setting.timezone = value
     },
-    setTheme(theme :ThemeSetting) {
+    setTheme(theme: ThemeSetting) {
       this.setting.theme = theme
     },
-    setNavi(navi :NaviSetting) {
+    setNavi(navi: NaviSetting) {
       this.setting.navi = navi
     },
-    setTabBar(tabBar :TabBarSetting) {
+    setTabBar(tabBar: TabBarSetting) {
       this.setting.tabBar = tabBar
     },
-    setBreadcrumb(breadcrumb :BreadcrumbSetting) {
+    setBreadcrumb(breadcrumb: BreadcrumbSetting) {
       this.setting.breadcrumb = breadcrumb
     },
-    setPageLoading(pageLoading :PageLoadingSetting) {
+    setUi(ui: UiSetting) {
+      this.setting.ui = ui
+    },
+    setPageLoading(pageLoading: PageLoadingSetting) {
       this.setting.pageLoading = pageLoading
     },
-    setPageTransition(pageTransition :PageTransitionSetting) {
+    setPageTransition(pageTransition: PageTransitionSetting) {
       this.setting.pageTransition = pageTransition
     },
     setUpdater(key: string, value?: any) {

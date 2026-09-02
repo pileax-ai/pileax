@@ -115,12 +115,21 @@ export default function() {
     ]
   })
 
+  const Status = computed(() => {
+    return [
+      { label: t('statusOptions.disabled'), value: -1, color: 'red' },
+      { label: t('statusOptions.pending'), value: 0, color: 'amber' },
+      { label: t('statusOptions.enabled'), value: 1, color: 'green' },
+    ]
+  })
+
   return {
     getArrayItem,
     BookMediaTypes,
     BookAnnotationTypes,
     LLMTypes,
     StandardColors,
+    Status,
     WorkspaceMemberRoles,
     WorkspaceMemberStatus,
     WorkspaceTypes,

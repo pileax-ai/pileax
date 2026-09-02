@@ -17,7 +17,9 @@ from app.api.services.conversation_service import ConversationService
 from app.api.services.prompt_service import PromptService
 from app.api.services.provider_credential_service import ProviderCredentialService
 from app.api.services.provider_default_model_service import ProviderDefaultModelService
+from app.api.services.provider_service import ProviderService
 from app.constants.enums import LLMType
+from app.core.llm.models.chat.base import ERROR_JSON, ERROR_PREFIX
 from app.core.llm.services.llm_service import LLMService
 
 
@@ -28,6 +30,7 @@ class ChatService(BaseService[Message]):
         self.workspace = workspace
         self.conversation_service = ConversationService(session, user_id, workspace)
         self.prompt_service = PromptService(session, user_id, workspace)
+        self.provider_service = ProviderService(session, workspace)
         self.pdm_service = ProviderDefaultModelService(session, user_id, workspace.id)
         self.pc_service = ProviderCredentialService(session)
 
@@ -66,12 +69,7 @@ class ChatService(BaseService[Message]):
 
         # user specific model
         if item_in.model_provider:
-            provider_credential = self.pc_service.find_one(
-                {
-                    "workspace_id": self.workspace.id,
-                    "provider": item_in.model_provider,
-                }
-            )
+            provider_credential = self.provider_service.select_credential(self.workspace.id, item_in.model_provider)
             if provider_credential:
                 pdm_credential = ProviderDefaultModelCredential(
                     provider=provider_credential.provider,
@@ -79,6 +77,7 @@ class ChatService(BaseService[Message]):
                     model_type=item_in.model_type,
                     credential=provider_credential.credential,
                 )
+
         # default model
         if pdm_credential is None:
             pdm_credential = self.pdm_service.get_default_model_credential(self.workspace.id, LLMType.CHAT)
@@ -146,7 +145,10 @@ class ChatService(BaseService[Message]):
             update_conversation()
 
         def save_message():
-            nonlocal content, reasoning_content, total_tokens
+            nonlocal content, reasoning_content, total_tokens, result
+
+            if content.find(ERROR_PREFIX) >= 0 or content.find(ERROR_JSON) >= 0:
+                result = Status.INACTIVE
 
             item = item_in.model_dump(by_alias=True)
             item["appId"] = conversation.app_id

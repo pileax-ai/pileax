@@ -125,6 +125,12 @@
                   <o-tooltip position="bottom">{{ $t('note.create') }}</o-tooltip>
                 </q-btn>
               </template>
+
+              <q-btn icon="schedule" flat>
+                <o-tooltip position="right" transition>
+                  {{ timeMulti(chat.updateTime).timestamp() }}
+                </o-tooltip>
+              </q-btn>
             </template>
           </div>
         </div>
@@ -149,6 +155,7 @@ import useAccount from 'src/hooks/useAccount'
 import useDialog from 'core/hooks/useDialog'
 import useNote from 'src/hooks/useNote'
 import type { Chat } from 'src/types/chat'
+import { timeMulti } from 'core/utils/dayjs'
 
 const props = defineProps({
   avatar: {
