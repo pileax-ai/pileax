@@ -23,3 +23,8 @@ export const RefTypes = [
   { label: '未知', value: '', color: 'grey', icon: 'description' },
   { label: '图书', value: 'book', color: 'blue', icon: 'book' },
 ]
+
+export const TableViews = [
+  { label: '列表', value: 'table', color: 'blue', icon: 'view_list' },
+  { label: '卡片', value: 'grid', color: 'amber', icon: 'grid_view' },
+]
