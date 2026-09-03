@@ -8,10 +8,17 @@
     </div>
 
     <o-field :label="$t('name')" required>
-      <q-input v-model="form.label" :placeholder="$t('name')"
+      <q-input v-model="form.alias" :placeholder="$t('name')"
                class="pi-field"
                standout dense clearable
-               :error="v$.label.$errors.length > 0"
+               :error="v$.alias.$errors.length > 0"
+               :error-message="$t('required')" />
+    </o-field>
+    <o-field :label="$t('vendor')" required>
+      <q-input v-model="form.vendor" :placeholder="$t('vendor')"
+               class="pi-field"
+               standout dense clearable
+               :error="v$.vendor.$errors.length > 0"
                :error-message="$t('required')" />
     </o-field>
     <q-toggle v-model="status" :label="$t('enable')" />
@@ -47,7 +54,8 @@ const emit = defineEmits(['success'])
 const { form, loading, actions } = useForm()
 const status = ref(true)
 const rules = {
-  label: { required },
+  alias: { required },
+  vendor: { required },
 }
 const v$ = useVuelidate(rules, form)
 

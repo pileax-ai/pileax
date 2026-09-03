@@ -31,7 +31,7 @@
             <q-item :class="{'bg-dark': index === selected}"
                     @click="onSelected(item)" clickable>
               <q-item-section avatar>
-                <o-svg-icon :name="item.name" size="3rem" />
+                <o-svg-icon :name="item.name" size="3rem" colored />
               </q-item-section>
               <q-item-section class="text-bold">
                 <q-item-label>

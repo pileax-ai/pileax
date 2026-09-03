@@ -1,15 +1,21 @@
 <template>
-  <o-query-section class="providers-manage"
+  <o-query-section class="workspace-models-manage"
                    icon="mdi-cube-outline"
-                   :title="$t('ai.providers.title')"
+                   title="模型管理"
                    v-bind="query"
                    @dense="query.onDense"
                    @query="query.onQuery"
-                   @reset="query.onReset">
+                   @reset="query.onReset" disable-meta>
+    <template #header-left>
+      <q-btn icon="arrow_back" flat round @click="emit('view', 'provider')" />
+      <o-svg-icon :name="provider.logo" size="2.4rem" colored />
+      <span class="q-ml-sm toolbar-title">{{ provider.alias }}</span>
+    </template>
+
     <!--Actions-->
     <template #actions-start>
       <div class="query-item">
-        <q-input v-model="condition.name__icontains"
+        <q-input v-model="condition.modelName__icontains"
                  :placeholder="$t('name')"
                  class="pi-field"
                  debounce="800"
@@ -21,11 +27,10 @@
         </q-input>
       </div>
       <div>
-        <q-btn icon="refresh" :label="$t('update')"
+        <q-btn icon="add" :label="$t('add')"
                class="bg-primary text-white"
                flat
-               :loading="updating"
-               @click="onUpdate"
+               @click="query.onDetails('', { width: '480px' })"
                v-if="isSuper" />
       </div>
     </template>
@@ -39,9 +44,9 @@
                @request="query.onRequest">
         <template #body-cell-label="props">
           <q-td :props="props">
-            <div class="row items-center no-wrap">
+            <div class="row items-center">
               <o-svg-icon :name="props.row.logo" size="2.4rem" colored />
-              <span class="q-ml-sm">{{props.value}}</span>
+              <span class="q-ml-md">{{props.value}}</span>
             </div>
           </q-td>
         </template>
@@ -61,11 +66,11 @@
         </template>
         <template #body-cell-actions="props">
           <q-td :props="props">
-            <q-btn color="primary" icon="edit" @click="onEdit(props.row)" flat dense v-if="isSuper">
-              <o-tooltip :message="$t('edit')" />
-            </q-btn>
-            <q-btn color="cyan" icon="mdi-cube-outline" @click="emit('view', 'model', props.row)" flat dense>
-              <o-tooltip :message="$t('ai.providers.models')" />
+            <q-btn color="primary" icon="edit"
+                   @click="query.onDetails(props.row.id, { width: '480px' })"
+                   flat dense
+                   v-if="isSuper">
+              <o-tooltip :message="$t('details')" />
             </q-btn>
           </q-td>
         </template>
@@ -74,32 +79,40 @@
 
     <!--Side Panel-->
     <template #side-panel>
-      <ProviderItem :id="`${id}`" :data="data"
-            @success="query.closeSide()"
-            v-if="view==='details'" />
+      <ModelItem :id="`${id}`"
+                 :provider="provider"
+                 @success="query.closeSide()"
+                 v-if="view==='details'" />
     </template>
 
   </o-query-section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, onActivated } from 'vue'
+import { onMounted, ref, computed, onActivated, type PropType } from 'vue'
 import OQuerySection from 'core/page/section/OQuerySection.vue'
-import ProviderItem from './children/ProviderItem.vue'
+import ModelItem from './WorkspaceModelItem.vue'
 
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
 import useAccount from 'src/hooks/useAccount'
 import useMetadata from 'src/hooks/useMetadata'
 import useQuery from 'src/hooks/useQuery'
-import { llmProviderService } from 'src/api/service/remote'
-import { notifyDone } from 'core/utils/control'
 
+const props = defineProps({
+  provider: {
+    type: Object as PropType<Indexable>,
+    default: () => {}
+  }
+})
 const emit = defineEmits(['view'])
 
 const { t } = useCommon()
+const {
+  getArrayItem,
+  Status
+} = useMetadata()
 const { isSuper } = useAccount()
-const { getArrayItem, Status } = useMetadata()
 
 const {
   id,
@@ -112,14 +125,15 @@ const {
   initQuery,
 } = useQuery()
 
-const apiName = 'llmProvider'
+const apiName = 'workspaceLLM'
 const data = ref<Indexable>({})
-const updating = ref(false)
 const columns = computed(() => {
   return [
-    { field: 'label', label: t('ai.providers._'), align: 'left', name: 'label', sortable: true, classes: 'text-bold' },
-    { field: 'tags', label: t('tags'), align: 'left', name: 'tags' },
-    { field: 'version', label: t('version'), align: 'left', name: 'version' },
+    { field: 'modelName', label: t('ai.providers.model.name'), align: 'left', name: 'modelName', sortable: true, classes: 'text-bold' },
+    { field: 'modelAlias', label: t('ai.providers.model.alias'), align: 'left', name: 'modelAlias' },
+    { field: 'modelType', label: t('ai.providers.model.type'), align: 'left', name: 'modelType', sortable: true },
+    { field: 'maxTokens', label: t('ai.providers.model.maxTokens'), align: 'left', name: 'maxTokens', sortable: true },
+    { field: 'provider', label: t('ai.providers._'), align: 'left', name: 'provider' },
     { field: 'status', label: t('status'), align: 'left', name: 'status' },
     {
       field: 'updateTime',
@@ -135,27 +149,17 @@ const columns = computed(() => {
 
 function onEdit(item: Indexable) {
   data.value = item
-  query.value.onDetails(item.id, { width: '480px' })
-}
-
-function onUpdate() {
-  updating.value = true
-  llmProviderService.updateProviders()
-    .then(() => {
-      notifyDone()
-      query.value.onQuery()
-    })
-    .finally(() => {
-      updating.value = false
-    })
+  id.value = item.id
+  query.value.openSide('480px', 'details')
 }
 
 function init() {
+  condition.value.provider = props.provider.name
   initQuery({
     api: apiName,
     path: '/query',
     columnList: columns.value as Indexable[],
-    title: t('ai.providers._')
+    title: t('ai.providers.model._')
   })
 }
 
@@ -169,7 +173,7 @@ onActivated(() => {
 </script>
 
 <style lang="scss">
-.providers-manage {
+.workspace-models-manage {
   .o-console-section .console-header .console-toolbar {
     padding: 0;
   }

@@ -10,6 +10,7 @@ import { computed, PropType } from 'vue'
 
 import CommonProviderConfig from './CommonProviderConfig.vue'
 import OllamaProviderConfig from './OllamaProviderConfig.vue'
+import VolcEngineProviderConfig from './VolcEngineProviderConfig.vue'
 
 const props = defineProps({
   id: {
@@ -27,6 +28,8 @@ const component = computed(() => {
   switch (props.data.name) {
     case 'Ollama':
       return OllamaProviderConfig
+    case 'VolcEngine':
+      return VolcEngineProviderConfig
     default:
       return CommonProviderConfig
   }

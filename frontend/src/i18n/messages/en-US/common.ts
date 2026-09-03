@@ -288,6 +288,7 @@ export default {
   updateTime: 'Update Time',
   upload: 'Upload',
   version: 'Version',
+  vendor: 'Vendor',
   view: {
     _: 'View',
     compact: 'Compact',

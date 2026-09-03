@@ -8,9 +8,9 @@ class SupportedLiteLLMProvider(StrEnum):
     DeepSeek = "DeepSeek"
     Gemini = "Gemini"
     Groq = "Groq"
-    HunYuan = "Tencent-Hy"
+    Hunyuan = "Hunyuan"
     Meituan = "Meituan"
-    MiMo = "Xiaomi-MiMo"
+    MiMo = "MiMo"
     MiniMax = "MiniMax"
     Moonshot = "Moonshot"
     Ollama = "Ollama"
@@ -25,9 +25,9 @@ FACTORY_DEFAULT_BASE_URL = {
     SupportedLiteLLMProvider.Anthropic: "https://api.anthropic.com/",
     SupportedLiteLLMProvider.Dashscope: "https://dashscope.aliyuncs.com/compatible-mode/v1",
     SupportedLiteLLMProvider.DeepSeek: "https://api.deepseek.com",
-    SupportedLiteLLMProvider.HunYuan: "https://api.hunyuan.cloud.tencent.com/v1",
+    SupportedLiteLLMProvider.Hunyuan: "https://tokenhub.tencentmaas.com/v1",
     SupportedLiteLLMProvider.Meituan: "https://api.longcat.chat/openai",
-    SupportedLiteLLMProvider.MiMo: "https://api.minimaxi.com/v1",
+    SupportedLiteLLMProvider.MiMo: "https://api.xiaomimimo.com/v1",
     SupportedLiteLLMProvider.MiniMax: "https://api.minimaxi.com/v1",
     SupportedLiteLLMProvider.Moonshot: "https://api.moonshot.cn/v1",
     SupportedLiteLLMProvider.Ollama: "",
@@ -45,14 +45,13 @@ LITELLM_PROVIDER_PREFIX = {
     SupportedLiteLLMProvider.DeepSeek: "deepseek/",
     SupportedLiteLLMProvider.Gemini: "gemini/",
     SupportedLiteLLMProvider.Groq: "groq/",
-    SupportedLiteLLMProvider.HunYuan: "openai/",
+    SupportedLiteLLMProvider.Hunyuan: "openai/",
     SupportedLiteLLMProvider.Meituan: "openai/",
-    SupportedLiteLLMProvider.MiniMax: "openai/", # todo
-    SupportedLiteLLMProvider.Mimo: "xiaomi_mimo/",
+    SupportedLiteLLMProvider.MiMo: "xiaomi_mimo/",
+    SupportedLiteLLMProvider.MiniMax: "openai/",  # todo
     SupportedLiteLLMProvider.Moonshot: "moonshot/",
-    SupportedLiteLLMProvider.Nvidia: "nvidia_nim/",
     SupportedLiteLLMProvider.Ollama: "ollama_chat/",
-    SupportedLiteLLMProvider.OpenRouter: "openai/", # todo
+    SupportedLiteLLMProvider.OpenRouter: "openai/",  # todo
     SupportedLiteLLMProvider.SiliconFlow: "openai/",
     SupportedLiteLLMProvider.Tongyi: "dashscope/",
     SupportedLiteLLMProvider.xAI: "xai/",

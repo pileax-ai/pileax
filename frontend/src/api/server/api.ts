@@ -41,6 +41,7 @@ const urls: Indexable = {
   workspaceMember: '/workspace/member',
   user: '/user',
   workspace: '/workspace',
+  workspaceLLM: '/workspace/ai/llm/model',
 }
 
 // 排序

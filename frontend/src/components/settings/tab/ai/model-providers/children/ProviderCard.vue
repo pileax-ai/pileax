@@ -3,13 +3,16 @@
     <q-card-section class="header">
       <q-item>
         <q-item-section avatar>
-          <q-avatar square>
-            <o-svg-icon :name="data.logo" size="2.4rem" colored />
+          <q-avatar size="3rem" square>
+            <o-svg-icon :name="data.logo" size="3rem" colored />
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label class="text-bold">
-            {{data.name}}
+          <q-item-label class="name">
+            {{data.alias}}
+          </q-item-label>
+          <q-item-label class="vendor text-tips">
+            {{data.vendor}}
           </q-item-label>
         </q-item-section>
         <q-item-section side>
@@ -77,6 +80,9 @@ const emit = defineEmits(['add'])
   .header {
     padding: 10px 0 0 0;
 
+    .q-item__section--main {
+      padding-left: 8px;
+    }
     .q-item__section--side {
       min-width: 36px;
       padding-right: 0;
@@ -88,6 +94,15 @@ const emit = defineEmits(['add'])
       visibility: hidden;
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
+    }
+
+    .name {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .vendor {
+      font-size: 0.6rem;
     }
   }
 

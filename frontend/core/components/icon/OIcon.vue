@@ -5,6 +5,7 @@
   <o-svg-icon v-bind="{...props, ...$attrs}"
               class="o-icon"
               :style="`--svg-icon-size: ${size};`"
+              colored
               v-else-if="name.indexOf('icon') === 0" />
   <img :src="$public(pngPath)" alt="icon" class="o-icon" v-bind="$attrs"
        v-else-if="name.indexOf('png') === 0" />

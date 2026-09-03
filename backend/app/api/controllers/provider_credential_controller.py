@@ -5,6 +5,7 @@ from fastapi import HTTPException
 
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
+from app.api.models.llm import LLM
 from app.api.models.owner import Owner
 from app.api.models.provider import Provider
 from app.api.models.provider_credential import (
@@ -57,7 +58,16 @@ class ProviderCredentialController(
                 provider, item_in.llm, item_in.credential.api_key, item_in.credential.base_url
             )
         else:
-            LLMHelper.validate_api_key(provider, item_in.credential.api_key, item_in.credential.base_url)
+            # use user saved llm
+            workspace_llm = self.workspace_llm_service.find_one({
+                "workspace_id": self.workspace.id,
+                "provider": provider,
+            })
+            if workspace_llm:
+                llm = LLM(**(workspace_llm.model_dump()))
+                LLMHelper.validate_llm_api_key(provider, llm, item_in.credential.api_key, item_in.credential.base_url)
+            else:
+                raise HTTPException(status_code=404, detail=f"LLM of {provider} not found")
 
         # Encrypt api-key
         credential = self.service.encrypt(item_in.credential, self.workspace)
@@ -77,7 +87,6 @@ class ProviderCredentialController(
         if item_in.llm:
             llm_item_in = item_in.llm.model_dump(by_alias=True)
             llm_item_in["provider"] = provider
-            llm_item_in["credential_id"] = item_out.id
             self.workspace_llm_service.save(WorkspaceLLMCreate(**llm_item_in), self.workspace.id)
 
         # Init default models
@@ -132,8 +141,5 @@ class ProviderCredentialController(
         # remove default model if no credentials
         if new_provider_credential is None:
             self.pdm_service.remove_by_provider(provider_credential.provider)
-
-        # remove workspace llm
-        self.workspace_llm_service.delete_all({"credential_id": id})
 
         return None

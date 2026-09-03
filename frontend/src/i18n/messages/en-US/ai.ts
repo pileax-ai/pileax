@@ -39,11 +39,14 @@ export default {
     models: 'Models',
     model: {
       _: 'Model',
+      alias: 'Model Alias',
       get: 'List Models',
       llm: 'LLM',
       maxTokens: 'Max Tokens',
       name: 'Model Name',
-      type: 'Model Type'
+      type: 'Model Type',
+      endpoint: 'Model Endpoint',
+      endpointTip: 'Model Name: Enter the Endpoint ID',
     },
     set: 'Set AI providers',
     setTips: 'Set AI providers to enable AI capabilities.',

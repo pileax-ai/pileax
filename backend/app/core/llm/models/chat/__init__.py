@@ -12,4 +12,5 @@ __all__ = [
     "base",
     "litellm_base",
     "openai",
+    "volc_engine",
 ]

@@ -3,13 +3,16 @@
     <q-card-section class="header">
       <q-item>
         <q-item-section avatar>
-          <q-avatar square>
-            <o-svg-icon :name="data.logo" size="2.4rem" colored />
+          <q-avatar size="3rem" square>
+            <o-svg-icon :name="data.logo" size="3rem" colored />
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label class="text-bold">
-            {{data.name}}
+          <q-item-label class="name">
+            {{data.alias}}
+          </q-item-label>
+          <q-item-label class="vendor text-tips">
+            {{data.vendor}}
           </q-item-label>
         </q-item-section>
         <q-item-section side>
@@ -69,9 +72,11 @@
                   flat dropdown>
         <template #menu>
           <template v-for="(item, index) in data.models" :key="index">
-            <o-common-item :icon="`icon-${data.logo}`" :label="item.modelName" right-side clickable style="min-height: 40px;">
+            <o-common-item :icon="`icon-${data.logo}`"
+                           :label="item.modelAlias || item.modelName"
+                           right-side clickable style="min-height: 40px;">
               <template #label>
-                <template v-for="(tag, index) in item.tags.split(',')" :key="index">
+                <template v-for="(tag, index) in item.tags?.split(',')" :key="index">
                   <q-chip size="10px" dense square v-if="tag">{{tag}}</q-chip>
                 </template>
               </template>
@@ -124,9 +129,21 @@ const models = ref<Indexable>({})
   .header {
     padding: 10px 0 0 0;
 
+    .q-item__section--main {
+      padding-left: 8px;
+    }
     .q-item__section--side {
       min-width: 36px;
       padding-right: 0;
+    }
+
+    .name {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .vendor {
+      font-size: 0.6rem;
     }
   }
 

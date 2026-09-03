@@ -1,10 +1,12 @@
 {
-    "version": "0.7.2",
+    "version": "0.7.0",
     "description": "LLM providers and model list",
     "modified": "2026-08-31T00:52:34Z",
     "providers": [
         {
             "name": "Anthropic",
+            "alias": "Anthropic",
+            "vendor": "Anthropic",
             "logo": "anthropic",
             "tags": "LLM",
             "status": 1,
@@ -70,6 +72,8 @@
         },
         {
             "name": "DeepSeek",
+            "alias": "DeepSeek",
+            "vendor": "DeepSeek",
             "logo": "deepseek",
             "tags": "LLM",
             "status": 1,
@@ -93,6 +97,8 @@
         },
         {
             "name": "Gemini",
+            "alias": "Gemini",
+            "vendor": "Google",
             "logo": "gemini",
             "tags": "LLM,TEXT EMBEDDING,IMAGE2TEXT",
             "status": 1,
@@ -149,6 +155,8 @@
         },
         {
             "name": "Ollama",
+            "alias": "Ollama",
+            "vendor": "Ollama",
             "logo": "ollama",
             "tags": "LLM,TEXT EMBEDDING,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -158,6 +166,8 @@
         },
         {
             "name": "OpenAI",
+            "alias": "OpenAI",
+            "vendor": "OpenAI",
             "logo": "openai",
             "tags": "LLM,TEXT EMBEDDING,TTS,TEXT RERANK,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -328,6 +338,8 @@
         },
         {
             "name": "Tongyi",
+            "alias": "Tongyi",
+            "vendor": "Alibaba Cloud / Qwen",
             "logo": "tongyi",
             "tags": "LLM,TEXT EMBEDDING,TEXT RERANK,TTS,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -396,6 +408,8 @@
         },
         {
             "name": "MiniMax",
+            "alias": "MiniMax",
+            "vendor": "MiniMax",
             "logo": "minimax",
             "tags": "LLM",
             "status": 1,
@@ -418,6 +432,8 @@
         },
         {
             "name": "Moonshot",
+            "alias": "Moonshot",
+            "vendor": "Moonshot AI",
             "logo": "moonshot",
             "tags": "LLM,TEXT EMBEDDING,IMAGE2TEXT",
             "status": 1,
@@ -512,6 +528,8 @@
         },
         {
             "name": "FishAudio",
+            "alias": "Fish Audio",
+            "vendor": "Hanabi AI",
             "logo": "fishaudio",
             "tags": "TTS",
             "status": 1,
@@ -531,6 +549,8 @@
         },
         {
             "name": "Hunyuan",
+            "alias": "Hunyuan",
+            "vendor": "Tencent",
             "logo": "hunyuan",
             "tags": "LLM,IMAGE2TEXT",
             "status": 1,
@@ -635,6 +655,8 @@
         },
         {
             "name": "Zhipu",
+            "alias": "Zhipu",
+            "vendor": "Zhipu AI",
             "logo": "zhipu",
             "tags": "LLM,TEXT EMBEDDING,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -711,16 +733,6 @@
                     "is_tools": true
                 },
                 {
-                    "model_name": "glm-4.5v",
-                    "tags": "LLM,IMAGE2TEXT,64",
-                    "max_tokens": 64000,
-                    "model_type": [
-                        "image2text",
-                        "chat"
-                    ],
-                    "is_tools": false
-                },
-                {
                     "model_name": "glm-4-plus",
                     "tags": "LLM,CHAT,128K",
                     "max_tokens": 128000,
@@ -784,16 +796,6 @@
                     "is_tools": true
                 },
                 {
-                    "model_name": "glm-4v",
-                    "tags": "LLM,IMAGE2TEXT",
-                    "max_tokens": 2000,
-                    "model_type": [
-                        "image2text",
-                        "chat"
-                    ],
-                    "is_tools": true
-                },
-                {
                     "model_name": "glm-4-9b",
                     "tags": "LLM,CHAT,",
                     "max_tokens": 8192,
@@ -821,11 +823,13 @@
             ]
         },
         {
-            "name": "Xiaomi-MiMo",
-            "logo": "mino",
+            "name": "MiMo",
+            "alias": "Xiaomi MiMo",
+            "vendor": "Xiaomi",
+            "logo": "mimo",
             "tags": "LLM",
             "status": 1,
-            "apikey_url": "https://bigmodel.cn/apikey/platform",
+            "apikey_url": "https://platform.xiaomimimo.com/console/api-keys",
             "models": [
                 {
                     "model_name": "mimo-v2.5",
@@ -842,6 +846,16 @@
                     "is_tools": true
                 }
             ]
+        },
+        {
+            "name": "VolcEngine",
+            "alias": "VolcEngine",
+            "vendor": "ByteDance",
+            "logo": "volcengine",
+            "tags": "LLM,TTS,SPEECH2TEXT",
+            "status": 1,
+            "apikey_url": "https://console.volcengine.com/ark/apiKey",
+            "models": []
         }
     ]
 }

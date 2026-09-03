@@ -3,32 +3,11 @@
  *
  * @version 1.0
  */
-import { GET, POST, DELETE } from 'src/hooks/useRequest'
+import { GET, POST } from 'src/hooks/useRequest'
+import { BaseService } from 'src/api/service/remote/base'
 
-export class RemoteLLMProviderService {
-  private apiName = 'llmProvider'
-
-  async save(data: Indexable): Promise<any> {
-    return POST({ name: this.apiName, body: data })
-  }
-
-
-  async get(id: string): Promise<any> {
-    return GET({ name: this.apiName, query: {id: id} })
-  }
-
-  async delete(id: string) {
-    return DELETE({ name: this.apiName, query: {id: id} })
-  }
-
-  /**
-   * Pagination query
-   *
-   * @param query
-   */
-  async query(query: Indexable): Promise<any> {
-    return POST({ name: this.apiName, path: '/query', body: query })
-  }
+export class RemoteLLMProviderService extends BaseService {
+  protected apiName = 'llmProvider'
 
   async getProviders() {
     return GET({ name: this.apiName, path: '/providers' })

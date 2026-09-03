@@ -2,7 +2,7 @@
 name = "app"
 version = "0.7.0"
 description = "PileaX AI"
-requires-python = ">=3.10,<4.0"
+requires-python = ">=3.12,<4.0"
 
 dependencies = [
     "fastapi[standard]<1.0.0,>=0.114.2",

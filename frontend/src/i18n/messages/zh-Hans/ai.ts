@@ -39,11 +39,14 @@ export default {
     models: '模型',
     model: {
       _: '模型',
+      alias: '模型别名',
       get: '获取模型',
       llm: 'LLM',
       maxTokens: '最大Token数',
       name: '模型名称',
-      type: '模型类型'
+      type: '模型类型',
+      endpoint: '模型接入点',
+      endpointTip: '模型名称：填写接入点ID',
     },
     set: '设置 AI 模型提供商',
     setTips: '设置服务提供商以启用 AI 功能',
