@@ -34,6 +34,7 @@ EXT_NAMES = [
     "workspace",
     "workspace_book",
     "workspace_book_collection",
+    "workspace_llm",
     "workspace_member",
 ]
 EXT_MODULES = [f"{__name__}.{name}" for name in EXT_NAMES]

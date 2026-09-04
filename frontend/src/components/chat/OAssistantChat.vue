@@ -47,11 +47,11 @@
     <footer class="row col-auto justify-between text-tips">
       <div class="row items-center">
         <template v-if="localDefaultModel.provider">
-          <o-badge color="grey">
-            {{localDefaultModel.provider}}
+          <o-badge color="accent">
+            {{ localDefaultModel.provider }}
           </o-badge>
-          <o-badge color="grey">
-            {{localDefaultModel.modelName}}
+          <o-badge color="accent">
+            {{ localDefaultModel.modelAlias || localDefaultModel.modelName }}
           </o-badge>
         </template>
       </div>
@@ -61,10 +61,10 @@
           <o-tooltip position="top" transition>
             <div class="caption">{{ $t('systems.shortcut') }}</div>
             <div class="row items-center ">
-              <kbd>⌘</kbd><kbd><q-icon name="keyboard_return" /></kbd>
+              <kbd>{{nativeShortcut('mod')}}</kbd><kbd><q-icon name="keyboard_return" /></kbd>
               <span class="q-mr-md">{{ $t('chat.send') }}</span>
 
-              <kbd>⇧</kbd> <kbd><q-icon name="keyboard_return" /></kbd>
+              <kbd>{{nativeShortcut('shift')}}</kbd> <kbd><q-icon name="keyboard_return" /></kbd>
               <span>{{ $t('chat.newLine') }}</span>
             </div>
           </o-tooltip>
@@ -110,6 +110,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import useAi from 'src/hooks/useAi'
+import useShortcut from 'core/hooks/useShortcut'
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 import { UUID } from 'core/utils/crypto'
 
@@ -134,6 +135,7 @@ const props = defineProps({
 const emit = defineEmits(['send', 'stop', 'expand'])
 
 const { localModels, checkAiSettings } = useAi()
+const { nativeShortcut } = useShortcut()
 const input = ref()
 const expanded = ref(false)
 

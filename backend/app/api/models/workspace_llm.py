@@ -12,11 +12,12 @@ class WorkspaceLLM(BaseSQLModel, BaseMixin, table=True):
     __table_args__ = (
         UniqueConstraint("workspace_id", "provider", "model_name", name="unique_workspace_llm_provider_model_name"),
     )
-
     workspace_id: uuid.UUID = uuid_field()
+
     provider: str = Field(...)
     model_name: str = Field(...)
     model_type: str = Field(...)
+    model_alias: str | None = Field(default=None)
     tags: str | None = Field(default=None)
     max_tokens: int | None = Field(default=None)
     is_tools: int = Field(
@@ -26,14 +27,13 @@ class WorkspaceLLM(BaseSQLModel, BaseMixin, table=True):
         default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
     )
     extra: dict | None = Field(default=None, sa_type=JSONString)
-    credential_id: uuid.UUID = uuid_field()
 
 
 class WorkspaceLLMBase(BaseApiModel):
     id: uuid.UUID | None = None
-    provider: str
     model_name: str | None = None
     model_type: str | None = None
+    model_alias: str | None = None
     tags: str | None
     max_tokens: int | None = None
     is_tools: int | None = None
@@ -42,9 +42,9 @@ class WorkspaceLLMBase(BaseApiModel):
 
 
 class WorkspaceLLMCreate(WorkspaceLLMBase):
+    provider: str
     model_name: str
     model_type: str
-    credential_id: uuid.UUID
 
 
 class WorkspaceLLMUpdate(WorkspaceLLMBase):
@@ -52,4 +52,4 @@ class WorkspaceLLMUpdate(WorkspaceLLMBase):
 
 
 class WorkspaceLLMPublic(WorkspaceLLMBase, BaseMixin):
-    pass
+    provider: str

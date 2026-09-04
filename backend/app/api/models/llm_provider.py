@@ -13,7 +13,8 @@ class LLMProvider(BaseSQLModel, BaseMixin, table=True):
     __table_args__ = (UniqueConstraint("name", name="unique_llm_provider_name"),)
 
     name: str = Field(...)
-    label: str = Field(...)
+    alias: str = Field(...)
+    vendor: str = Field(...)
     version: str = Field(...)
     logo: str | None = Field(default=None)
     tags: str | None = Field(default=None)
@@ -26,7 +27,8 @@ class LLMProvider(BaseSQLModel, BaseMixin, table=True):
 
 class LLMProviderBase(BaseApiModel):
     id: uuid.UUID | None = None
-    label: str | None = None
+    alias: str | None = None
+    vendor: str | None = None
     logo: str | None = None
     tags: str | None = None
     apikey_url: str | None = None
@@ -36,7 +38,8 @@ class LLMProviderBase(BaseApiModel):
 
 class LLMProviderCreate(LLMProviderBase):
     name: str
-    label: str
+    alias: str
+    vendor: str
     version: str
 
 

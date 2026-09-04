@@ -28,11 +28,11 @@
       <template v-if="typeModels.length">
         <template v-for="(item, index) in typeModels" :key="index">
           <o-common-item :icon="`icon-${item.logo}`"
-                         :label="item.modelName"
+                         :label="item.modelAlias || item.modelName"
                          @click.stop="onSelect(item)"
                          right-side clickable closable="1">
             <template #label>
-              <template v-for="(tag, index) in item.tags.split(',')" :key="index">
+              <template v-for="(tag, index) in item.tags?.split(',')" :key="index">
                 <q-chip size="10px" dense square v-if="tag">{{tag}}</q-chip>
               </template>
             </template>
@@ -154,6 +154,7 @@ const onSelect = (item: Indexable) => {
   const body = {
     provider: item.provider,
     modelName: item.modelName,
+    modelAlias: item.modelAlias,
     modelType: item.modelType
   }
   if (props.local) {

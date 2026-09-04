@@ -30,6 +30,7 @@ import { userBookService } from './user-book'
 import { workspaceService } from './workspace'
 import { workspaceBookService } from './workspace-book'
 import { workspaceBookCollectionService } from './workspace-book-collection'
+import { workspaceLLMService } from './workspace-llm'
 import { workspaceMemberService } from './workspace-member'
 
 export {
@@ -60,5 +61,6 @@ export {
   workspaceService,
   workspaceBookService,
   workspaceBookCollectionService,
+  workspaceLLMService,
   workspaceMemberService,
 }

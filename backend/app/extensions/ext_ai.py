@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from fastapi import FastAPI
@@ -8,6 +9,7 @@ from app.configs import app_config
 from app.libs.file_utils import get_root_dir
 from app.libs.provider_helper import ProviderHelper
 
+logger = logging.getLogger(__name__)
 order = 2
 
 
@@ -19,6 +21,7 @@ def setup(app: FastAPI):
             app_config.LLM_CONFIG = LLMConfigInfo(**llm_config)
     except Exception:
         app_config.LLM_CONFIG = None
+        logger.exception("❌ Failed to load LLM config.")
 
 
 def sync_providers():

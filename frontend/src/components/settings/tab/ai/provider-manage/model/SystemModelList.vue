@@ -1,5 +1,5 @@
 <template>
-  <o-query-section class="models-manage"
+  <o-query-section class="system-models-manage"
                    icon="mdi-cube-outline"
                    title="模型管理"
                    v-bind="query"
@@ -9,7 +9,7 @@
     <template #header-left>
       <q-btn icon="arrow_back" flat round @click="emit('view', 'provider')" />
       <o-svg-icon :name="provider.logo" size="2.4rem" colored />
-      <span class="q-ml-sm toolbar-title">{{ provider.label }}</span>
+      <span class="q-ml-sm toolbar-title">{{ provider.alias }}</span>
     </template>
 
     <!--Actions-->
@@ -91,7 +91,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, onActivated, type PropType } from 'vue'
 import OQuerySection from 'core/page/section/OQuerySection.vue'
-import ModelItem from './children/ModelItem.vue'
+import ModelItem from './Item.vue'
 
 import { timeMulti } from 'core/utils/dayjs'
 import useCommon from 'core/hooks/useCommon'
@@ -172,7 +172,7 @@ onActivated(() => {
 </script>
 
 <style lang="scss">
-.models-manage {
+.system-models-manage {
   .o-console-section .console-header .console-toolbar {
     padding: 0;
   }
