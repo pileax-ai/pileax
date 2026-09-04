@@ -1,5 +1,5 @@
 {
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "LLM providers and model list",
     "modified": "2026-08-31T00:52:34Z",
     "providers": [
@@ -855,6 +855,16 @@
             "tags": "LLM,TTS,SPEECH2TEXT",
             "status": 1,
             "apikey_url": "https://console.volcengine.com/ark/apiKey",
+            "models": []
+        },
+        {
+            "name": "NewAPI",
+            "alias": "New API",
+            "vendor": "QuantumNous",
+            "logo": "newapi",
+            "tags": "LLM,TEXT EMBEDDING,TEXT RE-RANK,IMAGE2TEXT,TTS,SPEECH2TEXT",
+            "status": 1,
+            "apikey_url": "",
             "models": []
         }
     ]

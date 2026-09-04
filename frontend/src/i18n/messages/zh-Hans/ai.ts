@@ -1,4 +1,5 @@
 export default {
+  agent: '智能体',
   agents: 'AI 智能体',
   apps: 'AI 应用',
   basedOnBook: '基于本书',

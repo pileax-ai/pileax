@@ -4,8 +4,8 @@ from typing import Any
 from fastapi import Depends
 
 from app.api.controllers.workspace_llm_controller import WorkspaceLLMController
-from app.api.models.workspace_llm import WorkspaceLLMCreate, WorkspaceLLMPublic, WorkspaceLLMUpdate
 from app.api.models.query import PaginationQuery, QueryResult
+from app.api.models.workspace_llm import WorkspaceLLMCreate, WorkspaceLLMPublic, WorkspaceLLMUpdate
 from app.api.router import ApiRouter
 
 router = ApiRouter(prefix="/workspace/ai/llm/model", tags=["WorkspaceLLM"])

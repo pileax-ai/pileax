@@ -65,8 +65,8 @@ class ProviderHelper:
 
                 try:
                     provider_service.sync_provider(provider_dict)
-                except Exception as e:
-                    logger.exception("⚠️ Failed to sync provider: %s. %s", provider_info.name, str(e))
+                except Exception:
+                    logger.exception("⚠️ Failed to sync provider: %s.", provider_info.name)
                     continue
 
                 # model
@@ -77,10 +77,8 @@ class ProviderHelper:
 
                     try:
                         llm_service.sync_model(model_dict)
-                    except Exception as e:
-                        logger.exception(
-                            "⚠️ Failed to sync model: %s-%s. %s", provider_info.name, model.model_name, str(e)
-                        )
+                    except Exception:
+                        logger.exception("⚠️ Failed to sync model: %s-%s.", provider_info.name, model.model_name)
                         continue
 
     @staticmethod

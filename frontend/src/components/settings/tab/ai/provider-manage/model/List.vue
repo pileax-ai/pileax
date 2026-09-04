@@ -24,7 +24,7 @@ const props = defineProps({
 const emit = defineEmits(['view'])
 
 const showWorkspaceModels = computed(() => {
-  const providers = ['Ollama', 'VolcEngine']
+  const providers = ['NewAPI', 'Ollama', 'VolcEngine']
   return providers.includes(props.provider.name)
 })
 </script>

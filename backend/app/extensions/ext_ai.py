@@ -19,9 +19,9 @@ def setup(app: FastAPI):
             # app_config.FACTORY_LLM_INFOS = json.load(f)["factory_llm_infos"]
             llm_config = json.load(f)
             app_config.LLM_CONFIG = LLMConfigInfo(**llm_config)
-    except Exception as e:
+    except Exception:
         app_config.LLM_CONFIG = None
-        logger.exception("❌ Failed to load LLM config. %s", str(e))
+        logger.exception("❌ Failed to load LLM config.")
 
 
 def sync_providers():

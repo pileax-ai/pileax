@@ -184,6 +184,7 @@ const tabs = computed(() => {
       label: t('ai.providers.title'),
       value: 'ai',
       icon: 'mdi-creation-outline',
+      group: 'AI',
       component: AiTab,
       show: workspace.value.memberRole === 'owner',
     },

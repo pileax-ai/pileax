@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agent',
   agents: 'AI Agents',
   apps: 'AI Apps',
   basedOnBook: 'Based on Book',

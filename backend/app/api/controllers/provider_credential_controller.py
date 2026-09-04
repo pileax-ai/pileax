@@ -59,10 +59,12 @@ class ProviderCredentialController(
             )
         else:
             # use user saved llm
-            workspace_llm = self.workspace_llm_service.find_one({
-                "workspace_id": self.workspace.id,
-                "provider": provider,
-            })
+            workspace_llm = self.workspace_llm_service.find_one(
+                {
+                    "workspace_id": self.workspace.id,
+                    "provider": provider,
+                }
+            )
             if workspace_llm:
                 llm = LLM(**(workspace_llm.model_dump()))
                 LLMHelper.validate_llm_api_key(provider, llm, item_in.credential.api_key, item_in.credential.base_url)
