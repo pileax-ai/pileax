@@ -3,13 +3,13 @@
          :icon-right="iconRight"
          flat>
     <template v-if="single">
-      <o-svg-icon :name="provider.name" size="1.8rem" v-if="provider.title" />
+      <o-svg-icon :name="provider.name" size="1.8rem" colored v-if="provider.title" />
       <q-icon name="mdi-creation" v-else />
       <slot></slot>
     </template>
     <template v-else>
       <div class="row">
-        <o-svg-icon :name="provider.name" size="1.8rem" class="q-mr-sm" v-if="provider.title" />
+        <o-svg-icon :name="provider.name" size="1.8rem" class="q-mr-sm" colored v-if="provider.title" />
         <q-icon name="mdi-creation" class="q-mr-sm" v-else />
         {{ provider.title || 'AI Provider' }}
       </div>

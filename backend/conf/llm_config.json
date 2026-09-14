@@ -1,10 +1,12 @@
 {
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "LLM providers and model list",
     "modified": "2026-08-31T00:52:34Z",
     "providers": [
         {
             "name": "Anthropic",
+            "alias": "Anthropic",
+            "vendor": "Anthropic",
             "logo": "anthropic",
             "tags": "LLM",
             "status": 1,
@@ -70,6 +72,8 @@
         },
         {
             "name": "DeepSeek",
+            "alias": "DeepSeek",
+            "vendor": "DeepSeek",
             "logo": "deepseek",
             "tags": "LLM",
             "status": 1,
@@ -93,6 +97,8 @@
         },
         {
             "name": "Gemini",
+            "alias": "Gemini",
+            "vendor": "Google",
             "logo": "gemini",
             "tags": "LLM,TEXT EMBEDDING,IMAGE2TEXT",
             "status": 1,
@@ -149,6 +155,8 @@
         },
         {
             "name": "Ollama",
+            "alias": "Ollama",
+            "vendor": "Ollama",
             "logo": "ollama",
             "tags": "LLM,TEXT EMBEDDING,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -158,6 +166,8 @@
         },
         {
             "name": "OpenAI",
+            "alias": "OpenAI",
+            "vendor": "OpenAI",
             "logo": "openai",
             "tags": "LLM,TEXT EMBEDDING,TTS,TEXT RERANK,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -328,6 +338,8 @@
         },
         {
             "name": "Tongyi",
+            "alias": "Tongyi",
+            "vendor": "Alibaba Cloud / Qwen",
             "logo": "tongyi",
             "tags": "LLM,TEXT EMBEDDING,TEXT RERANK,TTS,SPEECH2TEXT,MODERATION",
             "status": 1,
@@ -396,6 +408,8 @@
         },
         {
             "name": "MiniMax",
+            "alias": "MiniMax",
+            "vendor": "MiniMax",
             "logo": "minimax",
             "tags": "LLM",
             "status": 1,
@@ -418,6 +432,8 @@
         },
         {
             "name": "Moonshot",
+            "alias": "Moonshot",
+            "vendor": "Moonshot AI",
             "logo": "moonshot",
             "tags": "LLM,TEXT EMBEDDING,IMAGE2TEXT",
             "status": 1,
@@ -512,6 +528,8 @@
         },
         {
             "name": "FishAudio",
+            "alias": "Fish Audio",
+            "vendor": "Hanabi AI",
             "logo": "fishaudio",
             "tags": "TTS",
             "status": 1,
@@ -528,6 +546,326 @@
                     "model_type": "tts"
                 }
             ]
+        },
+        {
+            "name": "Hunyuan",
+            "alias": "Hunyuan",
+            "vendor": "Tencent",
+            "logo": "hunyuan",
+            "tags": "LLM,IMAGE2TEXT",
+            "status": 1,
+            "apikey_url": "https://console.cloud.tencent.com/tokenhub/apikey",
+            "models": [
+                {
+                    "model_name": "hy3",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "hy3-preview",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "kimi-k3",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "kimi-k2.7-code-highspeed",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "kimi-k2.7-code",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "glm-5.2",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "minimax-m3",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "deepseek-v4-flash-202605",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "deepseek-v4-pro-202606",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "deepseek-v4-pro",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "deepseek-v4-flash",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "hy-mt2-pro",
+                    "max_tokens": 8192,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "hy-mt2-plus",
+                    "max_tokens": 8192,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "hy-mt2-lite",
+                    "max_tokens": 8192,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "hy-role",
+                    "max_tokens": 32768,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "hunyuan-role-latest",
+                    "max_tokens": 32768,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "qwen3.5-flash",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "qwen3.5-plus",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                },
+                {
+                    "model_name": "glm-5.1",
+                    "max_tokens": 131072,
+                    "model_type": "chat"
+                }
+            ]
+        },
+        {
+            "name": "Zhipu",
+            "alias": "Zhipu",
+            "vendor": "Zhipu AI",
+            "logo": "zhipu",
+            "tags": "LLM,TEXT EMBEDDING,SPEECH2TEXT,MODERATION",
+            "status": 1,
+            "apikey_url": "https://bigmodel.cn/apikey/platform",
+            "models": [
+                {
+                    "model_name": "glm-5.2",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-5.1",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-5-turbo",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-5",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4.7",
+                    "tags": "LLM,CHAT,128K",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4.5",
+                    "tags": "LLM,CHAT,128K",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4.5-x",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4.5-air",
+                    "tags": "LLM,CHAT,128K",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4.5-airx",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4.5-flash",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-plus",
+                    "tags": "LLM,CHAT,128K",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-0520",
+                    "tags": "LLM,CHAT,128K",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4",
+                    "tags": "LLM,CHAT,128K",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-airx",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 8000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-air",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-flash",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-flashx",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-long",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 1000000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-3-turbo",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "glm-4-9b",
+                    "tags": "LLM,CHAT,",
+                    "max_tokens": 8192,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "embedding-2",
+                    "tags": "TEXT EMBEDDING",
+                    "max_tokens": 512,
+                    "model_type": "embedding"
+                },
+                {
+                    "model_name": "embedding-3",
+                    "tags": "TEXT EMBEDDING",
+                    "max_tokens": 512,
+                    "model_type": "embedding"
+                },
+                {
+                    "model_name": "glm-asr",
+                    "tags": "SPEECH2TEXT",
+                    "max_tokens": 4096,
+                    "model_type": "speech2text"
+                }
+            ]
+        },
+        {
+            "name": "MiMo",
+            "alias": "Xiaomi MiMo",
+            "vendor": "Xiaomi",
+            "logo": "mimo",
+            "tags": "LLM",
+            "status": 1,
+            "apikey_url": "https://platform.xiaomimimo.com/console/api-keys",
+            "models": [
+                {
+                    "model_name": "mimo-v2.5",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                },
+                {
+                    "model_name": "mimo-v2.5-pro",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": true
+                }
+            ]
+        },
+        {
+            "name": "VolcEngine",
+            "alias": "VolcEngine",
+            "vendor": "ByteDance",
+            "logo": "volcengine",
+            "tags": "LLM,TTS,SPEECH2TEXT",
+            "status": 1,
+            "apikey_url": "https://console.volcengine.com/ark/apiKey",
+            "models": []
+        },
+        {
+            "name": "NewAPI",
+            "alias": "New API",
+            "vendor": "QuantumNous",
+            "logo": "newapi",
+            "tags": "LLM,TEXT EMBEDDING,TEXT RE-RANK,IMAGE2TEXT,TTS,SPEECH2TEXT",
+            "status": 1,
+            "apikey_url": "",
+            "models": []
         }
     ]
 }

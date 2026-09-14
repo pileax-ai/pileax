@@ -9,7 +9,9 @@
 import { computed, PropType } from 'vue'
 
 import CommonProviderConfig from './CommonProviderConfig.vue'
+import NewApiProviderConfig from './NewApiProviderConfig.vue'
 import OllamaProviderConfig from './OllamaProviderConfig.vue'
+import VolcEngineProviderConfig from './VolcEngineProviderConfig.vue'
 
 const props = defineProps({
   id: {
@@ -25,8 +27,12 @@ const emit = defineEmits(['success'])
 
 const component = computed(() => {
   switch (props.data.name) {
+    case 'NewAPI':
+      return NewApiProviderConfig
     case 'Ollama':
       return OllamaProviderConfig
+    case 'VolcEngine':
+      return VolcEngineProviderConfig
     default:
       return CommonProviderConfig
   }

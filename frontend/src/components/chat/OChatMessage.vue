@@ -53,7 +53,7 @@
     <q-item-section avatar v-if="!dense">
       <q-avatar color="accent">
         <q-spinner-ios size="1.5rem" v-if="streaming" />
-        <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
+        <o-svg-icon :name="chat.modelProvider" size="2rem" colored v-else />
         <o-tooltip position="left" transition>{{chat.modelName}}</o-tooltip>
       </q-avatar>
       <div class="line"></div>
@@ -65,7 +65,7 @@
         <div class="row items-center">
           <q-avatar color="accent" size="36px" rounded>
             <q-spinner-ios size="1.5rem" v-if="streaming" />
-            <o-svg-icon :name="chat.modelProvider" size="2rem" v-else />
+            <o-svg-icon :name="chat.modelProvider" size="2rem" colored v-else />
             <o-tooltip position="left" transition>{{chat.modelName}}</o-tooltip>
           </q-avatar>
           <o-chip color="blue" square dense>
@@ -83,7 +83,7 @@
             <template #header>
               <q-item-section avatar>
                 <q-avatar size="24px">
-                  <o-svg-icon name="reasoning" size="1.4rem" />
+                  <o-svg-icon name="reasoning" size="1.4rem" colored />
                 </q-avatar>
               </q-item-section>
               <q-item-section>

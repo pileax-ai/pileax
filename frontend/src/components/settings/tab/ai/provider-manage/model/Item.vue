@@ -25,7 +25,7 @@
                 emit-value
                 standout dense />
     </o-field>
-    <o-field :label="$t('ai.providers.model.maxTokens')" required class="col-6">
+    <o-field :label="$t('ai.providers.model.maxTokens')" class="col-6">
       <q-input v-model="form.maxTokens" :placeholder="$t('ai.providers.model.maxTokens')"
                type="number"
                class="pi-field"
@@ -99,7 +99,7 @@ function onSubmit () {
     modelName: form.value.modelName,
     modelType: form.value.modelType,
     maxTokens: form.value.maxTokens,
-    tags: form.value.tags || '',
+    tags: (form.value.tags || '').toUpperCase(),
     status: status.value ? 1 : -1
   }
 

@@ -6,10 +6,12 @@ Licensed under the Apache License 2.0.
 Modifications made by PileaX AI.
 """
 
-from . import base, litellm_base, openai
+from . import base, litellm_base, newapi, openai, volc_engine
 
 __all__ = [
     "base",
     "litellm_base",
+    "newapi",
     "openai",
+    "volc_engine",
 ]

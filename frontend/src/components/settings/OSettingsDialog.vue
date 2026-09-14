@@ -122,7 +122,7 @@ const { workspace } = useAccount()
 const { dialog, onHide } = useDialog()
 const { t } = useCommon()
 const modal = ref()
-const splitterModel = ref(300)
+const splitterModel = ref(240)
 const currentTab = ref('profile')
 const isMaximized = ref(false)
 const pos = reactive({ x: 0, y: 0 })
@@ -184,6 +184,7 @@ const tabs = computed(() => {
       label: t('ai.providers.title'),
       value: 'ai',
       icon: 'mdi-creation-outline',
+      group: 'AI',
       component: AiTab,
       show: workspace.value.memberRole === 'owner',
     },

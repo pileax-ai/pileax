@@ -3,33 +3,10 @@
  *
  * @version 1.0
  */
-import { GET, POST, DELETE } from 'src/hooks/useRequest'
+import { BaseService } from 'src/api/service/remote/base'
 
-export class RemoteLLMService {
-  private apiName = 'llm'
-
-  async save(data: Indexable): Promise<any> {
-    return POST({ name: this.apiName, body: data })
-  }
-
-
-  async get(id: string): Promise<any> {
-    return GET({ name: this.apiName, query: {id: id} })
-  }
-
-  async delete(id: string) {
-    return DELETE({ name: this.apiName, query: {id: id} })
-  }
-
-  /**
-   * Pagination query
-   *
-   * @param query
-   */
-  async query(query: Indexable): Promise<any> {
-    return POST({ name: this.apiName, path: '/query', body: query })
-  }
-
+export class RemoteLLMService extends BaseService {
+  protected apiName = 'llm'
 }
 
 export const llmService = new RemoteLLMService()

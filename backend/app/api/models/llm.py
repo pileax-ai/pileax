@@ -13,6 +13,7 @@ class LLM(BaseSQLModel, BaseMixin, table=True):
     provider: str = Field(...)
     model_name: str = Field(...)
     model_type: str = Field(...)
+    model_alias: str | None = Field(default=None)
     tags: str | None = Field(default=None)
     max_tokens: int | None = Field(default=None)
     is_tools: int = Field(
@@ -28,6 +29,7 @@ class LLMBase(BaseApiModel):
     id: uuid.UUID | None = None
     model_name: str | None = None
     model_type: str | None = None
+    model_alias: str | None = None
     tags: str | None = None
     max_tokens: int | None = None
     is_tools: int | None = None
@@ -45,5 +47,5 @@ class LLMUpdate(LLMBase):
     id: uuid.UUID
 
 
-class LLMPublic(LLMBase):
+class LLMPublic(LLMBase, BaseMixin):
     provider: str

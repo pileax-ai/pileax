@@ -288,6 +288,7 @@ export default {
   updateTime: '更新时间',
   upload: '上传',
   version: '版本',
+  vendor: '服务商',
   view: {
     _: '查看',
     compact: '紧凑',

@@ -18,7 +18,7 @@ export class NoteShareService extends BaseService {
     return GET({ name: this.apiName, path: '/by-note', query })
   }
 
-  getDetails(shareId: string): Promise<any> {
+  override getDetails(shareId: string): Promise<any> {
     const query = {
       share_id: shareId
     }

@@ -53,7 +53,7 @@ const tabs = computed(() => {
   }
 
   .pi-view-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
   }
 
 }

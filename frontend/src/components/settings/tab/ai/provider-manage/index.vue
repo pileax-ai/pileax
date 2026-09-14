@@ -7,8 +7,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Providers from './providers.vue'
-import Models from './models.vue'
+import Providers from './provider/List.vue'
+import Models from './model/List.vue'
 
 const view = ref('provider')
 const provider = ref<Indexable>()

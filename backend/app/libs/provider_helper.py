@@ -61,13 +61,12 @@ class ProviderHelper:
             for provider_info in providers:
                 # provider
                 provider_dict = provider_info.model_dump(exclude={"models"})
-                provider_dict["label"] = provider_info.name
-                provider_dict["version"] = version
+                provider_dict["version"] = target_version
 
                 try:
                     provider_service.sync_provider(provider_dict)
-                except Exception as e:
-                    logger.info("⚠️ Failed to sync provider: %s", provider_info.name)
+                except Exception:
+                    logger.exception("⚠️ Failed to sync provider: %s.", provider_info.name)
                     continue
 
                 # model
@@ -78,8 +77,8 @@ class ProviderHelper:
 
                     try:
                         llm_service.sync_model(model_dict)
-                    except Exception as e:
-                        logger.info("⚠️ Failed to sync model: %s-%s", provider_info.name, model.model_name)
+                    except Exception:
+                        logger.exception("⚠️ Failed to sync model: %s-%s.", provider_info.name, model.model_name)
                         continue
 
     @staticmethod
