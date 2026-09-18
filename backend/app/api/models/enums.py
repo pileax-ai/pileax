@@ -14,3 +14,8 @@ class Scope(enum.IntEnum):
     WORKSPACE = 2
     TENANT = 4
     PUBLIC = 8
+
+
+class BookCollectionType(enum.IntEnum):
+    BOOKLIST = 0
+    GROUP = 1

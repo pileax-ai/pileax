@@ -3,6 +3,7 @@ export default {
   add: 'Dodaj książkę',
   addTime: 'Dodaj czas',
   addToCollection: 'Dodaj do kolekcji',
+  addToGroup: 'Dodaj do grupy',
   addToWant: 'Dodaj do „Chcę przeczytać”',
   annotation: 'Adnotacja do książki',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: 'Fizyczny'
   },
   format: 'Format',
+  group: 'Grupa książkowa',
+  groups: {
+    _: 'Grupy książkowe',
+    add: 'Dodaj grupę',
+    change: 'Zmień grupę',
+    edit: 'Edytuj grupę',
+    enable: 'Włącz grupę',
+    group: 'Grupa',
+    open: 'Grupa otwarta',
+    removeConfirm: 'Czy na pewno chcesz usunąć z grupy?'
+  },
   info: 'Informacje o książce',
   jumpToBook: 'Przejdź do pozycji w książce',
   lastReadTime: 'Ostatni czas odczytu',
@@ -85,6 +97,7 @@ export default {
   tag: 'Etykietka',
   tags: 'Tagi',
   title: 'Tytuł',
+  total: 'Łącznie {total} książek',
   uploader: {
     completed: 'Zakończono przesyłanie książek na serwer',
     label: 'Przeciągnij pliki tutaj lub kliknij, aby je przesłać.',

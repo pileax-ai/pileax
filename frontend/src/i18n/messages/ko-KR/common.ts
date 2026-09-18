@@ -205,6 +205,11 @@ export default {
     title: '제목'
   },
   status: '상태',
+  statusOptions: {
+    disabled: '장애가 있는',
+    enabled: '활성화됨',
+    pending: '보류 중'
+  },
   submit: '제출하다',
   symbol: '상징',
   system: '체계',
@@ -236,6 +241,8 @@ export default {
     refresh: '탭 새로 고침',
     unpin: '탭 고정 해제'
   },
+  tag: '꼬리표',
+  tags: '태그',
   terms: {
     privacy: '개인정보 보호정책',
     service: '사용자 계약'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: '업데이트 시간',
   upload: '업로드',
+  vendor: '공급업체',
   version: '버전',
   view: {
     _: '보다',

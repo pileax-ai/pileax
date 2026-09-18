@@ -8,6 +8,7 @@ from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import (
     WorkspaceBookCreate,
     WorkspaceBookDetails,
+    WorkspaceBookGroup,
     WorkspaceBookPublic,
     WorkspaceBookUpdate,
 )
@@ -59,3 +60,18 @@ async def query_details(query: PaginationQuery, controller: WorkspaceBookControl
 @router.api_get("/stats", response_model=list[dict])
 async def get_stats(controller: WorkspaceBookController = Depends()) -> Any:
     return controller.get_stats()
+
+
+@router.api_get("/group", response_model=list[dict])
+async def group(controller: WorkspaceBookController = Depends()) -> Any:
+    return controller.group()
+
+
+@router.api_delete("/group", response_model=WorkspaceBookPublic)
+async def remove_group(id: uuid.UUID, controller: WorkspaceBookController = Depends()) -> Any:
+    return controller.remove_group(id)
+
+
+@router.api_post("/query/groups", response_model=QueryResult[WorkspaceBookGroup])
+async def query_groups(query: PaginationQuery, controller: WorkspaceBookController = Depends()) -> Any:
+    return controller.query_groups(query)

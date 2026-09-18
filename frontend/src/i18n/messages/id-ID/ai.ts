@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agen',
   agents: 'Agen AI',
   apps: 'Aplikasi AI',
   basedOnBook: 'Berdasarkan Buku',
@@ -10,6 +11,7 @@ export default {
     chat: 'Obrolan LLM',
     chatModel: 'Model Obrolan dan Penalaran (LLM)',
     chatTips: 'Obrolan default LLM',
+    default: 'Pengaturan Model Default',
     embedding: 'Penyematan',
     embeddingModel: 'Model Penyematan',
     rerank: 'Susun ulang peringkat',
@@ -22,6 +24,7 @@ export default {
     vector: 'Basis Data Vektor'
   },
   providers: {
+    _: 'Penyedia Model',
     added: 'Penyedia Tambahan',
     api: {
       baseUrl: 'URL Dasar',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Nama Konfigurasi'
     },
     available: 'Penyedia yang Tersedia',
+    manage: 'Pengelola Penyedia',
     model: {
       _: 'Model',
+      alias: 'Model Alias',
+      endpoint: 'Titik Akhir Model',
+      endpointTip: 'Nama Model: Masukkan ID Endpoint',
       get: 'Daftar Model',
       llm: 'LLM',
       maxTokens: 'Token Maksimum',
       name: 'Nama Model',
       type: 'Jenis Model'
     },
+    models: 'Model',
     set: 'Tetapkan penyedia AI',
     setTips: 'Tetapkan penyedia AI untuk mengaktifkan kemampuan AI.',
     title: 'Penyedia Model'

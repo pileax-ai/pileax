@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agente',
   agents: 'Agentes de IA',
   apps: 'Aplicativos de IA',
   basedOnBook: 'Baseado no livro',
@@ -10,6 +11,7 @@ export default {
     chat: 'Bate-papo LLM',
     chatModel: 'Modelo de bate-papo e raciocínio (LLM)',
     chatTips: 'Chat padrão LLM',
+    default: 'Configurações padrão do modelo',
     embedding: 'Incorporação',
     embeddingModel: 'Modelo de Incorporação',
     rerank: 'Reclassificar',
@@ -22,6 +24,7 @@ export default {
     vector: 'Banco de dados vetorial'
   },
   providers: {
+    _: 'Fornecedor de modelos',
     added: 'Fornecedores adicionados',
     api: {
       baseUrl: 'URL base',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Nome da configuração'
     },
     available: 'Fornecedores disponíveis',
+    manage: 'Gerenciamento do provedor',
     model: {
       _: 'Modelo',
+      alias: 'Modelo Alias',
+      endpoint: 'Ponto final do modelo',
+      endpointTip: 'Nome do modelo: Insira o ID do ponto de extremidade',
       get: 'Lista de Modelos',
       llm: 'LLM',
       maxTokens: 'Fichas Máximas',
       name: 'Nome do modelo',
       type: 'Tipo de modelo'
     },
+    models: 'Modelos',
     set: 'Definir fornecedores de IA',
     setTips: 'Configure os fornecedores de IA para habilitar as funcionalidades de IA.',
     title: 'Fornecedores de modelos'

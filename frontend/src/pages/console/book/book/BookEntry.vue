@@ -11,7 +11,7 @@
                 :options="BookMediaTypes"
                 map-options
                 emit-value
-                standout dense readonly />
+                standout dense />
     </o-field>
     <o-field label="ISBN">
       <q-input v-model="form.isbn"
@@ -99,6 +99,13 @@ import { SHA1 } from 'core/utils/crypto'
 import { notifyWarning } from 'core/utils/control'
 import { bookService } from 'src/api/service/remote'
 
+const props = defineProps({
+  groupId: {
+    type: String,
+    default: null
+  },
+})
+
 const apiName = 'book'
 const emit = defineEmits(['close', 'success'])
 const { t } = useCommon()
@@ -174,6 +181,7 @@ function onSubmit () {
     location: form.value.location,
     isbn: form.value.isbn,
     refUrl: form.value.refUrl,
+    bookGroupId: props.groupId
   }
 
   actions.submit(body,(res) => {

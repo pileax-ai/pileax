@@ -205,6 +205,11 @@ export default {
     title: 'Tiêu đề'
   },
   status: 'Trạng thái',
+  statusOptions: {
+    disabled: 'Tàn tật',
+    enabled: 'Đã bật',
+    pending: 'Chưa giải quyết'
+  },
   submit: 'Nộp',
   symbol: 'Biểu tượng',
   system: 'Hệ thống',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Làm mới tab',
     unpin: 'Bỏ ghim tab'
   },
+  tag: 'Nhãn',
+  tags: 'Thẻ',
   terms: {
     privacy: 'Chính sách bảo mật',
     service: 'Thỏa thuận người dùng'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Thời gian cập nhật',
   upload: 'Tải lên',
+  vendor: 'Người bán',
   version: 'Phiên bản',
   view: {
     _: 'Xem',

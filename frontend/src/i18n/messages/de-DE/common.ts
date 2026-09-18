@@ -205,6 +205,11 @@ export default {
     title: 'Titel'
   },
   status: 'Status',
+  statusOptions: {
+    disabled: 'Deaktiviert',
+    enabled: 'Ermöglicht',
+    pending: 'Ausstehend'
+  },
   submit: 'Einreichen',
   symbol: 'Symbol',
   system: 'System',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Registerkarte aktualisieren',
     unpin: 'Tab „Entfesseln“'
   },
+  tag: 'Etikett',
+  tags: 'Tags',
   terms: {
     privacy: 'Datenschutzrichtlinie',
     service: 'Nutzungsvereinbarung'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Aktualisierungszeit',
   upload: 'Hochladen',
+  vendor: 'Verkäufer',
   version: 'Version',
   view: {
     _: 'Sicht',

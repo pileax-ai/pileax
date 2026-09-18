@@ -1,8 +1,12 @@
 import uuid
 
-from sqlmodel import Field, UniqueConstraint
+import sqlalchemy as sa
+from sqlmodel import Field, UniqueConstraint, text
 
-from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.base import GUID, BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.book import GroupBook
+from app.api.models.book_collection import BookCollectionPublic
+from app.constants import UUID_NIL
 
 
 class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
@@ -13,6 +17,10 @@ class WorkspaceBook(BaseSQLModel, BaseMixin, table=True):
     workspace_id: uuid.UUID = uuid_field()
     book_id: uuid.UUID = uuid_field()
     user_id: uuid.UUID = uuid_field()
+    book_group_id: uuid.UUID | None = Field(
+        default=UUID_NIL,
+        sa_column=sa.Column(GUID(), server_default=text(f"'{UUID_NIL}'"), nullable=True),
+    )
 
 
 class WorkspaceBookBase(BaseApiModel):
@@ -20,6 +28,7 @@ class WorkspaceBookBase(BaseApiModel):
     user_id: uuid.UUID | None = None
     book_id: uuid.UUID | None = None
     workspace_id: uuid.UUID | None = None
+    book_group_id: uuid.UUID | None = Field(default=UUID_NIL)
 
 
 class WorkspaceBookCreate(WorkspaceBookBase):
@@ -72,3 +81,10 @@ class WorkspaceBookDetails(WorkspaceBookPublic):
 
 class WorkspaceCollectionBookDetails(WorkspaceBookDetails):
     tid: uuid.UUID | None = None
+
+
+class WorkspaceBookGroup(BaseApiModel):
+    id: uuid.UUID
+    count: int
+    collection: BookCollectionPublic
+    books: list[GroupBook]

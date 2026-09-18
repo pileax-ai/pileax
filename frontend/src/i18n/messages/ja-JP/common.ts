@@ -205,6 +205,11 @@ export default {
     title: 'タイトル'
   },
   status: '状態',
+  statusOptions: {
+    disabled: '無効',
+    enabled: '有効',
+    pending: '保留中'
+  },
   submit: '提出する',
   symbol: 'シンボル',
   system: 'システム',
@@ -236,6 +241,8 @@ export default {
     refresh: 'タブを更新',
     unpin: 'タブのピン留めを外す'
   },
+  tag: 'タグ',
+  tags: 'タグ',
   terms: {
     privacy: 'プライバシーポリシー',
     service: 'ユーザー契約'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: '更新時間',
   upload: 'アップロード',
+  vendor: 'ベンダー',
   version: 'バージョン',
   view: {
     _: 'ビュー',

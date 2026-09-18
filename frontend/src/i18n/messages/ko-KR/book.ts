@@ -3,6 +3,7 @@ export default {
   add: '책 추가하기',
   addTime: '추가 시간',
   addToCollection: '컬렉션에 추가',
+  addToGroup: '그룹에 추가',
   addToWant: '읽고 싶은 책에 추가',
   annotation: '책 주석',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: '물리적'
   },
   format: '체재',
+  group: '독서 모임',
+  groups: {
+    _: '독서 모임',
+    add: '그룹 추가',
+    change: '그룹 변경',
+    edit: '편집 그룹',
+    enable: '그룹 활성화',
+    group: '그룹',
+    open: '오픈 그룹',
+    removeConfirm: '그룹에서 삭제하시는 게 맞나요?'
+  },
   info: '책 정보',
   jumpToBook: '책에서 해당 위치로 이동',
   lastReadTime: '최종 조회 시간',
@@ -85,6 +97,7 @@ export default {
   tag: '꼬리표',
   tags: '태그',
   title: '제목',
+  total: '총 {total}권의 책',
   uploader: {
     completed: '도서 서버 업로드 완료',
     label: '파일을 여기에 드래그하거나 클릭하여 업로드하세요.',

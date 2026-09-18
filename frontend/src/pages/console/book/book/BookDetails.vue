@@ -1,6 +1,6 @@
 <template>
   <section class="book-details">
-    <q-card flat>
+    <q-card flat v-if="!descExpanded">
       <q-responsive :ratio="1">
         <div class="cover">
           <img :src="coverUrl" />
@@ -12,7 +12,9 @@
           <book-context-menu :data="data"
                              @edit="onEdit"
                              @close="onClose"
+                             @dialog-close="onDialogClose"
                              @upload="onUpload"
+                             :group="group"
                              v-if="source === 'book-list'" />
           <book-collection-context-menu :data="data"
                                         @edit="onEdit"
@@ -24,50 +26,54 @@
 
     <q-card class="meta-card" flat>
       <q-card-section class="meta">
-        <header class="header">
-          <div class="title">{{data.title}}</div>
-          <div class="subtitle text-tips" v-if="data.subtitle">{{data.subtitle}}</div>
-        </header>
-        <o-view-item :label="$t('book.author')"
-                     :value="data.author" align="right" lines="2" />
-        <o-view-item :label="$t('book.publisher')"
-                     :value="data.publisher" align="right" v-if="data.publisher" />
-        <o-view-item :label="$t('book.published')"
-                     :value="data.published.substring(0, 4)" align="right" v-if="data.published" />
-        <template v-if="data.extension">
-          <o-view-item :label="$t('book.format')" align="right">
-            <template #value>
-              <div class="row col-12 justify-end pi-btn-flat"
-                   @click="onOpenPath"
-                   v-if="ipcProvider === 'electron' && appMode === 'standalone'">
-                <div>
-                  {{ data.extension.toUpperCase() }}
-                  <o-tooltip position="left" transition>
-                    {{ $t('book.viewFiles') }}
-                  </o-tooltip>
+        <template v-if="!descExpanded">
+          <header class="header">
+            <div class="title">{{data.title}}</div>
+            <div class="subtitle text-tips" v-if="data.subtitle">{{data.subtitle}}</div>
+          </header>
+          <o-view-item :label="$t('book.author')"
+                       :value="data.author" align="right" lines="2" />
+          <o-view-item :label="$t('book.publisher')"
+                       :value="data.publisher" align="right" v-if="data.publisher" />
+          <o-view-item :label="$t('book.published')"
+                       :value="data.published.substring(0, 4)" align="right" v-if="data.published" />
+          <template v-if="data.extension">
+            <o-view-item :label="$t('book.format')" align="right">
+              <template #value>
+                <div class="row col-12 justify-end pi-btn-flat"
+                     @click="onOpenPath"
+                     v-if="ipcProvider === 'electron' && appMode === 'standalone'">
+                  <div>
+                    {{ data.extension.toUpperCase() }}
+                    <o-tooltip position="left" transition>
+                      {{ $t('book.viewFiles') }}
+                    </o-tooltip>
+                  </div>
                 </div>
-              </div>
-              <span v-else>
+                <span v-else>
                 {{ data.extension.toUpperCase() }}
               </span>
-            </template>
-          </o-view-item>
-        </template>
-        <template v-if="add">
-          <o-view-item :label="$t('book.uploadTime')"
-                       :value="timeMulti(data.createTime).timestamp()" align="right" />
-        </template>
-        <template v-else>
-          <o-view-item :label="$t('book.addTime')"
-                       :value="timeMulti(data.createTime).timestamp()" align="right" />
-          <o-view-item :label="$t('book.lastReadTime')"
-                       :value="timeMulti(data.updateTime).timestamp()" align="right" />
+              </template>
+            </o-view-item>
+          </template>
+          <template v-if="add">
+            <o-view-item :label="$t('book.uploadTime')"
+                         :value="timeMulti(data.createTime).timestamp()" align="right" />
+          </template>
+          <template v-else>
+            <o-view-item :label="$t('book.addTime')"
+                         :value="timeMulti(data.createTime).timestamp()" align="right" />
+            <o-view-item :label="$t('book.lastReadTime')"
+                         :value="timeMulti(data.updateTime).timestamp()" align="right" />
+          </template>
         </template>
 
         <section class="description" v-if="data.description">
           <span class="text-readable">{{ $t('description') }}</span>
 
-          <o-book-desc :desc="data.description" />
+          <o-book-desc v-model:expanded="descExpanded"
+                       :desc="data.description"
+                       expandable />
         </section>
       </q-card-section>
 
@@ -108,16 +114,21 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  group: {
+    type: Boolean,
+    default: false
+  },
   source: {
     type: String,
     default: 'book-list'
   },
 })
-const emit = defineEmits(['add', 'close', 'edit', 'upload'])
+const emit = defineEmits(['add', 'close', 'dialog-close', 'edit', 'upload'])
 
 const { appMode, getCoverUrl } = useApi()
 const { openBook } = useReading()
 const coverUrl = ref('')
+const descExpanded = ref(false)
 
 function onEdit() {
   emit('edit', props.data)
@@ -129,6 +140,9 @@ function onUpload() {
 
 function onClose(args: Indexable) {
   emit('close', args)
+}
+function onDialogClose(type: string) {
+  emit('close', type)
 }
 
 function init() {
@@ -202,6 +216,10 @@ onMounted(() => {
 
     .description {
       margin-top: 4px;
+
+      .o-book-desc.expanded {
+        height: calc(100vh - 236px);
+      }
     }
   }
 

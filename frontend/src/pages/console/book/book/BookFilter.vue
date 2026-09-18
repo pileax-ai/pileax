@@ -27,15 +27,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { workspaceBookService } from 'src/api/service/remote'
 import { bookExtensions } from 'src/api/service/ebook/book'
 import useCommon from 'core/hooks/useCommon'
+import useReading from 'src/hooks/useReading'
+
 const emit = defineEmits(['filter'])
 
-const { t, confirm } = useCommon()
-const bookType = ref('')
-const readingStatus = ref('')
+const { t } = useCommon()
+const { library, setLibraryItem } = useReading()
 
 const actions = computed(() => {
   return [
@@ -65,8 +66,8 @@ const actions = computed(() => {
       label: t('book.filter.physical'),
       value: 'physical',
       icon: 'auto_stories',
-      filter: 'physical',
-      filterValue: 1,
+      filter: 'extension',
+      filterValue: 'physical',
     },
     {
       label: t('reading.status.all'),
@@ -108,26 +109,23 @@ const actions = computed(() => {
 })
 
 function isActive(action: Indexable) {
-  return (action.filter === 'extension' && action.value === bookType.value)
-    || (action.filter === 'physical' && action.value === bookType.value)
-    || (action.filter === 'reading_status' && action.value === readingStatus.value)
+  return (action.filter === 'extension' && action.filterValue.toString() === library.value.extension.toString())
+    || (action.filter === 'reading_status' && action.filterValue === library.value.readingStatus)
 }
 
 function onAction (action: Indexable) {
   switch (action.filter) {
     case 'extension':
-      bookType.value = action.value
-      break
-    case 'physical':
-      bookType.value = action.value
+      setLibraryItem('extension', action.filterValue)
+      setLibraryItem('physical', 0)
       break
     case 'reading_status':
-      readingStatus.value = action.value
+      setLibraryItem('readingStatus', action.filterValue)
       break
     default:
       break
   }
-  emit('filter', action)
+  emit('filter')
 }
 
 

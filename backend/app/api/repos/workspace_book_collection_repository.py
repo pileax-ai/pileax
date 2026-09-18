@@ -18,7 +18,7 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
     def __init__(self, model, session):
         super().__init__(model, session)
 
-    def get_all(self, user_id: UUID, workspace_id: UUID) -> Any:
+    def get_all(self, user_id: UUID, workspace_id: UUID, type: int) -> Any:
         sql: TextClause = text("""
             SELECT bc.*, tbc.count
             FROM book_collection bc
@@ -26,11 +26,19 @@ class WorkspaceBookCollectionRepository(BaseRepository[WorkspaceBookCollection])
                FROM workspace_book_collection
                WHERE workspace_id = :workspace_id
                GROUP BY book_collection_id) tbc ON tbc.id = bc.id
-            WHERE bc.workspace_id=:workspace_id and bc.user_id=:user_id
+            WHERE bc.workspace_id=:workspace_id AND bc.user_id=:user_id AND bc.type=:type
+            ORDER BY tbc.count DESC
        """)
         with self.session as session:
             conn = session.connection()
-            result = conn.execute(sql, {"user_id": str(user_id), "workspace_id": str(workspace_id)})
+            result = conn.execute(
+                sql,
+                {
+                    "user_id": str(user_id),
+                    "workspace_id": str(workspace_id),
+                    "type": type,
+                },
+            )
             rows = result.mappings().all()
 
         return rows

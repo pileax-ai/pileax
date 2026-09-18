@@ -107,6 +107,11 @@ const routes: RouteRecordRaw[] = [
         name: 'book-library',
       },
       {
+        path: 'group/:id',
+        component: () => import('pages/console/book/book/Group.vue'),
+        name: 'book-group',
+      },
+      {
         path: 'annotation',
         component: () => import('pages/console/book/annotation/List.vue'),
         name: 'book-annotation',

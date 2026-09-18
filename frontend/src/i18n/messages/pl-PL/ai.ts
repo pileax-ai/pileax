@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agent',
   agents: 'Agenci AI',
   apps: 'Aplikacje AI',
   basedOnBook: 'Na podstawie książki',
@@ -10,6 +11,7 @@ export default {
     chat: 'Czat LLM',
     chatModel: 'Model czatu i rozumowania (LLM)',
     chatTips: 'Domyślny czat LLM',
+    default: 'Domyślne ustawienia modelu',
     embedding: 'Osadzanie',
     embeddingModel: 'Model osadzania',
     rerank: 'Zmień rangę',
@@ -22,6 +24,7 @@ export default {
     vector: 'Baza danych wektorowych'
   },
   providers: {
+    _: 'Dostawca modeli',
     added: 'Dodani dostawcy',
     api: {
       baseUrl: 'Podstawowy adres URL',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Nazwa konfiguracji'
     },
     available: 'Dostępni dostawcy',
+    manage: 'Dostawca Zarządzaj',
     model: {
       _: 'Model',
+      alias: 'Alias Model',
+      endpoint: 'Punkt końcowy modelu',
+      endpointTip: 'Nazwa modelu: Wprowadź identyfikator punktu końcowego',
       get: 'Lista modeli',
       llm: 'LLM',
       maxTokens: 'Maksymalna liczba tokenów',
       name: 'Nazwa modelu',
       type: 'Typ modelu'
     },
+    models: 'Modele',
     set: 'Ustaw dostawców AI',
     setTips: 'Skonfiguruj dostawców sztucznej inteligencji, aby umożliwić korzystanie ze sztucznej inteligencji.',
     title: 'Dostawcy modeli'

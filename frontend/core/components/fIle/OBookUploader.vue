@@ -89,8 +89,12 @@ const props = defineProps({
     type: Object as PropType<Indexable>,
     default: () => {}
   },
+  bookGroupId: {
+    type: String,
+    default: ''
+  },
 })
-const emit = defineEmits(['completed'])
+const emit = defineEmits(['uploading', 'completed'])
 
 const { t } = useCommon()
 const value = ref(null)
@@ -106,14 +110,17 @@ const updateFiles = async (files: File | File[]) => {
   const fileList = Array.isArray(files) ? files : [files]
   if (!fileList.length) return
 
+  const bookData = { ...props.data, bookGroupId: props.bookGroupId }
   upload.total = fileList.length
   for (let i = 0; i < upload.total; i++) {
+    emit('uploading', upload)
     upload.progress = (i + 1) / upload.total * 100
     const file = fileList.at(i)
 
     try {
-      const book = await uploadBook(file!, props.data) as Indexable
+      const book = await uploadBook(file!, bookData) as Indexable
       upload.success += 1
+      emit('uploading', upload)
     } catch (err: any) {
       if (!props.multiple && props.data.id) {
         error.value = t(err.message)

@@ -205,6 +205,11 @@ export default {
     title: 'Titlu'
   },
   status: 'Stare',
+  statusOptions: {
+    disabled: 'Persoane cu dizabilități',
+    enabled: 'Activat',
+    pending: 'În așteptare'
+  },
   submit: 'Trimite',
   symbol: 'Simbol',
   system: 'Sistem',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Reîmprospătare filă',
     unpin: 'Anulează fixarea filei'
   },
+  tag: 'Etichetă',
+  tags: 'Etichete',
   terms: {
     privacy: 'Politica de confidențialitate',
     service: 'Acord de utilizare'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Ora actualizării',
   upload: 'Încărcare',
+  vendor: 'Furnizor',
   version: 'Versiune',
   view: {
     _: 'Vedere',

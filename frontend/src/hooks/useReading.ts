@@ -14,13 +14,45 @@ export default function () {
   const collection = computed(() => {
     return store.collection
   })
+  const bookUploading = computed(() => {
+    return store.bookUploading
+  })
 
   function setLibraryItem(key: string, value: any) {
     store.setLibraryItem(key, value)
   }
 
+  function getLibrarySort(source = '') {
+    const sortDirection = library.value.orderDesc ? 'desc' : 'asc'
+    let sortField = ''
+    switch (library.value.orderBy) {
+      case 'recentAdd':
+        sortField = source === 'book-add' ? 'book.update_time' : 'workspacebook.update_time'
+        break
+      case 'recentRead':
+        sortField = source === 'book-add' ? 'book.update_time' : 'userbook.update_time'
+        break
+      case 'title':
+        sortField = 'book.title_pinyin'
+        break
+    }
+    return { [sortField]: sortDirection }
+  }
+
+  function getLibraryFilter() {
+    return {
+      title__icontains: library.value.title || '',
+      extension__in: library.value.extension,
+      reading_status: library.value.readingStatus,
+    } as Indexable
+  }
+
   function setCollectionItem(key: string, value: any) {
     store.setCollectionItem(key, value)
+  }
+
+  function setBookUploading(value: boolean) {
+    store.setBookUploading(value)
   }
 
   function openBook(book: any) {
@@ -53,8 +85,12 @@ export default function () {
   return {
     library,
     collection,
+    bookUploading,
     setLibraryItem,
+    getLibraryFilter,
+    getLibrarySort,
     setCollectionItem,
+    setBookUploading,
     openBook,
     openBookAnnotation,
     bookSize

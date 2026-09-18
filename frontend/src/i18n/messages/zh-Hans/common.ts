@@ -206,9 +206,9 @@ export default {
   },
   status: '状态',
   statusOptions: {
-    enabled: '启用',
     disabled: '禁用',
-    pending: '待定',
+    enabled: '启用',
+    pending: '待定'
   },
   submit: '提交',
   symbol: 'Symbol',
@@ -241,6 +241,8 @@ export default {
     refresh: '刷新',
     unpin: '取消固定'
   },
+  tag: '标签',
+  tags: '标签',
   terms: {
     privacy: '隐私政策',
     service: '用户协议'
@@ -256,8 +258,6 @@ export default {
     today: '今天',
     yesterday: '昨天'
   },
-  tag: '标签',
-  tags: '标签',
   tips: '提示',
   title: '标题',
   toc: '目录',
@@ -287,8 +287,8 @@ export default {
   },
   updateTime: '更新时间',
   upload: '上传',
-  version: '版本',
   vendor: '服务商',
+  version: '版本',
   view: {
     _: '查看',
     compact: '紧凑',

@@ -1,14 +1,14 @@
 import { computed } from 'vue'
 
 import { useAppStore } from 'stores/app'
-import { useReaderStore } from 'stores/reader'
+import { useReadingStoreWithOut } from 'stores/reading'
 import { ipcService } from 'src/api/ipc'
 import { router } from 'src/router'
 import { globalBus } from 'src/api/event/event-bus'
 
 export default function () {
   const appStore = useAppStore()
-  const readerStore = useReaderStore()
+  const readingStore = useReadingStoreWithOut()
 
   const openFile = computed(() => {
     return appStore.openFile
@@ -23,6 +23,7 @@ export default function () {
         type: fileData.type,
         lastModified: fileData.lastModified
       })
+      readingStore.setBookUploading(true)
       uploadBook(file).then(res => {
         appStore.resetOpenFile()
 
@@ -35,6 +36,8 @@ export default function () {
         if (persist) {
           appStore.setOpenFile(value)
         }
+      }).finally(() => {
+        readingStore.setBookUploading(false)
       })
     }
   }

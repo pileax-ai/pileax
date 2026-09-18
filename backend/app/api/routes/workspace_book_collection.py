@@ -46,8 +46,8 @@ async def query(query: PaginationQuery, controller: WorkspaceBookCollectionContr
 
 
 @router.api_get("/all", response_model=list[dict])
-async def get_all(controller: WorkspaceBookCollectionController = Depends()) -> Any:
-    return controller.get_all()
+async def get_all(type: int = 0, controller: WorkspaceBookCollectionController = Depends()) -> Any:
+    return controller.get_all(type)
 
 
 @router.api_post("/query/book/details", response_model=QueryResult[WorkspaceCollectionBookDetails])

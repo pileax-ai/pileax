@@ -205,6 +205,11 @@ export default {
     title: 'Titolo'
   },
   status: 'Stato',
+  statusOptions: {
+    disabled: 'Disabile',
+    enabled: 'Abilitato',
+    pending: 'In attesa di'
+  },
   submit: 'Invia',
   symbol: 'Simbolo',
   system: 'Sistema',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Aggiorna scheda',
     unpin: 'Sblocca scheda'
   },
+  tag: 'Etichetta',
+  tags: 'Etichette',
   terms: {
     privacy: 'politica sulla riservatezza',
     service: 'Contratto d\'uso'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Tempo di aggiornamento',
   upload: 'Caricamento',
+  vendor: 'Fornitore',
   version: 'Versione',
   view: {
     _: 'Visualizzazione',

@@ -205,6 +205,11 @@ export default {
     title: 'Заголовок'
   },
   status: 'Статус',
+  statusOptions: {
+    disabled: 'Неполноценный',
+    enabled: 'Включено',
+    pending: 'В ожидании'
+  },
   submit: 'Представлять на рассмотрение',
   symbol: 'Символ',
   system: 'Система',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Обновить вкладку',
     unpin: 'Открепить вкладку'
   },
+  tag: 'Ярлык',
+  tags: 'Теги',
   terms: {
     privacy: 'политика конфиденциальности',
     service: 'Пользовательское соглашение'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Время обновления',
   upload: 'Загрузить',
+  vendor: 'Продавец',
   version: 'Версия',
   view: {
     _: 'Вид',

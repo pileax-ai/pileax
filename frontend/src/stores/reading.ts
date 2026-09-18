@@ -5,9 +5,19 @@ import { CODE } from 'core/app'
 export const useReadingStore = defineStore('reading', {
   state: () => ({
     library: {
+      grouped: true,
+
+      // sort
       view: 'grid',
       orderBy: 'recentRead',
+      orderDesc: true,
+
+      // filter
+      title: '',
+      extension: '',
+      readingStatus: '',
     } as Indexable,
+    bookUploading: false,
     collection: {
       view: 'grid',
       orderBy: 'recentRead',
@@ -22,6 +32,9 @@ export const useReadingStore = defineStore('reading', {
     setCollectionItem(key: string, value: any) {
       this.collection[key] = value
     },
+    setBookUploading(value: boolean) {
+      this.bookUploading = value
+    }
   },
   persist: {
     key: `${CODE}.reading`

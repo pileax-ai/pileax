@@ -7,6 +7,7 @@ from sqlmodel import Field
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString, uuid_field
 from app.api.models.enums import Scope
+from app.constants import UUID_NIL
 from app.libs.db_helper import DbHelper
 
 
@@ -112,6 +113,7 @@ class BookBase(BaseApiModel):
 class BookCreate(BookBase):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
     tenant_id: uuid.UUID | None = None
+    book_group_id: uuid.UUID | None = Field(default=UUID_NIL)
     uuid: str = Field(min_length=32, max_length=64)
     path: str | None = ""
     file_url: str | None = ""
@@ -163,3 +165,14 @@ class BookDetails(BaseApiModel, BaseMixin):
     reading_status: int | None = None
     is_physical: int | None = None
     location: str | None = None
+
+
+class GroupBook(BaseApiModel):
+    id: uuid.UUID
+    title: str
+    subtitle: str | None = None
+    file_url: str | None = None
+    cover_url: str | None = None
+    author: str | None = None
+    language: str | None = None
+    description: str | None = None

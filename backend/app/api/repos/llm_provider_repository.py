@@ -18,6 +18,7 @@ class LLMProviderRepository(BaseRepository[LLMProvider]):
             .outerjoin(LLM, LLMProvider.name == LLM.provider)
             .where(LLMProvider.status == Status.ACTIVE)
         )
+        # print(stmt.compile(compile_kwargs={"literal_binds": True}))
 
         results = self.session.exec(stmt).all()
 

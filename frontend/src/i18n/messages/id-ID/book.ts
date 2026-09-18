@@ -3,6 +3,7 @@ export default {
   add: 'Tambahkan buku',
   addTime: 'Tambahkan Waktu',
   addToCollection: 'Tambahkan ke Koleksi',
+  addToGroup: 'Tambahkan ke Grup',
   addToWant: 'Tambahkan ke Daftar Bacaan',
   annotation: 'Catatan Buku',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: 'Fisik'
   },
   format: 'Format',
+  group: 'Kelompok Diskusi Buku',
+  groups: {
+    _: 'Kelompok Diskusi Buku',
+    add: 'Tambahkan Grup',
+    change: 'Grup Perubahan',
+    edit: 'Grup Pengeditan',
+    enable: 'Aktifkan Grup',
+    group: 'Kelompok',
+    open: 'Grup Terbuka',
+    removeConfirm: 'Apakah Anda yakin ingin dikeluarkan dari grup?'
+  },
   info: 'Informasi Buku',
   jumpToBook: 'Lompat ke Posisi dalam Buku',
   lastReadTime: 'Waktu Baca Terakhir',
@@ -85,6 +97,7 @@ export default {
   tag: 'Menandai',
   tags: 'Tag',
   title: 'Judul',
+  total: 'Jumlah total buku {total}',
   uploader: {
     completed: 'Unggahan buku ke server selesai.',
     label: 'Seret file ke sini, atau klik untuk mengunggah.',

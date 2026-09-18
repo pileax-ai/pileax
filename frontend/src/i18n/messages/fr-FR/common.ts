@@ -205,6 +205,11 @@ export default {
     title: 'Titre'
   },
   status: 'Statut',
+  statusOptions: {
+    disabled: 'Désactivé',
+    enabled: 'Activé',
+    pending: 'En attente'
+  },
   submit: 'Soumettre',
   symbol: 'Symbole',
   system: 'Système',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Actualiser l\'onglet',
     unpin: 'Onglet Détacher'
   },
+  tag: 'Étiqueter',
+  tags: 'Étiquettes',
   terms: {
     privacy: 'politique de confidentialité',
     service: 'Contrat d\'utilisation'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Heure de mise à jour',
   upload: 'Télécharger',
+  vendor: 'Fournisseur',
   version: 'Version',
   view: {
     _: 'Voir',

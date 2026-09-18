@@ -3,6 +3,7 @@ export default {
   add: '本を追加',
   addTime: '時間を追加',
   addToCollection: 'コレクションに追加',
+  addToGroup: 'グループに追加',
   addToWant: '読みたいに追加',
   annotation: '本の注釈',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: '物理的な'
   },
   format: '形式',
+  group: '読書会',
+  groups: {
+    _: '読書会',
+    add: 'グループを追加',
+    change: 'グループを変更する',
+    edit: 'グループを編集',
+    enable: 'グループを有効にする',
+    group: 'グループ',
+    open: 'オープングループ',
+    removeConfirm: '本当にグループから削除しますか？'
+  },
   info: '書籍情報',
   jumpToBook: '書籍内の位置へジャンプ',
   lastReadTime: '最終閲覧時間',
@@ -85,6 +97,7 @@ export default {
   tag: 'タグ',
   tags: 'タグ',
   title: 'タイトル',
+  total: '合計{total}冊の本',
   uploader: {
     completed: 'サーバーへの書籍のアップロードが完了しました',
     label: 'ファイルをここにドラッグするか、クリックしてアップロードします。',

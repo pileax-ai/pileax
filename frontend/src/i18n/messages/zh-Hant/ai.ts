@@ -1,4 +1,5 @@
 export default {
+  agent: '智慧體',
   agents: 'AI 智能體',
   apps: 'AI 應用',
   basedOnBook: '基於本書',
@@ -10,6 +11,7 @@ export default {
     chat: '聊天 LLM',
     chatModel: '聊天與推理模型 (LLM)',
     chatTips: '預設聊天 LLM',
+    default: '預設模型設定',
     embedding: '嵌入模型',
     embeddingModel: '嵌入模型 (Embedding)',
     rerank: '重排序',
@@ -22,6 +24,7 @@ export default {
     vector: '向量資料庫 (Vector)'
   },
   providers: {
+    _: '模型提供者',
     added: '已新增提供者',
     api: {
       baseUrl: '基礎 URL',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: '配置名稱'
     },
     available: '可用提供者',
+    manage: '提供者管理',
     model: {
       _: '模型',
+      alias: '模型別名',
+      endpoint: '模型存取點',
+      endpointTip: '模型名稱：填寫存取點ID',
       get: '取得模型',
       llm: 'LLM',
       maxTokens: '最大Token數',
       name: '模型名稱',
       type: '模型類型'
     },
+    models: '模型',
     set: '設定 AI 模型提供商',
     setTips: '設定服務提供者以啟用 AI 功能',
     title: '模型提供者'

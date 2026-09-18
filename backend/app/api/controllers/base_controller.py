@@ -54,18 +54,18 @@ class BaseController(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         else:
             return self.service.get_by_owner(Owner(user_id=self.user.id), id)
 
-    def update(self, item_in: UpdateSchemaType) -> Any:
+    def update(self, item_in: UpdateSchemaType, exclude_defaults=True) -> Any:
         return self.service.update_by_owner(
             Owner(workspace_id=self.workspace_id, user_id=self.user.id),
             item_in.id,
-            item_in.model_dump(exclude_unset=True, exclude_none=True, exclude_defaults=True),
+            item_in.model_dump(exclude_unset=True, exclude_none=True, exclude_defaults=exclude_defaults),
         )
 
-    def update_by_user(self, item_in: UpdateSchemaType) -> Any:
+    def update_by_user(self, item_in: UpdateSchemaType, exclude_defaults=True) -> Any:
         return self.service.update_by_owner(
             Owner(user_id=self.user.id),
             item_in.id,
-            item_in.model_dump(exclude_unset=True, exclude_none=True, exclude_defaults=True),
+            item_in.model_dump(exclude_unset=True, exclude_none=True, exclude_defaults=exclude_defaults),
         )
 
     def delete(self, id: UUID) -> Any:

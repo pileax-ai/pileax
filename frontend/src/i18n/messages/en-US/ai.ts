@@ -11,6 +11,7 @@ export default {
     chat: 'Chat LLM',
     chatModel: 'Chat and Reasoning Model (LLM)',
     chatTips: 'Default chat LLM',
+    default: 'Default Model Settings',
     embedding: 'Embedding',
     embeddingModel: 'Embedding Model',
     rerank: 'Rerank',
@@ -18,12 +19,12 @@ export default {
     stt: 'Speech-to-Text',
     sttModel: 'Speech-to-Text Model',
     system: 'System Model Settings',
-    default: 'Default Model Settings',
     tts: 'Text-to-Speech',
     ttsModel: 'Text-to-Speech Model (TTS)',
     vector: 'Vector Database'
   },
   providers: {
+    _: 'Model Provider',
     added: 'Added Providers',
     api: {
       baseUrl: 'Base URL',
@@ -37,22 +38,21 @@ export default {
     },
     available: 'Available Providers',
     manage: 'Provider Manage',
-    models: 'Models',
     model: {
       _: 'Model',
       alias: 'Model Alias',
+      endpoint: 'Model Endpoint',
+      endpointTip: 'Model Name: Enter the Endpoint ID',
       get: 'List Models',
       llm: 'LLM',
       maxTokens: 'Max Tokens',
       name: 'Model Name',
-      type: 'Model Type',
-      endpoint: 'Model Endpoint',
-      endpointTip: 'Model Name: Enter the Endpoint ID',
+      type: 'Model Type'
     },
+    models: 'Models',
     set: 'Set AI providers',
     setTips: 'Set AI providers to enable AI capabilities.',
-    title: 'Model Providers',
-    _: 'Model Provider',
+    title: 'Model Providers'
   },
   regenerate: 'Re-generate',
   settings: 'AI Settings'

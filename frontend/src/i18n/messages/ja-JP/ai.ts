@@ -1,4 +1,5 @@
 export default {
+  agent: 'エージェント',
   agents: 'AIエージェント',
   apps: 'AIアプリ',
   basedOnBook: '原作は書籍です',
@@ -10,6 +11,7 @@ export default {
     chat: 'チャットLLM',
     chatModel: 'チャットと推論モデル（LLM）',
     chatTips: 'デフォルトチャットLLM',
+    default: 'デフォルトのモデル設定',
     embedding: '埋め込み',
     embeddingModel: '埋め込みモデル',
     rerank: '再ランク付け',
@@ -22,6 +24,7 @@ export default {
     vector: 'ベクターデータベース'
   },
   providers: {
+    _: 'モデルプロバイダー',
     added: '追加されたプロバイダー',
     api: {
       baseUrl: 'ベースURL',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: '設定名'
     },
     available: '利用可能なプロバイダー',
+    manage: 'プロバイダー管理',
     model: {
       _: 'モデル',
+      alias: 'エイリアスモデル',
+      endpoint: 'モデルエンドポイント',
+      endpointTip: 'モデル名: エンドポイントIDを入力してください',
       get: 'モデルの一覧',
       llm: 'LLM',
       maxTokens: '最大トークン',
       name: 'モデル名',
       type: 'モデルタイプ'
     },
+    models: 'モデル',
     set: 'AIプロバイダーを設定する',
     setTips: 'AI 機能を有効にするには AI プロバイダーを設定します。',
     title: 'モデルプロバイダー'

@@ -205,6 +205,11 @@ export default {
     title: '標題'
   },
   status: '狀態',
+  statusOptions: {
+    disabled: '停用',
+    enabled: '啟用',
+    pending: '待定'
+  },
   submit: '提交',
   symbol: '象徵',
   system: '系統',
@@ -236,6 +241,8 @@ export default {
     refresh: '重新整理',
     unpin: '取消固定'
   },
+  tag: '標籤',
+  tags: '標籤',
   terms: {
     privacy: '隱私權政策',
     service: '使用者協定'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: '更新時間',
   upload: '上傳',
+  vendor: '服務商',
   version: '版本',
   view: {
     _: '查看',

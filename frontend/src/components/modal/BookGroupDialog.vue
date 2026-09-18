@@ -1,6 +1,6 @@
 <template>
-  <o-command-dialog class="book-collection-dialog"
-                    :show="dialog.type === 'book-collection'"
+  <o-command-dialog class="book-group-dialog"
+                    :show="dialog.type === 'book-group'"
                     :content-style="{
                       maxWidth: '600px',
                       minHeight: '600px',
@@ -28,13 +28,13 @@
     <section class="row col-12 search-container">
       <div class="group">
         <q-item-label class="text-readable">
-          {{ $t('book.collections._') }}
+          {{ $t('book.groups._') }}
         </q-item-label>
       </div>
       <section class="row col-12 justify-center search-results">
         <q-list class="col-12">
           <template v-for="(item, index) in results" :key="index">
-            <o-common-item :icon="item.icon || 'subject'"
+            <o-common-item :icon="item.icon || 'o_dataset'"
                            :label="`${item.title} (${item.count || 0})`"
                            :class="{'bg-dark': index === selected}"
                            size="1.4rem"
@@ -43,8 +43,8 @@
               <template #side>
                 <div class="row">
                   <div class="q-ml-md">
-                    <q-icon name="check_box" v-if="inCollection(item)" />
-                    <q-icon name="check_box_outline_blank" v-else />
+                    <q-icon name="radio_button_checked" v-if="inGroup(item)" />
+                    <q-icon name="o_circle" v-else />
                   </div>
                 </div>
               </template>
@@ -52,7 +52,7 @@
           </template>
           <o-common-item icon="add" size="1.4rem"
                          class="text-primary"
-                         :label="$t('book.collections.add')"
+                         :label="$t('book.groups.add')"
                          :clickable="!collectionAdding">
             <o-menu ref="menuRef"
                     anchor="bottom middle"
@@ -60,7 +60,7 @@
                     min-width="400px"
                     @before-show="collectionName = ''">
               <q-form class="q-pa-md" @submit.prevent.stop="onAddCollection">
-                <header class="text-tips">{{$t('book.collections.add')}}</header>
+                <header class="text-tips">{{$t('book.groups.add')}}</header>
 
                 <section class="q-pt-md">
                   <o-field :label="$t('title')">
@@ -105,14 +105,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import useCommon from 'core/hooks/useCommon'
 import useDialog from 'core/hooks/useDialog'
 import OCommandDialog from 'core/components/dialog/OCommandDialog.vue'
 import OMenu from 'core/components/menu/OMenu.vue'
 import ONoData from 'core/components/misc/ONoData.vue'
-import { bookCollectionService, workspaceBookCollectionService } from 'src/api/service/remote'
-import { notifyDone, notifyWarning } from 'core/utils/control'
+import { bookCollectionService, workspaceBookService } from 'src/api/service/remote'
+import { notifyWarning } from 'core/utils/control'
+import { globalBus } from 'src/api/event/event-bus'
 
 const { t } = useCommon()
 const { dialog, onHide } = useDialog()
@@ -120,18 +121,14 @@ const term = ref('')
 const selected = ref(0)
 const list = ref<Indexable[]>([])
 const results = ref<Indexable[]>([])
-const records = ref<Indexable[]>([])
 
 const menuRef = ref<InstanceType<typeof OMenu>>()
 const collectionName = ref('')
 const collectionAdding = ref(false)
+const book = ref<Indexable>({})
 
-const book = computed(() => {
-  return dialog.value.data as Indexable
-})
-
-function inCollection(item: Indexable) {
-  return records.value.findIndex(e => e.bookCollectionId === item.id && e.workspaceBookId === book.value.id) >= 0
+function inGroup(item: Indexable) {
+  return item.id === book.value.bookGroupId
 }
 
 function titleSearchFilter (term: string) {
@@ -192,49 +189,37 @@ function onKeyup (e: KeyboardEvent) {
 
 function onSelected (item: Indexable, idx: number) {
   selected.value = idx
-  if (inCollection(item)) {
-    removeFromCollection(item)
+  if (inGroup(item)) {
+    removeFromGroup(item)
   } else {
-    addToCollection(item)
+    addToGroup(item)
   }
 }
 
-function addToCollection(item: Indexable) {
+function addToGroup(item: Indexable) {
   const body = {
-    bookCollectionId: item.id,
-    workspaceBookId: book.value.id
+    id: book.value.id,
+    bookGroupId: item.id,
   }
-  workspaceBookCollectionService.save(body).then(res => {
+  workspaceBookService.update(body).then(res => {
+    book.value.bookGroupId = res.bookGroupId
     initData()
+    globalBus.emit('library-need-refresh', res)
   })
 }
 
-function removeFromCollection(item: Indexable) {
-  const wbc = records.value.find(e => e.bookCollectionId === item.id && e.workspaceBookId === book.value.id)
-  if (wbc) {
-    workspaceBookCollectionService.delete(wbc.id).then(res => {
-      initData()
-    })
-  }
+function removeFromGroup(item: Indexable) {
+  workspaceBookService.removeGroup(book.value.id).then(res => {
+    book.value.bookGroupId = res.bookGroupId
+    initData()
+    globalBus.emit('library-need-refresh', res)
+  })
 }
 
 function initData() {
-  workspaceBookCollectionService.getAll({ type: 0 }).then(res => {
+  workspaceBookService.group().then(res => {
     list.value = res
     results.value = res
-  })
-
-  getInCollectionRecords()
-}
-
-function getInCollectionRecords() {
-  workspaceBookCollectionService.query({
-    pageSize: 1000,
-    condition: {
-      workspaceBookId: book.value.id
-    }
-  }).then(res => {
-    records.value = res.list
   })
 }
 
@@ -246,7 +231,7 @@ function onAddCollection() {
   collectionAdding.value = true
   bookCollectionService.save({
     title: collectionName.value,
-    type: 0,
+    type: 1,
   }).then(res => {
     menuRef.value?.close()
     initData()
@@ -259,6 +244,7 @@ function onAddCollection() {
 }
 
 onMounted( async () => {
+  book.value = dialog.value.data as Indexable
   initData()
 
   window.addEventListener('keyup', onKeyup)
@@ -270,7 +256,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.book-collection-dialog {
+.book-group-dialog {
   .search-container {
     .group {
       padding: 0 12px;

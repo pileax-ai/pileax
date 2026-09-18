@@ -205,6 +205,11 @@ export default {
     title: 'Título'
   },
   status: 'Estado',
+  statusOptions: {
+    disabled: 'Desactivado',
+    enabled: 'Activado',
+    pending: 'Pendiente'
+  },
   submit: 'Entregar',
   symbol: 'Símbolo',
   system: 'Sistema',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Actualizar pestaña',
     unpin: 'Desanclar pestaña'
   },
+  tag: 'Etiqueta',
+  tags: 'Etiquetas',
   terms: {
     privacy: 'política de privacidad',
     service: 'Acuerdo de usuario'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Hora de actualización',
   upload: 'Subir',
+  vendor: 'Proveedor',
   version: 'Versión',
   view: {
     _: 'Vista',

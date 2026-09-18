@@ -4,7 +4,7 @@
       <book-filter @filter="onFilter" />
     </template>
     <template #after>
-      <o-console-section class="book-list"
+      <o-console-section class="book-group"
                          title=" "
                          icon="book"
                          v-bind="query"
@@ -13,12 +13,23 @@
                          @full-screen="onFullScreen"
                          @sideClose="onDialogClose">
         <template #header-left>
+          <q-btn :label="$t('all')"
+                 color="primary"
+                 class="all"
+                 @click="router.push('/book/library')"
+                 flat />
+          <q-icon name="arrow_forward_ios" size="0.8rem" class="text-tips q-mx-sm" />
+          <span class="collection-title">{{ group.title }}</span>
+        </template>
+
+        <!--Actions-->
+        <template #actions>
           <q-btn icon="tune"
                  class="filter"
                  :class="showFilter ? 'bg-primary text-white' : 'bg-dark'"
                  @click="onToggleFiler()"
-                 flat />
-          <div class="query-item no-drag-region">
+                 flat v-if="false" />
+          <div class="query-item q-mx-sm no-drag-region">
             <q-input v-model="title"
                      class="pi-field w-wide"
                      :placeholder="$t('book.search')"
@@ -30,17 +41,10 @@
               </template>
             </q-input>
           </div>
-        </template>
-
-        <!--Actions-->
-        <template #actions>
           <q-btn icon="add" flat round :loading="bookUploading">
             <o-tooltip position="left" transition>
               {{ $t('upload') }}
             </o-tooltip>
-            <template #loading>
-              <q-spinner-ios />
-            </template>
             <q-menu v-model="addMenu" class="pi-menu" :offset="[0, 4]">
               <q-list style="min-width: 400px">
                 <div>
@@ -50,6 +54,7 @@
                   <div class="q-pa-md">
                     <o-book-uploader :accept="bookAccept"
                                      :max-size="500 * 1024 * 1024"
+                                     :book-group-id="groupId"
                                      multiple
                                      leading
                                      @uploading="onUploading"
@@ -68,9 +73,7 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <book-more-btn @filter="onFilter"
-                         @sort="onSort"
-                         group />
+          <book-more-btn @sort="onSort" />
         </template>
 
         <section class="col-12">
@@ -81,18 +84,9 @@
               </div>
             </template>
 
-            <template v-if="rows.length || groupRows.length">
+            <template v-if="rows.length">
               <section class="row col-12 justify-center pi-view-list" v-if="library.view === 'list'">
                 <q-list>
-                  <template v-for="(item) in groupRows" :key="`${item.id}-${item.count}`">
-                    <group-list-item :data="item"
-                                     @click="openBookGroup(item)">
-                      <group-context-menu :data="item"
-                                          @close="onClose"
-                                          @edit="onGroupEdit"
-                                          context-menu />
-                    </group-list-item>
-                  </template>
                   <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                     <book-list-item :data="item"
                                     @click="openBook(item)"
@@ -102,7 +96,7 @@
                                          @dialog-close="onDialogClose"
                                          @edit="onEdit"
                                          @upload="onUpload"
-                                         context-menu />
+                                         context-menu group />
                     </book-list-item>
                   </template>
                 </q-list>
@@ -110,18 +104,6 @@
               <section class="pi-view-grid"
                        :class="{ 'book': ['grid', 'grid_title'].includes(library.view) }"
                        v-else>
-                <template v-for="(item) in groupRows" :key="`${item.id}-${item.count}`">
-                  <div class="">
-                    <component :is="bookGroupComponents[library.view] || bookGroupComponents.grid"
-                               :data="item"
-                               @click="openBookGroup(item)">
-                      <group-context-menu :data="item"
-                                          @close="onClose"
-                                          @edit="onGroupEdit"
-                                          context-menu />
-                    </component>
-                  </div>
-                </template>
                 <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                   <div class="">
                     <component :is="bookComponents[library.view] || bookComponents.grid"
@@ -133,7 +115,7 @@
                                          @dialog-close="onDialogClose"
                                          @edit="onEdit"
                                          @upload="onUpload"
-                                         context-menu />
+                                         context-menu group />
                     </component>
                   </div>
                 </template>
@@ -147,6 +129,7 @@
                 <div class="row col-12 justify-center q-mt-lg action">
                   <o-book-uploader :accept="bookAccept"
                                    :max-size="500 * 1024 * 1024"
+                                   :book-group-id="groupId"
                                    multiple
                                    leading
                                    @uploading="onUploading"
@@ -165,25 +148,22 @@
           <book-details :data="data"
                         source="book-list"
                         @close="onClose"
-                        @dialog-close="onDialogClose"
                         @edit="onEdit"
                         @upload="onUpload"
+                        group
                         v-if="view==='details'" />
           <book-meta-edit :data="data"
-                     @close="onClose"
-                     v-if="view==='edit'" />
+                          @close="onClose"
+                          v-if="view==='edit'" />
           <book-upload :data="data"
-                     @close="onClose"
-                     v-if="view==='upload'" />
-          <book-entry :data="data"
-                     @close="onClose"
-                     v-if="view==='entry'" />
-          <book-add @close="onClose"
+                       @close="onClose"
+                       v-if="view==='upload'" />
+          <book-entry :group-id="groupId"
+                      @close="onClose"
+                      v-if="view==='entry'" />
+          <book-add :group-id="groupId"
+                    @close="onClose"
                     v-if="view==='add'" />
-          <book-collection-edit :id="groupId"
-                                type="1"
-                                @close="onGroupEditClose"
-                                v-if="view==='group-edit'" />
         </template>
       </o-console-section>
     </template>
@@ -192,8 +172,6 @@
 
 <script setup lang="ts">
 import { computed, onActivated, onDeactivated, ref } from 'vue'
-import OBookUploader from 'core/components/fIle/OBookUploader.vue'
-import OSplitPage from 'core/page/template/OSplitPage.vue'
 import BookContextMenu from './BookContextMenu.vue'
 import BookGridItem from './BookGridItem.vue'
 import BookGridTitleItem from './BookGridTitleItem.vue'
@@ -205,46 +183,37 @@ import BookEntry from './BookEntry.vue'
 import BookAdd from './BookAdd.vue'
 import BookFilter from './BookFilter.vue'
 import BookMoreBtn from './BookMoreBtn.vue'
+import OBookUploader from 'core/components/fIle/OBookUploader.vue'
+import OSplitPage from 'core/page/template/OSplitPage.vue'
 import BookMetaEdit from 'components/book/book-meta/edit.vue'
-
-import GroupContextMenu from './GroupContextMenu.vue'
-import GroupGridTitleItem from './GroupGridTitleItem.vue'
-import GroupGridItem from './GroupGridItem.vue'
-import GroupCompactItem from './GroupCompactItem.vue'
-import GroupListItem from './GroupListItem.vue'
-import BookCollectionEdit from '../collection/BookCollectionEdit.vue'
 
 import useReading from 'src/hooks/useReading'
 import useLoadMore from 'src/hooks/useLoadMore'
 import OConsoleSection from 'core/page/section/OConsoleSection.vue'
 import useCommon from 'core/hooks/useCommon'
 import { globalBus } from 'src/api/event/event-bus'
-import { workspaceBookService } from 'src/api/service/remote'
+import { bookCollectionService } from 'src/api/service/remote'
 import { router } from 'src/router'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const { t } = useCommon()
 const { library, bookUploading, setLibraryItem, getLibrarySort, getLibraryFilter, setBookUploading, openBook } = useReading()
 const { initial, condition, sort, rows, loaded, view, query, scrollRef, total, initQuery } = useLoadMore()
 
 const pageRef = ref<InstanceType<typeof OSplitPage>>()
 const addMenu = ref(false)
+const groupId = ref('')
+const group = ref<Indexable>({})
 const data = ref<Indexable>({})
 const showFilter = ref(true)
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 const needRefresh = ref(false)
-const groupRows = ref<Indexable[]>([])
-const groupId = ref('')
 
 const bookComponents = {
   grid: BookGridItem,
   grid_title: BookGridTitleItem,
   compact: BookCompactItem,
-} as Indexable
-
-const bookGroupComponents = {
-  grid: GroupGridItem,
-  grid_title: GroupGridTitleItem,
-  compact: GroupCompactItem,
 } as Indexable
 
 const title = computed({
@@ -273,19 +242,10 @@ function onFilter(runQuery = true) {
   } else {
     delete condition.value['is_physical']
   }
-  if (library.value.grouped) {
-    condition.value['grouped'] = 1
-  } else {
-    delete condition.value['grouped']
-  }
 
   if (runQuery) {
     onQuery()
   }
-}
-
-function openBookGroup(item: Indexable) {
-  router.push({ name: 'book-group', params: { id: item.id } })
 }
 
 function onDetails(item: any) {
@@ -305,11 +265,6 @@ function onUpload(item: Indexable) {
 
 function onEntry() {
   query.value.openSide('480px', 'entry', 'add', t('book.entry'))
-}
-
-function onGroupEdit(item: Indexable) {
-  groupId.value = item.id
-  query.value.openSide('480px', 'group-edit', 'o_dataset', t('book.groups.edit'))
 }
 
 function onClose(options: Indexable) {
@@ -332,11 +287,6 @@ function onClose(options: Indexable) {
   } else {
     query.value.onQuery()
   }
-  query.value.closeSide(false, false)
-}
-
-function onGroupEditClose() {
-  queryGroups()
   query.value.closeSide(false, false)
 }
 
@@ -371,29 +321,25 @@ async function onUploadCompleted() {
 }
 
 function onQuery(scrollReset = true) {
-  queryGroups()
   query.value.onQuery(scrollReset)
 }
 
-function queryGroups() {
-  if (library.value.grouped) {
-    workspaceBookService.queryGroups({
-      condition: condition.value
-    }).then(res => {
-      groupRows.value = res.list
-    })
-  } else {
-    groupRows.value = []
-  }
+function getGroup() {
+  bookCollectionService.get(groupId.value).then(res => {
+    group.value = res
+  })
 }
 
 function initData() {
+  groupId.value = (route.params.id || '') as string
+  condition.value['bookGroupId'] = groupId.value
+
   onFilter(false)
+  getGroup()
 
   if (initial.value) {
     onQuery()
   } else {
-    queryGroups()
     initQuery({
       api: 'workspaceBook',
       path: '/query/details',
@@ -401,6 +347,7 @@ function initData() {
       sortBy: getLibrarySort()
     })
   }
+
 }
 
 function onFullScreen(value: boolean) {
@@ -414,7 +361,7 @@ function onToggleFiler() {
 
 function onLibraryRefresh(item: Indexable, immediate = false) {
   if (immediate) {
-    onQuery()
+    query.value.onQuery()
   } else {
     needRefresh.value = true
   }
@@ -431,9 +378,23 @@ onDeactivated(() => {
 </script>
 
 <style lang="scss">
-.book-list {
+.book-group {
   .no-records {
     padding: 60px 0;
+  }
+
+  .meta {
+    .q-btn.all {
+      width: unset !important;
+      margin: 0 0 0 -6px !important;
+      padding: 4px 6px;
+      font-size: 1.1rem;
+    }
+
+    .collection-title {
+      margin-left: 4px;
+      font-size: 1.1rem;
+    }
   }
 }
 </style>

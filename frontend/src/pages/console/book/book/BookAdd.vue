@@ -33,11 +33,11 @@
 
     <!--Actions-->
     <template #actions>
-      <book-more-btn view="compact"
-                     order-by="recentAdd"
-                     source="book-add"
-                     @view="onView"
-                     @sort="onSort" />
+      <book-add-more-btn view="compact"
+                         order-by="recentAdd"
+                         source="book-add"
+                         @view="onView"
+                         @sort="onSort" />
     </template>
 
     <section class="row full-width">
@@ -128,13 +128,19 @@ import BookGridTitleItem from './BookGridTitleItem.vue'
 import BookCompactItem from './BookCompactItem.vue'
 import BookListItem from './BookListItem.vue'
 import BookDetails from './BookDetails.vue'
-import BookMoreBtn from './BookMoreBtn.vue'
+import BookAddMoreBtn from './BookAddMoreBtn.vue'
 
 import { notifyDone, notifyWarning } from 'core/utils/control'
 import useLoadMore from 'src/hooks/useLoadMore'
 import useCommon from 'core/hooks/useCommon'
 import { globalBus } from 'src/api/event/event-bus'
 
+const props = defineProps({
+  groupId: {
+    type: String,
+    default: null
+  },
+})
 const emit = defineEmits(['close'])
 
 const { t } = useCommon()
@@ -164,7 +170,8 @@ function onClose() {
 
 function addBook(book: any, idx: number) {
   workspaceBookService.save({
-    bookId: book.id
+    bookId: book.id,
+    bookGroupId: props.groupId
   }).then(res => {
     book.workspaceBookId = res.id
     rows.value.splice(idx, 1, book)

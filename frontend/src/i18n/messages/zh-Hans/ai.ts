@@ -11,6 +11,7 @@ export default {
     chat: '聊天 LLM',
     chatModel: '聊天与推理模型 (LLM)',
     chatTips: '默认聊天 LLM',
+    default: '默认模型设置',
     embedding: '嵌入模型',
     embeddingModel: '嵌入模型 (Embedding)',
     rerank: '重排序',
@@ -18,12 +19,12 @@ export default {
     stt: '语音转文字',
     sttModel: '语音转文字模型 (STT)',
     system: '系统模型设置',
-    default: '默认模型设置',
     tts: '文字转语音',
     ttsModel: '文字转语音模型 (TTS)',
     vector: '向量数据库 (Vector)'
   },
   providers: {
+    _: '模型提供商',
     added: '已添加提供商',
     api: {
       baseUrl: '基础 URL',
@@ -37,22 +38,21 @@ export default {
     },
     available: '可用提供商',
     manage: '提供商管理',
-    models: '模型',
     model: {
       _: '模型',
       alias: '模型别名',
+      endpoint: '模型接入点',
+      endpointTip: '模型名称：填写接入点ID',
       get: '获取模型',
       llm: 'LLM',
       maxTokens: '最大Token数',
       name: '模型名称',
-      type: '模型类型',
-      endpoint: '模型接入点',
-      endpointTip: '模型名称：填写接入点ID',
+      type: '模型类型'
     },
+    models: '模型',
     set: '设置 AI 模型提供商',
     setTips: '设置服务提供商以启用 AI 功能',
-    title: '模型提供商',
-    _: '模型提供商',
+    title: '模型提供商'
   },
   regenerate: '重新生成',
   settings: 'AI 设置'
