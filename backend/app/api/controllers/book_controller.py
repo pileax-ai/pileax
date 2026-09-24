@@ -27,6 +27,7 @@ from app.api.models.query import PaginationQuery, QueryResult
 from app.api.models.workspace_book import WorkspaceBookCreate, WorkspaceBookDetails
 from app.api.services.book_service import BookService
 from app.api.services.workspace_book_service import WorkspaceBookService
+from app.constants import UUID_NIL
 from app.libs.book.book_helper import BookHelper
 from app.libs.book.book_uploader import BookUploader
 
@@ -74,7 +75,8 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book = super().save(book_in)
 
         # Save workspace_book
-        workspace_book_in = WorkspaceBookCreate(book_id=book_id)
+        book_group_id = book_in.book_group_id or UUID_NIL
+        workspace_book_in = WorkspaceBookCreate(book_id=book_id, book_group_id=book_group_id)
         workspace_book = self.wb_controller.save(workspace_book_in, is_physical=True)
 
         return WorkspaceBookService(self.session).get_details(workspace_book.id)
@@ -126,7 +128,8 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         :param book_str: Book metadata
         :param files: Book file and cover
         """
-        book_in = BookCreate(**json.loads(str(book_str)))
+        book_data = json.loads(str(book_str))
+        book_in = BookCreate(**book_data)
         if book_in.id:
             book_id = book_in.id
         else:
@@ -181,7 +184,8 @@ class BookController(BaseController[Book, BookCreate, BookUpdate]):
         book = super().save(book_in)
 
         # save workspace_book
-        workspace_book_in = WorkspaceBookCreate(book_id=book_id)
+        book_group_id = book_data.get("bookGroupId") or UUID_NIL
+        workspace_book_in = WorkspaceBookCreate(book_id=book_id, book_group_id=book_group_id)
         workspace_book = self.wb_controller.save(workspace_book_in)
 
         return WorkspaceBookService(self.session).get_details(workspace_book.id)

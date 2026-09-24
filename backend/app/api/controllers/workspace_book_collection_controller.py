@@ -1,5 +1,6 @@
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
+from app.api.models.enums import BookCollectionType
 from app.api.models.query import PaginationQuery
 from app.api.models.workspace_book_collection import (
     WorkspaceBookCollection,
@@ -16,8 +17,8 @@ class WorkspaceBookCollectionController(
         super().__init__(WorkspaceBookCollection, session, user, workspace)
         self.service = WorkspaceBookCollectionService(session)
 
-    def get_all(self):
-        return self.service.get_all(self.user.id, self.workspace_id)
+    def get_all(self, type: int = BookCollectionType.BOOKLIST):
+        return self.service.get_all(self.user.id, self.workspace_id, type)
 
     def query_book_details(self, query: PaginationQuery):
         if query.condition.get("userId") is None:

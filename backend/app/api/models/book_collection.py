@@ -1,9 +1,10 @@
 import uuid
 
 from pydantic import field_validator
-from sqlmodel import Field
+from sqlmodel import Field, Integer, text
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
+from app.api.models.enums import BookCollectionType
 
 
 class BookCollection(BaseSQLModel, BaseMixin, table=True):
@@ -18,6 +19,11 @@ class BookCollection(BaseSQLModel, BaseMixin, table=True):
     color: str | None = Field(default=None)
     description: str | None = Field(default=None)
     position: int | None = Field(default=0)
+    type: int | None = Field(
+        default=BookCollectionType.BOOKLIST,
+        sa_type=Integer,
+        sa_column_kwargs={"server_default": text(str(BookCollectionType.BOOKLIST))},
+    )
 
 
 class BookCollectionBase(BaseApiModel):
@@ -28,6 +34,7 @@ class BookCollectionBase(BaseApiModel):
     cover: str | None = None
     color: str | None = None
     description: str | None = None
+    type: int = BookCollectionType.BOOKLIST
 
     @field_validator("parent", mode="before")
     def parse_empty_string_as_none(cls, v):

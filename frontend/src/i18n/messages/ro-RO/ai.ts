@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agent',
   agents: 'Agenți AI',
   apps: 'Aplicații AI',
   basedOnBook: 'Bazat pe carte',
@@ -10,6 +11,7 @@ export default {
     chat: 'Master în Drept în Chat',
     chatModel: 'Modelul de Chat și Raționament (LLM)',
     chatTips: 'Chat implicit LLM',
+    default: 'Setări implicite ale modelului',
     embedding: 'Încorporarea',
     embeddingModel: 'Model de încorporare',
     rerank: 'Reclasificare',
@@ -22,6 +24,7 @@ export default {
     vector: 'Bază de date vectorială'
   },
   providers: {
+    _: 'Furnizor de modele',
     added: 'Furnizori adăugați',
     api: {
       baseUrl: 'URL de bază',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Nume configurație'
     },
     available: 'Furnizori disponibili',
+    manage: 'Gestionare furnizor',
     model: {
       _: 'Model',
+      alias: 'Model Alias',
+      endpoint: 'Punct final al modelului',
+      endpointTip: 'Nume model: Introduceți ID-ul punctului final',
       get: 'Listă modele',
       llm: 'LLM',
       maxTokens: 'Jetoane maxime',
       name: 'Numele modelului',
       type: 'Tipul modelului'
     },
+    models: 'Modele',
     set: 'Setați furnizori de inteligență artificială',
     setTips: 'Setați furnizorii de inteligență artificială pentru a activa capabilitățile inteligenței artificiale.',
     title: 'Furnizori de modele'

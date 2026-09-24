@@ -12,6 +12,7 @@ from app.api.models.workspace_book import (
 )
 from app.api.services.user_book_service import UserBookService
 from app.api.services.workspace_book_service import WorkspaceBookService
+from app.constants import UUID_NIL
 
 
 class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate, WorkspaceBookUpdate]):
@@ -28,6 +29,9 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
         book = self.service.get_workspace_book(self.user.id, self.workspace_id, item.book_id)
         if book:
             return book
+
+        # save
+        item.book_group_id = item.book_group_id or UUID_NIL
         book = super().save(item)
 
         # create user_book
@@ -55,7 +59,29 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
         # default: not removed
         query.condition["isRemoved"] = Status.INACTIVE
 
+        # group
+        if query.condition.get("grouped"):
+            if query.condition.get("bookGroupId") is None:
+                query.condition["bookGroupId"] = UUID_NIL
+
         return self.service.query_details(query)
 
     def get_stats(self):
         return self.service.get_stats(self.user.id, self.workspace_id)
+
+    def group(self):
+        return self.service.group(self.user.id, self.workspace_id)
+
+    def remove_group(self, id: UUID) -> Any:
+        return super().update(WorkspaceBookUpdate(id=id, book_group_id=UUID_NIL), exclude_defaults=False)
+
+    def query_groups(self, query: PaginationQuery):
+        if query.condition.get("userId") is None:
+            query.condition["userId"] = self.user.id
+        if query.condition.get("workspaceId") is None:
+            query.condition["workspaceId"] = self.workspace_id
+
+        # default: not removed
+        query.condition["isRemoved"] = Status.INACTIVE
+
+        return self.service.query_groups(query)

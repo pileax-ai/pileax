@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agente',
   agents: 'Agenti di intelligenza artificiale',
   apps: 'App di intelligenza artificiale',
   basedOnBook: 'Basato sul libro',
@@ -10,6 +11,7 @@ export default {
     chat: 'Chat LLM',
     chatModel: 'Modello di chat e ragionamento (LLM)',
     chatTips: 'Chat predefinita LLM',
+    default: 'Impostazioni del modello predefinito',
     embedding: 'Incorporamento',
     embeddingModel: 'Modello di incorporamento',
     rerank: 'Riclassifica',
@@ -22,6 +24,7 @@ export default {
     vector: 'Database vettoriale'
   },
   providers: {
+    _: 'Fornitore di modelli',
     added: 'Fornitori aggiunti',
     api: {
       baseUrl: 'URL di base',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Nome configurazione'
     },
     available: 'Fornitori disponibili',
+    manage: 'Gestione del fornitore',
     model: {
       _: 'Modello',
+      alias: 'Alias Modello',
+      endpoint: 'Modello di endpoint',
+      endpointTip: 'Nome del modello: Inserire l\'ID dell\'endpoint',
       get: 'Elenco modelli',
       llm: 'LLM',
       maxTokens: 'Gettoni massimi',
       name: 'Nome del modello',
       type: 'Tipo di modello'
     },
+    models: 'Modelli',
     set: 'Imposta i fornitori di intelligenza artificiale',
     setTips: 'Impostare i provider di intelligenza artificiale per abilitare le funzionalità di intelligenza artificiale.',
     title: 'Fornitori di modelli'

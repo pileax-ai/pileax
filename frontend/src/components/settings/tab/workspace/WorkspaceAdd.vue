@@ -11,16 +11,16 @@
                :error="v$.name.$errors.length > 0"
                :error-message="$t('required')">
         <template #before>
-          <div class="cursor-pointer">
+          <q-btn class="square bg-accent" flat>
             <o-icon :name="form.icon || '🍃'" />
             <o-general-icon-menu anchor="center left"
                                  self="center right"
                                  :offset="[8, 0]"
                                  @select="onSelectIcon" />
-          </div>
+          </q-btn>
         </template>
         <template #after>
-          <div class="cursor-pointer">
+          <q-btn class="square bg-accent" flat>
             <o-icon :name="form.color ? 'circle' : 'hide_source'"
                     :color="form.color" />
             <q-menu class="pi-menu"
@@ -34,7 +34,7 @@
                                 @select="onSelectColor" />
               </section>
             </q-menu>
-          </div>
+          </q-btn>
         </template>
       </q-input>
     </o-field>
@@ -152,36 +152,12 @@ onMounted(() => {
 .ai-provider {
   .name {
     .q-field__before, .q-field__after {
-      width: 40px;
-      color: unset!important;
-      background: var(--q-accent);
-      padding: 0;
-      border-radius: 4px;
-      text-align: center;
-      justify-content: center;
-      align-items: center;
-
-      &:hover {
-        background: var(--q-dark);
-      }
-
       .o-icon {
         font-size: 30px;
       }
     }
   }
 
-  .q-field__before {
-    margin-right: 6px;
-  }
-
-  .q-field__after {
-    margin-left: 6px;
-  }
-
-  .q-field__prefix {
-    min-width: 80px;
-  }
 
   .connection {
     .o-badge {

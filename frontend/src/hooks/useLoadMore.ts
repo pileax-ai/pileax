@@ -145,6 +145,7 @@ export default function () {
   })
 
   return {
+    initial,
     rows,
     total,
     loading,

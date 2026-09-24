@@ -1,8 +1,8 @@
 """v0.7.0
 
-Revision ID: 1c972ceee2b3
+Revision ID: 370c493fbc4d
 Revises: 3a75afb87324
-Create Date: 2026-09-03 09:52:28.966390
+Create Date: 2026-09-20 22:26:11.564991
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '1c972ceee2b3'
+revision: str = '370c493fbc4d'
 down_revision: Union[str, None] = '3a75afb87324'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -39,6 +39,9 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name', name='unique_llm_provider_name')
     )
+    with op.batch_alter_table('book_collection', schema=None) as batch_op:
+        batch_op.add_column(sa.Column('type', sa.Integer(), server_default=sa.text('0'), nullable=True))
+
     with op.batch_alter_table('llm', schema=None) as batch_op:
         batch_op.add_column(sa.Column('model_alias', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(sa.Column('extra', app.api.models.base.JSONString(), nullable=True))
@@ -47,6 +50,9 @@ def upgrade() -> None:
                nullable=True)
         batch_op.drop_constraint(batch_op.f('unique_llm_workspace_provider_model_name'), type_='unique')
         batch_op.create_unique_constraint('unique_llm_provider_model_name', ['provider', 'model_name'])
+
+    with op.batch_alter_table('workspace_book', schema=None) as batch_op:
+        batch_op.add_column(sa.Column('book_group_id', app.api.models.base.GUID(), server_default=sa.text("'00000000-0000-0000-0000-000000000000'"), nullable=True))
 
     with op.batch_alter_table('workspace_llm', schema=None) as batch_op:
         batch_op.add_column(sa.Column('model_alias', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -70,6 +76,9 @@ def downgrade() -> None:
         batch_op.drop_column('extra')
         batch_op.drop_column('model_alias')
 
+    with op.batch_alter_table('workspace_book', schema=None) as batch_op:
+        batch_op.drop_column('book_group_id')
+
     with op.batch_alter_table('llm', schema=None) as batch_op:
         batch_op.drop_constraint('unique_llm_provider_model_name', type_='unique')
         batch_op.create_unique_constraint(batch_op.f('unique_llm_workspace_provider_model_name'), ['provider', 'model_name'])
@@ -78,6 +87,9 @@ def downgrade() -> None:
                nullable=False)
         batch_op.drop_column('extra')
         batch_op.drop_column('model_alias')
+
+    with op.batch_alter_table('book_collection', schema=None) as batch_op:
+        batch_op.drop_column('type')
 
     op.drop_table('llm_provider')
     # ### end Alembic commands ###

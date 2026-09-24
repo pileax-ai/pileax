@@ -1,5 +1,5 @@
 export default {
-  _: '空間',
+  _: '工作空間',
   add: '添加空間',
   admin: '管理空間',
   assignRoleConfirm: '將給 {name} 分配新的角色？',

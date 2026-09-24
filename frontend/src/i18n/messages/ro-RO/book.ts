@@ -3,6 +3,7 @@ export default {
   add: 'Adăugați o carte',
   addTime: 'Adăugați timp',
   addToCollection: 'Adaugă la colecție',
+  addToGroup: 'Adăugați la grup',
   addToWant: 'Adaugă la Vreau să citesc',
   annotation: 'Adnotare carte',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: 'Fizic'
   },
   format: 'Format',
+  group: 'Grup de carte',
+  groups: {
+    _: 'Grupuri de cărți',
+    add: 'Adăugați un grup',
+    change: 'Schimbați grupul',
+    edit: 'Editați grupul',
+    enable: 'Activează grupul',
+    group: 'Grup',
+    open: 'Grup deschis',
+    removeConfirm: 'Sigur vrei să elimini din grup?'
+  },
   info: 'Informații despre carte',
   jumpToBook: 'Salt la poziția din carte',
   lastReadTime: 'Ultima oră de citire',
@@ -85,6 +97,7 @@ export default {
   tag: 'Etichetă',
   tags: 'Etichete',
   title: 'Titlu',
+  total: 'Total de {total} cărți',
   uploader: {
     completed: 'Încărcarea cărților pe server a fost finalizată',
     label: 'Trageți fișierele aici sau faceți clic pentru a le încărca.',

@@ -1,4 +1,5 @@
 export default {
+  agent: 'Đại lý',
   agents: 'Các tác nhân AI',
   apps: 'Ứng dụng AI',
   basedOnBook: 'Dựa trên cuốn sách',
@@ -10,6 +11,7 @@ export default {
     chat: 'Trò chuyện LLM',
     chatModel: 'Mô hình trò chuyện và suy luận (LLM)',
     chatTips: 'Trò chuyện mặc định LLM',
+    default: 'Cài đặt mô hình mặc định',
     embedding: 'Nhúng',
     embeddingModel: 'Mô hình nhúng',
     rerank: 'Xếp hạng lại',
@@ -22,6 +24,7 @@ export default {
     vector: 'Cơ sở dữ liệu vectơ'
   },
   providers: {
+    _: 'Nhà cung cấp mô hình',
     added: 'Đã thêm nhà cung cấp',
     api: {
       baseUrl: 'URL cơ sở',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Tên cấu hình'
     },
     available: 'Các nhà cung cấp hiện có',
+    manage: 'Quản lý nhà cung cấp',
     model: {
       _: 'Người mẫu',
+      alias: 'Mô hình bí danh',
+      endpoint: 'Điểm cuối mô hình',
+      endpointTip: 'Tên mô hình: Nhập ID điểm cuối',
       get: 'Liệt kê các mô hình',
       llm: 'LLM',
       maxTokens: 'Số token tối đa',
       name: 'Tên mẫu',
       type: 'Loại mô hình'
     },
+    models: 'Mô hình',
     set: 'Thiết lập nhà cung cấp AI',
     setTips: 'Thiết lập các nhà cung cấp AI để kích hoạt khả năng AI.',
     title: 'Nhà cung cấp mô hình'

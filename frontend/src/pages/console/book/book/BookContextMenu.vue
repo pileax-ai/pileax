@@ -19,12 +19,16 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  group: {
+    type: Boolean,
+    default: false
+  },
   data: {
     type: Object,
     required: true
   },
 })
-const emit = defineEmits(['edit', 'close', 'upload'])
+const emit = defineEmits(['edit', 'close', 'dialog-close', 'upload'])
 
 const { downloadBook, removeBook, deleteBook, updateUserBook } = useBookDetails()
 const { t } = useCommon()
@@ -45,10 +49,17 @@ const actions = computed(() => {
       hidden: props.data.readingStatus === 3,
     },
     {
+      label: props.group
+        ? t('book.groups.change')
+        : t('book.addToGroup'),
+      value: 'group',
+      icon: 'o_dataset',
+      separator: true
+    },
+    {
       label: t('book.addToCollection'),
       value: 'collection',
       icon: 'icon-reading-list',
-      separator: true
     },
     {
       label: t('download'),
@@ -89,7 +100,10 @@ const actions = computed(() => {
 function onAction (action :any) {
   switch (action.value) {
     case 'collection':
-      onAddCollection()
+      onAddTo('book-collection')
+      break
+    case 'group':
+      onAddTo('book-group')
       break
     case 'download':
       downloadBook(props.data)
@@ -153,10 +167,14 @@ function onDeleteBook() {
   })
 }
 
-function onAddCollection() {
+function onAddTo(type: string) {
   openDialog({
-    type: 'book-collection',
-    data: props.data
+    type,
+    data: props.data,
+    onCancel: () => {
+      console.log('close', type)
+      emit('dialog-close', type)
+    }
   })
 }
 </script>

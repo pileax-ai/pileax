@@ -205,6 +205,11 @@ export default {
     title: 'Tytuł'
   },
   status: 'Status',
+  statusOptions: {
+    disabled: 'Wyłączony',
+    enabled: 'Włączony',
+    pending: 'Aż do'
+  },
   submit: 'Składać',
   symbol: 'Symbol',
   system: 'System',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Odśwież kartę',
     unpin: 'Odepnij kartę'
   },
+  tag: 'Etykietka',
+  tags: 'Tagi',
   terms: {
     privacy: 'Polityka prywatności',
     service: 'Umowa użytkownika'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Czas aktualizacji',
   upload: 'Wgrywać',
+  vendor: 'Sprzedawca',
   version: 'Wersja',
   view: {
     _: 'Pogląd',

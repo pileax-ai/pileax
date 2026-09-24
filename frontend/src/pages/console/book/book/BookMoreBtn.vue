@@ -1,7 +1,7 @@
 <template>
   <q-btn icon="more_horiz" flat round>
     <q-menu class="pi-menu" :offset="[0, 4]">
-      <q-list :style="{minWidth: '200px'}">
+      <q-list :style="{minWidth: '240px'}">
         <template v-for="(action, index) in actions" :key="`action-${index}`">
           <q-separator class="bg-accent" v-if="action.separator" />
           <o-common-item v-bind="action"
@@ -12,11 +12,22 @@
                          closable
                          right-side>
             <template #side>
-              <q-icon :name="orderDesc ? 'south' : 'north'"
+              <q-icon :name="library.orderDesc ? 'south' : 'north'"
                       v-if="action.sortable" />
             </template>
           </o-common-item>
         </template>
+        <template v-if="group">
+          <q-separator class="bg-accent" />
+          <o-common-item icon="o_dataset"
+                         :label="$t('book.groups.group')" right-side>
+            <template #side>
+              <q-toggle v-model="grouped"
+                        @update:model-value="emit('filter')" />
+            </template>
+          </o-common-item>
+        </template>
+
         <slot></slot>
       </q-list>
     </q-menu>
@@ -24,28 +35,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import useCommon from 'core/hooks/useCommon'
-const emit = defineEmits(['view', 'sort'])
-
-const { t, confirm } = useCommon()
-const bookView = ref('grid')
-const orderField = ref('recentRead')
-const orderDesc = ref(true)
+import useReading from 'src/hooks/useReading'
 
 const props = defineProps({
-  view: {
-    type: String,
-    default: 'grid'
+  group: {
+    type: Boolean,
+    default: false
   },
-  orderBy: {
-    type: String,
-    default: 'recentRead'
+})
+const emit = defineEmits(['filter', 'sort'])
+
+const { t } = useCommon()
+const { library, setLibraryItem } = useReading()
+
+const grouped = computed({
+  get() {
+    return library.value.grouped
   },
-  source: {
-    type: String,
-    default: 'book'
-  },
+  set(value: string) {
+    setLibraryItem('grouped', value)
+  }
 })
 
 const actions = computed(() => {
@@ -54,32 +65,31 @@ const actions = computed(() => {
       label: t('view.gridTitle'),
       value: 'grid_title',
       icon: 'mdi-cards-variant',
-      selected: bookView.value === 'grid_title',
+      selected: library.value.view === 'grid_title',
     },
     {
       label: t('view.grid'),
       value: 'grid',
       icon: 'grid_view',
-      selected: bookView.value === 'grid',
+      selected: library.value.view === 'grid',
     },
     {
       label: t('view.compact'),
       value: 'compact',
       icon: 'view_cozy',
-      selected: bookView.value === 'compact',
+      selected: library.value.view === 'compact',
     },
     {
       label: t('view.list'),
       value: 'list',
       icon: 'list',
-      selected: bookView.value === 'list',
+      selected: library.value.view === 'list',
     },
     {
       label: t('sortBy.recentAdd'),
       value: 'recentAdd',
       icon: 'schedule',
-      sources: ['book', 'book-add'],
-      selected: orderField.value === 'recentAdd',
+      selected: library.value.orderBy === 'recentAdd',
       sortable: true,
       separator: true,
     },
@@ -87,19 +97,17 @@ const actions = computed(() => {
       label: t('sortBy.recentRead'),
       value: 'recentRead',
       icon: 'schedule',
-      sources: ['book'],
-      selected: orderField.value === 'recentRead',
+      selected: library.value.orderBy === 'recentRead',
       sortable: true,
     },
     {
       label: t('sortBy.title'),
       value: 'title',
       icon: 'sort_by_alpha',
-      sources: ['book', 'book-add'],
-      selected: orderField.value === 'title',
+      selected: library.value.orderBy === 'title',
       sortable: true,
     },
-  ].filter(i => !i.sources || i.sources.includes(props.source))
+  ] as Indexable[]
 })
 
 function onAction (action :any) {
@@ -109,51 +117,19 @@ function onAction (action :any) {
     case 'grid_title':
     case 'compact':
     case 'list':
-      bookView.value = value
-      emit('view', value)
+      setLibraryItem('view', value)
       break
     case 'recentAdd':
-      if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value
-      } else {
-        orderDesc.value = true
-      }
-      orderField.value = value
-      if (props.source === 'book-add') {
-        emit('sort', { 'book.update_time': orderDesc.value ? 'desc' : 'asc' })
-      } else {
-        emit('sort', { 'workspacebook.update_time': orderDesc.value ? 'desc' : 'asc' })
-      }
-      break
     case 'recentRead':
-      if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value
-      } else {
-        orderDesc.value = true
-      }
-      orderField.value = value
-      if (props.source === 'book-add') {
-        emit('sort', { 'book.update_time': orderDesc.value ? 'desc' : 'asc' })
-      } else {
-        emit('sort', { 'userbook.update_time': orderDesc.value ? 'desc' : 'asc' })
-      }
+    case 'title':{
+      const desc = library.value.orderBy === value ? !library.value.orderDesc : true
+      setLibraryItem('orderDesc', desc)
+      setLibraryItem('orderBy', value)
+      emit('sort')
       break
-    case 'title':
-      if (orderField.value === value) {
-        orderDesc.value = !orderDesc.value
-      } else {
-        orderDesc.value = false
-      }
-      orderField.value = value
-      emit('sort', { 'book.title_pinyin': orderDesc.value ? 'desc' : 'asc' })
-      break
+    }
     default:
       break
   }
 }
-
-onMounted(() => {
-  bookView.value = props.view
-  orderField.value = props.orderBy
-})
 </script>

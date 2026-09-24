@@ -248,6 +248,7 @@ onActivated(() => {
           border-radius: 6px;
           min-width: 40px !important;
           min-height: 40px !important;
+          padding: unset !important;
         }
       }
 

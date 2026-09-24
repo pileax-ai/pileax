@@ -1,4 +1,5 @@
 export default {
+  agent: '대리인',
   agents: 'AI 에이전트',
   apps: 'AI 앱',
   basedOnBook: '원작 소설을 바탕으로',
@@ -10,6 +11,7 @@ export default {
     chat: '채팅 LLM',
     chatModel: '채팅 및 추론 모델(LLM)',
     chatTips: '기본 채팅 LLM',
+    default: '기본 모델 설정',
     embedding: '임베딩',
     embeddingModel: '임베딩 모델',
     rerank: '순위 재조정',
@@ -22,6 +24,7 @@ export default {
     vector: '벡터 데이터베이스'
   },
   providers: {
+    _: '모델 제공자',
     added: '추가된 공급자',
     api: {
       baseUrl: '기본 URL',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: '구성 이름'
     },
     available: '이용 가능한 제공업체',
+    manage: '공급자 관리',
     model: {
       _: '모델',
+      alias: '별칭 모델',
+      endpoint: '모델 엔드포인트',
+      endpointTip: '모델명: 엔드포인트 ID를 입력하세요',
       get: '모델 목록',
       llm: 'LLM',
       maxTokens: '최대 토큰',
       name: '모델명',
       type: '모델 유형'
     },
+    models: '모델들',
     set: 'AI 제공업체 설정',
     setTips: 'AI 기능을 활성화하려면 AI 제공업체를 설정하세요.',
     title: '모델 제공업체'

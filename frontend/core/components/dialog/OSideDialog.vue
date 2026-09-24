@@ -5,7 +5,7 @@
             @before-show="onBeforeShow"
             @show="$emit('show')"
             @hide="$emit('close')"
-            :position="fullScreen ? 'standard' : positionAlt"
+            :position="fullScreen ? 'standard' : positionAlt as 'standard'"
             :class="`o-side-dialog ${contentClass} ${view}`">
     <q-card :style="contentStyle"
             class="bg-white dialog-card"
@@ -353,6 +353,12 @@ onMounted(() => {
   &.full-screen {
     .q-dialog__inner {
       margin: 0 !important;
+    }
+  }
+
+  .o-page-container {
+    .q-scrollarea__content {
+      width: 100%;
     }
   }
 }

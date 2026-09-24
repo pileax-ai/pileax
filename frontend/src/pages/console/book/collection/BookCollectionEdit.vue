@@ -4,19 +4,19 @@
                       @submit="onSubmit"
                       @reset="actions.reset"
                       enable-actions>
-    <q-input v-model="form.id" prefix="ID" outlined dense readonly v-if="form.id && false"/>
     <o-field :label="$t('title')">
       <q-input v-model="form.title" :placeholder="$t('title')"
                class="pi-field icon"
                standout dense
                :error="v$.title.$errors.length > 0"
                :error-message="$t('formRules.length', {length: '1-100'})"
-               :hint="$t('formRules.length', {length: '1-100'})">
-        <template #prepend>
-          <div class="cursor-pointer">
-            <o-icon :name="form.icon || BookCollectionDefaultIcon" :color="form.color" />
+               :hint="$t('formRules.length', {length: '1-100'})"
+               autofocus>
+        <template #before>
+          <q-btn class="bg-accent square" flat>
+            <o-icon :name="form.icon || defaultIcon" :color="form.color" />
             <o-general-icon-menu @select="onSelectIcon" />
-          </div>
+          </q-btn>
         </template>
       </q-input>
     </o-field>
@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import {maxLength, minLength, required} from '@vuelidate/validators'
-import { onMounted, ref} from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import OFileUploader from 'core/components/fIle/OFileUploader.vue'
 import OSimpleFormPage from 'core/page/template/OSimpleFormPage.vue'
@@ -55,7 +55,7 @@ import OColorSelect from 'core/components/form/OColorSelect.vue'
 import { GET } from 'src/hooks/useRequest'
 import useForm from 'src/hooks/useForm'
 import OField from 'core/components/form/field/OField.vue'
-import { BookCollectionDefaultIcon } from 'core/constants/constant'
+import { BookCollectionDefaultIcon, BookGroupDefaultIcon } from 'core/constants/constant'
 import useApi from 'src/hooks/useApi'
 
 const apiName = 'bookCollection'
@@ -63,6 +63,10 @@ const props = defineProps({
   id: {
     type: String,
     default: ''
+  },
+  type: {
+    type: String,
+    default: '0'
   }
 })
 const emit = defineEmits(['close', 'success'])
@@ -73,6 +77,10 @@ const rules = {
   title: { required, minLength: minLength(1), maxLength: maxLength(100) },
 }
 const v$ = useVuelidate(rules, form)
+
+const defaultIcon = computed(() => {
+  return props.type === '0' ? BookCollectionDefaultIcon : BookGroupDefaultIcon
+})
 
 function load () {
   actions.initForm(apiName)

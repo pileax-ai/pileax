@@ -8,10 +8,24 @@
           </template>
         </div>
         <div class="absolute-bottom text-subtitle1 text-center details">
-          <q-btn :label="$t('add')" flat
-                 @click.stop="emit('add')" v-if="add && !data.workspaceBookId" />
-          <q-btn :label="$t('details')" flat
-                 @click.stop="emit('details')" />
+          <template v-if="add">
+            <q-btn :label="$t('add')" flat
+                   @click.stop="emit('add')" v-if="!data.workspaceBookId" />
+            <q-btn :label="$t('details')" flat
+                   @click.stop="emit('details')" />
+          </template>
+          <q-btn flat
+                 @click.stop="emit('details')"
+                 v-else>
+            <div class="row col-12 justify-between">
+              <div>
+                {{ $t('details') }}
+              </div>
+              <div>
+                {{ formatNumber(data.readingPercentage * 100, { decision: 0 }) }}%
+              </div>
+            </div>
+          </q-btn>
         </div>
       </q-img>
       <div class="bookmark" v-if="data.workspaceBookId">
@@ -27,6 +41,7 @@
 import { computed, onMounted, ref } from 'vue'
 import useBookDetails from 'src/hooks/useBookDetails'
 import useApi from 'src/hooks/useApi'
+import { formatNumber } from 'core/utils/format'
 
 const props = defineProps({
   data: {

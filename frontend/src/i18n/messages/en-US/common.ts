@@ -206,9 +206,9 @@ export default {
   },
   status: 'Status',
   statusOptions: {
-    enabled: 'Enabled',
     disabled: 'Disabled',
-    pending: 'Pending',
+    enabled: 'Enabled',
+    pending: 'Pending'
   },
   submit: 'Submit',
   symbol: 'Symbol',
@@ -241,6 +241,8 @@ export default {
     refresh: 'Refresh Tab',
     unpin: 'Unpin Tab'
   },
+  tag: 'Tag',
+  tags: 'Tags',
   terms: {
     privacy: 'Privacy Policy',
     service: 'User Agreement'
@@ -256,8 +258,6 @@ export default {
     today: 'Today',
     yesterday: 'Yesterday'
   },
-  tag: 'Tag',
-  tags: 'Tags',
   tips: 'Tips',
   title: 'Title',
   toc: 'Table of Content',
@@ -287,8 +287,8 @@ export default {
   },
   updateTime: 'Update Time',
   upload: 'Upload',
-  version: 'Version',
   vendor: 'Vendor',
+  version: 'Version',
   view: {
     _: 'View',
     compact: 'Compact',

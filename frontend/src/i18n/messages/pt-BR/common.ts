@@ -205,6 +205,11 @@ export default {
     title: 'Título'
   },
   status: 'Status',
+  statusOptions: {
+    disabled: 'Desabilitado',
+    enabled: 'Habilitado',
+    pending: 'Pendente'
+  },
   submit: 'Enviar',
   symbol: 'Símbolo',
   system: 'Sistema',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Atualizar guia',
     unpin: 'Desafixar guia'
   },
+  tag: 'Marcação',
+  tags: 'Etiquetas',
   terms: {
     privacy: 'política de Privacidade',
     service: 'Contrato do Usuário'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Hora da atualização',
   upload: 'Carregar',
+  vendor: 'Fornecedor',
   version: 'Versão',
   view: {
     _: 'Visualizar',

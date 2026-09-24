@@ -8,7 +8,7 @@
       </q-list>
     </header>
 
-    <section class="col by-collection" v-if="collections.length">
+    <q-scroll-area class="col by-collection" v-if="collections.length">
       <q-list>
         <template v-for="(item, index) of collections" :key="`item-${index}`">
           <o-common-item v-bind="item"
@@ -18,11 +18,9 @@
                          closable
                          right-side>
             <template #side>
-              <q-icon name="circle"
-                      size="8px"
-                      class="dot"
-                      :color="item.color"
-                      v-if="item.value === modelValue && false" />
+              <q-btn class="count" flat v-if="item.value !== modelValue">
+                {{ item.count || 0 }}
+              </q-btn>
               <q-btn icon="more_vert"
                      flat
                      class="more"
@@ -51,8 +49,8 @@
         </template>
         <slot></slot>
       </q-list>
-    </section>
-    <section :class="collections.length > 10 ? 'col-auto' : 'col'">
+    </q-scroll-area>
+    <section class="col-auto">
       <q-list>
         <o-common-item :label="t('book.collections.add')"
                        icon="add"
@@ -68,7 +66,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { bookCollectionService } from 'src/api/service/remote/book-collection'
+import { workspaceBookCollectionService } from 'src/api/service/remote'
 import useCrud from 'src/hooks/useCrud'
 import useCommon from 'core/hooks/useCommon'
 import { BookCollectionDefaultIcon } from 'core/constants/constant'
@@ -89,23 +87,16 @@ const { crud } = useCrud()
 const list = ref<Indexable[]>()
 
 const collections = computed(() => {
-  const newList = list.value?.map(item => {
+  return list.value?.map(item => {
     return {
       label: item.title,
       value: item.id,
-      icon: item.icon || BookCollectionDefaultIcon,
+      icon: item.icon || 'subject',
       color: item.color,
+      count: item.count,
       action: 'filter',
     }
   }) || [] as Indexable[]
-  // newList.push({
-  //   label: t('book.collections.add'),
-  //   value: 'add',
-  //   icon: 'add',
-  //   color: '',
-  //   action: 'add',
-  // })
-  return newList
 })
 
 const actions = computed(() => {
@@ -159,7 +150,7 @@ function onDelete(item: Indexable) {
 
 function refresh() {
   return new Promise((resolve, reject) => {
-    bookCollectionService.getAll().then(res => {
+    workspaceBookCollectionService.getAll().then(res => {
       list.value = res
       resolve(res)
     }).then(err => {
@@ -183,7 +174,12 @@ defineExpose({
 
   .by-collection {
     width: 100%;
-    overflow-y: scroll;
+    .q-scrollarea__content {
+      width: 100%;
+    }
+    .q-scrollarea__thumb, .q-scrollarea__bar {
+      width: 4px;
+    }
   }
 
   .q-list {
@@ -197,8 +193,14 @@ defineExpose({
     }
 
     .q-item {
-      padding: 4px 6px;
+      padding: 0;
       min-height: 44px;
+
+      .side-label {
+        .q-btn {
+          min-height: 44px;
+        }
+      }
 
       .dot {
         position: absolute;
@@ -219,6 +221,18 @@ defineExpose({
           .q-icon {
             font-size: 1.2rem!important;
           }
+        }
+      }
+
+      .count {
+        position: absolute;
+        padding: 0 12px;
+        font-size: 12px;
+      }
+
+      &:hover {
+        .count {
+          display: none;
         }
       }
     }

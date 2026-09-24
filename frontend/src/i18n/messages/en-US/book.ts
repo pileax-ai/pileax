@@ -3,6 +3,7 @@ export default {
   add: 'Add book',
   addTime: 'Add Time',
   addToCollection: 'Add to Collection',
+  addToGroup: 'Add to Group',
   addToWant: 'Add to Want to Read',
   annotation: 'Book Annotation',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: 'Physical'
   },
   format: 'Format',
+  group: 'Book Group',
+  groups: {
+    _: 'Book Groups',
+    add: 'Add Group',
+    change: 'Change Group',
+    edit: 'Edit Group',
+    enable: 'Enable Group',
+    group: 'Group',
+    open: 'Open Group',
+    removeConfirm: 'Are you sure to remove from group?'
+  },
   info: 'Book Info',
   jumpToBook: 'Jump to Position in Book',
   lastReadTime: 'Last Read Time',
@@ -85,6 +97,7 @@ export default {
   tag: 'Tag',
   tags: 'Tags',
   title: 'Title',
+  total: 'Total of {total} books',
   uploader: {
     completed: 'Upload books to server completed',
     label: 'Drag files here, or click to upload.',

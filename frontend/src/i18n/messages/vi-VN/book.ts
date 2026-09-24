@@ -3,6 +3,7 @@ export default {
   add: 'Thêm sách',
   addTime: 'Thêm thời gian',
   addToCollection: 'Thêm vào bộ sưu tập',
+  addToGroup: 'Thêm vào nhóm',
   addToWant: 'Thêm vào danh sách muốn đọc',
   annotation: 'Chú thích sách',
   annotations: {
@@ -43,6 +44,17 @@ export default {
     physical: 'Thuộc vật chất'
   },
   format: 'Định dạng',
+  group: 'Nhóm đọc sách',
+  groups: {
+    _: 'Nhóm đọc sách',
+    add: 'Thêm nhóm',
+    change: 'Nhóm Thay đổi',
+    edit: 'Chỉnh sửa nhóm',
+    enable: 'Kích hoạt nhóm',
+    group: 'Nhóm',
+    open: 'Nhóm mở',
+    removeConfirm: 'Bạn có chắc chắn muốn xóa khỏi nhóm không?'
+  },
   info: 'Thông tin sách',
   jumpToBook: 'Chuyển đến vị trí trong sách',
   lastReadTime: 'Thời gian đọc lần cuối',
@@ -85,6 +97,7 @@ export default {
   tag: 'Nhãn',
   tags: 'Thẻ',
   title: 'Tiêu đề',
+  total: 'Tổng cộng {total} cuốn sách',
   uploader: {
     completed: 'Quá trình tải sách lên máy chủ đã hoàn tất.',
     label: 'Kéo thả tệp vào đây hoặc nhấp chuột để tải lên.',

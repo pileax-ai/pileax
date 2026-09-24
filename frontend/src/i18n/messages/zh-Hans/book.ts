@@ -3,6 +3,7 @@ export default {
   add: '添加书籍',
   addTime: '添加时间',
   addToCollection: '添加至书单',
+  addToGroup: '添加至分组',
   addToWant: '标记为想读',
   annotation: '书摘',
   annotations: {
@@ -42,6 +43,17 @@ export default {
     physical: '纸质书'
   },
   format: '格式',
+  group: '分组',
+  groups: {
+    _: '分组',
+    add: '添加分组',
+    change: '修改分组',
+    edit: '编辑分组',
+    enable: '启用分组',
+    group: '分组',
+    open: '打开分组',
+    removeConfirm: '你确定从分组中移除吗？'
+  },
   info: '图书信息',
   jumpToBook: '跳转至书中位置',
   lastReadTime: '最后阅读时间',
@@ -84,6 +96,7 @@ export default {
   tag: '标签',
   tags: '标签',
   title: '书名',
+  total: '共 {total} 本书',
   uploader: {
     completed: '图书已成功上传至服务器',
     label: '将文件拖到此处，或点击上传',

@@ -18,7 +18,19 @@ export class WorkspaceBookService extends BaseService {
   }
 
   deletePermanent(id: string) {
-    return DELETE({ name: this.apiName, path: '/permanent', query: {id: id} })
+    return DELETE({ name: this.apiName, path: '/permanent', query: { id } })
+  }
+
+  async group(): Promise<any> {
+    return GET({ name: this.apiName, path: '/group'})
+  }
+
+  async removeGroup(id: string): Promise<any> {
+    return DELETE({ name: this.apiName, path: '/group', query: { id }})
+  }
+
+  async queryGroups(body: Indexable): Promise<any> {
+    return POST({ name: this.apiName, path: '/query/groups', body })
   }
 
 }

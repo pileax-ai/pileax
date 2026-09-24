@@ -1,4 +1,5 @@
 export default {
+  agent: 'Agent',
   agents: 'KI-Agenten',
   apps: 'KI-Apps',
   basedOnBook: 'Basierend auf dem Buch',
@@ -10,6 +11,7 @@ export default {
     chat: 'Chat LLM',
     chatModel: 'Chat- und Schlussfolgerungsmodell (LLM)',
     chatTips: 'Standard-Chat LLM',
+    default: 'Standardmodelleinstellungen',
     embedding: 'Einbetten',
     embeddingModel: 'Einbettungsmodell',
     rerank: 'Neu einordnen',
@@ -22,6 +24,7 @@ export default {
     vector: 'Vektordatenbank'
   },
   providers: {
+    _: 'Modellanbieter',
     added: 'Hinzugefügte Anbieter',
     api: {
       baseUrl: 'Basis-URL',
@@ -34,14 +37,19 @@ export default {
       namePlaceholder: 'Konfigurationsname'
     },
     available: 'Verfügbare Anbieter',
+    manage: 'Anbieterverwaltung',
     model: {
       _: 'Modell',
+      alias: 'Alias-Modell',
+      endpoint: 'Modell-Endpunkt',
+      endpointTip: 'Modellname: Geben Sie die Endpunkt-ID ein.',
       get: 'Listenmodelle',
       llm: 'LLM',
       maxTokens: 'Maximale Token',
       name: 'Modellname',
       type: 'Modelltyp'
     },
+    models: 'Modelle',
     set: 'Set KI-Anbieter',
     setTips: 'KI-Anbieter so einstellen, dass sie KI-Funktionen ermöglichen.',
     title: 'Modellanbieter'

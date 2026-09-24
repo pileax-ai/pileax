@@ -85,3 +85,9 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
 
     def query_details(self, query: PaginationQuery):
         return self.repo.query_details(query)
+
+    def group(self, user_id: UUID, workspace_id: UUID) -> list:
+        return self.repo.group(user_id, workspace_id)
+
+    def query_groups(self, query: PaginationQuery):
+        return self.repo.query_groups(query)

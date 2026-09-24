@@ -387,10 +387,11 @@ const onMetadata = async (metadata: any) => {
   const sha1 = metadata.sha1
   const waiter = uploadBookWaiters.get(sha1)
   const savingTitle = metadata.title || parseFileName(metadata.file)
-  metadata.title = savingTitle
   try {
     // If upload to existing book, check book title
     const bookData = waiter.bookData
+    metadata.bookGroupId = bookData.bookGroupId
+    metadata.title = savingTitle
     if (bookData.id) {
       const title = bookData.title
       if (!isTitleSimilar(title, savingTitle)) {
@@ -429,7 +430,10 @@ const savingBookRemote = async (metadata: any) => {
     // Book uploaded, add to shelf
     const remoteBook = await bookService.getByUuid(metadata.sha1)
     try {
-      await workspaceBookService.save({bookId: remoteBook.id})
+      await workspaceBookService.save({
+        bookId: remoteBook.id,
+        bookGroupId: metadata.bookGroupId
+      })
     } catch (err) {
       const message = getErrorMessage(err)
       if (message?.indexOf('UNIQUE') >= 0) {
@@ -556,6 +560,7 @@ const buildBook = (metadata: any, fileInfo: any) => {
     publisher: parseBookField(metadata.publisher),
     published: metadata.published ?? '',
     description: metadata.description ?? '',
+    bookGroupId: metadata.bookGroupId ?? ''
   }
 }
 

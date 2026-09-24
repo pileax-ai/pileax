@@ -34,7 +34,7 @@
         </o-common-item>
       </q-list>
     </header>
-    <section class="col row by-book">
+    <q-scroll-area class="col row by-book">
       <q-list>
         <template v-for="(item, index) of books" :key="`item-${index}`">
           <o-common-item v-bind="item"
@@ -44,15 +44,15 @@
                          closable
                          right-side>
             <template #side>
-            <span v-if="item.count">
-              {{ item.count }}
-            </span>
+              <span v-if="item.count">
+                {{ item.count }}
+              </span>
             </template>
           </o-common-item>
         </template>
         <slot></slot>
       </q-list>
-    </section>
+    </q-scroll-area>
     <section class="by-type" :class="books.length > 10 ? 'col-auto' : 'col'">
       <q-list>
         <q-item-label class="group" caption>
@@ -181,7 +181,12 @@ defineExpose({
 
   .by-book {
     width: 100%;
-    overflow-y: scroll;
+    .q-scrollarea__content {
+      width: 100%;
+    }
+    .q-scrollarea__thumb, .q-scrollarea__bar {
+      width: 4px;
+    }
   }
 
   .q-list {

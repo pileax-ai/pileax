@@ -3,6 +3,7 @@ export default {
   add: '新增書籍',
   addTime: '添加時間',
   addToCollection: '新增至書單',
+  addToGroup: '新增至分組',
   addToWant: '標記為想讀',
   annotation: '書摘',
   annotations: {
@@ -42,6 +43,17 @@ export default {
     physical: '紙本書'
   },
   format: '格式',
+  group: '分組',
+  groups: {
+    _: '分組',
+    add: '新增分組',
+    change: '修改分組',
+    edit: '編輯分組',
+    enable: '啟用分組',
+    group: '分組',
+    open: '打開分組',
+    removeConfirm: '你確定從分組移除嗎？'
+  },
   info: '圖書資訊',
   jumpToBook: '跳轉至書中位置',
   lastReadTime: '最後閱讀時間',
@@ -84,6 +96,7 @@ export default {
   tag: '標籤',
   tags: '標籤',
   title: '書名',
+  total: '共 {total} 本書',
   uploader: {
     completed: '圖書已成功上傳至伺服器',
     label: '將文件拖曳到此處，或點擊上傳',

@@ -80,6 +80,14 @@
   &.q-field--dense {
     .q-btn {
       height: 40px;
+
+      &.square {
+        width: 40px;
+      }
+
+      .o-icon {
+        //font-size: 30px;
+      }
     }
   }
 

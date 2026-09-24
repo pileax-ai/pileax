@@ -205,6 +205,11 @@ export default {
     title: 'Judul'
   },
   status: 'Status',
+  statusOptions: {
+    disabled: 'Dengan disabilitas',
+    enabled: 'Diaktifkan',
+    pending: 'Tertunda'
+  },
   submit: 'Kirim',
   symbol: 'Simbol',
   system: 'Sistem',
@@ -236,6 +241,8 @@ export default {
     refresh: 'Segarkan Tab',
     unpin: 'Lepaskan Sematan Tab'
   },
+  tag: 'Menandai',
+  tags: 'Tag',
   terms: {
     privacy: 'Kebijakan Privasi',
     service: 'Perjanjian Pengguna'
@@ -280,6 +287,7 @@ export default {
   },
   updateTime: 'Waktu Pembaruan',
   upload: 'Mengunggah',
+  vendor: 'Penjual',
   version: 'Versi',
   view: {
     _: 'Melihat',

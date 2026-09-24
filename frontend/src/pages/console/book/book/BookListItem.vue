@@ -19,7 +19,14 @@
     </q-item-section>
     <q-item-section class="justify-around" side>
       <div class="time">
-        {{ timeMulti(data.updateTime).fromNow() }}
+        <template v-if="add">
+          {{ timeMulti(data.updateTime).fromNow() }}
+        </template>
+        <template v-else>
+          <span>{{ formatNumber(data.readingPercentage * 100, { decision: 0 }) }}%</span>
+          <span class="q-mx-sm">|</span>
+          <span>{{ timeMulti(data.updateTime).fromNow() }}</span>
+        </template>
       </div>
       <div class="details">
         <q-btn :label="$t('add')"
@@ -32,7 +39,7 @@
                flat
                @click.stop="emit('details')" />
       </div>
-      <div class="tags details">
+      <div class="tags details" v-if="false">
         <template v-for="(item, index) in tags" :key="index">
           <q-chip v-bind="item" square dense />
         </template>
@@ -51,6 +58,7 @@ import {computed, onMounted, ref, watch} from 'vue'
 import { timeMulti } from 'core/utils/dayjs'
 import useApi from 'src/hooks/useApi'
 import useBookDetails from 'src/hooks/useBookDetails'
+import { formatNumber } from 'core/utils/format'
 
 const props = defineProps({
   data: {
@@ -110,6 +118,9 @@ onMounted(() => {
 
   .q-item__section--avatar {
     min-width: 90px;
+    img {
+      border-radius: 2px;
+    }
   }
 
   .meta {
