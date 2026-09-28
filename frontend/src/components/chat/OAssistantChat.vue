@@ -172,7 +172,7 @@ function onSend() {
     id: UUID(),
     message: message,
     modelProvider: localDefaultModel.value.provider,
-    modelType: localDefaultModel.value.modelType,
+    modelType: 'chat',
     modelName: localDefaultModel.value.modelName,
   })
 

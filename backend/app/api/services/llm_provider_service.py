@@ -35,3 +35,6 @@ class LLMProviderService(BaseService[LLMProvider]):
             super().update(obj.id, data)
         else:
             super().create(LLMProvider(**data), True)
+
+    def clean_deprecated_provider(self, version: str) -> int:
+        return self.repo.clean_deprecated_provider(version)

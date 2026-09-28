@@ -1,6 +1,6 @@
 from typing import Any
 
-from sqlalchemy import TextClause, select, text
+from sqlalchemy import TextClause, delete, select, text
 
 from app.api.models.enums import Status
 from app.api.models.llm import LLM
@@ -62,3 +62,12 @@ class LLMProviderRepository(BaseRepository[LLMProvider]):
             rows = result.mappings().all()
 
         return rows
+
+    def clean_deprecated_provider(self, version: str) -> int:
+        stmt = delete(LLMProvider).where(
+            LLMProvider.version != version,
+        )
+        result = self.session.exec(stmt)
+        self.session.commit()
+
+        return getattr(result, "rowcount", 0) or 0

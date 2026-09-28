@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: '新しいベース URL が必要です',
   resetDefault: 'デフォルトをリセット',
   restartTakeEffect: '有効にするにはアプリを再起動します。',
+  scanToConnect: 'スキャンして接続',
   unableConnect: 'サーバーに接続できません'
 }

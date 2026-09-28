@@ -26,6 +26,7 @@
 
     <template #menu>
       <template v-if="typeModels.length">
+        ABC
         <template v-for="(item, index) in typeModels" :key="index">
           <o-common-item :icon="`icon-${item.logo}`"
                          :label="item.modelAlias || item.modelName"
@@ -130,14 +131,14 @@ const singleModels = ref<Indexable[]>([])
 const typeModels = computed(() => {
   return props.single
     ? singleModels.value
-    : props.models.filter(m => m.modelType === props.type)
+    : props.models.filter(m => m.modelType.includes(props.type))
 })
 
 const defaultModel = computed(() => {
   if (props.local && localDefaultModel.value) {
     return localDefaultModel.value
   } else {
-    const dm = defaultModels.value.find(m => m.modelType === props.type) || {}
+    const dm = defaultModels.value.find(m => m.modelType.includes(props.type)) || {}
     const m = typeModels.value.find(m => m.modelName === dm.modelName && m.provider === dm.provider) || {}
     return {
       ...m,

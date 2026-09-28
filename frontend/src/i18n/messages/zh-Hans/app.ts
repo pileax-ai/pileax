@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: '必须使用新的基础 URL',
   resetDefault: '恢复默认',
   restartTakeEffect: '将重启应用以生效!',
+  scanToConnect: '扫一扫进行连接',
   unableConnect: '无法连接到服务器'
 }

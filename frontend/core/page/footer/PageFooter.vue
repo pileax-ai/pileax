@@ -116,7 +116,7 @@ const { getDocUrl } = useGuide()
         .q-btn {
           color: var(--p-text-readable);
           background: var(--q-nebula);
-          padding: 6px 0px;
+          padding: 6px 0;
           min-width: 160px;
 
           .q-btn__content {

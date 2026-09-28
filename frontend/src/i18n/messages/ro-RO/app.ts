@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: 'Este necesară o nouă adresă URL de bază',
   resetDefault: 'Resetare implicită',
   restartTakeEffect: 'Aplicația va reporni pentru a avea efect!',
+  scanToConnect: 'Scanare pentru conectare',
   unableConnect: 'Nu se poate conecta la server'
 }

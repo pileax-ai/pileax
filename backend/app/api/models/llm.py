@@ -4,7 +4,7 @@ from sqlalchemy import Integer, text
 from sqlmodel import Field, UniqueConstraint
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, JSONString
-from app.api.models.enums import Status
+from app.api.models.enums import Status, UserType
 
 
 class LLM(BaseSQLModel, BaseMixin, table=True):
@@ -22,6 +22,10 @@ class LLM(BaseSQLModel, BaseMixin, table=True):
     status: int = Field(
         default=Status.ACTIVE, sa_type=Integer, sa_column_kwargs={"server_default": text(str(Status.ACTIVE))}
     )
+    version: str = Field(...)
+    creator_type: int = Field(
+        default=UserType.SYSTEM, sa_type=Integer, sa_column_kwargs={"server_default": text(str(UserType.SYSTEM))}
+    )
     extra: dict | None = Field(default=None, sa_type=JSONString)
 
 
@@ -34,6 +38,8 @@ class LLMBase(BaseApiModel):
     max_tokens: int | None = None
     is_tools: int | None = None
     status: int | None = None
+    version: str | None = None
+    creator_type: int | None = None
     extra: dict | None = None
 
 
@@ -41,6 +47,7 @@ class LLMCreate(LLMBase):
     provider: str
     model_name: str
     model_type: str
+    version: str
 
 
 class LLMUpdate(LLMBase):

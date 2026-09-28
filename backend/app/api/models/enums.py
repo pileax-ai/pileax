@@ -19,3 +19,8 @@ class Scope(enum.IntEnum):
 class BookCollectionType(enum.IntEnum):
     BOOKLIST = 0
     GROUP = 1
+
+
+class UserType(enum.IntEnum):
+    SYSTEM = 0
+    USER = 9

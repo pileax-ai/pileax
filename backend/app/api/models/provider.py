@@ -1,6 +1,7 @@
 import uuid
 from typing import List
 
+from pydantic import field_validator
 from sqlmodel import Field, UniqueConstraint
 
 from app.api.models.base import BaseApiModel, BaseMixin, BaseSQLModel, uuid_field
@@ -47,6 +48,14 @@ class LLMInfo(BaseApiModel):
     model_alias: str | None = None
     tags: str | None = None
     max_tokens: int | None = None
+    is_tools: int | None = 0
+
+    @field_validator("model_type", mode="before")
+    @classmethod
+    def normalize_model_type(cls, v: str | list[str]) -> str:
+        if isinstance(v, list):
+            return ",".join(v)
+        return v
 
 
 class LLMInfoDetails(LLMInfo):
