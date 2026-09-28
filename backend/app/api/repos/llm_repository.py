@@ -30,10 +30,7 @@ class LLMRepository(BaseRepository[LLM]):
         return list(item_map.values())
 
     def clean_deprecated_model(self, version: str) -> int:
-        stmt = delete(LLM).where(
-            LLM.version != version,
-            LLM.creator_type == UserType.SYSTEM
-        )
+        stmt = delete(LLM).where(LLM.version != version, LLM.creator_type == UserType.SYSTEM)
         result = self.session.exec(stmt)
         self.session.commit()
 
