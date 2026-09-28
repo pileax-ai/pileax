@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: '새 기본 URL이 필요합니다.',
   resetDefault: '기본값으로 재설정',
   restartTakeEffect: '앱이 다시 시작되어야 적용됩니다!',
+  scanToConnect: '스캔하여 연결하세요',
   unableConnect: '서버에 연결할 수 없습니다'
 }

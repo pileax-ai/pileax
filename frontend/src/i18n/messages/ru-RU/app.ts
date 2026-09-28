@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: 'Требуется новый базовый URL',
   resetDefault: 'Сбросить настройки по умолчанию',
   restartTakeEffect: 'Приложение перезапустится, чтобы изменения вступили в силу!',
+  scanToConnect: 'Отсканируйте для подключения',
   unableConnect: 'Не удалось подключиться к серверу.'
 }

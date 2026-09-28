@@ -77,9 +77,9 @@
       <q-separator class="q-mt-md" />
       <div class="row col-12 justify-center qrcode-container">
         <div class="qrcode">
-          <o-qrcode :text="form.baseUrl" :size="200" />
+          <o-qrcode :text="JSON.stringify(qrcodeValue)" :size="200" />
         </div>
-        <div class="col-12 text-center text-tips">扫一扫进行连接</div>
+        <div class="col-12 text-center text-tips">{{ $t('app.scanToConnect') }}</div>
       </div>
     </section>
 
@@ -138,6 +138,13 @@ const testIcon = computed(() => {
       return 'done'
     default:
       return 'circle'
+  }
+})
+
+const qrcodeValue = computed(() => {
+  return {
+    baseUrl: form.value.baseUrl,
+    collabUrl: form.value.collabProvider,
   }
 })
 

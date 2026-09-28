@@ -26,3 +26,6 @@ class LLMService(BaseService[LLM]):
             super().update(obj.id, data)
         else:
             super().create(LLM(**data), True)
+
+    def clean_deprecated_model(self, version: str) -> int:
+        return self.repo.clean_deprecated_model(version)

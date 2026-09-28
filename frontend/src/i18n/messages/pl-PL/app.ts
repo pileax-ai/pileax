@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: 'Wymagany nowy adres URL bazowy',
   resetDefault: 'Przywróć domyślne',
   restartTakeEffect: 'Aplikacja zostanie uruchomiona ponownie, aby zastosować zmiany!',
+  scanToConnect: 'Skanuj, aby połączyć',
   unableConnect: 'Nie można połączyć się z serwerem'
 }

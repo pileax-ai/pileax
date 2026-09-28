@@ -10,6 +10,7 @@ from app.api.services.base_service import BaseService
 from app.api.services.llm_provider_service import LLMProviderService
 from app.api.services.llm_service import LLMService
 from app.api.services.provider_credential_service import ProviderCredentialService
+from app.libs.provider_helper import ProviderHelper
 
 
 class ProviderService(BaseService[Provider]):
@@ -98,12 +99,12 @@ class ProviderService(BaseService[Provider]):
 
     def find_model_by_type(self, workspace_id: UUID, model_type: str) -> Any:
         all_models = self.find_all_model(workspace_id)
-        return [x for x in all_models if x.model_type.lower() == model_type.lower()]
+        return [x for x in all_models if ProviderHelper.has_model_type(x.model_type, model_type)]
 
     def select_credential(self, workspace_id: UUID, provider: str) -> Any:
         """
         Select provider's credential
-        1. defautl credential
+        1. default credential
         2. random
         """
         p = self.find_one({"workspace_id": workspace_id, "provider": provider})

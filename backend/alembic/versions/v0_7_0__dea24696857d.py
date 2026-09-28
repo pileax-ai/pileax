@@ -1,8 +1,8 @@
 """v0.7.0
 
-Revision ID: 370c493fbc4d
+Revision ID: dea24696857d
 Revises: 3a75afb87324
-Create Date: 2026-09-20 22:26:11.564991
+Create Date: 2026-09-24 23:27:01.156990
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 import app
 
 # revision identifiers, used by Alembic.
-revision: str = '370c493fbc4d'
+revision: str = 'dea24696857d'
 down_revision: Union[str, None] = '3a75afb87324'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -44,6 +44,8 @@ def upgrade() -> None:
 
     with op.batch_alter_table('llm', schema=None) as batch_op:
         batch_op.add_column(sa.Column('model_alias', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        batch_op.add_column(sa.Column('version', sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column('creator_type', sa.Integer(), server_default=sa.text('0'), nullable=False))
         batch_op.add_column(sa.Column('extra', app.api.models.base.JSONString(), nullable=True))
         batch_op.alter_column('max_tokens',
                existing_type=sa.INTEGER(),
@@ -86,6 +88,8 @@ def downgrade() -> None:
                existing_type=sa.INTEGER(),
                nullable=False)
         batch_op.drop_column('extra')
+        batch_op.drop_column('creator_type')
+        batch_op.drop_column('version')
         batch_op.drop_column('model_alias')
 
     with op.batch_alter_table('book_collection', schema=None) as batch_op:

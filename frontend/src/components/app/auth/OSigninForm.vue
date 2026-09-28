@@ -68,7 +68,14 @@
                dense
                :href="getDocUrl('agreement')"
                target="_blank">
-          {{ $t('terms.service') }} & {{ $t('terms.privacy') }}
+          {{ $t('terms.service') }}
+        </q-btn>
+        &
+        <q-btn flat
+               dense
+               :href="getDocUrl('privacy')"
+               target="_blank">
+          {{ $t('terms.privacy') }}
         </q-btn>
       </div>
     </q-card-section>

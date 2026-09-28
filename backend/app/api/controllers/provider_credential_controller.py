@@ -5,7 +5,6 @@ from fastapi import HTTPException
 
 from app.api.controllers.base_controller import BaseController
 from app.api.deps import CurrentUser, CurrentWorkspace, SessionDep
-from app.api.models.llm import LLM
 from app.api.models.owner import Owner
 from app.api.models.provider import Provider
 from app.api.models.provider_credential import (
@@ -58,18 +57,7 @@ class ProviderCredentialController(
                 provider, item_in.llm, item_in.credential.api_key, item_in.credential.base_url
             )
         else:
-            # use user saved llm
-            workspace_llm = self.workspace_llm_service.find_one(
-                {
-                    "workspace_id": self.workspace.id,
-                    "provider": provider,
-                }
-            )
-            if workspace_llm:
-                llm = LLM(**(workspace_llm.model_dump()))
-                LLMHelper.validate_llm_api_key(provider, llm, item_in.credential.api_key, item_in.credential.base_url)
-            else:
-                raise HTTPException(status_code=404, detail=f"LLM of {provider} not found")
+            LLMHelper.validate_api_key(provider, item_in.credential.api_key, item_in.credential.base_url)
 
         # Encrypt api-key
         credential = self.service.encrypt(item_in.credential, self.workspace)

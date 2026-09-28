@@ -39,7 +39,7 @@ FACTORY_DEFAULT_BASE_URL = {
 
 
 LITELLM_PROVIDER_PREFIX = {
-    SupportedLiteLLMProvider.Anthropic: "",  # don't need a prefix
+    SupportedLiteLLMProvider.Anthropic: "anthropic/",  # don't need a prefix
     SupportedLiteLLMProvider.Bedrock: "bedrock/",
     SupportedLiteLLMProvider.Dashscope: "dashscope/",
     SupportedLiteLLMProvider.DeepSeek: "deepseek/",

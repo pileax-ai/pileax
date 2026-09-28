@@ -53,11 +53,12 @@ class ProviderHelper:
             logger.info("⚙️ LLM Config %s exists or updated.", target_version)
             return
 
-        # sync
+        # sync and clean
         with get_session() as session:
             provider_service = LLMProviderService(session)
             llm_service = LLMService(session)
 
+            # sync
             for provider_info in providers:
                 # provider
                 provider_dict = provider_info.model_dump(exclude={"models"})
@@ -74,12 +75,18 @@ class ProviderHelper:
                 for model in models:
                     model_dict = model.model_dump()
                     model_dict["provider"] = provider_info.name
+                    model_dict["version"] = target_version
 
                     try:
                         llm_service.sync_model(model_dict)
                     except Exception:
                         logger.exception("⚠️ Failed to sync model: %s-%s.", provider_info.name, model.model_name)
                         continue
+
+            # clean
+            provider_count = provider_service.clean_deprecated_provider(target_version)
+            model_count = llm_service.clean_deprecated_model(target_version)
+            logger.info("🧹 Clean deprecated: %s providers, %s models, %s", provider_count, model_count, target_version)
 
     @staticmethod
     def check_version(target_version: str) -> bool:
@@ -98,3 +105,7 @@ class ProviderHelper:
             providers = provider_service.find_provider_models()
             provider_infos: list[ProviderInfo] = [ProviderInfo(**(item.model_dump())) for item in providers]
             app_config.LLM_CONFIG = LLMConfigInfo(version="system", providers=provider_infos)
+
+    @staticmethod
+    def has_model_type(model_types: str, model_type: str) -> bool:
+        return any(item.strip().lower() == model_type.lower() for item in model_types.split(","))

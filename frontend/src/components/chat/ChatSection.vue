@@ -307,9 +307,6 @@ async function chatCompletion(data: ChatInput) {
   }
   newChat.value = {
     ...payload,
-    modelProvider: conversation.value?.modelProvider,
-    modelType: conversation.value?.modelType,
-    modelName: conversation.value?.modelName,
   }
 
   await startStream({

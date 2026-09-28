@@ -1,6 +1,7 @@
+from sqlalchemy import delete
 from sqlmodel import select
 
-from app.api.models.enums import Status
+from app.api.models.enums import Status, UserType
 from app.api.models.llm import LLM
 from app.api.models.llm_provider import LLMProvider
 from app.api.repos.base_repository import BaseRepository
@@ -27,3 +28,13 @@ class LLMRepository(BaseRepository[LLM]):
                 item_map[llm.id] = {**llm.model_dump(), "logo": provider.logo}
 
         return list(item_map.values())
+
+    def clean_deprecated_model(self, version: str) -> int:
+        stmt = delete(LLM).where(
+            LLM.version != version,
+            LLM.creator_type == UserType.SYSTEM
+        )
+        result = self.session.exec(stmt)
+        self.session.commit()
+
+        return getattr(result, "rowcount", 0) or 0

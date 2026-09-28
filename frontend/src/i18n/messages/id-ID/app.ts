@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: 'URL Dasar Baru diperlukan',
   resetDefault: 'Atur Ulang ke Default',
   restartTakeEffect: 'Aplikasi akan dimulai ulang agar perubahan berlaku!',
+  scanToConnect: 'Pindai untuk terhubung',
   unableConnect: 'Tidak dapat terhubung ke server'
 }

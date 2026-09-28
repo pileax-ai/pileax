@@ -19,5 +19,6 @@ export default {
   newBaseUrlRequired: 'Cần có URL cơ sở mới.',
   resetDefault: 'Khôi phục cài đặt mặc định',
   restartTakeEffect: 'Ứng dụng sẽ khởi động lại để có hiệu lực!',
+  scanToConnect: 'Quét để kết nối',
   unableConnect: 'Không thể kết nối đến máy chủ'
 }
