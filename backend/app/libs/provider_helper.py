@@ -38,8 +38,10 @@ class ProviderHelper:
                 llm_config = json.loads(response.read().decode("utf-8"))
                 app_config.LLM_CONFIG = LLMConfigInfo(**llm_config)
                 ProviderHelper.sync_providers(app_config.LLM_CONFIG)
+                logger.info("Fetch and parse config file: %s", app_config.LLM_CONFIG_URL)
                 return True
         except Exception as e:
+            logger.exception("Failed to fetch or parse config file: %s", app_config.LLM_CONFIG_URL)
             raise HTTPException(status_code=500, detail="Failed to fetch or parse config file.")
 
     @staticmethod
