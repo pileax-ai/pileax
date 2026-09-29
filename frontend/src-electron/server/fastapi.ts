@@ -180,6 +180,7 @@ class FastAPIServer {
         ...process.env,
         ELECTRON_RUN_AS_NODE: '1',
         ENV_FILE: this.envPath,
+        HOST: '0.0.0.0',
         PORT: `${this.port}`,
         NODE_ENV: 'production',
         DB_PROVIDER: 'sqlite',

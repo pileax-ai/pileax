@@ -1,7 +1,7 @@
 {
-    "version": "0.7.0.2",
+    "version": "0.7.0",
     "description": "LLM providers and model list",
-    "modified": "2026-09-28T00:52:34Z",
+    "modified": "2026-09-29T00:52:34Z",
     "providers": [
         {
             "name": "Anthropic",
