@@ -1,17 +1,24 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
+import certifi
 from PyInstaller.utils.hooks import collect_all
+
+certifi_cert = certifi.where()
 
 datas = [
     ('.env.example', '.'),
     ('alembic.ini', '.'),
     ('alembic', 'alembic'),
-    ('conf', 'conf')
+    ('conf', 'conf'),
+    (certifi_cert, '.'),
 ]
 binaries = []
 hiddenimports = []
 tmp_ret = collect_all('passlib')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+
+tmp_ret_certifi = collect_all('certifi')
+datas += tmp_ret_certifi[0]; binaries += tmp_ret_certifi[1]; hiddenimports += tmp_ret_certifi[2]
 
 a = Analysis(
     ['app/main.py'],

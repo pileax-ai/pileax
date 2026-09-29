@@ -1,3 +1,15 @@
+import os
+import sys
+
+if getattr(sys, "frozen", False):
+    """
+    SSL CERTIFICATE
+    """
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(sys.executable))
+    cert_path = os.path.join(base_path, "cacert.pem")
+    os.environ["SSL_CERT_FILE"] = cert_path
+    os.environ["REQUESTS_CA_BUNDLE"] = cert_path
+
 from fastapi import FastAPI
 
 from app.app_lifecycle import initialization, lifespan
