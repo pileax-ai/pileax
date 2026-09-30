@@ -114,6 +114,13 @@ onMounted(() => {
   .q-footer {
     padding: 10px;
     border-top: solid 1px var(--q-dark) !important;
+
+    .actions {
+      gap: 10px;
+      .q-btn {
+        min-width: 80px;
+      }
+    }
   }
 
   kbd {

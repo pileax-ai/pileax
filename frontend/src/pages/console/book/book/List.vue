@@ -68,6 +68,10 @@
               </q-list>
             </q-menu>
           </q-btn>
+          <q-btn icon="select_all"
+                 :class="{ 'bg-accent': selectable }"
+                 flat round
+                 @click="onToggleSelect" />
           <book-more-btn @filter="onFilter"
                          @sort="onSort"
                          group />
@@ -95,8 +99,10 @@
                   </template>
                   <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                     <book-list-item :data="item"
+                                    :selectable="selectable"
                                     @click="openBook(item)"
-                                    @details="onDetails(item)">
+                                    @details="onDetails(item)"
+                                    @selected="onSelected(item, $event)">
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @dialog-close="onDialogClose"
@@ -126,8 +132,10 @@
                   <div class="">
                     <component :is="bookComponents[library.view] || bookComponents.grid"
                                :data="item"
+                               :selectable="selectable"
                                @click="openBook(item)"
-                               @details="onDetails(item)">
+                               @details="onDetails(item)"
+                               @selected="onSelected(item, $event)">
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @dialog-close="onDialogClose"
@@ -160,6 +168,12 @@
             </div>
           </q-infinite-scroll>
         </section>
+
+        <book-batch-action :ids="selectedBookIds"
+                           :selectable="selectable"
+                           @grouped="onBatchDone('grouped')"
+                           @removed="onBatchDone('removed')"
+                           @cancel="onToggleSelect" />
 
         <template #side-panel>
           <book-details :data="data"
@@ -205,6 +219,7 @@ import BookEntry from './BookEntry.vue'
 import BookAdd from './BookAdd.vue'
 import BookFilter from './BookFilter.vue'
 import BookMoreBtn from './BookMoreBtn.vue'
+import BookBatchAction from './BookBatchAction.vue'
 import BookMetaEdit from 'components/book/book-meta/edit.vue'
 
 import GroupContextMenu from './GroupContextMenu.vue'
@@ -234,6 +249,8 @@ const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 const needRefresh = ref(false)
 const groupRows = ref<Indexable[]>([])
 const groupId = ref('')
+const selectable = ref(false)
+const selectedBookIds = ref<string[]>([])
 
 const bookComponents = {
   grid: BookGridItem,
@@ -288,6 +305,35 @@ function openBookGroup(item: Indexable) {
   router.push({ name: 'book-group', params: { id: item.id } })
 }
 
+function onToggleSelect() {
+  selectable.value = !selectable.value
+  selectedBookIds.value = []
+}
+
+function onSelected(item: Indexable, val: boolean) {
+  const bookId = item.id
+  if (val) {
+    if (!selectedBookIds.value.includes(bookId)) {
+      selectedBookIds.value.unshift(bookId)
+    }
+  } else {
+    selectedBookIds.value = selectedBookIds.value.filter(v => v !== bookId)
+  }
+}
+
+function onBatchDone(type: string) {
+  selectedBookIds.value = []
+
+  switch (type) {
+    case 'grouped':
+      onDialogClose('book-group-batch')
+      break
+    case 'removed':
+      onClose()
+      break
+  }
+}
+
 function onDetails(item: any) {
   data.value = item
   query.value.openSide('480px', 'details', 'book', t('book._'))
@@ -312,7 +358,7 @@ function onGroupEdit(item: Indexable) {
   query.value.openSide('480px', 'group-edit', 'o_dataset', t('book.groups.edit'))
 }
 
-function onClose(options: Indexable) {
+function onClose(options?: Indexable) {
   if (options && options.action && options.item) {
     const bookId = options.item.bookId
     const index = rows.value.findIndex(e => e.bookId === bookId)
@@ -344,6 +390,7 @@ function onDialogClose(type = 'side') {
   if (needRefresh.value) {
     switch (type) {
       case 'book-group':
+      case 'book-group-batch':
         onQuery()
         break
       default:
@@ -434,6 +481,25 @@ onDeactivated(() => {
 .book-list {
   .no-records {
     padding: 60px 0;
+  }
+
+  .multiple-selections {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, visibility 0.2s;
+    transform: translateY(100%);
+
+    &.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 </style>

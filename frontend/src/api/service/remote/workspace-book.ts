@@ -17,6 +17,10 @@ export class WorkspaceBookService extends BaseService {
     return POST({ name: this.apiName, path: '/query/details', body })
   }
 
+  deleteBatch(body: string[]) {
+    return POST({ name: this.apiName, path: '/batch', body })
+  }
+
   deletePermanent(id: string) {
     return DELETE({ name: this.apiName, path: '/permanent', query: { id } })
   }
@@ -27,6 +31,10 @@ export class WorkspaceBookService extends BaseService {
 
   async removeGroup(id: string): Promise<any> {
     return DELETE({ name: this.apiName, path: '/group', query: { id }})
+  }
+
+  async updateGroupBatch(body: Indexable): Promise<any> {
+    return PUT({ name: this.apiName, path: '/group/batch', body })
   }
 
   async queryGroups(body: Indexable): Promise<any> {

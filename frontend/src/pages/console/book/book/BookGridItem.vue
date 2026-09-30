@@ -7,7 +7,8 @@
             <q-chip v-bind="item" square dense />
           </template>
         </div>
-        <div class="absolute-bottom text-subtitle1 text-center details">
+        <div class="absolute-bottom text-subtitle1 text-center details"
+             :class="{ 'selectable': selectable }">
           <template v-if="add">
             <q-btn :label="$t('add')" flat
                    @click.stop="emit('add')" v-if="!data.workspaceBookId" />
@@ -18,12 +19,18 @@
                  @click.stop="emit('details')"
                  v-else>
             <div class="row col-12 justify-between">
-              <div>
-                {{ $t('details') }}
-              </div>
-              <div>
-                {{ formatNumber(data.readingPercentage * 100, { decision: 0 }) }}%
-              </div>
+              <q-checkbox v-model="selected"
+                          dark
+                          @update:modelValue="onSelect"
+                          v-if="selectable" />
+              <template v-else>
+                <div>
+                  {{ $t('details') }}
+                </div>
+                <div>
+                  {{ formatNumber(data.readingPercentage * 100, { decision: 0 }) }}%
+                </div>
+              </template>
             </div>
           </q-btn>
         </div>
@@ -38,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import useBookDetails from 'src/hooks/useBookDetails'
 import useApi from 'src/hooks/useApi'
 import { formatNumber } from 'core/utils/format'
@@ -54,20 +61,42 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  selectable: {
+    type: Boolean,
+    default: false
+  },
 })
-const emit = defineEmits(['add', 'details'])
+const emit = defineEmits(['add', 'details', 'selected'])
 
 const { bookTags } = useBookDetails()
 const { getCoverUrl } = useApi()
 const coverUrl = ref('')
+const selected = ref(false)
 
 const tags = computed(() => {
   return bookTags(props.data)
 })
 
+function onSelect(val: boolean) {
+  emit('selected', val)
+}
+
+function onDetails() {
+  if (props.selectable) {
+    selected.value = !selected.value
+    emit('selected', selected.value)
+  } else {
+    emit('details')
+  }
+}
+
 function onError(event: any) {
   coverUrl.value = '/images/ui/page/page-bg.svg'
 }
+
+watch(() => props.selectable, () => {
+  selected.value = false
+})
 
 onMounted(() => {
   coverUrl.value = getCoverUrl(props.data)
@@ -99,6 +128,16 @@ onMounted(() => {
     opacity: 0;
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s;
+
+    &.selectable {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+
+      .q-btn {
+        padding: 4px;
+      }
+    }
 
     .q-btn {
       height: 48px;

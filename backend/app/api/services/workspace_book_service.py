@@ -7,7 +7,7 @@ from sqlmodel import select
 
 from app.api.models.owner import Owner
 from app.api.models.query import PaginationQuery
-from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookDetails
+from app.api.models.workspace_book import WorkspaceBook, WorkspaceBookDetails, WorkspaceBookUpdateGroupBatch
 from app.api.models.workspace_book_collection import WorkspaceBookCollection
 from app.api.repos.workspace_book_repository import WorkspaceBookRepository
 from app.api.services.base_service import BaseService
@@ -28,6 +28,11 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
         stmt = delete(WorkspaceBookCollection).where(WorkspaceBookCollection.workspace_book_id == id)
         self.session.exec(stmt)
         self.session.commit()
+
+    def delete_batch(self, user_id: UUID, workspace_id: UUID, ids: list[UUID]) -> Any:
+        for id in ids:
+            self.delete_by_owner(user_id, workspace_id, id)
+        return ids
 
     def delete_permanent_by_owner(self, user_id: UUID, workspace_id: UUID, id: UUID) -> Any:
         workspace_book = self.get_details(id)
@@ -88,6 +93,9 @@ class WorkspaceBookService(BaseService[WorkspaceBook]):
 
     def group(self, user_id: UUID, workspace_id: UUID) -> list:
         return self.repo.group(user_id, workspace_id)
+
+    def update_group_batch(self, item_in: WorkspaceBookUpdateGroupBatch) -> int:
+        return self.repo.update_group_batch(item_in.ids, item_in.book_group_id)
 
     def query_groups(self, query: PaginationQuery):
         return self.repo.query_groups(query)

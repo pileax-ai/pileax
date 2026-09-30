@@ -28,16 +28,21 @@
           <span>{{ timeMulti(data.updateTime).fromNow() }}</span>
         </template>
       </div>
-      <div class="details">
-        <q-btn :label="$t('add')"
-               class="bg-primary text-white"
-               flat
-               @click.stop="emit('add')"
-               v-if="add && !data.workspaceBookId" />
-        <q-btn :label="$t('details')"
-               class="bg-primary text-white q-ml-sm"
-               flat
-               @click.stop="emit('details')" />
+      <div class="details" :class="{ 'selectable': selectable }">
+        <q-checkbox v-model="selected"
+                    @update:modelValue="onSelect"
+                    v-if="selectable" />
+        <template v-else>
+          <q-btn :label="$t('add')"
+                 class="bg-primary text-white"
+                 flat
+                 @click.stop="emit('add')"
+                 v-if="add && !data.workspaceBookId" />
+          <q-btn :label="$t('details')"
+                 class="bg-primary text-white q-ml-sm"
+                 flat
+                 @click.stop="emit('details')" />
+        </template>
       </div>
       <div class="tags details" v-if="false">
         <template v-for="(item, index) in tags" :key="index">
@@ -71,20 +76,42 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  selectable: {
+    type: Boolean,
+    default: false
+  },
 })
-const emit = defineEmits(['add', 'details'])
+const emit = defineEmits(['add', 'details', 'selected'])
 
 const { bookTags } = useBookDetails()
 const { getCoverUrl } = useApi()
 const coverUrl = ref('')
+const selected = ref(false)
 
 const tags = computed(() => {
   return bookTags(props.data)
 })
 
+function onSelect(val: boolean) {
+  emit('selected', val)
+}
+
+function onDetails() {
+  if (props.selectable) {
+    selected.value = !selected.value
+    emit('selected', selected.value)
+  } else {
+    emit('details')
+  }
+}
+
 function onError(event: any) {
   coverUrl.value = '/images/ui/page/page-bg.svg'
 }
+
+watch(() => props.selectable, () => {
+  selected.value = false
+})
 
 onMounted(() => {
   coverUrl.value = getCoverUrl(props.data)
@@ -151,6 +178,10 @@ onMounted(() => {
 
   .details {
     visibility: hidden;
+
+    &.selectable {
+      visibility: visible;
+    }
   }
 
   .tags {

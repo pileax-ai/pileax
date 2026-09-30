@@ -29,7 +29,7 @@
                  :class="showFilter ? 'bg-primary text-white' : 'bg-dark'"
                  @click="onToggleFiler()"
                  flat v-if="false" />
-          <div class="query-item q-mx-sm no-drag-region">
+          <div class="query-item no-drag-region">
             <q-input v-model="title"
                      class="pi-field w-wide"
                      :placeholder="$t('book.search')"

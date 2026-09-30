@@ -86,6 +86,7 @@ export default {
   publisher: '出版社',
   rating: '评分',
   refInfo: '引用信息',
+  remove: '从书架中移除',
   removeConfirm: '你确定从书架中移除吗？',
   removeFromCollection: '从书单中移除',
   search: '书名、作者、出版社',

@@ -9,6 +9,7 @@ from app.api.models.workspace_book import (
     WorkspaceBook,
     WorkspaceBookCreate,
     WorkspaceBookUpdate,
+    WorkspaceBookUpdateGroupBatch,
 )
 from app.api.services.user_book_service import UserBookService
 from app.api.services.workspace_book_service import WorkspaceBookService
@@ -44,6 +45,9 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
     def delete(self, id: UUID) -> Any:
         return self.service.delete_by_owner(self.user.id, self.workspace_id, id)
 
+    def delete_batch(self, ids: list[UUID]) -> Any:
+        return self.service.delete_batch(self.user.id, self.workspace_id, ids)
+
     def delete_permanent(self, id: UUID) -> Any:
         return self.service.delete_permanent_by_owner(self.user.id, self.workspace_id, id)
 
@@ -71,6 +75,9 @@ class WorkspaceBookController(BaseController[WorkspaceBook, WorkspaceBookCreate,
 
     def group(self):
         return self.service.group(self.user.id, self.workspace_id)
+
+    def update_group_batch(self, item_in: WorkspaceBookUpdateGroupBatch) -> int:
+        return self.service.update_group_batch(item_in)
 
     def remove_group(self, id: UUID) -> Any:
         return super().update(WorkspaceBookUpdate(id=id, book_group_id=UUID_NIL), exclude_defaults=False)

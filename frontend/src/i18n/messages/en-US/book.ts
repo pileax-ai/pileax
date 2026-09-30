@@ -87,6 +87,7 @@ export default {
   publisher: 'Publisher',
   rating: 'Rating',
   refInfo: 'Reference Info',
+  remove: 'Remove from Shelf',
   removeConfirm: 'Are you sure to remove from shelf?',
   removeFromCollection: 'Remove from Collection',
   search: 'Title, Author, Publisher',
