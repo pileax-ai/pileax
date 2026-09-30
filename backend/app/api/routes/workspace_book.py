@@ -11,6 +11,7 @@ from app.api.models.workspace_book import (
     WorkspaceBookGroup,
     WorkspaceBookPublic,
     WorkspaceBookUpdate,
+    WorkspaceBookUpdateGroupBatch,
 )
 from app.api.router import ApiRouter
 
@@ -35,6 +36,11 @@ async def update(item_in: WorkspaceBookUpdate, controller: WorkspaceBookControll
 @router.api_delete("")
 async def delete(id: uuid.UUID, controller: WorkspaceBookController = Depends()) -> Any:
     return controller.delete(id)
+
+
+@router.api_post("/batch", response_model=list[uuid.UUID])
+async def delete_batch(ids: list[uuid.UUID], controller: WorkspaceBookController = Depends()) -> Any:
+    return controller.delete_batch(ids)
 
 
 @router.api_delete("/permanent")
@@ -70,6 +76,13 @@ async def group(controller: WorkspaceBookController = Depends()) -> Any:
 @router.api_delete("/group", response_model=WorkspaceBookPublic)
 async def remove_group(id: uuid.UUID, controller: WorkspaceBookController = Depends()) -> Any:
     return controller.remove_group(id)
+
+
+@router.api_put("/group/batch", response_model=int)
+async def update_group_batch(
+    item_in: WorkspaceBookUpdateGroupBatch, controller: WorkspaceBookController = Depends()
+) -> Any:
+    return controller.update_group_batch(item_in)
 
 
 @router.api_post("/query/groups", response_model=QueryResult[WorkspaceBookGroup])

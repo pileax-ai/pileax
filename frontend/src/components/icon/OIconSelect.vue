@@ -28,7 +28,7 @@
       </q-input>
     </header>
 
-    <section class="row icons" :class="isMobile ? 'justify-around' : 'justify-start'">
+    <section class="row icons" :class="isMobile ? 'justify-around' : 'justify-around'">
       <q-btn v-for="(item, index) in iconList" :key="index"
              class="text-readable"
              flat
@@ -38,8 +38,8 @@
       </q-btn>
     </section>
 
-    <footer class="row col-12 justify-between items-center pagination">
-      <section>
+    <footer class="row col-12 justify-center items-center pagination">
+      <section v-if="false">
         <q-chip class="bg-accent" square v-if="!isMobile">
           <q-avatar color="primary" text-color="white" style="width: 50px;">Total</q-avatar>
           {{icons.length}}
@@ -190,7 +190,7 @@ onMounted(() => {
   }
 
   .pagination {
-    padding-top: 10px;
+    padding: 10px 0;
   }
 
 }

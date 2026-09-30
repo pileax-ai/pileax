@@ -29,7 +29,7 @@
                  :class="showFilter ? 'bg-primary text-white' : 'bg-dark'"
                  @click="onToggleFiler()"
                  flat v-if="false" />
-          <div class="query-item q-mx-sm no-drag-region">
+          <div class="query-item no-drag-region">
             <q-input v-model="title"
                      class="pi-field w-wide"
                      :placeholder="$t('book.search')"
@@ -73,6 +73,10 @@
               </q-list>
             </q-menu>
           </q-btn>
+          <q-btn icon="select_all"
+                 :class="{ 'bg-accent': selectable }"
+                 flat round
+                 @click="onToggleSelect" />
           <book-more-btn @sort="onSort" />
         </template>
 
@@ -89,8 +93,10 @@
                 <q-list>
                   <template v-for="(item) in rows" :key="`${item.id}-${item.updateTime}`">
                     <book-list-item :data="item"
+                                    :selectable="selectable"
                                     @click="openBook(item)"
-                                    @details="onDetails(item)">
+                                    @details="onDetails(item)"
+                                    @selected="onSelected(item, $event)">
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @dialog-close="onDialogClose"
@@ -108,8 +114,10 @@
                   <div class="">
                     <component :is="bookComponents[library.view] || bookComponents.grid"
                                :data="item"
+                               :selectable="selectable"
                                @click="openBook(item)"
-                               @details="onDetails(item)">
+                               @details="onDetails(item)"
+                               @selected="onSelected(item, $event)">
                       <book-context-menu :data="item"
                                          @close="onClose"
                                          @dialog-close="onDialogClose"
@@ -143,6 +151,14 @@
             </div>
           </q-infinite-scroll>
         </section>
+
+        <book-batch-action :ids="selectedBookIds"
+                           :selectable="selectable"
+                           :group-id="groupId"
+                           @grouped="onBatchDone('grouped')"
+                           @ungrouped="onBatchDone('ungrouped')"
+                           @removed="onBatchDone('removed')"
+                           @cancel="onToggleSelect" />
 
         <template #side-panel>
           <book-details :data="data"
@@ -183,6 +199,7 @@ import BookEntry from './BookEntry.vue'
 import BookAdd from './BookAdd.vue'
 import BookFilter from './BookFilter.vue'
 import BookMoreBtn from './BookMoreBtn.vue'
+import BookBatchAction from './BookBatchAction.vue'
 import OBookUploader from 'core/components/fIle/OBookUploader.vue'
 import OSplitPage from 'core/page/template/OSplitPage.vue'
 import BookMetaEdit from 'components/book/book-meta/edit.vue'
@@ -209,6 +226,8 @@ const data = ref<Indexable>({})
 const showFilter = ref(true)
 const bookAccept = ref('.epub,.mobi,.azw3,.fb2,.cbz,.pdf')
 const needRefresh = ref(false)
+const selectable = ref(false)
+const selectedBookIds = ref<string[]>([])
 
 const bookComponents = {
   grid: BookGridItem,
@@ -245,6 +264,36 @@ function onFilter(runQuery = true) {
 
   if (runQuery) {
     onQuery()
+  }
+}
+
+function onToggleSelect() {
+  selectable.value = !selectable.value
+  selectedBookIds.value = []
+}
+
+function onSelected(item: Indexable, val: boolean) {
+  const bookId = item.id
+  if (val) {
+    if (!selectedBookIds.value.includes(bookId)) {
+      selectedBookIds.value.unshift(bookId)
+    }
+  } else {
+    selectedBookIds.value = selectedBookIds.value.filter(v => v !== bookId)
+  }
+}
+
+function onBatchDone(type: string) {
+  selectedBookIds.value = []
+
+  switch (type) {
+    case 'grouped':
+      onDialogClose('book-group-batch')
+      break
+    case 'ungrouped':
+    case 'removed':
+      onQuery()
+      break
   }
 }
 
@@ -294,6 +343,7 @@ function onDialogClose(type = 'side') {
   if (needRefresh.value) {
     switch (type) {
       case 'book-group':
+      case 'book-group-batch':
         onQuery()
         break
       default:
@@ -331,6 +381,7 @@ function getGroup() {
 }
 
 function initData() {
+  selectable.value = false
   groupId.value = (route.params.id || '') as string
   condition.value['bookGroupId'] = groupId.value
 

@@ -53,7 +53,9 @@ export default {
     enable: 'Activer le groupe',
     group: 'Groupe',
     open: 'Groupe ouvert',
-    removeConfirm: 'Êtes-vous sûr de vouloir vous retirer du groupe ?'
+    removeConfirm: 'Êtes-vous sûr de vouloir vous retirer du groupe ?',
+    ungroup: 'Dégrouper',
+    ungroupTip: 'Retirer du groupe'
   },
   info: 'Informations sur le livre',
   jumpToBook: 'Aller à la position dans le livre',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Éditeur',
   rating: 'Notation',
   refInfo: 'Informations de référence',
+  remove: 'Retirer de l\'étagère',
   removeConfirm: 'Êtes-vous sûr de l\'avoir retiré de l\'étagère ?',
   removeFromCollection: 'Retirer de la collection',
   search: 'Titre, Auteur, Éditeur',

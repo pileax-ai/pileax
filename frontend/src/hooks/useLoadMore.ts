@@ -1,8 +1,9 @@
 import { ref, watch } from 'vue'
+import { scroll } from 'quasar'
+import type { QInfiniteScroll } from 'quasar'
 import useCommon from 'core/hooks/useCommon'
 import { DELETE, POST } from 'src/hooks/useRequest'
 import { useComponentStoreWithOut } from 'stores/component'
-import type { QInfiniteScroll } from 'quasar'
 import { notifyDone } from 'core/utils/control'
 
 export default function () {
@@ -34,6 +35,7 @@ export default function () {
   const id = ref('')
   const view = ref('details')
 
+  const { getScrollTarget, setVerticalScrollPosition } = scroll
   const { t, confirm, dialog } = useCommon()
   const componentStore = useComponentStoreWithOut()
 
@@ -111,7 +113,13 @@ export default function () {
 
   function resetScroll() {
     resetQuery()
+
+    // Reset infinite scroll state
     scrollRef.value?.reset()
+
+    // Scroll the container back to top
+    const target = getScrollTarget(scrollRef.value?.$el)
+    setVerticalScrollPosition(target, 0, 300)
   }
 
   function openSide(width = '30vw', viewAlt = 'details', icon = '', title = '') {

@@ -53,7 +53,9 @@ export default {
     enable: 'グループを有効にする',
     group: 'グループ',
     open: 'オープングループ',
-    removeConfirm: '本当にグループから削除しますか？'
+    removeConfirm: '本当にグループから削除しますか？',
+    ungroup: 'グループ解除',
+    ungroupTip: 'グループから削除'
   },
   info: '書籍情報',
   jumpToBook: '書籍内の位置へジャンプ',
@@ -87,6 +89,7 @@ export default {
   publisher: '出版社',
   rating: '評価',
   refInfo: '参考情報',
+  remove: '棚から取り出す',
   removeConfirm: '棚から削除してもよろしいですか?',
   removeFromCollection: 'コレクションから削除',
   search: 'タイトル、著者、出版社',

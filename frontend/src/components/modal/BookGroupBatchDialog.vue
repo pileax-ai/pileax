@@ -1,6 +1,6 @@
 <template>
-  <o-command-dialog class="book-group-dialog"
-                    :show="dialog.type === 'book-group'"
+  <o-command-dialog class="book-group-batch-dialog"
+                    :show="dialog.type === 'book-group-batch'"
                     :content-style="{
                       maxWidth: '600px',
                       minHeight: '600px',
@@ -39,12 +39,11 @@
                            :class="{'bg-dark': index === selected}"
                            size="1.4rem"
                            clickable right-side
-                           @click="onSelected(item, index)">
+                           @click="onSelected(index)">
               <template #side>
                 <div class="row">
                   <div class="q-ml-md">
-                    <q-icon name="radio_button_checked" v-if="inGroup(item)" />
-                    <q-icon name="o_circle" v-else />
+                    <q-icon name="check" v-if="index === selected" />
                   </div>
                 </div>
               </template>
@@ -93,11 +92,17 @@
             <kbd>↑↓</kbd> <span class="q-ml-xs">{{ $t('select') }}</span>
           </div>
           <div class="row items-center q-ml-lg">
-            <kbd>↵</kbd> <span class="q-ml-xs">{{ $t('add') }}</span>
+            <kbd>↵</kbd> <span class="q-ml-xs">{{ $t('confirm') }}</span>
           </div>
         </div>
-        <div class="col q-pl-lg text-right ellipsis">
-          {{ book.title }}
+        <div class="row actions">
+          <q-btn :label="$t('cancel')"
+                 class="bg-accent text-readable"
+                 rounded flat v-close-popup />
+          <q-btn :label="$t('confirm')"
+                 class="bg-primary text-white"
+                 rounded flat
+                 @click="onConfirm" />
         </div>
       </section>
     </template>
@@ -116,20 +121,17 @@ import { notifyWarning } from 'core/utils/control'
 import { globalBus } from 'src/api/event/event-bus'
 
 const { t } = useCommon()
-const { dialog, onHide } = useDialog()
+const { dialog, onHide, onOk } = useDialog()
 const term = ref('')
 const selected = ref(0)
 const list = ref<Indexable[]>([])
 const results = ref<Indexable[]>([])
+const groupId = ref('')
 
 const menuRef = ref<InstanceType<typeof OMenu>>()
 const collectionName = ref('')
 const collectionAdding = ref(false)
-const book = ref<Indexable>({})
-
-function inGroup(item: Indexable) {
-  return item.id === book.value.bookGroupId
-}
+const selectedBookIds = ref<string[]>([])
 
 function titleSearchFilter (term: string) {
   return (item: Indexable) => {
@@ -172,7 +174,7 @@ function onKeyup (e: KeyboardEvent) {
         selected.value -= 1
         break
       case 'Enter':
-        onSelected(results.value[selected.value]!, selected.value)
+        onConfirm()
         break
       default:
     }
@@ -187,39 +189,40 @@ function onKeyup (e: KeyboardEvent) {
   }
 }
 
-function onSelected (item: Indexable, idx: number) {
+function onSelected(idx: number) {
   selected.value = idx
-  if (inGroup(item)) {
-    removeFromGroup(item)
-  } else {
-    addToGroup(item)
-  }
 }
 
-function addToGroup(item: Indexable) {
-  const body = {
-    id: book.value.id,
-    bookGroupId: item.id,
-  }
-  workspaceBookService.update(body).then(res => {
-    book.value.bookGroupId = res.bookGroupId
-    initData()
-    globalBus.emit('library-need-refresh', res)
-  })
-}
+function onConfirm() {
+  const collection = results.value[selected.value]!
+  if (collection) {
+    if (collection.id === groupId.value) {
+      console.log('unchanged')
+      onOk()
+    } else {
+      const body = {
+        ids: selectedBookIds.value,
+        bookGroupId: collection.id
+      }
 
-function removeFromGroup(item: Indexable) {
-  workspaceBookService.removeGroup(book.value.id).then(res => {
-    book.value.bookGroupId = res.bookGroupId
-    initData()
-    globalBus.emit('library-need-refresh', res)
-  })
+      workspaceBookService.updateGroupBatch(body).then(() => {
+        globalBus.emit('library-need-refresh')
+        onOk()
+      })
+    }
+  }
 }
 
 function initData() {
-  workspaceBookService.group().then(res => {
+  workspaceBookService.group().then((res: Indexable[]) => {
     list.value = res
     results.value = res
+
+    const idx = results.value.findIndex((e: Indexable) => e.id === groupId.value)
+    console.log('init', idx, groupId.value, res)
+    if (idx > 0) {
+      selected.value = idx
+    }
   })
 }
 
@@ -244,7 +247,8 @@ function onAddCollection() {
 }
 
 onMounted( async () => {
-  book.value = dialog.value.data as Indexable
+  selectedBookIds.value = dialog.value.data.ids as string[]
+  groupId.value = dialog.value.data.groupId || ''
   initData()
 
   window.addEventListener('keyup', onKeyup)
@@ -256,7 +260,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.book-group-dialog {
+.book-group-batch-dialog {
   .search-container {
     .group {
       padding: 0 12px;

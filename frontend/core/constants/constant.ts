@@ -14,7 +14,7 @@ export const NoteDefaultCovers = [
   '/images/book/light-old_book.jpg',
   '/images/book/light-willow_bank.jpg',
 ]
-export const BookGroupDefaultIcon = 'o_dataset'
+export const BookGroupDefaultIcon = 'mdi-folder-outline'
 export const BookCollectionDefaultIcon = 'subject'
 export const ImageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.jxl', '.avif']
 export const ImageExts = ImageExtensions.join(',')

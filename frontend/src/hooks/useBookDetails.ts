@@ -104,6 +104,24 @@ export default function () {
     })
   }
 
+  const removeBookBatch = (ids: string[]) => {
+    return new Promise((resolve, reject) => {
+      confirm(t('book.removeConfirm'), {
+        label: '',
+        onOk: () => {
+          workspaceBookService.deleteBatch(ids).then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        },
+        onCancel: () => {
+          reject(new Error('Use cancelled'))
+        }
+      })
+    })
+  }
+
   const deleteBook = (book: Indexable) => {
     return new Promise((resolve, reject) => {
       confirm(t('book.deleteConfirm'), {
@@ -145,6 +163,7 @@ export default function () {
     downloadBook,
     downloadImage,
     removeBook,
+    removeBookBatch,
     deleteBook,
     updateBook,
     removeBookFromCollection,

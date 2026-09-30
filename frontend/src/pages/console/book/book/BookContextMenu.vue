@@ -53,7 +53,7 @@ const actions = computed(() => {
         ? t('book.groups.change')
         : t('book.addToGroup'),
       value: 'group',
-      icon: 'o_dataset',
+      icon: props.group ? 'mdi-folder-edit-outline' : 'mdi-folder-plus-outline',
       separator: true
     },
     {

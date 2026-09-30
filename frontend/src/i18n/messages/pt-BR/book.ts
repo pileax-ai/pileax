@@ -53,7 +53,9 @@ export default {
     enable: 'Habilitar grupo',
     group: 'Grupo',
     open: 'Grupo Aberto',
-    removeConfirm: 'Tem certeza de que deseja remover do grupo?'
+    removeConfirm: 'Tem certeza de que deseja remover do grupo?',
+    ungroup: 'Desagrupar',
+    ungroupTip: 'Remover do grupo'
   },
   info: 'Informações do livro',
   jumpToBook: 'Ir para a posição no livro',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Editor',
   rating: 'Avaliação',
   refInfo: 'Informações de referência',
+  remove: 'Retire da prateleira',
   removeConfirm: 'Tem certeza de que deseja remover da prateleira?',
   removeFromCollection: 'Remover da coleção',
   search: 'Título, Autor, Editora',

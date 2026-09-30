@@ -1,8 +1,9 @@
+from datetime import UTC, datetime
 from itertools import starmap
 from typing import Any
 from uuid import UUID
 
-from sqlalchemy import TextClause, and_, func, text
+from sqlalchemy import TextClause, and_, func, text, update
 from sqlmodel import select
 
 from app.api.models.book import Book
@@ -68,6 +69,24 @@ class WorkspaceBookRepository(BaseRepository[WorkspaceBook]):
             rows = result.mappings().all()
 
         return rows
+
+    def update_group_batch(self, ids: list[UUID], book_group_id: UUID) -> int:
+        """
+        Batch update book_group_id for multiple books in a single query.
+        """
+        stmt = (
+            update(WorkspaceBook)
+            .where(WorkspaceBook.id.in_(ids))
+            .values(
+                book_group_id=book_group_id,
+                update_time=datetime.now(UTC),
+            )
+        )
+
+        result = self.session.exec(stmt)
+        self.session.commit()
+
+        return int(result.rowcount)
 
     def get_workspace_book_details(self, book_id: UUID, user_id: UUID, workspace_id: UUID):
         stmt = (

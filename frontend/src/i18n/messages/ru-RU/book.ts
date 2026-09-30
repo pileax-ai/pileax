@@ -53,7 +53,9 @@ export default {
     enable: 'Включить группу',
     group: 'Группа',
     open: 'Открытая группа',
-    removeConfirm: 'Вы уверены, что удалили из группы?'
+    removeConfirm: 'Вы уверены, что удалили из группы?',
+    ungroup: 'Негруппа',
+    ungroupTip: 'Удалить из группы'
   },
   info: 'Информация о книге',
   jumpToBook: 'Перейти к положению в книге',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Издатель',
   rating: 'Рейтинг',
   refInfo: 'Справочная информация',
+  remove: 'Извлечь с полки',
   removeConfirm: 'Вы уверены, что сняли с полки?',
   removeFromCollection: 'Удалить из коллекции',
   search: 'Название, Автор, Издатель',

@@ -43,6 +43,11 @@ class WorkspaceBookUpdateReadingProgress(BaseApiModel):
     id: uuid.UUID
 
 
+class WorkspaceBookUpdateGroupBatch(BaseApiModel):
+    ids: list[uuid.UUID]
+    book_group_id: uuid.UUID | None = UUID_NIL
+
+
 class WorkspaceBookPublic(WorkspaceBookCreate, BaseMixin):
     pass
 

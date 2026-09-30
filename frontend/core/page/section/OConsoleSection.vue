@@ -24,10 +24,7 @@
           <div class="row items-center actions">
             <slot name="actions"></slot>
           </div>
-          <div class="q-px-sm" v-if="!disableActions && false">
-            <q-separator class="bg-accent" vertical />
-          </div>
-          <div class="row items-center query-table-actions" v-if="!disableActions">
+          <div class="row items-center query-table-actions" v-if="tableActions && !disableActions">
             <slot name="query-table-actions-start"></slot>
             <slot name="query-table-actions"></slot>
           </div>
@@ -124,6 +121,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  tableActions: {
+    type: Boolean,
+    default: false
+  },
   enableFullscreen: {
     type: Boolean,
     default: false
@@ -216,6 +217,13 @@ onActivated(() => {
           .q-icon {
             font-size: 1.5rem;
           }
+        }
+      }
+
+      .toolbar-right {
+        gap: 4px;
+        .actions {
+          gap: 4px;
         }
       }
 
