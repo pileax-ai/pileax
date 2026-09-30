@@ -53,7 +53,9 @@ export default {
     enable: 'Complete Group',
     group: 'Gruppo',
     open: 'Gruppo aperto',
-    removeConfirm: 'Sei sicuro di volerlo rimuovere dal gruppo?'
+    removeConfirm: 'Sei sicuro di volerlo rimuovere dal gruppo?',
+    ungroup: 'Non raggruppare',
+    ungroupTip: 'Rimuovi dal gruppo'
   },
   info: 'Informazioni sul libro',
   jumpToBook: 'Vai alla posizione nel libro',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Editore',
   rating: 'Valutazione',
   refInfo: 'Informazioni di riferimento',
+  remove: 'Rimuovere dallo scaffale',
   removeConfirm: 'Vuoi davvero rimuoverlo dallo scaffale?',
   removeFromCollection: 'Rimuovi dalla raccolta',
   search: 'Titolo, Autore, Editore',

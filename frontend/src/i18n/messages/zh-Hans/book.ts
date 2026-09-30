@@ -52,7 +52,9 @@ export default {
     enable: '启用分组',
     group: '分组',
     open: '打开分组',
-    removeConfirm: '你确定从分组中移除吗？'
+    removeConfirm: '你确定从分组中移除吗？',
+    ungroup: '移出分组',
+    ungroupTip: '从分组移出'
   },
   info: '图书信息',
   jumpToBook: '跳转至书中位置',

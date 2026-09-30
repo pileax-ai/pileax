@@ -24,10 +24,10 @@
             <q-btn :label="$t('add')" flat
                    @click.stop="emit('add')" v-if="!data.workspaceBookId" />
             <q-btn :label="$t('details')" flat
-                   @click.stop="emit('details')" />
+                   @click.stop="onDetails" />
           </template>
           <q-btn flat
-                 @click.stop="emit('details')"
+                 @click.stop="onDetails"
                  v-else>
             <div class="row col-12 justify-between">
               <q-checkbox v-model="selected"

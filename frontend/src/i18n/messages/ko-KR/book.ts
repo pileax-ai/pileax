@@ -53,7 +53,9 @@ export default {
     enable: '그룹 활성화',
     group: '그룹',
     open: '오픈 그룹',
-    removeConfirm: '그룹에서 삭제하시는 게 맞나요?'
+    removeConfirm: '그룹에서 삭제하시는 게 맞나요?',
+    ungroup: '그룹 해제',
+    ungroupTip: '그룹에서 제거'
   },
   info: '책 정보',
   jumpToBook: '책에서 해당 위치로 이동',
@@ -87,6 +89,7 @@ export default {
   publisher: '발행자',
   rating: '평가',
   refInfo: '참고 정보',
+  remove: '선반에서 꺼내세요',
   removeConfirm: '선반에서 확실히 꺼내신 건가요?',
   removeFromCollection: '컬렉션에서 제거',
   search: '제목, 저자, 출판사',

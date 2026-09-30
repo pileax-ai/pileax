@@ -53,7 +53,9 @@ export default {
     enable: 'Gruppe aktivieren',
     group: 'Gruppe',
     open: 'Offene Gruppe',
-    removeConfirm: 'Sind Sie sicher, dass Sie den/die Entferner/in aus der Gruppe entfernen möchten?'
+    removeConfirm: 'Sind Sie sicher, dass Sie den/die Entferner/in aus der Gruppe entfernen möchten?',
+    ungroup: 'Gruppierung aufheben',
+    ungroupTip: 'Aus Gruppe entfernen'
   },
   info: 'Buchinformationen',
   jumpToBook: 'Zu Position im Buch springen',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Herausgeber',
   rating: 'Bewertung',
   refInfo: 'Referenzinformationen',
+  remove: 'Aus dem Regal nehmen',
   removeConfirm: 'Sind Sie sicher, dass Sie es aus dem Regal nehmen?',
   removeFromCollection: 'Aus Sammlung entfernen',
   search: 'Titel, Autor, Verlag',

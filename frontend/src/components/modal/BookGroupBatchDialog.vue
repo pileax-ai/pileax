@@ -34,7 +34,7 @@
       <section class="row col-12 justify-center search-results">
         <q-list class="col-12">
           <template v-for="(item, index) in results" :key="index">
-            <o-common-item :icon="item.icon || 'o_dataset'"
+            <o-common-item :icon="item.icon || 'mdi-folder-outline'"
                            :label="`${item.title} (${item.count || 0})`"
                            :class="{'bg-dark': index === selected}"
                            size="1.4rem"
@@ -126,6 +126,7 @@ const term = ref('')
 const selected = ref(0)
 const list = ref<Indexable[]>([])
 const results = ref<Indexable[]>([])
+const groupId = ref('')
 
 const menuRef = ref<InstanceType<typeof OMenu>>()
 const collectionName = ref('')
@@ -195,22 +196,33 @@ function onSelected(idx: number) {
 function onConfirm() {
   const collection = results.value[selected.value]!
   if (collection) {
-    const body = {
-      ids: selectedBookIds.value,
-      bookGroupId: collection.id
-    }
-
-    workspaceBookService.updateGroupBatch(body).then(() => {
-      globalBus.emit('library-need-refresh')
+    if (collection.id === groupId.value) {
+      console.log('unchanged')
       onOk()
-    })
+    } else {
+      const body = {
+        ids: selectedBookIds.value,
+        bookGroupId: collection.id
+      }
+
+      workspaceBookService.updateGroupBatch(body).then(() => {
+        globalBus.emit('library-need-refresh')
+        onOk()
+      })
+    }
   }
 }
 
 function initData() {
-  workspaceBookService.group().then(res => {
+  workspaceBookService.group().then((res: Indexable[]) => {
     list.value = res
     results.value = res
+
+    const idx = results.value.findIndex((e: Indexable) => e.id === groupId.value)
+    console.log('init', idx, groupId.value, res)
+    if (idx > 0) {
+      selected.value = idx
+    }
   })
 }
 
@@ -235,7 +247,8 @@ function onAddCollection() {
 }
 
 onMounted( async () => {
-  selectedBookIds.value = dialog.value.data as string[]
+  selectedBookIds.value = dialog.value.data.ids as string[]
+  groupId.value = dialog.value.data.groupId || ''
   initData()
 
   window.addEventListener('keyup', onKeyup)

@@ -435,6 +435,7 @@ function queryGroups() {
 }
 
 function initData() {
+  selectable.value = false
   onFilter(false)
 
   if (initial.value) {

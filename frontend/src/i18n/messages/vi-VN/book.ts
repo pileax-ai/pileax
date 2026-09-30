@@ -53,7 +53,9 @@ export default {
     enable: 'Kích hoạt nhóm',
     group: 'Nhóm',
     open: 'Nhóm mở',
-    removeConfirm: 'Bạn có chắc chắn muốn xóa khỏi nhóm không?'
+    removeConfirm: 'Bạn có chắc chắn muốn xóa khỏi nhóm không?',
+    ungroup: 'Ungroup',
+    ungroupTip: 'Xóa khỏi nhóm'
   },
   info: 'Thông tin sách',
   jumpToBook: 'Chuyển đến vị trí trong sách',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Nhà xuất bản',
   rating: 'Xếp hạng',
   refInfo: 'Thông tin tham khảo',
+  remove: 'Lấy khỏi kệ',
   removeConfirm: 'Bạn có chắc chắn muốn lấy sản phẩm ra khỏi kệ không?',
   removeFromCollection: 'Xóa khỏi bộ sưu tập',
   search: 'Tên sách, Tác giả, Nhà xuất bản',

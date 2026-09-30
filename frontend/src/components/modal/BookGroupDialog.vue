@@ -34,7 +34,7 @@
       <section class="row col-12 justify-center search-results">
         <q-list class="col-12">
           <template v-for="(item, index) in results" :key="index">
-            <o-common-item :icon="item.icon || 'o_dataset'"
+            <o-common-item :icon="item.icon || 'mdi-folder-outline'"
                            :label="`${item.title} (${item.count || 0})`"
                            :class="{'bg-dark': index === selected}"
                            size="1.4rem"

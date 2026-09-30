@@ -52,7 +52,9 @@ export default {
     enable: '啟用分組',
     group: '分組',
     open: '打開分組',
-    removeConfirm: '你確定從分組移除嗎？'
+    removeConfirm: '你確定從分組移除嗎？',
+    ungroup: '移出分組',
+    ungroupTip: '從分組移出'
   },
   info: '圖書資訊',
   jumpToBook: '跳轉至書中位置',
@@ -86,6 +88,7 @@ export default {
   publisher: '出版商',
   rating: '評分',
   refInfo: '引用訊息',
+  remove: '從書架移除',
   removeConfirm: '你確定從書架中移除嗎？',
   removeFromCollection: '從書單移除',
   search: '書名、作者、出版社',

@@ -45,7 +45,7 @@ class WorkspaceBookUpdateReadingProgress(BaseApiModel):
 
 class WorkspaceBookUpdateGroupBatch(BaseApiModel):
     ids: list[uuid.UUID]
-    book_group_id: uuid.UUID
+    book_group_id: uuid.UUID | None = UUID_NIL
 
 
 class WorkspaceBookPublic(WorkspaceBookCreate, BaseMixin):

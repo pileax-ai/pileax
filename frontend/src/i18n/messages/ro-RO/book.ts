@@ -53,7 +53,9 @@ export default {
     enable: 'Activează grupul',
     group: 'Grup',
     open: 'Grup deschis',
-    removeConfirm: 'Sigur vrei să elimini din grup?'
+    removeConfirm: 'Sigur vrei să elimini din grup?',
+    ungroup: 'Degrupare',
+    ungroupTip: 'Eliminare din grup'
   },
   info: 'Informații despre carte',
   jumpToBook: 'Salt la poziția din carte',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Editor',
   rating: 'Evaluare',
   refInfo: 'Informații de referință',
+  remove: 'Scoateți de pe raft',
   removeConfirm: 'Sigur vrei să scoți de pe raft?',
   removeFromCollection: 'Eliminați din colecție',
   search: 'Titlu, Autor, Editura',

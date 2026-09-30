@@ -53,7 +53,9 @@ export default {
     enable: 'Enable Group',
     group: 'Group',
     open: 'Open Group',
-    removeConfirm: 'Are you sure to remove from group?'
+    removeConfirm: 'Are you sure to remove from group?',
+    ungroup: 'Ungroup',
+    ungroupTip: 'Remove from Group'
   },
   info: 'Book Info',
   jumpToBook: 'Jump to Position in Book',

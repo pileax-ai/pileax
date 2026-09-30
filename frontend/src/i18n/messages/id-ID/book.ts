@@ -53,7 +53,9 @@ export default {
     enable: 'Aktifkan Grup',
     group: 'Kelompok',
     open: 'Grup Terbuka',
-    removeConfirm: 'Apakah Anda yakin ingin dikeluarkan dari grup?'
+    removeConfirm: 'Apakah Anda yakin ingin dikeluarkan dari grup?',
+    ungroup: 'Pisahkan kelompok',
+    ungroupTip: 'Hapus dari Grup'
   },
   info: 'Informasi Buku',
   jumpToBook: 'Lompat ke Posisi dalam Buku',
@@ -87,6 +89,7 @@ export default {
   publisher: 'Penerbit',
   rating: 'Peringkat',
   refInfo: 'Informasi Referensi',
+  remove: 'Keluarkan dari Rak',
   removeConfirm: 'Apakah Anda yakin ingin mengambilnya dari rak?',
   removeFromCollection: 'Hapus dari Koleksi',
   search: 'Judul, Penulis, Penerbit',

@@ -2,12 +2,26 @@
   <section class="row justify-center items-center book-batch-action"
            :class="{ 'show': selectable }">
     <div class="actions">
-      <q-btn icon="subject" label="Group" flat stack v-if="false">
-        <o-tooltip position="top" transition>{{ $t('book.addToCollection') }}</o-tooltip>
+      <q-btn icon="mdi-folder-minus-outline" label="Ungroup" flat stack
+             @click="onUngroupBatch"
+             :disable="!ids.length"
+             v-if="groupId">
+        <o-tooltip position="top" transition>{{ $t('book.groups.ungroupTip') }}</o-tooltip>
       </q-btn>
-      <q-btn icon="o_dataset" :label="$t('book.groups.group')" flat stack
+      <q-btn icon="mdi-folder-edit-outline"
+             :label="$t('book.groups.group')"
+             flat stack
              @click="onGroupBatch"
-             :disable="!ids.length">
+             :disable="!ids.length"
+             v-if="groupId">
+        <o-tooltip position="top" transition>{{ $t('book.groups.change') }}</o-tooltip>
+      </q-btn>
+      <q-btn icon="mdi-folder-plus-outline"
+             :label="$t('book.groups.group')"
+             flat stack
+             @click="onGroupBatch"
+             :disable="!ids.length"
+             v-else>
         <o-tooltip position="top" transition>{{ $t('book.addToGroup') }}</o-tooltip>
       </q-btn>
       <q-btn icon="o_delete" :label="$t('remove')"
@@ -26,6 +40,7 @@
 import { PropType } from 'vue'
 import useBookDetails from 'src/hooks/useBookDetails'
 import useDialog from 'core/hooks/useDialog'
+import { workspaceBookService } from 'src/api/service/remote'
 
 const props = defineProps({
   ids: {
@@ -38,16 +53,33 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  groupId: {
+    type: String,
+    default: ''
+  },
 })
-const emit = defineEmits(['cancel', 'grouped', 'removed'])
+const emit = defineEmits(['cancel', 'grouped', 'removed', 'ungrouped'])
 
 const { openDialog } = useDialog()
 const { removeBookBatch } = useBookDetails()
 
+
+function onUngroupBatch() {
+  const body = {
+    ids: props.ids
+  }
+  workspaceBookService.updateGroupBatch(body).then(() => {
+    emit('ungrouped')
+  })
+}
+
 function onGroupBatch() {
   openDialog({
     type: 'book-group-batch',
-    data: props.ids,
+    data: {
+      ids: props.ids,
+      groupId: props.groupId
+    },
     onOk: () => {
       emit('grouped')
     }
