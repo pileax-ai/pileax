@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/github/v/release/pileax-ai/pileax" alt="Latest Release"></a>
   <a href="https://github.com/pileax-ai/pileax/releases">
     <img src="https://img.shields.io/github/downloads/pileax-ai/pileax/total" alt="Downloads"></a>
-  <a href="https://github.com/badges/shields/pulse" alt="Activity">
+  <a href="https://github.com/pileax-ai/pileax/pulse" alt="Activity">
     <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" /></a>
   <a href="https://github.com/pileax-ai/pileax/blob/main/LICENSE" alt="License">
     <img src="https://img.shields.io/badge/license-MIT-green?style=square" /></a>
@@ -22,7 +22,7 @@
   <a href="https://github.com/pileax-ai/pileax#platform-support">
     <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue" alt="Platforms"></a>
   <a href="https://github.com/pileax-ai/pileax#supported-formats">
-    <img src="https://img.shields.io/badge/formats-EPUB%20%7C%20MOBI%20%7C%20AWZ3%20%7C%20FB2%20%7C%20CBZ%20%7C%20PDF-teal" alt="Supported Formats"></a>
+    <img src="https://img.shields.io/badge/formats-EPUB%20%7C%20MOBI%20%7C%20AZW3%20%7C%20FB2%20%7C%20CBZ%20%7C%20PDF-teal" alt="Supported Formats"></a>
 </p>
 
 PileaX is a local-first, all-in-one AI knowledge base that integrates AI chat, smart notes, and e-book reading & management. From knowledge creation to application, PileaX helps you build a unified knowledge base and continuously optimizes the AI interaction experience with AI agent technologies.Your data is fully under your control. It supports offline desktop apps and flexibly deployable web apps.
@@ -53,6 +53,14 @@ PileaX is a local-first, all-in-one AI knowledge base that integrates AI chat, s
 🤖 **Reading** – Build your personal library and enjoy AI-powered reading. <br/>
 🌗 Light & Dark mode. <br/>
 🆓 MIT Licensed. <br/>
+
+## Platform support
+
+Desktop builds run on Windows, macOS, and Linux. The web app can also be started with Docker Compose.
+
+## Supported formats
+
+The reader accepts EPUB, MOBI, AZW3, FB2, CBZ, and PDF.
 
 ## Quick start
 

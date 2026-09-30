@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/github/v/release/pileax-ai/pileax" alt="Latest Release"></a>
   <a href="https://github.com/pileax-ai/pileax/releases">
     <img src="https://img.shields.io/github/downloads/pileax-ai/pileax/total" alt="Downloads"></a>
-  <a href="https://github.com/badges/shields/pulse" alt="Activity">
+  <a href="https://github.com/pileax-ai/pileax/pulse" alt="Activity">
     <img src="https://img.shields.io/github/commit-activity/m/pileax-ai/pileax" /></a>
   <a href="https://github.com/pileax-ai/pileax/blob/main/LICENSE" alt="License">
     <img src="https://img.shields.io/badge/license-MIT-green?style=square" /></a>
@@ -22,7 +22,7 @@
   <a href="https://github.com/pileax-ai/pileax#platform-support">
     <img src="https://img.shields.io/badge/平台-Windows%20%7C%20macOS%20%7C%20Linux-blue" alt="Platforms"></a>
   <a href="https://github.com/pileax-ai/pileax#supported-formats">
-    <img src="https://img.shields.io/badge/电子书-EPUB%20%7C%20MOBI%20%7C%20AWZ3%20%7C%20FB2%20%7C%20CBZ%20%7C%20PDF-teal" alt="Supported Formats"></a>
+    <img src="https://img.shields.io/badge/电子书-EPUB%20%7C%20MOBI%20%7C%20AZW3%20%7C%20FB2%20%7C%20CBZ%20%7C%20PDF-teal" alt="Supported Formats"></a>
 </p>
 
 PileaX 是一款本地优先的一站式 AI 知识库，集 AI 对话、智能笔记、电子书阅读和管理于一体。从知识的生产到应用，PileaX 帮助您建立统一的知识库，利用 AI 智能体技术不断优化 AI 交互体验。数据完全由您掌控，支持离线使用的桌面应用和灵活部署的 Web 应用。
