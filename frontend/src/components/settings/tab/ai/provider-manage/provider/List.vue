@@ -5,7 +5,8 @@
                    v-bind="query"
                    @dense="query.onDense"
                    @query="query.onQuery"
-                   @reset="query.onReset">
+                   @reset="query.onReset"
+                   table-actions>
     <!--Actions-->
     <template #actions-start>
       <div class="query-item">
