@@ -209,9 +209,6 @@ const localDefaultModel = computed(() => {
 
 function init(from = '') {
   // console.log('ChatSection init', from, props.refType, props.refId)
-  if (props.refType === 'book' && from === 'mount') {
-    return
-  }
   start.value = props.multiSession
   getLatestSession()
 }
