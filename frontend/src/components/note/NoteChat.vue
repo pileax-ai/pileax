@@ -54,9 +54,10 @@
 </template>
 
 <script setup lang="ts">
-import ChatSection from 'components/chat/ChatSection.vue'
 import { computed, ref } from 'vue'
+import ChatSection from 'components/chat/ChatSection.vue'
 import OChatToc from 'components/chat/OChatToc.vue'
+
 import useNote from 'src/hooks/useNote'
 import { Languages } from 'core/constants/metadata'
 

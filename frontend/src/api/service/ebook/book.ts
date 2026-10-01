@@ -214,8 +214,15 @@ const onRelocated = (data: Indexable) => {
 
   // Reset operation
   store.setTempProgress(data)
+  debounceSyncReadingProgress(data)
   setManual(BookOperation.None)
 }
+
+const syncReadingProgress = (progress: Indexable) => {
+  globalBus.emit('sync-reading-progress', progress)
+}
+
+const debounceSyncReadingProgress = debounce(syncReadingProgress, 1000)
 
 const onRelocatedByOperation = (data: Indexable) => {
   console.log('relocated', data)
@@ -318,6 +325,10 @@ const turnNextPage = throttle(nextPage, 500)
 
 const isInside = (cfi: string, rangeCfi: string) => {
   return ebookRender.isInside(cfi, rangeCfi)
+}
+
+const isNearVisibleRange = (targetCfi: string, visibleRangeCfi: string) => {
+  return ebookRender.isNearVisibleRange(targetCfi, visibleRangeCfi)
 }
 
 const parseCFI = (cfi: string) => {
@@ -579,6 +590,7 @@ export {
   search,
   clearSearch,
   isInside,
+  isNearVisibleRange,
   parseCFI,
   setManual,
 

@@ -716,6 +716,71 @@ const isInside = (cfi, rangeCfi) => {
   }
 }
 
+// Check if two CFIs belong to the same parent node (e.g., same paragraph or section)
+const isNearbyCfiByPath = (cfi1, cfi2, depthTolerance) => {
+  try {
+    const [spine1, path1] = cfi1.split('!')
+    const [spine2, path2] = cfi2.split('!')
+
+    // Must be in the same spine item (same file/chapter)
+    if (spine1 !== spine2) {
+      return false
+    }
+
+    // Split DOM steps, stripping character/text offsets (e.g. :0 or [id])
+    const steps1 = path1.split('/').filter(Boolean)
+    const steps2 = path2.split('/').filter(Boolean)
+
+    // Compare paths up to the tolerance depth
+    const maxSteps = Math.min(steps1.length, steps2.length) - depthTolerance
+    if (maxSteps <= 0) {
+      return false
+    }
+
+    for (let i = 0; i < maxSteps; i++) {
+      if (steps1[i] !== steps2[i]) {
+        return false
+      }
+    }
+
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+/**
+ * Check if saved CFI is within the visible range or adjacent range
+ * @param targetCfi - Saved message CFI
+ * @param visibleRangeCfi - Current page/screen range CFI
+ */
+const isNearVisibleRange = (targetCfi, visibleRangeCfi) => {
+  try {
+    const [targetSpine] = targetCfi.split('!')
+    const [rangeSpine] = visibleRangeCfi.split('!')
+
+    if (targetSpine !== rangeSpine) {
+      return false
+    }
+
+    const pageStart = CFI.collapse(visibleRangeCfi, false)
+    const pageEnd = CFI.collapse(visibleRangeCfi, true)
+
+    // Check if directly inside
+    const isAfterStart = CFI.compare(targetCfi, pageStart) >= 0
+    const isBeforeEnd = CFI.compare(targetCfi, pageEnd) <= 0
+
+    if (isAfterStart && isBeforeEnd) {
+      return true
+    }
+
+    // Optional: Allow offset tolerance by path matching if outside page bounds
+    return isNearbyCfiByPath(targetCfi, pageStart, 1) || isNearbyCfiByPath(targetCfi, pageEnd, 1)
+  } catch (e) {
+    return false
+  }
+}
+
 const parseCFI = (cfi) => {
   const start = CFI.collapse(cfi, false);
   const end = CFI.collapse(cfi, true);
@@ -815,5 +880,6 @@ window.ebook = {
   ttsNextSection: ttsNextSection,
   ttsPrevSection: ttsPrevSection,
   isInside,
+  isNearVisibleRange,
   parseCFI,
 }

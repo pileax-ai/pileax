@@ -183,6 +183,16 @@ export default function () {
     }
   }
 
+  function reduceCurrentCfi(message: string) {
+    if (selection.value.text && selection.value.cfi) {
+      if (selection.value.text === message) {
+        return selection.value.cfi
+      }
+    }
+
+    return tempProgress.value.cfi
+  }
+
   return {
     store,
     book,
@@ -227,5 +237,6 @@ export default function () {
     clearSearch,
     setWindowId,
     resetPlayStatus,
+    reduceCurrentCfi,
   }
 }

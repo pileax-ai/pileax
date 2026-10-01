@@ -1,10 +1,35 @@
 <template>
   <section class="row col-12 justify-center chat-section"
            :class="{ 'dense': dense }">
+    <nav class="row justify-between items-center top"
+         :class="{ 'hide': hideNav }"
+         v-if="nav">
+      <o-hover-menu-btn icon="o_forum"
+                        anchor="top left" self="top left"
+                        :offset="[0, 4]"
+                        enable-hover flat dense>
+        <div class="text-bold">
+          {{ $t('chat.conversations') }}
+        </div>
+        <o-common-item v-for="(item, index) in sessions"
+                       :key="index"
+                       :class="{ 'active': item.id === conversation?.id }"
+                       :label="item.name"
+                       clickable closable
+                       @click="openSession(item as ChatConversation)" />
+      </o-hover-menu-btn>
+
+      <o-chat-toc ref="tocRef" :chats="chats" :mini-view="false">
+        <template #trigger>
+          <q-btn icon="toc" flat dense />
+        </template>
+      </o-chat-toc>
+    </nav>
+
     <q-scroll-area ref="scrollRef"
                    class="o-scroll-wrapper xxxx"
                    @scroll="onScroll">
-      <o-chat-toc ref="tocRef" :chats="chats" v-show="toc" />
+      <o-chat-toc ref="tocRef" :chats="chats" class="fixed" v-show="toc" />
       <header class="row col-12 justify-between header" v-show="header">
         <div>
           <o-hover-menu-btn label="Chat List"
@@ -59,7 +84,7 @@
           </template>
         </section>
 
-        <template v-if="!start && chats.length">
+        <template v-if="!start && !isLoading && chats.length">
           <section class="row col-12 justify-center q-pb-lg new-chat"
                    v-show="multiSession">
             <q-btn class="bg-primary text-white"
@@ -78,7 +103,7 @@
         </template>
 
         <transition name="fade">
-          <section class="row col-12 justify-center q-pb-lg scroll-bottom"
+          <section class="q-pb-lg scroll-bottom"
                    v-if="multiSession && chats.length && showScrollBtn">
             <div class="row col-12 justify-end btn-wrapper">
               <q-btn icon="south" class="bg-dark text-info" flat round @click="scrollToBottom(500, true)" />
@@ -115,23 +140,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, nextTick, onActivated, onBeforeMount, watch } from 'vue'
+import { computed, ref, nextTick, onActivated, onBeforeMount, watch, onUnmounted } from 'vue'
+import { QScrollArea } from 'quasar'
 import OChatInput from 'components/chat/OChatInput.vue'
 import OChatMessage from 'components/chat/OChatMessage.vue'
 import ChatConversations from 'components/chat/ChatConversations.vue'
+import OChatToc from 'components/chat/OChatToc.vue'
+import ChatActions from 'components/chat/ChatActions.vue'
+import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
 
 import { chatService } from 'src/api/service/remote/chat'
 import { chatConversationService } from 'src/api/service/remote/chat-conversation'
 import { UUID } from 'core/utils/crypto'
+import type { ChatInput, ChatConversation } from 'src/types/chat'
 import useAi from 'src/hooks/useAi'
 import useStream from 'src/hooks/useStream'
 import useChatConversation from 'src/hooks/useChatConversation'
-import type { ChatInput, ChatConversation } from 'src/types/chat'
-import OChatToc from 'components/chat/OChatToc.vue'
-import ChatActions from 'components/chat/ChatActions.vue'
-import OHoverMenuBtn from 'core/components/menu/OHoverMenuBtn.vue'
-import { QScrollArea } from 'quasar'
+import useBook from 'src/hooks/useBook'
 import useNote from 'src/hooks/useNote'
+import { globalBus } from 'src/api/event/event-bus'
+import { isInside, isNearVisibleRange } from 'src/api/service/ebook/book'
 
 const props = defineProps({
   refType: {
@@ -149,6 +177,10 @@ const props = defineProps({
   tag: {
     type: String,
     default: ''
+  },
+  nav: {
+    type: Boolean,
+    default: false
   },
   toc: {
     type: Boolean,
@@ -182,6 +214,7 @@ const props = defineProps({
 const emit = defineEmits(['chats'])
 
 const { localModels } = useAi()
+const { reduceCurrentCfi } = useBook()
 const { noteStore } = useNote()
 const {
   conversation,
@@ -195,12 +228,14 @@ const conversationsRef = ref<InstanceType<typeof ChatConversations>>()
 const tocRef = ref<InstanceType<typeof OChatToc>>()
 const inputMessage = ref('')
 const start = ref(false)
+const sessions = ref<Indexable[]>([])
 const chats = ref<Indexable[]>([])
 const newChat = ref<Indexable>({})
 const showScrollBtn = ref(false)
 const scrollable = ref(true)
 const scrollTop = ref(0)
 const scrollDirection = ref('')
+const hideNav = ref(false)
 
 const chatWidth = computed(() => (noteStore.value.chatWidth))
 const localDefaultModel = computed(() => {
@@ -209,6 +244,10 @@ const localDefaultModel = computed(() => {
 
 function init(from = '') {
   // console.log('ChatSection init', from, props.refType, props.refId)
+  // Prevent duplicated query
+  if (props.refType === 'book' && from === 'activated') {
+    return
+  }
   start.value = props.multiSession
   getLatestSession()
 }
@@ -216,7 +255,7 @@ function init(from = '') {
 function getLatestSession() {
   const query = {
     pageIndex: 1,
-    pageSize: 1,
+    pageSize: 100,
     condition: {
       refType: props.refType,
       refId: props.refId
@@ -226,6 +265,7 @@ function getLatestSession() {
     }
   }
   chatConversationService.query(query).then(res => {
+    sessions.value = res.list
     const defaultSession = res.list.length
       ? res.list.at(0)
       : {}
@@ -263,8 +303,7 @@ async function onSend(data: ChatInput, reset = false) {
 
   if (conversationId.value) {
     chatCompletion(data)
-  }
-  else {
+  } else {
     start.value = false
     createSession(data)
   }
@@ -294,6 +333,17 @@ async function createSession(data: ChatInput) {
   })
 }
 
+function buildExtra(message: string) {
+  switch (props.refType) {
+    case 'book':
+      return {
+        cfi: reduceCurrentCfi(message)
+      }
+    default:
+      return {}
+  }
+}
+
 async function chatCompletion(data: ChatInput) {
   chatStore.value.removeChat(data.id)
   const payload = {
@@ -301,6 +351,7 @@ async function chatCompletion(data: ChatInput) {
     id: UUID(),
     conversationId: conversationId.value,
     stream: true,
+    extra: buildExtra(data.message)
   }
   newChat.value = {
     ...payload,
@@ -369,6 +420,12 @@ function onScroll(info: any) {
     }
   }
   scrollTop.value = info.verticalPosition
+
+  if (scrollDirection.value === 'down') {
+    hideNav.value = true
+  } else {
+    hideNav.value = false
+  }
 }
 
 function onIntersection(entry: Indexable) {
@@ -395,8 +452,17 @@ const send = (message: string) => {
 }
 
 const setMessage = (message: string) => {
-  console.log('ss', message)
   inputMessage.value = message
+}
+
+const syncReadingProgress = (progress: Indexable) => {
+  for (const item of chats.value) {
+    const cfi = item.extra?.cfi
+    if (cfi && isNearVisibleRange(cfi, progress.cfi)) {
+      tocRef.value?.naviTo(item)
+      break
+    }
+  }
 }
 
 watch(chats, (newValue) => {
@@ -409,6 +475,11 @@ onActivated(() => {
 
 onBeforeMount(() => {
   init('mount')
+  globalBus.on('sync-reading-progress', syncReadingProgress)
+})
+
+onUnmounted(() => {
+  globalBus.off('sync-reading-progress', syncReadingProgress)
 })
 
 defineExpose({
@@ -419,6 +490,24 @@ defineExpose({
 
 <style lang="scss">
 .chat-section {
+
+  nav.top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    //background: rgba(0,0,0,0.1);
+    background: var(--p-menu-bg-color);
+    padding: 0 8px;
+    z-index: 1;
+    transition: transform 0.3s ease-in-out;
+
+    &.hide {
+      transform: translateY(-100%);
+    }
+  }
+
   .o-scroll-wrapper {
     padding-bottom: 145px;
   }
@@ -498,7 +587,7 @@ defineExpose({
     }
   }
 
-  .o-chat-toc {
+  .o-chat-toc.fixed {
     position: fixed;
     top: 1rem;
     right: 28px;
@@ -508,7 +597,7 @@ defineExpose({
 
   .scroll-bottom {
     position: fixed;
-    right: 0;
+    right: 8px;
     bottom: 180px;
     z-index: 1000;
     .btn-wrapper {
