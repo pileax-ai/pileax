@@ -150,6 +150,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  tableActions: {
+    type: Boolean,
+    default: false
+  },
   enableFullscreen: {
     type: Boolean,
     default: false

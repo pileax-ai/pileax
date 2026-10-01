@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import type { ChatInput } from 'src/types/chat'
 import useAi from 'src/hooks/useAi'
 import OAiModelSelectBtn from 'components/ai/OAiModelSelectBtn.vue'
 import { UUID } from 'core/utils/crypto'
@@ -94,11 +93,13 @@ const props = defineProps({
 })
 const emit = defineEmits(['send', 'stop', 'update:modelValue'])
 
-const { localModels, checkAiSettings } = useAi()
+const { localModels, defaultModels, checkAiSettings } = useAi()
 const input = ref()
 
 const localDefaultModel = computed(() => {
-  return localModels.value['chat'] || {}
+  return localModels.value['chat']
+    || defaultModels.value.find(m => m.modelType.includes('chat'))
+    || {}
 })
 
 /**

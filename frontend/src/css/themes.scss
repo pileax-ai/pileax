@@ -3,11 +3,13 @@
 body {
   --p-split: #eceff1;
   --p-text-readable: #5f6368;
+  --p-menu-bg-color: rgba(0,0,0,0.1);
 }
 
 body.body--dark {
   --p-split: #222336 !important;
   --p-text-readable: #9aa0a6 !important;
+  --p-menu-bg-color: rgba(255,255,255,0.1) !important;
 }
 
 $dark_separator_color: #222222;

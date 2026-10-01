@@ -5,7 +5,9 @@
                    v-bind="query"
                    @dense="query.onDense"
                    @query="query.onQuery"
-                   @reset="query.onReset" disable-meta>
+                   @reset="query.onReset"
+                   disable-meta
+                   table-actions>
     <template #header-left>
       <q-btn icon="arrow_back" flat round @click="emit('view', 'provider')" />
       <o-svg-icon :name="provider.logo" size="2.4rem" colored />

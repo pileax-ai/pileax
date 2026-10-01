@@ -26,7 +26,6 @@
 
     <template #menu>
       <template v-if="typeModels.length">
-        ABC
         <template v-for="(item, index) in typeModels" :key="index">
           <o-common-item :icon="`icon-${item.logo}`"
                          :label="item.modelAlias || item.modelName"

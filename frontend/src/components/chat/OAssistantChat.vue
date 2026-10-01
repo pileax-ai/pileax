@@ -134,13 +134,15 @@ const props = defineProps({
 })
 const emit = defineEmits(['send', 'stop', 'expand'])
 
-const { localModels, checkAiSettings } = useAi()
+const { localModels, defaultModels, checkAiSettings } = useAi()
 const { nativeShortcut } = useShortcut()
 const input = ref()
 const expanded = ref(false)
 
 const localDefaultModel = computed(() => {
-  return localModels.value['chat'] || {}
+  return localModels.value['chat']
+    || defaultModels.value.find(m => m.modelType.includes('chat'))
+    || {}
 })
 
 function onToggleExpand() {

@@ -31,7 +31,7 @@
             <span class="heading"
                   :class="{ selected: selectedId === item.id }"
                   v-close-popup
-                  @click="onClick((item))">
+                  @click="naviTo((item))">
               {{ item.message }}
             </span>
         </li>
@@ -71,7 +71,7 @@ function onScroll(event?: Event) {
   }
 }
 
-function onClick(item: Indexable) {
+function naviTo(item: Indexable) {
   selectedId.value = item.id
   const element = document.querySelector(`[id="${item.id}"]`) as HTMLElement
   if (element) {
@@ -84,6 +84,7 @@ function onClick(item: Indexable) {
 
 defineExpose({
   onScroll,
+  naviTo,
 })
 </script>
 

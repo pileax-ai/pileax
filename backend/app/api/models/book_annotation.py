@@ -38,6 +38,7 @@ class BookAnnotation(BaseSQLModel, BaseMixin, table=True):
     title: str | None = Field(default=None)
     note: str | None = Field(default=None)
     note_json: dict | None = Field(default=None, sa_type=JSONString, description="Note JSON content")
+    extra: dict | None = Field(default=None, sa_type=JSONString)
 
 
 class BookAnnotationBase(BaseApiModel):
@@ -51,6 +52,7 @@ class BookAnnotationBase(BaseApiModel):
     color: str | None = None
     chapter: str | None = None
     page: int | None = None
+    extra: dict | None = None
 
 
 class BookAnnotationCreate(BookAnnotationBase):

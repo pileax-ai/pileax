@@ -30,6 +30,7 @@ export type EbookApi = {
   ttsNextSection: () => Promise<string>;
   ttsPrevSection: () => Promise<string>;
   isInside: (cfi: string, rangeCfi: string) => boolean;
+  isNearVisibleRange: (targetCfi: string, visibleRangeCfi: string) => boolean;
   parseCFI: (cfi: string) => Indexable;
 }
 

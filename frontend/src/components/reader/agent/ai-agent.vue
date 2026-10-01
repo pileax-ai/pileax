@@ -4,7 +4,10 @@
                   ref-type="book"
                   :ref-id="bookId"
                   :tag="$t('ai.basedOnBook')"
-                  dense multi-session v-if="bookId">
+                  dense
+                  multi-session
+                  nav
+                  v-if="bookId">
     </chat-section>
   </section>
 </template>
