@@ -18,6 +18,7 @@ export default {
     underline: '底線'
   },
   annotationType: {
+    ai: 'AI 搜尋',
     all: '全部',
     bookmark: '書籤',
     highlight: '摘要',

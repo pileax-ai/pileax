@@ -88,12 +88,11 @@ const emit = defineEmits(['share'])
 
 const { t, copy } = useCommon()
 const {
-  workspaceBookId,
-  bookId,
   progress,
   selection,
+  setChatId,
   setKeyword,
-  setAnnotationTimer,
+  setAnnotation,
   setSelection
 } = useBook()
 const { openNote, refreshNote, deleteNote } = useBookNote()
@@ -147,19 +146,20 @@ const currentAnnColorValue = computed(() => {
 
 const shouldShowAnnotationMore = computed(() => {
   return (currentAction.value === 'annotation' || currentAction.value === 'removeAnnotation') &&
-    !!clickedAnnotation.value &&
+    clickedAnnotation.value?.type === 'annotation' &&
     popupShown.value
 })
 
 const actions = computed(() => {
   return [
-    { label: t('reading.popup.clearHighlight'), value: 'removeAnnotation', icon: 'font_download_off', show: clickedAnnotation.value },
+    { label: t('reading.popup.clearHighlight'), value: 'removeAnnotation', icon: 'font_download_off', show: clickedAnnotation.value?.type === 'annotation' },
     { label: t('reading.popup.highlight'), value: 'annotation', icon: 'font_download', show: !clickedAnnotation.value },
     { label: t('reading.popup.copy'), value: 'copy', icon: 'content_copy', show: true },
     { label: t('reading.popup.share'), value: 'share', icon: 'share', show: true },
-    { label: t('reading.popup.search'), value: 'search', icon: 'search', show: true },
+    { label: t('reading.popup.search'), value: 'search', icon: 'search', show: clickedAnnotation.value?.type !== 'ai' },
+    { label: t('reading.popup.search'), value: 'naviAi', icon: 'mdi-creation', show: clickedAnnotation.value?.type === 'ai' },
     { label: t('reading.aiReading'), value: 'aiReading', icon: 'o_headphones', show: true },
-    { label: t('note._'), value: 'note', icon: 'article', show: clickedAnnotation.value },
+    { label: t('note._'), value: 'note', icon: 'article', show: clickedAnnotation.value?.type === 'annotation' },
     { label: t('reading.popup.more'), value: 'more', icon: 'more_horiz', show: false },
   ]
 })
@@ -204,6 +204,10 @@ function onAction(action: string) {
       onSearch()
       hide(true)
       break
+    case 'naviAi':
+      onNaviAi()
+      hide(true)
+      break
     case 'aiReading':
       onAiReading()
       hide(true)
@@ -225,8 +229,6 @@ async function onAnnotation() {
   }
 
   const annotation = {
-    workspaceBookId: workspaceBookId.value,
-    bookId: bookId.value,
     type: 'annotation',
     style: annStyle.value,
     color: annColor.value,
@@ -236,13 +238,7 @@ async function onAnnotation() {
     title: selectedText.value,
   }
 
-  addAnnotation(annotation).then(res => {
-    setAnnotationTimer(Date.now())
-    setSelection({
-      ...selection.value,
-      annotation: res
-    })
-  })
+  setAnnotation(annotation)
 }
 
 async function onRemoveAnnotation() {
@@ -310,6 +306,21 @@ function onSearch() {
     setRightDrawerHoverShow(true)
   }
   setRightDrawerView('agent', true)
+}
+
+
+function onNaviAi() {
+  const chatId = clickedAnnotation.value?.extra?.refId
+  if (!chatId) {
+    return
+  }
+  if (!rightDrawerShow.value) {
+    setRightDrawerHoverShow(true)
+  }
+  setRightDrawerView('agent', true)
+
+
+  globalBus.emit('reader-ai-navi', chatId)
 }
 
 function onAiReading() {

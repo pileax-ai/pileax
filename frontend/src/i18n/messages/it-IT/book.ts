@@ -22,7 +22,8 @@ export default {
     all: 'Tutto',
     bookmark: 'Segnalibro',
     highlight: 'Annotazione',
-    note: 'Nota'
+    note: 'Nota',
+    search: 'Ricerca basata sull\'intelligenza artificiale'
   },
   author: 'Autore',
   basicInfo: 'Informazioni di base',

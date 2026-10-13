@@ -71,13 +71,13 @@ function onScroll(event?: Event) {
   }
 }
 
-function naviTo(item: Indexable) {
-  selectedId.value = item.id
-  const element = document.querySelector(`[id="${item.id}"]`) as HTMLElement
+function naviTo(id: string, block: ScrollLogicalPosition = 'center') {
+  selectedId.value = id
+  const element = document.querySelector(`[id="${id}"]`) as HTMLElement
   if (element) {
     element.scrollIntoView({
       behavior: 'smooth',
-      block: 'nearest',
+      block: block,
     })
   }
 }

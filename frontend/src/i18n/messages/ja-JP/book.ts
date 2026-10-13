@@ -22,7 +22,8 @@ export default {
     all: '全て',
     bookmark: 'ブックマーク',
     highlight: '注釈',
-    note: '注記'
+    note: '注記',
+    search: 'AI検索'
   },
   author: '著者',
   basicInfo: '基本情報',

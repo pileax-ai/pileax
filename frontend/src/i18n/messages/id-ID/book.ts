@@ -22,7 +22,8 @@ export default {
     all: 'Semua',
     bookmark: 'Tandai',
     highlight: 'Anotasi',
-    note: 'Catatan'
+    note: 'Catatan',
+    search: 'Pencarian AI'
   },
   author: 'Pengarang',
   basicInfo: 'Informasi Dasar',

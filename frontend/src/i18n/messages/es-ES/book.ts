@@ -22,7 +22,8 @@ export default {
     all: 'Todo',
     bookmark: 'Marcador',
     highlight: 'Anotación',
-    note: 'Nota'
+    note: 'Nota',
+    search: 'Búsqueda de IA'
   },
   author: 'Autor',
   basicInfo: 'Información básica',

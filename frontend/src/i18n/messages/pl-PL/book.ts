@@ -22,7 +22,8 @@ export default {
     all: 'Wszystko',
     bookmark: 'Zakładka w książce',
     highlight: 'Adnotacja',
-    note: 'Notatka'
+    note: 'Notatka',
+    search: 'Wyszukiwanie AI'
   },
   author: 'Autor',
   basicInfo: 'Informacje podstawowe',

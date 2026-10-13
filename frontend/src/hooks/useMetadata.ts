@@ -28,6 +28,7 @@ export default function() {
       { label: t('book.annotationType.highlight'), value: 'annotation', color: 'lime', icon: 'mdi-square-rounded' },
       { label: t('book.annotationType.bookmark'), value: 'bookmark', color: 'blue', icon: 'bookmark' },
       { label: t('book.annotationType.note'), value: 'note', color: 'purple', icon: 'article' },
+      { label: t('book.annotationType.ai'), value: 'ai', color: 'purple', icon: 'mdi-creation' },
     ]
   })
 

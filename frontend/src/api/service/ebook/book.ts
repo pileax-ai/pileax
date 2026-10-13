@@ -571,7 +571,7 @@ const buildBook = (metadata: any, fileInfo: any) => {
     publisher: parseBookField(metadata.publisher),
     published: metadata.published ?? '',
     description: metadata.description ?? '',
-    bookGroupId: metadata.bookGroupId ?? ''
+    bookGroupId: metadata.bookGroupId
   }
 }
 

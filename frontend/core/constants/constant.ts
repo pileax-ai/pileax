@@ -26,3 +26,17 @@ export const AnnotationColors: Indexable = {
   blue: '#63A2FF',
   green: '#62CE6F',
 }
+
+export const AnnotationStyles: Indexable = {
+  highlight: 'highlight',
+  underline: 'underline',
+  squiggly: 'squiggly',
+  strikethrough: 'strikethrough',
+}
+
+export const AnnotationTypes: Indexable = {
+  highlight: 'highlight',
+  bookmark: 'bookmark',
+  note: 'note',
+  ai: 'ai',
+}

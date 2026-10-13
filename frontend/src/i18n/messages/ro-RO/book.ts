@@ -22,7 +22,8 @@ export default {
     all: 'Toate',
     bookmark: 'Marcaj',
     highlight: 'Adnotare',
-    note: 'Nota'
+    note: 'Nota',
+    search: 'Căutare AI'
   },
   author: 'Autor',
   basicInfo: 'Informații de bază',

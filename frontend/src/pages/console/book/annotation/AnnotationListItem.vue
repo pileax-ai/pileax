@@ -33,7 +33,7 @@
           </section>
         </q-item-label>
         <q-item-label lines="6" v-if="data.type !== 'bookmark'">
-          <div class="content" v-if="data.type === 'annotation'">
+          <div class="content" v-if="['ai', 'annotation'].includes(data.type)">
             {{ data.title }}
           </div>
           <div v-else>
@@ -67,7 +67,7 @@
           </section>
         </q-item-label>
         <q-item-label lines="6">
-          <div class="content" v-if="data.type === 'annotation'">
+          <div class="content" v-if="['ai', 'annotation'].includes(data.type)">
             {{ data.title }}
           </div>
           <div v-else>

@@ -66,7 +66,6 @@ export default function () {
     }
     bookAnnotationService.query(body).then(res => {
       store.setAnnotations(res.list)
-      console.log('list', res.list)
     })
   }
 

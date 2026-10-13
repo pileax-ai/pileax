@@ -22,7 +22,8 @@ export default {
     all: '모두',
     bookmark: '서표',
     highlight: '주석',
-    note: '메모'
+    note: '메모',
+    search: 'AI 검색'
   },
   author: '작가',
   basicInfo: '기본 정보',
