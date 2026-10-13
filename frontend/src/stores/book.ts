@@ -79,8 +79,8 @@ export const useBookStore = defineStore('book', {
     setSelection(selection: any) {
       this.selection = selection
     },
-    setKeyword(keyword: string) {
-      this.keyword = keyword
+    setKeyword(value: string) {
+      this.keyword = value
     },
     setAnnotations(value: Indexable[]) {
       this.annotations = value

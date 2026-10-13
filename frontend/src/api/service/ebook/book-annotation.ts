@@ -37,6 +37,18 @@ const findBookAnnotation = async (bookId: string, type = '') => {
   return bookAnnotationService.getAll({ book_id: bookId, type })
 }
 
+const findRenderAnnotation = async (bookId: string) => {
+  const body = {
+    pageIndex: 1,
+    pageSize: 100000,
+    condition: {
+      bookId: bookId,
+      type__in: ['ai', 'annotation']
+    }
+  }
+  return bookAnnotationService.query(body)
+}
+
 
 export {
   addAnnotation,
@@ -44,4 +56,5 @@ export {
   removeAnnotation,
   renderAnnotations,
   findBookAnnotation,
+  findRenderAnnotation,
 }

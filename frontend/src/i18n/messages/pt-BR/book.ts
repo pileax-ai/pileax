@@ -22,7 +22,8 @@ export default {
     all: 'Todos',
     bookmark: 'Adicionar aos favoritos',
     highlight: 'Anotação',
-    note: 'Observação'
+    note: 'Observação',
+    search: 'Busca por IA'
   },
   author: 'Autor',
   basicInfo: 'Informações básicas',

@@ -18,6 +18,7 @@ export default {
     underline: '下划线'
   },
   annotationType: {
+    ai: 'AI 搜索',
     all: '全部',
     bookmark: '书签',
     highlight: '摘要',

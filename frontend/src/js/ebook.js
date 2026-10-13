@@ -370,7 +370,7 @@ class Ebook {
 
   renderAnnotations(list) {
     for (const item of list) {
-      const { id, value, type, style, color, title } = item;
+      const { id, value, type, style, color, title, extra } = item;
       const annotation = {
         id,
         value,
@@ -378,6 +378,7 @@ class Ebook {
         style,
         color,
         title,
+        extra
       }
 
       this.addAnnotation(annotation);
@@ -775,7 +776,7 @@ const isNearVisibleRange = (targetCfi, visibleRangeCfi) => {
     }
 
     // Optional: Allow offset tolerance by path matching if outside page bounds
-    return isNearbyCfiByPath(targetCfi, pageStart, 1) || isNearbyCfiByPath(targetCfi, pageEnd, 1)
+    return isNearbyCfiByPath(targetCfi, pageStart, 0) || isNearbyCfiByPath(targetCfi, pageEnd, 0)
   } catch (e) {
     return false
   }

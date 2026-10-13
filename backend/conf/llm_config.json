@@ -1,7 +1,7 @@
 {
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "LLM providers and model list",
-    "modified": "2026-09-29T00:52:34Z",
+    "modified": "2026-10-13T14:51:51Z",
     "providers": [
         {
             "name": "Anthropic",
@@ -2076,14 +2076,21 @@
             "apikey_url": "https://platform.xiaomimimo.com/console/api-keys",
             "models": [
                 {
-                    "model_name": "mimo-v2.5",
+                    "model_name": "mimo-v2.6-pro",
                     "tags": "LLM,CHAT,128k",
                     "max_tokens": 128000,
                     "model_type": "chat",
                     "is_tools": 1
                 },
                 {
-                    "model_name": "mimo-v2.5-pro",
+                    "model_name": "mimo-v2.6-flash",
+                    "tags": "LLM,CHAT,128k",
+                    "max_tokens": 128000,
+                    "model_type": "chat",
+                    "is_tools": 1
+                },
+                {
+                    "model_name": "mimo-v2.6-pro-ultraspeed",
                     "tags": "LLM,CHAT,128k",
                     "max_tokens": 128000,
                     "model_type": "chat",

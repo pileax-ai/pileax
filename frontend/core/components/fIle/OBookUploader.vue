@@ -59,10 +59,11 @@
 </template>
 
 <script setup lang="ts">
-import { type PropType, reactive, ref } from 'vue'
+import { onBeforeMount, type PropType, reactive, ref } from 'vue'
 import { uploadBook } from 'src/api/service/ebook/book'
 import { notifyInfo, notifyWarning } from 'core/utils/control'
 import useCommon from 'core/hooks/useCommon'
+import useReading from 'src/hooks/useReading'
 
 const props = defineProps({
   multiple: {
@@ -91,12 +92,13 @@ const props = defineProps({
   },
   bookGroupId: {
     type: String,
-    default: ''
+    default: null
   },
 })
 const emit = defineEmits(['uploading', 'completed'])
 
 const { t } = useCommon()
+const { setBookUploading } = useReading()
 const value = ref(null)
 const error = ref('')
 const upload = reactive({
@@ -145,6 +147,10 @@ const updateFiles = async (files: File | File[]) => {
   Object.assign(upload, { total: 0, success: 0, progress: 0 })
   emit('completed', files)
 }
+
+onBeforeMount(() => {
+  setBookUploading(false)
+})
 </script>
 
 <style lang="scss">

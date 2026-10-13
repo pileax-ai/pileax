@@ -22,7 +22,8 @@ export default {
     all: 'Alle',
     bookmark: 'Lesezeichen',
     highlight: 'Anmerkung',
-    note: 'Notiz'
+    note: 'Notiz',
+    search: 'KI-Suche'
   },
   author: 'Autor',
   basicInfo: 'Grundlegende Informationen',

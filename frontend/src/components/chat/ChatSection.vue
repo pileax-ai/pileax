@@ -156,10 +156,9 @@ import type { ChatInput, ChatConversation } from 'src/types/chat'
 import useAi from 'src/hooks/useAi'
 import useStream from 'src/hooks/useStream'
 import useChatConversation from 'src/hooks/useChatConversation'
-import useBook from 'src/hooks/useBook'
 import useNote from 'src/hooks/useNote'
 import { globalBus } from 'src/api/event/event-bus'
-import { isInside, isNearVisibleRange } from 'src/api/service/ebook/book'
+import { isNearVisibleRange } from 'src/api/service/ebook/book'
 
 const props = defineProps({
   refType: {
@@ -210,11 +209,18 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  getExtra: {
+    type: Function,
+    default: () => (message: Indexable) => {}
+  },
+  onChatDone: {
+    type: Function,
+    default: () => (chat: Indexable) => {}
+  }
 })
 const emit = defineEmits(['chats'])
 
 const { localModels } = useAi()
-const { reduceCurrentCfi } = useBook()
 const { noteStore } = useNote()
 const {
   conversation,
@@ -333,17 +339,6 @@ async function createSession(data: ChatInput) {
   })
 }
 
-function buildExtra(message: string) {
-  switch (props.refType) {
-    case 'book':
-      return {
-        cfi: reduceCurrentCfi(message)
-      }
-    default:
-      return {}
-  }
-}
-
 async function chatCompletion(data: ChatInput) {
   chatStore.value.removeChat(data.id)
   const payload = {
@@ -351,7 +346,7 @@ async function chatCompletion(data: ChatInput) {
     id: UUID(),
     conversationId: conversationId.value,
     stream: true,
-    extra: buildExtra(data.message)
+    extra: props.getExtra(data.message)
   }
   newChat.value = {
     ...payload,
@@ -376,6 +371,11 @@ async function onDone(reasoningText: string, text: string) {
   newChat.value.content = text
   newChat.value.reasoningContent = reasoningText
   chats.value.push({...newChat.value})
+
+  // callback
+  props.onChatDone(newChat.value)
+
+  // reset
   newChat.value = {}
   scrollToBottom()
 }
@@ -404,6 +404,7 @@ async function scrollToBottom(duration = 0, manual = false) {
     const scrollTarget = scrollRef.value?.getScrollTarget()
     const scrollHeight = scrollTarget?.scrollHeight || 0
     scrollRef.value?.setScrollPosition('vertical', scrollHeight, duration)
+    scrollable.value = true
   }, 0)
 }
 
@@ -419,13 +420,9 @@ function onScroll(info: any) {
       scrollable.value = false
     }
   }
-  scrollTop.value = info.verticalPosition
 
-  if (scrollDirection.value === 'down') {
-    hideNav.value = true
-  } else {
-    hideNav.value = false
-  }
+  scrollTop.value = info.verticalPosition
+  hideNav.value = scrollDirection.value === 'down'
 }
 
 function onIntersection(entry: Indexable) {
@@ -455,11 +452,15 @@ const setMessage = (message: string) => {
   inputMessage.value = message
 }
 
+const naviTo = (id: string, block: ScrollLogicalPosition = 'center') => {
+  tocRef.value?.naviTo(id, block)
+}
+
 const syncReadingProgress = (progress: Indexable) => {
   for (const item of chats.value) {
     const cfi = item.extra?.cfi
     if (cfi && isNearVisibleRange(cfi, progress.cfi)) {
-      tocRef.value?.naviTo(item)
+      tocRef.value?.naviTo(item.id)
       break
     }
   }
@@ -483,6 +484,7 @@ onUnmounted(() => {
 })
 
 defineExpose({
+  naviTo: naviTo,
   send: send,
   setMessage: setMessage
 })

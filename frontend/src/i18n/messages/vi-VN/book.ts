@@ -22,7 +22,8 @@ export default {
     all: 'Tất cả',
     bookmark: 'Đánh dấu trang',
     highlight: 'Chú thích',
-    note: 'Ghi chú'
+    note: 'Ghi chú',
+    search: 'Tìm kiếm AI'
   },
   author: 'Tác giả',
   basicInfo: 'Thông tin cơ bản',

@@ -38,7 +38,7 @@
 
         <section class="note">
           <q-scroll-area>
-            <div v-if="data.type === 'annotation'">
+            <div v-if="['ai', 'annotation'].includes(data.type)">
               {{ data.title }}
             </div>
             <div v-else>

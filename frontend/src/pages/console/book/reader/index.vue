@@ -77,7 +77,7 @@ import useBookNote from 'src/hooks/useBookNote'
 import useReaderSetting from 'src/hooks/useReaderSetting'
 import { nextPage, prevPage, openBook } from 'src/api/service/ebook/book'
 import { bookAnnotationService, bookService } from 'src/api/service/remote'
-import { findBookAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
+import { findRenderAnnotation, renderAnnotations } from 'src/api/service/ebook/book-annotation'
 import { ReadingMode } from 'src/types/reading'
 import useReader from 'src/hooks/useReader'
 import { globalBus } from 'src/api/event/event-bus'
@@ -175,8 +175,8 @@ async function open(bookId: string, initialCfi = '') {
 
 async function prepareAnnotations(bookId: string) {
   if (!isPhysical.value) {
-    const annotations = await findBookAnnotation(bookId, 'annotation')
-    renderAnnotations(annotations)
+    const data = await findRenderAnnotation(bookId)
+    renderAnnotations(data.list)
   }
 }
 

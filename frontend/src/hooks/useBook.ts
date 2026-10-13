@@ -2,7 +2,7 @@
 import { useBookStoreWithOut } from 'stores/book'
 import { computed } from 'vue'
 import type { BookOperation, BookTocItem } from 'src/types/reading'
-import { findBookAnnotation } from 'src/api/service/ebook/book-annotation'
+import { addAnnotation, findBookAnnotation } from 'src/api/service/ebook/book-annotation'
 
 export default function () {
   const store = useBookStoreWithOut()
@@ -41,11 +41,11 @@ export default function () {
   })
   const previousTocItem = computed(() => {
     const idx = tocItem.value.id
-    return idx > 0 ? toc.value[idx - 1] : null
+    return idx > 0 ? toc.value[idx - 1]:  null
   })
   const nextTocItem = computed(() => {
     const idx = tocItem.value.id
-    return idx < toc.value.length - 1 ? toc.value[idx + 1] : null
+    return idx < toc.value.length - 1 ? toc.value[idx + 1]:  null
   })
   const progress = computed(() => {
     return store.progress
@@ -126,23 +126,23 @@ export default function () {
     store.setWorkspaceBookId(value)
   }
 
-  function setTocItem(item :BookTocItem) {
+  function setTocItem(item: BookTocItem) {
     store.setTocItem(item)
   }
 
-  function setKeyword(keyword :string) {
+  function setKeyword(keyword: string) {
     store.setKeyword(keyword)
   }
 
-  function setProgress(data :any) {
+  function setProgress(data: any) {
     store.setProgress(data)
   }
 
-  function setSelection(data :any) {
+  function setSelection(data: any) {
     store.setSelection(data)
   }
 
-  function setToc(data :any) {
+  function setToc(data: any) {
     store.setToc(data)
   }
 
@@ -158,6 +158,22 @@ export default function () {
 
   function setAnnotationId(value: number) {
     store.setAnnotationId(value)
+  }
+
+  function setAnnotation(value: Indexable) {
+    const annotation = {
+      ...value,
+      workspaceBookId: workspaceBookId.value,
+      bookId: bookId.value,
+    }
+
+    addAnnotation(annotation).then(res => {
+      setAnnotationTimer(Date.now())
+      setSelection({
+        ...selection.value,
+        annotation: res
+      })
+    })
   }
 
   function setOperation(value: BookOperation) {
@@ -183,14 +199,20 @@ export default function () {
     }
   }
 
-  function reduceCurrentCfi(message: string) {
+  function reduceCurrentLocation(message: string) {
     if (selection.value.text && selection.value.cfi) {
       if (selection.value.text === message) {
-        return selection.value.cfi
+        return {
+          cfi: selection.value.cfi,
+          selection: true
+        }
       }
     }
 
-    return tempProgress.value.cfi
+    return {
+      cfi: tempProgress.value.cfi,
+      selection: false
+    }
   }
 
   return {
@@ -232,11 +254,12 @@ export default function () {
     initAnnotationData,
     setAnnotationTimer,
     setAnnotationId,
+    setAnnotation,
     setOperation,
     setSearch,
     clearSearch,
     setWindowId,
     resetPlayStatus,
-    reduceCurrentCfi,
+    reduceCurrentLocation,
   }
 }
