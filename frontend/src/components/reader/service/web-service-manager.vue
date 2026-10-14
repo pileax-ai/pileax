@@ -28,7 +28,7 @@
               <q-item-label class="text-bold">
                 {{item.label}}
               </q-item-label>
-              <q-item-label caption>
+              <q-item-label caption v-if="false">
                 {{item.label}}
               </q-item-label>
             </q-item-section>
@@ -141,6 +141,14 @@ const services = computed(() => {
       type: "service",
       web: false,
       url: "https://dict.eudic.net/dicts/en/{word}",
+    },
+    {
+      label: "金山词霸",
+      value: "iciba",
+      icon: "png-iciba",
+      type: "service",
+      web: true,
+      url: "https://m.iciba.com/word?w={word}",
     },
   ]
 })
