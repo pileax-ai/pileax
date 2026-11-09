@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Numeración automática',
     defaultFont: 'Por defecto',
     fullWidth: 'Ancho completo',
+    headingCollapsible: 'Encabezado plegable',
     monoFont: 'Mononucleosis infecciosa',
     serifFont: 'Serif',
     smallText: 'Texto pequeño',

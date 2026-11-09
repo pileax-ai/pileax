@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Penomoran Otomatis',
     defaultFont: 'Bawaan',
     fullWidth: 'Lebar penuh',
+    headingCollapsible: 'Judul dapat dilipat',
     monoFont: 'Mono',
     serifFont: 'Serif',
     smallText: 'Teks kecil',

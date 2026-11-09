@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Numerotare automată',
     defaultFont: 'Implicit',
     fullWidth: 'Lățime completă',
+    headingCollapsible: 'Titlu pliabil',
     monoFont: 'Mono',
     serifFont: 'Serif',
     smallText: 'Text mic',

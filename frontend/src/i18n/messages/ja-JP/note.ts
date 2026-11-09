@@ -29,6 +29,7 @@ export default {
     autoNumbering: '自動番号付け',
     defaultFont: 'デフォルト',
     fullWidth: '全幅',
+    headingCollapsible: '見出しは折りたたみ可能です',
     monoFont: '単核症',
     serifFont: 'セリフ',
     smallText: '小さなテキスト',

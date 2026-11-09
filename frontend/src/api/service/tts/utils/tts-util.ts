@@ -18,6 +18,9 @@ const RE_MARKDOWN_SYMBOLS = /([#*_~`>]+)/g
 // Match numeric footnotes inside brackets or parentheses (e.g., [2], (2))
 const RE_FOOTNOTES = /\[\d+\]|\(\d+\)/g
 
+// Match all stylized numbers including circled, parenthesized, dotted, and CJK enclosed numbers up to 50 (e.g., ①, ⑪, ㉑, ㊿, ⑴, ⒇, ⒈)
+const RE_STYLIZED_NUMBERS = /[\u2460-\u24ff\u3250-\u32bf]/g
+
 // Match full URLs starting with http or https (e.g., https://example.com)
 const RE_URLS = /https?:\/\/\S+/gi
 
@@ -39,11 +42,13 @@ export const sanitizeForNarration = (text: string) => {
     .replace(RE_MARKDOWN_SYMBOLS, '')
     // 4. Remove reference footnotes like [1] or [^1]
     .replace(RE_FOOTNOTES, '')
-    // 5. Remove full URLs to prevent TTS from spelling out "h-t-t-p-s..."
+    // 5. Remove stylized numbers (circled, parenthesized, dotted)
+    .replace(RE_STYLIZED_NUMBERS, '')
+    // 6. Remove full URLs to prevent TTS from spelling out "h-t-t-p-s..."
     .replace(RE_URLS, '')
-    // 6. Remove Emojis which might cause glitches in some TTS engines
+    // 7. Remove Emojis which might cause glitches in some TTS engines
     .replace(RE_EMOJI, '')
-    // 7. Standardize whitespace and remove redundant line breaks
+    // 8. Standardize whitespace and remove redundant line breaks
     .replace(RE_WHITESPACE, ' ')
     .trim()
 }

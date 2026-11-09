@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Автоматическая нумерация',
     defaultFont: 'По умолчанию',
     fullWidth: 'Полная ширина',
+    headingCollapsible: 'Заголовок сворачиваемый',
     monoFont: 'Мононуклеоз',
     serifFont: 'Засечка',
     smallText: 'Мелкий текст',

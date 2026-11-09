@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Auto Numbering',
     defaultFont: 'Default',
     fullWidth: 'Full width',
+    headingCollapsible: 'Heading collapsible',
     monoFont: 'Mono',
     serifFont: 'Serif',
     smallText: 'Small text',

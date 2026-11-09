@@ -29,6 +29,7 @@ export default {
     autoNumbering: '自动编号',
     defaultFont: '默认',
     fullWidth: '全宽',
+    headingCollapsible: '标题可折叠',
     monoFont: '等宽体',
     serifFont: '衬线体',
     smallText: '小字号',

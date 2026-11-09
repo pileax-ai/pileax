@@ -1,5 +1,5 @@
 import enum
-import uuid
+import uuid as uuid_pkg
 
 from pydantic import field_validator
 from sqlalchemy import Index, Integer, UniqueConstraint, event, text
@@ -17,9 +17,9 @@ class Book(BaseSQLModel, BaseMixin, table=True):
         Index("idx_tenant_isbn", "tenant_id", "isbn"),
     )
 
-    tenant_id: uuid.UUID = uuid_field()
-    workspace_id: uuid.UUID = uuid_field()
-    user_id: uuid.UUID = uuid_field()
+    tenant_id: uuid_pkg.UUID = uuid_field()
+    workspace_id: uuid_pkg.UUID = uuid_field()
+    user_id: uuid_pkg.UUID = uuid_field()
 
     # Basic
     uuid: str = Field(..., min_length=32, max_length=64, description="Book sha1 hash")
@@ -111,9 +111,9 @@ class BookBase(BaseApiModel):
 
 
 class BookCreate(BookBase):
-    id: uuid.UUID | None = Field(default_factory=uuid.uuid4)
-    tenant_id: uuid.UUID | None = None
-    book_group_id: uuid.UUID | None = Field(default=UUID_NIL)
+    id: uuid_pkg.UUID | None = Field(default_factory=uuid_pkg.uuid4)
+    tenant_id: uuid_pkg.UUID | None = None
+    book_group_id: uuid_pkg.UUID | None = Field(default=UUID_NIL)
     uuid: str = Field(min_length=32, max_length=64)
     path: str | None = ""
     file_url: str | None = ""
@@ -122,19 +122,19 @@ class BookCreate(BookBase):
 
 
 class BookUpdate(BookBase):
-    id: uuid.UUID
+    id: uuid_pkg.UUID
     title: str | None = ""
 
 
 class BookPublic(BookCreate, BaseMixin):
-    workspace_id: uuid.UUID
-    user_id: uuid.UUID
-    workspace_book_id: uuid.UUID | None = None
+    workspace_id: uuid_pkg.UUID
+    user_id: uuid_pkg.UUID
+    workspace_book_id: uuid_pkg.UUID | None = None
 
 
 class BookDetails(BaseApiModel, BaseMixin):
     # book
-    owner: uuid.UUID
+    owner: uuid_pkg.UUID
     title: str
     subtitle: str | None = None
     file_url: str | None = None
@@ -153,11 +153,11 @@ class BookDetails(BaseApiModel, BaseMixin):
     extra: dict | None = None
 
     # workspace_book
-    user_id: uuid.UUID | None = None
-    workspace_id: uuid.UUID | None = None
+    user_id: uuid_pkg.UUID | None = None
+    workspace_id: uuid_pkg.UUID | None = None
 
     # user_book
-    user_book_id: uuid.UUID | None = None
+    user_book_id: uuid_pkg.UUID | None = None
     user_extra: dict | None = None
     user_rating: float | None = 0.0
     reading_position: str | None = ""
@@ -168,7 +168,7 @@ class BookDetails(BaseApiModel, BaseMixin):
 
 
 class GroupBook(BaseApiModel):
-    id: uuid.UUID
+    id: uuid_pkg.UUID
     title: str
     subtitle: str | None = None
     file_url: str | None = None
