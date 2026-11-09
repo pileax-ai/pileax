@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Automatische Nummerierung',
     defaultFont: 'Standard',
     fullWidth: 'Volle Breite',
+    headingCollapsible: 'Überschrift einklappbar',
     monoFont: 'Mono',
     serifFont: 'Serif',
     smallText: 'Kleiner Text',

@@ -29,6 +29,7 @@ export default {
     autoNumbering: '자동 번호 매기기',
     defaultFont: '기본',
     fullWidth: '전폭',
+    headingCollapsible: '제목 접기 가능',
     monoFont: '단핵증',
     serifFont: '가는 장식 선',
     smallText: '작은 글씨',

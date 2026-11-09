@@ -25,15 +25,24 @@ const emit = defineEmits(['send'])
 
 const { darkMode, locale } = useSetting()
 const yiiEditor = ref<InstanceType<typeof YiiEditor>>()
+const headingCollapsible = ref(true)
+
 const options = computed(() => {
   return {
     editable: false,
     locale: locale.value,
     darkMode: darkMode.value,
     content: '',
+    collapsible: headingCollapsible.value,
     pageView: 'full',
     extensions: [
       OStarterKit.configure(),
+      {
+        name: 'OCollapsibleHeading',
+        configure: {
+          enabled: () => headingCollapsible.value,
+        },
+      },
       'InlineMath',
       'Markdown',
       'OBlockMath',

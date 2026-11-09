@@ -29,6 +29,7 @@ export default {
     autoNumbering: 'Đánh số tự động',
     defaultFont: 'Mặc định',
     fullWidth: 'Chiều rộng đầy đủ',
+    headingCollapsible: 'Tiêu đề có thể thu gọn',
     monoFont: 'Bệnh tăng bạch cầu đơn nhân',
     serifFont: 'Serif',
     smallText: 'Chữ nhỏ',

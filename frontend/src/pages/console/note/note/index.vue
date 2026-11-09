@@ -156,6 +156,7 @@ const loading = ref(false)
 const loaded = ref(false)
 const editorReady = ref(false)
 const editable = ref(true)
+const headingCollapsible = ref(false)
 const localeAlt = ref(locale.value.toLowerCase())
 
 const options = computed(() => {
@@ -166,6 +167,12 @@ const options = computed(() => {
     OUploadManager.configure({
       onUpload: onUpload,
     }),
+    {
+      name: 'OCollapsibleHeading',
+      configure: {
+        enabled: () => headingCollapsible.value,
+      },
+    },
     'InlineMath',
     'Markdown',
     'OAudio',
@@ -177,6 +184,7 @@ const options = computed(() => {
     'OImage',
     'OMultiColumn',
     'OShortcut',
+    'OToggleBlock',
     'OVideo',
   ] as any
   if (collab.value.collabReady) {
@@ -215,6 +223,7 @@ const options = computed(() => {
         modelViewer: false,
       },
     },
+    collapsible: headingCollapsible.value,
     pageView: pageView.value,
     collab: {
       enabled: collab.value.collabEnabled,
@@ -247,6 +256,7 @@ const styles: Indexable = computed(() => {
     smallText: false,
     fullWidth: false,
     toc: true,
+    headingCollapsible: false,
   }
 })
 
@@ -345,6 +355,11 @@ function onRestore(version: Indexable) {
   } else {
     restoreFullVersion(version)
   }
+}
+
+function updateEditor() {
+  headingCollapsible.value = styles.value.headingCollapsible
+  editor.value?.view.dispatch(editor.value?.state.tr)
 }
 
 function updateNote() {
@@ -466,7 +481,7 @@ function loadingChatNodeCollab() {
   }
 }
 
-function  loadNote(note: Note, docNode: Indexable, focus: string,
+function loadNote(note: Note, docNode: Indexable, focus: string,
                   emitUpdate = false) {
   console.debug('Collab', collab.value.collabEnabled)
   if (collab.value.collabEnabled) {
@@ -476,6 +491,7 @@ function  loadNote(note: Note, docNode: Indexable, focus: string,
   }
 
   setCurrentNote(note)
+  updateEditor()
   editable.value = canEdit(note)
   router.replace({ ...route, query: {} })
 }
@@ -501,6 +517,10 @@ const insertContent = (value: string) => {
 
 watch(locale, (newValue) => {
   localeAlt.value = newValue.toLowerCase()
+})
+
+watch(() => styles.value.headingCollapsible, (newValue) => {
+  updateEditor()
 })
 
 onActivated(() => {

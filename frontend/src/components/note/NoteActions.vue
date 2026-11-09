@@ -60,6 +60,9 @@
                   <q-toggle v-model="styles.autoNumbering"
                             @update:model-value="onAction(action, $event)"
                             v-if="action.value === 'autoNumbering'" />
+                  <q-toggle v-model="styles.headingCollapsible"
+                            @update:model-value="onAction(action, $event)"
+                            v-if="action.value === 'headingCollapsible'" />
                 </template>
               </o-common-item>
             </template>
@@ -113,6 +116,7 @@ const styles = ref<Indexable>({
   toc: true,
   smallText: false,
   autoNumbering: false,
+  headingCollapsible: false,
 })
 
 const actions = computed(() => {
@@ -141,6 +145,12 @@ const actions = computed(() => {
       label: t('note.style.autoNumbering'),
       value: "autoNumbering",
       icon: "format_list_numbered",
+      rightSide: true,
+    },
+    {
+      label: t('note.style.headingCollapsible'),
+      value: "headingCollapsible",
+      icon: "icon-toggle-list",
       rightSide: true,
     },
     {
@@ -235,6 +245,7 @@ function onAction (action: Indexable, value: any) {
     case 'toc':
     case 'smallText':
     case 'autoNumbering':
+    case 'headingCollapsible':
       onStyles()
       emit('action', { ...action, actionValue: value })
       break
@@ -263,6 +274,7 @@ function loadStyle() {
     fullWidth: false,
     toc: true,
     autoNumbering: false,
+    headingCollapsible: false,
   }
 }
 

@@ -77,6 +77,7 @@ const options = computed(() => {
       OStarterKit.configure(),
       'InlineMath',
       'Markdown',
+      'OAiBlock',
       'OAudio',
       'OBlockMath',
       'OColon',
@@ -86,6 +87,7 @@ const options = computed(() => {
       'OModelViewer',
       'OMultiColumn',
       'OShortcut',
+      'OToggleBlock',
       'OVideo',
     ]
   }
@@ -151,6 +153,7 @@ onMounted(() => {
     .tiptap {
       font-family: var(--note-font), serif !important;
       font-size: var(--note-font-size) !important;
+      padding: 0 !important;
     }
   }
 
